@@ -1,0 +1,2 @@
+libraries of this application are resolved by lib directory.
+and this application uses ERMaster and ERMaster-b codes.

@@ -1,0 +1,10 @@
+ERFlute
+Copyright 2014-201 the original author or authors.
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/) and others.
+You can see their licenses at the '[project]/etc/license' directory.
+
+And also the DBFlute Engine has several dependencies:
+You can see their licenses
+ at the '[project]/mydbflute/dbflute-[version]/etc/license' directory.
