@@ -32,8 +32,7 @@ public class OptionSettingAction extends AbstractBaseAction {
         Settings settings = (Settings) diagram.getDiagramContents().getSettings().clone();
 
         OptionSettingDialog dialog =
-                new OptionSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings,
-                        diagram);
+                new OptionSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings, diagram);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);

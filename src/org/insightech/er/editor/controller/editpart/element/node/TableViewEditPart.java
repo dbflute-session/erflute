@@ -163,8 +163,8 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
 
     }
 
-    public static void showRemovedColumns(ERDiagram diagram, ERTable table, TableFigure tableFigure,
-            Collection<Column> removedColumns, boolean isRemoved) {
+    public static void showRemovedColumns(ERDiagram diagram, ERTable table, TableFigure tableFigure, Collection<Column> removedColumns,
+            boolean isRemoved) {
 
         int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
@@ -175,16 +175,16 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
                     ColumnGroup columnGroup = (ColumnGroup) removedColumn;
 
                     for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                        if (notationLevel == Settings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey()
-                                && !normalColumn.isForeignKey() && !normalColumn.isReferedStrictly()) {
+                        if (notationLevel == Settings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
+                                && !normalColumn.isReferedStrictly()) {
                             continue;
                         }
 
                         NormalColumnFigure columnFigure = new NormalColumnFigure();
                         tableFigure.getColumns().add(columnFigure);
 
-                        NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn,
-                                false, false, false, false, isRemoved);
+                        NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, false, false, false,
+                                false, isRemoved);
                     }
 
                 } else {
@@ -195,22 +195,21 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
                     GroupColumnFigure columnFigure = new GroupColumnFigure();
                     tableFigure.getColumns().add(columnFigure);
 
-                    GroupColumnEditPart.addGroupColumnFigure(diagram, tableFigure, columnFigure, removedColumn, false,
-                            false, isRemoved);
+                    GroupColumnEditPart.addGroupColumnFigure(diagram, tableFigure, columnFigure, removedColumn, false, false, isRemoved);
                 }
 
             } else {
                 NormalColumn normalColumn = (NormalColumn) removedColumn;
-                if (notationLevel == Settings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey()
-                        && !normalColumn.isForeignKey() && !normalColumn.isReferedStrictly()) {
+                if (notationLevel == Settings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
+                        && !normalColumn.isReferedStrictly()) {
                     continue;
                 }
 
                 NormalColumnFigure columnFigure = new NormalColumnFigure();
                 tableFigure.getColumns().add(columnFigure);
 
-                NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, false,
-                        false, false, false, isRemoved);
+                NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, false, false, false, false,
+                        isRemoved);
             }
         }
     }
@@ -324,8 +323,7 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             Rectangle bounds = sourceFigure.getBounds();
 
             Rectangle centerRectangle =
-                    new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2,
-                            bounds.height / 2);
+                    new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
             if (!centerRectangle.contains(location)) {
                 Point point = getIntersectionPoint(location, sourceFigure);
@@ -404,8 +402,7 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             Rectangle bounds = targetFigure.getBounds();
 
             Rectangle centerRectangle =
-                    new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2,
-                            bounds.height / 2);
+                    new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
             if (!centerRectangle.contains(location)) {
                 Point point = getIntersectionPoint(location, targetFigure);

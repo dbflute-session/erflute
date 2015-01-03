@@ -109,8 +109,7 @@ public class ImportFromFileAction extends AbstractImportAction {
     protected AbstractSelectImportedObjectDialog createSelectImportedObjectDialog(DBObjectSet dbObjectSet) {
         ERDiagram diagram = this.getDiagram();
 
-        return new SelectImportedObjectFromFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                diagram, dbObjectSet);
+        return new SelectImportedObjectFromFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, dbObjectSet);
     }
 
     protected String getLoadFilePath(IEditorPart editorPart) {
@@ -137,15 +136,13 @@ public class ImportFromFileAction extends AbstractImportAction {
         DBObjectSet dbObjects = new DBObjectSet();
 
         for (ERTable table : loadedDiagram.getDiagramContents().getContents().getTableSet()) {
-            DBObject dbObject =
-                    new DBObject(table.getTableViewProperties().getSchema(), table.getName(), DBObject.TYPE_TABLE);
+            DBObject dbObject = new DBObject(table.getTableViewProperties().getSchema(), table.getName(), DBObject.TYPE_TABLE);
             dbObject.setModel(table);
             dbObjects.add(dbObject);
         }
 
         for (View view : loadedDiagram.getDiagramContents().getContents().getViewSet()) {
-            DBObject dbObject =
-                    new DBObject(view.getTableViewProperties().getSchema(), view.getName(), DBObject.TYPE_VIEW);
+            DBObject dbObject = new DBObject(view.getTableViewProperties().getSchema(), view.getName(), DBObject.TYPE_VIEW);
             dbObject.setModel(view);
             dbObjects.add(dbObject);
         }
@@ -185,8 +182,7 @@ public class ImportFromFileAction extends AbstractImportAction {
         return dbObjects;
     }
 
-    protected void loadData(List<DBObject> selectedObjectList, boolean useCommentAsLogicalName, boolean mergeWord,
-            boolean mergeGroup) {
+    protected void loadData(List<DBObject> selectedObjectList, boolean useCommentAsLogicalName, boolean mergeWord, boolean mergeGroup) {
 
         Set<AbstractModel> selectedSets = new HashSet<AbstractModel>();
         for (DBObject dbObject : selectedObjectList) {
@@ -346,8 +342,8 @@ public class ImportFromFileAction extends AbstractImportAction {
             int result = importDialog.open();
 
             if (result == IDialogConstants.OK_ID) {
-                this.loadData(importDialog.getSelectedDbObjects(), importDialog.isUseCommentAsLogicalName(),
-                        importDialog.isMergeWord(), importDialog.isMergeGroup());
+                this.loadData(importDialog.getSelectedDbObjects(), importDialog.isUseCommentAsLogicalName(), importDialog.isMergeWord(),
+                        importDialog.isMergeGroup());
                 this.showData();
 
             } else if (result == IDialogConstants.BACK_ID) {

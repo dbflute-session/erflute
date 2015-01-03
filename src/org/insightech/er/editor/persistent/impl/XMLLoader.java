@@ -966,13 +966,13 @@ public class XMLLoader {
         String type = this.getStringValue(element, "type");
 
         TypeData typeData =
-                new TypeData(this.getIntegerValue(element, "length"), this.getIntegerValue(element, "decimal"),
-                        this.getBooleanValue(element, "array"), this.getIntegerValue(element, "array_dimension"),
-                        this.getBooleanValue(element, "unsigned"), this.getStringValue(element, "args"));
+                new TypeData(this.getIntegerValue(element, "length"), this.getIntegerValue(element, "decimal"), this.getBooleanValue(
+                        element, "array"), this.getIntegerValue(element, "array_dimension"), this.getBooleanValue(element, "unsigned"),
+                        this.getStringValue(element, "args"));
 
         Word word =
-                new Word(Format.null2blank(this.getStringValue(element, "physical_name")), Format.null2blank(this
-                        .getStringValue(element, "logical_name")), SqlType.valueOfId(type), typeData,
+                new Word(Format.null2blank(this.getStringValue(element, "physical_name")), Format.null2blank(this.getStringValue(element,
+                        "logical_name")), SqlType.valueOfId(type), typeData,
                         Format.null2blank(this.getStringValue(element, "description")), this.database);
 
         context.wordMap.put(id, word);
@@ -1027,10 +1027,9 @@ public class XMLLoader {
 
         if (word == null) {
             word =
-                    new Word(this.getStringValue(element, "physical_name"),
-                            this.getStringValue(element, "logical_name"), SqlType.valueOfId(type), new TypeData(null,
-                                    null, false, null, false, null), this.getStringValue(element, "description"),
-                            database);
+                    new Word(this.getStringValue(element, "physical_name"), this.getStringValue(element, "logical_name"),
+                            SqlType.valueOfId(type), new TypeData(null, null, false, null, false, null), this.getStringValue(element,
+                                    "description"), database);
 
             UniqueWord uniqueWord = new UniqueWord(word);
 
@@ -1042,11 +1041,11 @@ public class XMLLoader {
         }
 
         normalColumn =
-                new NormalColumn(word, this.getBooleanValue(element, "not_null"), this.getBooleanValue(element,
-                        "primary_key"), this.getBooleanValue(element, "unique_key"), this.getBooleanValue(element,
-                        "auto_increment"), this.getStringValue(element, "default_value"), this.getStringValue(element,
-                        "constraint"), this.getStringValue(element, "unique_key_name"), this.getStringValue(element,
-                        "character_set"), this.getStringValue(element, "collation"));
+                new NormalColumn(word, this.getBooleanValue(element, "not_null"), this.getBooleanValue(element, "primary_key"),
+                        this.getBooleanValue(element, "unique_key"), this.getBooleanValue(element, "auto_increment"), this.getStringValue(
+                                element, "default_value"), this.getStringValue(element, "constraint"), this.getStringValue(element,
+                                "unique_key_name"), this.getStringValue(element, "character_set"),
+                        this.getStringValue(element, "collation"));
 
         Element autoIncrementSettingElement = this.getElement(element, "sequence");
         if (autoIncrementSettingElement != null) {
@@ -1165,14 +1164,11 @@ public class XMLLoader {
             exportSetting.getDdlTarget().inlineColumnComment = this.getBooleanValue(element, "inline_column_comment");
             exportSetting.getDdlTarget().inlineTableComment = this.getBooleanValue(element, "inline_table_comment");
 
-            exportSetting.getDdlTarget().commentValueDescription =
-                    this.getBooleanValue(element, "comment_value_description");
-            exportSetting.getDdlTarget().commentValueLogicalName =
-                    this.getBooleanValue(element, "comment_value_logical_name");
+            exportSetting.getDdlTarget().commentValueDescription = this.getBooleanValue(element, "comment_value_description");
+            exportSetting.getDdlTarget().commentValueLogicalName = this.getBooleanValue(element, "comment_value_logical_name");
             exportSetting.getDdlTarget().commentValueLogicalNameDescription =
                     this.getBooleanValue(element, "comment_value_logical_name_description");
-            exportSetting.getDdlTarget().commentReplaceLineFeed =
-                    this.getBooleanValue(element, "comment_replace_line_feed");
+            exportSetting.getDdlTarget().commentReplaceLineFeed = this.getBooleanValue(element, "comment_replace_line_feed");
             exportSetting.getDdlTarget().commentReplaceString = this.getStringValue(element, "comment_replace_string");
             this.loadExportJavaSetting(exportSetting.getExportJavaSetting(), element, context);
             this.loadExportTestDataSetting(exportSetting.getExportTestDataSetting(), element, context);
@@ -1191,8 +1187,7 @@ public class XMLLoader {
         }
     }
 
-    private void loadExportTestDataSetting(ExportTestDataSetting exportTestDataSetting, Element parent,
-            LoadContext context) {
+    private void loadExportTestDataSetting(ExportTestDataSetting exportTestDataSetting, Element parent, LoadContext context) {
         Element element = this.getElement(parent, "export_testdata_setting");
 
         if (element != null) {
@@ -1347,8 +1342,7 @@ public class XMLLoader {
             Element propertyElement = (Element) nodeList.item(i);
 
             NameValue nameValue =
-                    new NameValue(this.getStringValue(propertyElement, "name"), this.getStringValue(propertyElement,
-                            "value"));
+                    new NameValue(this.getStringValue(propertyElement, "name"), this.getStringValue(propertyElement, "value"));
 
             modelProperties.addProperty(nameValue);
         }
@@ -1492,8 +1486,8 @@ public class XMLLoader {
             }
 
             Index index =
-                    new Index(table, this.getStringValue(indexElement, "name"), this.getBooleanValue(indexElement,
-                            "non_unique"), type, this.getStringValue(indexElement, "description"));
+                    new Index(table, this.getStringValue(indexElement, "name"), this.getBooleanValue(indexElement, "non_unique"), type,
+                            this.getStringValue(indexElement, "description"));
 
             index.setFullText(this.getBooleanValue(indexElement, "full_text"));
 
@@ -1728,8 +1722,7 @@ public class XMLLoader {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element bendPointElement = (Element) nodeList.item(i);
 
-            Bendpoint bendpoint =
-                    new Bendpoint(this.getIntValue(bendPointElement, "x"), this.getIntValue(bendPointElement, "y"));
+            Bendpoint bendpoint = new Bendpoint(this.getIntValue(bendPointElement, "x"), this.getIntValue(bendPointElement, "y"));
 
             bendpoint.setRelative(this.getBooleanValue(bendPointElement, "relative"));
 
@@ -1755,9 +1748,7 @@ public class XMLLoader {
             String url = this.getStringValue(element, "url");
             String driverClassName = this.getStringValue(element, "driver_class_name");
 
-            DBSetting dbSetting =
-                    new DBSetting(dbsystem, server, port, database, user, password, useDefaultDriver, url,
-                            driverClassName);
+            DBSetting dbSetting = new DBSetting(dbsystem, server, port, database, user, password, useDefaultDriver, url, driverClassName);
             diagram.setDbSetting(dbSetting);
         }
     }
@@ -1775,8 +1766,7 @@ public class XMLLoader {
             int rightMargin = this.getIntValue(element, "right_margin");
 
             PageSetting pageSetting =
-                    new PageSetting(directionHorizontal, scale, paperSize, topMargin, rightMargin, bottomMargin,
-                            leftMargin);
+                    new PageSetting(directionHorizontal, scale, paperSize, topMargin, rightMargin, bottomMargin, leftMargin);
             diagram.setPageSetting(pageSetting);
         }
     }

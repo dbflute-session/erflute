@@ -26,8 +26,8 @@ public class ExportToExcelAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
 
         ExportToExcelDialog dialog =
-                new ExportToExcelDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram,
-                        this.getEditorPart(), this.getGraphicalViewer());
+                new ExportToExcelDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, this.getEditorPart(),
+                        this.getGraphicalViewer());
 
         dialog.open();
         this.refreshProject();

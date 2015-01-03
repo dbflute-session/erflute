@@ -192,12 +192,12 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
                 List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(-1);
 
                 JDBCPathDialog dialog =
-                        new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, null,
-                                null, otherDriverSettingList, true);
+                        new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, null, null,
+                                otherDriverSettingList, true);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
-                    PreferenceInitializer.addJDBCDriver(dialog.getDatabase(),
-                            Format.null2blank(dialog.getDriverClassName()), Format.null2blank(dialog.getPath()));
+                    PreferenceInitializer.addJDBCDriver(dialog.getDatabase(), Format.null2blank(dialog.getDriverClassName()),
+                            Format.null2blank(dialog.getPath()));
 
                     setData();
                 }
@@ -280,8 +280,8 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
             List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(index);
 
             JDBCPathDialog dialog =
-                    new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            item.getText(0), item.getText(1), item.getText(2), otherDriverSettingList, true);
+                    new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), item.getText(0), item.getText(1),
+                            item.getText(2), otherDriverSettingList, true);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 item.setText(1, dialog.getDriverClassName());

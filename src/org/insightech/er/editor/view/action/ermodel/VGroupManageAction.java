@@ -29,8 +29,7 @@ public class VGroupManageAction extends AbstractBaseAction {
         ERModel model = ((EROneDiagramEditor) getEditorPart()).getModel();
         ERModel newModel = (ERModel) model.clone();
 
-        VGroupManageDialog dialog =
-                new VGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), newModel);
+        VGroupManageDialog dialog = new VGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), newModel);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             System.out.println("ok");

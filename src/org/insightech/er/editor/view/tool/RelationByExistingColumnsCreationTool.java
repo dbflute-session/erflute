@@ -32,8 +32,7 @@ public class RelationByExistingColumnsCreationTool extends ConnectionCreationToo
             }
 
             this.eraseSourceFeedback();
-            CreateRelationByExistingColumnsCommand endCommand =
-                    (CreateRelationByExistingColumnsCommand) this.getCommand();
+            CreateRelationByExistingColumnsCommand endCommand = (CreateRelationByExistingColumnsCommand) this.getCommand();
 
             if (!endCommand.selectColumns()) {
                 return false;

@@ -27,8 +27,7 @@ public class RightAngleLineCommand extends AbstractCommand {
 
     private List<Bendpoint> newBendpointList;
 
-    public RightAngleLineCommand(int sourceX, int sourceY, int targetX, int targetY,
-            ConnectionEditPart connectionEditPart) {
+    public RightAngleLineCommand(int sourceX, int sourceY, int targetX, int targetY, ConnectionEditPart connectionEditPart) {
         this.sourceX = sourceX;
         this.sourceY = sourceY;
         this.targetX = targetX;
@@ -103,8 +102,7 @@ public class RightAngleLineCommand extends AbstractCommand {
                 NodeElementEditPart targetEditPart = (NodeElementEditPart) connectionEditPart.getTarget();
                 Rectangle targetRectangle = targetEditPart.getFigure().getBounds();
 
-                if (sourceRectangle.y - SPACE < targetY
-                        && sourceRectangle.y + sourceRectangle.height + SPACE > targetRectangle.y) {
+                if (sourceRectangle.y - SPACE < targetY && sourceRectangle.y + sourceRectangle.height + SPACE > targetRectangle.y) {
                     int x = 0;
 
                     if (this.sourceX < this.targetX) {

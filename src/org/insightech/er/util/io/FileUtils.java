@@ -77,8 +77,7 @@ public class FileUtils {
             throw new IOException("Source '" + srcFile + "' exists but is a directory");
         if (srcFile.getCanonicalPath().equals(destFile.getCanonicalPath()))
             throw new IOException("Source '" + srcFile + "' and destination '" + destFile + "' are the same");
-        if (destFile.getParentFile() != null && !destFile.getParentFile().exists()
-                && !destFile.getParentFile().mkdirs())
+        if (destFile.getParentFile() != null && !destFile.getParentFile().exists() && !destFile.getParentFile().mkdirs())
             throw new IOException("Destination '" + destFile + "' directory cannot be created");
         if (destFile.exists() && !destFile.canWrite()) {
             throw new IOException("Destination '" + destFile + "' exists but is read-only");

@@ -205,8 +205,7 @@ public abstract class AbstractDialog extends Dialog {
      */
     @Override
     protected void buttonPressed(int buttonId) {
-        if (buttonId == IDialogConstants.CLOSE_ID || buttonId == IDialogConstants.CANCEL_ID
-                || buttonId == IDialogConstants.BACK_ID) {
+        if (buttonId == IDialogConstants.CLOSE_ID || buttonId == IDialogConstants.CANCEL_ID || buttonId == IDialogConstants.BACK_ID) {
             this.setReturnCode(buttonId);
             this.close();
 

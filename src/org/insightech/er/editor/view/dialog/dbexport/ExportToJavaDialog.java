@@ -86,9 +86,7 @@ public class ExportToJavaDialog extends AbstractDialog {
             }
         });
 
-        this.fileEncodingCombo =
-                CompositeFactory
-                        .createFileEncodingCombo(this.editorPart, this, parent, "label.output.file.encoding", 1);
+        this.fileEncodingCombo = CompositeFactory.createFileEncodingCombo(this.editorPart, this, parent, "label.output.file.encoding", 1);
 
         this.withHibernateButton = CompositeFactory.createCheckbox(this, parent, "label.with.hibernate", 2);
     }
@@ -107,8 +105,7 @@ public class ExportToJavaDialog extends AbstractDialog {
         InputStream stream = null;
 
         try {
-            ProgressMonitorDialog monitor =
-                    new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+            ProgressMonitorDialog monitor = new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
             String outputDirPath = this.outputDirText.getFilePath();
             String packageName = this.packageText.getText();

@@ -87,8 +87,7 @@ public class HSQLDBTableImportManager extends ImportFromDBManagerBase {
         ResultSet rs = null;
 
         try {
-            stmt =
-                    con.prepareStatement("SELECT * FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA = ? AND SEQUENCE_NAME = ?");
+            stmt = con.prepareStatement("SELECT * FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA = ? AND SEQUENCE_NAME = ?");
             stmt.setString(1, schema);
             stmt.setString(2, sequenceName);
 

@@ -216,8 +216,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
 
         if (selectedType != null) {
             if (PostgresDBManager.ID.equals(this.diagram.getDatabase())) {
-                if (SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(selectedType.getId())
-                        || SqlType.SQL_TYPE_ID_SERIAL.equals(selectedType.getId())) {
+                if (SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(selectedType.getId()) || SqlType.SQL_TYPE_ID_SERIAL.equals(selectedType.getId())) {
                     this.autoIncrementSettingButton.setEnabled(true);
                 } else {
                     this.autoIncrementSettingButton.setEnabled(false);
@@ -282,8 +281,8 @@ public class ColumnDialog extends AbstractRealColumnDialog {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
                     AutoIncrementSettingDialog dialog =
-                            new AutoIncrementSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                                    .getShell(), autoIncrementSetting, diagram.getDatabase());
+                            new AutoIncrementSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                    autoIncrementSetting, diagram.getDatabase());
 
                     if (dialog.open() == IDialogConstants.OK_ID) {
                         autoIncrementSetting = dialog.getResult();

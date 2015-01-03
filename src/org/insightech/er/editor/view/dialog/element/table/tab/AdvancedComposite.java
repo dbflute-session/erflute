@@ -31,8 +31,7 @@ public abstract class AdvancedComposite extends Composite {
         super(parent, SWT.NONE);
     }
 
-    public final void initialize(AbstractDialog dialog, TableProperties tableProperties, ERDiagram diagram,
-            ERTable table) {
+    public final void initialize(AbstractDialog dialog, TableProperties tableProperties, ERDiagram diagram, ERTable table) {
         this.dialog = dialog;
         this.tableProperties = tableProperties;
         this.diagram = diagram;
@@ -83,9 +82,7 @@ public abstract class AdvancedComposite extends Composite {
         if (this.tableSpaceCombo != null) {
             int tablespaceIndex = this.tableSpaceCombo.getSelectionIndex();
             if (tablespaceIndex > 0) {
-                Tablespace tablespace =
-                        this.diagram.getDiagramContents().getTablespaceSet().getTablespaceList()
-                                .get(tablespaceIndex - 1);
+                Tablespace tablespace = this.diagram.getDiagramContents().getTablespaceSet().getTablespaceList().get(tablespaceIndex - 1);
                 this.tableProperties.setTableSpace(tablespace);
 
             } else {

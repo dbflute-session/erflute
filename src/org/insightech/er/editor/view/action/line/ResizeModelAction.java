@@ -39,8 +39,8 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
             NodeElement nodeElement = (NodeElement) editPart.getModel();
 
             MoveElementCommand command =
-                    new MoveElementCommand(this.getDiagram(), ((NodeElementEditPart) editPart).getFigure().getBounds(),
-                            nodeElement.getX(), nodeElement.getY(), -1, -1, nodeElement);
+                    new MoveElementCommand(this.getDiagram(), ((NodeElementEditPart) editPart).getFigure().getBounds(), nodeElement.getX(),
+                            nodeElement.getY(), -1, -1, nodeElement);
 
             commandList.add(command);
         }

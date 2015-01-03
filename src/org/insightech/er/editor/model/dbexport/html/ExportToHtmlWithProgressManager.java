@@ -17,8 +17,7 @@ public class ExportToHtmlWithProgressManager extends ExportToHtmlManager impleme
 
     private IProgressMonitor monitor;
 
-    public ExportToHtmlWithProgressManager(String outputDir, ERDiagram diagram,
-            Map<TableView, Location> tableLocationMap) {
+    public ExportToHtmlWithProgressManager(String outputDir, ERDiagram diagram, Map<TableView, Location> tableLocationMap) {
         super(outputDir, diagram, tableLocationMap);
     }
 

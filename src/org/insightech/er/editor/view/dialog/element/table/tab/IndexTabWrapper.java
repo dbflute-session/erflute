@@ -136,8 +136,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
              */
             @Override
             public void widgetSelected(SelectionEvent event) {
-                IndexDialog dialog =
-                        new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, copyData);
+                IndexDialog dialog = new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, copyData);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
                     addIndexData(dialog.getResultIndex(), true);
@@ -158,8 +157,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
                 }
 
                 IndexDialog dialog =
-                        new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), targetIndex,
-                                copyData);
+                        new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), targetIndex, copyData);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
                     addIndexData(dialog.getResultIndex(), false);

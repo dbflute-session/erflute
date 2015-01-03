@@ -32,8 +32,7 @@ public class GroupManageAction extends AbstractBaseAction {
         GroupSet groupSet = diagram.getDiagramContents().getGroups();
 
         GroupManageDialog dialog =
-                new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet,
-                        diagram, false, -1);
+                new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, diagram, false, -1);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();

@@ -19,8 +19,7 @@ public class ExportWarningDialog extends ExportErrorDialog {
      */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        this.createButton(parent, IDialogConstants.OK_ID, ResourceString.getResourceString("label.button.continue"),
-                true);
+        this.createButton(parent, IDialogConstants.OK_ID, ResourceString.getResourceString("label.button.continue"), true);
         this.createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, true);
     }
 

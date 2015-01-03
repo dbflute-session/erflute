@@ -26,8 +26,7 @@ public class ExportToJavaAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
 
         ExportToJavaDialog dialog =
-                new ExportToJavaDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram,
-                        this.getEditorPart());
+                new ExportToJavaDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, this.getEditorPart());
 
         dialog.open();
         this.refreshProject();

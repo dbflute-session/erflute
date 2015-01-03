@@ -38,27 +38,22 @@ public class SequenceSheetGenerator extends AbstractSheetGenerator {
      * @param sequence
      */
     public void setSequenceData(HSSFWorkbook workbook, HSSFSheet sheet, Sequence sequence) {
-        POIUtils.replace(sheet, KEYWORD_SEQUENCE_NAME,
-                this.getValue(this.keywordsValueMap, KEYWORD_SEQUENCE_NAME, sequence.getName()));
+        POIUtils.replace(sheet, KEYWORD_SEQUENCE_NAME, this.getValue(this.keywordsValueMap, KEYWORD_SEQUENCE_NAME, sequence.getName()));
         POIUtils.replace(sheet, KEYWORD_SEQUENCE_DESCRIPTION,
                 this.getValue(this.keywordsValueMap, KEYWORD_SEQUENCE_DESCRIPTION, sequence.getDescription()));
         POIUtils.replace(sheet, KEYWORD_INCREMENT,
                 this.getValue(this.keywordsValueMap, KEYWORD_INCREMENT, Format.toString(sequence.getIncrement())));
-        POIUtils.replace(sheet, KEYWORD_MIN,
-                this.getValue(this.keywordsValueMap, KEYWORD_MIN, Format.toString(sequence.getMinValue())));
-        POIUtils.replace(sheet, KEYWORD_MAX,
-                this.getValue(this.keywordsValueMap, KEYWORD_MAX, Format.toString(sequence.getMaxValue())));
-        POIUtils.replace(sheet, KEYWORD_START,
-                this.getValue(this.keywordsValueMap, KEYWORD_START, Format.toString(sequence.getStart())));
-        POIUtils.replace(sheet, KEYWORD_CACHE,
-                this.getValue(this.keywordsValueMap, KEYWORD_CACHE, Format.toString(sequence.getCache())));
+        POIUtils.replace(sheet, KEYWORD_MIN, this.getValue(this.keywordsValueMap, KEYWORD_MIN, Format.toString(sequence.getMinValue())));
+        POIUtils.replace(sheet, KEYWORD_MAX, this.getValue(this.keywordsValueMap, KEYWORD_MAX, Format.toString(sequence.getMaxValue())));
+        POIUtils.replace(sheet, KEYWORD_START, this.getValue(this.keywordsValueMap, KEYWORD_START, Format.toString(sequence.getStart())));
+        POIUtils.replace(sheet, KEYWORD_CACHE, this.getValue(this.keywordsValueMap, KEYWORD_CACHE, Format.toString(sequence.getCache())));
         POIUtils.replace(sheet, KEYWORD_CYCLE, this.getValue(this.keywordsValueMap, KEYWORD_CYCLE, sequence.isCycle()));
     }
 
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) {
 
         for (Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
             String name = sequence.getName();
@@ -79,8 +74,8 @@ public class SequenceSheetGenerator extends AbstractSheetGenerator {
 
     @Override
     public String[] getKeywords() {
-        return new String[] { KEYWORD_SEQUENCE_NAME, KEYWORD_SEQUENCE_DESCRIPTION, KEYWORD_INCREMENT, KEYWORD_MIN,
-                KEYWORD_MAX, KEYWORD_START, KEYWORD_CACHE, KEYWORD_CYCLE };
+        return new String[] { KEYWORD_SEQUENCE_NAME, KEYWORD_SEQUENCE_DESCRIPTION, KEYWORD_INCREMENT, KEYWORD_MIN, KEYWORD_MAX,
+                KEYWORD_START, KEYWORD_CACHE, KEYWORD_CYCLE };
     }
 
     @Override

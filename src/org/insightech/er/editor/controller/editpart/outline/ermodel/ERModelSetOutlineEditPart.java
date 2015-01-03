@@ -50,8 +50,7 @@ public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(ResourceString.getResourceString("label.ermodel") + " (" + this.getModelChildren().size()
-                + ")");
+        this.setWidgetText(ResourceString.getResourceString("label.ermodel") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 

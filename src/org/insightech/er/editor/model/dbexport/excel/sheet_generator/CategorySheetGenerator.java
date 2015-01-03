@@ -18,9 +18,9 @@ import org.insightech.er.util.POIUtils;
 public class CategorySheetGenerator extends TableSheetGenerator {
 
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) {
         this.clear();
 
         if (diagram.getCurrentCategory() != null) {
@@ -30,11 +30,9 @@ public class CategorySheetGenerator extends TableSheetGenerator {
         LoopDefinition loopDefinition = loopDefinitionMap.get(this.getTemplateSheetName());
         HSSFSheet oldSheet = workbook.getSheetAt(sheetNo);
 
-        List<ERTable> allTables =
-                new ArrayList<ERTable>(diagram.getDiagramContents().getContents().getTableSet().getList());
+        List<ERTable> allTables = new ArrayList<ERTable>(diagram.getDiagramContents().getContents().getTableSet().getList());
 
-        for (Category category : diagram.getDiagramContents().getSettings().getCategorySetting()
-                .getSelectedCategories()) {
+        for (Category category : diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories()) {
             HSSFSheet newSheet = createNewSheet(workbook, sheetNo, category.getName(), sheetNameMap);
 
             sheetObjectMap.put(workbook.getSheetName(workbook.getSheetIndex(newSheet)), category);
@@ -48,8 +46,8 @@ public class CategorySheetGenerator extends TableSheetGenerator {
                     first = false;
 
                 } else {
-                    POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(),
-                            newSheet.getLastRowNum() + loopDefinition.spaceLine + 1);
+                    POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(), newSheet.getLastRowNum()
+                            + loopDefinition.spaceLine + 1);
                 }
 
                 this.setTableData(workbook, newSheet, table);
@@ -83,8 +81,8 @@ public class CategorySheetGenerator extends TableSheetGenerator {
                     first = false;
 
                 } else {
-                    POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(),
-                            newSheet.getLastRowNum() + loopDefinition.spaceLine + 1);
+                    POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(), newSheet.getLastRowNum()
+                            + loopDefinition.spaceLine + 1);
                 }
 
                 this.setTableData(workbook, newSheet, table);

@@ -124,8 +124,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
 
     public void init(ERDiagram diagram) {
         this.diagram = diagram;
-        this.tableList =
-                new ArrayList<ERTable>(this.diagram.getDiagramContents().getContents().getTableSet().getList());
+        this.tableList = new ArrayList<ERTable>(this.diagram.getDiagramContents().getContents().getTableSet().getList());
         Collections.sort(this.tableList);
 
         this.tableNumMap = new HashMap<ERTable, Integer>();
@@ -361,8 +360,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
         int total = 0;
 
         for (ERTable table : this.tableList) {
-            double bytesPerRow =
-                    3 * this.getValue(this.ub1Text) + this.getTotalColumnSize(table) + this.getValue(this.sb2Text);
+            double bytesPerRow = 3 * this.getValue(this.ub1Text) + this.getTotalColumnSize(table) + this.getValue(this.sb2Text);
 
             double rowNumPerBlock = Math.floor(bytesOfDataPerBlock / bytesPerRow);
             Integer recordNum = tableNumMap.get(table);
@@ -386,9 +384,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
         SqlTypeManager manager = dbManager.getSqlTypeManager();
 
         for (NormalColumn column : table.getExpandedColumns()) {
-            total +=
-                    manager.getByteLength(column.getType(), column.getTypeData().getLength(), column.getTypeData()
-                            .getDecimal());
+            total += manager.getByteLength(column.getType(), column.getTypeData().getLength(), column.getTypeData().getDecimal());
         }
 
         return total;

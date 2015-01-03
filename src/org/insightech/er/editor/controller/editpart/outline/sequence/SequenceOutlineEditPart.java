@@ -57,8 +57,7 @@ public class SequenceOutlineEditPart extends AbstractOutlineEditPart implements 
 
             if (request.getType().equals(RequestConstants.REQ_OPEN)) {
                 SequenceDialog dialog =
-                        new SequenceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), sequence,
-                                diagram);
+                        new SequenceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), sequence, diagram);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
                     EditSequenceCommand command = new EditSequenceCommand(diagram, sequence, dialog.getResult());

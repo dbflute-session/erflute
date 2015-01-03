@@ -47,8 +47,7 @@ public class DBManagerFactory {
             }
         }
 
-        throw new IllegalArgumentException(ResourceString.getResourceString("error.database.is.not.supported")
-                + database);
+        throw new IllegalArgumentException(ResourceString.getResourceString("error.database.is.not.supported") + database);
     }
 
     public static DBManager getDBManager(ERDiagram diagram) {

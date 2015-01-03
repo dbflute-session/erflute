@@ -96,8 +96,8 @@ public class NodeSelectionDialog extends FilteredItemsSelectionDialog {
     }
 
     @Override
-    protected void fillContentProvider(AbstractContentProvider contentProvider, ItemsFilter itemsFilter,
-            IProgressMonitor progressMonitor) throws CoreException {
+    protected void fillContentProvider(AbstractContentProvider contentProvider, ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
+            throws CoreException {
         for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
             if (itemsFilter.matchItem(table)) {
                 contentProvider.add(table, itemsFilter);

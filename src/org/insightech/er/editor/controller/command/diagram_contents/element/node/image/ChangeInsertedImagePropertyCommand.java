@@ -12,8 +12,8 @@ public class ChangeInsertedImagePropertyCommand extends AbstractCommand {
 
     protected InsertedImage newInsertedImage;
 
-    public ChangeInsertedImagePropertyCommand(ERDiagram diagram, InsertedImage insertedImage,
-            InsertedImage newInsertedImage, InsertedImage oldInsertedImage) {
+    public ChangeInsertedImagePropertyCommand(ERDiagram diagram, InsertedImage insertedImage, InsertedImage newInsertedImage,
+            InsertedImage oldInsertedImage) {
         this.insertedImage = insertedImage;
         this.oldInsertedImage = oldInsertedImage;
         this.newInsertedImage = newInsertedImage;

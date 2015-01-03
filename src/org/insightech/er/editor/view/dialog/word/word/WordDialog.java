@@ -88,8 +88,7 @@ public class WordDialog extends AbstractWordDialog {
         TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
 
         this.returnWord =
-                new Word(physicalNameText.getText(), logicalNameText.getText(), selectedType, typeData,
-                        descriptionText.getText(), database);
+                new Word(physicalNameText.getText(), logicalNameText.getText(), selectedType, typeData, descriptionText.getText(), database);
     }
 
     public Word getWord() {

@@ -48,12 +48,11 @@ public class NormalColumn extends Column {
 
     private List<Relation> relationList = new ArrayList<Relation>();
 
-    public NormalColumn(Word word, boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement,
-            String defaultValue, String constraint, String uniqueKeyName, String characterSet, String collation) {
+    public NormalColumn(Word word, boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement, String defaultValue,
+            String constraint, String uniqueKeyName, String characterSet, String collation) {
         this.word = word;
 
-        this.init(notNull, primaryKey, uniqueKey, autoIncrement, defaultValue, constraint, uniqueKeyName, characterSet,
-                collation);
+        this.init(notNull, primaryKey, uniqueKey, autoIncrement, defaultValue, constraint, uniqueKeyName, characterSet, collation);
 
         this.autoIncrementSetting = new Sequence();
     }
@@ -66,8 +65,8 @@ public class NormalColumn extends Column {
         this.foreignKeyLogicalName = from.foreignKeyLogicalName;
         this.foreignKeyDescription = from.foreignKeyDescription;
 
-        this.init(from.notNull, from.primaryKey, from.uniqueKey, from.autoIncrement, from.defaultValue,
-                from.constraint, from.uniqueKeyName, from.characterSet, from.collation);
+        this.init(from.notNull, from.primaryKey, from.uniqueKey, from.autoIncrement, from.defaultValue, from.constraint,
+                from.uniqueKeyName, from.characterSet, from.collation);
 
         this.word = from.word;
 
@@ -97,8 +96,8 @@ public class NormalColumn extends Column {
         this.autoIncrementSetting = new Sequence();
     }
 
-    protected void init(boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement,
-            String defaultValue, String constraint, String uniqueKeyName, String characterSet, String collation) {
+    protected void init(boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement, String defaultValue,
+            String constraint, String uniqueKeyName, String characterSet, String collation) {
 
         this.notNull = notNull;
         this.primaryKey = primaryKey;
@@ -359,8 +358,7 @@ public class NormalColumn extends Column {
             }
 
             this.word = temp.getWord();
-            if (this.getPhysicalName() != this.word.getPhysicalName()
-                    || this.getLogicalName() != this.word.getLogicalName()
+            if (this.getPhysicalName() != this.word.getPhysicalName() || this.getLogicalName() != this.word.getLogicalName()
                     || this.getDescription() != this.word.getDescription()) {
                 this.word = new Word(this.word);
 
@@ -479,8 +477,8 @@ public class NormalColumn extends Column {
     }
 
     public static void copyData(NormalColumn from, NormalColumn to) {
-        to.init(from.isNotNull(), from.isPrimaryKey(), from.isUniqueKey(), from.isAutoIncrement(),
-                from.getDefaultValue(), from.getConstraint(), from.uniqueKeyName, from.characterSet, from.collation);
+        to.init(from.isNotNull(), from.isPrimaryKey(), from.isUniqueKey(), from.isAutoIncrement(), from.getDefaultValue(),
+                from.getConstraint(), from.uniqueKeyName, from.characterSet, from.collation);
 
         to.autoIncrementSetting = (Sequence) from.autoIncrementSetting.clone();
 
@@ -491,8 +489,7 @@ public class NormalColumn extends Column {
                 to.foreignKeyPhysicalName = from.getPhysicalName();
 
             } else {
-                if (from.foreignKeyPhysicalName != null
-                        && !firstReferencedColumn.getPhysicalName().equals(from.foreignKeyPhysicalName)) {
+                if (from.foreignKeyPhysicalName != null && !firstReferencedColumn.getPhysicalName().equals(from.foreignKeyPhysicalName)) {
                     to.foreignKeyPhysicalName = from.foreignKeyPhysicalName;
 
                 } else if (!firstReferencedColumn.getPhysicalName().equals(from.getPhysicalName())) {
@@ -507,8 +504,7 @@ public class NormalColumn extends Column {
                 to.foreignKeyLogicalName = from.getLogicalName();
 
             } else {
-                if (from.foreignKeyLogicalName != null
-                        && !firstReferencedColumn.getLogicalName().equals(from.foreignKeyLogicalName)) {
+                if (from.foreignKeyLogicalName != null && !firstReferencedColumn.getLogicalName().equals(from.foreignKeyLogicalName)) {
                     to.foreignKeyLogicalName = from.foreignKeyLogicalName;
 
                 } else if (!firstReferencedColumn.getLogicalName().equals(from.getLogicalName())) {
@@ -524,8 +520,7 @@ public class NormalColumn extends Column {
                 to.foreignKeyDescription = from.getDescription();
 
             } else {
-                if (from.foreignKeyDescription != null
-                        && !firstReferencedColumn.getDescription().equals(from.foreignKeyDescription)) {
+                if (from.foreignKeyDescription != null && !firstReferencedColumn.getDescription().equals(from.foreignKeyDescription)) {
                     to.foreignKeyDescription = from.foreignKeyDescription;
 
                 } else if (!firstReferencedColumn.getDescription().equals(from.getDescription())) {

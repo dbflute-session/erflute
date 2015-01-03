@@ -64,8 +64,8 @@ public class GroupColumnEditPart extends ColumnEditPart {
         }
     }
 
-    public static void addGroupColumnFigure(ERDiagram diagram, TableFigure tableFigure, GroupColumnFigure columnFigure,
-            Column column, boolean isAdded, boolean isUpdated, boolean isRemoved) {
+    public static void addGroupColumnFigure(ERDiagram diagram, TableFigure tableFigure, GroupColumnFigure columnFigure, Column column,
+            boolean isAdded, boolean isUpdated, boolean isRemoved) {
 
         ColumnGroup groupColumn = (ColumnGroup) column;
 

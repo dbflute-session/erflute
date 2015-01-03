@@ -30,8 +30,7 @@ public class ImageTitleBarBorder extends TitleBarBorder {
 
         // �w�i�C���[�W��`��
         Image image = Activator.getImage(ImageKey.TITLEBAR_BACKGROUND);
-        g.drawImage(image, 0, 0, image.getImageData().width, image.getImageData().height, rec.x, rec.y, rec.width,
-                rec.height);
+        g.drawImage(image, 0, 0, image.getImageData().width, image.getImageData().height, rec.x, rec.y, rec.width, rec.height);
 
         int x = rec.x + getPadding().left;
         int y = rec.y + getPadding().top;

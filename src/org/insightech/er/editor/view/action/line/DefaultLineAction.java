@@ -39,8 +39,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
                 AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) obj;
 
                 if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
-                    commandList.add(new DefaultLineCommand(this.getDiagram(), (ConnectionElement) connectionEditPart
-                            .getModel()));
+                    commandList.add(new DefaultLineCommand(this.getDiagram(), (ConnectionElement) connectionEditPart.getModel()));
                 }
             }
 
@@ -48,8 +47,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
             AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) editPart;
 
             if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
-                commandList.add(new DefaultLineCommand(this.getDiagram(), (ConnectionElement) connectionEditPart
-                        .getModel()));
+                commandList.add(new DefaultLineCommand(this.getDiagram(), (ConnectionElement) connectionEditPart.getModel()));
             }
         }
 

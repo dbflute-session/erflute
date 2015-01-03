@@ -55,8 +55,7 @@ public class ViewDialog extends AbstractDialog {
         this.tabFolder = new TabFolder(composite, SWT.NONE);
         this.tabFolder.setLayoutData(gridData);
 
-        final AttributeTabWrapper attributeTabWrapper =
-                new AttributeTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
+        final AttributeTabWrapper attributeTabWrapper = new AttributeTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
         this.tabWrapperList.add(attributeTabWrapper);
 
         this.tabWrapperList.add(new SqlTabWrapper(this, tabFolder, SWT.NONE, this.copyData));

@@ -74,8 +74,7 @@ public class JDBCPathDialog extends AbstractDialog {
         if (this.database != null) {
             DBManager dbManager = DBManagerFactory.getDBManager(this.database);
 
-            if (dbManager.getDriverClassName().equals(this.driverClassName)
-                    && !dbManager.getDriverClassName().equals("")) {
+            if (dbManager.getDriverClassName().equals(this.driverClassName) && !dbManager.getDriverClassName().equals("")) {
                 this.editable = false;
             }
 
@@ -90,8 +89,7 @@ public class JDBCPathDialog extends AbstractDialog {
             CompositeFactory.createLabel(composite, this.database, 2);
         }
 
-        this.driverClassNameText =
-                CompositeFactory.createText(this, composite, "label.driver.class.name", 2, -1, SWT.BORDER, false);
+        this.driverClassNameText = CompositeFactory.createText(this, composite, "label.driver.class.name", 2, -1, SWT.BORDER, false);
 
         this.driverClassNameText.setEditable(editable);
 

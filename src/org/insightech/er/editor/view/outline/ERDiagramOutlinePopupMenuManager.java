@@ -55,8 +55,8 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
 
     private ActionRegistry outlineActionRegistry;
 
-    public ERDiagramOutlinePopupMenuManager(final ERDiagram diagram, ActionRegistry actionRegistry,
-            ActionRegistry outlineActionRegistry, final EditPartViewer editPartViewer) {
+    public ERDiagramOutlinePopupMenuManager(final ERDiagram diagram, ActionRegistry actionRegistry, ActionRegistry outlineActionRegistry,
+            final EditPartViewer editPartViewer) {
         try {
             this.actionRegistry = actionRegistry;
             this.outlineActionRegistry = outlineActionRegistry;
@@ -91,8 +91,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
                         List selectedEditParts = editPartViewer.getSelectedEditParts();
                         if (selectedEditParts.isEmpty()) {
                             for (IContributionItem menuItem : getItems()) {
-                                if (menuItem.getId() != null
-                                        && !menuItem.getId().equals(ChangeOutlineViewToPhysicalAction.ID)
+                                if (menuItem.getId() != null && !menuItem.getId().equals(ChangeOutlineViewToPhysicalAction.ID)
                                         && !menuItem.getId().equals(ChangeOutlineViewToLogicalAction.ID)
                                         && !menuItem.getId().equals(ChangeOutlineViewToBothAction.ID)
                                         && !menuItem.getId().equals(ChangeOutlineViewOrderByPhysicalNameAction.ID)
@@ -112,8 +111,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
 
                                 } else {
                                     if (CreateSequenceAction.ID.equals(actionId)
-                                            && !DBManagerFactory.getDBManager(diagram).isSupported(
-                                                    DBManager.SUPPORT_SEQUENCE)) {
+                                            && !DBManagerFactory.getDBManager(diagram).isSupported(DBManager.SUPPORT_SEQUENCE)) {
                                         enabled(actionId, false);
 
                                     } else {

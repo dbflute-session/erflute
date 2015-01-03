@@ -26,8 +26,8 @@ public class ERDiagramPropertySource implements IPropertySource {
     public IPropertyDescriptor[] getPropertyDescriptors() {
         List<String> dbList = DBManagerFactory.getAllDBList();
 
-        return new IPropertyDescriptor[] { new ComboBoxPropertyDescriptor("database",
-                ResourceString.getResourceString("label.database"), dbList.toArray(new String[dbList.size()])) };
+        return new IPropertyDescriptor[] { new ComboBoxPropertyDescriptor("database", ResourceString.getResourceString("label.database"),
+                dbList.toArray(new String[dbList.size()])) };
     }
 
     public Object getPropertyValue(Object id) {

@@ -13,8 +13,7 @@ public class AbstractChangeDesignAction extends AbstractBaseAction {
     private String type;
 
     public AbstractChangeDesignAction(String ID, String type, ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.change.design." + type), IAction.AS_RADIO_BUTTON,
-                editor);
+        super(ID, ResourceString.getResourceString("action.title.change.design." + type), IAction.AS_RADIO_BUTTON, editor);
 
         this.type = type;
     }

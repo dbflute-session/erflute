@@ -69,16 +69,14 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     @Override
     public TableViewProperties getTableViewProperties() {
         this.tableViewProperties =
-                DBManagerFactory.getDBManager(this.getDiagram()).createTableProperties(
-                        (TableProperties) this.tableViewProperties);
+                DBManagerFactory.getDBManager(this.getDiagram()).createTableProperties((TableProperties) this.tableViewProperties);
 
         return this.tableViewProperties;
     }
 
     public TableViewProperties getTableViewProperties(String database) {
         this.tableViewProperties =
-                DBManagerFactory.getDBManager(database).createTableProperties(
-                        (TableProperties) this.tableViewProperties);
+                DBManagerFactory.getDBManager(database).createTableProperties((TableProperties) this.tableViewProperties);
 
         return this.tableViewProperties;
     }

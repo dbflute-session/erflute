@@ -103,8 +103,7 @@ public class PostgresDDLCreator extends DDLCreator {
                 ColumnGroup columnGroup = (ColumnGroup) column;
 
                 for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                    String comment =
-                            this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                    String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                     if (!Check.isEmpty(comment)) {
                         StringBuilder ddl = new StringBuilder();
@@ -166,8 +165,7 @@ public class PostgresDDLCreator extends DDLCreator {
                 || sequence.getStart() != null || sequence.getCache() != null || sequence.isCycle()) {
 
             ddl.append("ALTER SEQUENCE ");
-            ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase()) + "_" + column.getPhysicalName()
-                    + "_SEQ"));
+            ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase()) + "_" + column.getPhysicalName() + "_SEQ"));
 
             if (sequence.getIncrement() != null) {
                 ddl.append(" INCREMENT ");

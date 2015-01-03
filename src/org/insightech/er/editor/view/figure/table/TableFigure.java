@@ -94,22 +94,21 @@ public class TableFigure extends RoundedRectangle {
         this.columns.removeAll();
     }
 
-    public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode,
-            String physicalName, String logicalName, String type, boolean primaryKey, boolean foreignKey,
-            boolean isNotNull, boolean uniqueKey, boolean displayKey, boolean displayDetail, boolean displayType,
-            boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
-            boolean isRemoved) {
+    public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode, String physicalName,
+            String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
+            boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
+            boolean isAdded, boolean isUpdated, boolean isRemoved) {
 
         columnFigure.removeAll();
         columnFigure.setBackgroundColor(null);
 
-        this.styleSupport.addColumn(table, normalColumn, columnFigure, viewMode, physicalName, logicalName, type,
-                primaryKey, foreignKey, isNotNull, uniqueKey, displayKey, displayDetail, displayType,
-                isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
+        this.styleSupport.addColumn(table, normalColumn, columnFigure, viewMode, physicalName, logicalName, type, primaryKey, foreignKey,
+                isNotNull, uniqueKey, displayKey, displayDetail, displayType, isSelectedReferenced, isSelectedForeignKey, isAdded,
+                isUpdated, isRemoved);
     }
 
-    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded,
-            boolean isUpdated, boolean isRemoved) {
+    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded, boolean isUpdated,
+            boolean isRemoved) {
 
         columnFigure.removeAll();
         columnFigure.setBackgroundColor(null);

@@ -29,8 +29,7 @@ public class CategoryManageAction extends AbstractBaseAction {
         Settings settings = (Settings) diagram.getDiagramContents().getSettings().clone();
 
         CategoryManageDialog dialog =
-                new CategoryManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings,
-                        diagram);
+                new CategoryManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings, diagram);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);

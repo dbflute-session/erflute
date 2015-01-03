@@ -39,8 +39,8 @@ public class ViewEditPart extends TableViewEditPart {
         View copyView = view.copyData();
 
         ViewDialog dialog =
-                new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(),
-                        copyView, diagram.getDiagramContents().getGroups());
+                new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyView, diagram
+                        .getDiagramContents().getGroups());
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             CompoundCommand command = createChangeViewPropertyCommand(diagram, view, copyView);

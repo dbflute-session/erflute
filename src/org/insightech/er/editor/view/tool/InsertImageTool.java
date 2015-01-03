@@ -15,9 +15,9 @@ import org.insightech.er.editor.model.diagram_contents.element.node.image.Insert
 public class InsertImageTool extends CreationToolEntry {
 
     public InsertImageTool() {
-        super(ResourceString.getResourceString("label.image.insert"), ResourceString
-                .getResourceString("label.image.insert"), new SimpleFactory(InsertedImage.class), Activator
-                .getImageDescriptor(ImageKey.IMAGE), Activator.getImageDescriptor(ImageKey.IMAGE));
+        super(ResourceString.getResourceString("label.image.insert"), ResourceString.getResourceString("label.image.insert"),
+                new SimpleFactory(InsertedImage.class), Activator.getImageDescriptor(ImageKey.IMAGE), Activator
+                        .getImageDescriptor(ImageKey.IMAGE));
     }
 
     @Override
@@ -44,8 +44,7 @@ public class InsertImageTool extends CreationToolEntry {
 
         private String getLoadFilePath() {
 
-            FileDialog fileDialog =
-                    new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
+            FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
 
             String[] filterExtensions = { "*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.tif;*.tiff" };
 

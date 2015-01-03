@@ -94,8 +94,7 @@ public class MySQLDDLCreator extends DDLCreator {
         ddl.append(filter(normalColumn.getPhysicalName()));
         ddl.append(" ");
 
-        ddl.append(filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), this.getDiagram()
-                .getDatabase())));
+        ddl.append(filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), this.getDiagram().getDatabase())));
 
         if (!Check.isEmpty(normalColumn.getCharacterSet())) {
             ddl.append(" CHARACTER SET ");
@@ -367,9 +366,7 @@ public class MySQLDDLCreator extends DDLCreator {
             length = tableProperties.getPrimaryKeyLengthOfText();
 
             if (length == null) {
-                tableProperties =
-                        (MySQLTableProperties) this.getDiagram().getDiagramContents().getSettings()
-                                .getTableViewProperties();
+                tableProperties = (MySQLTableProperties) this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
 
                 length = tableProperties.getPrimaryKeyLengthOfText();
             }

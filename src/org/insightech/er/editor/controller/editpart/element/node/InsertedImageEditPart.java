@@ -90,8 +90,7 @@ public class InsertedImageEditPart extends NodeElementEditPart implements IResiz
     private void changeImage() {
         InsertedImage model = (InsertedImage) this.getModel();
 
-        ImageData newImageData =
-                new ImageData(this.imageData.width, this.imageData.height, this.imageData.depth, this.imageData.palette);
+        ImageData newImageData = new ImageData(this.imageData.width, this.imageData.height, this.imageData.depth, this.imageData.palette);
 
         for (int x = 0; x < this.imageData.width; x++) {
             for (int y = 0; y < this.imageData.height; y++) {
@@ -148,8 +147,7 @@ public class InsertedImageEditPart extends NodeElementEditPart implements IResiz
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             ChangeInsertedImagePropertyCommand command =
-                    new ChangeInsertedImagePropertyCommand(diagram, insertedImage, dialog.getNewInsertedImage(),
-                            oldInsertedImage);
+                    new ChangeInsertedImagePropertyCommand(diagram, insertedImage, dialog.getNewInsertedImage(), oldInsertedImage);
 
             this.executeCommand(command);
 

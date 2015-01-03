@@ -40,8 +40,8 @@ public class DuplicatedLogicalNameRule extends BaseRule {
 
                 if (nameSet.contains(indexName)) {
                     ValidateResult validateResult = new ValidateResult();
-                    validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                            + " [INDEX] " + indexName + " (" + table.getLogicalName() + ")");
+                    validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [INDEX] " + indexName
+                            + " (" + table.getLogicalName() + ")");
                     validateResult.setLocation(indexName);
                     validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                     validateResult.setObject(index);
@@ -57,8 +57,7 @@ public class DuplicatedLogicalNameRule extends BaseRule {
 
             if (nameSet.contains(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                        + " [SEQUENCE] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [SEQUENCE] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(sequence);
@@ -73,8 +72,7 @@ public class DuplicatedLogicalNameRule extends BaseRule {
 
             if (nameSet.contains(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                        + " [VIEW] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [VIEW] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(view);
@@ -89,8 +87,7 @@ public class DuplicatedLogicalNameRule extends BaseRule {
 
             if (nameSet.contains(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                        + " [TRIGGER] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [TRIGGER] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(trigger);

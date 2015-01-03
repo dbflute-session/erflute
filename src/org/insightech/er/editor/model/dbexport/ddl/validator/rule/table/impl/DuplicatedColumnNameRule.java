@@ -32,8 +32,7 @@ public class DuplicatedColumnNameRule extends TableRule {
                     if (columnNameSet.contains(columnName)) {
                         ValidateResult result = new ValidateResult();
                         result.setMessage(ResourceString.getResourceString("error.validate.duplicated.column.name1")
-                                + table.getPhysicalName()
-                                + ResourceString.getResourceString("error.validate.duplicated.column.name2")
+                                + table.getPhysicalName() + ResourceString.getResourceString("error.validate.duplicated.column.name2")
                                 + columnName);
                         result.setLocation(table.getLogicalName());
                         result.setSeverity(IMarker.SEVERITY_WARNING);
@@ -51,8 +50,7 @@ public class DuplicatedColumnNameRule extends TableRule {
 
                 if (columnNameSet.contains(columnName)) {
                     ValidateResult result = new ValidateResult();
-                    result.setMessage(ResourceString.getResourceString("error.validate.duplicated.column.name1")
-                            + table.getPhysicalName()
+                    result.setMessage(ResourceString.getResourceString("error.validate.duplicated.column.name1") + table.getPhysicalName()
                             + ResourceString.getResourceString("error.validate.duplicated.column.name2") + columnName);
                     result.setLocation(table.getLogicalName());
                     result.setSeverity(IMarker.SEVERITY_WARNING);

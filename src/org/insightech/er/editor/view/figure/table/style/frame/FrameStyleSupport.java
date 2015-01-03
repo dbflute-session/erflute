@@ -68,19 +68,18 @@ public class FrameStyleSupport extends AbstractStyleSupport {
         }
     }
 
-    public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode,
-            String physicalName, String logicalName, String type, boolean primaryKey, boolean foreignKey,
-            boolean isNotNull, boolean uniqueKey, boolean displayKey, boolean displayDetail, boolean displayType,
-            boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
-            boolean isRemoved) {
+    public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode, String physicalName,
+            String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
+            boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
+            boolean isAdded, boolean isUpdated, boolean isRemoved) {
 
         Label label = this.createColumnLabel();
 
         label.setForegroundColor(this.getTextColor());
 
         StringBuilder text = new StringBuilder();
-        text.append(this.getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull,
-                uniqueKey, displayDetail, displayType));
+        text.append(this.getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull, uniqueKey, displayDetail,
+                displayType));
 
         if (displayKey) {
             if (primaryKey && foreignKey) {
@@ -103,8 +102,7 @@ public class FrameStyleSupport extends AbstractStyleSupport {
             }
         }
 
-        this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated,
-                isRemoved);
+        this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
 
         label.setText(text.toString());
 

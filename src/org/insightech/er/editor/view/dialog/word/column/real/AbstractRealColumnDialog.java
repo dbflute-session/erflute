@@ -133,8 +133,8 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
         super.perfomeOK();
 
         this.returnColumn =
-                new NormalColumn(this.returnWord, notNullCheck.getSelection(), false, uniqueKeyCheck.getSelection(),
-                        false, defaultText.getText(), constraintText.getText(), null, null, null);
+                new NormalColumn(this.returnWord, notNullCheck.getSelection(), false, uniqueKeyCheck.getSelection(), false,
+                        defaultText.getText(), constraintText.getText(), null, null, null);
     }
 
     @Override

@@ -30,12 +30,10 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
         CompositeFactory.createExampleLabel(composite, "label.tablespace.data.file.example");
 
         this.logFileGroup = CompositeFactory.createText(this, composite, "label.tablespace.log.file.group", false);
-        this.extentSize =
-                CompositeFactory.createText(this, composite, "label.tablespace.extent.size", 1, NUM_TEXT_WIDTH, false);
+        this.extentSize = CompositeFactory.createText(this, composite, "label.tablespace.extent.size", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.filler(composite, 1);
         CompositeFactory.createExampleLabel(composite, "label.tablespace.size.example");
-        this.initialSize =
-                CompositeFactory.createText(this, composite, "label.tablespace.initial.size", 1, NUM_TEXT_WIDTH, false);
+        this.initialSize = CompositeFactory.createText(this, composite, "label.tablespace.initial.size", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.filler(composite, 1);
         CompositeFactory.createExampleLabel(composite, "label.tablespace.size.example");
         this.engine = MySQLAdvancedComposite.createEngineCombo(composite, this);

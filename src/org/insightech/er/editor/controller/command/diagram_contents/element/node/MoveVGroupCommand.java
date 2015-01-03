@@ -30,8 +30,8 @@ public class MoveVGroupCommand extends MoveElementCommand {
 
     private Map<ConnectionElement, List<Bendpoint>> bendpointListMap;
 
-    public MoveVGroupCommand(ERDiagram diagram, int x, int y, int width, int height, VGroup category,
-            List<VGroup> otherCategories, boolean move) {
+    public MoveVGroupCommand(ERDiagram diagram, int x, int y, int width, int height, VGroup category, List<VGroup> otherCategories,
+            boolean move) {
         super(diagram, null, x, y, width, height, category);
 
         this.nodeElementList = new ArrayList<NodeElement>(category.getContents());
@@ -82,8 +82,8 @@ public class MoveVGroupCommand extends MoveElementCommand {
             }
 
             for (NodeElement nodeElement : this.nodeElementList) {
-                this.nodeElementOldLocationMap.put(nodeElement, new Rectangle(nodeElement.getX(), nodeElement.getY(),
-                        nodeElement.getWidth(), nodeElement.getHeight()));
+                this.nodeElementOldLocationMap.put(nodeElement,
+                        new Rectangle(nodeElement.getX(), nodeElement.getY(), nodeElement.getWidth(), nodeElement.getHeight()));
             }
         }
     }
@@ -97,8 +97,8 @@ public class MoveVGroupCommand extends MoveElementCommand {
             this.bendpointListMap = new HashMap<ConnectionElement, List<Bendpoint>>();
 
             for (NodeElement nodeElement : this.nodeElementList) {
-                nodeElement.setLocation(new Location(nodeElement.getX() + diffX, nodeElement.getY() + diffY,
-                        nodeElement.getWidth(), nodeElement.getHeight()));
+                nodeElement.setLocation(new Location(nodeElement.getX() + diffX, nodeElement.getY() + diffY, nodeElement.getWidth(),
+                        nodeElement.getHeight()));
                 this.moveBendpoints(nodeElement);
 
             }
@@ -140,8 +140,7 @@ public class MoveVGroupCommand extends MoveElementCommand {
                         break;
                     }
 
-                    Bendpoint newBendpoint =
-                            new Bendpoint(oldBendPoint.getX() + this.diffX, oldBendPoint.getY() + this.diffY);
+                    Bendpoint newBendpoint = new Bendpoint(oldBendPoint.getX() + this.diffX, oldBendPoint.getY() + this.diffY);
                     connectionElement.replaceBendpoint(index, newBendpoint);
 
                     oldBendpointList.add(oldBendPoint);

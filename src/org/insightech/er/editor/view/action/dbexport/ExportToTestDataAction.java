@@ -26,8 +26,8 @@ public class ExportToTestDataAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
 
         ExportToTestDataDialog dialog =
-                new ExportToTestDataDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                        this.getEditorPart(), diagram, diagram.getDiagramContents().getTestDataList(), -1);
+                new ExportToTestDataDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getEditorPart(), diagram,
+                        diagram.getDiagramContents().getTestDataList(), -1);
 
         dialog.open();
         this.refreshProject();

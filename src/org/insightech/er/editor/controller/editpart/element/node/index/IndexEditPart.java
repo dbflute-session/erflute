@@ -136,10 +136,9 @@ public class IndexEditPart extends AbstractModelEditPart {
         }
     }
 
-    public static void addColumnFigure(ERDiagram diagram, TableFigure tableFigure, IndexFigure indexFigure,
-            Index index,
-            /*boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated, */
-            boolean isFirst, boolean isRemoved) {
+    public static void addColumnFigure(ERDiagram diagram, TableFigure tableFigure, IndexFigure indexFigure, Index index,
+    /*boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated, */
+    boolean isFirst, boolean isRemoved) {
         //		int notationLevel = diagram.getDiagramContents().getSettings()
         //				.getNotationLevel();
         //
@@ -162,8 +161,8 @@ public class IndexEditPart extends AbstractModelEditPart {
         //			displayType = true;
         //		}
 
-        tableFigure.addIndex(indexFigure, diagram.getDiagramContents().getSettings().getViewMode(),
-                diagram.filter(index.getName()), diagram.filter(index.getName()), isFirst);
+        tableFigure.addIndex(indexFigure, diagram.getDiagramContents().getSettings().getViewMode(), diagram.filter(index.getName()),
+                diagram.filter(index.getName()), isFirst);
     }
 
     //	private List<NormalColumn> getSelectedReferencedColulmnList() {

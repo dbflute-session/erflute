@@ -65,8 +65,7 @@ public class ExportToTestDataDialog extends AbstractDialog {
 
     private ExportTestDataSetting exportTestDataSetting;
 
-    public ExportToTestDataDialog(Shell parentShell, IEditorPart editorPart, ERDiagram diagram,
-            List<TestData> testDataList, int targetIndex) {
+    public ExportToTestDataDialog(Shell parentShell, IEditorPart editorPart, ERDiagram diagram, List<TestData> testDataList, int targetIndex) {
         super(parentShell, 3);
 
         this.testDataList = testDataList;
@@ -74,8 +73,7 @@ public class ExportToTestDataDialog extends AbstractDialog {
         this.editorPart = editorPart;
         this.diagram = diagram;
 
-        this.exportTestDataSetting =
-                diagram.getDiagramContents().getSettings().getExportSetting().getExportTestDataSetting().clone();
+        this.exportTestDataSetting = diagram.getDiagramContents().getSettings().getExportSetting().getExportTestDataSetting().clone();
     }
 
     /**
@@ -156,8 +154,7 @@ public class ExportToTestDataDialog extends AbstractDialog {
         layoutData.widthHint = 200;
         this.outputDirectoryText.setLayoutData(layoutData);
 
-        this.fileEncodingCombo =
-                CompositeFactory.createFileEncodingCombo(this.editorPart, this, group, "label.output.file.encoding", 1);
+        this.fileEncodingCombo = CompositeFactory.createFileEncodingCombo(this.editorPart, this, group, "label.output.file.encoding", 1);
         CompositeFactory.filler(group, 1);
     }
 
@@ -286,8 +283,7 @@ public class ExportToTestDataDialog extends AbstractDialog {
             outputDirectoryPath = file.getLocation().toOSString();
 
             outputDirectoryPath =
-                    outputDirectoryPath.substring(0, outputDirectoryPath.lastIndexOf(File.separator)) + File.separator
-                            + "testdata";
+                    outputDirectoryPath.substring(0, outputDirectoryPath.lastIndexOf(File.separator)) + File.separator + "testdata";
         }
 
         this.outputDirectoryText.setText(outputDirectoryPath);

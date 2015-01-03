@@ -25,8 +25,7 @@ public class ViewSheetGenerator extends AbstractSheetGenerator {
 
     private static final String KEYWORD_VIEW_SQL = "$SQL";
 
-    private static final String[] FIND_KEYWORDS_OF_FK_COLUMN = { KEYWORD_LOGICAL_FOREIGN_KEY_NAME,
-            KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
+    private static final String[] FIND_KEYWORDS_OF_FK_COLUMN = { KEYWORD_LOGICAL_FOREIGN_KEY_NAME, KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
 
     private ColumnTemplate columnTemplate;
 
@@ -38,10 +37,9 @@ public class ViewSheetGenerator extends AbstractSheetGenerator {
     }
 
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap)
-            throws InterruptedException {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) throws InterruptedException {
         this.clear();
 
         List<View> nodeSet = null;
@@ -107,8 +105,7 @@ public class ViewSheetGenerator extends AbstractSheetGenerator {
                 order++;
             }
 
-            this.setCellStyle(columnTemplate, sheet, cellLocation.r, rowNum - cellLocation.r,
-                    templateRow.getFirstCellNum());
+            this.setCellStyle(columnTemplate, sheet, cellLocation.r, rowNum - cellLocation.r, templateRow.getFirstCellNum());
         }
 
         CellLocation fkCellLocation = POIUtils.findCell(sheet, FIND_KEYWORDS_OF_FK_COLUMN);
@@ -131,8 +128,7 @@ public class ViewSheetGenerator extends AbstractSheetGenerator {
                 }
             }
 
-            this.setCellStyle(this.fkColumnTemplate, sheet, fkCellLocation.r, rowNum - fkCellLocation.r,
-                    templateRow.getFirstCellNum());
+            this.setCellStyle(this.fkColumnTemplate, sheet, fkCellLocation.r, rowNum - fkCellLocation.r, templateRow.getFirstCellNum());
         }
     }
 
@@ -143,14 +139,12 @@ public class ViewSheetGenerator extends AbstractSheetGenerator {
 
     @Override
     public String[] getKeywords() {
-        return new String[] { KEYWORD_LOGICAL_VIEW_NAME, KEYWORD_PHYSICAL_VIEW_NAME, KEYWORD_VIEW_DESCRIPTION,
-                KEYWORD_VIEW_SQL, KEYWORD_ORDER, KEYWORD_LOGICAL_COLUMN_NAME, KEYWORD_PHYSICAL_COLUMN_NAME,
-                KEYWORD_TYPE, KEYWORD_LENGTH, KEYWORD_DECIMAL, KEYWORD_PRIMARY_KEY, KEYWORD_NOT_NULL,
-                KEYWORD_UNIQUE_KEY, KEYWORD_FOREIGN_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE_KEY,
-                KEYWORD_PHYSICAL_REFERENCE_TABLE_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE,
-                KEYWORD_PHYSICAL_REFERENCE_TABLE, KEYWORD_LOGICAL_REFERENCE_KEY, KEYWORD_PHYSICAL_REFERENCE_KEY,
-                KEYWORD_AUTO_INCREMENT, KEYWORD_DEFAULT_VALUE, KEYWORD_DESCRIPTION, KEYWORD_LOGICAL_FOREIGN_KEY_NAME,
-                KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
+        return new String[] { KEYWORD_LOGICAL_VIEW_NAME, KEYWORD_PHYSICAL_VIEW_NAME, KEYWORD_VIEW_DESCRIPTION, KEYWORD_VIEW_SQL,
+                KEYWORD_ORDER, KEYWORD_LOGICAL_COLUMN_NAME, KEYWORD_PHYSICAL_COLUMN_NAME, KEYWORD_TYPE, KEYWORD_LENGTH, KEYWORD_DECIMAL,
+                KEYWORD_PRIMARY_KEY, KEYWORD_NOT_NULL, KEYWORD_UNIQUE_KEY, KEYWORD_FOREIGN_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE_KEY,
+                KEYWORD_PHYSICAL_REFERENCE_TABLE_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE, KEYWORD_PHYSICAL_REFERENCE_TABLE,
+                KEYWORD_LOGICAL_REFERENCE_KEY, KEYWORD_PHYSICAL_REFERENCE_KEY, KEYWORD_AUTO_INCREMENT, KEYWORD_DEFAULT_VALUE,
+                KEYWORD_DESCRIPTION, KEYWORD_LOGICAL_FOREIGN_KEY_NAME, KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
     }
 
     @Override

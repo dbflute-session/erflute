@@ -16,8 +16,7 @@ public class ReservedWordViewNameRule extends ViewRule {
         if (view.getPhysicalName() != null) {
             if (this.getDBManager().isReservedWord(view.getPhysicalName())) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.view.name")
-                        + view.getPhysicalName());
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.view.name") + view.getPhysicalName());
                 validateResult.setLocation(view.getLogicalName());
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(view);

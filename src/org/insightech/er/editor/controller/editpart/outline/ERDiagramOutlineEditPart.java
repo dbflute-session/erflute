@@ -50,8 +50,7 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL)
-                || evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
+        if (evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL) || evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
             refresh();
         }
         //		if (evt.getPropertyName().equals(ERModelSet.PROPERTY_CHANGE_MODEL_SET)) {

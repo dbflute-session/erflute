@@ -54,8 +54,7 @@ public class EditExcelCommand extends AbstractCommand {
                             for (int i = 0; i < book.getNumberOfSheets(); i++) {
                                 String name = book.getSheetName(i);
                                 if (name.equalsIgnoreCase(tableName)) {
-                                    IWorkbenchPage page =
-                                            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                                    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                                     IDE.openEditor(page, (IFile) excelFile);
                                     hit = true;
                                     break;
@@ -66,9 +65,8 @@ public class EditExcelCommand extends AbstractCommand {
                         }
                     }
                     if (!hit) {
-                        if (Activator.showConfirmDialog(tableName
-                                + " �e�[�u���̃f�[�^���L�ڂ���Excel��������܂���B�f�B���N�g�����J���܂����H", SWT.OK,
-                                SWT.CANCEL)) {
+                        if (Activator.showConfirmDialog(
+                                tableName + " �e�[�u���̃f�[�^���L�ڂ���Excel��������܂���B�f�B���N�g�����J���܂����H", SWT.OK, SWT.CANCEL)) {
                             ERModelUtil.openDirectory(members[0]);
                         }
                     }

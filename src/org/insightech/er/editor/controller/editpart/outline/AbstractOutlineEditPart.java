@@ -9,8 +9,7 @@ import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 
-public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart implements PropertyChangeListener,
-        FilteringEditPart {
+public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart implements PropertyChangeListener, FilteringEditPart {
 
     private String filterText;
 

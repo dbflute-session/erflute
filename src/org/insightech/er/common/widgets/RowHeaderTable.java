@@ -86,8 +86,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
     private Color MODIFIED_COLOR = new Color(0xc7, 0xff, 0xb7);
 
-    public RowHeaderTable(int width, int height, final int rowHeaderWidth, int rowHeight, boolean iconEnable,
-            final boolean editable) {
+    public RowHeaderTable(int width, int height, final int rowHeaderWidth, int rowHeight, boolean iconEnable, final boolean editable) {
         this.editable = editable;
 
         this.table = new JTable() {
@@ -185,8 +184,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                         if (keyevent.isControlDown() && (keyevent.getKeyCode() == 'v' || keyevent.getKeyCode() == 'V')) {
                             pasteRows();
 
-                        } else if (keyevent.isControlDown()
-                                && (keyevent.getKeyCode() == 'x' || keyevent.getKeyCode() == 'X')) {
+                        } else if (keyevent.isControlDown() && (keyevent.getKeyCode() == 'x' || keyevent.getKeyCode() == 'X')) {
                             cutRows();
 
                         }
@@ -206,8 +204,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         this.headerRenderer = new MultiLineHeaderRenderer(null, iconEnable);
-        this.selectedHeaderRenderer =
-                new MultiLineHeaderRenderer(UIManager.getColor("Table.selectionBackground"), iconEnable);
+        this.selectedHeaderRenderer = new MultiLineHeaderRenderer(UIManager.getColor("Table.selectionBackground"), iconEnable);
         final JTableHeader tableHeader = this.table.getTableHeader();
 
         tableHeader.setReorderingAllowed(false);
@@ -312,8 +309,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                             if (event.isControlDown() && (event.getKeyCode() == 'v' || event.getKeyCode() == 'V')) {
                                 pasteRows();
 
-                            } else if (event.isControlDown()
-                                    && (event.getKeyCode() == 'x' || event.getKeyCode() == 'X')) {
+                            } else if (event.isControlDown() && (event.getKeyCode() == 'x' || event.getKeyCode() == 'X')) {
                                 cutRows();
 
                             }
@@ -765,8 +761,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 });
 
                 if (clipbordOn) {
-                    JMenuItem insertPasteMenu =
-                            new JMenuItem(ResourceString.getResourceString("action.title.insert.and.paste"));
+                    JMenuItem insertPasteMenu = new JMenuItem(ResourceString.getResourceString("action.title.insert.and.paste"));
                     insertPasteMenu.setFont(font);
                     this.add(insertPasteMenu);
 
@@ -840,8 +835,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
             setFont(header.getFont());
         }
 
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-                boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             setText((value == null) ? "" : value.toString());
             return this;
         }
@@ -866,8 +860,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
             renderer.setHorizontalAlignment(JLabel.CENTER);
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                boolean hasFocus, int row, int column) {
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setFont(table.getFont());
             String str = (value == null) ? "" : value.toString();
             BufferedReader br = new BufferedReader(new StringReader(str));
@@ -906,8 +899,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
             }
 
             @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-                    boolean hasFocus) {
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
 
                 if (this.iconEnable && index == 0) {

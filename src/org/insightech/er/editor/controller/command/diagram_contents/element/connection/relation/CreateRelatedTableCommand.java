@@ -113,8 +113,7 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationCommand {
         this.relation2 = targetTable.createRelation();
 
         this.relatedTable.setLocation(new Location((this.sourceX + this.targetX - ERTable.DEFAULT_WIDTH) / 2,
-                (this.sourceY + this.targetY - ERTable.DEFAULT_HEIGHT) / 2, ERTable.DEFAULT_WIDTH,
-                ERTable.DEFAULT_HEIGHT));
+                (this.sourceY + this.targetY - ERTable.DEFAULT_HEIGHT) / 2, ERTable.DEFAULT_WIDTH, ERTable.DEFAULT_HEIGHT));
 
         this.relatedTable.setLogicalName(ERTable.NEW_LOGICAL_NAME);
         this.relatedTable.setPhysicalName(ERTable.NEW_PHYSICAL_NAME);

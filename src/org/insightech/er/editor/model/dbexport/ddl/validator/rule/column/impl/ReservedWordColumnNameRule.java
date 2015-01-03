@@ -18,8 +18,7 @@ public class ReservedWordColumnNameRule extends ColumnRule {
             if (this.getDBManager().isReservedWord(column.getPhysicalName())) {
                 ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.column.name1")
-                        + table.getPhysicalName()
-                        + ResourceString.getResourceString("error.validate.reserved.column.name2")
+                        + table.getPhysicalName() + ResourceString.getResourceString("error.validate.reserved.column.name2")
                         + column.getPhysicalName());
                 validateResult.setLocation(table.getLogicalName());
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);

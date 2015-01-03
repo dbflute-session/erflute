@@ -219,8 +219,7 @@ public class TestEditor extends EditorPart {
                             if (previousUndoManager != null) {
                                 IDocument newDocument = getDocumentProvider().getDocument(movedElement);
                                 if (newDocument != null) {
-                                    IDocumentUndoManager newUndoManager =
-                                            DocumentUndoManagerRegistry.getDocumentUndoManager(newDocument);
+                                    IDocumentUndoManager newUndoManager = DocumentUndoManagerRegistry.getDocumentUndoManager(newDocument);
                                     if (newUndoManager != null)
                                         newUndoManager.transferUndoHistory(previousUndoManager);
                                 }
@@ -310,8 +309,7 @@ public class TestEditor extends EditorPart {
         return false;
     }
 
-    protected final void internalInit(IWorkbenchWindow window, final IEditorSite site, final IEditorInput input)
-            throws PartInitException {
+    protected final void internalInit(IWorkbenchWindow window, final IEditorSite site, final IEditorInput input) throws PartInitException {
 
         IRunnableWithProgress runnable = new IRunnableWithProgress() {
             public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {

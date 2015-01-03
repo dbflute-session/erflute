@@ -24,8 +24,8 @@ public class PlaceElementCommand extends AbstractCommand {
     /** Model or Diagram */
     private AbstractModelEditPart editPart;
 
-    public PlaceElementCommand(ERDiagram diagram, AbstractModelEditPart editPart, NodeElement element, int x, int y,
-            Dimension size, List<NodeElement> enclosedElementList) {
+    public PlaceElementCommand(ERDiagram diagram, AbstractModelEditPart editPart, NodeElement element, int x, int y, Dimension size,
+            List<NodeElement> enclosedElementList) {
         this.diagram = diagram;
         this.element = element;
         this.editPart = editPart;

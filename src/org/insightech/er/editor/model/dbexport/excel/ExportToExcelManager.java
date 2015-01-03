@@ -100,8 +100,8 @@ public class ExportToExcelManager implements IRunnableWithProgress {
 
     private Exception exception;
 
-    public ExportToExcelManager(String saveFilePath, ERDiagram diagram, InputStream template,
-            boolean useLogicalNameAsSheetName, byte[] imageBuffer, int excelPictureType) {
+    public ExportToExcelManager(String saveFilePath, ERDiagram diagram, InputStream template, boolean useLogicalNameAsSheetName,
+            byte[] imageBuffer, int excelPictureType) {
         super();
 
         this.saveFilePath = saveFilePath;
@@ -240,8 +240,8 @@ public class ExportToExcelManager implements IRunnableWithProgress {
             AbstractSheetGenerator sheetGenerator = this.getSheetGenerator(templateSheetName);
 
             if (sheetGenerator != null) {
-                sheetGenerator.generate(monitor, workbook, 0, useLogicalNameAsSheetName, this.sheetNameMap,
-                        this.sheetObjectMap, diagram, loopDefinitionMap);
+                sheetGenerator.generate(monitor, workbook, 0, useLogicalNameAsSheetName, this.sheetNameMap, this.sheetObjectMap, diagram,
+                        loopDefinitionMap);
                 workbook.removeSheetAt(0);
 
             } else {
@@ -259,8 +259,7 @@ public class ExportToExcelManager implements IRunnableWithProgress {
 
                         String name = this.sheetIndexSheetGenerator.getSheetName();
 
-                        workbook.setSheetName(workbook.getNumberOfSheets() - 1,
-                                AbstractSheetGenerator.decideSheetName(name, sheetNameMap));
+                        workbook.setSheetName(workbook.getNumberOfSheets() - 1, AbstractSheetGenerator.decideSheetName(name, sheetNameMap));
                     }
 
                 } else {
@@ -278,8 +277,8 @@ public class ExportToExcelManager implements IRunnableWithProgress {
         }
 
         if (sheetIndexSheetNo != -1) {
-            this.sheetIndexSheetGenerator.generate(monitor, workbook, sheetIndexSheetNo, useLogicalNameAsSheetName,
-                    this.sheetNameMap, this.sheetObjectMap, diagram, loopDefinitionMap);
+            this.sheetIndexSheetGenerator.generate(monitor, workbook, sheetIndexSheetNo, useLogicalNameAsSheetName, this.sheetNameMap,
+                    this.sheetObjectMap, diagram, loopDefinitionMap);
         }
     }
 

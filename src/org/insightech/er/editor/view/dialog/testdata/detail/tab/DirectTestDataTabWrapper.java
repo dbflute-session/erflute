@@ -52,8 +52,8 @@ public class DirectTestDataTabWrapper extends ValidatableTabWrapper {
 
     private void createEditTable(Composite composite) {
         this.editColumnTable =
-                CompositeFactory.createRowHeaderTable(composite, TestDataDialog.WIDTH - 20,
-                        TestDataDialog.TABLE_HEIGHT, 75, 25, 2, false, true);
+                CompositeFactory.createRowHeaderTable(composite, TestDataDialog.WIDTH - 20, TestDataDialog.TABLE_HEIGHT, 75, 25, 2, false,
+                        true);
         this.editColumnTable.setCellEditWorker(new CellEditWorker() {
 
             public void addNewRow() {
@@ -133,9 +133,7 @@ public class DirectTestDataTabWrapper extends ValidatableTabWrapper {
                 type = "";
 
             } else {
-                type =
-                        Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), this.dialog.getDiagram()
-                                .getDatabase());
+                type = Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), this.dialog.getDiagram().getDatabase());
             }
 
             this.editColumnTable.addColumnHeader(name + "\r\n" + type, 100);

@@ -38,8 +38,8 @@ public class ExtendPopupMenu {
         return path;
     }
 
-    public static ExtendPopupMenu createExtendPopupMenu(IConfigurationElement configurationElement,
-            ERDiagramEditor editor) throws CoreException {
+    public static ExtendPopupMenu createExtendPopupMenu(IConfigurationElement configurationElement, ERDiagramEditor editor)
+            throws CoreException {
         ExtendPopupMenu menu = null;
 
         if (ExtendPopupMenu.EXTENSION_NAME.equals(configurationElement.getName())) {
@@ -76,8 +76,7 @@ public class ExtendPopupMenu {
             for (IExtension extension : extensionPoint.getExtensions()) {
                 for (IConfigurationElement configurationElement : extension.getConfigurationElements()) {
 
-                    ExtendPopupMenu extendPopupMenu =
-                            ExtendPopupMenu.createExtendPopupMenu(configurationElement, editor);
+                    ExtendPopupMenu extendPopupMenu = ExtendPopupMenu.createExtendPopupMenu(configurationElement, editor);
 
                     if (extendPopupMenu != null) {
                         extendPopupMenuList.add(extendPopupMenu);

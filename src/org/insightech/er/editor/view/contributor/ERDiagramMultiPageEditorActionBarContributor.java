@@ -23,8 +23,7 @@ public class ERDiagramMultiPageEditorActionBarContributor extends MultiPageEdito
         actionBarContributor.init(actionBars, editor.getEditorSite().getPage());
         actionBarContributor.setActiveEditor(editor);
         ZoomComboContributionItem item =
-                (ZoomComboContributionItem) getActionBars().getToolBarManager().find(
-                        GEFActionConstants.ZOOM_TOOLBAR_WIDGET);
+                (ZoomComboContributionItem) getActionBars().getToolBarManager().find(GEFActionConstants.ZOOM_TOOLBAR_WIDGET);
         if (item != null) {
             ZoomManager zoomManager = (ZoomManager) editor.getAdapter(ZoomManager.class);
             item.setZoomManager(zoomManager);

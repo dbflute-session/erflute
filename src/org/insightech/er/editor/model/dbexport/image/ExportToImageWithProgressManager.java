@@ -28,8 +28,7 @@ public class ExportToImageWithProgressManager extends ExportToImageManager imple
 
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-        monitor.beginTask(ResourceString.getResourceString("dialog.message.export.image"),
-                img.getBounds().width * img.getBounds().height);
+        monitor.beginTask(ResourceString.getResourceString("dialog.message.export.image"), img.getBounds().width * img.getBounds().height);
 
         try {
             this.monitor = monitor;

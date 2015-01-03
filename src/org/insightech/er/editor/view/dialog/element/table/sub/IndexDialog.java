@@ -120,9 +120,7 @@ public class IndexDialog extends AbstractDialog {
 
         this.createCheckComposite(composite);
 
-        this.tableText =
-                CompositeFactory.createText(this, composite, "label.table.name", 1, -1, SWT.READ_ONLY | SWT.BORDER,
-                        false);
+        this.tableText = CompositeFactory.createText(this, composite, "label.table.name", 1, -1, SWT.READ_ONLY | SWT.BORDER, false);
         this.nameText = CompositeFactory.createText(this, composite, "label.index.name", false);
         this.typeCombo = CompositeFactory.createReadOnlyCombo(this, composite, "label.index.type");
 
@@ -132,8 +130,7 @@ public class IndexDialog extends AbstractDialog {
     }
 
     private void initTypeCombo() {
-        java.util.List<String> indexTypeList =
-                DBManagerFactory.getDBManager(this.table.getDiagram()).getIndexTypeList(this.table);
+        java.util.List<String> indexTypeList = DBManagerFactory.getDBManager(this.table.getDiagram()).getIndexTypeList(this.table);
 
         this.typeCombo.add("");
 

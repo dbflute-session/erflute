@@ -72,8 +72,8 @@ public abstract class AbstractStyleSupport implements StyleSupport {
     public void createFooter() {
     }
 
-    protected String getColumnText(ERTable table, NormalColumn normalColumn, int viewMode, String physicalName,
-            String logicalName, String type, boolean isNotNull, boolean uniqueKey, boolean detail, boolean displayType) {
+    protected String getColumnText(ERTable table, NormalColumn normalColumn, int viewMode, String physicalName, String logicalName,
+            String type, boolean isNotNull, boolean uniqueKey, boolean detail, boolean displayType) {
         StringBuilder text = new StringBuilder();
 
         String name = null;
@@ -128,8 +128,8 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         return label;
     }
 
-    protected void setColumnFigureColor(IFigure figure, boolean isSelectedReferenced, boolean isSelectedForeignKey,
-            boolean isAdded, boolean isUpdated, boolean isRemoved) {
+    protected void setColumnFigureColor(IFigure figure, boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded,
+            boolean isUpdated, boolean isRemoved) {
         if (isAdded) {
             figure.setBackgroundColor(Resources.ADDED_COLOR);
         } else if (isUpdated) {
@@ -159,8 +159,8 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         return tableFigure;
     }
 
-    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded,
-            boolean isUpdated, boolean isRemoved) {
+    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded, boolean isUpdated,
+            boolean isRemoved) {
 
         Label label = this.createColumnLabel();
 

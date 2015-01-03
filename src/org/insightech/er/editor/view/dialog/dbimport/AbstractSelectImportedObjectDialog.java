@@ -209,8 +209,7 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
 
             for (int i = 0; i < DBObject.ALL_TYPES.length; i++) {
                 objectTypeNodes[i] =
-                        new TreeNode(new StringObjectModel(ResourceString.getResourceString("label.object.type."
-                                + DBObject.ALL_TYPES[i])));
+                        new TreeNode(new StringObjectModel(ResourceString.getResourceString("label.object.type." + DBObject.ALL_TYPES[i])));
 
                 List<TreeNode> objectNodeList = new ArrayList<TreeNode>();
 
@@ -238,8 +237,7 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
     }
 
     protected TreeNode createTopNode(String objectType, List<DBObject> dbObjectList) {
-        TreeNode treeNode =
-                new TreeNode(new StringObjectModel(ResourceString.getResourceString("label.object.type." + objectType)));
+        TreeNode treeNode = new TreeNode(new StringObjectModel(ResourceString.getResourceString("label.object.type." + objectType)));
         List<TreeNode> objectNodeList = new ArrayList<TreeNode>();
 
         for (DBObject dbObject : dbObjectList) {

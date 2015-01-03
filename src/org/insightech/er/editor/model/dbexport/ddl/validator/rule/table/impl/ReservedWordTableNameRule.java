@@ -16,8 +16,7 @@ public class ReservedWordTableNameRule extends TableRule {
         if (table.getPhysicalName() != null) {
             if (this.getDBManager().isReservedWord(table.getPhysicalName())) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.table.name")
-                        + table.getPhysicalName());
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.table.name") + table.getPhysicalName());
                 validateResult.setLocation(table.getLogicalName());
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(table);

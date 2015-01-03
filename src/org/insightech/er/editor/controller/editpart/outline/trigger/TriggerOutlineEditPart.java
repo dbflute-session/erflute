@@ -44,8 +44,7 @@ public class TriggerOutlineEditPart extends AbstractOutlineEditPart implements D
         ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            TriggerDialog dialog =
-                    new TriggerDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), trigger);
+            TriggerDialog dialog = new TriggerDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), trigger);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 EditTriggerCommand command = new EditTriggerCommand(diagram, trigger, dialog.getResult());

@@ -69,16 +69,16 @@ public class NormalColumnEditPart extends ColumnEditPart {
                 isUpdated = updated.isUpdated(normalColumn);
             }
 
-            if ((notationLevel == Settings.NOTATION_LEVLE_KEY) && !normalColumn.isPrimaryKey()
-                    && !normalColumn.isForeignKey() && !normalColumn.isReferedStrictly()) {
+            if ((notationLevel == Settings.NOTATION_LEVLE_KEY) && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
+                    && !normalColumn.isReferedStrictly()) {
                 columnFigure.clearLabel();
                 return;
             }
 
             ERTable table = (ERTable) parent.getModel(); // TODO
 
-            addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, isSelectedReferenced,
-                    isSelectedForeignKey, isAdded, isUpdated, false);
+            addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, isSelectedReferenced, isSelectedForeignKey, isAdded,
+                    isUpdated, false);
 
             if (selected) {
                 columnFigure.setBackgroundColor(ColorConstants.titleBackground);
@@ -91,14 +91,12 @@ public class NormalColumnEditPart extends ColumnEditPart {
         }
     }
 
-    public static void addColumnFigure(ERDiagram diagram, ERTable table, TableFigure tableFigure,
-            NormalColumnFigure columnFigure, NormalColumn normalColumn, boolean isSelectedReferenced,
-            boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated, boolean isRemoved) {
+    public static void addColumnFigure(ERDiagram diagram, ERTable table, TableFigure tableFigure, NormalColumnFigure columnFigure,
+            NormalColumn normalColumn, boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
+            boolean isRemoved) {
         int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
-        String type =
-                diagram.filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(),
-                        diagram.getDatabase()));
+        String type = diagram.filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), diagram.getDatabase()));
 
         boolean displayKey = true;
         if (notationLevel == Settings.NOTATION_LEVLE_COLUMN) {
@@ -125,10 +123,9 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
         //diagram.getDiagramContents().get
 
-        tableFigure.addColumn(table, normalColumn, columnFigure, diagram.getDiagramContents().getSettings()
-                .getViewMode(), diagram.filter(normalColumn.getPhysicalName()),
-                diagram.filter(normalColumn.getLogicalName()), type, normalColumn.isPrimaryKey(),
-                normalColumn.isForeignKey(), normalColumn.isNotNull(), normalColumn.isUniqueKey(), displayKey,
+        tableFigure.addColumn(table, normalColumn, columnFigure, diagram.getDiagramContents().getSettings().getViewMode(),
+                diagram.filter(normalColumn.getPhysicalName()), diagram.filter(normalColumn.getLogicalName()), type,
+                normalColumn.isPrimaryKey(), normalColumn.isForeignKey(), normalColumn.isNotNull(), normalColumn.isUniqueKey(), displayKey,
                 displayDetail, displayType, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
     }
 
@@ -231,8 +228,8 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
                     NormalColumn column = (NormalColumn) childEditPart.getModel();
                     if (column.getColumnHolder() == normalColumn.getColumnHolder()) {
-                        this.setGroupColumnFigureColor((TableViewEditPart) this.getParent(),
-                                (ColumnGroup) normalColumn.getColumnHolder(), false);
+                        this.setGroupColumnFigureColor((TableViewEditPart) this.getParent(), (ColumnGroup) normalColumn.getColumnHolder(),
+                                false);
                     }
                 }
 

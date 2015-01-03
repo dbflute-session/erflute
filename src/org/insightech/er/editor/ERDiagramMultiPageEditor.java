@@ -126,8 +126,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         try {
             this.zoomComboContributionItem = new ZoomComboContributionItem(this.getSite().getPage());
 
-            ERDiagramEditor editor =
-                    new ERDiagramEditor(diagram, this.editPartFactory, zoomComboContributionItem, this.outlinePage);
+            ERDiagramEditor editor = new ERDiagramEditor(diagram, this.editPartFactory, zoomComboContributionItem, this.outlinePage);
 
             int index = this.addPage(editor, this.getEditorInput());
             this.setPageText(index, ResourceString.getResourceString("label.all"));
@@ -208,8 +207,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
                 ERModel model = diagram.getDiagramContents().getModelSet().getModel(modelName);
                 diagram.setCurrentErmodel(model, model.getName());
                 EROneDiagramEditor modelEditor =
-                        new EROneDiagramEditor(this.diagram, model, this.editPartFactory,
-                                this.zoomComboContributionItem, this.outlinePage);
+                        new EROneDiagramEditor(this.diagram, model, this.editPartFactory, this.zoomComboContributionItem, this.outlinePage);
 
                 int pageNo = this.addPage(modelEditor, this.getEditorInput());
                 this.setPageText(pageNo, Format.null2blank(model.getName()));
@@ -555,12 +553,10 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 
                 if (category != null) {
                     CategoryNameChangeDialog dialog =
-                            new CategoryNameChangeDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                                    .getShell(), category);
+                            new CategoryNameChangeDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), category);
 
                     if (dialog.open() == IDialogConstants.OK_ID) {
-                        ChangeCategoryNameCommand command =
-                                new ChangeCategoryNameCommand(diagram, category, dialog.getCategoryName());
+                        ChangeCategoryNameCommand command = new ChangeCategoryNameCommand(diagram, category, dialog.getCategoryName());
                         execute(command);
                     }
                 }
@@ -631,8 +627,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         if (getPageCount() == 1) {
             // 1�����̏ꍇ�́A�V�����G�f�B�^���쐬����
             EROneDiagramEditor diagramEditor =
-                    new EROneDiagramEditor(this.diagram, model, getEditPartFactory(), getZoomComboContributionItem(),
-                            getOutlinePage());
+                    new EROneDiagramEditor(this.diagram, model, getEditPartFactory(), getZoomComboContributionItem(), getOutlinePage());
 
             try {
                 addPage(diagramEditor, getEditorInput(), model.getName());

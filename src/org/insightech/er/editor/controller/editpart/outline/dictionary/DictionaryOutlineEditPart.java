@@ -46,8 +46,7 @@ public class DictionaryOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(ResourceString.getResourceString("label.dictionary") + " (" + this.getModelChildren().size()
-                + ")");
+        this.setWidgetText(ResourceString.getResourceString("label.dictionary") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 

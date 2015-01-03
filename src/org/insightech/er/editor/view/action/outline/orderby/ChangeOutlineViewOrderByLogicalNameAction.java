@@ -25,8 +25,7 @@ public class ChangeOutlineViewOrderByLogicalNameAction extends AbstractOutlineBa
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
 
-        ChangeOutlineViewOrderByCommand command =
-                new ChangeOutlineViewOrderByCommand(diagram, Settings.VIEW_MODE_LOGICAL);
+        ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(diagram, Settings.VIEW_MODE_LOGICAL);
 
         this.execute(command);
     }

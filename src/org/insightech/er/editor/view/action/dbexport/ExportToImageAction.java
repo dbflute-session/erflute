@@ -71,8 +71,7 @@ public class ExportToImageAction extends AbstractExportAction {
     @Override
     protected void save(IEditorPart editorPart, GraphicalViewer viewer, String saveFilePath) {
 
-        ProgressMonitorDialog monitor =
-                new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+        ProgressMonitorDialog monitor = new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
         try {
             if (outputImage(monitor, viewer, saveFilePath) != -1) {
@@ -81,8 +80,7 @@ public class ExportToImageAction extends AbstractExportAction {
         } catch (InterruptedException e) {}
     }
 
-    public static int outputImage(ProgressMonitorDialog monitor, GraphicalViewer viewer, String saveFilePath)
-            throws InterruptedException {
+    public static int outputImage(ProgressMonitorDialog monitor, GraphicalViewer viewer, String saveFilePath) throws InterruptedException {
         int format = getFormatType(saveFilePath);
 
         if (format == -1) {
@@ -95,8 +93,7 @@ public class ExportToImageAction extends AbstractExportAction {
         try {
             img = createImage(viewer);
 
-            ExportToImageWithProgressManager exportToImageManager =
-                    new ExportToImageWithProgressManager(img, format, saveFilePath);
+            ExportToImageWithProgressManager exportToImageManager = new ExportToImageWithProgressManager(img, format, saveFilePath);
 
             monitor.run(true, true, exportToImageManager);
 
@@ -159,8 +156,7 @@ public class ExportToImageAction extends AbstractExportAction {
         GC imageGC = null;
 
         try {
-            ScalableFreeformRootEditPart rootEditPart =
-                    (ScalableFreeformRootEditPart) viewer.getEditPartRegistry().get(LayerManager.ID);
+            ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) viewer.getEditPartRegistry().get(LayerManager.ID);
             rootEditPart.refresh();
             IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
 

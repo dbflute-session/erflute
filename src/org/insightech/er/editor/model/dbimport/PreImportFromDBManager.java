@@ -29,8 +29,7 @@ public abstract class PreImportFromDBManager {
 
     private Exception exception;
 
-    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<String> schemaList)
-            throws SQLException {
+    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<String> schemaList) throws SQLException {
         this.con = con;
         this.dbSetting = dbSetting;
 
@@ -54,8 +53,7 @@ public abstract class PreImportFromDBManager {
     }
 
     protected List<DBObject> importTables() throws SQLException {
-        return this.importObjects(new String[] { "TABLE", "SYSTEM TABLE", "SYSTEM TOAST TABLE", "TEMPORARY TABLE" },
-                DBObject.TYPE_TABLE);
+        return this.importObjects(new String[] { "TABLE", "SYSTEM TABLE", "SYSTEM TOAST TABLE", "TEMPORARY TABLE" }, DBObject.TYPE_TABLE);
     }
 
     protected List<DBObject> importSequences() throws SQLException {

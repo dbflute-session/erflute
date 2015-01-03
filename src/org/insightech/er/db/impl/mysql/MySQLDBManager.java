@@ -76,8 +76,8 @@ public class MySQLDBManager extends DBManagerBase {
 
     @Override
     protected int[] getSupportItems() {
-        return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_DESC_INDEX,
-                SUPPORT_FULLTEXT_INDEX, SUPPORT_SCHEMA };
+        return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_DESC_INDEX, SUPPORT_FULLTEXT_INDEX,
+                SUPPORT_SCHEMA };
     }
 
     public ImportFromDBManager getTableImportManager() {

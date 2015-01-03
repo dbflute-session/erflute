@@ -202,8 +202,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         store.setValue(PreferenceInitializer.DB_SETTING_PASSWORD + no, Format.null2blank(dbSetting.getPassword()));
         store.setValue(PreferenceInitializer.DB_SETTING_USE_DEFAULT_DRIVER + no, dbSetting.isUseDefaultDriver());
         store.setValue(PreferenceInitializer.DB_SETTING_URL + no, Format.null2blank(dbSetting.getUrl()));
-        store.setValue(PreferenceInitializer.DB_SETTING_DRIVER_CLASS_NAME + no,
-                Format.null2blank(dbSetting.getDriverClassName()));
+        store.setValue(PreferenceInitializer.DB_SETTING_DRIVER_CLASS_NAME + no, Format.null2blank(dbSetting.getDriverClassName()));
     }
 
     public static void saveSetting(List<DBSetting> dbSettingList) {

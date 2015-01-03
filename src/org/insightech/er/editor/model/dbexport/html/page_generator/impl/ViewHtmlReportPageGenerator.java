@@ -58,8 +58,8 @@ public class ViewHtmlReportPageGenerator extends AbstractHtmlReportPageGenerator
 
         String attributeDetailTable = this.generateAttributeDetailTable(diagram, normalColumnList);
 
-        return new String[] { Format.null2blank(description), Format.null2blank(view.getPhysicalName()),
-                Format.null2blank(view.getSql()), attributeTable, foreignKeyTable, attributeDetailTable };
+        return new String[] { Format.null2blank(description), Format.null2blank(view.getPhysicalName()), Format.null2blank(view.getSql()),
+                attributeTable, foreignKeyTable, attributeDetailTable };
     }
 
     public String getObjectName(Object object) {

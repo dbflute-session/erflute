@@ -61,8 +61,7 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         //		List<String> selectionActionList = this.getSelectionActions();
 
         List<IAction> actionList =
-                new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this),
-                        new VGroupManageAction(this), }));
+                new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new VGroupManageAction(this), }));
 
         for (IAction action : actionList) {
             registry.registerAction(action);
@@ -92,8 +91,8 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         //		viewer.getRootEditPart().setContents(editPartFactory.);
 
         this.outlineMenuMgr =
-                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(),
-                        this.outlinePage.getOutlineActionRegistory(), this.outlinePage.getViewer());
+                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
+                        this.outlinePage.getViewer());
 
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }

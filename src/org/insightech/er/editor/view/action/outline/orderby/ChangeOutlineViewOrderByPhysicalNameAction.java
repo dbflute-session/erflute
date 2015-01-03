@@ -25,8 +25,7 @@ public class ChangeOutlineViewOrderByPhysicalNameAction extends AbstractOutlineB
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
 
-        ChangeOutlineViewOrderByCommand command =
-                new ChangeOutlineViewOrderByCommand(diagram, Settings.VIEW_MODE_PHYSICAL);
+        ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(diagram, Settings.VIEW_MODE_PHYSICAL);
 
         this.execute(command);
     }

@@ -16,9 +16,8 @@ public class NoColumnTypeRule extends ColumnRule {
     public boolean validate(ERTable table, NormalColumn column) {
         if (column.getType() == null || column.getType().getAlias(table.getDiagram().getDatabase()) == null) {
             ValidateResult validateResult = new ValidateResult();
-            validateResult.setMessage(ResourceString.getResourceString("error.validate.no.column.type1")
-                    + table.getPhysicalName() + ResourceString.getResourceString("error.validate.no.column.type2")
-                    + column.getPhysicalName());
+            validateResult.setMessage(ResourceString.getResourceString("error.validate.no.column.type1") + table.getPhysicalName()
+                    + ResourceString.getResourceString("error.validate.no.column.type2") + column.getPhysicalName());
             validateResult.setLocation(table.getLogicalName());
             validateResult.setSeverity(IMarker.SEVERITY_WARNING);
             validateResult.setObject(table);

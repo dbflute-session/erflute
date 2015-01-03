@@ -24,8 +24,7 @@ public class CreateElementCommand extends AbstractCommand {
 
     private List<NodeElement> enclosedElementList;
 
-    public CreateElementCommand(ERDiagram diagram, NodeElement element, int x, int y, Dimension size,
-            List<NodeElement> enclosedElementList) {
+    public CreateElementCommand(ERDiagram diagram, NodeElement element, int x, int y, Dimension size, List<NodeElement> enclosedElementList) {
         this.diagram = diagram;
         this.element = element;
 
@@ -62,8 +61,7 @@ public class CreateElementCommand extends AbstractCommand {
                 diagram.getCurrentErmodel().addGroup(group);
             } else {
                 ErrorDialog dialog =
-                        new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                "�S�̃r���[�ɃO���[�v�͐ݒ�ł��܂���B");
+                        new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "�S�̃r���[�ɃO���[�v�͐ݒ�ł��܂���B");
                 dialog.open();
             }
         } else {

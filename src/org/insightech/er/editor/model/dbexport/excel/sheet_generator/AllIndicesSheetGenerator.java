@@ -16,17 +16,16 @@ import org.insightech.er.util.POIUtils;
 public class AllIndicesSheetGenerator extends IndexSheetGenerator {
 
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) {
         this.clear();
 
         LoopDefinition loopDefinition = loopDefinitionMap.get(this.getTemplateSheetName());
 
         HSSFSheet newSheet = createNewSheet(workbook, sheetNo, loopDefinition.sheetName, sheetNameMap);
 
-        sheetObjectMap.put(workbook.getSheetName(workbook.getSheetIndex(newSheet)), diagram.getDiagramContents()
-                .getIndexSet());
+        sheetObjectMap.put(workbook.getSheetName(workbook.getSheetIndex(newSheet)), diagram.getDiagramContents().getIndexSet());
 
         HSSFSheet oldSheet = workbook.getSheetAt(sheetNo);
 
@@ -43,8 +42,8 @@ public class AllIndicesSheetGenerator extends IndexSheetGenerator {
                     first = false;
 
                 } else {
-                    POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(),
-                            newSheet.getLastRowNum() + loopDefinition.spaceLine + 1);
+                    POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(), newSheet.getLastRowNum()
+                            + loopDefinition.spaceLine + 1);
                 }
 
                 this.setIndexData(workbook, newSheet, index);

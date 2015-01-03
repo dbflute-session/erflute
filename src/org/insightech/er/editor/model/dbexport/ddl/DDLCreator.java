@@ -63,8 +63,7 @@ public abstract class DDLCreator {
         if (this.ddlTarget.dropTable) {
             ddl.append(this.getDropTables(diagram));
         }
-        if (this.ddlTarget.dropSequence
-                && DBManagerFactory.getDBManager(diagram).isSupported(DBManager.SUPPORT_SEQUENCE)) {
+        if (this.ddlTarget.dropSequence && DBManagerFactory.getDBManager(diagram).isSupported(DBManager.SUPPORT_SEQUENCE)) {
             ddl.append(this.getDropSequences(diagram));
         }
         if (this.ddlTarget.dropTablespace) {
@@ -228,8 +227,7 @@ public abstract class DDLCreator {
         if (this.ddlTarget.createTablespace) {
             ddl.append(this.getCreateTablespaces(diagram));
         }
-        if (this.ddlTarget.createSequence
-                && DBManagerFactory.getDBManager(diagram).isSupported(DBManager.SUPPORT_SEQUENCE)) {
+        if (this.ddlTarget.createSequence && DBManagerFactory.getDBManager(diagram).isSupported(DBManager.SUPPORT_SEQUENCE)) {
             ddl.append(this.getCreateSequences(diagram));
         }
         if (this.ddlTarget.createTable) {

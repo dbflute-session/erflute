@@ -35,8 +35,7 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
 
     private static final String KEYWORD_TABLE_CONSTRAINT = "$TCON";
 
-    private static final String[] FIND_KEYWORDS_OF_FK_COLUMN = { KEYWORD_LOGICAL_FOREIGN_KEY_NAME,
-            KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
+    private static final String[] FIND_KEYWORDS_OF_FK_COLUMN = { KEYWORD_LOGICAL_FOREIGN_KEY_NAME, KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
 
     private ColumnTemplate columnTemplate;
 
@@ -63,9 +62,9 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
      * {@inheritDoc}
      */
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) {
         this.clear();
 
         List<ERTable> nodeSet = null;
@@ -125,8 +124,7 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
                 order++;
             }
 
-            this.setCellStyle(columnTemplate, sheet, cellLocation.r, rowNum - cellLocation.r,
-                    templateRow.getFirstCellNum());
+            this.setCellStyle(columnTemplate, sheet, cellLocation.r, rowNum - cellLocation.r, templateRow.getFirstCellNum());
         }
 
         CellLocation fkCellLocation = POIUtils.findCell(sheet, FIND_KEYWORDS_OF_FK_COLUMN);
@@ -149,8 +147,7 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
                 }
             }
 
-            this.setCellStyle(this.fkColumnTemplate, sheet, fkCellLocation.r, rowNum - fkCellLocation.r,
-                    templateRow.getFirstCellNum());
+            this.setCellStyle(this.fkColumnTemplate, sheet, fkCellLocation.r, rowNum - fkCellLocation.r, templateRow.getFirstCellNum());
         }
 
         this.setIndexMatrix(workbook, sheet, table);
@@ -162,8 +159,7 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
 
         if (logicalIndexCellLocation != null) {
             if (this.logicalIndexMatrixCellStyle == null) {
-                this.logicalIndexMatrixCellStyle =
-                        this.createMatrixCellStyle(workbook, sheet, logicalIndexCellLocation);
+                this.logicalIndexMatrixCellStyle = this.createMatrixCellStyle(workbook, sheet, logicalIndexCellLocation);
             }
             setIndexMatrix(workbook, sheet, table, logicalIndexCellLocation, this.logicalIndexMatrixCellStyle, true);
         }
@@ -172,8 +168,7 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
 
         if (physicalIndexCellLocation != null) {
             if (this.physicalIndexMatrixCellStyle == null) {
-                this.physicalIndexMatrixCellStyle =
-                        this.createMatrixCellStyle(workbook, sheet, physicalIndexCellLocation);
+                this.physicalIndexMatrixCellStyle = this.createMatrixCellStyle(workbook, sheet, physicalIndexCellLocation);
             }
             setIndexMatrix(workbook, sheet, table, physicalIndexCellLocation, this.physicalIndexMatrixCellStyle, false);
         }
@@ -184,23 +179,20 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
 
         if (logicalCellLocation != null) {
             if (this.logicalComplexUniqueKeyMatrixCellStyle == null) {
-                this.logicalComplexUniqueKeyMatrixCellStyle =
-                        this.createMatrixCellStyle(workbook, sheet, logicalCellLocation);
+                this.logicalComplexUniqueKeyMatrixCellStyle = this.createMatrixCellStyle(workbook, sheet, logicalCellLocation);
             }
-            setComplexUniqueKeyMatrix(workbook, sheet, table, logicalCellLocation,
-                    this.logicalComplexUniqueKeyMatrixCellStyle, true);
+            setComplexUniqueKeyMatrix(workbook, sheet, table, logicalCellLocation, this.logicalComplexUniqueKeyMatrixCellStyle, true);
         }
 
         CellLocation physicalCellLocation = POIUtils.findCell(sheet, KEYWORD_PHYSICAL_COMPLEX_UNIQUE_KEY_MATRIX);
 
         if (physicalCellLocation != null) {
             if (this.physicalComplexUniqueKeyMatrixCellStyle == null) {
-                this.physicalComplexUniqueKeyMatrixCellStyle =
-                        this.createMatrixCellStyle(workbook, sheet, physicalCellLocation);
+                this.physicalComplexUniqueKeyMatrixCellStyle = this.createMatrixCellStyle(workbook, sheet, physicalCellLocation);
             }
 
-            this.setComplexUniqueKeyMatrix(workbook, sheet, table, physicalCellLocation,
-                    this.physicalComplexUniqueKeyMatrixCellStyle, false);
+            this.setComplexUniqueKeyMatrix(workbook, sheet, table, physicalCellLocation, this.physicalComplexUniqueKeyMatrixCellStyle,
+                    false);
         }
     }
 
@@ -210,8 +202,7 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
         font.setColor(HSSFColor.BLACK.index);
     }
 
-    private MatrixCellStyle createMatrixCellStyle(HSSFWorkbook workbook, HSSFSheet sheet,
-            CellLocation matrixCellLocation) {
+    private MatrixCellStyle createMatrixCellStyle(HSSFWorkbook workbook, HSSFSheet sheet, CellLocation matrixCellLocation) {
 
         int matrixRowNum = matrixCellLocation.r;
         int matrixColumnNum = matrixCellLocation.c;
@@ -223,42 +214,33 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
 
         matrixCellStyle.headerTemplateCellStyle = matrixHeaderTemplateCell.getCellStyle();
 
-        matrixCellStyle.style11 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, false, true, true, false);
+        matrixCellStyle.style11 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, false, true, true, false);
 
-        matrixCellStyle.style12 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, false, true, true, true);
+        matrixCellStyle.style12 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, false, true, true, true);
 
-        matrixCellStyle.style13 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, false, false, true, true);
+        matrixCellStyle.style13 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, false, false, true, true);
 
-        matrixCellStyle.style21 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, true, true, false);
+        matrixCellStyle.style21 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, true, true, false);
 
-        matrixCellStyle.style22 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, true, true, true);
+        matrixCellStyle.style22 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, true, true, true);
         this.setIndexMatrixColor(workbook, matrixCellStyle.style22);
 
-        matrixCellStyle.style23 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, false, true, true);
+        matrixCellStyle.style23 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, false, true, true);
         this.setIndexMatrixColor(workbook, matrixCellStyle.style23);
 
-        matrixCellStyle.style31 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, true, false, false);
+        matrixCellStyle.style31 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, true, false, false);
 
-        matrixCellStyle.style32 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, true, false, true);
+        matrixCellStyle.style32 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, true, false, true);
         this.setIndexMatrixColor(workbook, matrixCellStyle.style32);
 
-        matrixCellStyle.style33 =
-                this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, false, false, true);
+        matrixCellStyle.style33 = this.createMatrixCellStyle(workbook, matrixCellStyle.headerTemplateCellStyle, true, false, false, true);
         this.setIndexMatrixColor(workbook, matrixCellStyle.style33);
 
         return matrixCellStyle;
     }
 
-    private HSSFCellStyle createMatrixCellStyle(HSSFWorkbook workbook, HSSFCellStyle matrixHeaderTemplateCellStyle,
-            boolean top, boolean right, boolean bottom, boolean left) {
+    private HSSFCellStyle createMatrixCellStyle(HSSFWorkbook workbook, HSSFCellStyle matrixHeaderTemplateCellStyle, boolean top,
+            boolean right, boolean bottom, boolean left) {
         HSSFCellStyle cellStyle = POIUtils.copyCellStyle(workbook, matrixHeaderTemplateCellStyle);
 
         if (top) {
@@ -377,8 +359,8 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
         }
     }
 
-    private void setComplexUniqueKeyMatrix(HSSFWorkbook workbook, HSSFSheet sheet, ERTable table,
-            CellLocation cellLocation, MatrixCellStyle matrixCellStyle, boolean isLogical) {
+    private void setComplexUniqueKeyMatrix(HSSFWorkbook workbook, HSSFSheet sheet, ERTable table, CellLocation cellLocation,
+            MatrixCellStyle matrixCellStyle, boolean isLogical) {
 
         int rowNum = cellLocation.r;
         int columnNum = cellLocation.c;
@@ -411,8 +393,7 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
 
             } else {
                 ComplexUniqueKey complexUniqueKey = table.getComplexUniqueKeyList().get(i - 1);
-                HSSFRichTextString text =
-                        new HSSFRichTextString(Format.null2blank(complexUniqueKey.getUniqueKeyName()));
+                HSSFRichTextString text = new HSSFRichTextString(Format.null2blank(complexUniqueKey.getUniqueKeyName()));
                 cell.setCellValue(text);
 
                 if (i != num) {
@@ -488,14 +469,13 @@ public class TableSheetGenerator extends AbstractSheetGenerator {
 
     @Override
     public String[] getKeywords() {
-        return new String[] { KEYWORD_LOGICAL_TABLE_NAME, KEYWORD_PHYSICAL_TABLE_NAME, KEYWORD_TABLE_DESCRIPTION,
-                KEYWORD_TABLE_CONSTRAINT, KEYWORD_ORDER, KEYWORD_LOGICAL_COLUMN_NAME, KEYWORD_PHYSICAL_COLUMN_NAME,
-                KEYWORD_TYPE, KEYWORD_LENGTH, KEYWORD_DECIMAL, KEYWORD_PRIMARY_KEY, KEYWORD_NOT_NULL,
-                KEYWORD_UNIQUE_KEY, KEYWORD_FOREIGN_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE_KEY,
-                KEYWORD_PHYSICAL_REFERENCE_TABLE_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE,
-                KEYWORD_PHYSICAL_REFERENCE_TABLE, KEYWORD_LOGICAL_REFERENCE_KEY, KEYWORD_PHYSICAL_REFERENCE_KEY,
-                KEYWORD_AUTO_INCREMENT, KEYWORD_DEFAULT_VALUE, KEYWORD_DESCRIPTION, KEYWORD_LOGICAL_INDEX_MATRIX,
-                KEYWORD_PHYSICAL_INDEX_MATRIX, KEYWORD_LOGICAL_FOREIGN_KEY_NAME, KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
+        return new String[] { KEYWORD_LOGICAL_TABLE_NAME, KEYWORD_PHYSICAL_TABLE_NAME, KEYWORD_TABLE_DESCRIPTION, KEYWORD_TABLE_CONSTRAINT,
+                KEYWORD_ORDER, KEYWORD_LOGICAL_COLUMN_NAME, KEYWORD_PHYSICAL_COLUMN_NAME, KEYWORD_TYPE, KEYWORD_LENGTH, KEYWORD_DECIMAL,
+                KEYWORD_PRIMARY_KEY, KEYWORD_NOT_NULL, KEYWORD_UNIQUE_KEY, KEYWORD_FOREIGN_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE_KEY,
+                KEYWORD_PHYSICAL_REFERENCE_TABLE_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE, KEYWORD_PHYSICAL_REFERENCE_TABLE,
+                KEYWORD_LOGICAL_REFERENCE_KEY, KEYWORD_PHYSICAL_REFERENCE_KEY, KEYWORD_AUTO_INCREMENT, KEYWORD_DEFAULT_VALUE,
+                KEYWORD_DESCRIPTION, KEYWORD_LOGICAL_INDEX_MATRIX, KEYWORD_PHYSICAL_INDEX_MATRIX, KEYWORD_LOGICAL_FOREIGN_KEY_NAME,
+                KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
     }
 
     @Override

@@ -50,8 +50,7 @@ public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(ResourceString.getResourceString("label.index") + " (" + this.getModelChildren().size()
-                + ")");
+        this.setWidgetText(ResourceString.getResourceString("label.index") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 

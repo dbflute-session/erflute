@@ -60,8 +60,7 @@ public class GlobalGroupSet {
                         Word word = new Word(physicalName, logicalName, sqlType, typeData, description, database);
 
                         NormalColumn column =
-                                new NormalColumn(word, notNull, false, unique, false, defaultValue, constraint, null,
-                                        null, null);
+                                new NormalColumn(word, notNull, false, unique, false, defaultValue, constraint, null, null, null);
 
                         columnGroup.addColumn(column);
                     }

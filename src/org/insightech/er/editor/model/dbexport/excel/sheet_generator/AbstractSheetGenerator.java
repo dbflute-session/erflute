@@ -91,16 +91,14 @@ public abstract class AbstractSheetGenerator {
 
     protected static final String KEYWORD_TABLE_DESCRIPTION = "$TDSC";
 
-    private static final String[] KEYWORDS_OF_COLUMN = { KEYWORD_ORDER, KEYWORD_LOGICAL_TABLE_NAME,
-            KEYWORD_PHYSICAL_TABLE_NAME, KEYWORD_LOGICAL_COLUMN_NAME, KEYWORD_PHYSICAL_COLUMN_NAME, KEYWORD_TYPE,
-            KEYWORD_LENGTH, KEYWORD_DECIMAL, KEYWORD_PRIMARY_KEY, KEYWORD_NOT_NULL, KEYWORD_UNIQUE_KEY,
-            KEYWORD_FOREIGN_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE_KEY, KEYWORD_PHYSICAL_REFERENCE_TABLE_KEY,
-            KEYWORD_LOGICAL_REFERENCE_TABLE, KEYWORD_PHYSICAL_REFERENCE_TABLE, KEYWORD_LOGICAL_REFERENCE_KEY,
-            KEYWORD_PHYSICAL_REFERENCE_KEY, KEYWORD_AUTO_INCREMENT, KEYWORD_DEFAULT_VALUE, KEYWORD_DESCRIPTION,
-            KEYWORD_LOGICAL_FOREIGN_KEY_NAME, KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
+    private static final String[] KEYWORDS_OF_COLUMN = { KEYWORD_ORDER, KEYWORD_LOGICAL_TABLE_NAME, KEYWORD_PHYSICAL_TABLE_NAME,
+            KEYWORD_LOGICAL_COLUMN_NAME, KEYWORD_PHYSICAL_COLUMN_NAME, KEYWORD_TYPE, KEYWORD_LENGTH, KEYWORD_DECIMAL, KEYWORD_PRIMARY_KEY,
+            KEYWORD_NOT_NULL, KEYWORD_UNIQUE_KEY, KEYWORD_FOREIGN_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE_KEY,
+            KEYWORD_PHYSICAL_REFERENCE_TABLE_KEY, KEYWORD_LOGICAL_REFERENCE_TABLE, KEYWORD_PHYSICAL_REFERENCE_TABLE,
+            KEYWORD_LOGICAL_REFERENCE_KEY, KEYWORD_PHYSICAL_REFERENCE_KEY, KEYWORD_AUTO_INCREMENT, KEYWORD_DEFAULT_VALUE,
+            KEYWORD_DESCRIPTION, KEYWORD_LOGICAL_FOREIGN_KEY_NAME, KEYWORD_PHYSICAL_FOREIGN_KEY_NAME };
 
-    protected static final String[] FIND_KEYWORDS_OF_COLUMN = { KEYWORD_LOGICAL_COLUMN_NAME,
-            KEYWORD_PHYSICAL_COLUMN_NAME };
+    protected static final String[] FIND_KEYWORDS_OF_COLUMN = { KEYWORD_LOGICAL_COLUMN_NAME, KEYWORD_PHYSICAL_COLUMN_NAME };
 
     protected Map<String, String> keywordsValueMap;
 
@@ -194,21 +192,17 @@ public abstract class AbstractSheetGenerator {
         }
     }
 
-    private String getColumnValue(Map<String, String> keywordsValueMap, NormalColumn normalColumn, TableView tableView,
-            String template) {
+    private String getColumnValue(Map<String, String> keywordsValueMap, NormalColumn normalColumn, TableView tableView, String template) {
         String str = template;
 
         for (String keyword : KEYWORDS_OF_COLUMN) {
-            str =
-                    str.replaceAll("\\" + keyword,
-                            this.getKeywordValue(keywordsValueMap, normalColumn, tableView, keyword));
+            str = str.replaceAll("\\" + keyword, this.getKeywordValue(keywordsValueMap, normalColumn, tableView, keyword));
         }
 
         return str;
     }
 
-    private String getKeywordValue(Map<String, String> keywordsValueMap, NormalColumn normalColumn,
-            TableView tableView, String keyword) {
+    private String getKeywordValue(Map<String, String> keywordsValueMap, NormalColumn normalColumn, TableView tableView, String keyword) {
         Object obj = null;
 
         if (KEYWORD_LOGICAL_TABLE_NAME.equals(keyword)) {
@@ -261,9 +255,7 @@ public abstract class AbstractSheetGenerator {
                 Relation relation = relationList.get(0);
 
                 TableView referencedTable = relation.getSourceTableView();
-                obj =
-                        referencedTable.getLogicalName() + "."
-                                + normalColumn.getReferencedColumn(relation).getLogicalName();
+                obj = referencedTable.getLogicalName() + "." + normalColumn.getReferencedColumn(relation).getLogicalName();
             }
 
         } else if (KEYWORD_PHYSICAL_REFERENCE_TABLE_KEY.equals(keyword)) {
@@ -276,9 +268,7 @@ public abstract class AbstractSheetGenerator {
                 Relation relation = relationList.get(0);
 
                 TableView referencedTable = relation.getSourceTableView();
-                obj =
-                        referencedTable.getPhysicalName() + "."
-                                + normalColumn.getReferencedColumn(relation).getPhysicalName();
+                obj = referencedTable.getPhysicalName() + "." + normalColumn.getReferencedColumn(relation).getPhysicalName();
             }
 
         } else if (KEYWORD_LOGICAL_REFERENCE_TABLE.equals(keyword)) {
@@ -392,8 +382,7 @@ public abstract class AbstractSheetGenerator {
         return columnTemplate;
     }
 
-    protected void setCellStyle(ColumnTemplate columnTemplate, HSSFSheet sheet, int firstRowNum, int rowSize,
-            int firstColNum) {
+    protected void setCellStyle(ColumnTemplate columnTemplate, HSSFSheet sheet, int firstRowNum, int rowSize, int firstColNum) {
 
         sheet.removeRow(sheet.getRow(firstRowNum + rowSize));
 
@@ -444,8 +433,7 @@ public abstract class AbstractSheetGenerator {
                     if (bottomRowCell != null) {
                         HSSFCellStyle bottomRowCellStyle = bottomRowCell.getCellStyle();
                         if (columnTemplate.bottomRowCellStyleList.get(i) != null) {
-                            bottomRowCellStyle.setBorderBottom(columnTemplate.bottomRowCellStyleList.get(i)
-                                    .getBorderBottom());
+                            bottomRowCellStyle.setBorderBottom(columnTemplate.bottomRowCellStyleList.get(i).getBorderBottom());
                         }
                     }
                 }
@@ -459,8 +447,7 @@ public abstract class AbstractSheetGenerator {
         }
     }
 
-    public static HSSFSheet createNewSheet(HSSFWorkbook workbook, int sheetNo, String name,
-            Map<String, Integer> sheetNameMap) {
+    public static HSSFSheet createNewSheet(HSSFWorkbook workbook, int sheetNo, String name, Map<String, Integer> sheetNameMap) {
         HSSFSheet sheet = workbook.cloneSheet(sheetNo);
         int newSheetNo = workbook.getSheetIndex(sheet);
 
@@ -497,10 +484,9 @@ public abstract class AbstractSheetGenerator {
         this.keywordsValueMap = this.buildKeywordsValueMap(wordsSheet, this.getKeywordsColumnNo(), this.getKeywords());
     }
 
-    public abstract void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap)
-            throws InterruptedException;
+    public abstract void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) throws InterruptedException;
 
     public abstract int count(ERDiagram diagram);
 

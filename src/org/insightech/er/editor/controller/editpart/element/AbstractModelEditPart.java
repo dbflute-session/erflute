@@ -60,8 +60,7 @@ public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart im
     public final void propertyChange(PropertyChangeEvent event) {
         try {
             if (DEBUG) {
-                logger.log(Level.INFO,
-                        this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
+                logger.log(Level.INFO, this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
             }
 
             this.doPropertyChange(event);

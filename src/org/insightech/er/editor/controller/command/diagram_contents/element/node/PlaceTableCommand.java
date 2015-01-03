@@ -35,8 +35,7 @@ public class PlaceTableCommand extends AbstractCommand {
 
         if (orgTables != null) {
             // �����z�u
-            EROneDiagramEditor modelEditor =
-                    (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
 
             Point cursorLocation = Display.getCurrent().getCursorLocation();
             Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
@@ -108,8 +107,7 @@ public class PlaceTableCommand extends AbstractCommand {
                 model.remove(vtable);
             }
 
-            EROneDiagramEditor modelEditor =
-                    (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         } else {
             ERModel model = orgTable.getDiagram().getCurrentErmodel();

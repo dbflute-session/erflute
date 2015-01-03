@@ -107,27 +107,24 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
                             x = bounds.x + (bounds.width * xp / 100);
                         }
 
-                        point.setRelativeDimensions(new Dimension(width * bendPoint.getX() / 100 - bounds.x
-                                - bounds.width + x, 0), new Dimension(width * bendPoint.getX() / 100 - bounds.x
-                                - bounds.width + x, 0));
+                        point.setRelativeDimensions(new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x, 0),
+                                new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x, 0));
                         point.setWeight(0);
                         point.setConnection(this.getConnectionFigure());
 
                         constraint.add(point);
 
                         point = new RelativeBendpoint();
-                        point.setRelativeDimensions(new Dimension(width * bendPoint.getX() / 100 - bounds.x
-                                - bounds.width + x, height * bendPoint.getY() / 100),
-                                new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x, height
-                                        * bendPoint.getY() / 100));
+                        point.setRelativeDimensions(new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x, height
+                                * bendPoint.getY() / 100), new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x,
+                                height * bendPoint.getY() / 100));
                         point.setWeight(0);
                         point.setConnection(this.getConnectionFigure());
 
                         constraint.add(point);
 
                         point = new RelativeBendpoint();
-                        point.setRelativeDimensions(
-                                new Dimension(x - bounds.x - bounds.width, height * bendPoint.getY() / 100),
+                        point.setRelativeDimensions(new Dimension(x - bounds.x - bounds.width, height * bendPoint.getY() / 100),
                                 new Dimension(x - bounds.x - bounds.width, height * bendPoint.getY() / 100));
                         point.setWeight(0);
                         point.setConnection(this.getConnectionFigure());
@@ -164,8 +161,7 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
             String notation = diagram.getDiagramContents().getSettings().getNotation();
 
             Decoration decoration =
-                    DecorationFactory.getDecoration(notation, relation.getParentCardinality(),
-                            relation.getChildCardinality());
+                    DecorationFactory.getDecoration(notation, relation.getParentCardinality(), relation.getChildCardinality());
 
             connection.setSourceDecoration(decoration.getSourceDecoration());
             connection.setTargetDecoration(decoration.getTargetDecoration());
@@ -187,8 +183,7 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             Relation copy = relation.copy();
 
-            RelationDialog dialog =
-                    new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
+            RelationDialog dialog = new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(relation, copy);

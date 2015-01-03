@@ -112,8 +112,7 @@ public class SequenceDialog extends AbstractDialog {
         }
 
         this.descriptionText =
-                CompositeFactory.createTextArea(this, composite, "label.description", Resources.DESCRIPTION_WIDTH, 100,
-                        4, true);
+                CompositeFactory.createTextArea(this, composite, "label.description", Resources.DESCRIPTION_WIDTH, 100, 4, true);
     }
 
     @Override

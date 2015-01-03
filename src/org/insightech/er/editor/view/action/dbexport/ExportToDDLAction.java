@@ -26,8 +26,8 @@ public class ExportToDDLAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
 
         ExportToDDLDialog dialog =
-                new ExportToDDLDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram,
-                        this.getEditorPart(), this.getGraphicalViewer());
+                new ExportToDDLDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, this.getEditorPart(),
+                        this.getGraphicalViewer());
 
         dialog.open();
 

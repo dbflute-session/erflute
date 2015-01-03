@@ -37,9 +37,7 @@ public class ExportToDBDialog extends AbstractDialog {
 
     @Override
     protected void initialize(Composite composite) {
-        this.textArea =
-                CompositeFactory.createTextArea(null, composite, "dialog.message.export.db.sql", 600, 400, 1, false,
-                        false);
+        this.textArea = CompositeFactory.createTextArea(null, composite, "dialog.message.export.db.sql", 600, 400, 1, false, false);
     }
 
     /**
@@ -47,8 +45,7 @@ public class ExportToDBDialog extends AbstractDialog {
      */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        this.createButton(parent, IDialogConstants.OK_ID, ResourceString.getResourceString("label.button.execute"),
-                true);
+        this.createButton(parent, IDialogConstants.OK_ID, ResourceString.getResourceString("label.button.execute"), true);
     }
 
     @Override

@@ -15,8 +15,7 @@ public class ZoomAdjustAction extends Action implements ZoomListener, Disposable
     protected ZoomManager zoomManager;
 
     public ZoomAdjustAction(ZoomManager zoomManager) {
-        super(ResourceString.getResourceString("action.title.zoom.adjust"), Activator
-                .getImageDescriptor(ImageKey.ZOOM_ADJUST));
+        super(ResourceString.getResourceString("action.title.zoom.adjust"), Activator.getImageDescriptor(ImageKey.ZOOM_ADJUST));
         this.zoomManager = zoomManager;
         zoomManager.addZoomListener(this);
 

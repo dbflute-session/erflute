@@ -80,8 +80,7 @@ public class ERDiagramElementStateListener implements IElementStateListener {
                         if (previousUndoManager != null) {
                             IDocument newDocument = documentProvider.getDocument(movedElement);
                             if (newDocument != null) {
-                                IDocumentUndoManager newUndoManager =
-                                        DocumentUndoManagerRegistry.getDocumentUndoManager(newDocument);
+                                IDocumentUndoManager newUndoManager = DocumentUndoManagerRegistry.getDocumentUndoManager(newDocument);
                                 if (newUndoManager != null)
                                     newUndoManager.transferUndoHistory(previousUndoManager);
                             }

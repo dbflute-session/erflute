@@ -47,8 +47,7 @@ public class TablespaceHtmlReportPageGenerator extends AbstractHtmlReportPageGen
 
         String environments = this.generateEnvironmentTable(diagram, tablespace);
 
-        Tablespace defaultTablespace =
-                diagram.getDiagramContents().getSettings().getTableViewProperties().getTableSpace();
+        Tablespace defaultTablespace = diagram.getDiagramContents().getSettings().getTableViewProperties().getTableSpace();
 
         List<TableView> usedTableList = new ArrayList<TableView>();
 
@@ -89,8 +88,7 @@ public class TablespaceHtmlReportPageGenerator extends AbstractHtmlReportPageGen
 
         String template = ExportToHtmlManager.getTemplate("types/environment_row_template.html");
 
-        for (Environment environment : diagram.getDiagramContents().getSettings().getEnvironmentSetting()
-                .getEnvironments()) {
+        for (Environment environment : diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments()) {
             TablespaceProperties properties = tablespace.getPropertiesMap().get(environment);
             if (properties == null) {
                 continue;

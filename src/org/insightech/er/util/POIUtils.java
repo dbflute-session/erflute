@@ -352,8 +352,7 @@ public class POIUtils {
         return regionList;
     }
 
-    public static void copyRow(HSSFSheet oldSheet, HSSFSheet newSheet, int oldStartRowNum, int oldEndRowNum,
-            int newStartRowNum) {
+    public static void copyRow(HSSFSheet oldSheet, HSSFSheet newSheet, int oldStartRowNum, int oldEndRowNum, int newStartRowNum) {
         HSSFRow oldAboveRow = oldSheet.getRow(oldStartRowNum - 1);
 
         int newRowNum = newStartRowNum;
@@ -421,8 +420,7 @@ public class POIUtils {
 
     public static void copyMergedRegion(HSSFSheet sheet, List<CellRangeAddress> regionList, int rowNum) {
         for (CellRangeAddress region : regionList) {
-            CellRangeAddress address =
-                    new CellRangeAddress(rowNum, rowNum, region.getFirstColumn(), region.getLastColumn());
+            CellRangeAddress address = new CellRangeAddress(rowNum, rowNum, region.getFirstColumn(), region.getLastColumn());
             sheet.addMergedRegion(address);
         }
     }

@@ -37,8 +37,7 @@ public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
                                 }
                             }
 
-                            ChangeTableViewPropertyCommand command =
-                                    new ChangeTableViewPropertyCommand(table, newCopyTable);
+                            ChangeTableViewPropertyCommand command = new ChangeTableViewPropertyCommand(table, newCopyTable);
 
                             return command;
                         }
@@ -58,8 +57,7 @@ public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
                             }
                         }
 
-                        ChangeTableViewPropertyCommand command =
-                                new ChangeTableViewPropertyCommand(table, newCopyTable);
+                        ChangeTableViewPropertyCommand command = new ChangeTableViewPropertyCommand(table, newCopyTable);
 
                         return command;
                     }

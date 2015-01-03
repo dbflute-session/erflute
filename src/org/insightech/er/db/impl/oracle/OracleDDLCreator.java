@@ -72,8 +72,7 @@ public class OracleDDLCreator extends DDLCreator {
                 ColumnGroup columnGroup = (ColumnGroup) column;
 
                 for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                    String comment =
-                            this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                    String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                     if (!Check.isEmpty(comment)) {
                         StringBuilder ddl = new StringBuilder();

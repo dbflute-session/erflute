@@ -19,8 +19,7 @@ public class AdvancedTabWrapper extends ValidatableTabWrapper {
 
     private AdvancedComposite composite;
 
-    public AdvancedTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, Settings settings,
-            ERDiagram diagram) {
+    public AdvancedTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, Settings settings, ERDiagram diagram) {
         super(dialog, parent, style, "label.advanced.settings");
 
         this.diagram = diagram;
@@ -48,10 +47,8 @@ public class AdvancedTabWrapper extends ValidatableTabWrapper {
             this.composite.dispose();
         }
 
-        this.composite =
-                EclipseDBManagerFactory.getEclipseDBManager(this.settings.getDatabase()).createAdvancedComposite(this);
-        this.composite.initialize(this.dialog, (TableProperties) this.settings.getTableViewProperties(), this.diagram,
-                null);
+        this.composite = EclipseDBManagerFactory.getEclipseDBManager(this.settings.getDatabase()).createAdvancedComposite(this);
+        this.composite.initialize(this.dialog, (TableProperties) this.settings.getTableViewProperties(), this.diagram, null);
 
         this.pack();
     }

@@ -21,8 +21,8 @@ public class NoteEditorLocator implements CellEditorLocator {
         Rectangle rect = this.figure.getBounds().getCopy();
         this.figure.translateToAbsolute(rect);
 
-        text.setBounds(rect.x + NoteFigure.RETURN_WIDTH, rect.y + NoteFigure.RETURN_WIDTH, rect.width
-                - NoteFigure.RETURN_WIDTH * 2, rect.height - NoteFigure.RETURN_WIDTH * 2);
+        text.setBounds(rect.x + NoteFigure.RETURN_WIDTH, rect.y + NoteFigure.RETURN_WIDTH, rect.width - NoteFigure.RETURN_WIDTH * 2,
+                rect.height - NoteFigure.RETURN_WIDTH * 2);
     }
 
 }

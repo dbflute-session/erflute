@@ -66,8 +66,7 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
         Point point = bendpointrequest.getLocation();
         this.getConnection().translateToRelative(point);
 
-        MoveBendpointCommand command =
-                new MoveBendpointCommand(editPart, point.x, point.y, bendpointrequest.getIndex());
+        MoveBendpointCommand command = new MoveBendpointCommand(editPart, point.x, point.y, bendpointrequest.getIndex());
 
         return command;
     }

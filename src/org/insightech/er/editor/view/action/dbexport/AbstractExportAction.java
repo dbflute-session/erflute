@@ -41,8 +41,7 @@ public abstract class AbstractExportAction extends AbstractBaseAction {
         File file = new File(saveFilePath);
         if (file.exists()) {
             MessageBox messageBox =
-                    new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING
-                            | SWT.OK | SWT.CANCEL);
+                    new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
             messageBox.setText(ResourceString.getResourceString("dialog.title.warning"));
             messageBox.setMessage(ResourceString.getResourceString(this.getConfirmOverrideMessage()));
 

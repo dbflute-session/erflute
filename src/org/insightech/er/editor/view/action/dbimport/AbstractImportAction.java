@@ -33,8 +33,8 @@ public abstract class AbstractImportAction extends AbstractBaseAction {
 
         if (this.importedNodeElements != null) {
             ImportTableCommand command =
-                    new ImportTableCommand(diagram, this.importedNodeElements, this.importedSequences,
-                            this.importedTriggers, this.importedTablespaces, this.importedColumnGroups);
+                    new ImportTableCommand(diagram, this.importedNodeElements, this.importedSequences, this.importedTriggers,
+                            this.importedTablespaces, this.importedColumnGroups);
 
             this.execute(command);
         }

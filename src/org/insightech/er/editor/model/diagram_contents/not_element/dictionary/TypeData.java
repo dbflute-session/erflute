@@ -18,8 +18,7 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
 
     private String args;
 
-    public TypeData(Integer length, Integer decimal, boolean array, Integer arrayDimension, boolean unsigned,
-            String args) {
+    public TypeData(Integer length, Integer decimal, boolean array, Integer arrayDimension, boolean unsigned, String args) {
         super();
         this.length = length;
         this.decimal = decimal;

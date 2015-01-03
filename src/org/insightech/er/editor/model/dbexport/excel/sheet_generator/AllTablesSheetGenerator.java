@@ -17,9 +17,9 @@ import org.insightech.er.util.POIUtils;
 public class AllTablesSheetGenerator extends TableSheetGenerator {
 
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) {
         this.clear();
 
         LoopDefinition loopDefinition = loopDefinitionMap.get(this.getTemplateSheetName());
@@ -45,8 +45,8 @@ public class AllTablesSheetGenerator extends TableSheetGenerator {
                 first = false;
 
             } else {
-                POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(),
-                        newSheet.getLastRowNum() + loopDefinition.spaceLine + 1);
+                POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(), newSheet.getLastRowNum()
+                        + loopDefinition.spaceLine + 1);
             }
 
             this.setTableData(workbook, newSheet, table);

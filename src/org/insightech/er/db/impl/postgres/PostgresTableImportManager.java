@@ -79,9 +79,8 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
         try {
             ps =
                     con.prepareStatement("select atttypmod from pg_attribute" + " inner join pg_stat_user_tables "
-                            + " on pg_stat_user_tables.relid = pg_attribute.attrelid "
-                            + " where pg_stat_user_tables.relname = ? " + " and pg_stat_user_tables.schemaname=? "
-                            + " and pg_attribute.attname = ?");
+                            + " on pg_stat_user_tables.relid = pg_attribute.attrelid " + " where pg_stat_user_tables.relname = ? "
+                            + " and pg_stat_user_tables.schemaname=? " + " and pg_attribute.attname = ?");
 
             ps.setString(1, tableName);
             ps.setString(2, schema);

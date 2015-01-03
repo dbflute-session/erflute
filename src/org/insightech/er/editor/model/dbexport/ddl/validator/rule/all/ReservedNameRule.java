@@ -25,8 +25,8 @@ public class ReservedNameRule extends BaseRule {
 
                 if (dbManager.isReservedWord(indexName)) {
                     ValidateResult validateResult = new ValidateResult();
-                    validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name")
-                            + " [INDEX] " + indexName + " (" + table.getLogicalName() + ")");
+                    validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [INDEX] " + indexName
+                            + " (" + table.getLogicalName() + ")");
                     validateResult.setLocation(indexName);
                     validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                     validateResult.setObject(index);
@@ -41,8 +41,7 @@ public class ReservedNameRule extends BaseRule {
 
             if (dbManager.isReservedWord(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name")
-                        + " [SEQUENCE] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [SEQUENCE] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(sequence);
@@ -56,8 +55,7 @@ public class ReservedNameRule extends BaseRule {
 
             if (dbManager.isReservedWord(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [VIEW] "
-                        + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [VIEW] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(view);
@@ -71,8 +69,7 @@ public class ReservedNameRule extends BaseRule {
 
             if (dbManager.isReservedWord(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name")
-                        + " [TRIGGER] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [TRIGGER] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(trigger);

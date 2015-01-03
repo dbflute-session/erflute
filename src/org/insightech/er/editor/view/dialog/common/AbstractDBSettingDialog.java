@@ -112,8 +112,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         this.url = CompositeFactory.createText(null, group, "label.url", 1, -1, SWT.BORDER | SWT.READ_ONLY, false);
 
         this.driverClassName =
-                CompositeFactory.createText(null, group, "label.driver.class.name", 1, -1, SWT.BORDER | SWT.READ_ONLY,
-                        false);
+                CompositeFactory.createText(null, group, "label.driver.class.name", 1, -1, SWT.BORDER | SWT.READ_ONLY, false);
     }
 
     @Override
@@ -121,11 +120,9 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         this.createButton(parent, 0, IDialogConstants.NEXT_LABEL, true);
         this.createButton(parent, 1, IDialogConstants.CANCEL_LABEL, false);
         this.settingListButton =
-                createButton(parent, IDialogConstants.OPEN_ID,
-                        ResourceString.getResourceString("label.load.database.setting"), false);
+                createButton(parent, IDialogConstants.OPEN_ID, ResourceString.getResourceString("label.load.database.setting"), false);
         this.settingAddButton =
-                createButton(parent, IDialogConstants.YES_ID,
-                        ResourceString.getResourceString("label.load.database.setting.add"), false);
+                createButton(parent, IDialogConstants.YES_ID, ResourceString.getResourceString("label.load.database.setting.add"), false);
     }
 
     public String getDBSName() {
@@ -374,8 +371,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
                         database = diagram.getDatabase();
                     }
                     DBSettingListDialog dialog =
-                            new DBSettingListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                    database);
+                            new DBSettingListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), database);
 
                     if (dialog.open() == IDialogConstants.OK_ID) {
                         dbSetting = dialog.getResult();
@@ -432,8 +428,8 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         }
 
         this.dbSetting =
-                new DBSetting(database, serverName, port, dbName, this.getUserName(), this.getPassword(),
-                        useDefaultDriver, url, driverClassName);
+                new DBSetting(database, serverName, port, dbName, this.getUserName(), this.getPassword(), useDefaultDriver, url,
+                        driverClassName);
 
         PreferenceInitializer.saveSetting(0, this.dbSetting);
     }

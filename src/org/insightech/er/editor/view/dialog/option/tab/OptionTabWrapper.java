@@ -45,8 +45,7 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
         this.setLayout(layout);
 
         this.autoImeChangeCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.auto.ime.change");
-        this.validatePhysicalNameCheck =
-                CompositeFactory.createCheckbox(this.dialog, this, "label.validate.physical.name");
+        this.validatePhysicalNameCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.validate.physical.name");
         this.useBezierCurveCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.use.bezier.curve");
         this.suspendValidatorCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.suspend.validator");
 

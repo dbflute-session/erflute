@@ -259,8 +259,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
     private void changeDatabase(PropertyChangeEvent event) {
 
         MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION
-                        | SWT.OK | SWT.CANCEL);
+                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
         messageBox.setText(ResourceString.getResourceString("dialog.title.change.database"));
         messageBox.setMessage(ResourceString.getResourceString("dialog.message.change.database"));
 

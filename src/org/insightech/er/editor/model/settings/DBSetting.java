@@ -37,8 +37,8 @@ public class DBSetting implements Serializable, Comparable<DBSetting> {
         return dbsystem;
     }
 
-    public DBSetting(String dbsystem, String server, int port, String database, String user, String password,
-            boolean useDefaultDriver, String url, String driverClassName) {
+    public DBSetting(String dbsystem, String server, int port, String database, String user, String password, boolean useDefaultDriver,
+            String url, String driverClassName) {
         this.dbsystem = dbsystem;
         this.server = server;
         this.port = port;

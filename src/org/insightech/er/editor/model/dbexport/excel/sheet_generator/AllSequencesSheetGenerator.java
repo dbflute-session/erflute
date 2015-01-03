@@ -15,16 +15,15 @@ import org.insightech.er.util.POIUtils;
 public class AllSequencesSheetGenerator extends SequenceSheetGenerator {
 
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) {
 
         LoopDefinition loopDefinition = loopDefinitionMap.get(this.getTemplateSheetName());
 
         HSSFSheet newSheet = createNewSheet(workbook, sheetNo, loopDefinition.sheetName, sheetNameMap);
 
-        sheetObjectMap.put(workbook.getSheetName(workbook.getSheetIndex(newSheet)), diagram.getDiagramContents()
-                .getSequenceSet());
+        sheetObjectMap.put(workbook.getSheetName(workbook.getSheetIndex(newSheet)), diagram.getDiagramContents().getSequenceSet());
 
         HSSFSheet oldSheet = workbook.getSheetAt(sheetNo);
 
@@ -35,8 +34,8 @@ public class AllSequencesSheetGenerator extends SequenceSheetGenerator {
                 first = false;
 
             } else {
-                POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(),
-                        newSheet.getLastRowNum() + loopDefinition.spaceLine + 1);
+                POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(), newSheet.getLastRowNum()
+                        + loopDefinition.spaceLine + 1);
             }
 
             this.setSequenceData(workbook, newSheet, sequence);

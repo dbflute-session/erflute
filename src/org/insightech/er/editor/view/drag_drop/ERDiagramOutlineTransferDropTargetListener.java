@@ -26,22 +26,19 @@ public class ERDiagramOutlineTransferDropTargetListener extends AbstractTransfer
         Object object = this.getTargetModel();
 
         if (object instanceof Map) {
-            DirectEditRequest request =
-                    new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP);
+            DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP);
             request.setDirectEditFeature(object);
             request.setLocation(this.getDropLocation());
             return request;
 
         } else if (object instanceof Word) {
-            DirectEditRequest request =
-                    new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD);
+            DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD);
             request.setDirectEditFeature(object);
             request.setLocation(this.getDropLocation());
             return request;
 
         } else if (object instanceof NormalColumn) {
-            DirectEditRequest request =
-                    new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN);
+            DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN);
             request.setDirectEditFeature(object);
             request.setLocation(this.getDropLocation());
             return request;

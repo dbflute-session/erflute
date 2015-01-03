@@ -28,8 +28,8 @@ public class SearchAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
 
         SearchDialog dialog =
-                new SearchDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                        this.getGraphicalViewer(), getEditorPart(), diagram);
+                new SearchDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getGraphicalViewer(),
+                        getEditorPart(), diagram);
 
         dialog.open();
     }

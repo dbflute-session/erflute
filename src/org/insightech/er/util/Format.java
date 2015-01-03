@@ -17,8 +17,8 @@ public class Format {
                     type = type.replaceAll("\\(.,.\\)", "(" + typeData.getLength() + "," + typeData.getDecimal() + ")");
 
                     type =
-                            type.replaceFirst("\\([a-z]\\)", "(" + typeData.getLength() + ")").replaceFirst(
-                                    "\\([a-z]\\)", "(" + typeData.getDecimal() + ")");
+                            type.replaceFirst("\\([a-z]\\)", "(" + typeData.getLength() + ")").replaceFirst("\\([a-z]\\)",
+                                    "(" + typeData.getDecimal() + ")");
 
                 } else if (typeData.getLength() != null) {
                     String len = null;

@@ -21,9 +21,8 @@ public class FullTextIndexRule extends TableRule {
                     if (!indexColumn.isFullTextIndexable()) {
                         ValidateResult validateResult = new ValidateResult();
                         validateResult.setMessage(ResourceString.getResourceString("error.validate.fulltext.index1")
-                                + table.getPhysicalName()
-                                + ResourceString.getResourceString("error.validate.fulltext.index2") + index.getName()
-                                + ResourceString.getResourceString("error.validate.fulltext.index3")
+                                + table.getPhysicalName() + ResourceString.getResourceString("error.validate.fulltext.index2")
+                                + index.getName() + ResourceString.getResourceString("error.validate.fulltext.index3")
                                 + indexColumn.getPhysicalName());
                         validateResult.setLocation(table.getLogicalName());
                         validateResult.setSeverity(IMarker.SEVERITY_WARNING);

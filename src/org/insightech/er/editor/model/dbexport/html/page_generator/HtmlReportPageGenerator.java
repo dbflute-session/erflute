@@ -9,11 +9,10 @@ public interface HtmlReportPageGenerator {
 
     public String generatePackageFrame(ERDiagram diagram) throws IOException;
 
-    public String generatePackageSummary(HtmlReportPageGenerator prevPageGenerator,
-            HtmlReportPageGenerator nextPageGenerator, ERDiagram diagram) throws IOException;
+    public String generatePackageSummary(HtmlReportPageGenerator prevPageGenerator, HtmlReportPageGenerator nextPageGenerator,
+            ERDiagram diagram) throws IOException;
 
-    public String generateContent(ERDiagram diagram, Object object, Object prevObject, Object nextObject)
-            throws IOException;
+    public String generateContent(ERDiagram diagram, Object object, Object prevObject, Object nextObject) throws IOException;
 
     public String getPageTitle();
 

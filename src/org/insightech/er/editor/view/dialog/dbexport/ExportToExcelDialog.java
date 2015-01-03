@@ -133,8 +133,7 @@ public class ExportToExcelDialog extends AbstractDialog {
         optionCheckGridData.horizontalSpan = 3;
 
         this.useLogicalNameAsSheetNameButton = new Button(parent, SWT.CHECK);
-        this.useLogicalNameAsSheetNameButton.setText(ResourceString
-                .getResourceString("label.use.logical.name.as.sheet.name"));
+        this.useLogicalNameAsSheetNameButton.setText(ResourceString.getResourceString("label.use.logical.name.as.sheet.name"));
         this.useLogicalNameAsSheetNameButton.setLayoutData(optionCheckGridData);
 
         this.outputImageButton = new Button(parent, SWT.CHECK);
@@ -202,8 +201,7 @@ public class ExportToExcelDialog extends AbstractDialog {
         InputStream stream = null;
 
         try {
-            ProgressMonitorDialog monitor =
-                    new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+            ProgressMonitorDialog monitor = new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
             String templateName = this.templateCombo.getText();
             String outputExcelFilePath = this.outputExcelFileText.getFilePath();
@@ -238,8 +236,8 @@ public class ExportToExcelDialog extends AbstractDialog {
             stream = this.getTemplate();
 
             ExportToExcelManager manager =
-                    new ExportToExcelManager(outputExcelFilePath, diagram, stream,
-                            this.useLogicalNameAsSheetNameButton.getSelection(), imageBuffer, excelPictureType);
+                    new ExportToExcelManager(outputExcelFilePath, diagram, stream, this.useLogicalNameAsSheetNameButton.getSelection(),
+                            imageBuffer, excelPictureType);
             monitor.run(true, true, manager);
 
             boolean openAfterSaved = this.openAfterSavedButton.getSelection();
@@ -393,8 +391,7 @@ public class ExportToExcelDialog extends AbstractDialog {
         // set categories combo
         this.categoryCombo.add(ResourceString.getResourceString("label.all"));
 
-        for (Category category : this.diagram.getDiagramContents().getSettings().getCategorySetting()
-                .getAllCategories()) {
+        for (Category category : this.diagram.getDiagramContents().getSettings().getCategorySetting().getAllCategories()) {
             this.categoryCombo.add(category.getName());
         }
 

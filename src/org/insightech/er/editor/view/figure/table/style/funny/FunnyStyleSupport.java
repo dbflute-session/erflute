@@ -139,11 +139,10 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         return label;
     }
 
-    public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode,
-            String physicalName, String logicalName, String type, boolean primaryKey, boolean foreignKey,
-            boolean isNotNull, boolean uniqueKey, boolean displayKey, boolean displayDetail, boolean displayType,
-            boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
-            boolean isRemoved) {
+    public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode, String physicalName,
+            String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
+            boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
+            boolean isAdded, boolean isUpdated, boolean isRemoved) {
 
         columnFigure.setBorder(new MarginBorder(new Insets(1, 0, 1, 0)));
 
@@ -151,8 +150,8 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         label.setForegroundColor(ColorConstants.black);
 
         StringBuilder text = new StringBuilder();
-        text.append(getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull, uniqueKey,
-                displayDetail, displayType));
+        text.append(getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull, uniqueKey, displayDetail,
+                displayType));
 
         if (displayKey) {
             if (primaryKey) {
@@ -207,8 +206,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         label.setBorder(new MarginBorder(new Insets(0, 2, 0, 3)));
         label.setText(text.toString());
 
-        this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated,
-                isRemoved);
+        this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
 
         Figure figure = new Figure();
 
@@ -216,8 +214,8 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
     }
 
     @Override
-    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded,
-            boolean isUpdated, boolean isRemoved) {
+    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded, boolean isUpdated,
+            boolean isRemoved) {
 
         columnFigure.setBorder(new MarginBorder(new Insets(1, 0, 1, 0)));
 

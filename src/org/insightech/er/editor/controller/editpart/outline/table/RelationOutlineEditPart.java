@@ -92,8 +92,7 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             Relation copy = relation.copy();
 
-            RelationDialog dialog =
-                    new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
+            RelationDialog dialog = new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(relation, copy);

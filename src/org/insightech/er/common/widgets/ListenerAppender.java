@@ -36,8 +36,7 @@ import org.insightech.er.editor.view.dialog.common.EditableTable;
 
 public class ListenerAppender {
 
-    public static void addTextAreaListener(final Text text, final AbstractDialog dialog, boolean selectAll,
-            boolean imeOn) {
+    public static void addTextAreaListener(final Text text, final AbstractDialog dialog, boolean selectAll, boolean imeOn) {
         addFocusListener(text, selectAll, imeOn);
         addTraverseListener(text);
         if (dialog != null) {
@@ -65,8 +64,8 @@ public class ListenerAppender {
             @Override
             public void focusGained(FocusEvent e) {
                 ERDiagram diagram =
-                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                                .getActiveEditor().getAdapter(ERDiagram.class);
+                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
+                                .getAdapter(ERDiagram.class);
 
                 if (diagram != null) {
                     if (diagram.getDiagramContents().getSettings().isAutoImeChange()) {
@@ -128,8 +127,8 @@ public class ListenerAppender {
         combo.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 ERDiagram diagram =
-                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                                .getActiveEditor().getAdapter(ERDiagram.class);
+                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
+                                .getAdapter(ERDiagram.class);
 
                 if (diagram != null) {
                     if (diagram.getDiagramContents().getSettings().isAutoImeChange()) {
@@ -167,8 +166,8 @@ public class ListenerAppender {
             @Override
             public void focusGained(FocusEvent e) {
                 ERDiagram diagram =
-                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                                .getActiveEditor().getAdapter(ERDiagram.class);
+                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
+                                .getAdapter(ERDiagram.class);
 
                 if (diagram != null) {
                     if (diagram.getDiagramContents().getSettings().isAutoImeChange()) {
@@ -186,8 +185,7 @@ public class ListenerAppender {
         });
     }
 
-    public static void addTableEditListener(final Table table, final TableEditor tableEditor,
-            final EditableTable editableTable) {
+    public static void addTableEditListener(final Table table, final TableEditor tableEditor, final EditableTable editableTable) {
 
         table.addMouseListener(new MouseAdapter() {
 
@@ -240,8 +238,8 @@ public class ListenerAppender {
         });
     }
 
-    private static void createEditor(final Table table, final TableItem tableItem, final TableEditor tableEditor,
-            final Point xy, final EditableTable editableTable) {
+    private static void createEditor(final Table table, final TableItem tableItem, final TableEditor tableEditor, final Point xy,
+            final EditableTable editableTable) {
         final Control control = editableTable.getControl(xy);
         if (control == null) {
             return;
@@ -316,8 +314,7 @@ public class ListenerAppender {
         });
     }
 
-    public static void addModifyListener(final Scale scale, final Spinner spinner, final int diff,
-            final AbstractDialog dialog) {
+    public static void addModifyListener(final Scale scale, final Spinner spinner, final int diff, final AbstractDialog dialog) {
         if (dialog != null) {
             spinner.addSelectionListener(new SelectionAdapter() {
 

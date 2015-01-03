@@ -66,8 +66,7 @@ public class TestDataManageDialog extends AbstractDialog {
     /**
      * �R���X�g���N�^
      */
-    public TestDataManageDialog(Shell parentShell, IEditorPart editorPart, ERDiagram diagram,
-            List<TestData> testDataList) {
+    public TestDataManageDialog(Shell parentShell, IEditorPart editorPart, ERDiagram diagram, List<TestData> testDataList) {
         super(parentShell, 2);
 
         this.editorPart = editorPart;

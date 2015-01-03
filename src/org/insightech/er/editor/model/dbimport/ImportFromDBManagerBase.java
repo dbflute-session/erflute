@@ -115,8 +115,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         @Override
         public String toString() {
-            return "ColumnData [columnName=" + columnName + ", type=" + type + ", size=" + size + ", decimalDegits="
-                    + decimalDegits + "]";
+            return "ColumnData [columnName=" + columnName + ", type=" + type + ", size=" + size + ", decimalDegits=" + decimalDegits + "]";
         }
 
     }
@@ -155,8 +154,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         this.dictionary = new HashMap<UniqueWord, Word>();
     }
 
-    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<DBObject> dbObjectList,
-            boolean useCommentAsLogicalName, boolean mergeWord) throws SQLException {
+    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<DBObject> dbObjectList, boolean useCommentAsLogicalName,
+            boolean mergeWord) throws SQLException {
         this.con = con;
         this.dbSetting = dbSetting;
         this.diagram = diagram;
@@ -165,8 +164,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         this.mergeWord = mergeWord;
 
         this.metaData = con.getMetaData();
-        this.translationResources =
-                new TranslationResources(diagram.getDiagramContents().getSettings().getTranslationSetting());
+        this.translationResources = new TranslationResources(diagram.getDiagramContents().getSettings().getTranslationSetting());
 
         if (this.mergeWord) {
             for (Word word : this.diagram.getDiagramContents().getDictionary().getWordList()) {
@@ -202,13 +200,12 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         monitor.done();
     }
 
-    protected void cashColumnData(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException,
-            InterruptedException {
+    protected void cashColumnData(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException, InterruptedException {
         this.cashColumnDataX(null, dbObjectList, monitor);
     }
 
-    protected void cashColumnDataX(String tableName, List<DBObject> dbObjectList, IProgressMonitor monitor)
-            throws SQLException, InterruptedException {
+    protected void cashColumnDataX(String tableName, List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException,
+            InterruptedException {
         ResultSet columnSet = null;
 
         try {
@@ -359,8 +356,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return null;
     }
 
-    protected List<ERTable> importTables(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException,
-            InterruptedException {
+    protected List<ERTable> importTables(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException, InterruptedException {
         List<ERTable> list = new ArrayList<ERTable>();
 
         this.cashTableComment(monitor);
@@ -402,12 +398,10 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return data.constraintName;
     }
 
-    protected ERTable importTable(String tableNameWithSchema, String tableName, String schema) throws SQLException,
-            InterruptedException {
+    protected ERTable importTable(String tableNameWithSchema, String tableName, String schema) throws SQLException, InterruptedException {
         String autoIncrementColumnName = null;
         try {
-            autoIncrementColumnName =
-                    this.getAutoIncrementColumnName(con, this.getTableNameWithSchema(schema, tableName));
+            autoIncrementColumnName = this.getAutoIncrementColumnName(con, this.getTableNameWithSchema(schema, tableName));
         } catch (SQLException e) {
             // �ｽe�ｽ[�ｽu�ｽ�ｽ�ｽ�ｽｪ取得�ｽﾅゑｿｽ�ｽﾈゑｿｽ�ｽ鼾�ｿｽi�ｽ�ｽ�ｽﾌ�ｿｽ�ｽ[�ｽU�ｽﾌ擾ｿｽ�ｽL�ｽ�ｽ�ｽﾈどの場合�ｽj�ｽA
             // �ｽ�ｽ�ｽﾌテ�ｽ[�ｽu�ｽ�ｽ�ｽﾍ使�ｽp�ｽ�ｽ�ｽﾈゑｿｽ�ｽB
@@ -430,8 +424,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         List<Index> indexes = this.getIndexes(table, this.metaData, primaryKeys);
 
-        List<Column> columns =
-                this.getColumns(tableNameWithSchema, tableName, schema, indexes, primaryKeys, autoIncrementColumnName);
+        List<Column> columns = this.getColumns(tableNameWithSchema, tableName, schema, indexes, primaryKeys, autoIncrementColumnName);
 
         table.setColumns(columns);
         table.setIndexes(indexes);
@@ -488,8 +481,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return autoIncrementColumnName;
     }
 
-    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys)
-            throws SQLException {
+    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
 
         List<Index> indexes = new ArrayList<Index>();
 
@@ -599,8 +591,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         try {
             primaryKeySet =
-                    metaData.getPrimaryKeys(null, table.getTableViewProperties(this.dbSetting.getDbsystem())
-                            .getSchema(), table.getPhysicalName());
+                    metaData.getPrimaryKeys(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
+                            table.getPhysicalName());
             while (primaryKeySet.next()) {
                 PrimaryKeyData data = new PrimaryKeyData();
 
@@ -620,8 +612,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return primaryKeys;
     }
 
-    protected Map<String, ColumnData> getColumnDataMap(String tableNameWithSchema, String tableName, String schema)
-            throws SQLException, InterruptedException {
+    protected Map<String, ColumnData> getColumnDataMap(String tableNameWithSchema, String tableName, String schema) throws SQLException,
+            InterruptedException {
         return this.columnDataCash.get(tableNameWithSchema);
     }
 
@@ -677,8 +669,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
             String defaultValue = Format.null2blank(columnData.defaultValue);
             if (sqlType != null) {
-                if (SqlType.SQL_TYPE_ID_SERIAL.equals(sqlType.getId())
-                        || SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(sqlType.getId())) {
+                if (SqlType.SQL_TYPE_ID_SERIAL.equals(sqlType.getId()) || SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(sqlType.getId())) {
                     defaultValue = "";
                 }
             }
@@ -730,8 +721,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             // TODO UNIQUE KEY �ｽﾌ撰ｿｽ�ｽｼゑｿｽ�ｽ謫ｾ�ｽﾅゑｿｽ�ｽﾄゑｿｽ�ｽﾈゑｿｽ
 
             NormalColumn column =
-                    new NormalColumn(word, notNull, primaryKey, uniqueKey, autoIncrement, defaultValue, constraint,
-                            null, null, null);
+                    new NormalColumn(word, notNull, primaryKey, uniqueKey, autoIncrement, defaultValue, constraint, null, null, null);
 
             columns.add(column);
         }
@@ -812,9 +802,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                     continue;
                 }
 
-                String key =
-                        this.dbSetting.getTableNameWithSchema(foreignKeyData.targetTableName,
-                                foreignKeyData.targetSchemaName);
+                String key = this.dbSetting.getTableNameWithSchema(foreignKeyData.targetTableName, foreignKeyData.targetSchemaName);
 
                 List<ForeignKeyData> foreignKeyDataList = tableForeignKeyDataMap.get(key);
 
@@ -845,8 +833,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             return;
         }
 
-        Map<String, List<ForeignKeyData>> sameNameForeignKeyDataMap =
-                this.collectSameNameForeignKeyData(foreignKeyList);
+        Map<String, List<ForeignKeyData>> sameNameForeignKeyDataMap = this.collectSameNameForeignKeyData(foreignKeyList);
 
         for (Map.Entry<String, List<ForeignKeyData>> entry : sameNameForeignKeyDataMap.entrySet()) {
             this.createRelation(target, entry.getValue());
@@ -883,8 +870,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 return;
             }
 
-            Map<String, List<ForeignKeyData>> sameNameForeignKeyDataMap =
-                    this.collectSameNameForeignKeyData(foreignKeyList);
+            Map<String, List<ForeignKeyData>> sameNameForeignKeyDataMap = this.collectSameNameForeignKeyData(foreignKeyList);
 
             for (Map.Entry<String, List<ForeignKeyData>> entry : sameNameForeignKeyDataMap.entrySet()) {
                 this.createRelation(target, entry.getValue());
@@ -1246,11 +1232,9 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 if (!"*".equals(columnName)) {
                     for (ERTable table : this.importedTables) {
                         if (tableName == null
-                                || (table.getPhysicalName() != null && tableName.equals(table.getPhysicalName()
-                                        .toLowerCase()))) {
+                                || (table.getPhysicalName() != null && tableName.equals(table.getPhysicalName().toLowerCase()))) {
                             for (NormalColumn column : table.getExpandedColumns()) {
-                                if (column.getPhysicalName() != null
-                                        && columnName.equals(column.getPhysicalName().toLowerCase())) {
+                                if (column.getPhysicalName() != null && columnName.equals(column.getPhysicalName().toLowerCase())) {
                                     targetColumn = column;
 
                                     break;
@@ -1269,8 +1253,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 } else {
                     for (ERTable table : this.importedTables) {
                         if (tableName == null
-                                || (table.getPhysicalName() != null && tableName.equals(table.getPhysicalName()
-                                        .toLowerCase()))) {
+                                || (table.getPhysicalName() != null && tableName.equals(table.getPhysicalName().toLowerCase()))) {
                             for (NormalColumn column : table.getExpandedColumns()) {
                                 this.addColumnToView(columnList, column, null);
                             }
@@ -1294,8 +1277,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         } else {
             word =
-                    new Word(columnAlias, this.translationResources.translate(columnAlias), null, new TypeData(null,
-                            null, false, null, false, null), null, null);
+                    new Word(columnAlias, this.translationResources.translate(columnAlias), null, new TypeData(null, null, false, null,
+                            false, null), null, null);
 
         }
 
@@ -1350,8 +1333,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return size;
     }
 
-    public static void main(String[] args) throws InputException, InstantiationException, IllegalAccessException,
-            SQLException {
+    public static void main(String[] args) throws InputException, InstantiationException, IllegalAccessException, SQLException {
         new Activator();
 
         DBSetting setting = new DBSetting("Oracle", "localhost", 1521, "XE", "nakajima", "nakajima", true, null, null);

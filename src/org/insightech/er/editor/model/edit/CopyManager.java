@@ -101,8 +101,7 @@ public class CopyManager {
         }
 
         // ������̃m�[�h�ɑ΂��āA�ڑ������Ȃ����܂�
-        Map<ConnectionElement, ConnectionElement> connectionElementMap =
-                new HashMap<ConnectionElement, ConnectionElement>();
+        Map<ConnectionElement, ConnectionElement> connectionElementMap = new HashMap<ConnectionElement, ConnectionElement>();
 
         // �ڑ��𒣂�Ȃ����܂�
         for (NodeElement nodeElement : nodeElementMap.keySet()) {
@@ -140,21 +139,18 @@ public class CopyManager {
 
                                     // ���j�[�N�L�[���Q�Ƃ��Ă���ꍇ
                                     if (oldReferencedColumn != null) {
-                                        NormalColumn newReferencedColumn =
-                                                (NormalColumn) columnMap.get(oldReferencedColumn);
+                                        NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(oldReferencedColumn);
 
                                         newRelation.setReferencedColumn(newReferencedColumn);
 
                                     }
 
-                                    ComplexUniqueKey oldReferencedComplexUniqueKey =
-                                            newRelation.getReferencedComplexUniqueKey();
+                                    ComplexUniqueKey oldReferencedComplexUniqueKey = newRelation.getReferencedComplexUniqueKey();
 
                                     // �������j�[�N�L�[���Q�Ƃ��Ă���ꍇ
                                     if (oldReferencedComplexUniqueKey != null) {
                                         ComplexUniqueKey newReferencedComplexUniqueKey =
-                                                (ComplexUniqueKey) complexUniqueKeyMap
-                                                        .get(oldReferencedComplexUniqueKey);
+                                                (ComplexUniqueKey) complexUniqueKeyMap.get(oldReferencedComplexUniqueKey);
                                         if (newReferencedComplexUniqueKey != null) {
                                             newRelation.setReferencedComplexUniqueKey(newReferencedComplexUniqueKey);
                                         }
@@ -168,8 +164,7 @@ public class CopyManager {
                                             break;
                                         }
                                     }
-                                    NormalColumn newReferencedColumn =
-                                            (NormalColumn) columnMap.get(targetReferencedColumn);
+                                    NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(targetReferencedColumn);
 
                                     newColumn.removeReference(oldRelation);
                                     newColumn.addReference(newReferencedColumn, newRelation);
@@ -192,8 +187,8 @@ public class CopyManager {
     /**
      * �������m�[�h�ɓ����Ă���ڑ��𕡐���ɒ���Ȃ����܂�
      */
-    private static void replaceIncoming(NodeElement from, NodeElement to,
-            Map<ConnectionElement, ConnectionElement> connectionElementMap, Map<NodeElement, NodeElement> nodeElementMap) {
+    private static void replaceIncoming(NodeElement from, NodeElement to, Map<ConnectionElement, ConnectionElement> connectionElementMap,
+            Map<NodeElement, NodeElement> nodeElementMap) {
         List<ConnectionElement> cloneIncomings = new ArrayList<ConnectionElement>();
 
         // �������m�[�h�ɓ����Ă���ڑ��ɑ΂��ď������J��Ԃ��܂�

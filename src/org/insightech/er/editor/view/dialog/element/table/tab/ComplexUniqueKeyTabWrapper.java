@@ -75,10 +75,8 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
         this.columnTable = CompositeFactory.createTable(this, 200, 1);
 
-        CompositeFactory.createTableColumn(this.columnTable, "label.logical.name", ERTableComposite.NAME_WIDTH,
-                SWT.NONE);
-        CompositeFactory.createTableColumn(this.columnTable, "label.unique.key", ERTableComposite.UNIQUE_KEY_WIDTH,
-                SWT.NONE);
+        CompositeFactory.createTableColumn(this.columnTable, "label.logical.name", ERTableComposite.NAME_WIDTH, SWT.NONE);
+        CompositeFactory.createTableColumn(this.columnTable, "label.unique.key", ERTableComposite.UNIQUE_KEY_WIDTH, SWT.NONE);
 
         GridLayout buttonGridLayout = new GridLayout();
         buttonGridLayout.numColumns = 3;
@@ -330,8 +328,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
     private void setButtonStatus(boolean enabled) {
         if (enabled) {
-            if (this.copyData.getComplexUniqueKeyList().get(this.complexUniqueKeyCombo.getSelectionIndex())
-                    .isReferenced(copyData)) {
+            if (this.copyData.getComplexUniqueKeyList().get(this.complexUniqueKeyCombo.getSelectionIndex()).isReferenced(copyData)) {
                 enabled = false;
             }
         }

@@ -81,8 +81,7 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
 
     private void changeDatabase() {
         MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION
-                        | SWT.OK | SWT.CANCEL);
+                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
         messageBox.setText(ResourceString.getResourceString("dialog.title.change.database"));
         messageBox.setMessage(ResourceString.getResourceString("dialog.message.change.database"));
 

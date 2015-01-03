@@ -24,8 +24,8 @@ public class ERModelQuickOutlineAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
 
         ErDiagramInformationControl quickOutline =
-                new ErDiagramInformationControl(diagram, getEditorPart().getSite().getShell(), getEditorPart()
-                        .getGraphicalViewer().getControl());
+                new ErDiagramInformationControl(diagram, getEditorPart().getSite().getShell(), getEditorPart().getGraphicalViewer()
+                        .getControl());
 
         quickOutline.setVisible(true);
 

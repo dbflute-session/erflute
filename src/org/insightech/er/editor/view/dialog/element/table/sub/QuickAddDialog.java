@@ -55,9 +55,7 @@ public class QuickAddDialog extends AbstractDialog {
     }
 
     private void createEditTable(Composite composite) {
-        this.editColumnTable =
-                CompositeFactory.createRowHeaderTable(composite, 700, TestDataDialog.TABLE_HEIGHT, 75, 25, 1, false,
-                        true);
+        this.editColumnTable = CompositeFactory.createRowHeaderTable(composite, 700, TestDataDialog.TABLE_HEIGHT, 75, 25, 1, false, true);
         this.editColumnTable.setCellEditWorker(new CellEditWorker() {
 
             public void addNewRow() {
@@ -109,9 +107,7 @@ public class QuickAddDialog extends AbstractDialog {
 
             TypeData typeData = new TypeData(length, decimal, false, null, false, null);
 
-            Word word =
-                    new CopyWord(new Word(physicalName, logicalName, sqlType, typeData, null,
-                            this.diagram.getDatabase()));
+            Word word = new CopyWord(new Word(physicalName, logicalName, sqlType, typeData, null, this.diagram.getDatabase()));
 
             NormalColumn column = new NormalColumn(word, false, false, false, false, null, null, null, null, null);
 

@@ -37,9 +37,8 @@ public class SequenceHtmlReportPageGenerator extends AbstractHtmlReportPageGener
         Sequence sequence = (Sequence) object;
 
         return new String[] { Format.null2blank(sequence.getDescription()), this.getValue(sequence.getIncrement()),
-                this.getValue(sequence.getMinValue()), this.getValue(sequence.getMaxValue()),
-                this.getValue(sequence.getStart()), this.getValue(sequence.getCache()),
-                String.valueOf(sequence.isCycle()).toUpperCase() };
+                this.getValue(sequence.getMinValue()), this.getValue(sequence.getMaxValue()), this.getValue(sequence.getStart()),
+                this.getValue(sequence.getCache()), String.valueOf(sequence.isCycle()).toUpperCase() };
     }
 
     private String getValue(Number value) {

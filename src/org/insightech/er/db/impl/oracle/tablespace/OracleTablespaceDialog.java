@@ -84,18 +84,15 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         autoExtendGroup.setLayoutData(autoExtendGroupGridData);
 
         this.autoExtend = CompositeFactory.createCheckbox(this, autoExtendGroup, "label.tablespace.auto.extend", 1);
-        this.autoExtendSize =
-                CompositeFactory.createText(this, autoExtendGroup, "label.size", 1, NUM_TEXT_WIDTH, false);
-        this.autoExtendMaxSize =
-                CompositeFactory.createText(this, autoExtendGroup, "label.max.size", 1, NUM_TEXT_WIDTH, false);
+        this.autoExtendSize = CompositeFactory.createText(this, autoExtendGroup, "label.size", 1, NUM_TEXT_WIDTH, false);
+        this.autoExtendMaxSize = CompositeFactory.createText(this, autoExtendGroup, "label.max.size", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.filler(autoExtendGroup, 2);
         CompositeFactory.createExampleLabel(autoExtendGroup, "label.tablespace.size.example");
         CompositeFactory.filler(autoExtendGroup, 1);
         CompositeFactory.createExampleLabel(autoExtendGroup, "label.tablespace.size.example");
 
         this.minimumExtentSize =
-                CompositeFactory.createText(this, composite, "label.tablespace.minimum.extent.size", 1, NUM_TEXT_WIDTH,
-                        false);
+                CompositeFactory.createText(this, composite, "label.tablespace.minimum.extent.size", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.filler(composite, 4);
         CompositeFactory.filler(composite, 1);
         CompositeFactory.createExampleLabel(composite, "label.tablespace.size.example");
@@ -112,32 +109,22 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         defaultStorageGroupGridData.grabExcessHorizontalSpace = true;
         defaultStorageGroup.setLayoutData(defaultStorageGroupGridData);
 
-        this.initial =
-                CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.initial", 1, NUM_TEXT_WIDTH,
-                        false);
+        this.initial = CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.initial", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.createExampleLabel(defaultStorageGroup, "ex) 1M");
-        this.next =
-                CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.next", 1, NUM_TEXT_WIDTH,
-                        false);
+        this.next = CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.next", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.createExampleLabel(defaultStorageGroup, "ex) 1M");
-        this.minExtents =
-                CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.min.extents", 1,
-                        NUM_TEXT_WIDTH, false);
+        this.minExtents = CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.min.extents", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.createExampleLabel(defaultStorageGroup, "ex) 1");
-        this.maxExtents =
-                CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.max.extents", 1,
-                        NUM_TEXT_WIDTH, false);
+        this.maxExtents = CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.max.extents", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.createExampleLabel(defaultStorageGroup, "ex) 4096");
         this.pctIncrease =
-                CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.pct.increase", 1,
-                        NUM_TEXT_WIDTH, false);
+                CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.pct.increase", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.createExampleLabel(defaultStorageGroup, "ex) 0");
 
         this.logging = this.createCheckbox(composite, "label.tablespace.logging");
         this.offline = this.createCheckbox(composite, "label.tablespace.offline");
         this.temporary = this.createCheckbox(composite, "label.tablespace.temporary");
-        this.autoSegmentSpaceManagement =
-                this.createCheckbox(composite, "label.tablespace.auto.segment.space.management");
+        this.autoSegmentSpaceManagement = this.createCheckbox(composite, "label.tablespace.auto.segment.space.management");
     }
 
     @Override

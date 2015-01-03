@@ -49,8 +49,7 @@ public class DropShadowRectangle extends RoundedRectangle {
     protected void outlineShape(Graphics graphics) {
         Rectangle f = Rectangle.SINGLETON.setBounds(getBounds());
         Insets shadowInset =
-                new Insets(getLineWidth() / 2, getLineWidth() / 2, getLineWidth() + SHADOW_INSET, getLineWidth()
-                        + SHADOW_INSET);
+                new Insets(getLineWidth() / 2, getLineWidth() / 2, getLineWidth() + SHADOW_INSET, getLineWidth() + SHADOW_INSET);
         shrink(f, shadowInset);
         graphics.drawRoundRectangle(f, corner.width, corner.height);
     }

@@ -16,23 +16,20 @@ import org.insightech.er.util.NameValue;
 
 public class ReplaceManager {
 
-    private static final int[] ALPHABET_TYPES = new int[] { SearchResultRow.TYPE_RELATION_NAME,
-            SearchResultRow.TYPE_INDEX_NAME, SearchResultRow.TYPE_TABLE_PHYSICAL_NAME,
-            SearchResultRow.TYPE_WORD_PHYSICAL_NAME, SearchResultRow.TYPE_COLUMN_PHYSICAL_NAME,
+    private static final int[] ALPHABET_TYPES = new int[] { SearchResultRow.TYPE_RELATION_NAME, SearchResultRow.TYPE_INDEX_NAME,
+            SearchResultRow.TYPE_TABLE_PHYSICAL_NAME, SearchResultRow.TYPE_WORD_PHYSICAL_NAME, SearchResultRow.TYPE_COLUMN_PHYSICAL_NAME,
             SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME };
 
-    private static final int[] DEGIT_TYPES = new int[] { SearchResultRow.TYPE_WORD_LENGTH,
-            SearchResultRow.TYPE_WORD_DECIMAL, SearchResultRow.TYPE_COLUMN_LENGTH, SearchResultRow.TYPE_COLUMN_DECIMAL,
-            SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LENGTH, SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_DECIMAL };
+    private static final int[] DEGIT_TYPES = new int[] { SearchResultRow.TYPE_WORD_LENGTH, SearchResultRow.TYPE_WORD_DECIMAL,
+            SearchResultRow.TYPE_COLUMN_LENGTH, SearchResultRow.TYPE_COLUMN_DECIMAL, SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LENGTH,
+            SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_DECIMAL };
 
-    private static final int[] REQUIRED_TYPES = new int[] { SearchResultRow.TYPE_INDEX_NAME,
-            SearchResultRow.TYPE_TABLE_LOGICAL_NAME, SearchResultRow.TYPE_WORD_LOGICAL_NAME,
-            SearchResultRow.TYPE_COLUMN_LOGICAL_NAME, SearchResultRow.TYPE_COLUMN_GROUP_NAME,
+    private static final int[] REQUIRED_TYPES = new int[] { SearchResultRow.TYPE_INDEX_NAME, SearchResultRow.TYPE_TABLE_LOGICAL_NAME,
+            SearchResultRow.TYPE_WORD_LOGICAL_NAME, SearchResultRow.TYPE_COLUMN_LOGICAL_NAME, SearchResultRow.TYPE_COLUMN_GROUP_NAME,
             SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME };
 
-    private static final int[] EXCLUDE_TYPES = new int[] { SearchResultRow.TYPE_INDEX_COLUMN_NAME,
-            SearchResultRow.TYPE_WORD_TYPE, SearchResultRow.TYPE_COLUMN_TYPE,
-            SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_TYPE };
+    private static final int[] EXCLUDE_TYPES = new int[] { SearchResultRow.TYPE_INDEX_COLUMN_NAME, SearchResultRow.TYPE_WORD_TYPE,
+            SearchResultRow.TYPE_COLUMN_TYPE, SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_TYPE };
 
     private static final List<String> replaceWordList = new ArrayList<String>();
 
@@ -151,8 +148,7 @@ public class ReplaceManager {
 
             return new ReplaceResult(original);
 
-        } else if (type == SearchResultRow.TYPE_COLUMN_PHYSICAL_NAME
-                || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME) {
+        } else if (type == SearchResultRow.TYPE_COLUMN_PHYSICAL_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME) {
             NormalColumn column = (NormalColumn) object;
             String original = column.getForeignKeyPhysicalName();
 
@@ -166,8 +162,7 @@ public class ReplaceManager {
 
             return new ReplaceResult(original);
 
-        } else if (type == SearchResultRow.TYPE_COLUMN_LOGICAL_NAME
-                || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME) {
+        } else if (type == SearchResultRow.TYPE_COLUMN_LOGICAL_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME) {
             NormalColumn column = (NormalColumn) object;
             String original = column.getForeignKeyLogicalName();
 
@@ -179,8 +174,7 @@ public class ReplaceManager {
 
             return new ReplaceResult(original);
 
-        } else if (type == SearchResultRow.TYPE_COLUMN_DEFAULT_VALUE
-                || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_DEFAULT_VALUE) {
+        } else if (type == SearchResultRow.TYPE_COLUMN_DEFAULT_VALUE || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_DEFAULT_VALUE) {
 
             NormalColumn column = (NormalColumn) object;
             String original = column.getDefaultValue();
@@ -209,8 +203,7 @@ public class ReplaceManager {
 
             return new ReplaceResult(original);
 
-        } else if (type == SearchResultRow.TYPE_COLUMN_GROUP_NAME
-                || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_COMMENT) {
+        } else if (type == SearchResultRow.TYPE_COLUMN_GROUP_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_COMMENT) {
             ColumnGroup group = (ColumnGroup) object;
             String original = group.getGroupName();
 
@@ -416,20 +409,17 @@ public class ReplaceManager {
 
             table.setLogicalName(str);
 
-        } else if (type == SearchResultRow.TYPE_COLUMN_PHYSICAL_NAME
-                || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME) {
+        } else if (type == SearchResultRow.TYPE_COLUMN_PHYSICAL_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME) {
             NormalColumn column = (NormalColumn) object;
 
             column.setForeignKeyPhysicalName(str);
 
-        } else if (type == SearchResultRow.TYPE_COLUMN_LOGICAL_NAME
-                || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME) {
+        } else if (type == SearchResultRow.TYPE_COLUMN_LOGICAL_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME) {
             NormalColumn column = (NormalColumn) object;
 
             column.setForeignKeyLogicalName(str);
 
-        } else if (type == SearchResultRow.TYPE_COLUMN_DEFAULT_VALUE
-                || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_DEFAULT_VALUE) {
+        } else if (type == SearchResultRow.TYPE_COLUMN_DEFAULT_VALUE || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_DEFAULT_VALUE) {
             NormalColumn column = (NormalColumn) object;
 
             column.setDefaultValue(str);
@@ -439,8 +429,7 @@ public class ReplaceManager {
 
             column.setForeignKeyDescription(str);
 
-        } else if (type == SearchResultRow.TYPE_COLUMN_GROUP_NAME
-                || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_COMMENT) {
+        } else if (type == SearchResultRow.TYPE_COLUMN_GROUP_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_COMMENT) {
             ColumnGroup group = (ColumnGroup) object;
 
             group.setGroupName(str);

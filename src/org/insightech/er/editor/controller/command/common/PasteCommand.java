@@ -56,8 +56,8 @@ public class PasteCommand extends AbstractCommand {
 
         // 貼り付け対象に対して処理を繰り返します
         for (NodeElement nodeElement : nodeElements) {
-            nodeElement.setLocation(new Location(nodeElement.getX() + x, nodeElement.getY() + y,
-                    nodeElement.getWidth(), nodeElement.getHeight()));
+            nodeElement.setLocation(new Location(nodeElement.getX() + x, nodeElement.getY() + y, nodeElement.getWidth(), nodeElement
+                    .getHeight()));
 
             // 貼り付け対象がテーブルの場合
             if (nodeElement instanceof ERTable) {

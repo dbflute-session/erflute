@@ -29,8 +29,7 @@ public class TranslationManageAction extends AbstractBaseAction {
         Settings settings = (Settings) diagram.getDiagramContents().getSettings().clone();
 
         TranslationManageDialog dialog =
-                new TranslationManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings,
-                        diagram);
+                new TranslationManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings, diagram);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);

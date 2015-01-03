@@ -41,8 +41,7 @@ public class ImportFromDBAction extends AbstractImportAction {
     protected AbstractSelectImportedObjectDialog createSelectImportedObjectDialog(DBObjectSet dbObjectSet) {
         ERDiagram diagram = this.getDiagram();
 
-        return new SelectImportedObjectFromDBDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                diagram, dbObjectSet);
+        return new SelectImportedObjectFromDBDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, dbObjectSet);
     }
 
     /**
@@ -65,8 +64,7 @@ public class ImportFromDBAction extends AbstractImportAction {
             } else if (step == 0) {
                 // �ڑ��̐ݒ�
                 ImportDBSettingDialog settingDialog =
-                        new ImportDBSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                diagram);
+                        new ImportDBSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
                 dialogResult = settingDialog.open();
 
                 this.dbSetting = settingDialog.getDbSetting();
@@ -85,9 +83,8 @@ public class ImportFromDBAction extends AbstractImportAction {
 
                         if (!schemaList.isEmpty()) {
                             SelectImportedSchemaDialog selectDialog =
-                                    new SelectImportedSchemaDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                                            .getShell(), diagram, this.dbSetting.getDbsystem(), schemaList,
-                                            selectedSchemaList);
+                                    new SelectImportedSchemaDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                            diagram, this.dbSetting.getDbsystem(), schemaList, selectedSchemaList);
 
                             dialogResult = selectDialog.open();
 
@@ -115,10 +112,8 @@ public class ImportFromDBAction extends AbstractImportAction {
 
                     } else if (step == 3) {
                         ProgressMonitorDialog dialog =
-                                new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                                        .getShell());
-                        ImportFromDBManagerBase tableImportManager =
-                                (ImportFromDBManagerBase) manager.getTableImportManager();
+                                new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+                        ImportFromDBManagerBase tableImportManager = (ImportFromDBManagerBase) manager.getTableImportManager();
                         tableImportManager.init(con, this.dbSetting, diagram, importDialog.getSelectedDbObjects(),
                                 importDialog.isUseCommentAsLogicalName(), importDialog.isMergeWord());
 

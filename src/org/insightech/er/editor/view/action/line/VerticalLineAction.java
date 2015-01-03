@@ -102,8 +102,8 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
             NodeElement nodeElement = (NodeElement) editPart.getModel();
 
             MoveElementCommand moveCommand =
-                    new MoveElementCommand(this.getDiagram(), editPart.getFigure().getBounds(), nodeElement.getX(),
-                            start, nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
+                    new MoveElementCommand(this.getDiagram(), editPart.getFigure().getBounds(), nodeElement.getX(), start,
+                            nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
 
             command.add(moveCommand);
         }

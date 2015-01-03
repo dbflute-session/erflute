@@ -20,8 +20,7 @@ import org.insightech.er.ResourceString;
 import org.insightech.er.preference.PreferenceInitializer;
 import org.insightech.er.util.io.IOUtils;
 
-public class TemplatePreferencePage extends org.eclipse.jface.preference.PreferencePage implements
-        IWorkbenchPreferencePage {
+public class TemplatePreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 
     private static final String DEFAULT_TEMPLATE_FILE_EN = "template_en.xls";
 

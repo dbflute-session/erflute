@@ -72,8 +72,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
             Polyline feedbackFigure = new Polyline();
             feedbackFigure.addPoint(new Point((int) (rect.x * zoom), (int) (rect.y * zoom)));
             feedbackFigure.addPoint(new Point((int) (rect.x * zoom), (int) ((rect.y + rect.height) * zoom)));
-            feedbackFigure.addPoint(new Point((int) ((rect.x + rect.width) * zoom),
-                    (int) ((rect.y + rect.height) * zoom)));
+            feedbackFigure.addPoint(new Point((int) ((rect.x + rect.width) * zoom), (int) ((rect.y + rect.height) * zoom)));
             feedbackFigure.addPoint(new Point((int) ((rect.x + rect.width) * zoom), (int) (rect.y * zoom)));
             feedbackFigure.addPoint(new Point((int) (rect.x * zoom), (int) (rect.y * zoom)));
 
@@ -128,8 +127,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
                 Bendpoint rate = this.getRate(point);
 
                 MoveRelationBendpointCommand command =
-                        new MoveRelationBendpointCommand(editPart, rate.getX(), rate.getY(),
-                                bendpointrequest.getIndex());
+                        new MoveRelationBendpointCommand(editPart, rate.getX(), rate.getY(), bendpointrequest.getIndex());
 
                 return command;
             }
@@ -138,8 +136,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
         Point point = bendpointrequest.getLocation();
         this.getConnection().translateToRelative(point);
 
-        MoveRelationBendpointCommand command =
-                new MoveRelationBendpointCommand(editPart, point.x, point.y, bendpointrequest.getIndex());
+        MoveRelationBendpointCommand command = new MoveRelationBendpointCommand(editPart, point.x, point.y, bendpointrequest.getIndex());
 
         return command;
     }

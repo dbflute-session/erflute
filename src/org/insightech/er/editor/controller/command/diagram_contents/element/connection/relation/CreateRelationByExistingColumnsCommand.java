@@ -150,13 +150,11 @@ public class CreateRelationByExistingColumnsCommand extends AbstractCreateRelati
         }
 
         RelationByExistingColumnsDialog dialog =
-                new RelationByExistingColumnsDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                        sourceTable, candidateForeignKeyColumns, referencedMap, foreignKeySetMap);
+                new RelationByExistingColumnsDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), sourceTable,
+                        candidateForeignKeyColumns, referencedMap, foreignKeySetMap);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
-            this.relation =
-                    new Relation(dialog.isReferenceForPK(), dialog.getReferencedComplexUniqueKey(),
-                            dialog.getReferencedColumn());
+            this.relation = new Relation(dialog.isReferenceForPK(), dialog.getReferencedComplexUniqueKey(), dialog.getReferencedColumn());
             final String defaultName = prepareDefaultFKConstraintName(sourceTable, targetTable);
             if (defaultName != null) {
                 this.relation.setName(defaultName);

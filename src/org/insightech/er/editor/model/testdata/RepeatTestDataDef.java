@@ -9,8 +9,7 @@ public class RepeatTestDataDef implements Cloneable {
 
     public static final String TYPE_FORMAT = ResourceString.getResourceString("label.testdata.repeat.type.format");
 
-    public static final String TYPE_FOREIGNKEY = ResourceString
-            .getResourceString("label.testdata.repeat.type.foreign.key");
+    public static final String TYPE_FOREIGNKEY = ResourceString.getResourceString("label.testdata.repeat.type.foreign.key");
 
     public static final String TYPE_ENUM = ResourceString.getResourceString("label.testdata.repeat.type.enum");
 

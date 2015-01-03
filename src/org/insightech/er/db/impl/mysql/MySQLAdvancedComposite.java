@@ -40,8 +40,7 @@ public class MySQLAdvancedComposite extends AdvancedComposite {
         this.collationCombo = CompositeFactory.createCombo(this.dialog, this, "label.collation", 1);
         this.collationCombo.setVisibleItemCount(20);
 
-        this.primaryKeyLengthOfText =
-                CompositeFactory.createNumText(this.dialog, this, "label.primary.key.length.of.text", 30);
+        this.primaryKeyLengthOfText = CompositeFactory.createNumText(this.dialog, this, "label.primary.key.length.of.text", 30);
     }
 
     public static Combo createEngineCombo(Composite parent, AbstractDialog dialog) {
@@ -95,8 +94,7 @@ public class MySQLAdvancedComposite extends AdvancedComposite {
 
         this.collationCombo.setText(Format.toString(((MySQLTableProperties) this.tableProperties).getCollation()));
 
-        this.primaryKeyLengthOfText.setText(Format.toString(((MySQLTableProperties) this.tableProperties)
-                .getPrimaryKeyLengthOfText()));
+        this.primaryKeyLengthOfText.setText(Format.toString(((MySQLTableProperties) this.tableProperties).getPrimaryKeyLengthOfText()));
     }
 
     /**

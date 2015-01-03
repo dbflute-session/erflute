@@ -80,15 +80,14 @@ public class TableViewComponentEditPolicy extends NodeElementComponentEditPolicy
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN.equals(request.getType())) {
                 DirectEditRequest editRequest = (DirectEditRequest) request;
 
-                return ColumnSelectionHandlesEditPolicy.createMoveColumnCommand(editRequest,
-                        this.getHost().getViewer(), (TableView) this.getHost().getModel(),
-                        this.getColumnIndex(editRequest));
+                return ColumnSelectionHandlesEditPolicy.createMoveColumnCommand(editRequest, this.getHost().getViewer(), (TableView) this
+                        .getHost().getModel(), this.getColumnIndex(editRequest));
 
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN_GROUP.equals(request.getType())) {
                 DirectEditRequest editRequest = (DirectEditRequest) request;
 
-                return ColumnSelectionHandlesEditPolicy.createMoveColumnGroupCommand(editRequest, (TableView) this
-                        .getHost().getModel(), this.getColumnIndex(editRequest));
+                return ColumnSelectionHandlesEditPolicy.createMoveColumnGroupCommand(editRequest, (TableView) this.getHost().getModel(),
+                        this.getColumnIndex(editRequest));
             }
 
         } catch (Exception e) {

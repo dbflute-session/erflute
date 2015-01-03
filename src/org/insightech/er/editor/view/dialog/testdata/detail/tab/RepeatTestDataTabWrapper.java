@@ -56,8 +56,8 @@ public class RepeatTestDataTabWrapper extends ValidatableTabWrapper {
 
     private void createEditTable(Composite composite) {
         this.editColumnTable =
-                CompositeFactory.createRowHeaderTable(composite, TestDataDialog.WIDTH - 20,
-                        TestDataDialog.TABLE_HEIGHT, 75, 25, 2, true, true);
+                CompositeFactory.createRowHeaderTable(composite, TestDataDialog.WIDTH - 20, TestDataDialog.TABLE_HEIGHT, 75, 25, 2, true,
+                        true);
 
         this.editColumnTable.setCellEditWorker(new CellEditWorker() {
 
@@ -109,8 +109,7 @@ public class RepeatTestDataTabWrapper extends ValidatableTabWrapper {
                 getDisplay().asyncExec(new Runnable() {
                     public void run() {
                         RepeatTestDataSettingDialog dialog =
-                                new RepeatTestDataSettingDialog(getShell(), column, RepeatTestDataTabWrapper.this,
-                                        table);
+                                new RepeatTestDataSettingDialog(getShell(), column, RepeatTestDataTabWrapper.this, table);
                         dialog.open();
                     }
                 });
@@ -131,9 +130,7 @@ public class RepeatTestDataTabWrapper extends ValidatableTabWrapper {
                 type = "";
 
             } else {
-                type =
-                        Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), this.dialog.getDiagram()
-                                .getDatabase());
+                type = Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), this.dialog.getDiagram().getDatabase());
             }
 
             this.editColumnTable.addColumnHeader(name + "\r\n" + type, 100);
@@ -210,8 +207,7 @@ public class RepeatTestDataTabWrapper extends ValidatableTabWrapper {
                 int columnIndex = 0;
 
                 for (NormalColumn column : this.table.getExpandedColumns()) {
-                    values[columnIndex++] =
-                            testDataCreator.getMergedRepeatTestDataValue(i, repeatTestData.getDataDef(column), column);
+                    values[columnIndex++] = testDataCreator.getMergedRepeatTestDataValue(i, repeatTestData.getDataDef(column), column);
                 }
 
                 this.editColumnTable.addRow(String.valueOf(this.editColumnTable.getItemCount() + 1), values);

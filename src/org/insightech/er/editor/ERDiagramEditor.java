@@ -254,8 +254,8 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         //		}
 
         this.outlineMenuMgr =
-                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(),
-                        this.outlinePage.getOutlineActionRegistory(), this.outlinePage.getViewer());
+                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
+                        this.outlinePage.getViewer());
 
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
@@ -298,8 +298,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
      * </pre>
      */
     public void changeCategory() {
-        this.outlinePage.setCategory(this.getEditDomain(), this.getGraphicalViewer(), this.outlineMenuMgr,
-                this.getActionRegistry());
+        this.outlinePage.setCategory(this.getEditDomain(), this.getGraphicalViewer(), this.outlineMenuMgr, this.getActionRegistry());
 
         this.getSelectionSynchronizer().addViewer(this.outlinePage.getViewer());
     }
@@ -329,36 +328,32 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
         List<IAction> actionList =
                 new ArrayList<IAction>(Arrays.asList(new IAction[] { new ChangeViewToLogicalAction(this),
-                        new ChangeViewToPhysicalAction(this), new ChangeViewToBothAction(this),
-                        new ChangeToIENotationAction(this), new ChangeToIDEF1XNotationAction(this),
-                        new ChangeNotationLevelToColumnAction(this), new ChangeNotationLevelToExcludeTypeAction(this),
-                        new ChangeNotationLevelToDetailAction(this), new ChangeNotationLevelToOnlyTitleAction(this),
-                        new ChangeNotationLevelToOnlyKeyAction(this), new ChangeNotationLevelToNameAndKeyAction(this),
-                        new ChangeNotationExpandGroupAction(this), new ChangeDesignToFunnyAction(this),
-                        new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
-                        new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this),
-                        new ChangeStampAction(this), new GroupManageAction(this), new ChangeTrackingAction(this),
-                        new OptionSettingAction(this), new CategoryManageAction(this),
-                        new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
-                        new TranslationManageAction(this), new TestDataCreateAction(this),
-                        new ImportFromDBAction(this), new ImportFromFileAction(this), new ExportToImageAction(this),
-                        new ExportToExcelAction(this), new ExportToHtmlAction(this), new ExportToJavaAction(this),
-                        new ExportToDDLAction(this), new ExportToDictionaryAction(this),
-                        new ExportToTranslationDictionaryAction(this), new ExportToTestDataAction(this),
-                        new PageSettingAction(this), new EditAllAttributesAction(this),
+                        new ChangeViewToPhysicalAction(this), new ChangeViewToBothAction(this), new ChangeToIENotationAction(this),
+                        new ChangeToIDEF1XNotationAction(this), new ChangeNotationLevelToColumnAction(this),
+                        new ChangeNotationLevelToExcludeTypeAction(this), new ChangeNotationLevelToDetailAction(this),
+                        new ChangeNotationLevelToOnlyTitleAction(this), new ChangeNotationLevelToOnlyKeyAction(this),
+                        new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
+                        new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
+                        new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
+                        new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this),
+                        new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
+                        new TranslationManageAction(this), new TestDataCreateAction(this), new ImportFromDBAction(this),
+                        new ImportFromFileAction(this), new ExportToImageAction(this), new ExportToExcelAction(this),
+                        new ExportToHtmlAction(this), new ExportToJavaAction(this), new ExportToDDLAction(this),
+                        new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this),
+                        new ExportToTestDataAction(this), new PageSettingAction(this), new EditAllAttributesAction(this),
                         new DirectEditAction((IWorkbenchPart) this),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.CENTER),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.RIGHT),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.TOP),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.MIDDLE),
-                        new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.BOTTOM),
-                        new ERDiagramMatchWidthAction(this), new ERDiagramMatchHeightAction(this),
-                        new HorizontalLineAction(this), new VerticalLineAction(this), new RightAngleLineAction(this),
-                        new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
+                        new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.BOTTOM), new ERDiagramMatchWidthAction(this),
+                        new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
+                        new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
                         new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
-                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this),
-                        new ERModelAddAction(this), new ERModelQuickOutlineAction(this),
+                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new ERModelAddAction(this),
+                        new ERModelQuickOutlineAction(this),
                 //						new ChangeNameAction(this),
                         }));
 

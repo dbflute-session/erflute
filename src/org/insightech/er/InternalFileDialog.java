@@ -43,8 +43,7 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
         topLevel.setFont(parent.getFont());
 
         resourceGroup =
-                new ResourceAndContainerGroup(topLevel, this, "File name:",
-                        IDEWorkbenchMessages.WizardNewFileCreationPage_file, false, 250);
+                new ResourceAndContainerGroup(topLevel, this, "File name:", IDEWorkbenchMessages.WizardNewFileCreationPage_file, false, 250);
         resourceGroup.setResourceExtension(fileExtension);
         resourceGroup.setContainerFullPath(new Path(initialFolder).removeLastSegments(1));
 

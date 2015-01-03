@@ -55,11 +55,9 @@ public class GroupDialog extends AbstractDialog implements ERTableCompositeHolde
     protected void initialize(Composite composite) {
         this.groupNameText = CompositeFactory.createText(this, composite, "label.group.name", 1, 200, true);
 
-        GroupColumnDialog columnDialog =
-                new GroupColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
+        GroupColumnDialog columnDialog = new GroupColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 
-        new ERTableComposite(this, composite, this.diagram, null, (List) this.copyData.getColumns(), columnDialog,
-                this, 2, true, true);
+        new ERTableComposite(this, composite, this.diagram, null, (List) this.copyData.getColumns(), columnDialog, this, 2, true, true);
 
         this.groupNameText.setFocus();
     }

@@ -38,9 +38,9 @@ public class SheetIndexSheetGenerator extends AbstractSheetGenerator {
      * {@inheritDoc}
      */
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) {
 
         HSSFSheet sheet = workbook.getSheetAt(sheetNo);
 
@@ -48,8 +48,7 @@ public class SheetIndexSheetGenerator extends AbstractSheetGenerator {
         monitor.worked(1);
     }
 
-    public void setSheetListData(HSSFWorkbook workbook, HSSFSheet sheet, Map<String, ObjectModel> sheetObjectMap,
-            ERDiagram diagram) {
+    public void setSheetListData(HSSFWorkbook workbook, HSSFSheet sheet, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram) {
         CellLocation cellLocation = POIUtils.findCell(sheet, FIND_KEYWORDS_LIST);
 
         if (cellLocation != null) {
@@ -78,9 +77,7 @@ public class SheetIndexSheetGenerator extends AbstractSheetGenerator {
 
                     } else {
                         if (KEYWORD_SHEET_TYPE.equals(template)) {
-                            value =
-                                    ResourceString
-                                            .getResourceString("label.object.type." + objectModel.getObjectType());
+                            value = ResourceString.getResourceString("label.object.type." + objectModel.getObjectType());
 
                         } else if (KEYWORD_NAME.equals(template)) {
                             value = sheetName;
@@ -109,8 +106,7 @@ public class SheetIndexSheetGenerator extends AbstractSheetGenerator {
                 }
             }
 
-            this.setCellStyle(columnTemplate, sheet, cellLocation.r, rowNum - cellLocation.r,
-                    templateRow.getFirstCellNum());
+            this.setCellStyle(columnTemplate, sheet, cellLocation.r, rowNum - cellLocation.r, templateRow.getFirstCellNum());
 
             if (linkCol != -1) {
                 for (int row = cellLocation.r; row < rowNum; row++) {

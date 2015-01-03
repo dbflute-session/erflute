@@ -17,8 +17,7 @@ public class UninputTablespaceRule extends TablespaceRule {
 
         for (String errorMessage : tablespaceProperties.validate()) {
             ValidateResult validateResult = new ValidateResult();
-            validateResult.setMessage(ResourceString.getResourceString(errorMessage)
-                    + this.getMessageSuffix(tablespace, environment));
+            validateResult.setMessage(ResourceString.getResourceString(errorMessage) + this.getMessageSuffix(tablespace, environment));
             validateResult.setLocation(tablespace.getName());
             validateResult.setSeverity(IMarker.SEVERITY_WARNING);
             validateResult.setObject(tablespace);

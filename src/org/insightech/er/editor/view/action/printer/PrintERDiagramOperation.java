@@ -39,10 +39,8 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
         Insets notAvailable = new Insets(-trim.y, -trim.x, trim.height + trim.y, trim.width + trim.x);
 
         Insets userPreferred =
-                new Insets((pageSetting.getTopMargin() * printerDPI.x) / 72,
-                        (pageSetting.getLeftMargin() * printerDPI.x) / 72,
-                        (pageSetting.getBottomMargin() * printerDPI.x) / 72,
-                        (pageSetting.getRightMargin() * printerDPI.x) / 72);
+                new Insets((pageSetting.getTopMargin() * printerDPI.x) / 72, (pageSetting.getLeftMargin() * printerDPI.x) / 72,
+                        (pageSetting.getBottomMargin() * printerDPI.x) / 72, (pageSetting.getRightMargin() * printerDPI.x) / 72);
 
         Rectangle paperBounds = new Rectangle(this.getPrinter().getBounds());
         Rectangle printRegion = shrink(paperBounds, notAvailable);
@@ -71,8 +69,7 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
         ERDiagram diagram = this.getDiagram();
         PageSetting pageSetting = diagram.getPageSetting();
 
-        double dpiScale =
-                (double) getPrinter().getDPI().x / Display.getCurrent().getDPI().x * pageSetting.getScale() / 100;
+        double dpiScale = (double) getPrinter().getDPI().x / Display.getCurrent().getDPI().x * pageSetting.getScale() / 100;
 
         Rectangle printRegion = getPrintRegion();
         // put the print region in display coordinates

@@ -109,12 +109,10 @@ public class ErDiagramInformationControl extends AbstractInformationControl {
         IEditorPart activeEditor = ((ERDiagramMultiPageEditor) ERModelUtil.getActiveEditor()).getActiveEditor();
         if (activeEditor instanceof EROneDiagramEditor) {
             EROneDiagramEditor editor = (EROneDiagramEditor) activeEditor;
-            outline.setCategory(editor.getDefaultEditDomain(), editor.getGraphicalViewer(), null,
-                    editor.getDefaultActionRegistry());
+            outline.setCategory(editor.getDefaultEditDomain(), editor.getGraphicalViewer(), null, editor.getDefaultActionRegistry());
         } else {
             ERDiagramEditor editor = (ERDiagramEditor) activeEditor;
-            outline.setCategory(editor.getDefaultEditDomain(), editor.getGraphicalViewer(), null,
-                    editor.getDefaultActionRegistry());
+            outline.setCategory(editor.getDefaultEditDomain(), editor.getGraphicalViewer(), null, editor.getDefaultActionRegistry());
         }
 
         outline.createControl(treeArea);

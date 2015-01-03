@@ -88,17 +88,17 @@ public class ERTableComposite extends Composite {
 
     private TableViewer tableViewer;
 
-    public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable,
-            List<Column> columnList, AbstractColumnDialog columnDialog, AbstractDialog parentDialog,
-            int horizontalSpan, boolean buttonDisplay, boolean checkboxEnabled) {
-        this(holder, parent, diagram, erTable, columnList, columnDialog, parentDialog, horizontalSpan, buttonDisplay,
-                checkboxEnabled, DEFAULT_HEIGHT);
+    public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable, List<Column> columnList,
+            AbstractColumnDialog columnDialog, AbstractDialog parentDialog, int horizontalSpan, boolean buttonDisplay,
+            boolean checkboxEnabled) {
+        this(holder, parent, diagram, erTable, columnList, columnDialog, parentDialog, horizontalSpan, buttonDisplay, checkboxEnabled,
+                DEFAULT_HEIGHT);
 
     }
 
-    public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable,
-            List<Column> columnList, AbstractColumnDialog columnDialog, AbstractDialog parentDialog,
-            int horizontalSpan, boolean buttonDisplay, boolean checkboxEnabled, int height) {
+    public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable, List<Column> columnList,
+            AbstractColumnDialog columnDialog, AbstractDialog parentDialog, int horizontalSpan, boolean buttonDisplay,
+            boolean checkboxEnabled, int height) {
         super(parent, SWT.NONE);
 
         this.holder = holder;
@@ -634,8 +634,7 @@ public class ERTableComposite extends Composite {
     }
 
     private void setMessage(String message) {
-        MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
         messageBox.setText(ResourceString.getResourceString("dialog.title.error"));
         messageBox.setMessage(message);
         messageBox.open();

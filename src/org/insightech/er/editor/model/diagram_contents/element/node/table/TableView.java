@@ -353,8 +353,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
                         if (isPrimary) {
                             isPrimaryChanged = true;
                         }
-                        NormalColumn foreignKeyColumn =
-                                new NormalColumn(primaryKeyColumn, primaryKeyColumn, relation, isPrimary);
+                        NormalColumn foreignKeyColumn = new NormalColumn(primaryKeyColumn, primaryKeyColumn, relation, isPrimary);
 
                         targetTable.addColumn(foreignKeyColumn);
                     }
@@ -399,8 +398,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
             return Format.null2blank(this.getPhysicalName());
         }
 
-        TableViewProperties commonTableViewProperties =
-                this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
+        TableViewProperties commonTableViewProperties = this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
 
         String schema = this.tableViewProperties.getSchema();
 
@@ -443,16 +441,12 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
 
             int value = 0;
 
-            value =
-                    Format.null2blank(o1.physicalName).toUpperCase()
-                            .compareTo(Format.null2blank(o2.physicalName).toUpperCase());
+            value = Format.null2blank(o1.physicalName).toUpperCase().compareTo(Format.null2blank(o2.physicalName).toUpperCase());
             if (value != 0) {
                 return value;
             }
 
-            value =
-                    Format.null2blank(o1.logicalName).toUpperCase()
-                            .compareTo(Format.null2blank(o2.logicalName).toUpperCase());
+            value = Format.null2blank(o1.logicalName).toUpperCase().compareTo(Format.null2blank(o2.logicalName).toUpperCase());
             if (value != 0) {
                 return value;
             }
@@ -485,16 +479,12 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
 
             int value = 0;
 
-            value =
-                    Format.null2blank(o1.logicalName).toUpperCase()
-                            .compareTo(Format.null2blank(o2.logicalName).toUpperCase());
+            value = Format.null2blank(o1.logicalName).toUpperCase().compareTo(Format.null2blank(o2.logicalName).toUpperCase());
             if (value != 0) {
                 return value;
             }
 
-            value =
-                    Format.null2blank(o1.physicalName).toUpperCase()
-                            .compareTo(Format.null2blank(o2.physicalName).toUpperCase());
+            value = Format.null2blank(o1.physicalName).toUpperCase().compareTo(Format.null2blank(o2.physicalName).toUpperCase());
             if (value != 0) {
                 return value;
             }

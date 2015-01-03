@@ -85,8 +85,7 @@ public class ExportToHtmlAction extends AbstractExportAction {
         int currentCategoryIndex = diagram.getCurrentCategoryIndex();
 
         try {
-            ProgressMonitorDialog monitor =
-                    new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+            ProgressMonitorDialog monitor = new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
             boolean outputImage = true;
 
@@ -109,11 +108,9 @@ public class ExportToHtmlAction extends AbstractExportAction {
                 }
             }
 
-            Map<TableView, Location> tableLocationMap =
-                    getTableLocationMap(this.getGraphicalViewer(), this.getDiagram());
+            Map<TableView, Location> tableLocationMap = getTableLocationMap(this.getGraphicalViewer(), this.getDiagram());
 
-            ExportToHtmlWithProgressManager manager =
-                    new ExportToHtmlWithProgressManager(saveFilePath, diagram, tableLocationMap);
+            ExportToHtmlWithProgressManager manager = new ExportToHtmlWithProgressManager(saveFilePath, diagram, tableLocationMap);
             monitor.run(true, true, manager);
 
             if (manager.getException() != null) {
@@ -143,8 +140,7 @@ public class ExportToHtmlAction extends AbstractExportAction {
     public static Map<TableView, Location> getTableLocationMap(GraphicalViewer viewer, ERDiagram diagram) {
         Map<TableView, Location> tableLocationMap = new HashMap<TableView, Location>();
 
-        ScalableFreeformRootEditPart rootEditPart =
-                (ScalableFreeformRootEditPart) viewer.getEditPartRegistry().get(LayerManager.ID);
+        ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) viewer.getEditPartRegistry().get(LayerManager.ID);
         IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
         int translateX = ExportToImageAction.translateX(rootFigure.getBounds().x);
         int translateY = ExportToImageAction.translateY(rootFigure.getBounds().y);
@@ -163,8 +159,8 @@ public class ExportToHtmlAction extends AbstractExportAction {
                 Rectangle figureRectangle = figure.getBounds();
 
                 Location location =
-                        new Location(figureRectangle.x + translateX, figureRectangle.y + translateY,
-                                figureRectangle.width, figureRectangle.height);
+                        new Location(figureRectangle.x + translateX, figureRectangle.y + translateY, figureRectangle.width,
+                                figureRectangle.height);
                 tableLocationMap.put((TableView) nodeElement, location);
             }
         }

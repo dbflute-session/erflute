@@ -47,8 +47,7 @@ public class ExportToImageManager {
         imgLoader.save(saveFilePath, format);
     }
 
-    private void writePNGorGIF(Image image, String saveFilePath, String formatName) throws IOException,
-            InterruptedException {
+    private void writePNGorGIF(Image image, String saveFilePath, String formatName) throws IOException, InterruptedException {
 
         try {
             ImageLoader loader = new ImageLoader();
@@ -61,8 +60,7 @@ public class ExportToImageManager {
             // �������A���̕��@�ł͏�肭�o�͂ł��Ȃ�������
 
             e.printStackTrace();
-            BufferedImage bufferedImage =
-                    new BufferedImage(image.getBounds().width, image.getBounds().height, BufferedImage.TYPE_INT_RGB);
+            BufferedImage bufferedImage = new BufferedImage(image.getBounds().width, image.getBounds().height, BufferedImage.TYPE_INT_RGB);
 
             drawAtBufferedImage(bufferedImage, image, 0, 0);
 

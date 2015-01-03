@@ -348,8 +348,7 @@ public class RelationDialog extends AbstractDialog {
             this.relation.setReferencedColumn(null);
 
         } else {
-            NormalColumn sourceColumn =
-                    this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
+            NormalColumn sourceColumn = this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
 
             this.relation.setReferenceForPK(false);
             this.relation.setReferencedComplexUniqueKey(null);

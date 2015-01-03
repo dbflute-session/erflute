@@ -25,8 +25,7 @@ public class HSQLDBPreTableImportManager extends PreImportFromDBManager {
         for (String schemaPattern : this.schemaList) {
             try {
                 if (schemaPattern == null) {
-                    stmt =
-                            con.prepareStatement("SELECT SEQUENCE_SCHEMA, SEQUENCE_NAME FROM INFORMATION_SCHEMA.SEQUENCES");
+                    stmt = con.prepareStatement("SELECT SEQUENCE_SCHEMA, SEQUENCE_NAME FROM INFORMATION_SCHEMA.SEQUENCES");
 
                 } else {
                     stmt =

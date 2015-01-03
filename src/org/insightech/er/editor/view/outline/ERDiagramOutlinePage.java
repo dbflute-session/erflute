@@ -153,8 +153,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         this.graphicalViewer.addDropTargetListener(dropTargetListener);
     }
 
-    public void setCategory(EditDomain editDomain, GraphicalViewer graphicalViewer, MenuManager outlineMenuMgr,
-            ActionRegistry registry) {
+    public void setCategory(EditDomain editDomain, GraphicalViewer graphicalViewer, MenuManager outlineMenuMgr, ActionRegistry registry) {
         this.graphicalViewer = graphicalViewer;
         this.viewer.setContextMenu(outlineMenuMgr);
 
@@ -194,11 +193,9 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 
     private void registerAction(TreeViewer treeViewer, ActionRegistry actionRegistry) {
         IAction[] actions =
-                { new CreateIndexAction(treeViewer), new CreateSequenceAction(treeViewer),
-                        new CreateTriggerAction(treeViewer), new CreateTablespaceAction(treeViewer),
-                        new ChangeOutlineViewToPhysicalAction(treeViewer),
-                        new ChangeOutlineViewToLogicalAction(treeViewer),
-                        new ChangeOutlineViewToBothAction(treeViewer),
+                { new CreateIndexAction(treeViewer), new CreateSequenceAction(treeViewer), new CreateTriggerAction(treeViewer),
+                        new CreateTablespaceAction(treeViewer), new ChangeOutlineViewToPhysicalAction(treeViewer),
+                        new ChangeOutlineViewToLogicalAction(treeViewer), new ChangeOutlineViewToBothAction(treeViewer),
                         new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
                         new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer), };
 
@@ -305,8 +302,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 ERDiagramOutlineEditPart contents =
                         (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
                 if (contents != null) {
-                    List<ERModelOutlineEditPart> parts =
-                            ((ERModelSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
+                    List<ERModelOutlineEditPart> parts = ((ERModelSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
                     for (ERModelOutlineEditPart part : parts) {
                         if (part.getModel().equals(erModel)) {
                             ISelection selection = new StructuredSelection(part);

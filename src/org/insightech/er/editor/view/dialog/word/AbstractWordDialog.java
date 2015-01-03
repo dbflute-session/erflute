@@ -106,8 +106,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     protected void initializeComposite(Composite composite) {
         int numColumns = this.getCompositeNumColumns();
 
-        this.physicalNameText =
-                CompositeFactory.createText(this, composite, "label.physical.name", numColumns - 1, false);
+        this.physicalNameText = CompositeFactory.createText(this, composite, "label.physical.name", numColumns - 1, false);
 
         this.logicalNameText = CompositeFactory.createText(this, composite, "label.logical.name", numColumns - 1, true);
 
@@ -124,8 +123,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
 
             this.arrayCheck = CompositeFactory.createCheckbox(this, composite, "label.column.array");
             this.arrayCheck.setEnabled(true);
-            this.arrayDimensionText =
-                    CompositeFactory.createNumText(this, composite, "label.column.array.dimension", 15);
+            this.arrayDimensionText = CompositeFactory.createNumText(this, composite, "label.column.array.dimension", 15);
             this.arrayDimensionText.setEnabled(false);
 
             this.arrayCheck.addSelectionListener(new SelectionAdapter() {
@@ -150,15 +148,11 @@ public abstract class AbstractWordDialog extends AbstractDialog {
             this.unsignedCheck.setEnabled(false);
 
             CompositeFactory.filler(composite, 1);
-            this.argsText =
-                    CompositeFactory.createText(this, composite, "label.column.type.enum.set",
-                            getCompositeNumColumns() - 2, false);
+            this.argsText = CompositeFactory.createText(this, composite, "label.column.type.enum.set", getCompositeNumColumns() - 2, false);
             this.argsText.setEnabled(false);
         }
 
-        this.descriptionText =
-                CompositeFactory.createTextArea(this, composite, "label.column.description", -1, 100, numColumns - 1,
-                        true);
+        this.descriptionText = CompositeFactory.createTextArea(this, composite, "label.column.description", -1, 100, numColumns - 1, true);
     }
 
     /**
@@ -173,8 +167,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
         }
     }
 
-    protected void setData(String physicalName, String logicalName, SqlType sqlType, TypeData typeData,
-            String description) {
+    protected void setData(String physicalName, String logicalName, SqlType sqlType, TypeData typeData, String description) {
 
         this.physicalNameText.setText(Format.toString(physicalName));
         this.logicalNameText.setText(Format.toString(logicalName));

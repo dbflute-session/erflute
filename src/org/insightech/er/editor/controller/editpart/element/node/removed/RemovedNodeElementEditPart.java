@@ -25,8 +25,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.category.Cat
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.RemovedNodeElement;
 
-public abstract class RemovedNodeElementEditPart extends AbstractModelEditPart implements NodeEditPart,
-        DeleteableEditPart {
+public abstract class RemovedNodeElementEditPart extends AbstractModelEditPart implements NodeEditPart, DeleteableEditPart {
 
     private Font font;
 

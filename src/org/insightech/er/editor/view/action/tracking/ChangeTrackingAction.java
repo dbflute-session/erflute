@@ -24,8 +24,8 @@ public class ChangeTrackingAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
 
         ChangeTrackingDialog dialog =
-                new ChangeTrackingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                        this.getGraphicalViewer(), diagram);
+                new ChangeTrackingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getGraphicalViewer(),
+                        diagram);
 
         dialog.open();
     }

@@ -238,10 +238,9 @@ public class PageSettingDialog extends AbstractDialog {
     @Override
     protected void perfomeOK() throws InputException {
         this.pageSetting =
-                new PageSetting(this.hButton.getSelection(), this.scaleSpinner.getSelection(),
-                        this.sizeCombo.getText(), this.topMarginSpinner.getSelection(),
-                        this.rightMarginSpinner.getSelection(), this.bottomMarginSpinner.getSelection(),
-                        this.leftMarginSpinner.getSelection());
+                new PageSetting(this.hButton.getSelection(), this.scaleSpinner.getSelection(), this.sizeCombo.getText(),
+                        this.topMarginSpinner.getSelection(), this.rightMarginSpinner.getSelection(),
+                        this.bottomMarginSpinner.getSelection(), this.leftMarginSpinner.getSelection());
         this.diagram.setPageSetting(this.pageSetting);
     }
 

@@ -86,9 +86,8 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                         NodeElement nodeElement = (NodeElement) editPart.getModel();
 
                         MoveElementCommand moveElementCommand =
-                                new MoveElementCommand(diagram, editPart.getFigure().getBounds(), nodeElement.getX()
-                                        + dx, nodeElement.getY() + dy, nodeElement.getWidth(), nodeElement.getHeight(),
-                                        nodeElement);
+                                new MoveElementCommand(diagram, editPart.getFigure().getBounds(), nodeElement.getX() + dx,
+                                        nodeElement.getY() + dy, nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
 
                         command.add(moveElementCommand);
                     }

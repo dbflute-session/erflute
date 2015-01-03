@@ -134,8 +134,8 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
 
         if (getDiagram().getDiagramContents().getSettings().getTitleFontEm() != null) {
             int largeFontSize =
-                    getDiagram().getDiagramContents().getSettings().getTitleFontEm()
-                            .multiply(new BigDecimal(nodeElement.getFontSize())).intValue();
+                    getDiagram().getDiagramContents().getSettings().getTitleFontEm().multiply(new BigDecimal(nodeElement.getFontSize()))
+                            .intValue();
             this.largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
         }
 

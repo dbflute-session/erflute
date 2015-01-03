@@ -39,9 +39,9 @@ public class HistorySheetGenerator extends AbstractSheetGenerator {
      * {@inheritDoc}
      */
     @Override
-    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
-            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
-            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo, boolean useLogicalNameAsSheetName,
+            Map<String, Integer> sheetNameMap, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
+            Map<String, LoopDefinition> loopDefinitionMap) {
 
         String sheetName = this.getSheetName();
 
@@ -53,8 +53,7 @@ public class HistorySheetGenerator extends AbstractSheetGenerator {
         monitor.worked(1);
     }
 
-    public void setHistoryListData(HSSFWorkbook workbook, HSSFSheet sheet, Map<String, ObjectModel> sheetObjectMap,
-            ERDiagram diagram) {
+    public void setHistoryListData(HSSFWorkbook workbook, HSSFSheet sheet, Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram) {
         CellLocation cellLocation = POIUtils.findCell(sheet, FIND_KEYWORDS_LIST);
 
         if (cellLocation != null) {
@@ -100,8 +99,7 @@ public class HistorySheetGenerator extends AbstractSheetGenerator {
                 }
             }
 
-            this.setCellStyle(columnTemplate, sheet, cellLocation.r, rowNum - cellLocation.r,
-                    templateRow.getFirstCellNum());
+            this.setCellStyle(columnTemplate, sheet, cellLocation.r, rowNum - cellLocation.r, templateRow.getFirstCellNum());
 
             if (linkCol != -1) {
                 for (int row = cellLocation.r; row < rowNum; row++) {

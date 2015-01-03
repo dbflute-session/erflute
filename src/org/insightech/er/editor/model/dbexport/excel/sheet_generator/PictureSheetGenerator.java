@@ -90,8 +90,8 @@ public class PictureSheetGenerator {
             }
 
             HSSFClientAnchor preferredSize =
-                    this.getPreferredSize(sheet, new HSSFClientAnchor(0, 0, 0, 0, (short) cellLocation.c,
-                            cellLocation.r, (short) 0, 0), width, height);
+                    this.getPreferredSize(sheet, new HSSFClientAnchor(0, 0, 0, 0, (short) cellLocation.c, cellLocation.r, (short) 0, 0),
+                            width, height);
             picture.setAnchor(preferredSize);
         }
     }

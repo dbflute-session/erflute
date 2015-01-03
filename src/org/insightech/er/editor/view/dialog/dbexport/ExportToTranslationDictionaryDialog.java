@@ -166,8 +166,7 @@ public class ExportToTranslationDictionaryDialog extends AbstractDialog {
     protected void setData() {
         DiagramContents diagramContents = this.diagram.getDiagramContents();
 
-        TranslationResources resources =
-                new TranslationResources(diagramContents.getSettings().getTranslationSetting());
+        TranslationResources resources = new TranslationResources(diagramContents.getSettings().getTranslationSetting());
 
         Map<String, String> newDictionary = new TreeMap<String, String>();
 
@@ -192,8 +191,7 @@ public class ExportToTranslationDictionaryDialog extends AbstractDialog {
         }
     }
 
-    private void addNewWord(String physicalName, String logicalName, TranslationResources resources,
-            Map<String, String> newDictionary) {
+    private void addNewWord(String physicalName, String logicalName, TranslationResources resources, Map<String, String> newDictionary) {
         physicalName = physicalName.toLowerCase();
         logicalName = logicalName.toLowerCase();
 

@@ -139,16 +139,13 @@ public class ExportToDDLDialog extends AbstractDialog {
         GridData gridData = new GridData();
         gridData.widthHint = 200;
 
-        this.environmentCombo =
-                CompositeFactory.createReadOnlyCombo(this, parent, "label.tablespace.environment", 2, -1);
+        this.environmentCombo = CompositeFactory.createReadOnlyCombo(this, parent, "label.tablespace.environment", 2, -1);
 
         CompositeFactory.createLabel(parent, "label.output.file");
         this.outputFileText = new FileText(parent, SWT.BORDER, ".sql");
         this.outputFileText.setLayoutData(gridData);
 
-        this.fileEncodingCombo =
-                CompositeFactory
-                        .createFileEncodingCombo(this.editorPart, this, parent, "label.output.file.encoding", 2);
+        this.fileEncodingCombo = CompositeFactory.createFileEncodingCombo(this.editorPart, this, parent, "label.output.file.encoding", 2);
 
         this.categoryCombo = CompositeFactory.createReadOnlyCombo(this, parent, "label.category", 2, -1);
         this.initCategoryCombo();
@@ -168,8 +165,7 @@ public class ExportToDDLDialog extends AbstractDialog {
     private void initCategoryCombo() {
         this.categoryCombo.add(ResourceString.getResourceString("label.all"));
 
-        for (Category category : this.diagram.getDiagramContents().getSettings().getCategorySetting()
-                .getAllCategories()) {
+        for (Category category : this.diagram.getDiagramContents().getSettings().getCategorySetting().getAllCategories()) {
             this.categoryCombo.add(category.getName());
         }
     }
@@ -272,16 +268,13 @@ public class ExportToDDLDialog extends AbstractDialog {
         commentValueLayout.numColumns = 1;
         commentValueGroup.setLayout(commentValueLayout);
 
-        this.commentValueDescription =
-                CompositeFactory.createRadio(this, commentValueGroup, "label.comment.value.description");
-        this.commentValueLogicalName =
-                CompositeFactory.createRadio(this, commentValueGroup, "label.comment.value.logical.name");
+        this.commentValueDescription = CompositeFactory.createRadio(this, commentValueGroup, "label.comment.value.description");
+        this.commentValueLogicalName = CompositeFactory.createRadio(this, commentValueGroup, "label.comment.value.logical.name");
         this.commentValueLogicalNameDescription =
                 CompositeFactory.createRadio(this, commentValueGroup, "label.comment.value.logical.name.description");
 
         this.commentReplaceLineFeed = CompositeFactory.createCheckbox(this, group, "label.comment.replace.line.feed");
-        this.commentReplaceString =
-                CompositeFactory.createText(this, group, "label.comment.replace.string", 1, 20, false);
+        this.commentReplaceString = CompositeFactory.createText(this, group, "label.comment.replace.string", 1, 20, false);
 
         this.inlineTableComment = CompositeFactory.createCheckbox(this, group, "label.comment.inline.table", 4);
         this.inlineColumnComment = CompositeFactory.createCheckbox(this, group, "label.comment.inline.column", 4);
@@ -398,18 +391,14 @@ public class ExportToDDLDialog extends AbstractDialog {
             DDLCreator ddlCreator = DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, true);
 
             int index = this.environmentCombo.getSelectionIndex();
-            Environment environment =
-                    this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments()
-                            .get(index);
+            Environment environment = this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
 
             ddlCreator.init(environment, ddlTarget);
 
             file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(saveFilePath));
             String absoluteFilePath = file.getLocation().toString();
 
-            out =
-                    new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath),
-                            getEncoding())));
+            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath), getEncoding())));
 
             file.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
 
@@ -512,8 +501,7 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.commentValueLogicalName.setSelection(ddlTarget.commentValueLogicalName);
         this.commentValueLogicalNameDescription.setSelection(ddlTarget.commentValueLogicalNameDescription);
 
-        if (!ddlTarget.commentValueDescription && !ddlTarget.commentValueLogicalName
-                && !ddlTarget.commentValueLogicalNameDescription) {
+        if (!ddlTarget.commentValueDescription && !ddlTarget.commentValueLogicalName && !ddlTarget.commentValueLogicalNameDescription) {
             this.commentValueDescription.setSelection(true);
         }
 

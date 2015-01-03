@@ -63,8 +63,7 @@ public class TableHtmlReportPageGenerator extends AbstractHtmlReportPageGenerato
 
         String referencedKeyTable = this.generateReferenceKeyTable(referencedKeyList);
 
-        String complexUniqueKeyMatrix =
-                this.generateComplexUniqueKeyMatrix(table.getComplexUniqueKeyList(), normalColumnList);
+        String complexUniqueKeyMatrix = this.generateComplexUniqueKeyMatrix(table.getComplexUniqueKeyList(), normalColumnList);
 
         List<Index> indexList = table.getIndexes();
 
@@ -75,8 +74,8 @@ public class TableHtmlReportPageGenerator extends AbstractHtmlReportPageGenerato
         String attributeDetailTable = this.generateAttributeDetailTable(diagram, normalColumnList);
 
         return new String[] { Format.null2blank(description), Format.null2blank(table.getPhysicalName()),
-                Format.null2blank(table.getConstraint()), attributeTable, foreignKeyTable, referencedKeyTable,
-                complexUniqueKeyMatrix, indexSummaryTable, indexMatrix, attributeDetailTable };
+                Format.null2blank(table.getConstraint()), attributeTable, foreignKeyTable, referencedKeyTable, complexUniqueKeyMatrix,
+                indexSummaryTable, indexMatrix, attributeDetailTable };
     }
 
     public String getObjectName(Object object) {

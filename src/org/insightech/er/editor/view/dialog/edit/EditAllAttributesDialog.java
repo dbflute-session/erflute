@@ -666,9 +666,8 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
 
                             TypeData oldTypeData = word.getTypeData();
                             TypeData newTypeData =
-                                    new TypeData(Integer.parseInt(((Text) control).getText()),
-                                            oldTypeData.getDecimal(), oldTypeData.isArray(),
-                                            oldTypeData.getArrayDimension(), oldTypeData.isUnsigned(),
+                                    new TypeData(Integer.parseInt(((Text) control).getText()), oldTypeData.getDecimal(),
+                                            oldTypeData.isArray(), oldTypeData.getArrayDimension(), oldTypeData.isUnsigned(),
                                             oldTypeData.getArgs());
 
                             word.setType(word.getType(), newTypeData, database);
@@ -696,9 +695,8 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
 
                             TypeData oldTypeData = word.getTypeData();
                             TypeData newTypeData =
-                                    new TypeData(oldTypeData.getLength(), decimal, oldTypeData.isArray(),
-                                            oldTypeData.getArrayDimension(), oldTypeData.isUnsigned(),
-                                            oldTypeData.getArgs());
+                                    new TypeData(oldTypeData.getLength(), decimal, oldTypeData.isArray(), oldTypeData.getArrayDimension(),
+                                            oldTypeData.isUnsigned(), oldTypeData.getArgs());
 
                             word.setType(word.getType(), newTypeData, database);
                         }

@@ -115,8 +115,8 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
         //				.getActiveWorkbenchWindow().getShell(), this.copyData);
 
         this.tableComposite =
-                new ERTableComposite(this, parent, this.copyData.getDiagram(), this.copyData,
-                        this.copyData.getColumns(), columnDialog, this.tableDialog, 2, true, true);
+                new ERTableComposite(this, parent, this.copyData.getDiagram(), this.copyData, this.copyData.getColumns(), columnDialog,
+                        this.tableDialog, 2, true, true);
     }
 
     /**
@@ -278,8 +278,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
         group.setLayoutData(gridData);
 
         this.groupTableComposite =
-                new ERTableComposite(this, group, this.copyData.getDiagram(), null, null, null, null, 2, false, false,
-                        GROUP_TABLE_HEIGHT);
+                new ERTableComposite(this, group, this.copyData.getDiagram(), null, null, null, null, 2, false, false, GROUP_TABLE_HEIGHT);
 
         this.groupManageButton = new Button(group, SWT.NONE);
         this.groupManageButton.setText(ResourceString.getResourceString("label.button.group.manage"));
@@ -294,8 +293,8 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
                 GroupSet groupSet = getColumnGroups();
 
                 GroupManageDialog dialog =
-                        new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                groupSet, copyData.getDiagram(), false, -1);
+                        new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, copyData
+                                .getDiagram(), false, -1);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
                     List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();

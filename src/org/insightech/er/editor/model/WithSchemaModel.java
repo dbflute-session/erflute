@@ -45,8 +45,7 @@ public abstract class WithSchemaModel extends AbstractModel implements Comparabl
     public int compareTo(WithSchemaModel other) {
         int compareTo = 0;
 
-        compareTo =
-                Format.null2blank(this.schema).toUpperCase().compareTo(Format.null2blank(other.schema).toUpperCase());
+        compareTo = Format.null2blank(this.schema).toUpperCase().compareTo(Format.null2blank(other.schema).toUpperCase());
 
         if (compareTo != 0) {
             return compareTo;

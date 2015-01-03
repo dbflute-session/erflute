@@ -73,8 +73,7 @@ public class RepeatTestDataSettingDialog extends AbstractDialog {
 
     private boolean createContents = false;
 
-    public RepeatTestDataSettingDialog(Shell parentShell, int columnIndex,
-            RepeatTestDataTabWrapper repeatTestDataTabWrapper, ERTable table) {
+    public RepeatTestDataSettingDialog(Shell parentShell, int columnIndex, RepeatTestDataTabWrapper repeatTestDataTabWrapper, ERTable table) {
         super(parentShell, 2);
 
         this.repeatTestDataTabWrapper = repeatTestDataTabWrapper;

@@ -43,8 +43,7 @@ public abstract class PreTableExportManager {
 
     private Set<String> newSequenceNames;
 
-    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, Environment environment)
-            throws SQLException {
+    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, Environment environment) throws SQLException {
         this.con = con;
         this.dbSetting = dbSetting;
         this.diagram = diagram;
@@ -52,8 +51,7 @@ public abstract class PreTableExportManager {
 
         this.metaData = con.getMetaData();
 
-        this.ifExistsOption =
-                DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, false).getIfExistsOption();
+        this.ifExistsOption = DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, false).getIfExistsOption();
 
         this.prepareNewNames();
     }
@@ -62,15 +60,14 @@ public abstract class PreTableExportManager {
         this.newTableNames = new HashSet<String>();
 
         for (ERTable table : this.diagram.getDiagramContents().getContents().getTableSet()) {
-            this.newTableNames.add(this.dbSetting.getTableNameWithSchema(table.getPhysicalName(), table
-                    .getTableViewProperties().getSchema()));
+            this.newTableNames.add(this.dbSetting.getTableNameWithSchema(table.getPhysicalName(), table.getTableViewProperties()
+                    .getSchema()));
         }
 
         this.newViewNames = new HashSet<String>();
 
         for (View view : this.diagram.getDiagramContents().getContents().getViewSet()) {
-            this.newViewNames.add(this.dbSetting.getTableNameWithSchema(view.getPhysicalName(), view
-                    .getTableViewProperties().getSchema()));
+            this.newViewNames.add(this.dbSetting.getTableNameWithSchema(view.getPhysicalName(), view.getTableViewProperties().getSchema()));
         }
 
         this.newSequenceNames = new HashSet<String>();

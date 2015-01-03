@@ -53,8 +53,7 @@ public class CopyAction extends SelectionAction {
         if (list.isEmpty()) {
             return false;
         }
-        if (list.size() == 1 && list.get(0) instanceof ModelPropertiesEditPart
-                || list.get(0) instanceof ERDiagramEditPart) {
+        if (list.size() == 1 && list.get(0) instanceof ModelPropertiesEditPart || list.get(0) instanceof ERDiagramEditPart) {
             return false;
         }
 

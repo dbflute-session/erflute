@@ -26,8 +26,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
 
     private static final Pattern INTERVAL_YEAR_TO_MONTH_PATTERN = Pattern.compile("interval year\\((.)\\) to month");
 
-    private static final Pattern INTERVAL_DAY_TO_SECCOND_PATTERN = Pattern
-            .compile("interval day\\((.)\\) to second\\((.)\\)");
+    private static final Pattern INTERVAL_DAY_TO_SECCOND_PATTERN = Pattern.compile("interval day\\((.)\\) to second\\((.)\\)");
 
     private static final Pattern TIMESTAMP_PATTERN = Pattern.compile("timestamp\\((.)\\).*");
 
@@ -35,8 +34,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
      * {@inheritDoc}
      */
     @Override
-    protected void cashColumnData(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException,
-            InterruptedException {
+    protected void cashColumnData(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException, InterruptedException {
         super.cashColumnData(dbObjectList, monitor);
 
         PreparedStatement stmt = null;
@@ -80,8 +78,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
         ResultSet rs = null;
 
         try {
-            stmt =
-                    this.con.prepareStatement("SELECT OWNER, TABLE_NAME, COMMENTS FROM SYS.ALL_TAB_COMMENTS WHERE COMMENTS IS NOT NULL");
+            stmt = this.con.prepareStatement("SELECT OWNER, TABLE_NAME, COMMENTS FROM SYS.ALL_TAB_COMMENTS WHERE COMMENTS IS NOT NULL");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -125,8 +122,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
 
         try {
             if (schema != null) {
-                stmt =
-                        this.con.prepareStatement("SELECT * FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_OWNER = ? AND SEQUENCE_NAME = ?");
+                stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_OWNER = ? AND SEQUENCE_NAME = ?");
                 stmt.setString(1, schema);
                 stmt.setString(2, sequenceName);
 
@@ -219,8 +215,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
      * {@inheritDoc}
      */
     @Override
-    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys)
-            throws SQLException {
+    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
         if (!isValidObjectName(table.getPhysicalName())) {
             logger.info("is not valid object name : " + table.getPhysicalName());
             return new ArrayList<Index>();

@@ -68,8 +68,8 @@ public abstract class FileListEditor extends ListEditor {
 
             if (this.contains(fileName)) {
                 MessageBox messageBox =
-                        new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
+                        new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK
+                                | SWT.CANCEL);
                 messageBox.setText(ResourceString.getResourceString("dialog.title.warning"));
                 messageBox.setMessage(ResourceString.getResourceString("dialog.message.update.file"));
 

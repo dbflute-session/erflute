@@ -97,8 +97,7 @@ public class ExportToHtmlManager {
         String overviewFrame = overviewPageGenerator.generateFrame(htmlReportPageGeneratorList);
         this.writeOut("overview-frame.html", overviewFrame);
 
-        String overviewSummary =
-                overviewPageGenerator.generateSummary(imageSrc, tableLocationMap, htmlReportPageGeneratorList);
+        String overviewSummary = overviewPageGenerator.generateSummary(imageSrc, tableLocationMap, htmlReportPageGeneratorList);
         this.writeOut("overview-summary.html", overviewSummary);
 
         // �I�u�W�F�N�g�^�C�v���̊K�w

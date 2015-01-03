@@ -45,8 +45,7 @@ public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEdit
     public void propertyChange(PropertyChangeEvent event) {
         try {
             if (DEBUG) {
-                logger.log(Level.INFO,
-                        this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
+                logger.log(Level.INFO, this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
             }
 
             if (event.getPropertyName().equals(ConnectionElement.PROPERTY_CHANGE_BEND_POINT)) {

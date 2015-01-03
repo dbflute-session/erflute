@@ -102,8 +102,7 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
             targetY = targetPoint.y;
         }
 
-        RightAngleLineCommand command =
-                new RightAngleLineCommand(sourceX, sourceY, targetX, targetY, connectionEditPart);
+        RightAngleLineCommand command = new RightAngleLineCommand(sourceX, sourceY, targetX, targetY, connectionEditPart);
 
         return command;
     }

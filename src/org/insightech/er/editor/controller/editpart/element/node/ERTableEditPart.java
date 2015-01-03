@@ -62,8 +62,8 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
         ERTable copyTable = table.copyData();
 
         TableDialog dialog =
-                new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(),
-                        copyTable, diagram.getDiagramContents().getGroups());
+                new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyTable, diagram
+                        .getDiagramContents().getGroups());
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             CompoundCommand command = createChangeTablePropertyCommand(diagram, table, copyTable);
@@ -75,8 +75,7 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
     public static CompoundCommand createChangeTablePropertyCommand(ERDiagram diagram, ERTable table, ERTable copyTable) {
         CompoundCommand command = new CompoundCommand();
 
-        ChangeTableViewPropertyCommand changeTablePropertyCommand =
-                new ChangeTableViewPropertyCommand(table, copyTable);
+        ChangeTableViewPropertyCommand changeTablePropertyCommand = new ChangeTableViewPropertyCommand(table, copyTable);
         command.add(changeTablePropertyCommand);
 
         String tableName = copyTable.getPhysicalName();
@@ -99,9 +98,8 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
                             if (!triggerSet.contains(triggerName)) {
                                 Trigger trigger = new Trigger();
                                 trigger.setName(triggerName);
-                                trigger.setSql("BEFORE INSERT ON " + tableName + "\r\nFOR EACH ROW" + "\r\nBEGIN"
-                                        + "\r\n\tSELECT " + sequenceName + ".nextval\r\n\tINTO :new." + columnName
-                                        + "\r\n\tFROM dual;" + "\r\nEND");
+                                trigger.setSql("BEFORE INSERT ON " + tableName + "\r\nFOR EACH ROW" + "\r\nBEGIN" + "\r\n\tSELECT "
+                                        + sequenceName + ".nextval\r\n\tINTO :new." + columnName + "\r\n\tFROM dual;" + "\r\nEND");
 
                                 CreateTriggerCommand createTriggerCommand = new CreateTriggerCommand(diagram, trigger);
                                 command.add(createTriggerCommand);
@@ -113,8 +111,7 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
                                 sequence.setStart(1L);
                                 sequence.setIncrement(1);
 
-                                CreateSequenceCommand createSequenceCommand =
-                                        new CreateSequenceCommand(diagram, sequence);
+                                CreateSequenceCommand createSequenceCommand = new CreateSequenceCommand(diagram, sequence);
                                 command.add(createSequenceCommand);
                             }
                         }
@@ -125,8 +122,7 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
             NormalColumn oldAutoIncrementColumn = table.getAutoIncrementColumn();
 
             if (oldAutoIncrementColumn != null) {
-                if (autoIncrementColumn == null
-                        || ((CopyColumn) autoIncrementColumn).getOriginalColumn() != oldAutoIncrementColumn) {
+                if (autoIncrementColumn == null || ((CopyColumn) autoIncrementColumn).getOriginalColumn() != oldAutoIncrementColumn) {
                     String oldTableName = table.getPhysicalName();
                     String columnName = oldAutoIncrementColumn.getPhysicalName();
 
@@ -143,16 +139,14 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
                                 Trigger trigger = triggerSet.get(triggerName);
 
                                 if (trigger != null) {
-                                    DeleteTriggerCommand deleteTriggerCommand =
-                                            new DeleteTriggerCommand(diagram, trigger);
+                                    DeleteTriggerCommand deleteTriggerCommand = new DeleteTriggerCommand(diagram, trigger);
                                     command.add(deleteTriggerCommand);
                                 }
 
                                 Sequence sequence = sequenceSet.get(sequenceName);
 
                                 if (sequence != null) {
-                                    DeleteSequenceCommand deleteSequenceCommand =
-                                            new DeleteSequenceCommand(diagram, sequence);
+                                    DeleteSequenceCommand deleteSequenceCommand = new DeleteSequenceCommand(diagram, sequence);
                                     command.add(deleteSequenceCommand);
                                 }
                             }

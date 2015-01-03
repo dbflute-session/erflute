@@ -133,8 +133,7 @@ public class SqlType implements Serializable {
         SQL_TYPE_LIST.add(this);
     }
 
-    public static void setDBAliasMap(Map<String, Map<SqlType, String>> dbAliasMap,
-            Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap) {
+    public static void setDBAliasMap(Map<String, Map<SqlType, String>> dbAliasMap, Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap) {
         SqlType.dbAliasMap = dbAliasMap;
         SqlType.dbSqlTypeMap = dbSqlTypeMap;
     }

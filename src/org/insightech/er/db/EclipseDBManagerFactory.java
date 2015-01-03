@@ -44,8 +44,7 @@ public class EclipseDBManagerFactory {
             }
         }
 
-        throw new IllegalArgumentException(ResourceString.getResourceString("error.database.is.not.supported")
-                + database);
+        throw new IllegalArgumentException(ResourceString.getResourceString("error.database.is.not.supported") + database);
     }
 
     public static EclipseDBManager getEclipseDBManager(ERDiagram diagram) {

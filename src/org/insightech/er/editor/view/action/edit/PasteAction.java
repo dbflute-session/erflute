@@ -108,8 +108,8 @@ public class PasteAction extends SelectionAction {
             ERDiagram diagram = (ERDiagram) model;
 
             Command command =
-                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
-                            diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
+                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20, diagram.mousePoint.y - y
+                            + (numberOfCopy - 1) * 20);
 
             return command;
         }
@@ -118,8 +118,8 @@ public class PasteAction extends SelectionAction {
             ERDiagram diagram = erModel.getDiagram();
 
             Command command =
-                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
-                            diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
+                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20, diagram.mousePoint.y - y
+                            + (numberOfCopy - 1) * 20);
 
             return command;
         }

@@ -34,8 +34,7 @@ public class CreateIndexAction extends AbstractOutlineBaseAction {
         EditPart editPart = (EditPart) selectedEditParts.get(0);
         ERTable table = (ERTable) editPart.getModel();
 
-        IndexDialog dialog =
-                new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, table);
+        IndexDialog dialog = new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, table);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             CreateIndexCommand command = new CreateIndexCommand(diagram, dialog.getResultIndex());

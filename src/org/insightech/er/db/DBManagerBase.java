@@ -60,12 +60,11 @@ public abstract class DBManagerBase implements DBManager {
 
         } catch (Exception e) {
             JDBCPathDialog dialog =
-                    new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getId(),
-                            driverClassName, path, new ArrayList<JDBCDriverSetting>(), false);
+                    new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getId(), driverClassName,
+                            path, new ArrayList<JDBCDriverSetting>(), false);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                JDBCDriverSetting newDriverSetting =
-                        new JDBCDriverSetting(this.getId(), dialog.getDriverClassName(), dialog.getPath());
+                JDBCDriverSetting newDriverSetting = new JDBCDriverSetting(this.getId(), dialog.getDriverClassName(), dialog.getPath());
 
                 List<JDBCDriverSetting> driverSettingList = PreferenceInitializer.getJDBCDriverSettingList();
 

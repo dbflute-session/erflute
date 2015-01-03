@@ -63,8 +63,8 @@ public class ImportTableCommand extends AbstractCommand {
 
     private static final int SIZE_X = 6;
 
-    public ImportTableCommand(ERDiagram diagram, List<NodeElement> nodeElementList, List<Sequence> sequences,
-            List<Trigger> triggers, List<Tablespace> tablespaces, List<ColumnGroup> columnGroups) {
+    public ImportTableCommand(ERDiagram diagram, List<NodeElement> nodeElementList, List<Sequence> sequences, List<Trigger> triggers,
+            List<Tablespace> tablespaces, List<ColumnGroup> columnGroups) {
         this.diagram = diagram;
         this.nodeElementList = nodeElementList;
         this.sequences = sequences;

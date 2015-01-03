@@ -25,8 +25,7 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
     public ERDiagramPaletteRoot() {
         PaletteGroup group = new PaletteGroup("");
 
-        PanningSelectionToolEntry selectionToolEntry =
-                new PanningSelectionToolEntry(ResourceString.getResourceString("label.select"));
+        PanningSelectionToolEntry selectionToolEntry = new PanningSelectionToolEntry(ResourceString.getResourceString("label.select"));
         selectionToolEntry.setToolClass(MovablePanningSelectionTool.class);
         selectionToolEntry.setLargeIcon(Activator.getImageDescriptor(ImageKey.ARROW));
         selectionToolEntry.setSmallIcon(Activator.getImageDescriptor(ImageKey.ARROW));
@@ -39,39 +38,35 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
                 .getImageDescriptor(ImageKey.TABLE_NEW), Activator.getImageDescriptor(ImageKey.TABLE_NEW)));
 
         group.add(new CreationToolEntry(ResourceString.getResourceString("label.view"), ResourceString
-                .getResourceString("label.create.view"), new SimpleFactory(View.class), Activator
-                .getImageDescriptor(ImageKey.VIEW), Activator.getImageDescriptor(ImageKey.VIEW)));
+                .getResourceString("label.create.view"), new SimpleFactory(View.class), Activator.getImageDescriptor(ImageKey.VIEW),
+                Activator.getImageDescriptor(ImageKey.VIEW)));
 
         ConnectionCreationToolEntry toolEntry1 =
                 new ConnectionCreationToolEntry(ResourceString.getResourceString("label.relation.one.to.many"),
-                        ResourceString.getResourceString("label.create.relation.one.to.many"), new SimpleFactory(
-                                Relation.class), Activator.getImageDescriptor(ImageKey.RELATION_1_N),
-                        Activator.getImageDescriptor(ImageKey.RELATION_1_N));
+                        ResourceString.getResourceString("label.create.relation.one.to.many"), new SimpleFactory(Relation.class),
+                        Activator.getImageDescriptor(ImageKey.RELATION_1_N), Activator.getImageDescriptor(ImageKey.RELATION_1_N));
         toolEntry1.setToolClass(RelationCreationTool.class);
         group.add(toolEntry1);
 
         ConnectionCreationToolEntry toolEntry2 =
                 new ConnectionCreationToolEntry(ResourceString.getResourceString("label.relation.by.existing.columns"),
-                        ResourceString.getResourceString("label.create.relation.by.existing.columns"),
-                        new SimpleFactory(RelationByExistingColumns.class),
-                        Activator.getImageDescriptor(ImageKey.RELATION_1_N),
+                        ResourceString.getResourceString("label.create.relation.by.existing.columns"), new SimpleFactory(
+                                RelationByExistingColumns.class), Activator.getImageDescriptor(ImageKey.RELATION_1_N),
                         Activator.getImageDescriptor(ImageKey.RELATION_1_N));
         toolEntry2.setToolClass(RelationByExistingColumnsCreationTool.class);
         group.add(toolEntry2);
 
         ConnectionCreationToolEntry toolEntry3 =
                 new ConnectionCreationToolEntry(ResourceString.getResourceString("label.relation.many.to.many"),
-                        ResourceString.getResourceString("label.create.relation.many.to.many"), new SimpleFactory(
-                                RelatedTable.class), Activator.getImageDescriptor(ImageKey.RELATION_N_N),
-                        Activator.getImageDescriptor(ImageKey.RELATION_N_N));
+                        ResourceString.getResourceString("label.create.relation.many.to.many"), new SimpleFactory(RelatedTable.class),
+                        Activator.getImageDescriptor(ImageKey.RELATION_N_N), Activator.getImageDescriptor(ImageKey.RELATION_N_N));
         toolEntry3.setToolClass(RelatedTableCreationTool.class);
         group.add(toolEntry3);
 
         ConnectionCreationToolEntry toolEntry4 =
                 new ConnectionCreationToolEntry(ResourceString.getResourceString("label.relation.self"),
-                        ResourceString.getResourceString("label.create.relation.self"), new SimpleFactory(
-                                SelfRelation.class), Activator.getImageDescriptor(ImageKey.RELATION_SELF),
-                        Activator.getImageDescriptor(ImageKey.RELATION_SELF));
+                        ResourceString.getResourceString("label.create.relation.self"), new SimpleFactory(SelfRelation.class),
+                        Activator.getImageDescriptor(ImageKey.RELATION_SELF), Activator.getImageDescriptor(ImageKey.RELATION_SELF));
         toolEntry4.setToolClass(SelfRelationCreationTool.class);
         group.add(toolEntry4);
 
@@ -85,16 +80,16 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
 
         ConnectionCreationToolEntry commentConnectionToolEntry =
                 new ConnectionCreationToolEntry(ResourceString.getResourceString("label.relation.note"),
-                        ResourceString.getResourceString("label.create.relation.note"), new SimpleFactory(
-                                CommentConnection.class), Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION),
+                        ResourceString.getResourceString("label.create.relation.note"), new SimpleFactory(CommentConnection.class),
+                        Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION),
                         Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION));
         group.add(commentConnectionToolEntry);
 
         group.add(new PaletteSeparator());
 
-        group.add(new CreationToolEntry(ResourceString.getResourceString("label.vgroup"), ResourceString
-                .getResourceString("label.vgroup"), new SimpleFactory(VGroup.class), Activator
-                .getImageDescriptor(ImageKey.CATEGORY), Activator.getImageDescriptor(ImageKey.CATEGORY)));
+        group.add(new CreationToolEntry(ResourceString.getResourceString("label.vgroup"), ResourceString.getResourceString("label.vgroup"),
+                new SimpleFactory(VGroup.class), Activator.getImageDescriptor(ImageKey.CATEGORY), Activator
+                        .getImageDescriptor(ImageKey.CATEGORY)));
 
         //		group.add(new CreationToolEntry(ResourceString
         //				.getResourceString("label.category"), ResourceString

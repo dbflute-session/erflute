@@ -26,9 +26,8 @@ public class ExportToJavaManager {
     private static final String TEMPLATE_DIR = "java" + File.separator;
 
     private static final String[] KEYWORDS = { "java.template.constructor", "java.template.getter.description",
-            "java.template.set.adder.description", "java.template.set.getter.description",
-            "java.template.set.property.description", "java.template.set.setter.description",
-            "java.template.setter.description", };
+            "java.template.set.adder.description", "java.template.set.getter.description", "java.template.set.property.description",
+            "java.template.set.setter.description", "java.template.setter.description", };
 
     private static final String TEMPLATE;
 
@@ -124,8 +123,7 @@ public class ExportToJavaManager {
 
                     String compositeIdContent = this.generateCompositeIdContent(diagram, table, compositeIdClassName);
 
-                    this.writeOut(File.separator + this.packageDir + File.separator + compositeIdClassName + ".java",
-                            compositeIdContent);
+                    this.writeOut(File.separator + this.packageDir + File.separator + compositeIdClassName + ".java", compositeIdContent);
                 }
 
                 String hbmContent = this.generateHbmContent(diagram, table, compositeIdClassName);
@@ -225,12 +223,10 @@ public class ExportToJavaManager {
         content = this.replaceHashCodeEqualsInfo(content, table, compositeIdClassName);
 
         String classDescription =
-                ResourceString.getResourceString("java.template.class.description").replaceAll("@LogicalTableName",
-                        table.getLogicalName());
+                ResourceString.getResourceString("java.template.class.description").replaceAll("@LogicalTableName", table.getLogicalName());
 
         content =
-                this.replaceClassInfo(content, classDescription, this.getCamelCaseName(table),
-                        this.exportJavaSetting.getClassNameSuffix());
+                this.replaceClassInfo(content, classDescription, this.getCamelCaseName(table), this.exportJavaSetting.getClassNameSuffix());
         content = this.replaceExtendInfo(content);
         content = this.replaceImportInfo(content);
         content = this.replaceConstructorInfo(content);
@@ -238,8 +234,7 @@ public class ExportToJavaManager {
         return content;
     }
 
-    private String generateCompositeIdContent(ERDiagram diagram, ERTable table, String compositeIdClassName)
-            throws IOException {
+    private String generateCompositeIdContent(ERDiagram diagram, ERTable table, String compositeIdClassName) throws IOException {
         this.importClasseNames.clear();
         this.importClasseNames.add("java.io.Serializable");
         this.sets.clear();
@@ -251,8 +246,8 @@ public class ExportToJavaManager {
         content = this.replaceHashCodeEqualsInfo(content, table, null);
 
         String classDescription =
-                ResourceString.getResourceString("java.template.composite.id.class.description").replaceAll(
-                        "@LogicalTableName", table.getLogicalName());
+                ResourceString.getResourceString("java.template.composite.id.class.description").replaceAll("@LogicalTableName",
+                        table.getLogicalName());
 
         content = this.replaceClassInfo(content, classDescription, compositeIdClassName, "");
         content = this.replaceExtendInfo(content);
@@ -263,12 +258,11 @@ public class ExportToJavaManager {
     }
 
     private String replacePropertiesInfo(String content, ERTable table, String compositeIdClassName) throws IOException {
-        return replacePropertiesInfo(content, table, table.getExpandedColumns(), table.getReferringElementList(),
-                compositeIdClassName);
+        return replacePropertiesInfo(content, table, table.getExpandedColumns(), table.getReferringElementList(), compositeIdClassName);
     }
 
-    private String replacePropertiesInfo(String content, ERTable table, List<NormalColumn> columns,
-            List<NodeElement> referringElementList, String compositeIdClassName) throws IOException {
+    private String replacePropertiesInfo(String content, ERTable table, List<NormalColumn> columns, List<NodeElement> referringElementList,
+            String compositeIdClassName) throws IOException {
         StringBuilder properties = new StringBuilder();
         StringBuilder setterGetters = new StringBuilder();
 
@@ -303,8 +297,7 @@ public class ExportToJavaManager {
         return content;
     }
 
-    private String replaceHashCodeEqualsInfo(String content, ERTable table, String compositeIdClassName)
-            throws IOException {
+    private String replaceHashCodeEqualsInfo(String content, ERTable table, String compositeIdClassName) throws IOException {
         if (compositeIdClassName != null) {
             StringBuilder hashCodes = new StringBuilder();
             StringBuilder equals = new StringBuilder();
@@ -438,11 +431,8 @@ public class ExportToJavaManager {
         } else {
             value = template.replaceAll("@type", this.getClassName(normalColumn.getType()));
             value = value.replaceAll("@logicalColumnName", normalColumn.getLogicalName());
-            value =
-                    value.replaceAll("@physicalColumnName",
-                            this.getCamelCaseName(normalColumn.getPhysicalName(), false));
-            value =
-                    value.replaceAll("@PhysicalColumnName", this.getCamelCaseName(normalColumn.getPhysicalName(), true));
+            value = value.replaceAll("@physicalColumnName", this.getCamelCaseName(normalColumn.getPhysicalName(), false));
+            value = value.replaceAll("@PhysicalColumnName", this.getCamelCaseName(normalColumn.getPhysicalName(), true));
 
         }
 
@@ -476,15 +466,13 @@ public class ExportToJavaManager {
         contents.append("\r\n");
     }
 
-    private void addCompositeIdContent(StringBuilder contents, String template, String compositeIdClassName,
-            ERTable table) {
+    private void addCompositeIdContent(StringBuilder contents, String template, String compositeIdClassName, ERTable table) {
 
-        String compositeIdPropertyName =
-                compositeIdClassName.substring(0, 1).toLowerCase() + compositeIdClassName.substring(1);
+        String compositeIdPropertyName = compositeIdClassName.substring(0, 1).toLowerCase() + compositeIdClassName.substring(1);
 
         String propertyDescription =
-                ResourceString.getResourceString("java.template.composite.id.property.description").replaceAll(
-                        "@LogicalTableName", table.getLogicalName());
+                ResourceString.getResourceString("java.template.composite.id.property.description").replaceAll("@LogicalTableName",
+                        table.getLogicalName());
 
         String value = template;
 
@@ -544,9 +532,7 @@ public class ExportToJavaManager {
         if (table.getPrimaryKeySize() == 1) {
             for (NormalColumn column : table.getPrimaryKeys()) {
                 String property = HIBERNATE_ID;
-                property =
-                        property.replaceAll("@physicalColumnName",
-                                this.getCamelCaseName(column.getPhysicalName(), false));
+                property = property.replaceAll("@physicalColumnName", this.getCamelCaseName(column.getPhysicalName(), false));
                 property = property.replaceAll("@realColumnName", column.getPhysicalName());
                 property = property.replaceAll("@type", this.getFullClassName(column.getType()));
                 property = property.replaceAll("@generator", "assigned");
@@ -568,8 +554,7 @@ public class ExportToJavaManager {
                 keys.append(key);
             }
 
-            String compositeIdPropertyName =
-                    compositeIdClassName.substring(0, 1).toLowerCase() + compositeIdClassName.substring(1);
+            String compositeIdPropertyName = compositeIdClassName.substring(0, 1).toLowerCase() + compositeIdClassName.substring(1);
 
             property = property.replaceAll("@compositeIdPropertyName", compositeIdPropertyName);
             property = property.replaceAll("@compositeIdClassName", compositeIdClassName);
@@ -581,9 +566,7 @@ public class ExportToJavaManager {
         for (NormalColumn column : table.getExpandedColumns()) {
             if (!column.isPrimaryKey()) {
                 String property = HIBERNATE_PROPERTY;
-                property =
-                        property.replaceAll("@physicalColumnName",
-                                this.getCamelCaseName(column.getPhysicalName(), false));
+                property = property.replaceAll("@physicalColumnName", this.getCamelCaseName(column.getPhysicalName(), false));
                 property = property.replaceAll("@realColumnName", column.getPhysicalName());
                 property = property.replaceAll("@type", this.getFullClassName(column.getType()));
                 property = property.replaceAll("@not-null", String.valueOf(column.isNotNull()));

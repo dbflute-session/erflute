@@ -63,8 +63,7 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
             IPath newFilePath = containerPath.append(fileName);
 
             if (root.getFile(newFilePath).exists()) {
-                this.setErrorMessage("'" + fileName + "' "
-                        + ResourceString.getResourceString("error.file.already.exists"));
+                this.setErrorMessage("'" + fileName + "' " + ResourceString.getResourceString("error.file.already.exists"));
                 valid = false;
             }
         }

@@ -133,8 +133,7 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
     }
 
     private void setWordData(Word word) {
-        this.setData(word.getPhysicalName(), word.getLogicalName(), word.getType(), word.getTypeData(),
-                word.getDescription());
+        this.setData(word.getPhysicalName(), word.getLogicalName(), word.getType(), word.getTypeData(), word.getDescription());
     }
 
     /**
@@ -142,8 +141,8 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
      */
     @Override
     protected void setWordData() {
-        this.setData(this.targetColumn.getPhysicalName(), this.targetColumn.getLogicalName(),
-                this.targetColumn.getType(), this.targetColumn.getTypeData(), this.targetColumn.getDescription());
+        this.setData(this.targetColumn.getPhysicalName(), this.targetColumn.getLogicalName(), this.targetColumn.getType(),
+                this.targetColumn.getTypeData(), this.targetColumn.getDescription());
 
         this.setWordValue();
     }

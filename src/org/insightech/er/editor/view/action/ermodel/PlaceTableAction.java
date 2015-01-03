@@ -34,13 +34,12 @@ public class PlaceTableAction extends AbstractBaseAction {
         List<ERTable> input = new ArrayList<ERTable>();
         input.addAll(diagram.getDiagramContents().getContents().getTableSet().getList());
 
-        NodeSelectionDialog dialog =
-                new NodeSelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
+        NodeSelectionDialog dialog = new NodeSelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 
         FigureCanvas canvas = (FigureCanvas) oneEditor.getGraphicalViewer().getControl();
         Point point =
-                new Point(canvas.getHorizontalBar().getSelection() + canvas.getClientArea().width / 2, canvas
-                        .getVerticalBar().getSelection() + canvas.getClientArea().height / 2);
+                new Point(canvas.getHorizontalBar().getSelection() + canvas.getClientArea().width / 2, canvas.getVerticalBar()
+                        .getSelection() + canvas.getClientArea().height / 2);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             Object[] results = dialog.getResult();

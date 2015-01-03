@@ -38,14 +38,12 @@ public class ExportToDBAction extends AbstractBaseAction {
         List<ValidateResult> errorList = validator.validate(diagram);
 
         if (!errorList.isEmpty()) {
-            ExportErrorDialog dialog =
-                    new ExportErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), errorList);
+            ExportErrorDialog dialog = new ExportErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), errorList);
             dialog.open();
             return;
         }
 
-        ExportDBSettingDialog dialog =
-                new ExportDBSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
+        ExportDBSettingDialog dialog = new ExportDBSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             String ddl = dialog.getDdl();
@@ -53,8 +51,7 @@ public class ExportToDBAction extends AbstractBaseAction {
             DBSetting dbSetting = dialog.getDbSetting();
 
             ExportToDBDialog exportToDBDialog =
-                    new ExportToDBDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram,
-                            dbSetting, ddl);
+                    new ExportToDBDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, dbSetting, ddl);
 
             exportToDBDialog.open();
         }

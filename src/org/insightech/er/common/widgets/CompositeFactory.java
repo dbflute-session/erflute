@@ -33,13 +33,12 @@ import org.insightech.er.common.dialog.AbstractDialog;
 
 public class CompositeFactory {
 
-    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title,
-            int minimum, int maximum) {
+    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title, int minimum, int maximum) {
         return createSpinnerWithScale(dialog, composite, title, "%", minimum, maximum);
     }
 
-    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title,
-            String unit, int minimum, int maximum) {
+    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title, String unit,
+            int minimum, int maximum) {
         if (title != null) {
             Label label = new Label(composite, SWT.RIGHT);
             label.setText(ResourceString.getResourceString(title));
@@ -84,8 +83,7 @@ public class CompositeFactory {
         return createReadOnlyCombo(dialog, composite, title, 1, -1);
     }
 
-    public static Combo createReadOnlyCombo(AbstractDialog dialog, Composite composite, String title, int span,
-            int width) {
+    public static Combo createReadOnlyCombo(AbstractDialog dialog, Composite composite, String title, int span, int width) {
         if (title != null) {
             Label label = new Label(composite, SWT.RIGHT);
             label.setText(ResourceString.getResourceString(title));
@@ -129,8 +127,7 @@ public class CompositeFactory {
         return combo;
     }
 
-    public static Combo createFileEncodingCombo(IEditorPart editorPart, AbstractDialog dialog, Composite composite,
-            String title, int span) {
+    public static Combo createFileEncodingCombo(IEditorPart editorPart, AbstractDialog dialog, Composite composite, String title, int span) {
         Combo fileEncodingCombo = createReadOnlyCombo(dialog, composite, title, span, -1);
 
         for (Charset charset : Charset.availableCharsets().values()) {
@@ -157,8 +154,7 @@ public class CompositeFactory {
         return createText(dialog, composite, title, span, -1, imeOn);
     }
 
-    public static Text createText(AbstractDialog dialog, Composite composite, String title, int span, int width,
-            boolean imeOn) {
+    public static Text createText(AbstractDialog dialog, Composite composite, String title, int span, int width, boolean imeOn) {
         return createText(dialog, composite, title, span, width, SWT.BORDER, imeOn);
     }
 
@@ -174,8 +170,7 @@ public class CompositeFactory {
         return createText(dialog, composite, title, span, width, SWT.BORDER | SWT.RIGHT, false);
     }
 
-    public static Text createText(AbstractDialog dialog, Composite composite, String title, int span, int width,
-            int style, boolean imeOn) {
+    public static Text createText(AbstractDialog dialog, Composite composite, String title, int span, int width, int style, boolean imeOn) {
         if (title != null) {
             Label label = new Label(composite, SWT.NONE);
             label.setText(ResourceString.getResourceString(title));
@@ -296,8 +291,8 @@ public class CompositeFactory {
         return radio;
     }
 
-    public static Text createTextArea(AbstractDialog dialog, Composite composite, String title, int width, int height,
-            int span, boolean selectAll, boolean imeOn) {
+    public static Text createTextArea(AbstractDialog dialog, Composite composite, String title, int width, int height, int span,
+            boolean selectAll, boolean imeOn) {
         if (title != null) {
             Label label = new Label(composite, SWT.NONE);
             label.setText(ResourceString.getResourceString(title));
@@ -317,8 +312,8 @@ public class CompositeFactory {
         return text;
     }
 
-    public static Text createTextArea(AbstractDialog dialog, Composite composite, String title, int width, int height,
-            int span, boolean imeOn) {
+    public static Text createTextArea(AbstractDialog dialog, Composite composite, String title, int width, int height, int span,
+            boolean imeOn) {
         return createTextArea(dialog, composite, title, width, height, span, true, imeOn);
     }
 
@@ -410,8 +405,8 @@ public class CompositeFactory {
         return editor;
     }
 
-    public static RowHeaderTable createRowHeaderTable(Composite parent, int width, int height, int rowHeaderWidth,
-            int rowHeight, int span, boolean iconEnable, boolean editable) {
+    public static RowHeaderTable createRowHeaderTable(Composite parent, int width, int height, int rowHeaderWidth, int rowHeight, int span,
+            boolean iconEnable, boolean editable) {
         Composite composite = new Composite(parent, SWT.EMBEDDED);
         GridData gridData = new GridData();
         gridData.horizontalSpan = span;
@@ -423,8 +418,8 @@ public class CompositeFactory {
         return createTable(composite, width, height, rowHeaderWidth, rowHeight, iconEnable, editable);
     }
 
-    private static RowHeaderTable createTable(Composite composite, int width, int height, int rowHeaderWidth,
-            int rowHeight, boolean iconEnable, boolean editable) {
+    private static RowHeaderTable createTable(Composite composite, int width, int height, int rowHeaderWidth, int rowHeight,
+            boolean iconEnable, boolean editable) {
         Frame frame = SWT_AWT.new_Frame(composite);
         frame.setLayout(new FlowLayout());
 

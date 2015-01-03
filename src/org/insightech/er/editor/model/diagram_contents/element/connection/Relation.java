@@ -102,8 +102,7 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
             } else {
                 for (NormalColumn sourceColumn : sourceTable.getNormalColumns()) {
                     if (sourceColumn == this.referencedColumn) {
-                        NormalColumn foreignKeyColumn =
-                                this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
+                        NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
 
                         target.addColumn(foreignKeyColumn);
                         break;
@@ -115,8 +114,7 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
         this.firePropertyChange("target", null, target);
     }
 
-    private NormalColumn createForeiKeyColumn(NormalColumn referencedColumn, List<NormalColumn> foreignKeyColumnList,
-            int index) {
+    private NormalColumn createForeiKeyColumn(NormalColumn referencedColumn, List<NormalColumn> foreignKeyColumnList, int index) {
         NormalColumn foreignKeyColumn = new NormalColumn(referencedColumn, referencedColumn, this, false);
 
         if (foreignKeyColumnList != null) {
@@ -219,8 +217,7 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
     }
 
     public Relation copy() {
-        Relation to =
-                new Relation(this.isReferenceForPK(), this.getReferencedComplexUniqueKey(), this.getReferencedColumn());
+        Relation to = new Relation(this.isReferenceForPK(), this.getReferencedComplexUniqueKey(), this.getReferencedColumn());
 
         to.setName(this.getName());
         to.setOnDeleteAction(this.getOnDeleteAction());

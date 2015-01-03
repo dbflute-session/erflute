@@ -38,16 +38,13 @@ public class InsertedImageDialog extends AbstractDialog {
         this.hueSpinner = CompositeFactory.createSpinnerWithScale(this, composite, "label.image.hue", "", 0, 360);
         // this.hueScale.setPageIncrement(10);
 
-        this.saturationSpinner =
-                CompositeFactory.createSpinnerWithScale(this, composite, "label.image.saturation", -100, 100);
+        this.saturationSpinner = CompositeFactory.createSpinnerWithScale(this, composite, "label.image.saturation", -100, 100);
 
-        this.brightnessSpinner =
-                CompositeFactory.createSpinnerWithScale(this, composite, "label.image.brightness", -100, 100);
+        this.brightnessSpinner = CompositeFactory.createSpinnerWithScale(this, composite, "label.image.brightness", -100, 100);
 
         this.alphaSpinner = CompositeFactory.createSpinnerWithScale(this, composite, "label.image.alpha", 0, 255);
 
-        this.fixAspectRatioCheckbox =
-                CompositeFactory.createCheckbox(this, composite, "label.image.fix.aspect.ratio", 3);
+        this.fixAspectRatioCheckbox = CompositeFactory.createCheckbox(this, composite, "label.image.fix.aspect.ratio", 3);
     }
 
     /**

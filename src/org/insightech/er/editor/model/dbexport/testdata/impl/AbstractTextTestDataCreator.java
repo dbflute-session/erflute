@@ -23,8 +23,8 @@ public abstract class AbstractTextTestDataCreator extends TestDataCreator {
         file.getParentFile().mkdirs();
 
         out =
-                new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
-                        this.exportTestDataSetting.getExportFilePath() + File.separator + this.testData.getName()
+                new PrintWriter(new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(this.exportTestDataSetting.getExportFilePath() + File.separator + this.testData.getName()
                                 + this.getFileExtention()), this.exportTestDataSetting.getExportFileEncoding())));
 
     }

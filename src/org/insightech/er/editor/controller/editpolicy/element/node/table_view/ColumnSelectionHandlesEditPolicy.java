@@ -156,8 +156,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                             .get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_GROUP);
 
             Object parent =
-                    ((Map) editRequest.getDirectEditFeature())
-                            .get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_PARENT);
+                    ((Map) editRequest.getDirectEditFeature()).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_PARENT);
 
             if (parent == tableView || !tableView.getColumns().contains(columnGroup)) {
                 return getHost();
@@ -205,8 +204,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
 
                 TableView newTableView = (TableView) this.getHost().getParent().getModel();
 
-                return createMoveColumnCommand(editRequest, this.getHost().getViewer(), newTableView,
-                        this.getColumnIndex(editRequest));
+                return createMoveColumnCommand(editRequest, this.getHost().getViewer(), newTableView, this.getColumnIndex(editRequest));
 
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN_GROUP.equals(request.getType())) {
                 DirectEditRequest editRequest = (DirectEditRequest) request;
@@ -223,8 +221,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
         return super.getCommand(request);
     }
 
-    public static Command createMoveColumnCommand(DirectEditRequest editRequest, EditPartViewer viewer,
-            TableView newTableView, int index) {
+    public static Command createMoveColumnCommand(DirectEditRequest editRequest, EditPartViewer viewer, TableView newTableView, int index) {
         NormalColumn oldColumn = (NormalColumn) editRequest.getDirectEditFeature();
 
         TableView oldTableView = (TableView) oldColumn.getColumnHolder();
@@ -300,8 +297,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 }
             }
 
-            CreateRelationCommand createNewRelationCommand =
-                    new CreateRelationCommand(newRelation, oldForeignKeyColumnList);
+            CreateRelationCommand createNewRelationCommand = new CreateRelationCommand(newRelation, oldForeignKeyColumnList);
 
             EditPart sourceEditPart = (EditPart) viewer.getEditPartRegistry().get(referencedTableView);
             EditPart targetEditPart = (EditPart) viewer.getEditPartRegistry().get(newTableView);
@@ -321,16 +317,14 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 }
             }
 
-            ChangeTableViewPropertyCommand sourceTableCommand =
-                    new ChangeTableViewPropertyCommand(oldTableView, copyOldTableView);
+            ChangeTableViewPropertyCommand sourceTableCommand = new ChangeTableViewPropertyCommand(oldTableView, copyOldTableView);
             command.add(sourceTableCommand);
 
             TableView copyNewTableView = newTableView.copyData();
             CopyColumn copyColumn = new CopyColumn(oldColumn);
             copyColumn.setWord(new CopyWord(oldColumn.getWord()));
             copyNewTableView.addColumn(index, copyColumn);
-            ChangeTableViewPropertyCommand targetTableCommand =
-                    new ChangeTableViewPropertyCommand(newTableView, copyNewTableView);
+            ChangeTableViewPropertyCommand targetTableCommand = new ChangeTableViewPropertyCommand(newTableView, copyNewTableView);
             command.add(targetTableCommand);
         }
 
@@ -360,8 +354,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
             }
         }
 
-        ChangeTableViewPropertyCommand sourceTableCommand =
-                new ChangeTableViewPropertyCommand(oldTableView, copyOldTableView);
+        ChangeTableViewPropertyCommand sourceTableCommand = new ChangeTableViewPropertyCommand(oldTableView, copyOldTableView);
         command.add(sourceTableCommand);
 
         if (!newTableView.getColumns().contains(columnGroup)) {

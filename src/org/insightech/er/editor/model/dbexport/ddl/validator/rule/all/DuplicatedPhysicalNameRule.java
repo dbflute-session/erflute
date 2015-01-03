@@ -26,8 +26,7 @@ public class DuplicatedPhysicalNameRule extends BaseRule {
 
             if (nameSet.contains(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                        + " [TABLE] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [TABLE] " + name);
                 validateResult.setLocation(table.getLogicalName());
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(table);
@@ -43,8 +42,8 @@ public class DuplicatedPhysicalNameRule extends BaseRule {
 
                     if (nameSet.contains(indexName)) {
                         ValidateResult validateResult = new ValidateResult();
-                        validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                                + " [INDEX] " + indexName + " on table [" + table.getLogicalName() + "]");
+                        validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [INDEX] "
+                                + indexName + " on table [" + table.getLogicalName() + "]");
                         validateResult.setLocation(indexName);
                         validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                         validateResult.setObject(index.getTable());
@@ -61,8 +60,7 @@ public class DuplicatedPhysicalNameRule extends BaseRule {
 
             if (nameSet.contains(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                        + " [SEQUENCE] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [SEQUENCE] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(sequence);
@@ -77,8 +75,7 @@ public class DuplicatedPhysicalNameRule extends BaseRule {
 
             if (nameSet.contains(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                        + " [VIEW] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [VIEW] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(view);
@@ -93,8 +90,7 @@ public class DuplicatedPhysicalNameRule extends BaseRule {
 
             if (nameSet.contains(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name")
-                        + " [TRIGGER] " + name);
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.duplicated.name") + " [TRIGGER] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(trigger);

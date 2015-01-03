@@ -76,8 +76,7 @@ public class ModelPropertiesFigure extends RectangleFigure {
             this.addRow(property.getName(), property.getValue(), tableStyle);
         }
 
-        this.addRow(ResourceString.getResourceString("label.creation.date"), DATE_FORMAT.format(creationDate),
-                tableStyle);
+        this.addRow(ResourceString.getResourceString("label.creation.date"), DATE_FORMAT.format(creationDate), tableStyle);
         this.addRow(ResourceString.getResourceString("label.updated.date"), DATE_FORMAT.format(updatedDate), tableStyle);
     }
 

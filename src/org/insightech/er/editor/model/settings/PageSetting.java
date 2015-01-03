@@ -36,8 +36,8 @@ public class PageSetting implements Serializable {
         this.leftMargin = DEFAULT_MARGIN;
     }
 
-    public PageSetting(boolean directionHorizontal, int scale, String paperSize, int topMargin, int rightMargin,
-            int bottomMargin, int leftMargin) {
+    public PageSetting(boolean directionHorizontal, int scale, String paperSize, int topMargin, int rightMargin, int bottomMargin,
+            int leftMargin) {
         this.directionHorizontal = directionHorizontal;
         this.scale = scale;
         this.paperSize = paperSize;

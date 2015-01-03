@@ -15,8 +15,7 @@ public class SelectImportedObjectFromDBDialog extends AbstractSelectImportedObje
 
     @Override
     protected void initializeOptionGroup(Group group) {
-        this.useCommentAsLogicalNameButton =
-                CompositeFactory.createCheckbox(this, group, "label.use.comment.as.logical.name");
+        this.useCommentAsLogicalNameButton = CompositeFactory.createCheckbox(this, group, "label.use.comment.as.logical.name");
         super.initializeOptionGroup(group);
     }
 

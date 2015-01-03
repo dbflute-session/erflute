@@ -57,9 +57,8 @@ public class ModelPropertiesEditPart extends NodeElementEditPart implements IRes
 
         ModelPropertiesFigure figure = (ModelPropertiesFigure) this.getFigure();
 
-        figure.setData(modelProperties.getProperties(), modelProperties.getCreationDate(),
-                modelProperties.getUpdatedDate(), diagram.getDiagramContents().getSettings().getTableStyle(),
-                modelProperties.getColor());
+        figure.setData(modelProperties.getProperties(), modelProperties.getCreationDate(), modelProperties.getUpdatedDate(), diagram
+                .getDiagramContents().getSettings().getTableStyle(), modelProperties.getColor());
 
         super.refreshVisuals();
     }
@@ -92,12 +91,10 @@ public class ModelPropertiesEditPart extends NodeElementEditPart implements IRes
     public void performRequestOpen() {
         ERDiagram diagram = this.getDiagram();
 
-        ModelProperties copyModelProperties =
-                (ModelProperties) diagram.getDiagramContents().getSettings().getModelProperties().clone();
+        ModelProperties copyModelProperties = (ModelProperties) diagram.getDiagramContents().getSettings().getModelProperties().clone();
 
         ModelPropertiesDialog dialog =
-                new ModelPropertiesDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                        copyModelProperties);
+                new ModelPropertiesDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copyModelProperties);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             ChangeModelPropertiesCommand command = new ChangeModelPropertiesCommand(diagram, copyModelProperties);

@@ -228,8 +228,8 @@ public class ChangeTrackingDialog extends Dialog {
                     return;
                 }
                 MessageBox messageBox =
-                        new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+                        new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.YES
+                                | SWT.NO);
                 messageBox.setText(ResourceString.getResourceString("dialog.title.change.tracking"));
                 messageBox.setMessage(ResourceString.getResourceString("dialog.message.change.tracking"));
 

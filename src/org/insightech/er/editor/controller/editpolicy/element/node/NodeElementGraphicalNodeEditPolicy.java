@@ -190,8 +190,7 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
         Rectangle bounds = sourceFigure.getBounds();
 
         Rectangle centerRectangle =
-                new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2,
-                        bounds.height / 2);
+                new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
         if (!centerRectangle.contains(location)) {
             Point point = ERTableEditPart.getIntersectionPoint(location, sourceFigure);
@@ -239,8 +238,7 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
         Rectangle bounds = targetFigure.getBounds();
 
         Rectangle centerRectangle =
-                new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2,
-                        bounds.height / 2);
+                new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
         if (!centerRectangle.contains(location)) {
             Point point = ERTableEditPart.getIntersectionPoint(location, targetFigure);

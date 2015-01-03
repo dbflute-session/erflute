@@ -64,9 +64,7 @@ public class IndexOutlineEditPart extends AbstractOutlineEditPart implements Del
         ERDiagram diagram = this.getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            IndexDialog dialog =
-                    new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), index,
-                            index.getTable());
+            IndexDialog dialog = new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), index, index.getTable());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ChangeIndexCommand command = new ChangeIndexCommand(diagram, index, dialog.getResultIndex());

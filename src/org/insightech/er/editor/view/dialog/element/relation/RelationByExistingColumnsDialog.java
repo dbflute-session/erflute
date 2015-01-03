@@ -65,9 +65,8 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
 
     private Map<Relation, Set<NormalColumn>> foreignKeySetMap;
 
-    public RelationByExistingColumnsDialog(Shell parentShell, ERTable source,
-            List<NormalColumn> candidateForeignKeyColumns, Map<NormalColumn, List<NormalColumn>> referencedMap,
-            Map<Relation, Set<NormalColumn>> foreignKeySetMap) {
+    public RelationByExistingColumnsDialog(Shell parentShell, ERTable source, List<NormalColumn> candidateForeignKeyColumns,
+            Map<NormalColumn, List<NormalColumn>> referencedMap, Map<Relation, Set<NormalColumn>> foreignKeySetMap) {
         super(parentShell, 2);
 
         this.source = source;
@@ -174,8 +173,7 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
             this.referencedComplexUniqueKey = complexUniqueKey;
 
         } else {
-            this.referencedColumn =
-                    this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
+            this.referencedColumn = this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
         }
 
         for (TableEditor tableEditor : this.tableEditorList) {
@@ -290,14 +288,12 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
 
             } else if (index < this.columnComboInfo.columnStartIndex) {
                 ComplexUniqueKey complexUniqueKey =
-                        this.source.getComplexUniqueKeyList().get(
-                                index - this.columnComboInfo.complexUniqueKeyStartIndex);
+                        this.source.getComplexUniqueKeyList().get(index - this.columnComboInfo.complexUniqueKeyStartIndex);
 
                 this.referencedColumnList = complexUniqueKey.getColumnList();
 
             } else {
-                NormalColumn referencedColumn =
-                        this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
+                NormalColumn referencedColumn = this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
 
                 this.referencedColumnList = new ArrayList<NormalColumn>();
                 this.referencedColumnList.add(referencedColumn);

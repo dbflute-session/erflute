@@ -59,23 +59,17 @@ public class ERDiagramAlignmentAction extends SelectionAction {
 
     private List operationSet;
 
-    private static final AlignmentAction ALIGNMENT_ACTION_LEFT = new AlignmentAction((IWorkbenchPart) null,
-            PositionConstants.LEFT);
+    private static final AlignmentAction ALIGNMENT_ACTION_LEFT = new AlignmentAction((IWorkbenchPart) null, PositionConstants.LEFT);
 
-    private static final AlignmentAction ALIGNMENT_ACTION_RIGHT = new AlignmentAction((IWorkbenchPart) null,
-            PositionConstants.RIGHT);
+    private static final AlignmentAction ALIGNMENT_ACTION_RIGHT = new AlignmentAction((IWorkbenchPart) null, PositionConstants.RIGHT);
 
-    private static final AlignmentAction ALIGNMENT_ACTION_TOP = new AlignmentAction((IWorkbenchPart) null,
-            PositionConstants.TOP);
+    private static final AlignmentAction ALIGNMENT_ACTION_TOP = new AlignmentAction((IWorkbenchPart) null, PositionConstants.TOP);
 
-    private static final AlignmentAction ALIGNMENT_ACTION_BOTTOM = new AlignmentAction((IWorkbenchPart) null,
-            PositionConstants.BOTTOM);
+    private static final AlignmentAction ALIGNMENT_ACTION_BOTTOM = new AlignmentAction((IWorkbenchPart) null, PositionConstants.BOTTOM);
 
-    private static final AlignmentAction ALIGNMENT_ACTION_CENTER = new AlignmentAction((IWorkbenchPart) null,
-            PositionConstants.CENTER);
+    private static final AlignmentAction ALIGNMENT_ACTION_CENTER = new AlignmentAction((IWorkbenchPart) null, PositionConstants.CENTER);
 
-    private static final AlignmentAction ALIGNMENT_ACTION_MIDDLE = new AlignmentAction((IWorkbenchPart) null,
-            PositionConstants.MIDDLE);
+    private static final AlignmentAction ALIGNMENT_ACTION_MIDDLE = new AlignmentAction((IWorkbenchPart) null, PositionConstants.MIDDLE);
 
     /**
      * Constructs an AlignmentAction with the given part and alignment ID. The

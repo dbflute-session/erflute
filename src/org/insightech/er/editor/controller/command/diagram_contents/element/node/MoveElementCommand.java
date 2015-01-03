@@ -44,8 +44,7 @@ public class MoveElementCommand extends AbstractCommand {
 
     private Rectangle bounds;
 
-    public MoveElementCommand(ERDiagram diagram, Rectangle bounds, int x, int y, int width, int height,
-            NodeElement element) {
+    public MoveElementCommand(ERDiagram diagram, Rectangle bounds, int x, int y, int width, int height, NodeElement element) {
         this.element = element;
         this.setNewRectangle(x, y, width, height);
 
@@ -73,8 +72,7 @@ public class MoveElementCommand extends AbstractCommand {
 
     private void initCategory(ERDiagram diagram, Rectangle bounds) {
 
-        for (Category category : diagram.getDiagramContents().getSettings().getCategorySetting()
-                .getSelectedCategories()) {
+        for (Category category : diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories()) {
             if (category.contains(element)) {
                 int categoryX = category.getX();
                 int categoryY = category.getY();
@@ -87,8 +85,7 @@ public class MoveElementCommand extends AbstractCommand {
 
                 if (diagram.getCurrentCategory() == null) {
                     if (bounds.x + bounds.width < category.getX() || bounds.x > category.getX() + category.getWidth()
-                            || bounds.y + bounds.height < category.getY()
-                            || bounds.y > category.getY() + category.getHeight()) {
+                            || bounds.y + bounds.height < category.getY() || bounds.y > category.getY() + category.getHeight()) {
 
                         this.removedCategories.add(category);
 
@@ -114,16 +111,14 @@ public class MoveElementCommand extends AbstractCommand {
                 }
 
                 if (isDirty) {
-                    this.newCategoryRectangleMap.put(category, new Rectangle(categoryX, categoryY, categoryWidth,
-                            categoryHeight));
+                    this.newCategoryRectangleMap.put(category, new Rectangle(categoryX, categoryY, categoryWidth, categoryHeight));
                     this.oldCategoryRectangleMap.put(category, oldRectangle);
                 }
 
             } else {
                 if (diagram.getCurrentCategory() == null) {
                     if (bounds.x >= category.getX() && bounds.x + bounds.width <= category.getX() + category.getWidth()
-                            && bounds.y >= category.getY()
-                            && bounds.y + bounds.height <= category.getY() + category.getHeight()) {
+                            && bounds.y >= category.getY() && bounds.y + bounds.height <= category.getY() + category.getHeight()) {
                         this.addCategories.add(category);
                     }
                 }

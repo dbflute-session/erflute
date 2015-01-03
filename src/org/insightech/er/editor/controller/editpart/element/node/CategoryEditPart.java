@@ -52,8 +52,7 @@ public class CategoryEditPart extends NodeElementEditPart implements IResizable 
                     }
 
                     if (rectangle.width != category.getWidth() || rectangle.height != category.getHeight()) {
-                        category.setLocation(new Location(category.getX(), category.getY(), rectangle.width,
-                                rectangle.height));
+                        category.setLocation(new Location(category.getX(), category.getY(), rectangle.width, rectangle.height));
                     }
                 }
             }

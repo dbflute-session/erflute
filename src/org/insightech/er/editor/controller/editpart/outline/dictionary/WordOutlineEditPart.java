@@ -157,9 +157,7 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
         ERDiagram diagram = this.getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            WordDialog dialog =
-                    new WordDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), word, false,
-                            diagram);
+            WordDialog dialog = new WordDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), word, false, diagram);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 EditWordCommand command = new EditWordCommand(word, dialog.getWord(), diagram);

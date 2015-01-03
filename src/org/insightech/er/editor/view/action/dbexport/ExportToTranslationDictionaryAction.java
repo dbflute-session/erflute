@@ -21,8 +21,7 @@ public class ExportToTranslationDictionaryAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
 
         ExportToTranslationDictionaryDialog dialog =
-                new ExportToTranslationDictionaryDialog(
-                        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
+                new ExportToTranslationDictionaryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 
         dialog.open();
     }

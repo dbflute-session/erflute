@@ -33,9 +33,7 @@ public class ReplaceCommand extends AbstractCommand {
      */
     @Override
     protected void doExecute() {
-        this.result =
-                ReplaceManager.replace(this.type, this.object, this.keyword, this.replaceWord,
-                        this.diagram.getDatabase());
+        this.result = ReplaceManager.replace(this.type, this.object, this.keyword, this.replaceWord, this.diagram.getDatabase());
 
         this.diagram.change();
     }

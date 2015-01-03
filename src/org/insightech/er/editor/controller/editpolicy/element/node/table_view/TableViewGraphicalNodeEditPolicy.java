@@ -45,8 +45,8 @@ public class TableViewGraphicalNodeEditPolicy extends NodeElementGraphicalNodeEd
 
             Dimension dim = FigureUtilities.getTextExtents(name, Display.getCurrent().getSystemFont());
 
-            label.setBounds(new Rectangle((int) (zoom * (tableBounds.x + 33)), (int) (zoom * (tableBounds.y + 5)),
-                    (int) (dim.width * 1.5), 20));
+            label.setBounds(new Rectangle((int) (zoom * (tableBounds.x + 33)), (int) (zoom * (tableBounds.y + 5)), (int) (dim.width * 1.5),
+                    20));
 
             this.addFeedback(label);
         }

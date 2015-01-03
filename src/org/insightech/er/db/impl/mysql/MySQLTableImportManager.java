@@ -31,8 +31,7 @@ public class MySQLTableImportManager extends ImportFromDBManagerBase {
     }
 
     @Override
-    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys)
-            throws SQLException {
+    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
 
         List<Index> indexes = super.getIndexes(table, metaData, primaryKeys);
 

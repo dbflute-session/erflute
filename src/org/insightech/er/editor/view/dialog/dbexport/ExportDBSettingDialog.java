@@ -104,9 +104,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
             con = this.dbSetting.connect();
 
             int index = this.environmentCombo.getSelectionIndex();
-            Environment environment =
-                    this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments()
-                            .get(index);
+            Environment environment = this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
 
             PreTableExportManager exportToDBManager = manager.getPreTableExportManager();
             exportToDBManager.init(con, dbSetting, diagram, environment);

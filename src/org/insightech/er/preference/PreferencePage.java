@@ -49,8 +49,8 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
                 ERDiagram diagram = new ERDiagram(columnGroups.getDatabase());
 
                 GroupManageDialog dialog =
-                        new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                columnGroups, diagram, true, -1);
+                        new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), columnGroups, diagram, true,
+                                -1);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
                     List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();

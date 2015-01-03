@@ -65,8 +65,7 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
 
     private static final int GROUP_LIST_HEIGHT = 230;
 
-    public GroupManageDialog(Shell parentShell, GroupSet columnGroups, ERDiagram diagram, boolean globalGroup,
-            int editTargetIndex) {
+    public GroupManageDialog(Shell parentShell, GroupSet columnGroups, ERDiagram diagram, boolean globalGroup, int editTargetIndex) {
         super(parentShell, 2);
 
         this.copyGroups = new ArrayList<CopyGroup>();
@@ -150,11 +149,9 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
 
         this.groupNameText = CompositeFactory.createText(this, composite, "label.group.name", 1, 200, true);
 
-        GroupColumnDialog columnDialog =
-                new GroupColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
+        GroupColumnDialog columnDialog = new GroupColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 
-        this.tableComposite =
-                new ERTableComposite(this, composite, this.diagram, null, null, columnDialog, this, 2, true, true);
+        this.tableComposite = new ERTableComposite(this, composite, this.diagram, null, null, columnDialog, this, 2, true, true);
 
         createComposite3(composite);
     }
@@ -402,8 +399,8 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
                 }
 
                 MessageBox messageBox =
-                        new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+                        new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK
+                                | SWT.CANCEL);
                 messageBox.setText(ResourceString.getResourceString("label.button.add.to.global.group"));
                 messageBox.setMessage(ResourceString.getResourceString("dialog.message.add.to.global.group"));
 

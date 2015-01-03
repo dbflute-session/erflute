@@ -34,10 +34,8 @@ public class AdvancedTabWrapper extends ValidatableTabWrapper {
     @Override
     public void initComposite() {
         this.setLayout(new GridLayout());
-        this.composite =
-                EclipseDBManagerFactory.getEclipseDBManager(this.table.getDiagram()).createAdvancedComposite(this);
-        this.composite.initialize(this.dialog, (TableProperties) this.table.getTableViewProperties(),
-                this.table.getDiagram(), this.table);
+        this.composite = EclipseDBManagerFactory.getEclipseDBManager(this.table.getDiagram()).createAdvancedComposite(this);
+        this.composite.initialize(this.dialog, (TableProperties) this.table.getTableViewProperties(), this.table.getDiagram(), this.table);
     }
 
     /**

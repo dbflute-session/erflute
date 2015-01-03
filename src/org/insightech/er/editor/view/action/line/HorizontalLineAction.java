@@ -103,8 +103,8 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
             NodeElement nodeElement = (NodeElement) editPart.getModel();
 
             MoveElementCommand moveCommand =
-                    new MoveElementCommand(diagram, editPart.getFigure().getBounds(), start, nodeElement.getY(),
-                            nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
+                    new MoveElementCommand(diagram, editPart.getFigure().getBounds(), start, nodeElement.getY(), nodeElement.getWidth(),
+                            nodeElement.getHeight(), nodeElement);
 
             command.add(moveCommand);
 
@@ -140,8 +140,8 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
             }
 
             MoveElementCommand moveCommand =
-                    new MoveElementCommand(diagram, editPart.getFigure().getBounds(), x, nodeElement.getY(),
-                            nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
+                    new MoveElementCommand(diagram, editPart.getFigure().getBounds(), x, nodeElement.getY(), nodeElement.getWidth(),
+                            nodeElement.getHeight(), nodeElement);
             command.add(moveCommand);
 
             x = nextX;

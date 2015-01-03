@@ -138,8 +138,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                         }
 
                         MoveBendpointCommand moveCommand =
-                                new MoveBendpointCommand(connection, bendPoint.getX() + diffX,
-                                        bendPoint.getY() + diffY, index);
+                                new MoveBendpointCommand(connection, bendPoint.getX() + diffX, bendPoint.getY() + diffY, index);
                         bendpointMoveCommandList.add(moveCommand);
                     }
 
@@ -201,8 +200,8 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 otherCategories = this.getOtherSelectedCategories(category);
             }
             ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-            return new MoveCategoryCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height,
-                    category, otherCategories, move);
+            return new MoveCategoryCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, category, otherCategories,
+                    move);
 
         } else if (nodeElement instanceof VGroup) {
             VGroup vgroup = (VGroup) nodeElement;
@@ -215,21 +214,19 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 otherGroups = this.getOtherSelectedGroups(vgroup);
             }
             ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-            return new MoveVGroupCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, vgroup,
-                    otherGroups, move);
+            return new MoveVGroupCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, vgroup, otherGroups, move);
 
         } else {
             ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-            return new MoveElementCommand(diagram, currentRectangle, rectangle.x, rectangle.y, rectangle.width,
-                    rectangle.height, nodeElement);
+            return new MoveElementCommand(diagram, currentRectangle, rectangle.x, rectangle.y, rectangle.width, rectangle.height,
+                    nodeElement);
         }
     }
 
     private Category getOtherCategory(Category category) {
         ERDiagram diagram = ERModelUtil.getDiagram(getHost());
 
-        List<Category> selectedCategories =
-                diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories();
+        List<Category> selectedCategories = diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories();
 
         for (NodeElement nodeElement : category.getContents()) {
             for (Category otherCategory : selectedCategories) {

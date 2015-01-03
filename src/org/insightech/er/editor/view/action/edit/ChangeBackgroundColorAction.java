@@ -163,8 +163,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
     public static class ChangeBackgroundColorRetargetAction extends LabelRetargetAction {
         public ChangeBackgroundColorRetargetAction() {
-            super(ID, ResourceString.getResourceString("action.title.change.background.color"),
-                    Action.AS_DROP_DOWN_MENU);
+            super(ID, ResourceString.getResourceString("action.title.change.background.color"), Action.AS_DROP_DOWN_MENU);
 
             this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR));
             this.setDisabledImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR_DISABLED));
@@ -188,12 +187,9 @@ public class ChangeBackgroundColorAction extends SelectionAction {
                             @Override
                             public void widgetSelected(SelectionEvent e) {
                                 ColorDialog colorDialog =
-                                        new ColorDialog(
-                                                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                                SWT.NULL);
+                                        new ColorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.NULL);
 
-                                colorDialog.setText(ResourceString
-                                        .getResourceString("dialog.title.change.background.color"));
+                                colorDialog.setText(ResourceString.getResourceString("dialog.title.change.background.color"));
 
                                 ChangeBackgroundColorAction action = (ChangeBackgroundColorAction) getActionHandler();
 

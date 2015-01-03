@@ -608,8 +608,7 @@ public class SearchDialog extends Dialog {
                             ISelection selection = new StructuredSelection(editpart);
                             outlineView.setSelection(selection);
 
-                            IContributedContentsView v =
-                                    (IContributedContentsView) outlineView.getAdapter(IContributedContentsView.class);
+                            IContributedContentsView v = (IContributedContentsView) outlineView.getAdapter(IContributedContentsView.class);
                             IWorkbenchPart contributingPart = v.getContributingPart();
                             System.out.println(contributingPart);
 
@@ -699,19 +698,16 @@ public class SearchDialog extends Dialog {
                             this.logicalWordNameCheckBox.getSelection(), this.wordTypeCheckBox.getSelection(),
                             this.wordLengthCheckBox.getSelection(), this.wordDecimalCheckBox.getSelection(),
                             this.wordDescriptionCheckBox.getSelection(), this.physicalTableNameCheckBox.getSelection(),
-                            this.logicalTableNameCheckBox.getSelection(),
-                            this.physicalColumnNameCheckBox.getSelection(),
+                            this.logicalTableNameCheckBox.getSelection(), this.physicalColumnNameCheckBox.getSelection(),
                             this.logicalColumnNameCheckBox.getSelection(), this.columnTypeCheckBox.getSelection(),
                             this.columnLengthCheckBox.getSelection(), this.columnDecimalCheckBox.getSelection(),
-                            this.columnDefaultValueCheckBox.getSelection(),
-                            this.columnDescriptionCheckBox.getSelection(), this.columnGroupNameCheckBox.getSelection(),
-                            this.indexCheckBox.getSelection(), this.noteCheckBox.getSelection(),
-                            this.modelPropertiesCheckBox.getSelection(), this.relationCheckBox.getSelection(),
-                            this.groupNameCheckBox.getSelection(), this.physicalGroupColumnNameCheckBox.getSelection(),
-                            this.logicalGroupColumnNameCheckBox.getSelection(),
+                            this.columnDefaultValueCheckBox.getSelection(), this.columnDescriptionCheckBox.getSelection(),
+                            this.columnGroupNameCheckBox.getSelection(), this.indexCheckBox.getSelection(),
+                            this.noteCheckBox.getSelection(), this.modelPropertiesCheckBox.getSelection(),
+                            this.relationCheckBox.getSelection(), this.groupNameCheckBox.getSelection(),
+                            this.physicalGroupColumnNameCheckBox.getSelection(), this.logicalGroupColumnNameCheckBox.getSelection(),
                             this.groupColumnTypeCheckBox.getSelection(), this.groupColumnLengthCheckBox.getSelection(),
-                            this.groupColumnDecimalCheckBox.getSelection(),
-                            this.groupColumnDefaultValueCheckBox.getSelection(),
+                            this.groupColumnDecimalCheckBox.getSelection(), this.groupColumnDefaultValueCheckBox.getSelection(),
                             this.groupColumnDescriptionCheckBox.getSelection());
 
             this.showSearchResult();
@@ -736,8 +732,7 @@ public class SearchDialog extends Dialog {
             String replaceWord = this.replaceCombo.getText();
 
             for (SearchResultRow row : replaceRows) {
-                ReplaceCommand replaceCommand =
-                        new ReplaceCommand(this.diagram, row.getType(), row.getTarget(), keyword, replaceWord);
+                ReplaceCommand replaceCommand = new ReplaceCommand(this.diagram, row.getType(), row.getTarget(), keyword, replaceWord);
                 command.add(replaceCommand);
             }
 

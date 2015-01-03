@@ -24,8 +24,7 @@ public class PageSettingAction extends AbstractBaseAction {
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
 
-        PageSettingDialog dialog =
-                new PageSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
+        PageSettingDialog dialog = new PageSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
 
