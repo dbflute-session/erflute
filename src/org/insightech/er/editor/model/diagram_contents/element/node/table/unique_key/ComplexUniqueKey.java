@@ -11,81 +11,81 @@ import org.insightech.er.util.Format;
 
 public class ComplexUniqueKey extends AbstractModel {
 
-	private static final long serialVersionUID = -3970737521746421701L;
+    private static final long serialVersionUID = -3970737521746421701L;
 
-	private List<NormalColumn> columnList;
+    private List<NormalColumn> columnList;
 
-	private String uniqueKeyName;
+    private String uniqueKeyName;
 
-	public ComplexUniqueKey(String uniqueKeyName) {
-		this.uniqueKeyName = uniqueKeyName;
-		this.columnList = new ArrayList<NormalColumn>();
-	}
+    public ComplexUniqueKey(String uniqueKeyName) {
+        this.uniqueKeyName = uniqueKeyName;
+        this.columnList = new ArrayList<NormalColumn>();
+    }
 
-	public String getUniqueKeyName() {
-		return uniqueKeyName;
-	}
+    public String getUniqueKeyName() {
+        return uniqueKeyName;
+    }
 
-	public List<NormalColumn> getColumnList() {
-		return columnList;
-	}
+    public List<NormalColumn> getColumnList() {
+        return columnList;
+    }
 
-	public void addColumn(NormalColumn column) {
-		this.columnList.add(column);
-	}
+    public void addColumn(NormalColumn column) {
+        this.columnList.add(column);
+    }
 
-	public void setColumnList(List<NormalColumn> columnList) {
-		this.columnList = columnList;
-	}
+    public void setColumnList(List<NormalColumn> columnList) {
+        this.columnList = columnList;
+    }
 
-	public void setUniqueKeyName(String uniqueKeyName) {
-		this.uniqueKeyName = uniqueKeyName;
-	}
+    public void setUniqueKeyName(String uniqueKeyName) {
+        this.uniqueKeyName = uniqueKeyName;
+    }
 
-	public boolean isRemoved(List<NormalColumn> tableColumnList) {
-		for (NormalColumn normalColumn : this.columnList) {
-			if (!tableColumnList.contains(normalColumn)) {
-				return true;
-			}
-		}
+    public boolean isRemoved(List<NormalColumn> tableColumnList) {
+        for (NormalColumn normalColumn : this.columnList) {
+            if (!tableColumnList.contains(normalColumn)) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public String getLabel() {
-		StringBuilder sb = new StringBuilder();
+    public String getLabel() {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append(Format.null2blank(this.uniqueKeyName));
-		sb.append(" (");
-		boolean first = true;
-		for (NormalColumn normalColumn : this.getColumnList()) {
-			if (first) {
-				first = false;
-			} else {
-				sb.append(", ");
-			}
-			sb.append(normalColumn.getName());
-		}
-		sb.append(")");
+        sb.append(Format.null2blank(this.uniqueKeyName));
+        sb.append(" (");
+        boolean first = true;
+        for (NormalColumn normalColumn : this.getColumnList()) {
+            if (first) {
+                first = false;
+            } else {
+                sb.append(", ");
+            }
+            sb.append(normalColumn.getName());
+        }
+        sb.append(")");
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	public boolean isReferenced(ERTable table) {
-		boolean isReferenced = false;
+    public boolean isReferenced(ERTable table) {
+        boolean isReferenced = false;
 
-		ComplexUniqueKey target = this;
-		if (target instanceof CopyComplexUniqueKey) {
-			target = ((CopyComplexUniqueKey) target).getOriginal();
-		}
+        ComplexUniqueKey target = this;
+        if (target instanceof CopyComplexUniqueKey) {
+            target = ((CopyComplexUniqueKey) target).getOriginal();
+        }
 
-		for (Relation relation : table.getOutgoingRelations()) {
-			if (relation.getReferencedComplexUniqueKey() == target) {
-				isReferenced = true;
-				break;
-			}
-		}
+        for (Relation relation : table.getOutgoingRelations()) {
+            if (relation.getReferencedComplexUniqueKey() == target) {
+                isReferenced = true;
+                break;
+            }
+        }
 
-		return isReferenced;
-	}
+        return isReferenced;
+    }
 }

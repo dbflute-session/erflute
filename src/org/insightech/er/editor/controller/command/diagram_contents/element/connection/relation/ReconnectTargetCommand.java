@@ -5,41 +5,41 @@ import org.insightech.er.editor.model.diagram_contents.element.connection.Relati
 
 public class ReconnectTargetCommand extends AbstractCommand {
 
-	private Relation relation;
+    private Relation relation;
 
-	int xp;
+    int xp;
 
-	int yp;
+    int yp;
 
-	int oldXp;
+    int oldXp;
 
-	int oldYp;
+    int oldYp;
 
-	public ReconnectTargetCommand(Relation relation, int xp, int yp) {
-		this.relation = relation;
+    public ReconnectTargetCommand(Relation relation, int xp, int yp) {
+        this.relation = relation;
 
-		this.xp = xp;
-		this.yp = yp;
-	}
+        this.xp = xp;
+        this.yp = yp;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.oldXp = relation.getTargetXp();
-		this.oldYp = relation.getTargetYp();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.oldXp = relation.getTargetXp();
+        this.oldYp = relation.getTargetYp();
 
-		relation.setTargetLocationp(this.xp, this.yp);
-		relation.setParentMove();
-	}
+        relation.setTargetLocationp(this.xp, this.yp);
+        relation.setParentMove();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		relation.setTargetLocationp(this.oldXp, this.oldYp);
-		relation.setParentMove();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        relation.setTargetLocationp(this.oldXp, this.oldYp);
+        relation.setParentMove();
+    }
 }

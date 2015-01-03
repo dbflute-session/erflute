@@ -25,197 +25,193 @@ import org.insightech.er.editor.view.dialog.common.AbstractDBSettingDialog;
 
 public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
-	private Combo environmentCombo;
+    private Combo environmentCombo;
 
-	private String ddl;
+    private String ddl;
 
-	public ExportDBSettingDialog(Shell parentShell, ERDiagram diagram) {
-		super(parentShell, diagram);
-		this.dbSetting = this.diagram.getDbSetting();
-	}
+    public ExportDBSettingDialog(Shell parentShell, ERDiagram diagram) {
+        super(parentShell, diagram);
+        this.dbSetting = this.diagram.getDbSetting();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initializeBody(Composite group) {
-		GridData labelLayoutData = new GridData();
-		// labelLayoutData.widthHint = 130;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initializeBody(Composite group) {
+        GridData labelLayoutData = new GridData();
+        // labelLayoutData.widthHint = 130;
 
-		// DB
-		Label label = new Label(group, SWT.NONE);
-		label.setLayoutData(labelLayoutData);
-		label.setText(ResourceString
-				.getResourceString("label.tablespace.environment"));
-		label.setEnabled(true);
+        // DB
+        Label label = new Label(group, SWT.NONE);
+        label.setLayoutData(labelLayoutData);
+        label.setText(ResourceString.getResourceString("label.tablespace.environment"));
+        label.setEnabled(true);
 
-		this.environmentCombo = new Combo(group, SWT.BORDER | SWT.READ_ONLY);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.widthHint = 200;
-		this.environmentCombo.setLayoutData(data);
-		this.environmentCombo.setVisibleItemCount(20);
-		this.environmentCombo.setEnabled(true);
+        this.environmentCombo = new Combo(group, SWT.BORDER | SWT.READ_ONLY);
+        GridData data = new GridData(GridData.FILL_HORIZONTAL);
+        data.widthHint = 200;
+        this.environmentCombo.setLayoutData(data);
+        this.environmentCombo.setVisibleItemCount(20);
+        this.environmentCombo.setEnabled(true);
 
-		super.initializeBody(group);
-	}
+        super.initializeBody(group);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initialize(Composite parent) {
-		super.initialize(parent);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initialize(Composite parent) {
+        super.initialize(parent);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getErrorMessage() {
-		if (this.settingAddButton != null) {
-			this.settingAddButton.setEnabled(false);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getErrorMessage() {
+        if (this.settingAddButton != null) {
+            this.settingAddButton.setEnabled(false);
+        }
 
-		if (isBlank(this.environmentCombo)) {
-			return "error.tablespace.environment.empty";
-		}
+        if (isBlank(this.environmentCombo)) {
+            return "error.tablespace.environment.empty";
+        }
 
-		if (!this.diagram.getDatabase().equals(this.getDBSName())) {
-			return "error.database.not.correct";
-		}
+        if (!this.diagram.getDatabase().equals(this.getDBSName())) {
+            return "error.database.not.correct";
+        }
 
-		return super.getErrorMessage();
-	}
+        return super.getErrorMessage();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void perfomeOK() throws InputException {
-		this.setCurrentSetting();
-		
-		String db = this.getDBSName();
-		DBManager manager = DBManagerFactory.getDBManager(db);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void perfomeOK() throws InputException {
+        this.setCurrentSetting();
 
-		Connection con = null;
+        String db = this.getDBSName();
+        DBManager manager = DBManagerFactory.getDBManager(db);
 
-		try {
-			this.diagram.setDbSetting(this.dbSetting);
+        Connection con = null;
 
-			con = this.dbSetting.connect();
+        try {
+            this.diagram.setDbSetting(this.dbSetting);
 
-			int index = this.environmentCombo.getSelectionIndex();
-			Environment environment = this.diagram.getDiagramContents()
-					.getSettings().getEnvironmentSetting().getEnvironments()
-					.get(index);
+            con = this.dbSetting.connect();
 
-			PreTableExportManager exportToDBManager = manager
-					.getPreTableExportManager();
-			exportToDBManager.init(con, dbSetting, diagram, environment);
+            int index = this.environmentCombo.getSelectionIndex();
+            Environment environment =
+                    this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments()
+                            .get(index);
 
-			exportToDBManager.run();
+            PreTableExportManager exportToDBManager = manager.getPreTableExportManager();
+            exportToDBManager.init(con, dbSetting, diagram, environment);
 
-			Exception e = exportToDBManager.getException();
-			if (e != null) {
-				Activator.log(e);
-				String message = e.getMessage();
-				String errorSql = exportToDBManager.getErrorSql();
+            exportToDBManager.run();
 
-				if (errorSql != null) {
-					message += "\r\n\r\n" + errorSql;
-				}
-				ErrorDialog errorDialog = new ErrorDialog(this.getShell(),
-						message);
-				errorDialog.open();
+            Exception e = exportToDBManager.getException();
+            if (e != null) {
+                Activator.log(e);
+                String message = e.getMessage();
+                String errorSql = exportToDBManager.getErrorSql();
 
-				throw new InputException("error.jdbc.version");
-			}
+                if (errorSql != null) {
+                    message += "\r\n\r\n" + errorSql;
+                }
+                ErrorDialog errorDialog = new ErrorDialog(this.getShell(), message);
+                errorDialog.open();
 
-			this.ddl = exportToDBManager.getDdl();
+                throw new InputException("error.jdbc.version");
+            }
 
-		} catch (InputException e) {
-			throw e;
+            this.ddl = exportToDBManager.getDdl();
 
-		} catch (Exception e) {
-			Activator.log(e);
-			Throwable cause = e.getCause();
+        } catch (InputException e) {
+            throw e;
 
-			if (cause instanceof UnknownHostException) {
-				throw new InputException("error.server.not.found");
-			}
+        } catch (Exception e) {
+            Activator.log(e);
+            Throwable cause = e.getCause();
 
-			Activator.showExceptionDialog(e);
-			throw new InputException("error.database.not.found");
+            if (cause instanceof UnknownHostException) {
+                throw new InputException("error.server.not.found");
+            }
 
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					Activator.showExceptionDialog(e);
-				}
-			}
-		}
-	}
+            Activator.showExceptionDialog(e);
+            throw new InputException("error.database.not.found");
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getTitle() {
-		return "dialog.title.export.db";
-	}
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    Activator.showExceptionDialog(e);
+                }
+            }
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void setData() {
-		super.setData();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getTitle() {
+        return "dialog.title.export.db";
+    }
 
-		Settings settings = this.diagram.getDiagramContents().getSettings();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setData() {
+        super.setData();
 
-		for (Environment environment : settings.getEnvironmentSetting()
-				.getEnvironments()) {
-			this.environmentCombo.add(environment.getName());
-		}
-		this.environmentCombo.select(0);
-	}
+        Settings settings = this.diagram.getDiagramContents().getSettings();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean isOnlyCurrentDatabase() {
-		return true;
-	}
+        for (Environment environment : settings.getEnvironmentSetting().getEnvironments()) {
+            this.environmentCombo.add(environment.getName());
+        }
+        this.environmentCombo.select(0);
+    }
 
-	/**
-	 * ddl ���擾���܂�.
-	 * 
-	 * @return ddl
-	 */
-	public String getDdl() {
-		return ddl;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isOnlyCurrentDatabase() {
+        return true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void addListener() {
-		super.addListener();
+    /**
+     * ddl ���擾���܂�.
+     * 
+     * @return ddl
+     */
+    public String getDdl() {
+        return ddl;
+    }
 
-		this.environmentCombo.addSelectionListener(new SelectionAdapter() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void addListener() {
+        super.addListener();
 
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				validate();
-			}
-		});
-	}
+        this.environmentCombo.addSelectionListener(new SelectionAdapter() {
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                validate();
+            }
+        });
+    }
 
 }

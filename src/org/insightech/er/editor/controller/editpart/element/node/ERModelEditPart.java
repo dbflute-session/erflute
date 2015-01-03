@@ -21,136 +21,133 @@ import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.view.drag_drop.ERDiagramTransferDragSourceListener;
 
-
 public class ERModelEditPart extends NodeElementEditPart {
 
-	@Override
-	public void doPropertyChange(PropertyChangeEvent event) {
-		
-		if (event.getPropertyName().equals(ERModel.PROPERTY_CHANGE_VTABLES)) {
-			// ƒe[ƒuƒ‹”z’u•ÏX
-			this.refreshChildren();
-			this.refresh();
-		} else if (event.getPropertyName().equals(ConnectionElement.PROPERTY_CHANGE_CONNECTION)) {
-			System.out.println("aa");
-		} else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
-			this.refreshVisuals();
-		}
-		
+    @Override
+    public void doPropertyChange(PropertyChangeEvent event) {
 
-	}
-	
-	@Override
-	public void refresh() {
-		super.refresh();
-		
-		// ‚±‚±‚ÌƒRƒƒ“ƒgƒAƒEƒgŠO‚·‚ÆStackOverflow‚É‚È‚éB•Ê‚Ì‚Æ‚±‚ë‚ÅƒŠƒtƒŒƒbƒVƒ…‚·‚é•K—v‚ ‚è
-//		Map<NodeElement, EditPart> part = getModelToEditPart();
-//		for (Entry<NodeElement, EditPart> entry : part.entrySet()) {
-//			if (entry.getKey() instanceof ERVirtualTable) {
-//				entry.getValue().addNotify();
-//			}
-//		}
-		
-	}
-	
-	
-	@Override
-	protected List getModelChildren() {
-		List<Object> modelChildren = new ArrayList<Object>();
-		ERModel model = (ERModel) this.getModel();
-		modelChildren.addAll(model.getGroups());
-		modelChildren.addAll(model.getTables());
-		modelChildren.addAll(model.getNotes());
-		return modelChildren;
-	}
+        if (event.getPropertyName().equals(ERModel.PROPERTY_CHANGE_VTABLES)) {
+            // ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½zï¿½uï¿½ÏX
+            this.refreshChildren();
+            this.refresh();
+        } else if (event.getPropertyName().equals(ConnectionElement.PROPERTY_CHANGE_CONNECTION)) {
+            System.out.println("aa");
+        } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
+            this.refreshVisuals();
+        }
 
-	
-//	@Override
-//	protected Rectangle getRectangle() {
-//		// TODO Auto-generated method stub
-//		return super.getRectangle();
-//	}
-	
-	@Override
-	protected IFigure createFigure() {
-//		ERModel ermodel = (ERModel) this.getModel();
-//		ERModelFigure figure = new ERModelFigure(ermodel.getName());
-//		return figure;
+    }
 
-		FreeformLayer layer = new FreeformLayer();
-		layer.setLayoutManager(new FreeformLayout());
-		return layer;
-	}
+    @Override
+    public void refresh() {
+        super.refresh();
 
-	@Override
-	protected void createEditPolicies() {
-		this.installEditPolicy(EditPolicy.LAYOUT_ROLE, new ERDiagramLayoutEditPolicy());
-	}
-	
-	@Override
-	public void refreshVisuals() {
-		ERModel element = (ERModel) this.getModel();
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Aï¿½Eï¿½gï¿½Oï¿½ï¿½ï¿½ï¿½StackOverflowï¿½É‚È‚ï¿½Bï¿½Ê‚Ì‚Æ‚ï¿½ï¿½ï¿½Åƒï¿½ï¿½tï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½
+        //		Map<NodeElement, EditPart> part = getModelToEditPart();
+        //		for (Entry<NodeElement, EditPart> entry : part.entrySet()) {
+        //			if (entry.getKey() instanceof ERVirtualTable) {
+        //				entry.getValue().addNotify();
+        //			}
+        //		}
 
-		int[] color = element.getColor();
+    }
 
-		if (color != null) {
-			Color bgColor = Resources.getColor(color);
-			this.getViewer().getControl().setBackground(bgColor);
-		}
+    @Override
+    protected List getModelChildren() {
+        List<Object> modelChildren = new ArrayList<Object>();
+        ERModel model = (ERModel) this.getModel();
+        modelChildren.addAll(model.getGroups());
+        modelChildren.addAll(model.getTables());
+        modelChildren.addAll(model.getNotes());
+        return modelChildren;
+    }
 
-		for (Object child : this.getChildren()) {
-			if (child instanceof NodeElementEditPart) {
-				NodeElementEditPart part = (NodeElementEditPart) child;
-				part.refreshVisuals();
-			}
-		}
-	}
-	
-//	private void internalRefreshTable(ERTable table) {
-//		for (Entry<NodeElement, EditPart> entry : getModelToEditPart().entrySet()) {
-//			if (entry.getKey().equals(table)) {
-//				// ƒe[ƒuƒ‹‚ÌXV
-//				entry.getValue().refresh();
-//			}
-//		}
-//		
-//		
-//	}
+    //	@Override
+    //	protected Rectangle getRectangle() {
+    //		// TODO Auto-generated method stub
+    //		return super.getRectangle();
+    //	}
 
-	public void refreshRelations() {
-		for (Object child : this.getChildren()) {
-			if (child instanceof NodeElementEditPart) {
-				NodeElementEditPart part = (NodeElementEditPart) child;
-				part.refreshConnections();
-			}
-		}
-	}
+    @Override
+    protected IFigure createFigure() {
+        //		ERModel ermodel = (ERModel) this.getModel();
+        //		ERModelFigure figure = new ERModelFigure(ermodel.getName());
+        //		return figure;
 
-	private Map<NodeElement, EditPart> getModelToEditPart() {
-		Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
-		List children = getChildren();
+        FreeformLayer layer = new FreeformLayer();
+        layer.setLayoutManager(new FreeformLayout());
+        return layer;
+    }
 
-		for (int i = 0; i < children.size(); i++) {
-			EditPart editPart = (EditPart) children.get(i);
-			modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
-		}
+    @Override
+    protected void createEditPolicies() {
+        this.installEditPolicy(EditPolicy.LAYOUT_ROLE, new ERDiagramLayoutEditPolicy());
+    }
 
-		return modelToEditPart;
-	}
+    @Override
+    public void refreshVisuals() {
+        ERModel element = (ERModel) this.getModel();
 
-	@Override
-	protected void performRequestOpen() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public EditPart getTargetEditPart(Request request) {
-		System.out.println("ss");
-		if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_PLACE_TABLE.equals(request.getType())) {
-			return this;
-		}
-		return super.getTargetEditPart(request);
-	}
-	
+        int[] color = element.getColor();
+
+        if (color != null) {
+            Color bgColor = Resources.getColor(color);
+            this.getViewer().getControl().setBackground(bgColor);
+        }
+
+        for (Object child : this.getChildren()) {
+            if (child instanceof NodeElementEditPart) {
+                NodeElementEditPart part = (NodeElementEditPart) child;
+                part.refreshVisuals();
+            }
+        }
+    }
+
+    //	private void internalRefreshTable(ERTable table) {
+    //		for (Entry<NodeElement, EditPart> entry : getModelToEditPart().entrySet()) {
+    //			if (entry.getKey().equals(table)) {
+    //				// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌXï¿½V
+    //				entry.getValue().refresh();
+    //			}
+    //		}
+    //		
+    //		
+    //	}
+
+    public void refreshRelations() {
+        for (Object child : this.getChildren()) {
+            if (child instanceof NodeElementEditPart) {
+                NodeElementEditPart part = (NodeElementEditPart) child;
+                part.refreshConnections();
+            }
+        }
+    }
+
+    private Map<NodeElement, EditPart> getModelToEditPart() {
+        Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
+        List children = getChildren();
+
+        for (int i = 0; i < children.size(); i++) {
+            EditPart editPart = (EditPart) children.get(i);
+            modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
+        }
+
+        return modelToEditPart;
+    }
+
+    @Override
+    protected void performRequestOpen() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public EditPart getTargetEditPart(Request request) {
+        System.out.println("ss");
+        if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_PLACE_TABLE.equals(request.getType())) {
+            return this;
+        }
+        return super.getTargetEditPart(request);
+    }
+
 }

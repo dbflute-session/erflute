@@ -5,39 +5,36 @@ import org.insightech.er.editor.controller.command.diagram_contents.element.conn
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 
-public abstract class AbstractCreateRelationCommand extends
-		AbstractCreateConnectionCommand {
+public abstract class AbstractCreateRelationCommand extends AbstractCreateConnectionCommand {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String validate() {
-		ERTable sourceTable = (ERTable) this.getSourceModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String validate() {
+        ERTable sourceTable = (ERTable) this.getSourceModel();
 
-		if (!sourceTable.isReferable()) {
-			return ResourceString
-					.getResourceString("error.no.referenceable.column");
-		}
+        if (!sourceTable.isReferable()) {
+            return ResourceString.getResourceString("error.no.referenceable.column");
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canExecute() {
-		if (!super.canExecute()) {
-			return false;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canExecute() {
+        if (!super.canExecute()) {
+            return false;
+        }
 
-		if (!(this.getSourceModel() instanceof ERTable)
-				|| !(this.getTargetModel() instanceof TableView)) {
-			return false;
-		}
+        if (!(this.getSourceModel() instanceof ERTable) || !(this.getTargetModel() instanceof TableView)) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

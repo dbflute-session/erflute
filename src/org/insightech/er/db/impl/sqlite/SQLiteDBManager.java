@@ -17,97 +17,95 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class SQLiteDBManager extends DBManagerBase {
 
-	public static final String ID = "SQLite";
+    public static final String ID = "SQLite";
 
-	public String getId() {
-		return ID;
-	}
+    public String getId() {
+        return ID;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDriverClassName() {
-		return "org.sqlite.JDBC";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDriverClassName() {
+        return "org.sqlite.JDBC";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getURL() {
-		return "jdbc:sqlite:<DB NAME>";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getURL() {
+        return "jdbc:sqlite:<DB NAME>";
+    }
 
-	public int getDefaultPort() {
-		return 0;
-	}
+    public int getDefaultPort() {
+        return 0;
+    }
 
-	public SqlTypeManager getSqlTypeManager() {
-		return new SQLiteSqlTypeManager();
-	}
+    public SqlTypeManager getSqlTypeManager() {
+        return new SQLiteSqlTypeManager();
+    }
 
-	public TableProperties createTableProperties(TableProperties tableProperties) {
-		if (tableProperties != null
-				&& tableProperties instanceof SQLiteTableProperties) {
-			return tableProperties;
-		}
+    public TableProperties createTableProperties(TableProperties tableProperties) {
+        if (tableProperties != null && tableProperties instanceof SQLiteTableProperties) {
+            return tableProperties;
+        }
 
-		return new SQLiteTableProperties();
-	}
+        return new SQLiteTableProperties();
+    }
 
-	public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
-		return new SQLiteDDLCreator(diagram, semicolon);
-	}
+    public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
+        return new SQLiteDDLCreator(diagram, semicolon);
+    }
 
-	public List<String> getIndexTypeList(ERTable table) {
-		List<String> list = new ArrayList<String>();
+    public List<String> getIndexTypeList(ERTable table) {
+        List<String> list = new ArrayList<String>();
 
-		list.add("BTREE");
+        list.add("BTREE");
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	protected int[] getSupportItems() {
-		return new int[] { SUPPORT_SCHEMA, SUPPORT_AUTO_INCREMENT };
-	}
+    @Override
+    protected int[] getSupportItems() {
+        return new int[] { SUPPORT_SCHEMA, SUPPORT_AUTO_INCREMENT };
+    }
 
-	public ImportFromDBManager getTableImportManager() {
-		return new SQLiteTableImportManager();
-	}
+    public ImportFromDBManager getTableImportManager() {
+        return new SQLiteTableImportManager();
+    }
 
-	public PreImportFromDBManager getPreTableImportManager() {
-		return new SQLitePreTableImportManager();
-	}
+    public PreImportFromDBManager getPreTableImportManager() {
+        return new SQLitePreTableImportManager();
+    }
 
-	public PreTableExportManager getPreTableExportManager() {
-		return new SQLitePreTableExportManager();
-	}
+    public PreTableExportManager getPreTableExportManager() {
+        return new SQLitePreTableExportManager();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean doesNeedURLServerName() {
-		return false;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean doesNeedURLServerName() {
+        return false;
+    }
 
-	public TablespaceProperties createTablespaceProperties() {
-		return null;
-	}
+    public TablespaceProperties createTablespaceProperties() {
+        return null;
+    }
 
-	public TablespaceProperties checkTablespaceProperties(
-			TablespaceProperties tablespaceProperties) {
-		return null;
-	}
+    public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
+        return null;
+    }
 
-	public String[] getCurrentTimeValue() {
-		return new String[] { "CURRENT_TIMESTAMP" };
-	}
-	
-	public BigDecimal getSequenceMaxValue() {
-		return BigDecimal.ZERO;
-	}
+    public String[] getCurrentTimeValue() {
+        return new String[] { "CURRENT_TIMESTAMP" };
+    }
+
+    public BigDecimal getSequenceMaxValue() {
+        return BigDecimal.ZERO;
+    }
 
 }

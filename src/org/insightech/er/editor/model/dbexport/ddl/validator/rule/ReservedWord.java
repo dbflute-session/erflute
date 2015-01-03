@@ -9,20 +9,19 @@ import org.insightech.er.Activator;
 
 public class ReservedWord {
 
-	private static Set<String> reservedWords = new HashSet<String>();
+    private static Set<String> reservedWords = new HashSet<String>();
 
-	static {
-		ResourceBundle bundle = ResourceBundle.getBundle(Activator.PLUGIN_ID
-				+ ".reserved_word");
+    static {
+        ResourceBundle bundle = ResourceBundle.getBundle(Activator.PLUGIN_ID + ".reserved_word");
 
-		Enumeration<String> keys = bundle.getKeys();
+        Enumeration<String> keys = bundle.getKeys();
 
-		while (keys.hasMoreElements()) {
-			reservedWords.add(keys.nextElement());
-		}
-	}
+        while (keys.hasMoreElements()) {
+            reservedWords.add(keys.nextElement());
+        }
+    }
 
-	public static boolean isReservedWord(String str) {
-		return reservedWords.contains(str);
-	}
+    public static boolean isReservedWord(String str) {
+        return reservedWords.contains(str);
+    }
 }

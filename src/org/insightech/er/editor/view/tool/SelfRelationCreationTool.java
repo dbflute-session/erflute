@@ -8,36 +8,35 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 
 public class SelfRelationCreationTool extends ConnectionCreationTool {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean handleButtonDown(int button) {
-		if (button == SWT.KeyDown) {
-			return handleCreateConnection();
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean handleButtonDown(int button) {
+        if (button == SWT.KeyDown) {
+            return handleCreateConnection();
+        }
 
-		return super.handleButtonDown(button);
-	}
+        return super.handleButtonDown(button);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean handleCreateConnection() {
-		CreateSelfRelationCommand command = (CreateSelfRelationCommand) this
-				.getCommand();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean handleCreateConnection() {
+        CreateSelfRelationCommand command = (CreateSelfRelationCommand) this.getCommand();
 
-		ERTable target = (ERTable) command.getSourceModel();
+        ERTable target = (ERTable) command.getSourceModel();
 
-		if (!target.isReferable()) {
-			Activator.showErrorDialog("error.no.referenceable.column");
+        if (!target.isReferable()) {
+            Activator.showErrorDialog("error.no.referenceable.column");
 
-			this.eraseSourceFeedback();
+            this.eraseSourceFeedback();
 
-			return false;
-		}
+            return false;
+        }
 
-		return super.handleCreateConnection();
-	}
+        return super.handleCreateConnection();
+    }
 }

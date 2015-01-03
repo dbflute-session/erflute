@@ -7,27 +7,26 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 
 public class RelatedTableCreationTool extends ConnectionCreationTool {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean handleCreateConnection() {
-		CreateRelatedTableCommand command = (CreateRelatedTableCommand) this
-				.getCommand();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean handleCreateConnection() {
+        CreateRelatedTableCommand command = (CreateRelatedTableCommand) this.getCommand();
 
-		if (command != null) {
-			ERTable target = (ERTable) command.getTargetModel();
+        if (command != null) {
+            ERTable target = (ERTable) command.getTargetModel();
 
-			if (!target.isReferable()) {
-				Activator.showErrorDialog("error.no.referenceable.column");
+            if (!target.isReferable()) {
+                Activator.showErrorDialog("error.no.referenceable.column");
 
-				this.eraseSourceFeedback();
+                this.eraseSourceFeedback();
 
-				return false;
-			}
-		}
+                return false;
+            }
+        }
 
-		return super.handleCreateConnection();
-	}
+        return super.handleCreateConnection();
+    }
 
 }

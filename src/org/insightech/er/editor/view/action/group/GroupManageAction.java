@@ -17,33 +17,30 @@ import org.insightech.er.editor.view.dialog.group.GroupManageDialog;
 
 public class GroupManageAction extends AbstractBaseAction {
 
-	public static final String ID = GroupManageAction.class.getName();
+    public static final String ID = GroupManageAction.class.getName();
 
-	public GroupManageAction(ERDiagramEditor editor) {
-		super(ID,
-				ResourceString.getResourceString("action.title.manage.group"),
-				editor);
-	}
+    public GroupManageAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.manage.group"), editor);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
-		GroupSet groupSet = diagram.getDiagramContents().getGroups();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
+        GroupSet groupSet = diagram.getDiagramContents().getGroups();
 
-		GroupManageDialog dialog = new GroupManageDialog(PlatformUI
-				.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				groupSet, diagram, false, -1);
+        GroupManageDialog dialog =
+                new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet,
+                        diagram, false, -1);
 
-		if (dialog.open() == IDialogConstants.OK_ID) {
-			List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
+        if (dialog.open() == IDialogConstants.OK_ID) {
+            List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
 
-			Command command = new ChangeGroupCommand(diagram, groupSet,
-					newColumnGroups);
+            Command command = new ChangeGroupCommand(diagram, groupSet, newColumnGroups);
 
-			this.execute(command);
-		}
-	}
+            this.execute(command);
+        }
+    }
 }

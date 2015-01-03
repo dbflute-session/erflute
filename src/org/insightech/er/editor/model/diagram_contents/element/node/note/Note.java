@@ -15,102 +15,101 @@ import org.insightech.er.util.Format;
  */
 public class Note extends NodeElement implements Comparable<Note> {
 
-	private static final long serialVersionUID = -8810455349879962852L;
+    private static final long serialVersionUID = -8810455349879962852L;
 
-	public static final String PROPERTY_CHANGE_NOTE = "note";
+    public static final String PROPERTY_CHANGE_NOTE = "note";
 
-	/** �e���f�� */
-	private ERModel model;
+    /** �e���f�� */
+    private ERModel model;
 
-	private String text;
+    private String text;
 
-	public Note() {
-		System.out.println("Note");
-	}
-	
-	/**
-	 * �e���f�����擾���܂��B
-	 * @return �e���f��
-	 */
-	public ERModel getModel() {
-	    return model;
-	}
+    public Note() {
+        System.out.println("Note");
+    }
 
-	/**
-	 * �e���f����ݒ肵�܂��B
-	 * @param model �e���f��
-	 */
-	public void setModel(ERModel model) {
-	    this.model = model;
-	}
+    /**
+     * �e���f�����擾���܂��B
+     * @return �e���f��
+     */
+    public ERModel getModel() {
+        return model;
+    }
 
-	/**
-	 * �m�[�g�̖{����ԋp���܂��B
-	 * 
-	 * @return
-	 */
-	public String getText() {
-		return text;
-	}
+    /**
+     * �e���f����ݒ肵�܂��B
+     * @param model �e���f��
+     */
+    public void setModel(ERModel model) {
+        this.model = model;
+    }
 
-	/**
-	 * �m�[�g�̖{����ݒ肵�܂��B
-	 * 
-	 * @param text
-	 */
-	public void setText(String text) {
-		this.text = text;
+    /**
+     * �m�[�g�̖{����ԋp���܂��B
+     * 
+     * @return
+     */
+    public String getText() {
+        return text;
+    }
 
-		this.firePropertyChange(PROPERTY_CHANGE_NOTE, null, null);
-	}
+    /**
+     * �m�[�g�̖{����ݒ肵�܂��B
+     * 
+     * @param text
+     */
+    public void setText(String text) {
+        this.text = text;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<NodeElement> getReferringElementList() {
-		List<NodeElement> referringElementList = super.getReferringElementList();
+        this.firePropertyChange(PROPERTY_CHANGE_NOTE, null, null);
+    }
 
-		for (ConnectionElement connectionElement : this.getIncomings()) {
-			NodeElement sourceElement = connectionElement.getSource();
-			referringElementList.add(sourceElement);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<NodeElement> getReferringElementList() {
+        List<NodeElement> referringElementList = super.getReferringElementList();
 
-		return referringElementList;
-	}
+        for (ConnectionElement connectionElement : this.getIncomings()) {
+            NodeElement sourceElement = connectionElement.getSource();
+            referringElementList.add(sourceElement);
+        }
 
-	public String getDescription() {
-		return "";
-	}
+        return referringElementList;
+    }
 
-	public int compareTo(Note other) {
-		int compareTo = 0;
+    public String getDescription() {
+        return "";
+    }
 
-		compareTo = Format.null2blank(this.text).compareTo(
-				Format.null2blank(other.text));
+    public int compareTo(Note other) {
+        int compareTo = 0;
 
-		return compareTo;
-	}
+        compareTo = Format.null2blank(this.text).compareTo(Format.null2blank(other.text));
 
-	public String getName() {
-		String name = text;
-		if (name == null) {
-			name = "";
+        return compareTo;
+    }
 
-		} else if (name.length() > 20) {
-			name = name.substring(0, 20);
-		}
+    public String getName() {
+        String name = text;
+        if (name == null) {
+            name = "";
 
-		return name;
-	}
+        } else if (name.length() > 20) {
+            name = name.substring(0, 20);
+        }
 
-	public String getObjectType() {
-		return "note";
-	}
+        return name;
+    }
 
-	@Override
-	public boolean needsUpdateOtherModel() {
-		return false;
-	}
-	
+    public String getObjectType() {
+        return "note";
+    }
+
+    @Override
+    public boolean needsUpdateOtherModel() {
+        return false;
+    }
+
 }

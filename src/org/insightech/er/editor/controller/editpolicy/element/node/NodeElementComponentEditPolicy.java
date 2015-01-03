@@ -24,94 +24,90 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirt
 
 public class NodeElementComponentEditPolicy extends ComponentEditPolicy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Command createDeleteCommand(GroupRequest request) {
-		try {
-			if (this.getHost() instanceof DeleteableEditPart) {
-				DeleteableEditPart editPart = (DeleteableEditPart) this
-						.getHost();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Command createDeleteCommand(GroupRequest request) {
+        try {
+            if (this.getHost() instanceof DeleteableEditPart) {
+                DeleteableEditPart editPart = (DeleteableEditPart) this.getHost();
 
-				if (!editPart.isDeleteable()) {
-					return null;
-				}
+                if (!editPart.isDeleteable()) {
+                    return null;
+                }
 
-			} else {
-				return null;
-			}
+            } else {
+                return null;
+            }
 
-			Set<NodeElement> targets = new HashSet<NodeElement>();
+            Set<NodeElement> targets = new HashSet<NodeElement>();
 
-			for (Object object : request.getEditParts()) {
-				EditPart editPart = (EditPart) object;
+            for (Object object : request.getEditParts()) {
+                EditPart editPart = (EditPart) object;
 
-				Object model = editPart.getModel();
+                Object model = editPart.getModel();
 
-				if (model instanceof NodeElement) {
-					targets.add((NodeElement) model);
-				}
-			}
+                if (model instanceof NodeElement) {
+                    targets.add((NodeElement) model);
+                }
+            }
 
-			ERDiagram diagram = ERModelUtil.getDiagram(this.getHost().getRoot().getContents());
-			NodeElement element = (NodeElement) this.getHost().getModel();
+            ERDiagram diagram = ERModelUtil.getDiagram(this.getHost().getRoot().getContents());
+            NodeElement element = (NodeElement) this.getHost().getModel();
 
-			if (element instanceof Category) {
-				return new DeleteCategoryCommand(diagram, (Category) element);
-			}
+            if (element instanceof Category) {
+                return new DeleteCategoryCommand(diagram, (Category) element);
+            }
 
-			ERVirtualTable virtualTable = null;
-			if (element instanceof ERVirtualTable) {
-				virtualTable = (ERVirtualTable) element;
-				element = ((ERVirtualTable) element).getRawTable();
-			}
-			if (!diagram.getDiagramContents().getContents().contains(element)
-					&& !(element instanceof Category)) {
-				return null;
-			}
+            ERVirtualTable virtualTable = null;
+            if (element instanceof ERVirtualTable) {
+                virtualTable = (ERVirtualTable) element;
+                element = ((ERVirtualTable) element).getRawTable();
+            }
+            if (!diagram.getDiagramContents().getContents().contains(element) && !(element instanceof Category)) {
+                return null;
+            }
 
-			CompoundCommand command = new CompoundCommand();
+            CompoundCommand command = new CompoundCommand();
 
-			if (virtualTable == null) {
-				for (ConnectionElement connection : element.getIncomings()) {
-					if (connection instanceof Relation) {
-						command.add(new DeleteRelationCommand(
-								(Relation) connection, true));
+            if (virtualTable == null) {
+                for (ConnectionElement connection : element.getIncomings()) {
+                    if (connection instanceof Relation) {
+                        command.add(new DeleteRelationCommand((Relation) connection, true));
 
-					} else {
-						command.add(new DeleteConnectionCommand(connection));
-					}
-				}
+                    } else {
+                        command.add(new DeleteConnectionCommand(connection));
+                    }
+                }
 
-				for (ConnectionElement connection : element.getOutgoings()) {
+                for (ConnectionElement connection : element.getOutgoings()) {
 
-					NodeElement target = connection.getTarget();
+                    NodeElement target = connection.getTarget();
 
-					if (!targets.contains(target)) {
-						if (connection instanceof Relation) {
-							command.add(new DeleteRelationCommand(
-									(Relation) connection, true));
-						} else {
-							command.add(new DeleteConnectionCommand(connection));
-						}
-					}
-				}
+                    if (!targets.contains(target)) {
+                        if (connection instanceof Relation) {
+                            command.add(new DeleteRelationCommand((Relation) connection, true));
+                        } else {
+                            command.add(new DeleteConnectionCommand(connection));
+                        }
+                    }
+                }
 
-				command.add(new DeleteElementCommand(diagram, element));
-			} else {
-				// �r���[��Ńe�[�u���������Ă����ۂɂ͏������A�r���[������������ɂ���
-				command.add(new DeleteElementCommand(diagram, virtualTable));
-				// �����������[�V�����͏���
-			}
+                command.add(new DeleteElementCommand(diagram, element));
+            } else {
+                // �r���[��Ńe�[�u���������Ă����ۂɂ͏������A�r���[������������ɂ���
+                command.add(new DeleteElementCommand(diagram, virtualTable));
+                // �����������[�V�����͏���
+            }
 
-			return command.unwrap();
+            return command.unwrap();
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
-		}
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

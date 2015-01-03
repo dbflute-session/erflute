@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,131 +20,124 @@ import org.insightech.er.preference.PreferenceInitializer;
 
 public class TranslationResources {
 
-	private Map<String, String> translationMap;
+    private Map<String, String> translationMap;
 
-	public TranslationResources(TranslationSetting translationSettings) {
-		this.translationMap = new TreeMap<String, String>(
-				new TranslationResourcesComparator());
+    public TranslationResources(TranslationSetting translationSettings) {
+        this.translationMap = new TreeMap<String, String>(new TranslationResourcesComparator());
 
-		String defaultFileName = ResourceString
-				.getResourceString("label.translation.default");
+        String defaultFileName = ResourceString.getResourceString("label.translation.default");
 
-		if (translationSettings.isUse()) {
-			for (String translation : PreferenceInitializer
-					.getAllUserTranslations()) {
-				if (translationSettings.isSelected(translation)) {
-					File file = new File(PreferenceInitializer
-							.getTranslationPath(translation));
+        if (translationSettings.isUse()) {
+            for (String translation : PreferenceInitializer.getAllUserTranslations()) {
+                if (translationSettings.isSelected(translation)) {
+                    File file = new File(PreferenceInitializer.getTranslationPath(translation));
 
-					if (file.exists()) {
-						FileInputStream in = null;
+                    if (file.exists()) {
+                        FileInputStream in = null;
 
-						try {
-							in = new FileInputStream(file);
-							load(in);
+                        try {
+                            in = new FileInputStream(file);
+                            load(in);
 
-						} catch (IOException e) {
-							Activator.showExceptionDialog(e);
+                        } catch (IOException e) {
+                            Activator.showExceptionDialog(e);
 
-						} finally {
-							if (in != null) {
-								try {
-									in.close();
-								} catch (IOException e) {
-									Activator.showExceptionDialog(e);
-								}
-							}
-						}
-					}
+                        } finally {
+                            if (in != null) {
+                                try {
+                                    in.close();
+                                } catch (IOException e) {
+                                    Activator.showExceptionDialog(e);
+                                }
+                            }
+                        }
+                    }
 
-				}
-			}
+                }
+            }
 
-			if (translationSettings.isSelected(defaultFileName)) {
-				InputStream in = this.getClass().getResourceAsStream(
-						"/translation.txt");
-				try {
-					load(in);
+            if (translationSettings.isSelected(defaultFileName)) {
+                InputStream in = this.getClass().getResourceAsStream("/translation.txt");
+                try {
+                    load(in);
 
-				} catch (IOException e) {
-					Activator.showExceptionDialog(e);
+                } catch (IOException e) {
+                    Activator.showExceptionDialog(e);
 
-				} finally {
-					try {
-						in.close();
-					} catch (IOException e) {
-						Activator.showExceptionDialog(e);
-					}
-				}
+                } finally {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        Activator.showExceptionDialog(e);
+                    }
+                }
 
-			}
-		}
-	}
+            }
+        }
+    }
 
-	private void load(InputStream in) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in,
-				"UTF-8"));
+    private void load(InputStream in) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 
-		String line = null;
+        String line = null;
 
-		while ((line = reader.readLine()) != null) {
-			int index = line.indexOf(",");
-			if (index == -1 || index == line.length() - 1) {
-				continue;
-			}
+        while ((line = reader.readLine()) != null) {
+            int index = line.indexOf(",");
+            if (index == -1 || index == line.length() - 1) {
+                continue;
+            }
 
-			String key = line.substring(0, index).trim();
-			if ("".equals(key)) {
-				continue;
-			}
+            String key = line.substring(0, index).trim();
+            if ("".equals(key)) {
+                continue;
+            }
 
-			String value = line.substring(index + 1).trim();
-			this.translationMap.put(key, value);
+            String value = line.substring(index + 1).trim();
+            this.translationMap.put(key, value);
 
-			key = key.replaceAll("[aiueo]", "");
-			if (key.length() > 1) {
-				this.translationMap.put(key, value);
-			}
-		}
-	}
+            key = key.replaceAll("[aiueo]", "");
+            if (key.length() > 1) {
+                this.translationMap.put(key, value);
+            }
+        }
+    }
 
-	/**
-	 * ERDiagram.properties �̎w�肳�ꂽ�L�[�ɑΉ�����l��Ԃ��܂�
-	 * 
-	 * @param key
-	 *            ERDiagram.properties �Œ�`���ꂽ�L�[
-	 * @return ERDiagram.properties �̎w�肳�ꂽ�L�[�ɑΉ�����l
-	 */
-	public String translate(String str) {
-		for (Entry<String, String> entry : translationMap.entrySet()) {
-			String key = entry.getKey();
-			String value = entry.getValue();
+    /**
+     * ERDiagram.properties �̎w�肳�ꂽ�L�[�ɑΉ�����l��Ԃ��܂�
+     * 
+     * @param key
+     *            ERDiagram.properties �Œ�`���ꂽ�L�[
+     * @return ERDiagram.properties �̎w�肳�ꂽ�L�[�ɑΉ�����l
+     */
+    public String translate(String str) {
+        for (Entry<String, String> entry : translationMap.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
 
-			Pattern p = Pattern.compile("_*" + Pattern.quote(key) + "_*",
-					Pattern.CASE_INSENSITIVE);
-			Matcher m = p.matcher(str);
-			str = m.replaceAll(value);
-		}
+            Pattern p = Pattern.compile("_*" + Pattern.quote(key) + "_*", Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(str);
+            str = m.replaceAll(value);
+        }
 
-		return str;
-	}
+        return str;
+    }
 
-	public boolean contains(String key) {
-		return this.translationMap.containsKey(key);
-	}
+    public boolean contains(String key) {
+        return this.translationMap.containsKey(key);
+    }
 
-	/**
-	 * �������ɕ��ׂ�B���������Ȃ玫�����B������ [A-Z] ��� [_] ��D�悷��B
-	 */
-	private class TranslationResourcesComparator implements Comparator<String> {
+    /**
+     * �������ɕ��ׂ�B���������Ȃ玫�����B������ [A-Z] ��� [_] ��D�悷��B
+     */
+    private class TranslationResourcesComparator implements Comparator<String> {
 
-		public int compare(String o1, String o2) {
-			int diff = o2.length() - o1.length();
-			if (diff != 0) {
-				return diff;
-			} else {
-				return o1.replace('_', ' ').compareTo(o2.replace('_', ' '));
-			}
-		}
-	}
+        public int compare(String o1, String o2) {
+            int diff = o2.length() - o1.length();
+            if (diff != 0) {
+                return diff;
+            } else {
+                return o1.replace('_', ' ').compareTo(o2.replace('_', ' '));
+            }
+        }
+    }
 }

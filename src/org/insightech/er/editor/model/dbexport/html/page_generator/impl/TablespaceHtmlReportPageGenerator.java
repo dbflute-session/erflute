@@ -17,121 +17,107 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 import org.insightech.er.editor.model.settings.Environment;
 import org.insightech.er.util.Format;
 
-public class TablespaceHtmlReportPageGenerator extends
-		AbstractHtmlReportPageGenerator {
+public class TablespaceHtmlReportPageGenerator extends AbstractHtmlReportPageGenerator {
 
-	public TablespaceHtmlReportPageGenerator(Map<Object, Integer> idMap) {
-		super(idMap);
-	}
+    public TablespaceHtmlReportPageGenerator(Map<Object, Integer> idMap) {
+        super(idMap);
+    }
 
-	public String getType() {
-		return "tablespace";
-	}
+    public String getType() {
+        return "tablespace";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Object> getObjectList(ERDiagram diagram) {
-		List list = diagram.getDiagramContents().getTablespaceSet()
-				.getTablespaceList();
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Object> getObjectList(ERDiagram diagram) {
+        List list = diagram.getDiagramContents().getTablespaceSet().getTablespaceList();
 
-		return list;
-	}
+        return list;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String[] getContentArgs(ERDiagram diagram, Object object)
-			throws IOException {
-		Tablespace tablespace = (Tablespace) object;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String[] getContentArgs(ERDiagram diagram, Object object) throws IOException {
+        Tablespace tablespace = (Tablespace) object;
 
-		String environments = this
-				.generateEnvironmentTable(diagram, tablespace);
+        String environments = this.generateEnvironmentTable(diagram, tablespace);
 
-		Tablespace defaultTablespace = diagram.getDiagramContents()
-				.getSettings().getTableViewProperties().getTableSpace();
+        Tablespace defaultTablespace =
+                diagram.getDiagramContents().getSettings().getTableViewProperties().getTableSpace();
 
-		List<TableView> usedTableList = new ArrayList<TableView>();
+        List<TableView> usedTableList = new ArrayList<TableView>();
 
-		for (ERTable table : diagram.getDiagramContents().getContents()
-				.getTableSet()) {
-			Tablespace useTablespace = table.getTableViewProperties()
-					.getTableSpace();
-			if (useTablespace == null) {
-				if (defaultTablespace == tablespace) {
-					usedTableList.add(table);
-				}
-			} else {
-				if (useTablespace == tablespace) {
-					usedTableList.add(table);
-				}
-			}
-		}
+        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+            Tablespace useTablespace = table.getTableViewProperties().getTableSpace();
+            if (useTablespace == null) {
+                if (defaultTablespace == tablespace) {
+                    usedTableList.add(table);
+                }
+            } else {
+                if (useTablespace == tablespace) {
+                    usedTableList.add(table);
+                }
+            }
+        }
 
-		String usedTableTable = this.generateUsedTableTable(usedTableList);
+        String usedTableTable = this.generateUsedTableTable(usedTableList);
 
-		return new String[] { environments, usedTableTable };
-	}
+        return new String[] { environments, usedTableTable };
+    }
 
-	public String getObjectName(Object object) {
-		Tablespace tablespace = (Tablespace) object;
+    public String getObjectName(Object object) {
+        Tablespace tablespace = (Tablespace) object;
 
-		return tablespace.getName();
-	}
+        return tablespace.getName();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getObjectSummary(Object object) {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getObjectSummary(Object object) {
+        return null;
+    }
 
-	private String generateEnvironmentTable(ERDiagram diagram,
-			Tablespace tablespace) throws IOException {
-		StringBuilder sb = new StringBuilder();
+    private String generateEnvironmentTable(ERDiagram diagram, Tablespace tablespace) throws IOException {
+        StringBuilder sb = new StringBuilder();
 
-		String template = ExportToHtmlManager
-				.getTemplate("types/environment_row_template.html");
+        String template = ExportToHtmlManager.getTemplate("types/environment_row_template.html");
 
-		for (Environment environment : diagram.getDiagramContents()
-				.getSettings().getEnvironmentSetting().getEnvironments()) {
-			TablespaceProperties properties = tablespace.getPropertiesMap()
-					.get(environment);
-			if (properties == null) {
-				continue;
-			}
+        for (Environment environment : diagram.getDiagramContents().getSettings().getEnvironmentSetting()
+                .getEnvironments()) {
+            TablespaceProperties properties = tablespace.getPropertiesMap().get(environment);
+            if (properties == null) {
+                continue;
+            }
 
-			Object[] args = { Format.null2blank(environment.getName()),
-					this.generateValueTable(properties) };
-			String row = MessageFormat.format(template, args);
+            Object[] args = { Format.null2blank(environment.getName()), this.generateValueTable(properties) };
+            String row = MessageFormat.format(template, args);
 
-			sb.append(row);
-		}
+            sb.append(row);
+        }
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	private String generateValueTable(TablespaceProperties properties)
-			throws IOException {
-		StringBuilder sb = new StringBuilder();
+    private String generateValueTable(TablespaceProperties properties) throws IOException {
+        StringBuilder sb = new StringBuilder();
 
-		String template = ExportToHtmlManager
-				.getTemplate("types/value_row_template.html");
+        String template = ExportToHtmlManager.getTemplate("types/value_row_template.html");
 
-		for (Map.Entry<String, String> entry : properties.getPropertiesMap()
-				.entrySet()) {
-			Object[] args = { ResourceString.getResourceString(entry.getKey()),
-					Format.null2blank(entry.getValue()) };
-			String row = MessageFormat.format(template, args);
+        for (Map.Entry<String, String> entry : properties.getPropertiesMap().entrySet()) {
+            Object[] args = { ResourceString.getResourceString(entry.getKey()), Format.null2blank(entry.getValue()) };
+            String row = MessageFormat.format(template, args);
 
-			sb.append(row);
-		}
+            sb.append(row);
+        }
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
 }

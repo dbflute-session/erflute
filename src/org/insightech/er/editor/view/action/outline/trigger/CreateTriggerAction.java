@@ -12,28 +12,25 @@ import org.insightech.er.editor.view.dialog.outline.trigger.TriggerDialog;
 
 public class CreateTriggerAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = CreateTriggerAction.class.getName();
+    public static final String ID = CreateTriggerAction.class.getName();
 
-	public CreateTriggerAction(TreeViewer treeViewer) {
-		super(ID, ResourceString
-				.getResourceString("action.title.create.trigger"), treeViewer);
-	}
+    public CreateTriggerAction(TreeViewer treeViewer) {
+        super(ID, ResourceString.getResourceString("action.title.create.trigger"), treeViewer);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		TriggerDialog dialog = new TriggerDialog(PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getShell(), null);
+        TriggerDialog dialog = new TriggerDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null);
 
-		if (dialog.open() == IDialogConstants.OK_ID) {
-			CreateTriggerCommand command = new CreateTriggerCommand(diagram,
-					dialog.getResult());
-			this.execute(command);
-		}
-	}
+        if (dialog.open() == IDialogConstants.OK_ID) {
+            CreateTriggerCommand command = new CreateTriggerCommand(diagram, dialog.getResult());
+            this.execute(command);
+        }
+    }
 
 }

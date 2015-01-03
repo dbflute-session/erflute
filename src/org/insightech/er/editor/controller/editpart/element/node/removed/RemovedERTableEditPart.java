@@ -14,117 +14,112 @@ import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.RemovedERTable;
 import org.insightech.er.editor.view.figure.table.TableFigure;
 
-public class RemovedERTableEditPart extends RemovedNodeElementEditPart
-		implements IResizable {
+public class RemovedERTableEditPart extends RemovedNodeElementEditPart implements IResizable {
 
-	private Font titleFont;
+    private Font titleFont;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected IFigure createFigure() {
-		ERDiagram diagram = this.getDiagram();
-		Settings settings = diagram.getDiagramContents().getSettings();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IFigure createFigure() {
+        ERDiagram diagram = this.getDiagram();
+        Settings settings = diagram.getDiagramContents().getSettings();
 
-		TableFigure figure = new TableFigure(settings);
+        TableFigure figure = new TableFigure(settings);
 
-		this.changeFont(figure);
+        this.changeFont(figure);
 
-		return figure;
-	}
+        return figure;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void refreshVisuals() {
-		try {
-			TableFigure figure = (TableFigure) this.getFigure();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void refreshVisuals() {
+        try {
+            TableFigure figure = (TableFigure) this.getFigure();
 
-			RemovedERTable removedERTable = (RemovedERTable) this.getModel();
-			ERTable table = (ERTable) removedERTable.getNodeElement();
+            RemovedERTable removedERTable = (RemovedERTable) this.getModel();
+            ERTable table = (ERTable) removedERTable.getNodeElement();
 
-			figure.create(null);
+            figure.create(null);
 
-			ERDiagram diagram = this.getDiagram();
+            ERDiagram diagram = this.getDiagram();
 
-			int viewMode = diagram.getDiagramContents().getSettings()
-					.getViewMode();
+            int viewMode = diagram.getDiagramContents().getSettings().getViewMode();
 
-			if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
-				figure.setName(diagram.filter(table.getPhysicalName()));
+            if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
+                figure.setName(diagram.filter(table.getPhysicalName()));
 
-			} else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
-				figure.setName(diagram.filter(table.getLogicalName()));
+            } else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
+                figure.setName(diagram.filter(table.getLogicalName()));
 
-			} else {
-				figure.setName(diagram.filter(table.getLogicalName()) + "/"
-						+ diagram.filter(table.getPhysicalName()));
-			}
+            } else {
+                figure.setName(diagram.filter(table.getLogicalName()) + "/" + diagram.filter(table.getPhysicalName()));
+            }
 
-			this.refreshTableColumns(figure);
+            this.refreshTableColumns(figure);
 
-			super.refreshVisuals();
+            super.refreshVisuals();
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
-		}
-	}
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void changeSettings(Settings settings) {
-		TableFigure figure = (TableFigure) this.getFigure();
-		figure.setSettings(settings);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeSettings(Settings settings) {
+        TableFigure figure = (TableFigure) this.getFigure();
+        figure.setSettings(settings);
 
-		super.changeSettings(settings);
-	}
+        super.changeSettings(settings);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void disposeFont() {
-		if (this.titleFont != null) {
-			this.titleFont.dispose();
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void disposeFont() {
+        if (this.titleFont != null) {
+            this.titleFont.dispose();
+        }
+    }
 
-	private Font changeFont(TableFigure tableFigure) {
-		Font font = super.changeFont(tableFigure);
+    private Font changeFont(TableFigure tableFigure) {
+        Font font = super.changeFont(tableFigure);
 
-		FontData fonDatat = font.getFontData()[0];
+        FontData fonDatat = font.getFontData()[0];
 
-		this.titleFont = new Font(Display.getCurrent(), fonDatat.getName(),
-				fonDatat.getHeight(), SWT.BOLD);
+        this.titleFont = new Font(Display.getCurrent(), fonDatat.getName(), fonDatat.getHeight(), SWT.BOLD);
 
-		tableFigure.setFont(font, this.titleFont);
+        tableFigure.setFont(font, this.titleFont);
 
-		return font;
-	}
+        return font;
+    }
 
-	private void refreshTableColumns(TableFigure tableFigure) {
-		RemovedERTable removedERTable = (RemovedERTable) this.getModel();
-		ERTable table = (ERTable) removedERTable.getNodeElement();
+    private void refreshTableColumns(TableFigure tableFigure) {
+        RemovedERTable removedERTable = (RemovedERTable) this.getModel();
+        ERTable table = (ERTable) removedERTable.getNodeElement();
 
-		ERDiagram diagram = this.getDiagram();
+        ERDiagram diagram = this.getDiagram();
 
-		tableFigure.clearColumns();
+        tableFigure.clearColumns();
 
-		TableViewEditPart.showRemovedColumns(diagram, table, tableFigure, table
-				.getColumns(), false);
-	}
+        TableViewEditPart.showRemovedColumns(diagram, table, tableFigure, table.getColumns(), false);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IFigure getContentPane() {
-		TableFigure figure = (TableFigure) super.getContentPane();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IFigure getContentPane() {
+        TableFigure figure = (TableFigure) super.getContentPane();
 
-		return figure.getColumns();
-	}
+        return figure.getColumns();
+    }
 }

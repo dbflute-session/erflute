@@ -7,12 +7,11 @@ import org.insightech.er.ResourceString;
 
 public class ZoomAdjustRetargetAction extends RetargetAction {
 
-	public ZoomAdjustRetargetAction() {
-		super(null, null);
-		setText(ResourceString.getResourceString("action.title.zoom.adjust"));
-		setId(ZoomAdjustAction.ID);
-		setToolTipText(ResourceString
-				.getResourceString("action.title.zoom.adjust"));
-		setImageDescriptor(Activator.getImageDescriptor(ImageKey.ZOOM_ADJUST));
-	}
+    public ZoomAdjustRetargetAction() {
+        super(null, null);
+        setText(ResourceString.getResourceString("action.title.zoom.adjust"));
+        setId(ZoomAdjustAction.ID);
+        setToolTipText(ResourceString.getResourceString("action.title.zoom.adjust"));
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.ZOOM_ADJUST));
+    }
 }

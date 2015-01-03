@@ -12,73 +12,67 @@ import org.insightech.er.editor.view.figure.CategoryFigure;
 
 public class CategoryEditPart extends NodeElementEditPart implements IResizable {
 
-	public CategoryEditPart() {
-		super();
-	}
+    public CategoryEditPart() {
+        super();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected IFigure createFigure() {
-		Category category = (Category) this.getModel();
-		CategoryFigure figure = new CategoryFigure(category.getName());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IFigure createFigure() {
+        Category category = (Category) this.getModel();
+        CategoryFigure figure = new CategoryFigure(category.getName());
 
-		return figure;
-	}
+        return figure;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Rectangle getRectangle() {
-		Rectangle rectangle = super.getRectangle();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Rectangle getRectangle() {
+        Rectangle rectangle = super.getRectangle();
 
-		Category category = (Category) this.getModel();
-		ERDiagramEditPart rootEditPart = (ERDiagramEditPart) this.getRoot()
-				.getContents();
+        Category category = (Category) this.getModel();
+        ERDiagramEditPart rootEditPart = (ERDiagramEditPart) this.getRoot().getContents();
 
-		for (Object child : rootEditPart.getChildren()) {
-			if (child instanceof NodeElementEditPart) {
-				NodeElementEditPart editPart = (NodeElementEditPart) child;
+        for (Object child : rootEditPart.getChildren()) {
+            if (child instanceof NodeElementEditPart) {
+                NodeElementEditPart editPart = (NodeElementEditPart) child;
 
-				if (category.contains((NodeElement) editPart.getModel())) {
-					Rectangle bounds = editPart.getFigure().getBounds();
+                if (category.contains((NodeElement) editPart.getModel())) {
+                    Rectangle bounds = editPart.getFigure().getBounds();
 
-					if (bounds.x + bounds.width > rectangle.x + rectangle.width) {
-						rectangle.width = bounds.x + bounds.width - rectangle.x;
-					}
-					if (bounds.y + bounds.height > rectangle.y
-							+ rectangle.height) {
-						rectangle.height = bounds.y + bounds.height
-								- rectangle.y;
-					}
+                    if (bounds.x + bounds.width > rectangle.x + rectangle.width) {
+                        rectangle.width = bounds.x + bounds.width - rectangle.x;
+                    }
+                    if (bounds.y + bounds.height > rectangle.y + rectangle.height) {
+                        rectangle.height = bounds.y + bounds.height - rectangle.y;
+                    }
 
-					if (rectangle.width != category.getWidth()
-							|| rectangle.height != category.getHeight()) {
-						category.setLocation(new Location(category.getX(),
-								category.getY(), rectangle.width,
-								rectangle.height));
-					}
-				}
-			}
-		}
+                    if (rectangle.width != category.getWidth() || rectangle.height != category.getHeight()) {
+                        category.setLocation(new Location(category.getX(), category.getY(), rectangle.width,
+                                rectangle.height));
+                    }
+                }
+            }
+        }
 
-		return rectangle;
-	}
+        return rectangle;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createEditPolicies() {
-		this.installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new NodeElementComponentEditPolicy());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createEditPolicies() {
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
 
-		super.createEditPolicies();
-	}
+        super.createEditPolicies();
+    }
 
-	@Override
-	protected void performRequestOpen() {
-	}
+    @Override
+    protected void performRequestOpen() {
+    }
 }

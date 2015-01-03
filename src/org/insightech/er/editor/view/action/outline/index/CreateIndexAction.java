@@ -16,35 +16,32 @@ import org.insightech.er.editor.view.dialog.element.table.sub.IndexDialog;
 
 public class CreateIndexAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = CreateIndexAction.class.getName();
+    public static final String ID = CreateIndexAction.class.getName();
 
-	public CreateIndexAction(TreeViewer treeViewer) {
-		super(ID,
-				ResourceString.getResourceString("action.title.create.index"),
-				treeViewer);
-	}
+    public CreateIndexAction(TreeViewer treeViewer) {
+        super(ID, ResourceString.getResourceString("action.title.create.index"), treeViewer);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
 
-		ERDiagram diagram = this.getDiagram();
+        ERDiagram diagram = this.getDiagram();
 
-		List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
-		EditPart editPart = (EditPart) selectedEditParts.get(0);
-		ERTable table = (ERTable) editPart.getModel();
+        List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
+        EditPart editPart = (EditPart) selectedEditParts.get(0);
+        ERTable table = (ERTable) editPart.getModel();
 
-		IndexDialog dialog = new IndexDialog(PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getShell(), null, table);
+        IndexDialog dialog =
+                new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, table);
 
-		if (dialog.open() == IDialogConstants.OK_ID) {
-			CreateIndexCommand command = new CreateIndexCommand(diagram, dialog
-					.getResultIndex());
+        if (dialog.open() == IDialogConstants.OK_ID) {
+            CreateIndexCommand command = new CreateIndexCommand(diagram, dialog.getResultIndex());
 
-			this.execute(command);
-		}
-	}
+            this.execute(command);
+        }
+    }
 
 }

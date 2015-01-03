@@ -13,36 +13,31 @@ import org.insightech.er.editor.view.dialog.outline.tablespace.TablespaceDialog;
 
 public class CreateTablespaceAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = CreateTablespaceAction.class.getName();
+    public static final String ID = CreateTablespaceAction.class.getName();
 
-	public CreateTablespaceAction(TreeViewer treeViewer) {
-		super(ID, ResourceString
-				.getResourceString("action.title.create.tablespace"),
-				treeViewer);
-	}
+    public CreateTablespaceAction(TreeViewer treeViewer) {
+        super(ID, ResourceString.getResourceString("action.title.create.tablespace"), treeViewer);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		TablespaceDialog dialog = EclipseDBManagerFactory.getEclipseDBManager(
-				diagram).createTablespaceDialog();
-		if (dialog == null) {
-			Activator
-					.showMessageDialog("dialog.message.tablespace.not.supported");
+        TablespaceDialog dialog = EclipseDBManagerFactory.getEclipseDBManager(diagram).createTablespaceDialog();
+        if (dialog == null) {
+            Activator.showMessageDialog("dialog.message.tablespace.not.supported");
 
-		} else {
-			dialog.init(null, diagram);
+        } else {
+            dialog.init(null, diagram);
 
-			if (dialog.open() == IDialogConstants.OK_ID) {
-				CreateTablespaceCommand command = new CreateTablespaceCommand(
-						diagram, dialog.getResult());
-				this.execute(command);
-			}
-		}
-	}
+            if (dialog.open() == IDialogConstants.OK_ID) {
+                CreateTablespaceCommand command = new CreateTablespaceCommand(diagram, dialog.getResult());
+                this.execute(command);
+            }
+        }
+    }
 
 }

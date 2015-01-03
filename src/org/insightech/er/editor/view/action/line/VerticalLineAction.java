@@ -24,195 +24,182 @@ import org.insightech.er.editor.view.action.AbstractBaseSelectionAction;
 
 public class VerticalLineAction extends AbstractBaseSelectionAction {
 
-	public static final String ID = VerticalLineAction.class.getName();
+    public static final String ID = VerticalLineAction.class.getName();
 
-	public VerticalLineAction(ERDiagramEditor editor) {
-		super(ID, ResourceString
-				.getResourceString("action.title.vertical.line"), editor);
+    public VerticalLineAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.vertical.line"), editor);
 
-		this.setImageDescriptor(Activator
-				.getImageDescriptor(ImageKey.VERTICAL_LINE));
-//		this.setDisabledImageDescriptor(Activator
-//				.getImageDescriptor(ImageKey.VERTICAL_LINE_DISABLED));
-		this.setToolTipText(ResourceString
-				.getResourceString("action.title.vertical.line"));
-	}
+        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));
+        //		this.setDisabledImageDescriptor(Activator
+        //				.getImageDescriptor(ImageKey.VERTICAL_LINE_DISABLED));
+        this.setToolTipText(ResourceString.getResourceString("action.title.vertical.line"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean calculateEnabled() {
-		Command cmd = this.createCommand();
-		if (cmd == null) {
-			return false;
-		}
-		return cmd.canExecute();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean calculateEnabled() {
+        Command cmd = this.createCommand();
+        if (cmd == null) {
+            return false;
+        }
+        return cmd.canExecute();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void execute(Event event) {
-		execute(createCommand());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void execute(Event event) {
+        execute(createCommand());
+    }
 
-	private Command createCommand() {
-		Command command = null;
-		try {
-			List<NodeElementEditPart> list = new ArrayList<NodeElementEditPart>();
+    private Command createCommand() {
+        Command command = null;
+        try {
+            List<NodeElementEditPart> list = new ArrayList<NodeElementEditPart>();
 
-			for (Object object : this.getSelectedObjects()) {
-				if (object instanceof ERTableEditPart
-						|| object instanceof NoteEditPart) {
-					list.add((NodeElementEditPart) object);
-				}
-			}
+            for (Object object : this.getSelectedObjects()) {
+                if (object instanceof ERTableEditPart || object instanceof NoteEditPart) {
+                    list.add((NodeElementEditPart) object);
+                }
+            }
 
-			if (list.size() < 3) {
-				return null;
-			}
+            if (list.size() < 3) {
+                return null;
+            }
 
-			NodeElementEditPart firstEditPart = this.getFirstEditPart(list);
-			list.remove(firstEditPart);
+            NodeElementEditPart firstEditPart = this.getFirstEditPart(list);
+            list.remove(firstEditPart);
 
-			Collections.sort(list, comparator);
+            Collections.sort(list, comparator);
 
-			Rectangle firstRectangle = firstEditPart.getFigure().getBounds();
-			int start = firstRectangle.y;
-			int top = firstRectangle.y + firstRectangle.height;
+            Rectangle firstRectangle = firstEditPart.getFigure().getBounds();
+            int start = firstRectangle.y;
+            int top = firstRectangle.y + firstRectangle.height;
 
-			Rectangle lastRectangle = list.remove(list.size() - 1).getFigure()
-					.getBounds();
-			int bottom = lastRectangle.y;
+            Rectangle lastRectangle = list.remove(list.size() - 1).getFigure().getBounds();
+            int bottom = lastRectangle.y;
 
-			if (top > bottom) {
-				command = this.alignToStart(start, list);
+            if (top > bottom) {
+                command = this.alignToStart(start, list);
 
-			} else {
-				command = this.adjustSpace(start, top, bottom, list);
-			}
-		} catch (Exception e) {
-			Activator.log(e);
-		}
-		
-		return command;
-	}
+            } else {
+                command = this.adjustSpace(start, top, bottom, list);
+            }
+        } catch (Exception e) {
+            Activator.log(e);
+        }
 
-	private Command alignToStart(int start, List<NodeElementEditPart> list) {
-		CompoundCommand command = new CompoundCommand();
+        return command;
+    }
 
-		for (NodeElementEditPart editPart : list) {
-			NodeElement nodeElement = (NodeElement) editPart.getModel();
+    private Command alignToStart(int start, List<NodeElementEditPart> list) {
+        CompoundCommand command = new CompoundCommand();
 
-			MoveElementCommand moveCommand = new MoveElementCommand(this
-					.getDiagram(), editPart.getFigure().getBounds(),
-					nodeElement.getX(), start, nodeElement.getWidth(),
-					nodeElement.getHeight(), nodeElement);
+        for (NodeElementEditPart editPart : list) {
+            NodeElement nodeElement = (NodeElement) editPart.getModel();
 
-			command.add(moveCommand);
-		}
+            MoveElementCommand moveCommand =
+                    new MoveElementCommand(this.getDiagram(), editPart.getFigure().getBounds(), nodeElement.getX(),
+                            start, nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
 
-		return command.unwrap();
-	}
+            command.add(moveCommand);
+        }
 
-	private Command adjustSpace(int start, int top, int bottom,
-			List<NodeElementEditPart> list) {
-		CompoundCommand command = new CompoundCommand();
+        return command.unwrap();
+    }
 
-		int totalHeight = 0;
+    private Command adjustSpace(int start, int top, int bottom, List<NodeElementEditPart> list) {
+        CompoundCommand command = new CompoundCommand();
 
-		for (NodeElementEditPart editPart : list) {
-			totalHeight += editPart.getFigure().getBounds().height;
-		}
+        int totalHeight = 0;
 
-		int space = (bottom - top - totalHeight) / (list.size() + 1);
+        for (NodeElementEditPart editPart : list) {
+            totalHeight += editPart.getFigure().getBounds().height;
+        }
 
-		int y = top;
+        int space = (bottom - top - totalHeight) / (list.size() + 1);
 
-		for (NodeElementEditPart editPart : list) {
-			NodeElement nodeElement = (NodeElement) editPart.getModel();
+        int y = top;
 
-			y += space;
+        for (NodeElementEditPart editPart : list) {
+            NodeElement nodeElement = (NodeElement) editPart.getModel();
 
-			int nextY = y + editPart.getFigure().getBounds().height;
+            y += space;
 
-			if (y < start) {
-				y = start;
-			}
+            int nextY = y + editPart.getFigure().getBounds().height;
 
-			MoveElementCommand moveCommand = new MoveElementCommand(this
-					.getDiagram(), editPart.getFigure().getBounds(),
-					nodeElement.getX(), y, nodeElement.getWidth(), nodeElement
-							.getHeight(), nodeElement);
+            if (y < start) {
+                y = start;
+            }
 
-			command.add(moveCommand);
+            MoveElementCommand moveCommand =
+                    new MoveElementCommand(this.getDiagram(), editPart.getFigure().getBounds(), nodeElement.getX(), y,
+                            nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
 
-			y = nextY;
-		}
+            command.add(moveCommand);
 
-		return command.unwrap();
-	}
+            y = nextY;
+        }
 
-	private NodeElementEditPart getFirstEditPart(List<NodeElementEditPart> list) {
-		NodeElementEditPart firstEditPart = null;
+        return command.unwrap();
+    }
 
-		for (NodeElementEditPart editPart : list) {
-			if (firstEditPart == null) {
-				firstEditPart = editPart;
+    private NodeElementEditPart getFirstEditPart(List<NodeElementEditPart> list) {
+        NodeElementEditPart firstEditPart = null;
 
-			} else {
-				if (firstEditPart.getFigure().getBounds().y > editPart
-						.getFigure().getBounds().y) {
-					firstEditPart = editPart;
-				}
-			}
-		}
+        for (NodeElementEditPart editPart : list) {
+            if (firstEditPart == null) {
+                firstEditPart = editPart;
 
-		return firstEditPart;
-	}
+            } else {
+                if (firstEditPart.getFigure().getBounds().y > editPart.getFigure().getBounds().y) {
+                    firstEditPart = editPart;
+                }
+            }
+        }
 
-	private static final Comparator<NodeElementEditPart> comparator = new NodeElementEditPartVerticalComparator();
+        return firstEditPart;
+    }
 
-	private static class NodeElementEditPartVerticalComparator implements
-			Comparator<NodeElementEditPart> {
+    private static final Comparator<NodeElementEditPart> comparator = new NodeElementEditPartVerticalComparator();
 
-		public int compare(NodeElementEditPart o1, NodeElementEditPart o2) {
-			if (o1 == null) {
-				return -1;
-			}
-			if (o2 == null) {
-				return 1;
-			}
+    private static class NodeElementEditPartVerticalComparator implements Comparator<NodeElementEditPart> {
 
-			Rectangle bounds1 = o1.getFigure().getBounds();
-			Rectangle bounds2 = o2.getFigure().getBounds();
+        public int compare(NodeElementEditPart o1, NodeElementEditPart o2) {
+            if (o1 == null) {
+                return -1;
+            }
+            if (o2 == null) {
+                return 1;
+            }
 
-			int rightY1 = bounds1.y + bounds1.height;
-			int rightY2 = bounds2.y + bounds2.height;
+            Rectangle bounds1 = o1.getFigure().getBounds();
+            Rectangle bounds2 = o2.getFigure().getBounds();
 
-			return rightY1 - rightY2;
-		}
+            int rightY1 = bounds1.y + bounds1.height;
+            int rightY2 = bounds2.y + bounds2.height;
 
-	}
+            return rightY1 - rightY2;
+        }
 
-	public static class VerticalLineRetargetAction extends LabelRetargetAction {
-		public VerticalLineRetargetAction() {
-			super(ID, ResourceString
-					.getResourceString("action.title.vertical.line"));
+    }
 
-			this.setImageDescriptor(Activator
-					.getImageDescriptor(ImageKey.VERTICAL_LINE));
-//			this.setDisabledImageDescriptor(Activator
-//					.getImageDescriptor(ImageKey.VERTICAL_LINE_DISABLED));
-			this.setToolTipText(ResourceString
-					.getResourceString("action.title.vertical.line"));
-		}
-	}
+    public static class VerticalLineRetargetAction extends LabelRetargetAction {
+        public VerticalLineRetargetAction() {
+            super(ID, ResourceString.getResourceString("action.title.vertical.line"));
 
-	@Override
-	protected List<Command> getCommand(EditPart editPart, Event event) {
-		return null;
-	}
+            this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));
+            //			this.setDisabledImageDescriptor(Activator
+            //					.getImageDescriptor(ImageKey.VERTICAL_LINE_DISABLED));
+            this.setToolTipText(ResourceString.getResourceString("action.title.vertical.line"));
+        }
+    }
+
+    @Override
+    protected List<Command> getCommand(EditPart editPart, Event event) {
+        return null;
+    }
 }

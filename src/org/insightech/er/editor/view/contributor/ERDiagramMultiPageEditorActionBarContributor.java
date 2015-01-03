@@ -8,32 +8,29 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.insightech.er.editor.ERDiagramEditor;
 
-public class ERDiagramMultiPageEditorActionBarContributor extends
-		MultiPageEditorActionBarContributor {
+public class ERDiagramMultiPageEditorActionBarContributor extends MultiPageEditorActionBarContributor {
 
-	@Override
-	public void setActivePage(IEditorPart activeEditor) {
-		ERDiagramEditor editor = (ERDiagramEditor) activeEditor;
+    @Override
+    public void setActivePage(IEditorPart activeEditor) {
+        ERDiagramEditor editor = (ERDiagramEditor) activeEditor;
 
-		ERDiagramActionBarContributor actionBarContributor = editor
-				.getActionBarContributor();
+        ERDiagramActionBarContributor actionBarContributor = editor.getActionBarContributor();
 
-		IActionBars actionBars = this.getActionBars();
-		actionBars.clearGlobalActionHandlers();
-		actionBars.getToolBarManager().removeAll();
+        IActionBars actionBars = this.getActionBars();
+        actionBars.clearGlobalActionHandlers();
+        actionBars.getToolBarManager().removeAll();
 
-		actionBarContributor.init(actionBars, editor.getEditorSite().getPage());
-		actionBarContributor.setActiveEditor(editor);
-		ZoomComboContributionItem item = (ZoomComboContributionItem) getActionBars()
-				.getToolBarManager().find(
-						GEFActionConstants.ZOOM_TOOLBAR_WIDGET);
-		if (item != null) {
-			ZoomManager zoomManager = (ZoomManager) editor
-					.getAdapter(ZoomManager.class);
-			item.setZoomManager(zoomManager);
-		}
+        actionBarContributor.init(actionBars, editor.getEditorSite().getPage());
+        actionBarContributor.setActiveEditor(editor);
+        ZoomComboContributionItem item =
+                (ZoomComboContributionItem) getActionBars().getToolBarManager().find(
+                        GEFActionConstants.ZOOM_TOOLBAR_WIDGET);
+        if (item != null) {
+            ZoomManager zoomManager = (ZoomManager) editor.getAdapter(ZoomManager.class);
+            item.setZoomManager(zoomManager);
+        }
 
-		getActionBars().updateActionBars();
-	}
+        getActionBars().updateActionBars();
+    }
 
 }

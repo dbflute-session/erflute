@@ -28,164 +28,155 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.index.
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.dialog.element.table.TableDialog;
 
-public class TableOutlineEditPart extends AbstractOutlineEditPart implements
-		DeleteableEditPart {
+public class TableOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
-	private boolean quickMode;
+    private boolean quickMode;
 
-	public TableOutlineEditPart(boolean quickMode) {
-		this.quickMode = quickMode;
-	}
+    public TableOutlineEditPart(boolean quickMode) {
+        this.quickMode = quickMode;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List getModelChildren() {
-		List<AbstractModel> children = new ArrayList<AbstractModel>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List getModelChildren() {
+        List<AbstractModel> children = new ArrayList<AbstractModel>();
 
-		ERTable table = (ERTable) this.getModel();
+        ERTable table = (ERTable) this.getModel();
 
-		Category category = this.getCurrentCategory();
+        Category category = this.getCurrentCategory();
 
-		if (!quickMode) {
-			for (Relation relation : table.getIncomingRelations()) {
-				if (category == null
-						|| category.contains(relation.getSource())) {
-					children.add(relation);
-				}
-			}
-			children.addAll(table.getIndexes());
-		}
+        if (!quickMode) {
+            for (Relation relation : table.getIncomingRelations()) {
+                if (category == null || category.contains(relation.getSource())) {
+                    children.add(relation);
+                }
+            }
+            children.addAll(table.getIndexes());
+        }
 
-		return children;
-	}
+        return children;
+    }
 
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_PHYSICAL_NAME)) {
-			refreshName();
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_PHYSICAL_NAME)) {
+            refreshName();
 
-		} else if (evt.getPropertyName().equals(
-				ERTable.PROPERTY_CHANGE_LOGICAL_NAME)) {
-			refreshName();
+        } else if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_LOGICAL_NAME)) {
+            refreshName();
 
-		} else if (evt.getPropertyName()
-				.equals(ERTable.PROPERTY_CHANGE_COLUMNS)) {
-			refresh();
+        } else if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_COLUMNS)) {
+            refresh();
 
-		} else if (evt.getPropertyName().equals(
-				IndexSet.PROPERTY_CHANGE_INDEXES)) {
-			refresh();
+        } else if (evt.getPropertyName().equals(IndexSet.PROPERTY_CHANGE_INDEXES)) {
+            refresh();
 
-		}
-	}
+        }
+    }
 
-	protected void refreshName() {
-		ERTable model = (ERTable) this.getModel();
+    protected void refreshName() {
+        ERTable model = (ERTable) this.getModel();
 
-		ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
+        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
 
-		String name = null;
+        String name = null;
 
-		int viewMode = diagram.getDiagramContents().getSettings()
-				.getOutlineViewMode();
+        int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
 
-		if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
-			if (model.getPhysicalName() != null) {
-				name = model.getPhysicalName();
+        if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
+            if (model.getPhysicalName() != null) {
+                name = model.getPhysicalName();
 
-			} else {
-				name = "";
-			}
+            } else {
+                name = "";
+            }
 
-		} else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
-			if (model.getLogicalName() != null) {
-				name = model.getLogicalName();
+        } else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
+            if (model.getLogicalName() != null) {
+                name = model.getLogicalName();
 
-			} else {
-				name = "";
-			}
+            } else {
+                name = "";
+            }
 
-		} else {
-			if (model.getLogicalName() != null) {
-				name = model.getLogicalName();
+        } else {
+            if (model.getLogicalName() != null) {
+                name = model.getLogicalName();
 
-			} else {
-				name = "";
-			}
+            } else {
+                name = "";
+            }
 
-			name += "/";
+            name += "/";
 
-			if (model.getPhysicalName() != null) {
-				name += model.getPhysicalName();
+            if (model.getPhysicalName() != null) {
+                name += model.getPhysicalName();
 
-			}
-		}
+            }
+        }
 
-		this.setWidgetText(diagram.filter(name));
-		this.setWidgetImage(Activator.getImage(ImageKey.TABLE));
-	}
+        this.setWidgetText(diagram.filter(name));
+        this.setWidgetImage(Activator.getImage(ImageKey.TABLE));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshOutlineVisuals() {
-		this.refreshName();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshOutlineVisuals() {
+        this.refreshName();
 
-		for (Object child : this.getChildren()) {
-			EditPart part = (EditPart) child;
-			part.refresh();
-		}
-	}
+        for (Object child : this.getChildren()) {
+            EditPart part = (EditPart) child;
+            part.refresh();
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createEditPolicies() {
-		this.installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new NodeElementComponentEditPolicy());
-		// this.installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createEditPolicies() {
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
+        // this.installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performRequest(Request request) {
-		ERTable table = (ERTable) this.getModel();
-		ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performRequest(Request request) {
+        ERTable table = (ERTable) this.getModel();
+        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
 
-		if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-			ERTable copyTable = table.copyData();
+        if (request.getType().equals(RequestConstants.REQ_OPEN)) {
+            ERTable copyTable = table.copyData();
 
-			TableDialog dialog = new TableDialog(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell(), this.getViewer(),
-					copyTable, diagram.getDiagramContents().getGroups());
+            TableDialog dialog =
+                    new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(),
+                            copyTable, diagram.getDiagramContents().getGroups());
 
-			if (dialog.open() == IDialogConstants.OK_ID) {
-				CompoundCommand command = ERTableEditPart
-						.createChangeTablePropertyCommand(diagram, table,
-								copyTable);
+            if (dialog.open() == IDialogConstants.OK_ID) {
+                CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram, table, copyTable);
 
-				this.execute(command.unwrap());
-			}
-		}
+                this.execute(command.unwrap());
+            }
+        }
 
-		super.performRequest(request);
-	}
+        super.performRequest(request);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DragTracker getDragTracker(Request req) {
-		return new SelectEditPartTracker(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DragTracker getDragTracker(Request req) {
+        return new SelectEditPartTracker(this);
+    }
 
-	public boolean isDeleteable() {
-		return true;
-	}
+    public boolean isDeleteable() {
+        return true;
+    }
 }

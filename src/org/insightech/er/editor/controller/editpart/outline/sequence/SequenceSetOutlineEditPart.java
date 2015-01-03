@@ -18,57 +18,55 @@ import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequ
 
 public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(
-				SequenceSet.PROPERTY_CHANGE_SEQUENCE_SET)) {
-			refresh();
-		}
-	}
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(SequenceSet.PROPERTY_CHANGE_SEQUENCE_SET)) {
+            refresh();
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List getModelChildren() {
-		SequenceSet sequenceSet = (SequenceSet) this.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List getModelChildren() {
+        SequenceSet sequenceSet = (SequenceSet) this.getModel();
 
-		List<Sequence> sequenceList = sequenceSet.getSequenceList();
+        List<Sequence> sequenceList = sequenceSet.getSequenceList();
 
-		Collections.sort(sequenceList);
+        Collections.sort(sequenceList);
 
-		return sequenceList;
-	}
+        return sequenceList;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshOutlineVisuals() {
-		if (!DBManagerFactory.getDBManager(this.getDiagram()).isSupported(
-				DBManager.SUPPORT_SEQUENCE)) {
-			((TreeItem) getWidget()).setForeground(ColorConstants.lightGray);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshOutlineVisuals() {
+        if (!DBManagerFactory.getDBManager(this.getDiagram()).isSupported(DBManager.SUPPORT_SEQUENCE)) {
+            ((TreeItem) getWidget()).setForeground(ColorConstants.lightGray);
 
-		} else {
-			((TreeItem) getWidget()).setForeground(ColorConstants.black);
+        } else {
+            ((TreeItem) getWidget()).setForeground(ColorConstants.black);
 
-		}
+        }
 
-		this.setWidgetText(ResourceString.getResourceString("label.sequence")
-				+ " (" + this.getModelChildren().size() + ")");
-		this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
-	}
+        this.setWidgetText(ResourceString.getResourceString("label.sequence") + " (" + this.getModelChildren().size()
+                + ")");
+        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshChildren() {
-		super.refreshChildren();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshChildren() {
+        super.refreshChildren();
 
-		for (Object child : this.getChildren()) {
-			EditPart part = (EditPart) child;
-			part.refresh();
-		}
-	}
+        for (Object child : this.getChildren()) {
+            EditPart part = (EditPart) child;
+            part.refresh();
+        }
+    }
 
 }

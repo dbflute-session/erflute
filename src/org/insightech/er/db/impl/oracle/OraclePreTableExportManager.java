@@ -9,24 +9,23 @@ import org.insightech.er.editor.model.dbexport.db.PreTableExportManager;
 
 public class OraclePreTableExportManager extends PreTableExportManager {
 
-	@Override
-	protected void checkTableExist(Connection con, String tableNameWithSchema)
-			throws SQLException {
-		Statement stmt = null;
-		ResultSet rs = null;
+    @Override
+    protected void checkTableExist(Connection con, String tableNameWithSchema) throws SQLException {
+        Statement stmt = null;
+        ResultSet rs = null;
 
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT 1 FROM " + tableNameWithSchema);
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT 1 FROM " + tableNameWithSchema);
 
-		} finally {
-			if (rs != null) {
-				rs.close();
-			}
-			if (stmt != null) {
-				stmt.close();
-			}
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
 
-		}
-	}
+        }
+    }
 }

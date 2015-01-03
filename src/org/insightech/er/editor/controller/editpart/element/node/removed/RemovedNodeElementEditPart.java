@@ -25,150 +25,142 @@ import org.insightech.er.editor.model.diagram_contents.element.node.category.Cat
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.RemovedNodeElement;
 
-public abstract class RemovedNodeElementEditPart extends AbstractModelEditPart
-		implements NodeEditPart, DeleteableEditPart {
+public abstract class RemovedNodeElementEditPart extends AbstractModelEditPart implements NodeEditPart,
+        DeleteableEditPart {
 
-	private Font font;
+    private Font font;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void deactivate() {
-		this.disposeFont();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deactivate() {
+        this.disposeFont();
 
-		super.deactivate();
-	}
+        super.deactivate();
+    }
 
-	protected void disposeFont() {
-		if (this.font != null) {
-			this.font.dispose();
-		}
-	}
+    protected void disposeFont() {
+        if (this.font != null) {
+            this.font.dispose();
+        }
+    }
 
-	@Override
-	public void doPropertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals(
-				NodeElement.PROPERTY_CHANGE_RECTANGLE)) {
-			refreshVisuals();
+    @Override
+    public void doPropertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_RECTANGLE)) {
+            refreshVisuals();
 
-		} else if (event.getPropertyName().equals(
-				ViewableModel.PROPERTY_CHANGE_COLOR)) {
-			refreshVisuals();
+        } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
+            refreshVisuals();
 
-		} else if (event.getPropertyName().equals(
-				ViewableModel.PROPERTY_CHANGE_FONT)) {
-			this.changeFont(this.figure);
-			refreshVisuals();
+        } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_FONT)) {
+            this.changeFont(this.figure);
+            refreshVisuals();
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createEditPolicies() {
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createEditPolicies() {
+    }
 
-	protected void setVisible() {
-		Category category = this.getCurrentCategory();
+    protected void setVisible() {
+        Category category = this.getCurrentCategory();
 
-		if (category != null) {
-			this.figure.setVisible(false);
-		} else {
-			this.figure.setVisible(true);
-		}
-	}
+        if (category != null) {
+            this.figure.setVisible(false);
+        } else {
+            this.figure.setVisible(true);
+        }
+    }
 
-	protected Font changeFont(IFigure figure) {
-		this.disposeFont();
+    protected Font changeFont(IFigure figure) {
+        this.disposeFont();
 
-		RemovedNodeElement removedNodeElement = (RemovedNodeElement) this
-				.getModel();
+        RemovedNodeElement removedNodeElement = (RemovedNodeElement) this.getModel();
 
-		String fontName = removedNodeElement.getFontName();
-		int fontSize = removedNodeElement.getFontSize();
+        String fontName = removedNodeElement.getFontName();
+        int fontSize = removedNodeElement.getFontSize();
 
-		if (fontName == null) {
-			FontData fontData = Display.getCurrent().getSystemFont()
-					.getFontData()[0];
-			fontName = fontData.getName();
-		}
-		if (fontSize <= 0) {
-			fontSize = ViewableModel.DEFAULT_FONT_SIZE;
-		}
+        if (fontName == null) {
+            FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
+            fontName = fontData.getName();
+        }
+        if (fontSize <= 0) {
+            fontSize = ViewableModel.DEFAULT_FONT_SIZE;
+        }
 
-		this.font = new Font(Display.getCurrent(), fontName, fontSize,
-				SWT.NORMAL);
+        this.font = new Font(Display.getCurrent(), fontName, fontSize, SWT.NORMAL);
 
-		figure.setFont(this.font);
+        figure.setFont(this.font);
 
-		return font;
-	}
+        return font;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshVisuals() {
-		this.setVisible();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshVisuals() {
+        this.setVisible();
 
-		Rectangle rectangle = this.getRectangle();
+        Rectangle rectangle = this.getRectangle();
 
-		GraphicalEditPart parent = (GraphicalEditPart) this.getParent();
+        GraphicalEditPart parent = (GraphicalEditPart) this.getParent();
 
-		IFigure figure = this.getFigure();
+        IFigure figure = this.getFigure();
 
-		figure.setBackgroundColor(Resources.REMOVED_COLOR);
+        figure.setBackgroundColor(Resources.REMOVED_COLOR);
 
-		parent.setLayoutConstraint(this, figure, rectangle);
-	}
+        parent.setLayoutConstraint(this, figure, rectangle);
+    }
 
-	protected Rectangle getRectangle() {
-		RemovedNodeElement removedNodeElement = (RemovedNodeElement) this
-				.getModel();
+    protected Rectangle getRectangle() {
+        RemovedNodeElement removedNodeElement = (RemovedNodeElement) this.getModel();
 
-		NodeElement nodeElement = removedNodeElement.getNodeElement();
+        NodeElement nodeElement = removedNodeElement.getNodeElement();
 
-		Point point = new Point(nodeElement.getX(), nodeElement.getY());
+        Point point = new Point(nodeElement.getX(), nodeElement.getY());
 
-		Dimension dimension = new Dimension(nodeElement.getWidth(), nodeElement
-				.getHeight());
+        Dimension dimension = new Dimension(nodeElement.getWidth(), nodeElement.getHeight());
 
-		Dimension minimumSize = this.figure.getMinimumSize();
-		if (dimension.width != -1 && dimension.width < minimumSize.width) {
-			dimension.width = minimumSize.width;
-		}
-		if (dimension.height != -1 && dimension.height < minimumSize.height) {
-			dimension.height = minimumSize.height;
-		}
+        Dimension minimumSize = this.figure.getMinimumSize();
+        if (dimension.width != -1 && dimension.width < minimumSize.width) {
+            dimension.width = minimumSize.width;
+        }
+        if (dimension.height != -1 && dimension.height < minimumSize.height) {
+            dimension.height = minimumSize.height;
+        }
 
-		return new Rectangle(point, dimension);
-	}
+        return new Rectangle(point, dimension);
+    }
 
-	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
-		return new ChopboxAnchor(this.getFigure());
-	}
+    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
+        return new ChopboxAnchor(this.getFigure());
+    }
 
-	public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
-		return new ChopboxAnchor(this.getFigure());
-	}
+    public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
+        return new ChopboxAnchor(this.getFigure());
+    }
 
-	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
-		return new ChopboxAnchor(this.getFigure());
-	}
+    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
+        return new ChopboxAnchor(this.getFigure());
+    }
 
-	public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
-		return new ChopboxAnchor(this.getFigure());
-	}
+    public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
+        return new ChopboxAnchor(this.getFigure());
+    }
 
-	public void changeSettings(Settings settings) {
-		this.refresh();
-	}
+    public void changeSettings(Settings settings) {
+        this.refresh();
+    }
 
-	public boolean isDeleteable() {
-		return false;
-	}
+    public boolean isDeleteable() {
+        return false;
+    }
 
 }

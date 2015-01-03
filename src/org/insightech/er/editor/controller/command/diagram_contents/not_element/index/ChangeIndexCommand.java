@@ -10,37 +10,37 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.index.
 
 public class ChangeIndexCommand extends AbstractCommand {
 
-	private ERTable table;
+    private ERTable table;
 
-	private List<Index> oldIndexList;
+    private List<Index> oldIndexList;
 
-	private List<Index> newIndexList;
+    private List<Index> newIndexList;
 
-	public ChangeIndexCommand(ERDiagram diagram, Index oldIndex, Index newIndex) {
-		this.table = oldIndex.getTable();
+    public ChangeIndexCommand(ERDiagram diagram, Index oldIndex, Index newIndex) {
+        this.table = oldIndex.getTable();
 
-		this.oldIndexList = oldIndex.getTable().getIndexes();
-		this.newIndexList = new ArrayList<Index>(oldIndexList);
+        this.oldIndexList = oldIndex.getTable().getIndexes();
+        this.newIndexList = new ArrayList<Index>(oldIndexList);
 
-		int i = this.newIndexList.indexOf(oldIndex);
+        int i = this.newIndexList.indexOf(oldIndex);
 
-		this.newIndexList.remove(i);
-		this.newIndexList.add(i, newIndex);
-	}
+        this.newIndexList.remove(i);
+        this.newIndexList.add(i, newIndex);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.table.setIndexes(this.newIndexList);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.table.setIndexes(this.newIndexList);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.table.setIndexes(this.oldIndexList);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.table.setIndexes(this.oldIndexList);
+    }
 }

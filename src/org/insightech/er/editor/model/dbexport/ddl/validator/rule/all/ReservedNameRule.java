@@ -15,82 +15,73 @@ import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigg
 
 public class ReservedNameRule extends BaseRule {
 
-	public boolean validate(ERDiagram diagram) {
-		DBManager dbManager = DBManagerFactory.getDBManager(diagram);
+    public boolean validate(ERDiagram diagram) {
+        DBManager dbManager = DBManagerFactory.getDBManager(diagram);
 
-		for (ERTable table : diagram.getDiagramContents().getContents()
-				.getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
 
-			for (Index index : table.getIndexes()) {
-				String indexName = index.getName().toLowerCase();
+            for (Index index : table.getIndexes()) {
+                String indexName = index.getName().toLowerCase();
 
-				if (dbManager.isReservedWord(indexName)) {
-					ValidateResult validateResult = new ValidateResult();
-					validateResult.setMessage(ResourceString
-							.getResourceString("error.validate.reserved.name")
-							+ " [INDEX] "
-							+ indexName
-							+ " ("
-							+ table.getLogicalName() + ")");
-					validateResult.setLocation(indexName);
-					validateResult.setSeverity(IMarker.SEVERITY_WARNING);
-					validateResult.setObject(index);
+                if (dbManager.isReservedWord(indexName)) {
+                    ValidateResult validateResult = new ValidateResult();
+                    validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name")
+                            + " [INDEX] " + indexName + " (" + table.getLogicalName() + ")");
+                    validateResult.setLocation(indexName);
+                    validateResult.setSeverity(IMarker.SEVERITY_WARNING);
+                    validateResult.setObject(index);
 
-					this.addError(validateResult);
-				}
-			}
-		}
+                    this.addError(validateResult);
+                }
+            }
+        }
 
-		for (Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
-			String name = sequence.getName().toLowerCase();
+        for (Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
+            String name = sequence.getName().toLowerCase();
 
-			if (dbManager.isReservedWord(name)) {
-				ValidateResult validateResult = new ValidateResult();
-				validateResult.setMessage(ResourceString
-						.getResourceString("error.validate.reserved.name")
-						+ " [SEQUENCE] " + name);
-				validateResult.setLocation(name);
-				validateResult.setSeverity(IMarker.SEVERITY_WARNING);
-				validateResult.setObject(sequence);
+            if (dbManager.isReservedWord(name)) {
+                ValidateResult validateResult = new ValidateResult();
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name")
+                        + " [SEQUENCE] " + name);
+                validateResult.setLocation(name);
+                validateResult.setSeverity(IMarker.SEVERITY_WARNING);
+                validateResult.setObject(sequence);
 
-				this.addError(validateResult);
-			}
-		}
+                this.addError(validateResult);
+            }
+        }
 
-		for (View view : diagram.getDiagramContents().getContents()
-				.getViewSet()) {
-			String name = view.getName().toLowerCase();
+        for (View view : diagram.getDiagramContents().getContents().getViewSet()) {
+            String name = view.getName().toLowerCase();
 
-			if (dbManager.isReservedWord(name)) {
-				ValidateResult validateResult = new ValidateResult();
-				validateResult.setMessage(ResourceString
-						.getResourceString("error.validate.reserved.name")
-						+ " [VIEW] " + name);
-				validateResult.setLocation(name);
-				validateResult.setSeverity(IMarker.SEVERITY_WARNING);
-				validateResult.setObject(view);
+            if (dbManager.isReservedWord(name)) {
+                ValidateResult validateResult = new ValidateResult();
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [VIEW] "
+                        + name);
+                validateResult.setLocation(name);
+                validateResult.setSeverity(IMarker.SEVERITY_WARNING);
+                validateResult.setObject(view);
 
-				this.addError(validateResult);
-			}
-		}
+                this.addError(validateResult);
+            }
+        }
 
-		for (Trigger trigger : diagram.getDiagramContents().getTriggerSet()) {
-			String name = trigger.getName().toLowerCase();
+        for (Trigger trigger : diagram.getDiagramContents().getTriggerSet()) {
+            String name = trigger.getName().toLowerCase();
 
-			if (dbManager.isReservedWord(name)) {
-				ValidateResult validateResult = new ValidateResult();
-				validateResult.setMessage(ResourceString
-						.getResourceString("error.validate.reserved.name")
-						+ " [TRIGGER] " + name);
-				validateResult.setLocation(name);
-				validateResult.setSeverity(IMarker.SEVERITY_WARNING);
-				validateResult.setObject(trigger);
+            if (dbManager.isReservedWord(name)) {
+                ValidateResult validateResult = new ValidateResult();
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name")
+                        + " [TRIGGER] " + name);
+                validateResult.setLocation(name);
+                validateResult.setSeverity(IMarker.SEVERITY_WARNING);
+                validateResult.setObject(trigger);
 
-				this.addError(validateResult);
-			}
-		}
+                this.addError(validateResult);
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

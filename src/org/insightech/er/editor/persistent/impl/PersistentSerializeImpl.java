@@ -12,26 +12,26 @@ import org.insightech.er.editor.persistent.Persistent;
 
 public class PersistentSerializeImpl extends Persistent {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public InputStream createInputStream(ERDiagram diagram) throws IOException {
-		InputStream inputStream = null;
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public InputStream createInputStream(ERDiagram diagram) throws IOException {
+        InputStream inputStream = null;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-		ObjectOutputStream oos = new ObjectOutputStream(out);
-		oos.writeObject(diagram);
-		oos.close();
+        ObjectOutputStream oos = new ObjectOutputStream(out);
+        oos.writeObject(diagram);
+        oos.close();
 
-		inputStream = new ByteArrayInputStream(out.toByteArray());
+        inputStream = new ByteArrayInputStream(out.toByteArray());
 
-		return inputStream;
-	}
+        return inputStream;
+    }
 
-	@Override
-	public ERDiagram load(InputStream in) throws Exception {
-		return (ERDiagram) ((ObjectInputStream) in).readObject();
-	}
+    @Override
+    public ERDiagram load(InputStream in) throws Exception {
+        return (ERDiagram) ((ObjectInputStream) in).readObject();
+    }
 
 }

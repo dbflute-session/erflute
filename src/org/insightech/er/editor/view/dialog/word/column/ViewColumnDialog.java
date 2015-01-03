@@ -8,47 +8,46 @@ import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
 
 public class ViewColumnDialog extends AbstractColumnDialog {
 
-	public ViewColumnDialog(Shell parentShell, View view) {
-		super(parentShell, view.getDiagram());
-	}
+    public ViewColumnDialog(Shell parentShell, View view) {
+        super(parentShell, view.getDiagram());
+    }
 
-	protected int getStyle(int style) {
-		if (this.foreignKey) {
-			style |= SWT.READ_ONLY;
-		}
+    protected int getStyle(int style) {
+        if (this.foreignKey) {
+            style |= SWT.READ_ONLY;
+        }
 
-		return style;
-	}
+        return style;
+    }
 
-	@Override
-	protected String getTitle() {
-		return "dialog.title.column";
-	}
+    @Override
+    protected String getTitle() {
+        return "dialog.title.column";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initializeComposite(Composite parent) {
-		super.initializeComposite(parent);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initializeComposite(Composite parent) {
+        super.initializeComposite(parent);
 
-		if (this.foreignKey) {
-			this.wordCombo.setEnabled(false);
-			this.typeCombo.setEnabled(false);
-			this.lengthText.setEnabled(false);
-			this.decimalText.setEnabled(false);
-		}
-	}
+        if (this.foreignKey) {
+            this.wordCombo.setEnabled(false);
+            this.typeCombo.setEnabled(false);
+            this.lengthText.setEnabled(false);
+            this.decimalText.setEnabled(false);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void perfomeOK() {
-		super.perfomeOK();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void perfomeOK() {
+        super.perfomeOK();
 
-		this.returnColumn = new NormalColumn(this.returnWord, false, false,
-				false, false, null, null, null, null, null);
-	}
+        this.returnColumn = new NormalColumn(this.returnWord, false, false, false, false, null, null, null, null, null);
+    }
 
 }

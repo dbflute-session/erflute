@@ -11,58 +11,55 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.column
 
 public class CreateRelationCommand extends AbstractCreateRelationCommand {
 
-	private Relation relation;
+    private Relation relation;
 
-	private List<NormalColumn> foreignKeyColumnList;
+    private List<NormalColumn> foreignKeyColumnList;
 
-	public CreateRelationCommand(Relation relation) {
-		this(relation, null);
-	}
+    public CreateRelationCommand(Relation relation) {
+        this(relation, null);
+    }
 
-	public CreateRelationCommand(Relation relation,
-			List<NormalColumn> foreignKeyColumnList) {
-		super();
-		this.relation = relation;
-		this.foreignKeyColumnList = foreignKeyColumnList;
-	}
+    public CreateRelationCommand(Relation relation, List<NormalColumn> foreignKeyColumnList) {
+        super();
+        this.relation = relation;
+        this.foreignKeyColumnList = foreignKeyColumnList;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		ERDiagramEditPart.setUpdateable(false);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        ERDiagramEditPart.setUpdateable(false);
 
-		this.relation.setSource((TableView) source.getModel());
+        this.relation.setSource((TableView) source.getModel());
 
-		ERDiagramEditPart.setUpdateable(true);
+        ERDiagramEditPart.setUpdateable(true);
 
-		this.relation.setTargetTableView((TableView) target.getModel(),
-				this.foreignKeyColumnList);
+        this.relation.setTargetTableView((TableView) target.getModel(), this.foreignKeyColumnList);
 
-		if (this.relation.getSource() instanceof ERTable
-				|| this.relation.getTarget() instanceof ERTable) {
-			// �r���[���Ń����[�V�������������ꍇ�A�����ɂ�ERVirtualTable�łȂ�ERTable�ŗ���
-			ERModelSet modelSet = this.relation.getSource().getDiagram().getDiagramContents().getModelSet();
-			modelSet.createRelation(relation);
-		}
+        if (this.relation.getSource() instanceof ERTable || this.relation.getTarget() instanceof ERTable) {
+            // �r���[���Ń����[�V�������������ꍇ�A�����ɂ�ERVirtualTable�łȂ�ERTable�ŗ���
+            ERModelSet modelSet = this.relation.getSource().getDiagram().getDiagramContents().getModelSet();
+            modelSet.createRelation(relation);
+        }
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		ERDiagramEditPart.setUpdateable(false);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        ERDiagramEditPart.setUpdateable(false);
 
-		this.relation.setSource(null);
+        this.relation.setSource(null);
 
-		ERDiagramEditPart.setUpdateable(true);
+        ERDiagramEditPart.setUpdateable(true);
 
-		this.relation.setTargetTableView(null);
+        this.relation.setTargetTableView(null);
 
-		TableView targetTable = (TableView) this.target.getModel();
-		targetTable.setDirty();
-	}
+        TableView targetTable = (TableView) this.target.getModel();
+        targetTable.setDirty();
+    }
 }

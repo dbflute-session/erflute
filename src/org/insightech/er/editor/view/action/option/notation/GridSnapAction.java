@@ -9,21 +9,20 @@ import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public class GridSnapAction extends AbstractBaseAction {
 
-	public static final String ID = ToggleMainColumnAction.class.getName();
+    public static final String ID = ToggleMainColumnAction.class.getName();
 
-	public GridSnapAction(ERDiagramEditor editor) {
-		super(ID, null, IAction.AS_CHECK_BOX, editor);
-		this.setText(ResourceString
-				.getResourceString("action.title.display.tooltip"));
-	}
+    public GridSnapAction(ERDiagramEditor editor) {
+        super(ID, null, IAction.AS_CHECK_BOX, editor);
+        this.setText(ResourceString.getResourceString("action.title.display.tooltip"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		diagram.setTooltip(this.isChecked());
-	}
+        diagram.setTooltip(this.isChecked());
+    }
 }

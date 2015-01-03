@@ -13,251 +13,256 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.TableV
 
 public class ERModel extends NodeElement {
 
-	public static final String PROPERTY_CHANGE_VTABLES = "vtables";
+    public static final String PROPERTY_CHANGE_VTABLES = "vtables";
 
-//	/** eƒ_ƒCƒAƒOƒ‰ƒ€ */
-//	private ERDiagram diagram;
+    //	/** ï¿½eï¿½_ï¿½Cï¿½Aï¿½Oï¿½ï¿½ï¿½ï¿½ */
+    //	private ERDiagram diagram;
 
-	private int[] defaultColor;
+    private int[] defaultColor;
 
-	private String name;
-	private String description;
+    private String name;
+    private String description;
 
-	private List<ERVirtualTable> tables;
-	private List<Note> notes;
-	private List<VGroup> groups;
+    private List<ERVirtualTable> tables;
+    private List<Note> notes;
+    private List<VGroup> groups;
 
-	public ERModel(ERDiagram diagram) {
-		setDiagram(diagram);
-		tables = new ArrayList<ERVirtualTable>();
-		notes = new ArrayList<Note>();
-		groups = new ArrayList<VGroup>();
-	}
+    public ERModel(ERDiagram diagram) {
+        setDiagram(diagram);
+        tables = new ArrayList<ERVirtualTable>();
+        notes = new ArrayList<Note>();
+        groups = new ArrayList<VGroup>();
+    }
 
-//	@Override
-//	public int getWidth() {
-//		System.out.println("getWidth =  " + super.getWidth());
-//		return super.getWidth();
-//	}
+    //	@Override
+    //	public int getWidth() {
+    //		System.out.println("getWidth =  " + super.getWidth());
+    //		return super.getWidth();
+    //	}
 
-	/**
-	 * objectType‚ğæ“¾‚µ‚Ü‚·B
-	 * @return objectType
-	 */
-	public String getObjectType() {
-	    return "ermodel";
-	}
+    /**
+     * objectTypeï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+     * @return objectType
+     */
+    public String getObjectType() {
+        return "ermodel";
+    }
 
-//	/**
-//	 * eƒ_ƒCƒAƒOƒ‰ƒ€‚ğæ“¾‚µ‚Ü‚·B
-//	 * @return eƒ_ƒCƒAƒOƒ‰ƒ€
-//	 */
-//	public ERDiagram getDiagram() {
-//	    return diagram;
-//	}
-//
-//	/**
-//	 * eƒ_ƒCƒAƒOƒ‰ƒ€‚ğİ’è‚µ‚Ü‚·B
-//	 * @param diagram eƒ_ƒCƒAƒOƒ‰ƒ€
-//	 */
-//	public void setDiagram(ERDiagram diagram) {
-//	    this.diagram = diagram;
-//	}
+    //	/**
+    //	 * ï¿½eï¿½_ï¿½Cï¿½Aï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+    //	 * @return ï¿½eï¿½_ï¿½Cï¿½Aï¿½Oï¿½ï¿½ï¿½ï¿½
+    //	 */
+    //	public ERDiagram getDiagram() {
+    //	    return diagram;
+    //	}
+    //
+    //	/**
+    //	 * ï¿½eï¿½_ï¿½Cï¿½Aï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
+    //	 * @param diagram ï¿½eï¿½_ï¿½Cï¿½Aï¿½Oï¿½ï¿½ï¿½ï¿½
+    //	 */
+    //	public void setDiagram(ERDiagram diagram) {
+    //	    this.diagram = diagram;
+    //	}
 
-	/**
-	 * name‚ğæ“¾‚µ‚Ü‚·B
-	 * @return name
-	 */
-	public String getName() {
-	    return name;
-	}
-	/**
-	 * name‚ğİ’è‚µ‚Ü‚·B
-	 * @param name name
-	 */
-	public void setName(String name) {
-	    this.name = name;
-	}
-	/**
-	 * description‚ğæ“¾‚µ‚Ü‚·B
-	 * @return description
-	 */
-	public String getDescription() {
-	    return description;
-	}
-	/**
-	 * description‚ğİ’è‚µ‚Ü‚·B
-	 * @param description description
-	 */
-	public void setDescription(String description) {
-	    this.description = description;
-	}
-	/**
-	 * tables‚ğæ“¾‚µ‚Ü‚·B
-	 * @return tables
-	 */
-	public List<ERVirtualTable> getTables() {
-	    return tables;
-	}
-	/**
-	 * tables‚ğİ’è‚µ‚Ü‚·B
-	 * @param tables tables
-	 */
-	public void setTables(List<ERVirtualTable> tables) {
-	    this.tables = tables;
-	}
+    /**
+     * nameï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
 
-	public boolean containsTable(ERTable table) {
-		for (ERVirtualTable vtable : tables) {
-			if (vtable.getRawTable().equals(table)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * nameï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
+     * @param name name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void remove(ERVirtualTable element) {
-		tables.remove(element);
-		this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    /**
+     * descriptionï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+     * @return description
+     */
+    public String getDescription() {
+        return description;
+    }
 
-//		for (ERVirtualTable table : tables) {
-//			if (table.equals(element)) {
-//
-//			}
-//		}
-	}
+    /**
+     * descriptionï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
+     * @param description description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void changeAll() {
-		this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-	}
+    /**
+     * tablesï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+     * @return tables
+     */
+    public List<ERVirtualTable> getTables() {
+        return tables;
+    }
 
-	public void addTable(ERVirtualTable virtualTable) {
-		tables.add(virtualTable);
-	}
+    /**
+     * tablesï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
+     * @param tables tables
+     */
+    public void setTables(List<ERVirtualTable> tables) {
+        this.tables = tables;
+    }
 
-	public int[] getDefaultColor() {
-		return defaultColor;
-	}
+    public boolean containsTable(ERTable table) {
+        for (ERVirtualTable vtable : tables) {
+            if (vtable.getRawTable().equals(table)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public void setDefaultColor(int red, int green, int blue) {
-		this.defaultColor = new int[3];
-		this.defaultColor[0] = red;
-		this.defaultColor[1] = green;
-		this.defaultColor[2] = blue;
-	}
+    public void remove(ERVirtualTable element) {
+        tables.remove(element);
+        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
 
-	public ERVirtualTable findVirtualTable(TableView table) {
-		for (ERVirtualTable vtable : tables) {
-			if (vtable.getRawTable().getPhysicalName().equals(table.getPhysicalName())) {
-				return vtable;
-			}
-		}
-		return null;
-	}
+        //		for (ERVirtualTable table : tables) {
+        //			if (table.equals(element)) {
+        //
+        //			}
+        //		}
+    }
 
-	public void deleteRelation(Relation relation) {
-		for (ERVirtualTable vtable : tables) {
-			vtable.removeOutgoing(relation);
-			vtable.removeIncoming(relation);
-		}
-	}
+    public void changeAll() {
+        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
 
-	public void createRelation(Relation relation) {
-		boolean dirty = false;
-		for (ERVirtualTable vtable : tables) {
-			if (relation.getSourceTableView().equals(vtable.getRawTable())) {
-				dirty = true;
-			} else if (relation.getTargetTableView().equals(vtable.getRawTable())) {
-				dirty = true;
-			}
-		}
-		if (dirty) {
-			changeAll();
-		}
-	}
+    public void addTable(ERVirtualTable virtualTable) {
+        tables.add(virtualTable);
+    }
 
-	@Override
-	public boolean needsUpdateOtherModel() {
-		return false;
-	}
+    public int[] getDefaultColor() {
+        return defaultColor;
+    }
 
-	public void addNewContent(NodeElement element) {
-		getDiagram().addContent(element);
-		if (element instanceof Note) {
-			((Note)element).setModel(this);
-		}
+    public void setDefaultColor(int red, int green, int blue) {
+        this.defaultColor = new int[3];
+        this.defaultColor[0] = red;
+        this.defaultColor[1] = green;
+        this.defaultColor[2] = blue;
+    }
 
-		int[] color = defaultColor;
-		if (color == null) {
-			color = getDiagram().getDefaultColor();
-		}
-		element.setColor(color[0], color[1], color[2]);
+    public ERVirtualTable findVirtualTable(TableView table) {
+        for (ERVirtualTable vtable : tables) {
+            if (vtable.getRawTable().getPhysicalName().equals(table.getPhysicalName())) {
+                return vtable;
+            }
+        }
+        return null;
+    }
 
-		if (getFontName() != null) {
-			element.setFontName(this.getFontName());
-		} else {
-			element.setFontName(getDiagram().getFontName());
-		}
+    public void deleteRelation(Relation relation) {
+        for (ERVirtualTable vtable : tables) {
+            vtable.removeOutgoing(relation);
+            vtable.removeIncoming(relation);
+        }
+    }
 
-		if (getFontSize() != 0) {
-			element.setFontSize(this.getFontSize());
-		} else {
-			element.setFontSize(getDiagram().getFontSize());
-		}
+    public void createRelation(Relation relation) {
+        boolean dirty = false;
+        for (ERVirtualTable vtable : tables) {
+            if (relation.getSourceTableView().equals(vtable.getRawTable())) {
+                dirty = true;
+            } else if (relation.getTargetTableView().equals(vtable.getRawTable())) {
+                dirty = true;
+            }
+        }
+        if (dirty) {
+            changeAll();
+        }
+    }
 
-		if (element instanceof Note) {
-			Note note = (Note) element;
-			notes.add(note);
-			this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-		}
-	}
+    @Override
+    public boolean needsUpdateOtherModel() {
+        return false;
+    }
 
-	/**
-	 * notes‚ğæ“¾‚µ‚Ü‚·B
-	 * @return notes
-	 */
-	public List<Note> getNotes() {
-	    return notes;
-	}
+    public void addNewContent(NodeElement element) {
+        getDiagram().addContent(element);
+        if (element instanceof Note) {
+            ((Note) element).setModel(this);
+        }
 
-	/**
-	 * notes‚ğİ’è‚µ‚Ü‚·B
-	 * @param notes notes
-	 */
-	public void setNotes(List<Note> notes) {
-	    this.notes = notes;
-	}
+        int[] color = defaultColor;
+        if (color == null) {
+            color = getDiagram().getDefaultColor();
+        }
+        element.setColor(color[0], color[1], color[2]);
 
-	/**
-	 * groups‚ğæ“¾‚µ‚Ü‚·B
-	 * @return groups
-	 */
-	public List<VGroup> getGroups() {
-	    return groups;
-	}
+        if (getFontName() != null) {
+            element.setFontName(this.getFontName());
+        } else {
+            element.setFontName(getDiagram().getFontName());
+        }
 
-	/**
-	 * groups‚ğİ’è‚µ‚Ü‚·B
-	 * @param groups groups
-	 */
-	public void setGroups(List<VGroup> groups) {
-	    this.groups = groups;
-		this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-	}
+        if (getFontSize() != 0) {
+            element.setFontSize(this.getFontSize());
+        } else {
+            element.setFontSize(getDiagram().getFontSize());
+        }
 
-	public void addGroup(VGroup group) {
-		groups.add(group);
-		this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-	}
+        if (element instanceof Note) {
+            Note note = (Note) element;
+            notes.add(note);
+            this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+        }
+    }
 
-	public void remove(VGroup element) {
-		groups.remove(element);
-		this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-	}
+    /**
+     * notesï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+     * @return notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
 
-	public void remove(Note element) {
-		notes.remove(element);
-		this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-	}
+    /**
+     * notesï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
+     * @param notes notes
+     */
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+
+    /**
+     * groupsï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+     * @return groups
+     */
+    public List<VGroup> getGroups() {
+        return groups;
+    }
+
+    /**
+     * groupsï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
+     * @param groups groups
+     */
+    public void setGroups(List<VGroup> groups) {
+        this.groups = groups;
+        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
+
+    public void addGroup(VGroup group) {
+        groups.add(group);
+        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
+
+    public void remove(VGroup element) {
+        groups.remove(element);
+        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
+
+    public void remove(Note element) {
+        notes.remove(element);
+        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
 
 }

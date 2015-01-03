@@ -20,112 +20,111 @@ import org.eclipse.swt.widgets.Shell;
 
 public class ImageTest {
 
-	private static Shell shell = new Shell();
+    private static Shell shell = new Shell();
 
-	private static Image image;
+    private static Image image;
 
-	private static ImageFigure imageFigure;
+    private static ImageFigure imageFigure;
 
-	public static void main(String[] args) throws FileNotFoundException {
-		main();
-	}
+    public static void main(String[] args) throws FileNotFoundException {
+        main();
+    }
 
-	private static void main() throws FileNotFoundException {
-		// �f�t�H���gDisplay���g�p���ăV�F�����쐬
-		try {
-			shell.setSize(100, 100); // �V�F���̃T�C�Y���w��
+    private static void main() throws FileNotFoundException {
+        // �f�t�H���gDisplay���g�p���ăV�F�����쐬
+        try {
+            shell.setSize(100, 100); // �V�F���̃T�C�Y���w��
 
-			// �쐬�����V�F�����g�p����LightweightSystem�̍쐬
-			LightweightSystem lws = new LightweightSystem(shell);
+            // �쐬�����V�F�����g�p����LightweightSystem�̍쐬
+            LightweightSystem lws = new LightweightSystem(shell);
 
-			// ���[�g�E�t�B�M���A�̍쐬
-			IFigure panel = new Figure();
-			panel.setLayoutManager(new ToolbarLayout());
+            // ���[�g�E�t�B�M���A�̍쐬
+            IFigure panel = new Figure();
+            panel.setLayoutManager(new ToolbarLayout());
 
-			initialize(panel);
+            initialize(panel);
 
-			// ���[�g�E�t�B�M���A�̓o�^
-			lws.setContents(panel);
+            // ���[�g�E�t�B�M���A�̓o�^
+            lws.setContents(panel);
 
-			// �ȉ��́A���̑���SWT�A�v���P�[�V�����Ɠ��l
-			shell.open();
+            // �ȉ��́A���̑���SWT�A�v���P�[�V�����Ɠ��l
+            shell.open();
 
-			Display display = Display.getDefault();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
+            Display display = Display.getDefault();
+            while (!shell.isDisposed()) {
+                if (!display.readAndDispatch())
+                    display.sleep();
+            }
 
-		} finally {
-			if (image != null) {
-				image.dispose();
-			}
-		}
-	}
+        } finally {
+            if (image != null) {
+                image.dispose();
+            }
+        }
+    }
 
-	private static void initialize(IFigure parent) throws FileNotFoundException {
-		parent.add(createContents());
-	}
+    private static void initialize(IFigure parent) throws FileNotFoundException {
+        parent.add(createContents());
+    }
 
-	private static Figure createContents() {
-		Figure contents = new Figure();
-		XYLayout layout = new XYLayout();
-		contents.setLayoutManager(layout);
+    private static Figure createContents() {
+        Figure contents = new Figure();
+        XYLayout layout = new XYLayout();
+        contents.setLayoutManager(layout);
 
-		Button button = new Button("Hello World");
-		layout.setConstraint(button, new Rectangle(0, 0, -1, -1));
-		contents.add(button);
+        Button button = new Button("Hello World");
+        layout.setConstraint(button, new Rectangle(0, 0, -1, -1));
+        contents.add(button);
 
-		button.addActionListener(new ActionListener() {
+        button.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent actionevent) {
-				setBrightness();
-			}
-		});
+            public void actionPerformed(ActionEvent actionevent) {
+                setBrightness();
+            }
+        });
 
-		String path = "C:\\Users\\Public\\Pictures\\Sample Pictures\\Oryx Antelope.jpg";
-		image = new Image(Display.getDefault(), path);
-		imageFigure = new ImageFigure(image);
+        String path = "C:\\Users\\Public\\Pictures\\Sample Pictures\\Oryx Antelope.jpg";
+        image = new Image(Display.getDefault(), path);
+        imageFigure = new ImageFigure(image);
 
-		layout.setConstraint(imageFigure, new Rectangle(0, 30, -1, -1));
+        layout.setConstraint(imageFigure, new Rectangle(0, 30, -1, -1));
 
-		contents.add(imageFigure);
+        contents.add(imageFigure);
 
-		return contents;
-	}
+        return contents;
+    }
 
-	private static void setBrightness() {
-		if (image.isDisposed()) {
-			return;
-		}
+    private static void setBrightness() {
+        if (image.isDisposed()) {
+            return;
+        }
 
-		ImageData imageData = image.getImageData();
+        ImageData imageData = image.getImageData();
 
-		for (int x = 0; x < imageData.width; x++) {
-			for (int y = 0; y < imageData.height; y++) {
-				RGB rgb = imageData.palette.getRGB(imageData.getPixel(x, y));
-				float[] hsb = rgb.getHSB();
+        for (int x = 0; x < imageData.width; x++) {
+            for (int y = 0; y < imageData.height; y++) {
+                RGB rgb = imageData.palette.getRGB(imageData.getPixel(x, y));
+                float[] hsb = rgb.getHSB();
 
-				hsb[2] = hsb[2] + 0.1f;
-				if (hsb[2] > 1.0f) {
-					hsb[2] = 1.0f;
-				}
-				
-//				hsb[1] = hsb[1] - 0.1f;
-//				if (hsb[1] < 0.0f) {
-//					hsb[1] = 0.0f;
-//				}
-				RGB newRGB = new RGB(hsb[0], hsb[1], hsb[2]);
+                hsb[2] = hsb[2] + 0.1f;
+                if (hsb[2] > 1.0f) {
+                    hsb[2] = 1.0f;
+                }
 
-				
-				int pixel = imageData.palette.getPixel(newRGB);
-				imageData.setPixel(x, y, pixel);
-			}
-		}
+                //				hsb[1] = hsb[1] - 0.1f;
+                //				if (hsb[1] < 0.0f) {
+                //					hsb[1] = 0.0f;
+                //				}
+                RGB newRGB = new RGB(hsb[0], hsb[1], hsb[2]);
 
-		image.dispose();
-		image = new Image(Display.getDefault(), imageData);
+                int pixel = imageData.palette.getPixel(newRGB);
+                imageData.setPixel(x, y, pixel);
+            }
+        }
 
-		imageFigure.setImage(image);
-	}
+        image.dispose();
+        image = new Image(Display.getDefault(), imageData);
+
+        imageFigure.setImage(image);
+    }
 }

@@ -10,29 +10,26 @@ import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public abstract class AbstractChangeNotationAction extends AbstractBaseAction {
 
-	public AbstractChangeNotationAction(String id, String type,
-			ERDiagramEditor editor) {
-		super(id, null, IAction.AS_RADIO_BUTTON, editor);
-		this.setText(ResourceString
-				.getResourceString("action.title.change.notation." + type));
-	}
+    public AbstractChangeNotationAction(String id, String type, ERDiagramEditor editor) {
+        super(id, null, IAction.AS_RADIO_BUTTON, editor);
+        this.setText(ResourceString.getResourceString("action.title.change.notation." + type));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		if (!this.isChecked()) {
-			return;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        if (!this.isChecked()) {
+            return;
+        }
 
-		ERDiagram diagram = this.getDiagram();
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeNotationCommand command = new ChangeNotationCommand(diagram, this
-				.getNotation());
+        ChangeNotationCommand command = new ChangeNotationCommand(diagram, this.getNotation());
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 
-	protected abstract String getNotation();
+    protected abstract String getNotation();
 }

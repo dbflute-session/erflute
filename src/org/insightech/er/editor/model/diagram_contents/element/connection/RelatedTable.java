@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 public class RelatedTable implements Serializable {
 
-	private static final long serialVersionUID = -972059768403139966L;
+    private static final long serialVersionUID = -972059768403139966L;
 
 }

@@ -12,38 +12,36 @@ import org.insightech.er.editor.controller.editpart.element.node.NodeElementEdit
 
 public class SelectAllContentsAction extends SelectAllAction {
 
-	private IWorkbenchPart part;
+    private IWorkbenchPart part;
 
-	public SelectAllContentsAction(IWorkbenchPart part) {
-		super(part);
-		this.part = part;
-		this.setText(ResourceString
-				.getResourceString("action.title.select.all"));
+    public SelectAllContentsAction(IWorkbenchPart part) {
+        super(part);
+        this.part = part;
+        this.setText(ResourceString.getResourceString("action.title.select.all"));
 
-		this.setActionDefinitionId("org.eclipse.ui.edit.selectAll");
-	}
+        this.setActionDefinitionId("org.eclipse.ui.edit.selectAll");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void run() {
-		GraphicalViewer viewer = (GraphicalViewer) part
-				.getAdapter(GraphicalViewer.class);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void run() {
+        GraphicalViewer viewer = (GraphicalViewer) part.getAdapter(GraphicalViewer.class);
 
-		if (viewer != null) {
-			List<NodeElementEditPart> children = new ArrayList<NodeElementEditPart>();
+        if (viewer != null) {
+            List<NodeElementEditPart> children = new ArrayList<NodeElementEditPart>();
 
-			for (Object child : viewer.getContents().getChildren()) {
-				if (child instanceof NodeElementEditPart) {
-					NodeElementEditPart editPart = (NodeElementEditPart) child;
-					if (editPart.getFigure().isVisible()) {
-						children.add(editPart);
-					}
-				}
-			}
+            for (Object child : viewer.getContents().getChildren()) {
+                if (child instanceof NodeElementEditPart) {
+                    NodeElementEditPart editPart = (NodeElementEditPart) child;
+                    if (editPart.getFigure().isVisible()) {
+                        children.add(editPart);
+                    }
+                }
+            }
 
-			viewer.setSelection(new StructuredSelection(children));
-		}
-	}
+            viewer.setSelection(new StructuredSelection(children));
+        }
+    }
 }

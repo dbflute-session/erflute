@@ -14,40 +14,33 @@ import org.insightech.er.editor.view.dialog.dbexport.ExportToTestDataDialog;
 
 public class ExportToTestDataAction extends AbstractBaseAction {
 
-	public static final String ID = ExportToTestDataAction.class.getName();
+    public static final String ID = ExportToTestDataAction.class.getName();
 
-	public ExportToTestDataAction(ERDiagramEditor editor) {
-		super(ID, ResourceString
-				.getResourceString("action.title.export.test.data"), editor);
-		this.setImageDescriptor(Activator
-				.getImageDescriptor(ImageKey.EXPORT_TO_TEST_DATA));
-	}
+    public ExportToTestDataAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.export.test.data"), editor);
+        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_TEST_DATA));
+    }
 
-	@Override
-	public void execute(Event event) throws Exception {
-		ERDiagram diagram = this.getDiagram();
+    @Override
+    public void execute(Event event) throws Exception {
+        ERDiagram diagram = this.getDiagram();
 
-		ExportToTestDataDialog dialog = new ExportToTestDataDialog(PlatformUI
-				.getWorkbench().getActiveWorkbenchWindow().getShell(), this
-				.getEditorPart(), diagram, diagram.getDiagramContents()
-				.getTestDataList(), -1);
+        ExportToTestDataDialog dialog =
+                new ExportToTestDataDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        this.getEditorPart(), diagram, diagram.getDiagramContents().getTestDataList(), -1);
 
-		dialog.open();
-		this.refreshProject();
+        dialog.open();
+        this.refreshProject();
 
-		if (dialog.getExportTestDataSetting() != null
-				&& !diagram.getDiagramContents().getSettings()
-						.getExportSetting().getExportTestDataSetting().equals(
-								dialog.getExportTestDataSetting())) {
-			Settings newSettings = (Settings) diagram.getDiagramContents()
-					.getSettings().clone();
-			newSettings.getExportSetting().setExportTestDataSetting(
-					dialog.getExportTestDataSetting());
+        if (dialog.getExportTestDataSetting() != null
+                && !diagram.getDiagramContents().getSettings().getExportSetting().getExportTestDataSetting()
+                        .equals(dialog.getExportTestDataSetting())) {
+            Settings newSettings = (Settings) diagram.getDiagramContents().getSettings().clone();
+            newSettings.getExportSetting().setExportTestDataSetting(dialog.getExportTestDataSetting());
 
-			ChangeSettingsCommand command = new ChangeSettingsCommand(diagram,
-					newSettings);
-			this.execute(command);
-		}
-	}
+            ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, newSettings);
+            this.execute(command);
+        }
+    }
 
 }

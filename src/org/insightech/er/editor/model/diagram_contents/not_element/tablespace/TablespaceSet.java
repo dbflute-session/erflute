@@ -7,67 +7,66 @@ import java.util.List;
 
 import org.insightech.er.editor.model.AbstractModel;
 
-public class TablespaceSet extends AbstractModel implements
-		Iterable<Tablespace> {
+public class TablespaceSet extends AbstractModel implements Iterable<Tablespace> {
 
-	private static final long serialVersionUID = 9018173533566296453L;
+    private static final long serialVersionUID = 9018173533566296453L;
 
-	public static final String PROPERTY_CHANGE_TABLESPACE_SET = "TablespaceSet";
+    public static final String PROPERTY_CHANGE_TABLESPACE_SET = "TablespaceSet";
 
-	private List<Tablespace> tablespaceList;
+    private List<Tablespace> tablespaceList;
 
-	public TablespaceSet() {
-		this.tablespaceList = new ArrayList<Tablespace>();
-	}
+    public TablespaceSet() {
+        this.tablespaceList = new ArrayList<Tablespace>();
+    }
 
-	public void addTablespace(Tablespace tablespace) {
-		this.tablespaceList.add(tablespace);
-		Collections.sort(this.tablespaceList);
+    public void addTablespace(Tablespace tablespace) {
+        this.tablespaceList.add(tablespace);
+        Collections.sort(this.tablespaceList);
 
-		this.firePropertyChange(PROPERTY_CHANGE_TABLESPACE_SET, null, null);
-	}
+        this.firePropertyChange(PROPERTY_CHANGE_TABLESPACE_SET, null, null);
+    }
 
-	public int remove(Tablespace tablespace) {
-		int index = this.tablespaceList.indexOf(tablespace);
-		this.tablespaceList.remove(index);
-		this.firePropertyChange(PROPERTY_CHANGE_TABLESPACE_SET, null, null);
+    public int remove(Tablespace tablespace) {
+        int index = this.tablespaceList.indexOf(tablespace);
+        this.tablespaceList.remove(index);
+        this.firePropertyChange(PROPERTY_CHANGE_TABLESPACE_SET, null, null);
 
-		return index;
-	}
+        return index;
+    }
 
-	public boolean contains(String name) {
-		for (Tablespace tablespace : tablespaceList) {
-			if (name.equalsIgnoreCase(tablespace.getName())) {
-				return true;
-			}
-		}
+    public boolean contains(String name) {
+        for (Tablespace tablespace : tablespaceList) {
+            if (name.equalsIgnoreCase(tablespace.getName())) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public List<Tablespace> getTablespaceList() {
-		return this.tablespaceList;
-	}
+    public List<Tablespace> getTablespaceList() {
+        return this.tablespaceList;
+    }
 
-	public Iterator<Tablespace> iterator() {
-		return this.tablespaceList.iterator();
-	}
+    public Iterator<Tablespace> iterator() {
+        return this.tablespaceList.iterator();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public TablespaceSet clone() {
-		TablespaceSet tablespaceSet = (TablespaceSet) super.clone();
-		List<Tablespace> newTablespaceList = new ArrayList<Tablespace>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TablespaceSet clone() {
+        TablespaceSet tablespaceSet = (TablespaceSet) super.clone();
+        List<Tablespace> newTablespaceList = new ArrayList<Tablespace>();
 
-		for (Tablespace tablespace : tablespaceList) {
-			Tablespace newTablespace = (Tablespace) tablespace.clone();
-			newTablespaceList.add(newTablespace);
-		}
+        for (Tablespace tablespace : tablespaceList) {
+            Tablespace newTablespace = (Tablespace) tablespace.clone();
+            newTablespaceList.add(newTablespace);
+        }
 
-		tablespaceSet.tablespaceList = newTablespaceList;
+        tablespaceSet.tablespaceList = newTablespaceList;
 
-		return tablespaceSet;
-	}
+        return tablespaceSet;
+    }
 }

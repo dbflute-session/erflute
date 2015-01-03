@@ -18,61 +18,60 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public interface DBManager {
 
-	public static final int SUPPORT_AUTO_INCREMENT = 0;
+    public static final int SUPPORT_AUTO_INCREMENT = 0;
 
-	public static final int SUPPORT_AUTO_INCREMENT_SETTING = 1;
+    public static final int SUPPORT_AUTO_INCREMENT_SETTING = 1;
 
-	public static final int SUPPORT_DESC_INDEX = 2;
+    public static final int SUPPORT_DESC_INDEX = 2;
 
-	public static final int SUPPORT_FULLTEXT_INDEX = 3;
+    public static final int SUPPORT_FULLTEXT_INDEX = 3;
 
-	public static final int SUPPORT_SCHEMA = 4;
+    public static final int SUPPORT_SCHEMA = 4;
 
-	public static final int SUPPORT_SEQUENCE = 5;
+    public static final int SUPPORT_SEQUENCE = 5;
 
-	public String getId();
+    public String getId();
 
-	public String getURL(String serverName, String dbName, int port);
+    public String getURL(String serverName, String dbName, int port);
 
-	public int getDefaultPort();
+    public int getDefaultPort();
 
-	public String getDriverClassName();
+    public String getDriverClassName();
 
-	public Class<Driver> getDriverClass(String driverClassName);
+    public Class<Driver> getDriverClass(String driverClassName);
 
-	public SqlTypeManager getSqlTypeManager();
+    public SqlTypeManager getSqlTypeManager();
 
-	public TableProperties createTableProperties(TableProperties tableProperties);
+    public TableProperties createTableProperties(TableProperties tableProperties);
 
-	public TablespaceProperties createTablespaceProperties();
+    public TablespaceProperties createTablespaceProperties();
 
-	public TablespaceProperties checkTablespaceProperties(
-			TablespaceProperties tablespaceProperties);
+    public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties);
 
-	public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon);
+    public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon);
 
-	public boolean isSupported(int support);
+    public boolean isSupported(int support);
 
-	public boolean doesNeedURLDatabaseName();
+    public boolean doesNeedURLDatabaseName();
 
-	public boolean doesNeedURLServerName();
+    public boolean doesNeedURLServerName();
 
-	public boolean isReservedWord(String str);
+    public boolean isReservedWord(String str);
 
-	public List<String> getIndexTypeList(ERTable table);
+    public List<String> getIndexTypeList(ERTable table);
 
-	public PreImportFromDBManager getPreTableImportManager();
+    public PreImportFromDBManager getPreTableImportManager();
 
-	public ImportFromDBManager getTableImportManager();
+    public ImportFromDBManager getTableImportManager();
 
-	public PreTableExportManager getPreTableExportManager();
+    public PreTableExportManager getPreTableExportManager();
 
-	public String[] getCurrentTimeValue();
+    public String[] getCurrentTimeValue();
 
-	public List<String> getImportSchemaList(Connection con) throws SQLException;
+    public List<String> getImportSchemaList(Connection con) throws SQLException;
 
-	public List<String> getSystemSchemaList();
+    public List<String> getSystemSchemaList();
 
-	public BigDecimal getSequenceMaxValue();
+    public BigDecimal getSequenceMaxValue();
 
 }

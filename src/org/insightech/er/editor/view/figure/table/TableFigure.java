@@ -23,156 +23,150 @@ import org.insightech.er.editor.view.figure.table.style.simple.SimpleStyleSuppor
 
 public class TableFigure extends RoundedRectangle {
 
-	private Figure columns;
+    private Figure columns;
 
-	private StyleSupport styleSupport;
+    private StyleSupport styleSupport;
 
-	private Color foregroundColor;
+    private Color foregroundColor;
 
-	private Font largeFont;
+    private Font largeFont;
 
-	public TableFigure(Settings settings) {
-		this.columns = new Figure();
-		this.setLayoutManager(new BorderLayout());
-		this.setSettings(settings);
-	}
+    public TableFigure(Settings settings) {
+        this.columns = new Figure();
+        this.setLayoutManager(new BorderLayout());
+        this.setSettings(settings);
+    }
 
-	public void setSettings(Settings settings) {
-//		System.out.println("TableFigure::setTableStyle " + tableStyle);
-		String tableStyle = settings.getTableStyle();
-		if (ChangeDesignToSimpleAction.TYPE.equals(tableStyle)) {
-			this.styleSupport = new SimpleStyleSupport(this, settings);
+    public void setSettings(Settings settings) {
+        //		System.out.println("TableFigure::setTableStyle " + tableStyle);
+        String tableStyle = settings.getTableStyle();
+        if (ChangeDesignToSimpleAction.TYPE.equals(tableStyle)) {
+            this.styleSupport = new SimpleStyleSupport(this, settings);
 
-		} else if (ChangeDesignToFrameAction.TYPE.equals(tableStyle)) {
-			this.styleSupport = new FrameStyleSupport(this, settings);
+        } else if (ChangeDesignToFrameAction.TYPE.equals(tableStyle)) {
+            this.styleSupport = new FrameStyleSupport(this, settings);
 
-		} else {
-			this.styleSupport = new FunnyStyleSupport(this, settings);
-		}
+        } else {
+            this.styleSupport = new FunnyStyleSupport(this, settings);
+        }
 
-		this.styleSupport.init();
+        this.styleSupport.init();
 
-		this.create(null);
-	}
+        this.create(null);
+    }
 
-	public void create(int[] color) {
-		this.decideColor(color);
+    public void create(int[] color) {
+        this.decideColor(color);
 
-		this.removeAll();
+        this.removeAll();
 
-		this.styleSupport.createTitleBar();
+        this.styleSupport.createTitleBar();
 
-		this.columns.removeAll();
+        this.columns.removeAll();
 
-		this.styleSupport.createColumnArea(this.columns);
+        this.styleSupport.createColumnArea(this.columns);
 
-		this.styleSupport.createFooter();
-	}
+        this.styleSupport.createFooter();
+    }
 
-	private void decideColor(int[] color) {
-		if (color != null) {
-			int sum = color[0] + color[1] + color[2];
+    private void decideColor(int[] color) {
+        if (color != null) {
+            int sum = color[0] + color[1] + color[2];
 
-			if (sum > 255) {
-				this.foregroundColor = ColorConstants.black;
-			} else {
-				this.foregroundColor = ColorConstants.white;
-			}
-		}
-	}
+            if (sum > 255) {
+                this.foregroundColor = ColorConstants.black;
+            } else {
+                this.foregroundColor = ColorConstants.white;
+            }
+        }
+    }
 
-	public void setName(String name) {
-		this.styleSupport.setName(name);
-	}
+    public void setName(String name) {
+        this.styleSupport.setName(name);
+    }
 
-	public void setFont(Font font, Font titleFont) {
-		this.setFont(font);
-		this.styleSupport.setFont(font, titleFont);
-	}
+    public void setFont(Font font, Font titleFont) {
+        this.setFont(font);
+        this.styleSupport.setFont(font, titleFont);
+    }
 
-	public void clearColumns() {
-		this.columns.removeAll();
-	}
+    public void clearColumns() {
+        this.columns.removeAll();
+    }
 
-	public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode,
-			String physicalName, String logicalName, String type,
-			boolean primaryKey, boolean foreignKey, boolean isNotNull,
-			boolean uniqueKey, boolean displayKey, boolean displayDetail,
-			boolean displayType, boolean isSelectedReferenced,
-			boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
-			boolean isRemoved) {
+    public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode,
+            String physicalName, String logicalName, String type, boolean primaryKey, boolean foreignKey,
+            boolean isNotNull, boolean uniqueKey, boolean displayKey, boolean displayDetail, boolean displayType,
+            boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
+            boolean isRemoved) {
 
-		columnFigure.removeAll();
-		columnFigure.setBackgroundColor(null);
+        columnFigure.removeAll();
+        columnFigure.setBackgroundColor(null);
 
-		this.styleSupport.addColumn(table, normalColumn, columnFigure, viewMode, physicalName,
-				logicalName, type, primaryKey, foreignKey, isNotNull,
-				uniqueKey, displayKey, displayDetail, displayType,
-				isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated,
-				isRemoved);
-	}
+        this.styleSupport.addColumn(table, normalColumn, columnFigure, viewMode, physicalName, logicalName, type,
+                primaryKey, foreignKey, isNotNull, uniqueKey, displayKey, displayDetail, displayType,
+                isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
+    }
 
-	public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode,
-			String name, boolean isAdded, boolean isUpdated, boolean isRemoved) {
+    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded,
+            boolean isUpdated, boolean isRemoved) {
 
-		columnFigure.removeAll();
-		columnFigure.setBackgroundColor(null);
+        columnFigure.removeAll();
+        columnFigure.setBackgroundColor(null);
 
-		this.styleSupport.addColumnGroup(columnFigure, viewMode, name, isAdded,
-				isUpdated, isRemoved);
-	}
+        this.styleSupport.addColumnGroup(columnFigure, viewMode, name, isAdded, isUpdated, isRemoved);
+    }
 
-	public void addIndex(IndexFigure indexFigure, int viewMode,
-			String physicalName, String logicalName, boolean isFirst) {
+    public void addIndex(IndexFigure indexFigure, int viewMode, String physicalName, String logicalName, boolean isFirst) {
 
-		indexFigure.removeAll();
-		indexFigure.setBackgroundColor(null);
+        indexFigure.removeAll();
+        indexFigure.setBackgroundColor(null);
 
-		this.styleSupport.addIndex(indexFigure, physicalName, isFirst);
-	}
+        this.styleSupport.addIndex(indexFigure, physicalName, isFirst);
+    }
 
-	@Override
-	public Rectangle getBounds() {
-		Rectangle bounds = super.getBounds();
+    @Override
+    public Rectangle getBounds() {
+        Rectangle bounds = super.getBounds();
 
-		this.styleSupport.adjustBounds(bounds);
+        this.styleSupport.adjustBounds(bounds);
 
-		return bounds;
-	}
+        return bounds;
+    }
 
-	public Color getTextColor() {
-		return foregroundColor;
-	}
+    public Color getTextColor() {
+        return foregroundColor;
+    }
 
-	@Override
-	protected void fillShape(Graphics graphics) {
-		graphics.setAlpha(200);
-		super.fillShape(graphics);
-	}
+    @Override
+    protected void fillShape(Graphics graphics) {
+        graphics.setAlpha(200);
+        super.fillShape(graphics);
+    }
 
-	/**
-	 * columns ���擾���܂�.
-	 *
-	 * @return columns
-	 */
-	public Figure getColumns() {
-		return columns;
-	}
+    /**
+     * columns ���擾���܂�.
+     *
+     * @return columns
+     */
+    public Figure getColumns() {
+        return columns;
+    }
 
-	public String getImageKey() {
-		return ImageKey.TABLE;
-	}
+    public String getImageKey() {
+        return ImageKey.TABLE;
+    }
 
-	public void setLargeFont(Font largeFont) {
-		this.largeFont = largeFont;
-	}
+    public void setLargeFont(Font largeFont) {
+        this.largeFont = largeFont;
+    }
 
-	/**
-	 * largeFont���擾���܂��B
-	 * @return largeFont
-	 */
-	public Font getLargeFont() {
-	    return largeFont;
-	}
+    /**
+     * largeFont���擾���܂��B
+     * @return largeFont
+     */
+    public Font getLargeFont() {
+        return largeFont;
+    }
 
 }

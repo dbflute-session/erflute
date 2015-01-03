@@ -6,23 +6,23 @@ import org.insightech.er.editor.model.ObjectListModel;
 
 public class IndexSet extends AbstractModel implements ObjectListModel {
 
-	private static final long serialVersionUID = 3691276015432133679L;
+    private static final long serialVersionUID = 3691276015432133679L;
 
-	public static final String PROPERTY_CHANGE_INDEXES = "indexes";
+    public static final String PROPERTY_CHANGE_INDEXES = "indexes";
 
-	public void update() {
-		this.firePropertyChange(PROPERTY_CHANGE_INDEXES, null, null);
-	}
+    public void update() {
+        this.firePropertyChange(PROPERTY_CHANGE_INDEXES, null, null);
+    }
 
-	public String getDescription() {
-		return "";
-	}
+    public String getDescription() {
+        return "";
+    }
 
-	public String getName() {
-		return ResourceString.getResourceString("label.object.type.index_list");
-	}
+    public String getName() {
+        return ResourceString.getResourceString("label.object.type.index_list");
+    }
 
-	public String getObjectType() {
-		return "list";
-	}
+    public String getObjectType() {
+        return "list";
+    }
 }

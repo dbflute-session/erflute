@@ -2,56 +2,54 @@ package org.insightech.er.editor.controller.command.diagram_contents.element.con
 
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 
 public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
 
-	protected ConnectionElement connection;
+    protected ConnectionElement connection;
 
-	public CreateConnectionCommand(ConnectionElement connection) {
-		super();
-		this.connection = connection;
-	}
+    public CreateConnectionCommand(ConnectionElement connection) {
+        super();
+        this.connection = connection;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		
-		NodeElement sourceTable = (NodeElement) this.source.getModel();
-		NodeElement targetTable = (NodeElement) this.target.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
 
-		// Table���m�̃����[�V�����́ATable <=> Table �Ōq��
-		
-		if (sourceTable instanceof ERVirtualTable) {
-			sourceTable = ((ERVirtualTable)sourceTable).getRawTable();
-		}
-		if (targetTable instanceof ERVirtualTable) {
-			targetTable = ((ERVirtualTable)targetTable).getRawTable();
-		}
-		
-		connection.setSource(sourceTable);
-		connection.setTarget(targetTable);
-	}
+        NodeElement sourceTable = (NodeElement) this.source.getModel();
+        NodeElement targetTable = (NodeElement) this.target.getModel();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		connection.setSource(null);
-		connection.setTarget(null);
-	}
+        // Table���m�̃����[�V�����́ATable <=> Table �Ōq��
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String validate() {
-		return null;
-	}
+        if (sourceTable instanceof ERVirtualTable) {
+            sourceTable = ((ERVirtualTable) sourceTable).getRawTable();
+        }
+        if (targetTable instanceof ERVirtualTable) {
+            targetTable = ((ERVirtualTable) targetTable).getRawTable();
+        }
+
+        connection.setSource(sourceTable);
+        connection.setTarget(targetTable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        connection.setSource(null);
+        connection.setTarget(null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String validate() {
+        return null;
+    }
 
 }

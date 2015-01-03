@@ -9,90 +9,88 @@ import org.insightech.er.ResourceString;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ObjectListModel;
 
-public class SequenceSet extends AbstractModel implements ObjectListModel,
-		Iterable<Sequence> {
+public class SequenceSet extends AbstractModel implements ObjectListModel, Iterable<Sequence> {
 
-	private static final long serialVersionUID = -120487815554383179L;
+    private static final long serialVersionUID = -120487815554383179L;
 
-	public static final String PROPERTY_CHANGE_SEQUENCE_SET = "SequenceSet";
+    public static final String PROPERTY_CHANGE_SEQUENCE_SET = "SequenceSet";
 
-	private List<Sequence> sequenceList;
+    private List<Sequence> sequenceList;
 
-	public SequenceSet() {
-		this.sequenceList = new ArrayList<Sequence>();
-	}
+    public SequenceSet() {
+        this.sequenceList = new ArrayList<Sequence>();
+    }
 
-	public void addSequence(Sequence sequence) {
-		this.sequenceList.add(sequence);
-		Collections.sort(this.sequenceList);
+    public void addSequence(Sequence sequence) {
+        this.sequenceList.add(sequence);
+        Collections.sort(this.sequenceList);
 
-		this.firePropertyChange(PROPERTY_CHANGE_SEQUENCE_SET, null, null);
-	}
+        this.firePropertyChange(PROPERTY_CHANGE_SEQUENCE_SET, null, null);
+    }
 
-	public int remove(Sequence sequence) {
-		int index = this.sequenceList.indexOf(sequence);
-		this.sequenceList.remove(index);
-		this.firePropertyChange(PROPERTY_CHANGE_SEQUENCE_SET, null, null);
+    public int remove(Sequence sequence) {
+        int index = this.sequenceList.indexOf(sequence);
+        this.sequenceList.remove(index);
+        this.firePropertyChange(PROPERTY_CHANGE_SEQUENCE_SET, null, null);
 
-		return index;
-	}
+        return index;
+    }
 
-	public boolean contains(String name) {
-		for (Sequence sequence : sequenceList) {
-			if (name.equalsIgnoreCase(sequence.getName())) {
-				return true;
-			}
-		}
+    public boolean contains(String name) {
+        for (Sequence sequence : sequenceList) {
+            if (name.equalsIgnoreCase(sequence.getName())) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public Sequence get(String name) {
-		for (Sequence sequence : sequenceList) {
-			if (name.equalsIgnoreCase(sequence.getName())) {
-				return sequence;
-			}
-		}
+    public Sequence get(String name) {
+        for (Sequence sequence : sequenceList) {
+            if (name.equalsIgnoreCase(sequence.getName())) {
+                return sequence;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public List<Sequence> getSequenceList() {
-		return this.sequenceList;
-	}
+    public List<Sequence> getSequenceList() {
+        return this.sequenceList;
+    }
 
-	public Iterator<Sequence> iterator() {
-		return this.sequenceList.iterator();
-	}
+    public Iterator<Sequence> iterator() {
+        return this.sequenceList.iterator();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SequenceSet clone() {
-		SequenceSet sequenceSet = (SequenceSet) super.clone();
-		List<Sequence> newSequenceList = new ArrayList<Sequence>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SequenceSet clone() {
+        SequenceSet sequenceSet = (SequenceSet) super.clone();
+        List<Sequence> newSequenceList = new ArrayList<Sequence>();
 
-		for (Sequence sequence : sequenceList) {
-			Sequence newSequence = (Sequence) sequence.clone();
-			newSequenceList.add(newSequence);
-		}
+        for (Sequence sequence : sequenceList) {
+            Sequence newSequence = (Sequence) sequence.clone();
+            newSequenceList.add(newSequence);
+        }
 
-		sequenceSet.sequenceList = newSequenceList;
+        sequenceSet.sequenceList = newSequenceList;
 
-		return sequenceSet;
-	}
+        return sequenceSet;
+    }
 
-	public String getDescription() {
-		return "";
-	}
+    public String getDescription() {
+        return "";
+    }
 
-	public String getName() {
-		return ResourceString
-				.getResourceString("label.object.type.sequence_list");
-	}
+    public String getName() {
+        return ResourceString.getResourceString("label.object.type.sequence_list");
+    }
 
-	public String getObjectType() {
-		return "list";
-	}
+    public String getObjectType() {
+        return "list";
+    }
 }

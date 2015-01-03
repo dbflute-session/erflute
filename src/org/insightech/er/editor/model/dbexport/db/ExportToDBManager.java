@@ -13,92 +13,87 @@ import org.insightech.er.ResourceString;
 
 public class ExportToDBManager implements IRunnableWithProgress {
 
-	private static Logger logger = Logger.getLogger(ExportToDBManager.class
-			.getName());
+    private static Logger logger = Logger.getLogger(ExportToDBManager.class.getName());
 
-	protected Connection con;
+    protected Connection con;
 
-	private String ddl;
+    private String ddl;
 
-	private Exception exception;
+    private Exception exception;
 
-	private String errorSql;
+    private String errorSql;
 
-	public ExportToDBManager() {
-	}
+    public ExportToDBManager() {
+    }
 
-	public void init(Connection con, String ddl) throws SQLException {
-		this.con = con;
-		this.con.setAutoCommit(false);
-		this.ddl = ddl;
-	}
+    public void init(Connection con, String ddl) throws SQLException {
+        this.con = con;
+        this.con.setAutoCommit(false);
+        this.ddl = ddl;
+    }
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException,
-			InterruptedException {
+    public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-		try {
-			String[] ddls = ddl.split(";[\r\n]+");
+        try {
+            String[] ddls = ddl.split(";[\r\n]+");
 
-			monitor.beginTask(ResourceString
-					.getResourceString("dialog.message.drop.table"),
-					ddls.length);
+            monitor.beginTask(ResourceString.getResourceString("dialog.message.drop.table"), ddls.length);
 
-			for (int i = 0; i < ddls.length; i++) {
-				String message = ddls[i];
-				int index = message.indexOf("\r\n");
-				if (index != -1) {
-					message = message.substring(0, index);
-				}
+            for (int i = 0; i < ddls.length; i++) {
+                String message = ddls[i];
+                int index = message.indexOf("\r\n");
+                if (index != -1) {
+                    message = message.substring(0, index);
+                }
 
-				monitor.subTask("(" + (i + 1) + "/" + ddls.length + ") "
-						+ message);
+                monitor.subTask("(" + (i + 1) + "/" + ddls.length + ") " + message);
 
-				this.executeDDL(ddls[i]);
-				monitor.worked(1);
+                this.executeDDL(ddls[i]);
+                monitor.worked(1);
 
-				if (monitor.isCanceled()) {
-					throw new InterruptedException("Cancel has been requested.");
-				}
-			}
+                if (monitor.isCanceled()) {
+                    throw new InterruptedException("Cancel has been requested.");
+                }
+            }
 
-			this.con.commit();
+            this.con.commit();
 
-		} catch (InterruptedException e) {
-			throw e;
+        } catch (InterruptedException e) {
+            throw e;
 
-		} catch (Exception e) {
-			this.exception = e;
-		}
+        } catch (Exception e) {
+            this.exception = e;
+        }
 
-		monitor.done();
-	}
+        monitor.done();
+    }
 
-	private void executeDDL(String ddl) throws SQLException {
-		Statement stmt = null;
+    private void executeDDL(String ddl) throws SQLException {
+        Statement stmt = null;
 
-		try {
-			logger.info(ddl);
-			stmt = this.con.createStatement();
-			stmt.execute(ddl);
+        try {
+            logger.info(ddl);
+            stmt = this.con.createStatement();
+            stmt.execute(ddl);
 
-		} catch (SQLException e) {
-			Activator.log(e);
-			this.errorSql = ddl;
-			throw e;
+        } catch (SQLException e) {
+            Activator.log(e);
+            this.errorSql = ddl;
+            throw e;
 
-		} finally {
-			if (stmt != null) {
-				stmt.close();
-			}
-		}
-	}
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
 
-	public Exception getException() {
-		return exception;
-	}
+    public Exception getException() {
+        return exception;
+    }
 
-	public String getErrorSql() {
-		return errorSql;
-	}
+    public String getErrorSql() {
+        return errorSql;
+    }
 
 }

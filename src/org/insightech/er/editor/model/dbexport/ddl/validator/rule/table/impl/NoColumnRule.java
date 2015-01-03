@@ -8,23 +8,22 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 
 public class NoColumnRule extends TableRule {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean validate(ERTable table) {
-		if (table.getColumns().isEmpty()) {
-			ValidateResult validateResult = new ValidateResult();
-			validateResult.setMessage(ResourceString
-					.getResourceString("error.validate.no.column")
-					+ table.getPhysicalName());
-			validateResult.setLocation(table.getLogicalName());
-			validateResult.setSeverity(IMarker.SEVERITY_WARNING);
-			validateResult.setObject(table);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean validate(ERTable table) {
+        if (table.getColumns().isEmpty()) {
+            ValidateResult validateResult = new ValidateResult();
+            validateResult.setMessage(ResourceString.getResourceString("error.validate.no.column")
+                    + table.getPhysicalName());
+            validateResult.setLocation(table.getLogicalName());
+            validateResult.setSeverity(IMarker.SEVERITY_WARNING);
+            validateResult.setObject(table);
 
-			this.addError(validateResult);
-		}
+            this.addError(validateResult);
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

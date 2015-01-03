@@ -35,159 +35,146 @@ import org.insightech.er.util.io.FileUtils;
 
 public class ExportToHtmlAction extends AbstractExportAction {
 
-	public static final String ID = ExportToHtmlAction.class.getName();
+    public static final String ID = ExportToHtmlAction.class.getName();
 
-	private static final String OUTPUT_DIR = "/dbdocs/";
+    private static final String OUTPUT_DIR = "/dbdocs/";
 
-	public ExportToHtmlAction(ERDiagramEditor editor) {
-		super(ID, ResourceString.getResourceString("action.title.export.html"),
-				editor);
-		this.setImageDescriptor(Activator
-				.getImageDescriptor(ImageKey.EXPORT_TO_HTML));
-	}
+    public ExportToHtmlAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.export.html"), editor);
+        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_HTML));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getSaveFilePath(IEditorPart editorPart,
-			GraphicalViewer viewer) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getSaveFilePath(IEditorPart editorPart, GraphicalViewer viewer) {
 
-		IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
+        IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
 
-		DirectoryDialog fileDialog = new DirectoryDialog(editorPart
-				.getEditorSite().getShell(), SWT.SAVE);
+        DirectoryDialog fileDialog = new DirectoryDialog(editorPart.getEditorSite().getShell(), SWT.SAVE);
 
-		IProject project = file.getProject();
+        IProject project = file.getProject();
 
-		fileDialog.setFilterPath(project.getLocation().toString());
-		fileDialog.setMessage(ResourceString
-				.getResourceString("dialog.message.export.html.dir.select"));
+        fileDialog.setFilterPath(project.getLocation().toString());
+        fileDialog.setMessage(ResourceString.getResourceString("dialog.message.export.html.dir.select"));
 
-		String saveFilePath = fileDialog.open();
+        String saveFilePath = fileDialog.open();
 
-		if (saveFilePath != null) {
-			saveFilePath = saveFilePath + OUTPUT_DIR;
-		}
+        if (saveFilePath != null) {
+            saveFilePath = saveFilePath + OUTPUT_DIR;
+        }
 
-		return saveFilePath;
-	}
+        return saveFilePath;
+    }
 
-	@Override
-	protected String getConfirmOverrideMessage() {
-		return "dialog.message.update.html.export.dir";
-	}
+    @Override
+    protected String getConfirmOverrideMessage() {
+        return "dialog.message.update.html.export.dir";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void save(IEditorPart editorPart, GraphicalViewer viewer,
-			String saveFilePath) throws Exception {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void save(IEditorPart editorPart, GraphicalViewer viewer, String saveFilePath) throws Exception {
 
-		ERDiagram diagram = this.getDiagram();
+        ERDiagram diagram = this.getDiagram();
 
-		Category currentCategory = diagram.getCurrentCategory();
-		int currentCategoryIndex = diagram.getCurrentCategoryIndex();
+        Category currentCategory = diagram.getCurrentCategory();
+        int currentCategoryIndex = diagram.getCurrentCategoryIndex();
 
-		try {
-			ProgressMonitorDialog monitor = new ProgressMonitorDialog(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getShell());
+        try {
+            ProgressMonitorDialog monitor =
+                    new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
-			boolean outputImage = true;
+            boolean outputImage = true;
 
-			// �o�̓f�B���N�g���̍폜
-			File dir = new File(saveFilePath);
-			FileUtils.deleteDirectory(dir);
+            // �o�̓f�B���N�g���̍폜
+            File dir = new File(saveFilePath);
+            FileUtils.deleteDirectory(dir);
 
-			dir = new File(saveFilePath + "/image");
-			dir.mkdirs();
+            dir = new File(saveFilePath + "/image");
+            dir.mkdirs();
 
-			String outputImageFilePath = saveFilePath + "/image/er.png";
+            String outputImageFilePath = saveFilePath + "/image/er.png";
 
-			if (outputImage) {
-				diagram.setCurrentCategory(null, 0);
+            if (outputImage) {
+                diagram.setCurrentCategory(null, 0);
 
-				int imageFormat = ExportToImageAction.outputImage(monitor,
-						viewer, outputImageFilePath);
+                int imageFormat = ExportToImageAction.outputImage(monitor, viewer, outputImageFilePath);
 
-				if (imageFormat == -1) {
-					throw new InputException(null);
-				}
-			}
+                if (imageFormat == -1) {
+                    throw new InputException(null);
+                }
+            }
 
-			Map<TableView, Location> tableLocationMap = getTableLocationMap(
-					this.getGraphicalViewer(), this.getDiagram());
+            Map<TableView, Location> tableLocationMap =
+                    getTableLocationMap(this.getGraphicalViewer(), this.getDiagram());
 
-			ExportToHtmlWithProgressManager manager = new ExportToHtmlWithProgressManager(
-					saveFilePath, diagram, tableLocationMap);
-			monitor.run(true, true, manager);
+            ExportToHtmlWithProgressManager manager =
+                    new ExportToHtmlWithProgressManager(saveFilePath, diagram, tableLocationMap);
+            monitor.run(true, true, manager);
 
-			if (manager.getException() != null) {
-				throw manager.getException();
-			}
+            if (manager.getException() != null) {
+                throw manager.getException();
+            }
 
-		} catch (IOException e) {
-			Activator.showMessageDialog(e.getMessage());
+        } catch (IOException e) {
+            Activator.showMessageDialog(e.getMessage());
 
-		} catch (InterruptedException e) {
+        } catch (InterruptedException e) {
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
 
-		} finally {
-			diagram.setCurrentCategory(currentCategory, currentCategoryIndex);
-		}
+        } finally {
+            diagram.setCurrentCategory(currentCategory, currentCategoryIndex);
+        }
 
-		this.refreshProject();
-	}
+        this.refreshProject();
+    }
 
-	@Override
-	protected String[] getFilterExtensions() {
-		return null;
-	}
+    @Override
+    protected String[] getFilterExtensions() {
+        return null;
+    }
 
-	public static Map<TableView, Location> getTableLocationMap(
-			GraphicalViewer viewer, ERDiagram diagram) {
-		Map<TableView, Location> tableLocationMap = new HashMap<TableView, Location>();
+    public static Map<TableView, Location> getTableLocationMap(GraphicalViewer viewer, ERDiagram diagram) {
+        Map<TableView, Location> tableLocationMap = new HashMap<TableView, Location>();
 
-		ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) viewer
-				.getEditPartRegistry().get(LayerManager.ID);
-		IFigure rootFigure = ((LayerManager) rootEditPart)
-				.getLayer(LayerConstants.PRINTABLE_LAYERS);
-		int translateX = ExportToImageAction
-				.translateX(rootFigure.getBounds().x);
-		int translateY = ExportToImageAction
-				.translateY(rootFigure.getBounds().y);
+        ScalableFreeformRootEditPart rootEditPart =
+                (ScalableFreeformRootEditPart) viewer.getEditPartRegistry().get(LayerManager.ID);
+        IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
+        int translateX = ExportToImageAction.translateX(rootFigure.getBounds().x);
+        int translateY = ExportToImageAction.translateY(rootFigure.getBounds().y);
 
-		Category category = diagram.getCurrentCategory();
+        Category category = diagram.getCurrentCategory();
 
-		for (Object child : rootEditPart.getContents().getChildren()) {
-			NodeElementEditPart editPart = (NodeElementEditPart) child;
-			NodeElement nodeElement = (NodeElement) editPart.getModel();
-			if (!(nodeElement instanceof TableView)) {
-				continue;
-			}
+        for (Object child : rootEditPart.getContents().getChildren()) {
+            NodeElementEditPart editPart = (NodeElementEditPart) child;
+            NodeElement nodeElement = (NodeElement) editPart.getModel();
+            if (!(nodeElement instanceof TableView)) {
+                continue;
+            }
 
-			if (category == null || category.isVisible(nodeElement, diagram)) {
-				IFigure figure = editPart.getFigure();
-				Rectangle figureRectangle = figure.getBounds();
+            if (category == null || category.isVisible(nodeElement, diagram)) {
+                IFigure figure = editPart.getFigure();
+                Rectangle figureRectangle = figure.getBounds();
 
-				Location location = new Location(
-						figureRectangle.x + translateX, figureRectangle.y
-								+ translateY, figureRectangle.width,
-						figureRectangle.height);
-				tableLocationMap.put((TableView) nodeElement, location);
-			}
-		}
+                Location location =
+                        new Location(figureRectangle.x + translateX, figureRectangle.y + translateY,
+                                figureRectangle.width, figureRectangle.height);
+                tableLocationMap.put((TableView) nodeElement, location);
+            }
+        }
 
-		return tableLocationMap;
-	}
+        return tableLocationMap;
+    }
 
-	@Override
-	protected String getDefaultExtension() {
-		return "";
-	}
+    @Override
+    protected String getDefaultExtension() {
+        return "";
+    }
 
 }

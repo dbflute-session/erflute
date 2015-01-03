@@ -23,125 +23,111 @@ import org.insightech.er.editor.view.action.AbstractBaseSelectionAction;
 
 public class RightAngleLineAction extends AbstractBaseSelectionAction {
 
-	public static final String ID = RightAngleLineAction.class.getName();
+    public static final String ID = RightAngleLineAction.class.getName();
 
-	public RightAngleLineAction(ERDiagramEditor editor) {
-		super(ID, ResourceString
-				.getResourceString("action.title.right.angle.line"), editor);
-	}
+    public RightAngleLineAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.right.angle.line"), editor);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List<Command> getCommand(EditPart editPart, Event event) {
-		List<Command> commandList = new ArrayList<Command>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List<Command> getCommand(EditPart editPart, Event event) {
+        List<Command> commandList = new ArrayList<Command>();
 
-		if (editPart instanceof IResizable) {
-			NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) editPart;
+        if (editPart instanceof IResizable) {
+            NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) editPart;
 
-			for (Object obj : nodeElementEditPart.getSourceConnections()) {
-				AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) obj;
+            for (Object obj : nodeElementEditPart.getSourceConnections()) {
+                AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) obj;
 
-				if (connectionEditPart.getSource() != connectionEditPart
-						.getTarget()) {
-					commandList.add(getCommand(connectionEditPart));
-				}
-			}
+                if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
+                    commandList.add(getCommand(connectionEditPart));
+                }
+            }
 
-		} else if (editPart instanceof AbstractConnectionEditPart) {
-			AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) editPart;
+        } else if (editPart instanceof AbstractConnectionEditPart) {
+            AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) editPart;
 
-			if (connectionEditPart.getSource() != connectionEditPart
-					.getTarget()) {
-				commandList.add(getCommand(connectionEditPart));
-			}
-		}
+            if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
+                commandList.add(getCommand(connectionEditPart));
+            }
+        }
 
-		return commandList;
-	}
+        return commandList;
+    }
 
-	public static Command getCommand(
-			AbstractConnectionEditPart connectionEditPart) {
-		int sourceX = -1;
-		int sourceY = -1;
-		int targetX = -1;
-		int targetY = -1;
+    public static Command getCommand(AbstractConnectionEditPart connectionEditPart) {
+        int sourceX = -1;
+        int sourceY = -1;
+        int targetX = -1;
+        int targetY = -1;
 
-		if (connectionEditPart instanceof RelationEditPart) {
-			RelationEditPart relationEditPart = (RelationEditPart) connectionEditPart;
+        if (connectionEditPart instanceof RelationEditPart) {
+            RelationEditPart relationEditPart = (RelationEditPart) connectionEditPart;
 
-			Relation relation = (Relation) relationEditPart.getModel();
+            Relation relation = (Relation) relationEditPart.getModel();
 
-			if (relation.getSourceXp() != -1) {
-				NodeEditPart editPart = (NodeEditPart) relationEditPart
-						.getSource();
-				Rectangle bounds = editPart.getFigure().getBounds();
+            if (relation.getSourceXp() != -1) {
+                NodeEditPart editPart = (NodeEditPart) relationEditPart.getSource();
+                Rectangle bounds = editPart.getFigure().getBounds();
 
-				sourceX = bounds.x
-						+ (bounds.width * relation.getSourceXp() / 100);
-				sourceY = bounds.y
-						+ (bounds.height * relation.getSourceYp() / 100);
-			}
+                sourceX = bounds.x + (bounds.width * relation.getSourceXp() / 100);
+                sourceY = bounds.y + (bounds.height * relation.getSourceYp() / 100);
+            }
 
-			if (relation.getTargetXp() != -1) {
-				NodeEditPart editPart = (NodeEditPart) relationEditPart
-						.getTarget();
-				Rectangle bounds = editPart.getFigure().getBounds();
+            if (relation.getTargetXp() != -1) {
+                NodeEditPart editPart = (NodeEditPart) relationEditPart.getTarget();
+                Rectangle bounds = editPart.getFigure().getBounds();
 
-				targetX = bounds.x
-						+ (bounds.width * relation.getTargetXp() / 100);
-				targetY = bounds.y
-						+ (bounds.height * relation.getTargetYp() / 100);
-			}
-		}
+                targetX = bounds.x + (bounds.width * relation.getTargetXp() / 100);
+                targetY = bounds.y + (bounds.height * relation.getTargetYp() / 100);
+            }
+        }
 
-		if (sourceX == -1) {
-			NodeElementEditPart sourceEditPart = (NodeElementEditPart) connectionEditPart
-					.getSource();
+        if (sourceX == -1) {
+            NodeElementEditPart sourceEditPart = (NodeElementEditPart) connectionEditPart.getSource();
 
-			Point sourcePoint = sourceEditPart.getFigure().getBounds()
-					.getCenter();
-			sourceX = sourcePoint.x;
-			sourceY = sourcePoint.y;
-		}
+            Point sourcePoint = sourceEditPart.getFigure().getBounds().getCenter();
+            sourceX = sourcePoint.x;
+            sourceY = sourcePoint.y;
+        }
 
-		if (targetX == -1) {
-			NodeElementEditPart targetEditPart = (NodeElementEditPart) connectionEditPart
-					.getTarget();
+        if (targetX == -1) {
+            NodeElementEditPart targetEditPart = (NodeElementEditPart) connectionEditPart.getTarget();
 
-			Point targetPoint = targetEditPart.getFigure().getBounds()
-					.getCenter();
-			targetX = targetPoint.x;
-			targetY = targetPoint.y;
-		}
+            Point targetPoint = targetEditPart.getFigure().getBounds().getCenter();
+            targetX = targetPoint.x;
+            targetY = targetPoint.y;
+        }
 
-		RightAngleLineCommand command = new RightAngleLineCommand(sourceX,
-				sourceY, targetX, targetY, connectionEditPart);
+        RightAngleLineCommand command =
+                new RightAngleLineCommand(sourceX, sourceY, targetX, targetY, connectionEditPart);
 
-		return command;
-	}
+        return command;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean calculateEnabled() {
-		GraphicalViewer viewer = this.getGraphicalViewer();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean calculateEnabled() {
+        GraphicalViewer viewer = this.getGraphicalViewer();
 
-		for (Object object : viewer.getSelectedEditParts()) {
-			if (object instanceof ConnectionEditPart) {
-				return true;
+        for (Object object : viewer.getSelectedEditParts()) {
+            if (object instanceof ConnectionEditPart) {
+                return true;
 
-			} else if (object instanceof NodeElementEditPart) {
-				NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) object;
+            } else if (object instanceof NodeElementEditPart) {
+                NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) object;
 
-				if (!nodeElementEditPart.getSourceConnections().isEmpty()) {
-					return true;
-				}
-			}
-		}
+                if (!nodeElementEditPart.getSourceConnections().isEmpty()) {
+                    return true;
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

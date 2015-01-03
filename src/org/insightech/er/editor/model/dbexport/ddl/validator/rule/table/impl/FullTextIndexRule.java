@@ -10,36 +10,31 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.index.
 
 public class FullTextIndexRule extends TableRule {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean validate(ERTable table) {
-		for (Index index : table.getIndexes()) {
-			if (index.isFullText()) {
-				for (NormalColumn indexColumn : index.getColumns()) {
-					if (!indexColumn.isFullTextIndexable()) {
-						ValidateResult validateResult = new ValidateResult();
-						validateResult
-								.setMessage(ResourceString
-										.getResourceString("error.validate.fulltext.index1")
-										+ table.getPhysicalName()
-										+ ResourceString
-												.getResourceString("error.validate.fulltext.index2")
-										+ index.getName()
-										+ ResourceString
-												.getResourceString("error.validate.fulltext.index3")
-										+ indexColumn.getPhysicalName());
-						validateResult.setLocation(table.getLogicalName());
-						validateResult.setSeverity(IMarker.SEVERITY_WARNING);
-						validateResult.setObject(index);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean validate(ERTable table) {
+        for (Index index : table.getIndexes()) {
+            if (index.isFullText()) {
+                for (NormalColumn indexColumn : index.getColumns()) {
+                    if (!indexColumn.isFullTextIndexable()) {
+                        ValidateResult validateResult = new ValidateResult();
+                        validateResult.setMessage(ResourceString.getResourceString("error.validate.fulltext.index1")
+                                + table.getPhysicalName()
+                                + ResourceString.getResourceString("error.validate.fulltext.index2") + index.getName()
+                                + ResourceString.getResourceString("error.validate.fulltext.index3")
+                                + indexColumn.getPhysicalName());
+                        validateResult.setLocation(table.getLogicalName());
+                        validateResult.setSeverity(IMarker.SEVERITY_WARNING);
+                        validateResult.setObject(index);
 
-						this.addError(validateResult);
-					}
-				}
-			}
-		}
+                        this.addError(validateResult);
+                    }
+                }
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

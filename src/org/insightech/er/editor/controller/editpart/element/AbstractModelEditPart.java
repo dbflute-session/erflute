@@ -13,67 +13,65 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 
-public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart
-		implements PropertyChangeListener {
+public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
-	private static Logger logger = Logger.getLogger(AbstractModelEditPart.class
-			.getName());
+    private static Logger logger = Logger.getLogger(AbstractModelEditPart.class.getName());
 
-	private static final boolean DEBUG = false;
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void activate() {
-		super.activate();
+    private static final boolean DEBUG = false;
 
-		AbstractModel model = (AbstractModel) this.getModel();
-		model.addPropertyChangeListener(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void activate() {
+        super.activate();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void deactivate() {
-		AbstractModel model = (AbstractModel) this.getModel();
-		model.removePropertyChangeListener(this);
+        AbstractModel model = (AbstractModel) this.getModel();
+        model.addPropertyChangeListener(this);
+    }
 
-		super.deactivate();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deactivate() {
+        AbstractModel model = (AbstractModel) this.getModel();
+        model.removePropertyChangeListener(this);
 
-	protected ERDiagram getDiagram() {
-		Object model = this.getRoot().getContents().getModel();
-		if (model instanceof ERModel) {
-			return ((ERModel)model).getDiagram();
-		}
-		return (ERDiagram) model;
-	}
+        super.deactivate();
+    }
 
-	protected Category getCurrentCategory() {
-		return this.getDiagram().getCurrentCategory();
-	}
+    protected ERDiagram getDiagram() {
+        Object model = this.getRoot().getContents().getModel();
+        if (model instanceof ERModel) {
+            return ((ERModel) model).getDiagram();
+        }
+        return (ERDiagram) model;
+    }
 
-	protected void executeCommand(Command command) {
-		this.getViewer().getEditDomain().getCommandStack().execute(command);
-	}
+    protected Category getCurrentCategory() {
+        return this.getDiagram().getCurrentCategory();
+    }
 
-	public final void propertyChange(PropertyChangeEvent event) {
-		try {
-			if (DEBUG) {
-				logger.log(Level.INFO, this.getClass().getName() + ":"
-						+ event.getPropertyName() + ":" + event.toString());
-			}
-			
-			this.doPropertyChange(event);
+    protected void executeCommand(Command command) {
+        this.getViewer().getEditDomain().getCommandStack().execute(command);
+    }
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
-		}
-	}
+    public final void propertyChange(PropertyChangeEvent event) {
+        try {
+            if (DEBUG) {
+                logger.log(Level.INFO,
+                        this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
+            }
 
-	protected void doPropertyChange(PropertyChangeEvent event) {
-	}
+            this.doPropertyChange(event);
+
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
+        }
+    }
+
+    protected void doPropertyChange(PropertyChangeEvent event) {
+    }
 
 }

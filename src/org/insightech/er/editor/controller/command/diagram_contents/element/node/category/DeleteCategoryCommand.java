@@ -10,43 +10,40 @@ import org.insightech.er.editor.model.settings.CategorySetting;
 
 public class DeleteCategoryCommand extends AbstractCommand {
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	private CategorySetting categorySettings;
+    private CategorySetting categorySettings;
 
-	private Category category;
+    private Category category;
 
-	private List<Category> oldAllCategories;
+    private List<Category> oldAllCategories;
 
-	private List<Category> oldSelectedCategories;
+    private List<Category> oldSelectedCategories;
 
-	public DeleteCategoryCommand(ERDiagram diagram, Category category) {
-		this.diagram = diagram;
-		this.categorySettings = diagram.getDiagramContents().getSettings()
-				.getCategorySetting();
-		this.category = category;
-	}
+    public DeleteCategoryCommand(ERDiagram diagram, Category category) {
+        this.diagram = diagram;
+        this.categorySettings = diagram.getDiagramContents().getSettings().getCategorySetting();
+        this.category = category;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.oldAllCategories = new ArrayList<Category>(this.categorySettings
-				.getAllCategories());
-		this.oldSelectedCategories = new ArrayList<Category>(
-				this.categorySettings.getSelectedCategories());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.oldAllCategories = new ArrayList<Category>(this.categorySettings.getAllCategories());
+        this.oldSelectedCategories = new ArrayList<Category>(this.categorySettings.getSelectedCategories());
 
-		this.diagram.removeCategory(category);
-	}
+        this.diagram.removeCategory(category);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.categorySettings.setAllCategories(oldAllCategories);
-		this.categorySettings.setSelectedCategories(oldSelectedCategories);
-		this.diagram.restoreCategories();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.categorySettings.setAllCategories(oldAllCategories);
+        this.categorySettings.setSelectedCategories(oldSelectedCategories);
+        this.diagram.restoreCategories();
+    }
 }

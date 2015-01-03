@@ -14,30 +14,29 @@ import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public abstract class AbstractImportAction extends AbstractBaseAction {
 
-	protected List<NodeElement> importedNodeElements;
+    protected List<NodeElement> importedNodeElements;
 
-	protected List<Sequence> importedSequences;
+    protected List<Sequence> importedSequences;
 
-	protected List<Trigger> importedTriggers;
+    protected List<Trigger> importedTriggers;
 
-	protected List<Tablespace> importedTablespaces;
+    protected List<Tablespace> importedTablespaces;
 
-	protected List<ColumnGroup> importedColumnGroups;
+    protected List<ColumnGroup> importedColumnGroups;
 
-	public AbstractImportAction(String id, String text, ERDiagramEditor editor) {
-		super(id, text, editor);
-	}
+    public AbstractImportAction(String id, String text, ERDiagramEditor editor) {
+        super(id, text, editor);
+    }
 
-	protected void showData() {
-		ERDiagram diagram = this.getDiagram();
+    protected void showData() {
+        ERDiagram diagram = this.getDiagram();
 
-		if (this.importedNodeElements != null) {
-			ImportTableCommand command = new ImportTableCommand(diagram,
-					this.importedNodeElements, this.importedSequences,
-					this.importedTriggers, this.importedTablespaces,
-					this.importedColumnGroups);
+        if (this.importedNodeElements != null) {
+            ImportTableCommand command =
+                    new ImportTableCommand(diagram, this.importedNodeElements, this.importedSequences,
+                            this.importedTriggers, this.importedTablespaces, this.importedColumnGroups);
 
-			this.execute(command);
-		}
-	}
+            this.execute(command);
+        }
+    }
 }

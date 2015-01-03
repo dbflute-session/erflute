@@ -10,41 +10,39 @@ import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 
 public class ExportWarningDialog extends ExportErrorDialog {
 
-	public ExportWarningDialog(Shell parentShell, List<ValidateResult> errorList) {
-		super(parentShell, errorList);
-	}
+    public ExportWarningDialog(Shell parentShell, List<ValidateResult> errorList) {
+        super(parentShell, errorList);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		this.createButton(parent, IDialogConstants.OK_ID, ResourceString
-				.getResourceString("label.button.continue"), true);
-		this.createButton(parent, IDialogConstants.CANCEL_ID,
-				IDialogConstants.CANCEL_LABEL, true);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createButtonsForButtonBar(Composite parent) {
+        this.createButton(parent, IDialogConstants.OK_ID, ResourceString.getResourceString("label.button.continue"),
+                true);
+        this.createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, true);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void buttonPressed(int buttonId) {
-		if (buttonId == IDialogConstants.CLOSE_ID
-				|| buttonId == IDialogConstants.CANCEL_ID) {
-			setReturnCode(buttonId);
-			close();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void buttonPressed(int buttonId) {
+        if (buttonId == IDialogConstants.CLOSE_ID || buttonId == IDialogConstants.CANCEL_ID) {
+            setReturnCode(buttonId);
+            close();
 
-		} else if (buttonId == IDialogConstants.OK_ID) {
-			setReturnCode(buttonId);
-			close();
-		}
+        } else if (buttonId == IDialogConstants.OK_ID) {
+            setReturnCode(buttonId);
+            close();
+        }
 
-		super.buttonPressed(buttonId);
-	}
+        super.buttonPressed(buttonId);
+    }
 
-	@Override
-	protected String getTitle() {
-		return "dialog.title.export.ddl";
-	}
+    @Override
+    protected String getTitle() {
+        return "dialog.title.export.ddl";
+    }
 }

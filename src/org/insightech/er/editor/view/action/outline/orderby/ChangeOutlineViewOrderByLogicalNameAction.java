@@ -9,28 +9,26 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.action.outline.AbstractOutlineBaseAction;
 
-public class ChangeOutlineViewOrderByLogicalNameAction extends
-		AbstractOutlineBaseAction {
+public class ChangeOutlineViewOrderByLogicalNameAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = ChangeOutlineViewOrderByLogicalNameAction.class
-			.getName();
+    public static final String ID = ChangeOutlineViewOrderByLogicalNameAction.class.getName();
 
-	public ChangeOutlineViewOrderByLogicalNameAction(TreeViewer treeViewer) {
-		super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
-		this.setText(ResourceString.getResourceString("label.logical.name"));
-	}
+    public ChangeOutlineViewOrderByLogicalNameAction(TreeViewer treeViewer) {
+        super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
+        this.setText(ResourceString.getResourceString("label.logical.name"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(
-				diagram, Settings.VIEW_MODE_LOGICAL);
+        ChangeOutlineViewOrderByCommand command =
+                new ChangeOutlineViewOrderByCommand(diagram, Settings.VIEW_MODE_LOGICAL);
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 
 }

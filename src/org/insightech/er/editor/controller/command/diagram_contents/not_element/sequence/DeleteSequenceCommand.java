@@ -7,28 +7,28 @@ import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequ
 
 public class DeleteSequenceCommand extends AbstractCommand {
 
-	private SequenceSet sequenceSet;
+    private SequenceSet sequenceSet;
 
-	private Sequence sequence;
+    private Sequence sequence;
 
-	public DeleteSequenceCommand(ERDiagram diagram, Sequence sequence) {
-		this.sequenceSet = diagram.getDiagramContents().getSequenceSet();
-		this.sequence = sequence;
-	}
+    public DeleteSequenceCommand(ERDiagram diagram, Sequence sequence) {
+        this.sequenceSet = diagram.getDiagramContents().getSequenceSet();
+        this.sequence = sequence;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.sequenceSet.remove(this.sequence);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.sequenceSet.remove(this.sequence);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.sequenceSet.addSequence(this.sequence);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.sequenceSet.addSequence(this.sequence);
+    }
 }

@@ -10,26 +10,22 @@ import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public class ChangeShowReferredTablesAction extends AbstractBaseAction {
 
-	public static final String ID = ChangeShowReferredTablesAction.class
-			.getName();
+    public static final String ID = ChangeShowReferredTablesAction.class.getName();
 
-	public ChangeShowReferredTablesAction(ERDiagramEditor editor) {
-		super(ID, null, IAction.AS_CHECK_BOX, editor);
-		this
-				.setText(ResourceString
-						.getResourceString("action.title.category.show.referred.tables"));
-	}
+    public ChangeShowReferredTablesAction(ERDiagramEditor editor) {
+        super(ID, null, IAction.AS_CHECK_BOX, editor);
+        this.setText(ResourceString.getResourceString("action.title.category.show.referred.tables"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeShowReferredTablesCommand command = new ChangeShowReferredTablesCommand(
-				diagram, this.isChecked());
+        ChangeShowReferredTablesCommand command = new ChangeShowReferredTablesCommand(diagram, this.isChecked());
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 }

@@ -25,109 +25,105 @@ import org.insightech.er.editor.model.edit.CopyManager;
  */
 public class PasteAction extends SelectionAction {
 
-	private ERDiagramEditor editor;
+    private ERDiagramEditor editor;
 
-	/**
-	 * �R���X�g���N�^
-	 *
-	 * @param part
-	 */
-	public PasteAction(IWorkbenchPart part) {
-		super(part);
+    /**
+     * �R���X�g���N�^
+     *
+     * @param part
+     */
+    public PasteAction(IWorkbenchPart part) {
+        super(part);
 
-		this.setText(ResourceString.getResourceString("action.title.paste"));
-		ISharedImages sharedImages = PlatformUI.getWorkbench()
-				.getSharedImages();
-		setImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
-		setDisabledImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
+        this.setText(ResourceString.getResourceString("action.title.paste"));
+        ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+        setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
+        setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
 
-		this.setId(ActionFactory.PASTE.getId());
+        this.setId(ActionFactory.PASTE.getId());
 
-		ERDiagramEditor editor = (ERDiagramEditor) part;
+        ERDiagramEditor editor = (ERDiagramEditor) part;
 
-		this.editor = editor;
-	}
+        this.editor = editor;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean calculateEnabled() {
-		return CopyManager.canCopy();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean calculateEnabled() {
+        return CopyManager.canCopy();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void run() {
-		try {
-			execute(createCommand());
-		} catch (Exception e) {
-			Activator.log(e);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void run() {
+        try {
+            execute(createCommand());
+        } catch (Exception e) {
+            Activator.log(e);
+        }
+    }
 
-	/**
-	 * �\��t���R�}���h���쐬���܂��B<br>
-	 * �R�s�[�̈�ɕ�������Ă���m�[�h������ɕ������ē\��t���܂�<br>
-	 *
-	 * @return �\��t���R�}���h
-	 */
-	private Command createCommand() {
+    /**
+     * �\��t���R�}���h���쐬���܂��B<br>
+     * �R�s�[�̈�ɕ�������Ă���m�[�h������ɕ������ē\��t���܂�<br>
+     *
+     * @return �\��t���R�}���h
+     */
+    private Command createCommand() {
 
-		// �\��t���s�̏ꍇ
-		if (!calculateEnabled()) {
-			return null;
-		}
+        // �\��t���s�̏ꍇ
+        if (!calculateEnabled()) {
+            return null;
+        }
 
-		// �\��t���Ώۂ̃m�[�h�ꗗ
-		NodeSet pasteList = CopyManager.paste();
+        // �\��t���Ώۂ̃m�[�h�ꗗ
+        NodeSet pasteList = CopyManager.paste();
 
-		int numberOfCopy = CopyManager.getNumberOfCopy();
+        int numberOfCopy = CopyManager.getNumberOfCopy();
 
-		// �\��t���R�}���h���쐬���܂��B
-		boolean first = true;
-		int x = 0;
-		int y = 0;
+        // �\��t���R�}���h���쐬���܂��B
+        boolean first = true;
+        int x = 0;
+        int y = 0;
 
-		for (NodeElement nodeElement : pasteList) {
-			if (first || x > nodeElement.getX()) {
-				x = nodeElement.getX();
-			}
-			if (first || y > nodeElement.getY()) {
-				y = nodeElement.getY();
-			}
+        for (NodeElement nodeElement : pasteList) {
+            if (first || x > nodeElement.getX()) {
+                x = nodeElement.getX();
+            }
+            if (first || y > nodeElement.getY()) {
+                y = nodeElement.getY();
+            }
 
-			first = false;
-		}
+            first = false;
+        }
 
-		EditPart editPart = this.editor.getGraphicalViewer().getContents();
-		Object model = editPart.getModel();
+        EditPart editPart = this.editor.getGraphicalViewer().getContents();
+        Object model = editPart.getModel();
 
-		if (model instanceof ERDiagram) {
-			ERDiagram diagram = (ERDiagram) model;
+        if (model instanceof ERDiagram) {
+            ERDiagram diagram = (ERDiagram) model;
 
-			Command command = new PasteCommand(editor, pasteList,
-					diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
-					diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
+            Command command =
+                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
+                            diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
 
-			return command;
-		}
-		if (model instanceof ERModel) {
-			ERModel erModel = (ERModel) model;
-			ERDiagram diagram = erModel.getDiagram();
+            return command;
+        }
+        if (model instanceof ERModel) {
+            ERModel erModel = (ERModel) model;
+            ERDiagram diagram = erModel.getDiagram();
 
+            Command command =
+                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
+                            diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
 
-			Command command = new PasteCommand(editor, pasteList,
-					diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
-					diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
-
-			return command;
-		}
-		return null;
-	}
+            return command;
+        }
+        return null;
+    }
 
 }

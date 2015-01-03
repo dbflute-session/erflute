@@ -35,263 +35,254 @@ import org.insightech.er.editor.view.property_source.ERDiagramPropertySource;
 
 public class ERDiagramEditPart extends AbstractModelEditPart {
 
-	private static boolean updateable = true;
+    private static boolean updateable = true;
 
-	public static void setUpdateable(boolean enabled) {
-		updateable = enabled;
-	}
+    public static void setUpdateable(boolean enabled) {
+        updateable = enabled;
+    }
 
-	public static boolean isUpdateable() {
-		return updateable;
-	}
+    public static boolean isUpdateable() {
+        return updateable;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void deactivate() {
-		try {
-			super.deactivate();
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deactivate() {
+        try {
+            super.deactivate();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected IFigure createFigure() {
-		FreeformLayer layer = new FreeformLayer();
-		layer.setLayoutManager(new FreeformLayout());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IFigure createFigure() {
+        FreeformLayer layer = new FreeformLayer();
+        layer.setLayoutManager(new FreeformLayout());
 
-		return layer;
-	}
+        return layer;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createEditPolicies() {
-		this.installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new ERDiagramLayoutEditPolicy());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createEditPolicies() {
+        this.installEditPolicy(EditPolicy.LAYOUT_ROLE, new ERDiagramLayoutEditPolicy());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List getModelChildren() {
-		List<Object> modelChildren = new ArrayList<Object>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List getModelChildren() {
+        List<Object> modelChildren = new ArrayList<Object>();
 
-		ERDiagram diagram = (ERDiagram) this.getModel();
+        ERDiagram diagram = (ERDiagram) this.getModel();
 
-//		modelChildren.addAll(diagram.getDiagramContents().getSettings()
-//				.getCategorySetting().getSelectedCategories());
+        //		modelChildren.addAll(diagram.getDiagramContents().getSettings()
+        //				.getCategorySetting().getSelectedCategories());
 
-		modelChildren.add(diagram.getDiagramContents().getSettings()
-				.getModelProperties());
-		List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
-		for (NodeElement nodeEl : nodeElementList) {
-			if (nodeEl instanceof Note) {
-				// Note �͑S�̃r���[�ɂ͒u���Ȃ�
-			} else {
-				modelChildren.add(nodeEl);
-			}
-		}
+        modelChildren.add(diagram.getDiagramContents().getSettings().getModelProperties());
+        List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
+        for (NodeElement nodeEl : nodeElementList) {
+            if (nodeEl instanceof Note) {
+                // Note �͑S�̃r���[�ɂ͒u���Ȃ�
+            } else {
+                modelChildren.add(nodeEl);
+            }
+        }
 
-		if (diagram.getChangeTrackingList().isCalculated()) {
-			modelChildren.addAll(diagram.getChangeTrackingList()
-					.getRemovedNodeElementSet());
-		}
+        if (diagram.getChangeTrackingList().isCalculated()) {
+            modelChildren.addAll(diagram.getChangeTrackingList().getRemovedNodeElementSet());
+        }
 
-		return modelChildren;
-	}
+        return modelChildren;
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public void doPropertyChange(PropertyChangeEvent event) {
-		if ("consumed".equals(event.getPropagationId())) {
-			return;
-		}
+    @Override
+    @SuppressWarnings("unchecked")
+    public void doPropertyChange(PropertyChangeEvent event) {
+        if ("consumed".equals(event.getPropagationId())) {
+            return;
+        }
 
-		if (event.getPropertyName().equals(NodeSet.PROPERTY_CHANGE_CONTENTS)) {
-			this.refreshChildren();
+        if (event.getPropertyName().equals(NodeSet.PROPERTY_CHANGE_CONTENTS)) {
+            this.refreshChildren();
 
-		} else if (event.getPropertyName().equals(ERModel.PROPERTY_CHANGE_VTABLES)) {
-			this.refresh();
-			this.refreshRelations();
-			
-			
-		} else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL)) {
-			this.refresh();
-			this.refreshRelations();
+        } else if (event.getPropertyName().equals(ERModel.PROPERTY_CHANGE_VTABLES)) {
+            this.refresh();
+            this.refreshRelations();
 
-			List<NodeElement> nodeElementList = (List<NodeElement>) event
-					.getNewValue();
+        } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL)) {
+            this.refresh();
+            this.refreshRelations();
 
-			if (nodeElementList != null) {
-				this.getViewer().deselectAll();
-				SelectionManager selectionManager = this.getViewer()
-						.getSelectionManager();
+            List<NodeElement> nodeElementList = (List<NodeElement>) event.getNewValue();
 
-				Map<NodeElement, EditPart> modelToEditPart = getModelToEditPart();
+            if (nodeElementList != null) {
+                this.getViewer().deselectAll();
+                SelectionManager selectionManager = this.getViewer().getSelectionManager();
 
-				for (NodeElement nodeElement : nodeElementList) {
-					selectionManager.appendSelection(modelToEditPart
-							.get(nodeElement));
-				}
-			}
+                Map<NodeElement, EditPart> modelToEditPart = getModelToEditPart();
 
-		} else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ADD)) {
-			Object newValue = event.getNewValue();
-			if (newValue instanceof ERModel) {
-				ERDiagram diagram = (ERDiagram) this.getModel();
-//				diagram.getDiagramContents().getModelSet().add((ERModel)newValue);
-//				diagram.addContent((ERModel)newValue);
-//				diagram.getDiagramContents().getModelSet().
-//				getModel();
-//				Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
-//				refreshChildren();
-				refresh();
-				refreshVisuals();
-//				fireChildAdded(child, index)
-//				for (Entry<NodeElement, EditPart> entry : entrySet) {
-//					if (entry.getKey().equals(newValue)) {
-//						System.out.println("hit!");
-//						entry.getValue().refresh();
-//					}
-//					System.out.println(entry.getKey().getClass());
-//				}
-			}
-			System.out.println("ss22");
-//			this.internalRefreshTable(newTable);
-			
-		} else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_TABLE)) {
-			ERTable newTable = (ERTable) event.getNewValue();
-			this.internalRefreshTable(newTable);
-			
-		} else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
-			this.refreshVisuals();
+                for (NodeElement nodeElement : nodeElementList) {
+                    selectionManager.appendSelection(modelToEditPart.get(nodeElement));
+                }
+            }
 
-		} else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_DATABASE)) {
-			this.changeDatabase(event);
+        } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ADD)) {
+            Object newValue = event.getNewValue();
+            if (newValue instanceof ERModel) {
+                ERDiagram diagram = (ERDiagram) this.getModel();
+                //				diagram.getDiagramContents().getModelSet().add((ERModel)newValue);
+                //				diagram.addContent((ERModel)newValue);
+                //				diagram.getDiagramContents().getModelSet().
+                //				getModel();
+                //				Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
+                //				refreshChildren();
+                refresh();
+                refreshVisuals();
+                //				fireChildAdded(child, index)
+                //				for (Entry<NodeElement, EditPart> entry : entrySet) {
+                //					if (entry.getKey().equals(newValue)) {
+                //						System.out.println("hit!");
+                //						entry.getValue().refresh();
+                //					}
+                //					System.out.println(entry.getKey().getClass());
+                //				}
+            }
+            System.out.println("ss22");
+            //			this.internalRefreshTable(newTable);
 
-		} else if (event.getPropertyName().equals(ERDiagramPropertySource.PROPERTY_INIT_DATABASE)) {
-			ERDiagram diagram = (ERDiagram) this.getModel();
-			diagram.restoreDatabase(DBManagerFactory.getAllDBList().get(0));
+        } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_TABLE)) {
+            ERTable newTable = (ERTable) event.getNewValue();
+            this.internalRefreshTable(newTable);
 
-		} else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
-			this.changeSettings();
-		}
-	}
+        } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
+            this.refreshVisuals();
 
-	private void internalRefreshTable(ERTable table) {
-//		for (ERTable tmpTable : getDiagram().getDiagramContents().getContents().getTableSet()) {
-//			if (tmpTable.equals(table)) {
-//				// �e�[�u���̍X�V
-//				tmpTable.refresh();
-//			}
-//			if (tmpTable.getName().equals(table.getName())) {
-//				// �e�[�u���̍X�V
-//				entry.getValue().refresh();
-//			}
-//			
-//		}
-		
-		Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
-		for (Entry<NodeElement, EditPart> entry : entrySet) {
-			if (entry.getKey().equals(table)) {
-				// �e�[�u���̍X�V
-				entry.getValue().refresh();
-			}
-			if (table.getName().equals(entry.getKey().getName())) {
-				// �e�[�u���̍X�V
-				entry.getValue().refresh();
-			}
-		}
-		System.out.println("end");
-		
-//		for (ERModel model : getDiagram().getDiagramContents().getModelSet()) {
-//			if (model.containsTable(table)) {
-//				
-//			}
-//		}
-		
-	}
+        } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_DATABASE)) {
+            this.changeDatabase(event);
 
-	public void refreshRelations() {
-		for (Object child : this.getChildren()) {
-			if (child instanceof NodeElementEditPart) {
-				NodeElementEditPart part = (NodeElementEditPart) child;
-				part.refreshConnections();
-			}
-		}
-	}
+        } else if (event.getPropertyName().equals(ERDiagramPropertySource.PROPERTY_INIT_DATABASE)) {
+            ERDiagram diagram = (ERDiagram) this.getModel();
+            diagram.restoreDatabase(DBManagerFactory.getAllDBList().get(0));
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void refreshVisuals() {
-		ERDiagram element = (ERDiagram) this.getModel();
+        } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
+            this.changeSettings();
+        }
+    }
 
-		int[] color = element.getColor();
+    private void internalRefreshTable(ERTable table) {
+        //		for (ERTable tmpTable : getDiagram().getDiagramContents().getContents().getTableSet()) {
+        //			if (tmpTable.equals(table)) {
+        //				// �e�[�u���̍X�V
+        //				tmpTable.refresh();
+        //			}
+        //			if (tmpTable.getName().equals(table.getName())) {
+        //				// �e�[�u���̍X�V
+        //				entry.getValue().refresh();
+        //			}
+        //			
+        //		}
 
-		if (color != null) {
-			Color bgColor = Resources.getColor(color);
-			this.getViewer().getControl().setBackground(bgColor);
-		}
+        Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
+        for (Entry<NodeElement, EditPart> entry : entrySet) {
+            if (entry.getKey().equals(table)) {
+                // �e�[�u���̍X�V
+                entry.getValue().refresh();
+            }
+            if (table.getName().equals(entry.getKey().getName())) {
+                // �e�[�u���̍X�V
+                entry.getValue().refresh();
+            }
+        }
+        System.out.println("end");
 
-		for (Object child : this.getChildren()) {
-			if (child instanceof NodeElementEditPart) {
-				NodeElementEditPart part = (NodeElementEditPart) child;
-				part.refreshVisuals();
-			}
-		}
-	}
+        //		for (ERModel model : getDiagram().getDiagramContents().getModelSet()) {
+        //			if (model.containsTable(table)) {
+        //				
+        //			}
+        //		}
 
-	private void changeSettings() {
-		ERDiagram diagram = (ERDiagram) this.getModel();
-		Settings settings = diagram.getDiagramContents().getSettings();
+    }
 
-		for (Object child : this.getChildren()) {
-			if (child instanceof NodeElementEditPart) {
-				NodeElementEditPart part = (NodeElementEditPart) child;
-				part.changeSettings(settings);
-			}
-		}
-	}
+    public void refreshRelations() {
+        for (Object child : this.getChildren()) {
+            if (child instanceof NodeElementEditPart) {
+                NodeElementEditPart part = (NodeElementEditPart) child;
+                part.refreshConnections();
+            }
+        }
+    }
 
-	private void changeDatabase(PropertyChangeEvent event) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void refreshVisuals() {
+        ERDiagram element = (ERDiagram) this.getModel();
 
-		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION
-				| SWT.OK | SWT.CANCEL);
-		messageBox.setText(ResourceString
-				.getResourceString("dialog.title.change.database"));
-		messageBox.setMessage(ResourceString
-				.getResourceString("dialog.message.change.database"));
+        int[] color = element.getColor();
 
-		if (messageBox.open() == SWT.OK) {
-			event.setPropagationId("consumed");
+        if (color != null) {
+            Color bgColor = Resources.getColor(color);
+            this.getViewer().getControl().setBackground(bgColor);
+        }
 
-		} else {
-			ERDiagram diagram = (ERDiagram) this.getModel();
+        for (Object child : this.getChildren()) {
+            if (child instanceof NodeElementEditPart) {
+                NodeElementEditPart part = (NodeElementEditPart) child;
+                part.refreshVisuals();
+            }
+        }
+    }
 
-			diagram.restoreDatabase(String.valueOf(event.getOldValue()));
-		}
-	}
+    private void changeSettings() {
+        ERDiagram diagram = (ERDiagram) this.getModel();
+        Settings settings = diagram.getDiagramContents().getSettings();
 
-	private Map<NodeElement, EditPart> getModelToEditPart() {
-		Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
-		List children = getChildren();
+        for (Object child : this.getChildren()) {
+            if (child instanceof NodeElementEditPart) {
+                NodeElementEditPart part = (NodeElementEditPart) child;
+                part.changeSettings(settings);
+            }
+        }
+    }
 
-		for (int i = 0; i < children.size(); i++) {
-			EditPart editPart = (EditPart) children.get(i);
-			modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
-		}
+    private void changeDatabase(PropertyChangeEvent event) {
 
-		return modelToEditPart;
-	}
+        MessageBox messageBox =
+                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION
+                        | SWT.OK | SWT.CANCEL);
+        messageBox.setText(ResourceString.getResourceString("dialog.title.change.database"));
+        messageBox.setMessage(ResourceString.getResourceString("dialog.message.change.database"));
+
+        if (messageBox.open() == SWT.OK) {
+            event.setPropagationId("consumed");
+
+        } else {
+            ERDiagram diagram = (ERDiagram) this.getModel();
+
+            diagram.restoreDatabase(String.valueOf(event.getOldValue()));
+        }
+    }
+
+    private Map<NodeElement, EditPart> getModelToEditPart() {
+        Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
+        List children = getChildren();
+
+        for (int i = 0; i < children.size(); i++) {
+            EditPart editPart = (EditPart) children.get(i);
+            modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
+        }
+
+        return modelToEditPart;
+    }
 }

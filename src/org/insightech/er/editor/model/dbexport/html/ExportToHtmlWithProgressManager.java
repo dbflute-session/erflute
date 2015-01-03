@@ -11,64 +11,58 @@ import org.insightech.er.editor.model.dbexport.html.page_generator.HtmlReportPag
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 
-public class ExportToHtmlWithProgressManager extends ExportToHtmlManager
-		implements IRunnableWithProgress {
+public class ExportToHtmlWithProgressManager extends ExportToHtmlManager implements IRunnableWithProgress {
 
-	private Exception exception;
+    private Exception exception;
 
-	private IProgressMonitor monitor;
+    private IProgressMonitor monitor;
 
-	public ExportToHtmlWithProgressManager(String outputDir, ERDiagram diagram,
-			Map<TableView, Location> tableLocationMap) {
-		super(outputDir, diagram, tableLocationMap);
-	}
+    public ExportToHtmlWithProgressManager(String outputDir, ERDiagram diagram,
+            Map<TableView, Location> tableLocationMap) {
+        super(outputDir, diagram, tableLocationMap);
+    }
 
-	/**
-	 * exception ���擾���܂�.
-	 * 
-	 * @return exception
-	 */
-	public Exception getException() {
-		return exception;
-	}
+    /**
+     * exception ���擾���܂�.
+     * 
+     * @return exception
+     */
+    public Exception getException() {
+        return exception;
+    }
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException,
-			InterruptedException {
+    public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-		int count = overviewPageGenerator.countAllClasses(diagram,
-				htmlReportPageGeneratorList);
+        int count = overviewPageGenerator.countAllClasses(diagram, htmlReportPageGeneratorList);
 
-		monitor.beginTask(ResourceString
-				.getResourceString("dialog.message.export.html"), count);
+        monitor.beginTask(ResourceString.getResourceString("dialog.message.export.html"), count);
 
-		try {
-			this.monitor = monitor;
-			doProcess();
+        try {
+            this.monitor = monitor;
+            doProcess();
 
-		} catch (InterruptedException e) {
-			throw e;
+        } catch (InterruptedException e) {
+            throw e;
 
-		} catch (Exception e) {
-			this.exception = e;
-		}
+        } catch (Exception e) {
+            this.exception = e;
+        }
 
-		monitor.done();
-	}
+        monitor.done();
+    }
 
-	@Override
-	protected void doPreTask(HtmlReportPageGenerator pageGenerator,
-			Object object) {
-		this.monitor
-				.subTask("writing : " + pageGenerator.getObjectName(object));
-	}
+    @Override
+    protected void doPreTask(HtmlReportPageGenerator pageGenerator, Object object) {
+        this.monitor.subTask("writing : " + pageGenerator.getObjectName(object));
+    }
 
-	@Override
-	protected void doPostTask() throws InterruptedException {
-		this.monitor.worked(1);
+    @Override
+    protected void doPostTask() throws InterruptedException {
+        this.monitor.worked(1);
 
-		if (this.monitor.isCanceled()) {
-			throw new InterruptedException("Cancel has been requested.");
-		}
-	}
+        if (this.monitor.isCanceled()) {
+            throw new InterruptedException("Cancel has been requested.");
+        }
+    }
 
 }

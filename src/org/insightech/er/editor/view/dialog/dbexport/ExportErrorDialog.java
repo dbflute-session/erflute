@@ -7,34 +7,34 @@ import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 
 public class ExportErrorDialog extends AbstractErrorDialog {
 
-	private List<ValidateResult> errorList;
+    private List<ValidateResult> errorList;
 
-	public ExportErrorDialog(Shell parentShell, List<ValidateResult> errorList) {
-		super(parentShell);
+    public ExportErrorDialog(Shell parentShell, List<ValidateResult> errorList) {
+        super(parentShell);
 
-		this.errorList = errorList;
-	}
+        this.errorList = errorList;
+    }
 
-	@Override
-	protected String getMessage() {
-		return "dialog.message.export.ddl.error.no.continue";
-	}
+    @Override
+    protected String getMessage() {
+        return "dialog.message.export.ddl.error.no.continue";
+    }
 
-	@Override
-	protected String getData() {
-		StringBuilder text = new StringBuilder();
+    @Override
+    protected String getData() {
+        StringBuilder text = new StringBuilder();
 
-		for (ValidateResult errorMessage : this.errorList) {
-			text.append(errorMessage.getMessage());
-			text.append("\r\n");
-		}
+        for (ValidateResult errorMessage : this.errorList) {
+            text.append(errorMessage.getMessage());
+            text.append("\r\n");
+        }
 
-		return text.toString();
-	}
+        return text.toString();
+    }
 
-	@Override
-	protected String getTitle() {
-		return "dialog.title.export.db";
-	}
+    @Override
+    protected String getTitle() {
+        return "dialog.title.export.db";
+    }
 
 }

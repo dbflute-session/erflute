@@ -12,110 +12,105 @@ import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.dialog.element.ModelPropertiesDialog;
 import org.insightech.er.editor.view.figure.ModelPropertiesFigure;
 
-public class ModelPropertiesEditPart extends NodeElementEditPart implements
-		IResizable {
+public class ModelPropertiesEditPart extends NodeElementEditPart implements IResizable {
 
-	public ModelPropertiesEditPart() {
-		super();
-	}
+    public ModelPropertiesEditPart() {
+        super();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected IFigure createFigure() {
-		ERDiagram diagram = this.getDiagram();
-		Settings settings = diagram.getDiagramContents().getSettings();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IFigure createFigure() {
+        ERDiagram diagram = this.getDiagram();
+        Settings settings = diagram.getDiagramContents().getSettings();
 
-		ModelPropertiesFigure figure = new ModelPropertiesFigure();
+        ModelPropertiesFigure figure = new ModelPropertiesFigure();
 
-		this.changeFont(figure);
+        this.changeFont(figure);
 
-		figure.setVisible(settings.getModelProperties().isDisplay());
+        figure.setVisible(settings.getModelProperties().isDisplay());
 
-		return figure;
-	}
+        return figure;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void doPropertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals(
-				ModelProperties.PROPERTY_CHANGE_MODEL_PROPERTIES)) {
-			refreshVisuals();
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void doPropertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals(ModelProperties.PROPERTY_CHANGE_MODEL_PROPERTIES)) {
+            refreshVisuals();
+        }
 
-		super.doPropertyChange(event);
-	}
+        super.doPropertyChange(event);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void refreshVisuals() {
-		ERDiagram diagram = this.getDiagram();
-		ModelProperties modelProperties = (ModelProperties) this.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void refreshVisuals() {
+        ERDiagram diagram = this.getDiagram();
+        ModelProperties modelProperties = (ModelProperties) this.getModel();
 
-		ModelPropertiesFigure figure = (ModelPropertiesFigure) this.getFigure();
+        ModelPropertiesFigure figure = (ModelPropertiesFigure) this.getFigure();
 
-		figure.setData(modelProperties.getProperties(), modelProperties
-				.getCreationDate(), modelProperties.getUpdatedDate(), diagram
-				.getDiagramContents().getSettings().getTableStyle(),
-				modelProperties.getColor());
+        figure.setData(modelProperties.getProperties(), modelProperties.getCreationDate(),
+                modelProperties.getUpdatedDate(), diagram.getDiagramContents().getSettings().getTableStyle(),
+                modelProperties.getColor());
 
-		super.refreshVisuals();
-	}
+        super.refreshVisuals();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void changeSettings(Settings settings) {
-		this.figure.setVisible(settings.getModelProperties().isDisplay());
-		super.changeSettings(settings);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeSettings(Settings settings) {
+        this.figure.setVisible(settings.getModelProperties().isDisplay());
+        super.changeSettings(settings);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void setVisible() {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setVisible() {
+        ERDiagram diagram = this.getDiagram();
 
-		Settings settings = diagram.getDiagramContents().getSettings();
+        Settings settings = diagram.getDiagramContents().getSettings();
 
-		this.figure.setVisible(settings.getModelProperties().isDisplay());
-	}
+        this.figure.setVisible(settings.getModelProperties().isDisplay());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performRequestOpen() {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performRequestOpen() {
+        ERDiagram diagram = this.getDiagram();
 
-		ModelProperties copyModelProperties = (ModelProperties) diagram
-				.getDiagramContents().getSettings().getModelProperties()
-				.clone();
+        ModelProperties copyModelProperties =
+                (ModelProperties) diagram.getDiagramContents().getSettings().getModelProperties().clone();
 
-		ModelPropertiesDialog dialog = new ModelPropertiesDialog(PlatformUI
-				.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				copyModelProperties);
+        ModelPropertiesDialog dialog =
+                new ModelPropertiesDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        copyModelProperties);
 
-		if (dialog.open() == IDialogConstants.OK_ID) {
-			ChangeModelPropertiesCommand command = new ChangeModelPropertiesCommand(
-					diagram, copyModelProperties);
+        if (dialog.open() == IDialogConstants.OK_ID) {
+            ChangeModelPropertiesCommand command = new ChangeModelPropertiesCommand(diagram, copyModelProperties);
 
-			this.executeCommand(command);
-		}
-	}
+            this.executeCommand(command);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isDeleteable() {
-		return false;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isDeleteable() {
+        return false;
+    }
 }

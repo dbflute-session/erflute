@@ -42,204 +42,188 @@ import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERMo
 
 public class ChangeBackgroundColorAction extends SelectionAction {
 
-	public static final String ID = ChangeBackgroundColorAction.class.getName();
+    public static final String ID = ChangeBackgroundColorAction.class.getName();
 
-	private RGB rgb;
+    private RGB rgb;
 
-	private Image image;
+    private Image image;
 
-	public ChangeBackgroundColorAction(IWorkbenchPart part, ERDiagram diagram) {
-		super(part, Action.AS_DROP_DOWN_MENU);
+    public ChangeBackgroundColorAction(IWorkbenchPart part, ERDiagram diagram) {
+        super(part, Action.AS_DROP_DOWN_MENU);
 
-		this.setId(ID);
+        this.setId(ID);
 
-		this.setText(ResourceString
-				.getResourceString("action.title.change.background.color"));
-		this.setToolTipText(ResourceString
-				.getResourceString("action.title.change.background.color"));
+        this.setText(ResourceString.getResourceString("action.title.change.background.color"));
+        this.setToolTipText(ResourceString.getResourceString("action.title.change.background.color"));
 
-		int[] defaultColor = diagram.getDefaultColor();
+        int[] defaultColor = diagram.getDefaultColor();
 
-		this.rgb = new RGB(defaultColor[0], defaultColor[1], defaultColor[2]);
-		this.setColorToImage();
-	}
+        this.rgb = new RGB(defaultColor[0], defaultColor[1], defaultColor[2]);
+        this.setColorToImage();
+    }
 
-	private void setColorToImage() {
-		ImageData imageData = Activator.getImageDescriptor(
-				ImageKey.CHANGE_BACKGROUND_COLOR).getImageData();
-		int blackPixel = imageData.palette.getPixel(new RGB(0, 0, 0));
-		imageData.transparentPixel = imageData.palette.getPixel(new RGB(255,
-				255, 255));
-		imageData.palette.colors[blackPixel] = this.rgb;
+    private void setColorToImage() {
+        ImageData imageData = Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR).getImageData();
+        int blackPixel = imageData.palette.getPixel(new RGB(0, 0, 0));
+        imageData.transparentPixel = imageData.palette.getPixel(new RGB(255, 255, 255));
+        imageData.palette.colors[blackPixel] = this.rgb;
 
-		if (this.image != null) {
-			// this.image.dispose();
-		}
-		this.image = new Image(Display.getCurrent(), imageData);
+        if (this.image != null) {
+            // this.image.dispose();
+        }
+        this.image = new Image(Display.getCurrent(), imageData);
 
-		ImageDescriptor descriptor = ImageDescriptor.createFromImage(image);
-		this.setImageDescriptor(descriptor);
-		if (this.getSelection() instanceof StructuredSelection) {
-			for (Object element : ((StructuredSelection) this.getSelection()).toList()) {
-				if (element instanceof TableViewEditPart) {
-					((TableViewEditPart)element).refresh();
-					((TableViewEditPart)element).refreshVisuals();
-				}
-			}
-		}
-	}
+        ImageDescriptor descriptor = ImageDescriptor.createFromImage(image);
+        this.setImageDescriptor(descriptor);
+        if (this.getSelection() instanceof StructuredSelection) {
+            for (Object element : ((StructuredSelection) this.getSelection()).toList()) {
+                if (element instanceof TableViewEditPart) {
+                    ((TableViewEditPart) element).refresh();
+                    ((TableViewEditPart) element).refreshVisuals();
+                }
+            }
+        }
+    }
 
-	private void setRGB(RGB rgb) {
-		this.rgb = rgb;
+    private void setRGB(RGB rgb) {
+        this.rgb = rgb;
 
-		EditPart editPart = ((ERDiagramEditor) this.getWorkbenchPart())
-				.getGraphicalViewer().getContents();
+        EditPart editPart = ((ERDiagramEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
 
-		if (editPart.getModel() instanceof ERModel) {
-			// �r���[�̔w�i�F�ύX
-			ERModel model = (ERModel) editPart.getModel();
-			model.setDefaultColor(this.rgb.red, this.rgb.green, this.rgb.blue);
-		} else {
-			// �S�̃r���[�̔w�i�F�ύX
-			ERDiagram diagram = ERModelUtil.getDiagram(editPart);
-			diagram.setDefaultColor(this.rgb.red, this.rgb.green, this.rgb.blue);
-		}
+        if (editPart.getModel() instanceof ERModel) {
+            // �r���[�̔w�i�F�ύX
+            ERModel model = (ERModel) editPart.getModel();
+            model.setDefaultColor(this.rgb.red, this.rgb.green, this.rgb.blue);
+        } else {
+            // �S�̃r���[�̔w�i�F�ύX
+            ERDiagram diagram = ERModelUtil.getDiagram(editPart);
+            diagram.setDefaultColor(this.rgb.red, this.rgb.green, this.rgb.blue);
+        }
 
-		this.setColorToImage();
-	}
+        this.setColorToImage();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void runWithEvent(Event event) {
-		Command command = this.createCommand(this.getSelectedObjects(), rgb);
-		this.getCommandStack().execute(command);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void runWithEvent(Event event) {
+        Command command = this.createCommand(this.getSelectedObjects(), rgb);
+        this.getCommandStack().execute(command);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getSelectedObjects() {
-		List objects = new ArrayList(super.getSelectedObjects());
-		for (Iterator iter = objects.iterator(); iter.hasNext();) {
-			if (iter.next() instanceof NormalColumnEditPart) {
-				iter.remove();
-			}
-		}
-		return objects;
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    protected List getSelectedObjects() {
+        List objects = new ArrayList(super.getSelectedObjects());
+        for (Iterator iter = objects.iterator(); iter.hasNext();) {
+            if (iter.next() instanceof NormalColumnEditPart) {
+                iter.remove();
+            }
+        }
+        return objects;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean calculateEnabled() {
+        List objects = this.getSelectedObjects();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean calculateEnabled() {
-		List objects = this.getSelectedObjects();
+        if (objects.isEmpty()) {
+            return false;
+        }
 
-		if (objects.isEmpty()) {
-			return false;
-		}
+        if (!(objects.get(0) instanceof GraphicalEditPart)) {
+            return false;
+        }
 
-		if (!(objects.get(0) instanceof GraphicalEditPart)) {
-			return false;
-		}
+        return true;
+    }
 
-		return true;
-	}
+    private Command createCommand(List objects, RGB rgb) {
+        if (objects.isEmpty()) {
+            return null;
+        }
 
-	private Command createCommand(List objects, RGB rgb) {
-		if (objects.isEmpty()) {
-			return null;
-		}
+        if (!(objects.get(0) instanceof GraphicalEditPart)) {
+            return null;
+        }
 
-		if (!(objects.get(0) instanceof GraphicalEditPart)) {
-			return null;
-		}
+        CompoundCommand command = new CompoundCommand();
 
-		CompoundCommand command = new CompoundCommand();
+        for (int i = 0; i < objects.size(); i++) {
+            GraphicalEditPart part = (GraphicalEditPart) objects.get(i);
+            command.add(new ChangeBackgroundColorCommand((ViewableModel) part.getModel(), rgb.red, rgb.green, rgb.blue));
+        }
 
-		for (int i = 0; i < objects.size(); i++) {
-			GraphicalEditPart part = (GraphicalEditPart) objects.get(i);
-			command.add(new ChangeBackgroundColorCommand((ViewableModel) part
-					.getModel(), rgb.red, rgb.green, rgb.blue));
-		}
+        return command;
+    }
 
-		return command;
-	}
+    public static class ChangeBackgroundColorRetargetAction extends LabelRetargetAction {
+        public ChangeBackgroundColorRetargetAction() {
+            super(ID, ResourceString.getResourceString("action.title.change.background.color"),
+                    Action.AS_DROP_DOWN_MENU);
 
-	public static class ChangeBackgroundColorRetargetAction extends
-			LabelRetargetAction {
-		public ChangeBackgroundColorRetargetAction() {
-			super(ID, ResourceString
-					.getResourceString("action.title.change.background.color"),
-					Action.AS_DROP_DOWN_MENU);
+            this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR));
+            this.setDisabledImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR_DISABLED));
+            this.setToolTipText(ResourceString.getResourceString("action.title.change.background.color"));
 
-			this.setImageDescriptor(Activator
-					.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR));
-			this
-					.setDisabledImageDescriptor(Activator
-							.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR_DISABLED));
-			this.setToolTipText(ResourceString
-					.getResourceString("action.title.change.background.color"));
+            // �T�u���j���[�̐���
+            setMenuCreator(new IMenuCreator() {
+                public Menu getMenu(Control parent) {
+                    Menu menu = new Menu(parent);
 
-			// �T�u���j���[�̐���
-			setMenuCreator(new IMenuCreator() {
-				public Menu getMenu(Control parent) {
-					Menu menu = new Menu(parent);
+                    try {
+                        MenuItem item1 = new MenuItem(menu, SWT.NONE);
+                        item1.setText(ResourceString.getResourceString("action.title.select.color"));
+                        item1.setImage(Activator.getImage(ImageKey.PALETTE));
 
-					try {
-						MenuItem item1 = new MenuItem(menu, SWT.NONE);
-						item1
-								.setText(ResourceString
-										.getResourceString("action.title.select.color"));
-						item1.setImage(Activator.getImage(ImageKey.PALETTE));
+                        item1.addSelectionListener(new SelectionAdapter() {
 
-						item1.addSelectionListener(new SelectionAdapter() {
+                            /**
+                             * {@inheritDoc}
+                             */
+                            @Override
+                            public void widgetSelected(SelectionEvent e) {
+                                ColorDialog colorDialog =
+                                        new ColorDialog(
+                                                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                                SWT.NULL);
 
-							/**
-							 * {@inheritDoc}
-							 */
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								ColorDialog colorDialog = new ColorDialog(
-										PlatformUI.getWorkbench()
-												.getActiveWorkbenchWindow()
-												.getShell(), SWT.NULL);
+                                colorDialog.setText(ResourceString
+                                        .getResourceString("dialog.title.change.background.color"));
 
-								colorDialog
-										.setText(ResourceString
-												.getResourceString("dialog.title.change.background.color"));
+                                ChangeBackgroundColorAction action = (ChangeBackgroundColorAction) getActionHandler();
 
-								ChangeBackgroundColorAction action = (ChangeBackgroundColorAction) getActionHandler();
+                                RGB rgb = colorDialog.open();
 
-								RGB rgb = colorDialog.open();
+                                action.setRGB(rgb);
+                                action.runWithEvent(null);
+                            }
+                        });
+                    } catch (Exception e) {
+                        Activator.showExceptionDialog(e);
+                    }
+                    return menu;
+                }
 
-								action.setRGB(rgb);
-								action.runWithEvent(null);
-							}
-						});
-					} catch (Exception e) {
-						Activator.showExceptionDialog(e);
-					}
-					return menu;
-				}
+                public Menu getMenu(Menu parent) {
+                    return null;
+                }
 
-				public Menu getMenu(Menu parent) {
-					return null;
-				}
+                public void dispose() {
 
-				public void dispose() {
+                }
+            });
+        }
+    }
 
-				}
-			});
-		}
-	}
+    @Override
+    public void dispose() {
+        image.dispose();
 
-	@Override
-	public void dispose() {
-		image.dispose();
-
-		super.dispose();
-	}
+        super.dispose();
+    }
 }

@@ -13,32 +13,29 @@ import org.insightech.er.editor.view.dialog.category.CategoryManageDialog;
 
 public class CategoryManageAction extends AbstractBaseAction {
 
-	public static final String ID = CategoryManageAction.class.getName();
+    public static final String ID = CategoryManageAction.class.getName();
 
-	public CategoryManageAction(ERDiagramEditor editor) {
-		super(ID, ResourceString
-				.getResourceString("action.title.category.manage"), editor);
-	}
+    public CategoryManageAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.category.manage"), editor);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		Settings settings = (Settings) diagram.getDiagramContents()
-				.getSettings().clone();
+        Settings settings = (Settings) diagram.getDiagramContents().getSettings().clone();
 
-		CategoryManageDialog dialog = new CategoryManageDialog(PlatformUI
-				.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				settings, diagram);
+        CategoryManageDialog dialog =
+                new CategoryManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings,
+                        diagram);
 
-		if (dialog.open() == IDialogConstants.OK_ID) {
-			ChangeSettingsCommand command = new ChangeSettingsCommand(diagram,
-					settings);
-			this.execute(command);
-		}
-	}
+        if (dialog.open() == IDialogConstants.OK_ID) {
+            ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);
+            this.execute(command);
+        }
+    }
 
 }

@@ -8,12 +8,12 @@ import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigg
 
 public class TriggerComponentEditPolicy extends NotElementComponentEditPolicy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Command createDeleteCommand(ERDiagram diagram, Object model) {
-		return new DeleteTriggerCommand(diagram, (Trigger) model);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Command createDeleteCommand(ERDiagram diagram, Object model) {
+        return new DeleteTriggerCommand(diagram, (Trigger) model);
+    }
 
 }

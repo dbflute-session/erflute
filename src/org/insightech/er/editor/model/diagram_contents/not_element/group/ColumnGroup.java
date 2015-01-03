@@ -10,127 +10,124 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.column
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ColumnHolder;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
-public class ColumnGroup extends Column implements ObjectModel,
-		Comparable<ColumnGroup>, ColumnHolder {
+public class ColumnGroup extends Column implements ObjectModel, Comparable<ColumnGroup>, ColumnHolder {
 
-	private static final long serialVersionUID = -5923128797828160786L;
+    private static final long serialVersionUID = -5923128797828160786L;
 
-	private String groupName;
+    private String groupName;
 
-	private List<NormalColumn> columns;
+    private List<NormalColumn> columns;
 
-	public ColumnGroup() {
-		this.columns = new ArrayList<NormalColumn>();
-	}
+    public ColumnGroup() {
+        this.columns = new ArrayList<NormalColumn>();
+    }
 
-	public String getGroupName() {
-		return groupName;
-	}
+    public String getGroupName() {
+        return groupName;
+    }
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
-	public List<NormalColumn> getColumns() {
-		return this.columns;
-	}
+    public List<NormalColumn> getColumns() {
+        return this.columns;
+    }
 
-	public NormalColumn getColumn(int index) {
-		return this.columns.get(index);
-	}
+    public NormalColumn getColumn(int index) {
+        return this.columns.get(index);
+    }
 
-	public void addColumn(NormalColumn column) {
-		this.columns.add(column);
-		column.setColumnHolder(this);
-	}
+    public void addColumn(NormalColumn column) {
+        this.columns.add(column);
+        column.setColumnHolder(this);
+    }
 
-	public void setColumns(List<NormalColumn> columns) {
-		this.columns = columns;
-		for (Column column : columns) {
-			column.setColumnHolder(this);
-		}
-	}
+    public void setColumns(List<NormalColumn> columns) {
+        this.columns = columns;
+        for (Column column : columns) {
+            column.setColumnHolder(this);
+        }
+    }
 
-	public void removeColumn(NormalColumn column) {
-		this.columns.remove(column);
-	}
+    public void removeColumn(NormalColumn column) {
+        this.columns.remove(column);
+    }
 
-	public List<TableView> getUsedTalbeList(ERDiagram diagram) {
-		List<TableView> usedTableList = new ArrayList<TableView>();
+    public List<TableView> getUsedTalbeList(ERDiagram diagram) {
+        List<TableView> usedTableList = new ArrayList<TableView>();
 
-		for (TableView table : diagram.getDiagramContents().getContents()
-				.getTableViewList()) {
-			for (Column tableColumn : table.getColumns()) {
-				if (tableColumn == this) {
-					usedTableList.add(table);
-					break;
-				}
-			}
-		}
+        for (TableView table : diagram.getDiagramContents().getContents().getTableViewList()) {
+            for (Column tableColumn : table.getColumns()) {
+                if (tableColumn == this) {
+                    usedTableList.add(table);
+                    break;
+                }
+            }
+        }
 
-		return usedTableList;
-	}
+        return usedTableList;
+    }
 
-	public int compareTo(ColumnGroup other) {
-		if (other == null) {
-			return -1;
-		}
+    public int compareTo(ColumnGroup other) {
+        if (other == null) {
+            return -1;
+        }
 
-		if (this.groupName == null) {
-			return 1;
-		}
-		if (other.getGroupName() == null) {
-			return -1;
-		}
+        if (this.groupName == null) {
+            return 1;
+        }
+        if (other.getGroupName() == null) {
+            return -1;
+        }
 
-		return this.groupName.toUpperCase().compareTo(
-				other.getGroupName().toUpperCase());
-	}
+        return this.groupName.toUpperCase().compareTo(other.getGroupName().toUpperCase());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getName() {
-		return this.getGroupName();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        return this.getGroupName();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ColumnGroup clone() {
-		ColumnGroup clone = (ColumnGroup) super.clone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ColumnGroup clone() {
+        ColumnGroup clone = (ColumnGroup) super.clone();
 
-		List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();
+        List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();
 
-		for (NormalColumn column : this.columns) {
-			NormalColumn cloneColumn = (NormalColumn) column.clone();
-			cloneColumns.add(cloneColumn);
-		}
+        for (NormalColumn column : this.columns) {
+            NormalColumn cloneColumn = (NormalColumn) column.clone();
+            cloneColumns.add(cloneColumn);
+        }
 
-		clone.setColumns(cloneColumns);
+        clone.setColumns(cloneColumns);
 
-		return clone;
-	}
+        return clone;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(super.toString());
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
 
-		sb.append(", groupName:" + groupName);
-		sb.append(", columns:" + columns);
+        sb.append(", groupName:" + groupName);
+        sb.append(", columns:" + columns);
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	public String getDescription() {
-		return "";
-	}
+    public String getDescription() {
+        return "";
+    }
 
-	public String getObjectType() {
-		return "group";
-	}
+    public String getObjectType() {
+        return "group";
+    }
 
 }

@@ -9,18 +9,17 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 
 public class ERDiagramPropertySourceProvider implements IPropertySourceProvider {
 
-	public IPropertySource getPropertySource(Object object) {
-		if (object instanceof ERDiagramEditPart) {
-			ERDiagram diagram = (ERDiagram) ((ERDiagramEditPart) object)
-					.getModel();
-			return new ERDiagramPropertySource(diagram);
+    public IPropertySource getPropertySource(Object object) {
+        if (object instanceof ERDiagramEditPart) {
+            ERDiagram diagram = (ERDiagram) ((ERDiagramEditPart) object).getModel();
+            return new ERDiagramPropertySource(diagram);
 
-		} else if (object instanceof ERTableEditPart) {
-			ERTable table = (ERTable) ((ERTableEditPart) object).getModel();
-			return new ERTablePropertySource(table);
+        } else if (object instanceof ERTableEditPart) {
+            ERTable table = (ERTable) ((ERTableEditPart) object).getModel();
+            return new ERTablePropertySource(table);
 
-		}
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

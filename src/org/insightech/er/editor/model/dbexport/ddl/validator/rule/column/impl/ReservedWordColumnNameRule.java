@@ -9,29 +9,26 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.column
 
 public class ReservedWordColumnNameRule extends ColumnRule {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean validate(ERTable table, NormalColumn column) {
-		if (column.getPhysicalName() != null) {
-			if (this.getDBManager().isReservedWord(column.getPhysicalName())) {
-				ValidateResult validateResult = new ValidateResult();
-				validateResult
-						.setMessage(ResourceString
-								.getResourceString("error.validate.reserved.column.name1")
-								+ table.getPhysicalName()
-								+ ResourceString
-										.getResourceString("error.validate.reserved.column.name2")
-								+ column.getPhysicalName());
-				validateResult.setLocation(table.getLogicalName());
-				validateResult.setSeverity(IMarker.SEVERITY_WARNING);
-				validateResult.setObject(table);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean validate(ERTable table, NormalColumn column) {
+        if (column.getPhysicalName() != null) {
+            if (this.getDBManager().isReservedWord(column.getPhysicalName())) {
+                ValidateResult validateResult = new ValidateResult();
+                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.column.name1")
+                        + table.getPhysicalName()
+                        + ResourceString.getResourceString("error.validate.reserved.column.name2")
+                        + column.getPhysicalName());
+                validateResult.setLocation(table.getLogicalName());
+                validateResult.setSeverity(IMarker.SEVERITY_WARNING);
+                validateResult.setObject(table);
 
-				this.addError(validateResult);
-			}
-		}
+                this.addError(validateResult);
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

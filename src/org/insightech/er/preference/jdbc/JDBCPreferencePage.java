@@ -30,277 +30,266 @@ import org.insightech.er.editor.model.settings.JDBCDriverSetting;
 import org.insightech.er.preference.PreferenceInitializer;
 import org.insightech.er.util.Format;
 
-public class JDBCPreferencePage extends
-		org.eclipse.jface.preference.PreferencePage implements
-		IWorkbenchPreferencePage {
+public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 
-	private Table table;
+    private Table table;
 
-	private Button addButton;
+    private Button addButton;
 
-	private Button editButton;
+    private Button editButton;
 
-	private Button deleteButton;
+    private Button deleteButton;
 
-	public void init(IWorkbench workbench) {
-	}
+    public void init(IWorkbench workbench) {
+    }
 
-	@Override
-	protected Control createContents(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
+    @Override
+    protected Control createContents(Composite parent) {
+        Composite composite = new Composite(parent, SWT.NONE);
 
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 3;
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 3;
 
-		composite.setLayout(gridLayout);
+        composite.setLayout(gridLayout);
 
-		this.initTable(composite);
-		this.createButton(composite);
-		this.addListener();
+        this.initTable(composite);
+        this.createButton(composite);
+        this.addListener();
 
-		return composite;
-	}
+        return composite;
+    }
 
-	private void initTable(Composite parent) {
-		this.table = new Table(parent, SWT.SINGLE | SWT.BORDER
-				| SWT.FULL_SELECTION);
+    private void initTable(Composite parent) {
+        this.table = new Table(parent, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
 
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.heightHint = 200;
-		gridData.horizontalSpan = 3;
+        GridData gridData = new GridData();
+        gridData.horizontalAlignment = GridData.FILL;
+        gridData.grabExcessHorizontalSpace = true;
+        gridData.heightHint = 200;
+        gridData.horizontalSpan = 3;
 
-		this.table.setLayoutData(gridData);
+        this.table.setLayoutData(gridData);
 
-		this.table.setLinesVisible(true);
-		this.table.setHeaderVisible(true);
+        this.table.setLinesVisible(true);
+        this.table.setHeaderVisible(true);
 
-		TableColumn nameColumn = new TableColumn(table, SWT.NONE);
-		nameColumn.setText(ResourceString.getResourceString("label.database"));
-		nameColumn.setWidth(200);
+        TableColumn nameColumn = new TableColumn(table, SWT.NONE);
+        nameColumn.setText(ResourceString.getResourceString("label.database"));
+        nameColumn.setWidth(200);
 
-		TableColumn driverClassNameColumn = new TableColumn(table, SWT.NONE);
-		driverClassNameColumn.setText(ResourceString
-				.getResourceString("label.driver.class.name"));
-		driverClassNameColumn.setWidth(200);
+        TableColumn driverClassNameColumn = new TableColumn(table, SWT.NONE);
+        driverClassNameColumn.setText(ResourceString.getResourceString("label.driver.class.name"));
+        driverClassNameColumn.setWidth(200);
 
-		TableColumn pathColumn = new TableColumn(table, SWT.NONE);
-		pathColumn.setText(ResourceString.getResourceString("label.path"));
-		pathColumn.setWidth(200);
+        TableColumn pathColumn = new TableColumn(table, SWT.NONE);
+        pathColumn.setText(ResourceString.getResourceString("label.path"));
+        pathColumn.setWidth(200);
 
-		this.setData();
-	}
+        this.setData();
+    }
 
-	private void createButton(Composite parent) {
-		GridData buttonGridData = new GridData();
-		buttonGridData.widthHint = Resources.BUTTON_WIDTH;
+    private void createButton(Composite parent) {
+        GridData buttonGridData = new GridData();
+        buttonGridData.widthHint = Resources.BUTTON_WIDTH;
 
-		this.addButton = new Button(parent, SWT.NONE);
-		this.addButton.setLayoutData(buttonGridData);
-		this.addButton.setText(ResourceString
-				.getResourceString("label.button.add"));
+        this.addButton = new Button(parent, SWT.NONE);
+        this.addButton.setLayoutData(buttonGridData);
+        this.addButton.setText(ResourceString.getResourceString("label.button.add"));
 
-		this.editButton = new Button(parent, SWT.NONE);
-		this.editButton.setLayoutData(buttonGridData);
-		this.editButton.setText(ResourceString
-				.getResourceString("label.button.edit"));
+        this.editButton = new Button(parent, SWT.NONE);
+        this.editButton.setLayoutData(buttonGridData);
+        this.editButton.setText(ResourceString.getResourceString("label.button.edit"));
 
-		this.deleteButton = new Button(parent, SWT.NONE);
-		this.deleteButton.setLayoutData(buttonGridData);
-		this.deleteButton.setText(ResourceString
-				.getResourceString("label.button.delete"));
-		this.deleteButton.setEnabled(false);
-	}
+        this.deleteButton = new Button(parent, SWT.NONE);
+        this.deleteButton.setLayoutData(buttonGridData);
+        this.deleteButton.setText(ResourceString.getResourceString("label.button.delete"));
+        this.deleteButton.setEnabled(false);
+    }
 
-	private void setData() {
-		this.table.removeAll();
+    private void setData() {
+        this.table.removeAll();
 
-		for (JDBCDriverSetting setting : PreferenceInitializer
-				.getJDBCDriverSettingList()) {
-			TableItem tableItem = new TableItem(this.table, SWT.NONE);
-			tableItem.setBackground(ColorConstants.white);
-			tableItem.setText(0, Format.null2blank(setting.getDb()));
-			tableItem.setText(1, Format.null2blank(setting.getClassName()));
-			tableItem.setText(2, Format.null2blank(setting.getPath()));
-		}
-	}
+        for (JDBCDriverSetting setting : PreferenceInitializer.getJDBCDriverSettingList()) {
+            TableItem tableItem = new TableItem(this.table, SWT.NONE);
+            tableItem.setBackground(ColorConstants.white);
+            tableItem.setText(0, Format.null2blank(setting.getDb()));
+            tableItem.setText(1, Format.null2blank(setting.getClassName()));
+            tableItem.setText(2, Format.null2blank(setting.getPath()));
+        }
+    }
 
-	@Override
-	protected void performDefaults() {
-		PreferenceInitializer.clearJDBCDriverInfo();
+    @Override
+    protected void performDefaults() {
+        PreferenceInitializer.clearJDBCDriverInfo();
 
-		setData();
+        setData();
 
-		super.performDefaults();
-	}
+        super.performDefaults();
+    }
 
-	@Override
-	public boolean performOk() {
-		PreferenceInitializer.clearJDBCDriverInfo();
+    @Override
+    public boolean performOk() {
+        PreferenceInitializer.clearJDBCDriverInfo();
 
-		for (int i = 0; i < this.table.getItemCount(); i++) {
-			TableItem tableItem = this.table.getItem(i);
+        for (int i = 0; i < this.table.getItemCount(); i++) {
+            TableItem tableItem = this.table.getItem(i);
 
-			String db = tableItem.getText(0);
-			String driverClassName = tableItem.getText(1);
-			String path = tableItem.getText(2);
+            String db = tableItem.getText(0);
+            String driverClassName = tableItem.getText(1);
+            String path = tableItem.getText(2);
 
-			PreferenceInitializer.addJDBCDriver(db, driverClassName, path);
-		}
+            PreferenceInitializer.addJDBCDriver(db, driverClassName, path);
+        }
 
-		return super.performOk();
-	}
+        return super.performOk();
+    }
 
-	private void addListener() {
-		this.table.addSelectionListener(new SelectionAdapter() {
+    private void addListener() {
+        this.table.addSelectionListener(new SelectionAdapter() {
 
-			@Override
-			public void widgetSelected(SelectionEvent selectionevent) {
-				int index = table.getSelectionIndex();
-				if (index == -1) {
-					return;
-				}
+            @Override
+            public void widgetSelected(SelectionEvent selectionevent) {
+                int index = table.getSelectionIndex();
+                if (index == -1) {
+                    return;
+                }
 
-				TableItem item = table.getItem(index);
+                TableItem item = table.getItem(index);
 
-				String db = item.getText(0);
-				String driverClassName = item.getText(1);
+                String db = item.getText(0);
+                String driverClassName = item.getText(1);
 
-				DBManager dbManager = DBManagerFactory.getDBManager(db);
+                DBManager dbManager = DBManagerFactory.getDBManager(db);
 
-				if (!dbManager.getDriverClassName().equals(driverClassName)) {
-					deleteButton.setEnabled(true);
+                if (!dbManager.getDriverClassName().equals(driverClassName)) {
+                    deleteButton.setEnabled(true);
 
-				} else {
-					deleteButton.setEnabled(false);
-				}
-			}
+                } else {
+                    deleteButton.setEnabled(false);
+                }
+            }
 
-		});
+        });
 
-		this.table.addMouseListener(new MouseAdapter() {
+        this.table.addMouseListener(new MouseAdapter() {
 
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				edit();
-			}
-		});
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void mouseDoubleClick(MouseEvent e) {
+                edit();
+            }
+        });
 
-		this.addButton.addSelectionListener(new SelectionAdapter() {
+        this.addButton.addSelectionListener(new SelectionAdapter() {
 
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(-1);
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(-1);
 
-				JDBCPathDialog dialog = new JDBCPathDialog(PlatformUI
-						.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						null, null, null, otherDriverSettingList, true);
+                JDBCPathDialog dialog =
+                        new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, null,
+                                null, otherDriverSettingList, true);
 
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					PreferenceInitializer.addJDBCDriver(dialog.getDatabase(),
-							Format.null2blank(dialog.getDriverClassName()),
-							Format.null2blank(dialog.getPath()));
+                if (dialog.open() == IDialogConstants.OK_ID) {
+                    PreferenceInitializer.addJDBCDriver(dialog.getDatabase(),
+                            Format.null2blank(dialog.getDriverClassName()), Format.null2blank(dialog.getPath()));
 
-					setData();
-				}
-			}
+                    setData();
+                }
+            }
 
-		});
+        });
 
-		this.editButton.addSelectionListener(new SelectionAdapter() {
+        this.editButton.addSelectionListener(new SelectionAdapter() {
 
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				edit();
-			}
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                edit();
+            }
 
-		});
+        });
 
-		this.deleteButton.addSelectionListener(new SelectionAdapter() {
+        this.deleteButton.addSelectionListener(new SelectionAdapter() {
 
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				try {
-					int index = table.getSelectionIndex();
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void widgetSelected(SelectionEvent event) {
+                try {
+                    int index = table.getSelectionIndex();
 
-					if (index == -1) {
-						return;
-					}
+                    if (index == -1) {
+                        return;
+                    }
 
-					TableItem item = table.getItem(index);
+                    TableItem item = table.getItem(index);
 
-					String db = item.getText(0);
-					String driverClassName = item.getText(1);
+                    String db = item.getText(0);
+                    String driverClassName = item.getText(1);
 
-					DBManager dbManager = DBManagerFactory.getDBManager(db);
+                    DBManager dbManager = DBManagerFactory.getDBManager(db);
 
-					if (!dbManager.getDriverClassName().equals(driverClassName)) {
-						table.remove(index);
-					}
+                    if (!dbManager.getDriverClassName().equals(driverClassName)) {
+                        table.remove(index);
+                    }
 
-				} catch (Exception e) {
-					Activator.showExceptionDialog(e);
-				}
-			}
-		});
-	}
+                } catch (Exception e) {
+                    Activator.showExceptionDialog(e);
+                }
+            }
+        });
+    }
 
-	private List<JDBCDriverSetting> getOtherDriverSettingList(int index) {
-		List<JDBCDriverSetting> list = new ArrayList<JDBCDriverSetting>();
+    private List<JDBCDriverSetting> getOtherDriverSettingList(int index) {
+        List<JDBCDriverSetting> list = new ArrayList<JDBCDriverSetting>();
 
-		for (int i = 0; i < this.table.getItemCount(); i++) {
-			if (i != index) {
-				TableItem tableItem = this.table.getItem(i);
+        for (int i = 0; i < this.table.getItemCount(); i++) {
+            if (i != index) {
+                TableItem tableItem = this.table.getItem(i);
 
-				String db = tableItem.getText(0);
-				String driverClassName = tableItem.getText(1);
-				String path = tableItem.getText(2);
+                String db = tableItem.getText(0);
+                String driverClassName = tableItem.getText(1);
+                String path = tableItem.getText(2);
 
-				JDBCDriverSetting driverSetting = new JDBCDriverSetting(db,
-						driverClassName, path);
-				list.add(driverSetting);
-			}
-		}
+                JDBCDriverSetting driverSetting = new JDBCDriverSetting(db, driverClassName, path);
+                list.add(driverSetting);
+            }
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	private void edit() {
-		try {
-			int index = table.getSelectionIndex();
-			if (index == -1) {
-				return;
-			}
+    private void edit() {
+        try {
+            int index = table.getSelectionIndex();
+            if (index == -1) {
+                return;
+            }
 
-			TableItem item = table.getItem(index);
+            TableItem item = table.getItem(index);
 
-			List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(index);
+            List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(index);
 
-			JDBCPathDialog dialog = new JDBCPathDialog(PlatformUI
-					.getWorkbench().getActiveWorkbenchWindow().getShell(), item
-					.getText(0), item.getText(1), item.getText(2),
-					otherDriverSettingList, true);
+            JDBCPathDialog dialog =
+                    new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                            item.getText(0), item.getText(1), item.getText(2), otherDriverSettingList, true);
 
-			if (dialog.open() == IDialogConstants.OK_ID) {
-				item.setText(1, dialog.getDriverClassName());
-				item.setText(2, dialog.getPath());
-			}
+            if (dialog.open() == IDialogConstants.OK_ID) {
+                item.setText(1, dialog.getDriverClassName());
+                item.setText(2, dialog.getPath());
+            }
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
-		}
-	}
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
+        }
+    }
 }

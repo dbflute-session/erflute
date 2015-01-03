@@ -30,222 +30,196 @@ import org.insightech.er.util.io.IOUtils;
 
 public class ExportToHtmlManager {
 
-	private static final Map PROPERTIES = ResourceString
-			.getResources("html.report.");
+    private static final Map PROPERTIES = ResourceString.getResources("html.report.");
 
-	private static final String[] FIX_FILES = { "help-doc.html", "index.html",
-			"stylesheet.css" };
+    private static final String[] FIX_FILES = { "help-doc.html", "index.html", "stylesheet.css" };
 
-	public static final String[] ICON_FILES = { "icons/pkey.gif",
-			"icons/foreign_key.gif" };
+    public static final String[] ICON_FILES = { "icons/pkey.gif", "icons/foreign_key.gif" };
 
-	private static final String TEMPLATE_DIR = "html/";
+    private static final String TEMPLATE_DIR = "html/";
 
-	protected List<HtmlReportPageGenerator> htmlReportPageGeneratorList = new ArrayList<HtmlReportPageGenerator>();
+    protected List<HtmlReportPageGenerator> htmlReportPageGeneratorList = new ArrayList<HtmlReportPageGenerator>();
 
-	protected OverviewHtmlReportPageGenerator overviewPageGenerator;
+    protected OverviewHtmlReportPageGenerator overviewPageGenerator;
 
-	private String outputDir;
+    private String outputDir;
 
-	protected ERDiagram diagram;
+    protected ERDiagram diagram;
 
-	private Map<TableView, Location> tableLocationMap;
+    private Map<TableView, Location> tableLocationMap;
 
-	public ExportToHtmlManager(String outputDir, ERDiagram diagram,
-			Map<TableView, Location> tableLocationMap) {
-		this.outputDir = outputDir;
-		this.diagram = diagram;
-		this.tableLocationMap = tableLocationMap;
+    public ExportToHtmlManager(String outputDir, ERDiagram diagram, Map<TableView, Location> tableLocationMap) {
+        this.outputDir = outputDir;
+        this.diagram = diagram;
+        this.tableLocationMap = tableLocationMap;
 
-		Map<Object, Integer> idMap = new HashMap<Object, Integer>();
+        Map<Object, Integer> idMap = new HashMap<Object, Integer>();
 
-		this.overviewPageGenerator = new OverviewHtmlReportPageGenerator(idMap);
-		htmlReportPageGeneratorList
-				.add(new TableHtmlReportPageGenerator(idMap));
-		htmlReportPageGeneratorList
-				.add(new IndexHtmlReportPageGenerator(idMap));
-		htmlReportPageGeneratorList.add(new SequenceHtmlReportPageGenerator(
-				idMap));
-		htmlReportPageGeneratorList.add(new ViewHtmlReportPageGenerator(idMap));
-		htmlReportPageGeneratorList.add(new TriggerHtmlReportPageGenerator(
-				idMap));
-		htmlReportPageGeneratorList
-				.add(new GroupHtmlReportPageGenerator(idMap));
-		htmlReportPageGeneratorList.add(new TablespaceHtmlReportPageGenerator(
-				idMap));
-		htmlReportPageGeneratorList.add(new WordHtmlReportPageGenerator(idMap));
-		htmlReportPageGeneratorList.add(new CategoryHtmlReportPageGenerator(
-				idMap));
-	}
+        this.overviewPageGenerator = new OverviewHtmlReportPageGenerator(idMap);
+        htmlReportPageGeneratorList.add(new TableHtmlReportPageGenerator(idMap));
+        htmlReportPageGeneratorList.add(new IndexHtmlReportPageGenerator(idMap));
+        htmlReportPageGeneratorList.add(new SequenceHtmlReportPageGenerator(idMap));
+        htmlReportPageGeneratorList.add(new ViewHtmlReportPageGenerator(idMap));
+        htmlReportPageGeneratorList.add(new TriggerHtmlReportPageGenerator(idMap));
+        htmlReportPageGeneratorList.add(new GroupHtmlReportPageGenerator(idMap));
+        htmlReportPageGeneratorList.add(new TablespaceHtmlReportPageGenerator(idMap));
+        htmlReportPageGeneratorList.add(new WordHtmlReportPageGenerator(idMap));
+        htmlReportPageGeneratorList.add(new CategoryHtmlReportPageGenerator(idMap));
+    }
 
-	protected void doPreTask(HtmlReportPageGenerator pageGenerator,
-			Object object) {
-	}
+    protected void doPreTask(HtmlReportPageGenerator pageGenerator, Object object) {
+    }
 
-	protected void doPostTask() throws InterruptedException {
-	}
+    protected void doPostTask() throws InterruptedException {
+    }
 
-	public void doProcess() throws IOException, InterruptedException {
-		// �Œ�t�@�C���̃R�s�[
-		for (int i = 0; i < FIX_FILES.length; i++) {
-			this.copyOut(FIX_FILES[i], FIX_FILES[i]);
-		}
+    public void doProcess() throws IOException, InterruptedException {
+        // �Œ�t�@�C���̃R�s�[
+        for (int i = 0; i < FIX_FILES.length; i++) {
+            this.copyOut(FIX_FILES[i], FIX_FILES[i]);
+        }
 
-		// �e���v���[�g���琶��
-		String template = null;
+        // �e���v���[�g���琶��
+        String template = null;
 
-		// �C���[�W
-		String imageSrc = "image/er.png";
+        // �C���[�W
+        String imageSrc = "image/er.png";
 
-		// �A�C�R��
-		for (String iconFile : ICON_FILES) {
-			this.copyOutResource("image/" + iconFile, iconFile);
-		}
+        // �A�C�R��
+        for (String iconFile : ICON_FILES) {
+            this.copyOutResource("image/" + iconFile, iconFile);
+        }
 
-		// �g�b�v�K�w
-		String allclasses = overviewPageGenerator.generateAllClasses(diagram,
-				htmlReportPageGeneratorList);
-		this.writeOut("allclasses.html", allclasses);
+        // �g�b�v�K�w
+        String allclasses = overviewPageGenerator.generateAllClasses(diagram, htmlReportPageGeneratorList);
+        this.writeOut("allclasses.html", allclasses);
 
-		String overviewFrame = overviewPageGenerator
-				.generateFrame(htmlReportPageGeneratorList);
-		this.writeOut("overview-frame.html", overviewFrame);
+        String overviewFrame = overviewPageGenerator.generateFrame(htmlReportPageGeneratorList);
+        this.writeOut("overview-frame.html", overviewFrame);
 
-		String overviewSummary = overviewPageGenerator.generateSummary(
-				imageSrc, tableLocationMap, htmlReportPageGeneratorList);
-		this.writeOut("overview-summary.html", overviewSummary);
+        String overviewSummary =
+                overviewPageGenerator.generateSummary(imageSrc, tableLocationMap, htmlReportPageGeneratorList);
+        this.writeOut("overview-summary.html", overviewSummary);
 
-		// �I�u�W�F�N�g�^�C�v���̊K�w
-		for (int i = 0; i < htmlReportPageGeneratorList.size(); i++) {
+        // �I�u�W�F�N�g�^�C�v���̊K�w
+        for (int i = 0; i < htmlReportPageGeneratorList.size(); i++) {
 
-			HtmlReportPageGenerator pageGenerator = (HtmlReportPageGenerator) htmlReportPageGeneratorList
-					.get(i);
-			try {
-				HtmlReportPageGenerator prevPageGenerator = null;
-				if (i != 0) {
-					prevPageGenerator = (HtmlReportPageGenerator) htmlReportPageGeneratorList
-							.get(i - 1);
-				}
-				HtmlReportPageGenerator nextPageGenerator = null;
-				if (i != htmlReportPageGeneratorList.size() - 1) {
-					nextPageGenerator = (HtmlReportPageGenerator) htmlReportPageGeneratorList
-							.get(i + 1);
-				}
+            HtmlReportPageGenerator pageGenerator = (HtmlReportPageGenerator) htmlReportPageGeneratorList.get(i);
+            try {
+                HtmlReportPageGenerator prevPageGenerator = null;
+                if (i != 0) {
+                    prevPageGenerator = (HtmlReportPageGenerator) htmlReportPageGeneratorList.get(i - 1);
+                }
+                HtmlReportPageGenerator nextPageGenerator = null;
+                if (i != htmlReportPageGeneratorList.size() - 1) {
+                    nextPageGenerator = (HtmlReportPageGenerator) htmlReportPageGeneratorList.get(i + 1);
+                }
 
-				String type = pageGenerator.getType();
+                String type = pageGenerator.getType();
 
-				template = pageGenerator.generatePackageFrame(diagram);
-				this.writeOut(type + "/package-frame.html", template);
+                template = pageGenerator.generatePackageFrame(diagram);
+                this.writeOut(type + "/package-frame.html", template);
 
-				template = pageGenerator.generatePackageSummary(
-						prevPageGenerator, nextPageGenerator, diagram);
-				this.writeOut(type + "/package-summary.html", template);
+                template = pageGenerator.generatePackageSummary(prevPageGenerator, nextPageGenerator, diagram);
+                this.writeOut(type + "/package-summary.html", template);
 
-				List<Object> objectList = pageGenerator.getObjectList(diagram);
-				for (int j = 0; j < objectList.size(); j++) {
-					Object object = objectList.get(j);
+                List<Object> objectList = pageGenerator.getObjectList(diagram);
+                for (int j = 0; j < objectList.size(); j++) {
+                    Object object = objectList.get(j);
 
-					this.doPreTask(pageGenerator, object);
+                    this.doPreTask(pageGenerator, object);
 
-					Object prevObject = null;
-					if (j != 0) {
-						prevObject = (Object) objectList.get(j - 1);
-					}
-					Object nextObject = null;
-					if (j != objectList.size() - 1) {
-						nextObject = (Object) objectList.get(j + 1);
-					}
+                    Object prevObject = null;
+                    if (j != 0) {
+                        prevObject = (Object) objectList.get(j - 1);
+                    }
+                    Object nextObject = null;
+                    if (j != objectList.size() - 1) {
+                        nextObject = (Object) objectList.get(j + 1);
+                    }
 
-					template = pageGenerator.generateContent(diagram, object,
-							prevObject, nextObject);
+                    template = pageGenerator.generateContent(diagram, object, prevObject, nextObject);
 
-					String objectId = pageGenerator.getObjectId(object);
-					this.writeOut(type + "/" + objectId + ".html", template);
+                    String objectId = pageGenerator.getObjectId(object);
+                    this.writeOut(type + "/" + objectId + ".html", template);
 
-					this.doPostTask();
-				}
+                    this.doPostTask();
+                }
 
-			} catch (RuntimeException e) {
-				throw new IllegalStateException(pageGenerator.getClass()
-						.getName(), e);
-			}
-		}
-	}
+            } catch (RuntimeException e) {
+                throw new IllegalStateException(pageGenerator.getClass().getName(), e);
+            }
+        }
+    }
 
-	public static String getTemplate(String key) throws IOException {
-		InputStream in = ExportToHtmlManager.class.getClassLoader()
-				.getResourceAsStream(TEMPLATE_DIR + key);
-		if (in == null) {
-			throw new FileNotFoundException(TEMPLATE_DIR + key);
-		}
+    public static String getTemplate(String key) throws IOException {
+        InputStream in = ExportToHtmlManager.class.getClassLoader().getResourceAsStream(TEMPLATE_DIR + key);
+        if (in == null) {
+            throw new FileNotFoundException(TEMPLATE_DIR + key);
+        }
 
-		try {
-			String content = IOUtils.toString(in);
-			content = replaceProperties(content);
+        try {
+            String content = IOUtils.toString(in);
+            content = replaceProperties(content);
 
-			return content;
+            return content;
 
-		} finally {
-			in.close();
-		}
-	}
+        } finally {
+            in.close();
+        }
+    }
 
-	private void writeOut(String dstPath, String content) throws IOException {
-		dstPath = this.outputDir + dstPath;
-		File file = new File(dstPath);
-		file.getParentFile().mkdirs();
+    private void writeOut(String dstPath, String content) throws IOException {
+        dstPath = this.outputDir + dstPath;
+        File file = new File(dstPath);
+        file.getParentFile().mkdirs();
 
-		FileUtils.writeStringToFile(file, content, "UTF-8");
-	}
+        FileUtils.writeStringToFile(file, content, "UTF-8");
+    }
 
-	private void copyOut(String dstPath, String key)
-			throws FileNotFoundException, IOException {
-		String content = getTemplate(key);
-		this.writeOut(dstPath, content);
-	}
+    private void copyOut(String dstPath, String key) throws FileNotFoundException, IOException {
+        String content = getTemplate(key);
+        this.writeOut(dstPath, content);
+    }
 
-	private static String replaceProperties(String content) {
-		for (Object key : PROPERTIES.keySet()) {
-			content = content.replaceAll(String.valueOf(key), String
-					.valueOf(PROPERTIES.get(key)));
-		}
+    private static String replaceProperties(String content) {
+        for (Object key : PROPERTIES.keySet()) {
+            content = content.replaceAll(String.valueOf(key), String.valueOf(PROPERTIES.get(key)));
+        }
 
-		return content;
-	}
+        return content;
+    }
 
-	private void copyOutResource(String dstPath, String srcPath)
-			throws FileNotFoundException, IOException {
-		InputStream in = null;
+    private void copyOutResource(String dstPath, String srcPath) throws FileNotFoundException, IOException {
+        InputStream in = null;
 
-		try {
-			in = ExportToHtmlManager.class.getClassLoader()
-					.getResourceAsStream(srcPath);
-			copyOutResource(dstPath, in);
+        try {
+            in = ExportToHtmlManager.class.getClassLoader().getResourceAsStream(srcPath);
+            copyOutResource(dstPath, in);
 
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-		}
-	}
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+    }
 
-	private void copyOutResource(String dstPath, InputStream in)
-			throws FileNotFoundException, IOException {
-		FileOutputStream out = null;
+    private void copyOutResource(String dstPath, InputStream in) throws FileNotFoundException, IOException {
+        FileOutputStream out = null;
 
-		try {
-			dstPath = this.outputDir + dstPath;
-			File file = new File(dstPath);
-			file.getParentFile().mkdirs();
+        try {
+            dstPath = this.outputDir + dstPath;
+            File file = new File(dstPath);
+            file.getParentFile().mkdirs();
 
-			out = new FileOutputStream(file);
+            out = new FileOutputStream(file);
 
-			IOUtils.copy(in, out);
+            IOUtils.copy(in, out);
 
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
-	}
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
 }

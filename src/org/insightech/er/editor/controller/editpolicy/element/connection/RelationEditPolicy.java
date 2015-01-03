@@ -8,14 +8,13 @@ import org.insightech.er.editor.model.diagram_contents.element.connection.Relati
 
 public class RelationEditPolicy extends ConnectionEditPolicy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Command getDeleteCommand(GroupRequest grouprequest) {
-		Relation relation = (Relation) this.getHost().getModel();
-		return new DeleteRelationCommand(relation, null);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Command getDeleteCommand(GroupRequest grouprequest) {
+        Relation relation = (Relation) this.getHost().getModel();
+        return new DeleteRelationCommand(relation, null);
+    }
 
-	
 }

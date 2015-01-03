@@ -20,83 +20,77 @@ import org.insightech.er.editor.model.settings.Settings;
 
 public abstract class AbstractBaseAction extends Action {
 
-	private ERDiagramEditor editor;
+    private ERDiagramEditor editor;
 
-	public AbstractBaseAction(String id, String text, ERDiagramEditor editor) {
-		this(id, text, SWT.NONE, editor);
-	}
+    public AbstractBaseAction(String id, String text, ERDiagramEditor editor) {
+        this(id, text, SWT.NONE, editor);
+    }
 
-	public AbstractBaseAction(String id, String text, int style,
-			ERDiagramEditor editor) {
-		super(text, style);
-		this.setId(id);
+    public AbstractBaseAction(String id, String text, int style, ERDiagramEditor editor) {
+        super(text, style);
+        this.setId(id);
 
-		this.editor = editor;
-	}
+        this.editor = editor;
+    }
 
-	protected void refreshProject() {
-		IFile iFile = ((IFileEditorInput) this.getEditorPart().getEditorInput())
-				.getFile();
-		IProject project = iFile.getProject();
+    protected void refreshProject() {
+        IFile iFile = ((IFileEditorInput) this.getEditorPart().getEditorInput()).getFile();
+        IProject project = iFile.getProject();
 
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+        try {
+            project.refreshLocal(IResource.DEPTH_INFINITE, null);
 
-		} catch (CoreException e) {
-			Activator.showExceptionDialog(e);
-		}
-	}
+        } catch (CoreException e) {
+            Activator.showExceptionDialog(e);
+        }
+    }
 
-	protected ERDiagram getDiagram() {
-		EditPart editPart = this.editor.getGraphicalViewer().getContents();
-		Object model = editPart.getModel();
-		if (model instanceof ERDiagram) {
-			return (ERDiagram) model;
-		}
-		return ((ERModel)model).getDiagram();
-	}
+    protected ERDiagram getDiagram() {
+        EditPart editPart = this.editor.getGraphicalViewer().getContents();
+        Object model = editPart.getModel();
+        if (model instanceof ERDiagram) {
+            return (ERDiagram) model;
+        }
+        return ((ERModel) model).getDiagram();
+    }
 
-	protected GraphicalViewer getGraphicalViewer() {
-		return this.editor.getGraphicalViewer();
-	}
+    protected GraphicalViewer getGraphicalViewer() {
+        return this.editor.getGraphicalViewer();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void runWithEvent(Event event) {
-		try {
-			execute(event);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void runWithEvent(Event event) {
+        try {
+            execute(event);
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
 
-		} finally {
-			Settings newSettings = this.getChangedSettings();
+        } finally {
+            Settings newSettings = this.getChangedSettings();
 
-			if (newSettings != null
-					&& !this.getDiagram().getDiagramContents().getSettings()
-							.equals(newSettings)) {
-				ChangeSettingsCommand command = new ChangeSettingsCommand(this
-						.getDiagram(), newSettings);
+            if (newSettings != null && !this.getDiagram().getDiagramContents().getSettings().equals(newSettings)) {
+                ChangeSettingsCommand command = new ChangeSettingsCommand(this.getDiagram(), newSettings);
 
-				this.execute(command);
-			}
-		}
-	}
+                this.execute(command);
+            }
+        }
+    }
 
-	abstract public void execute(Event event) throws Exception;
+    abstract public void execute(Event event) throws Exception;
 
-	protected void execute(Command command) {
-		this.editor.getGraphicalViewer().getEditDomain().getCommandStack()
-				.execute(command);
-	}
+    protected void execute(Command command) {
+        this.editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
+    }
 
-	protected Settings getChangedSettings() {
-		return null;
-	}
+    protected Settings getChangedSettings() {
+        return null;
+    }
 
-	protected ERDiagramEditor getEditorPart() {
-		return this.editor;
-	}
+    protected ERDiagramEditor getEditorPart() {
+        return this.editor;
+    }
 }

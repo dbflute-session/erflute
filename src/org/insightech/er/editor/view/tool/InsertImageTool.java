@@ -14,49 +14,46 @@ import org.insightech.er.editor.model.diagram_contents.element.node.image.Insert
 
 public class InsertImageTool extends CreationToolEntry {
 
-	public InsertImageTool() {
-		super(ResourceString.getResourceString("label.image.insert"), ResourceString
-				.getResourceString("label.image.insert"), new SimpleFactory(
-				InsertedImage.class), Activator
-				.getImageDescriptor(ImageKey.IMAGE), Activator
-				.getImageDescriptor(ImageKey.IMAGE));
-	}
+    public InsertImageTool() {
+        super(ResourceString.getResourceString("label.image.insert"), ResourceString
+                .getResourceString("label.image.insert"), new SimpleFactory(InsertedImage.class), Activator
+                .getImageDescriptor(ImageKey.IMAGE), Activator.getImageDescriptor(ImageKey.IMAGE));
+    }
 
-	@Override
-	public Tool createTool() {
-		InsertedImageTool tool = new InsertedImageTool();
-		tool.setProperties(getToolProperties());
+    @Override
+    public Tool createTool() {
+        InsertedImageTool tool = new InsertedImageTool();
+        tool.setProperties(getToolProperties());
 
-		return tool;
-	}
+        return tool;
+    }
 
-	private class InsertedImageTool extends CreationTool {
+    private class InsertedImageTool extends CreationTool {
 
-		@Override
-		protected void performCreation(int button) {
-			String path = getLoadFilePath();
+        @Override
+        protected void performCreation(int button) {
+            String path = getLoadFilePath();
 
-			if (path != null) {
-				InsertedImage insertedImage = (InsertedImage) this
-						.getCreateRequest().getNewObject();
-				insertedImage.setImageFilePath(path);
+            if (path != null) {
+                InsertedImage insertedImage = (InsertedImage) this.getCreateRequest().getNewObject();
+                insertedImage.setImageFilePath(path);
 
-				super.performCreation(button);
-			}
-		}
+                super.performCreation(button);
+            }
+        }
 
-		private String getLoadFilePath() {
+        private String getLoadFilePath() {
 
-			FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell(), SWT.OPEN);
+            FileDialog fileDialog =
+                    new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
 
-			String[] filterExtensions = { "*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.tif;*.tiff" };
+            String[] filterExtensions = { "*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.tif;*.tiff" };
 
-			fileDialog.setFilterExtensions(filterExtensions);
+            fileDialog.setFilterExtensions(filterExtensions);
 
-			return fileDialog.open();
-		}
+            return fileDialog.open();
+        }
 
-	}
+    }
 
 }

@@ -8,15 +8,14 @@ import org.insightech.er.editor.persistent.impl.PersistentXmlImpl;
 
 public abstract class Persistent {
 
-	private static Persistent persistent = new PersistentXmlImpl();
+    private static Persistent persistent = new PersistentXmlImpl();
 
-	public static Persistent getInstance() {
-		return persistent;
-	}
+    public static Persistent getInstance() {
+        return persistent;
+    }
 
-	abstract public InputStream createInputStream(ERDiagram diagram)
-			throws IOException;
+    abstract public InputStream createInputStream(ERDiagram diagram) throws IOException;
 
-	abstract public ERDiagram load(InputStream in) throws Exception;
+    abstract public ERDiagram load(InputStream in) throws Exception;
 
 }

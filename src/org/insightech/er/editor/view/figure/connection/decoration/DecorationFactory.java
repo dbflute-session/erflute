@@ -12,87 +12,86 @@ import org.insightech.er.editor.view.figure.connection.decoration.ie.IEZeroOneDe
 
 public class DecorationFactory {
 
-	public static Decoration getDecoration(String notation,
-			String parentCardinality, String childCardinality) {
+    public static Decoration getDecoration(String notation, String parentCardinality, String childCardinality) {
 
-		Decoration decoration = new Decoration();
+        Decoration decoration = new Decoration();
 
-		if ("0..1".equals(parentCardinality)) {
-			if (Settings.NOTATION_IDEF1X.equals(notation)) {
-				decoration.sourceDecoration = new IDEF1XZeroOneSourceDecoration();
+        if ("0..1".equals(parentCardinality)) {
+            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+                decoration.sourceDecoration = new IDEF1XZeroOneSourceDecoration();
 
-			} else {
-				decoration.sourceDecoration = new IEZeroOneDecoration();
-			}
+            } else {
+                decoration.sourceDecoration = new IEZeroOneDecoration();
+            }
 
-		} else {
-			if (Settings.NOTATION_IDEF1X.equals(notation)) {
-				decoration.sourceDecoration = new IDEF1XOneDecoration();
+        } else {
+            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+                decoration.sourceDecoration = new IDEF1XOneDecoration();
 
-			} else {
-				decoration.sourceDecoration = new IEOneDecoration();
-			}
-		}
+            } else {
+                decoration.sourceDecoration = new IEOneDecoration();
+            }
+        }
 
-		if ("0..n".equals(childCardinality)) {
-			if (Settings.NOTATION_IDEF1X.equals(notation)) {
-				// �Y�� �Ȃ�
-				decoration.targetDecoration = new IDEF1XTargetDecoration();
+        if ("0..n".equals(childCardinality)) {
+            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+                // �Y�� �Ȃ�
+                decoration.targetDecoration = new IDEF1XTargetDecoration();
 
-			} else {
-				decoration.targetDecoration = new IEOptionalTargetDecoration();
-			}
+            } else {
+                decoration.targetDecoration = new IEOptionalTargetDecoration();
+            }
 
-		} else if ("1".equals(childCardinality)) {
-			if (Settings.NOTATION_IDEF1X.equals(notation)) {
-				decoration.targetDecoration = new IDEF1XOneDecoration();
+        } else if ("1".equals(childCardinality)) {
+            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+                decoration.targetDecoration = new IDEF1XOneDecoration();
 
-			} else {
-				decoration.targetDecoration = new IEOneDecoration();
-			}
+            } else {
+                decoration.targetDecoration = new IEOneDecoration();
+            }
 
-		} else if ("0..1".equals(childCardinality)) {
-			if (Settings.NOTATION_IDEF1X.equals(notation)) {
-				// �Y�� Z
-				decoration.targetDecoration = new IDEF1XTargetDecoration();
-				decoration.targetLabel = "Z";
+        } else if ("0..1".equals(childCardinality)) {
+            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+                // �Y�� Z
+                decoration.targetDecoration = new IDEF1XTargetDecoration();
+                decoration.targetLabel = "Z";
 
-			} else {
-				decoration.targetDecoration = new IEZeroOneDecoration();
-			}
+            } else {
+                decoration.targetDecoration = new IEZeroOneDecoration();
+            }
 
-		} else {
-			if (Settings.NOTATION_IDEF1X.equals(notation)) {
-				// �Y�� P
-				decoration.targetDecoration = new IDEF1XTargetDecoration();
-				decoration.targetLabel = "P";
+        } else {
+            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+                // �Y�� P
+                decoration.targetDecoration = new IDEF1XTargetDecoration();
+                decoration.targetLabel = "P";
 
-			} else {
-				decoration.targetDecoration = new IETargetDecoration();
-			}
-		}
+            } else {
+                decoration.targetDecoration = new IETargetDecoration();
+            }
+        }
 
-		return decoration;
-	}
+        return decoration;
+    }
 
-	public static class Decoration {
-		private RotatableDecoration sourceDecoration;
+    public static class Decoration {
+        private RotatableDecoration sourceDecoration;
 
-		private RotatableDecoration targetDecoration;
+        private RotatableDecoration targetDecoration;
 
-		private String targetLabel;
+        private String targetLabel;
 
-		public RotatableDecoration getSourceDecoration() {
-			return sourceDecoration;
-		}
+        public RotatableDecoration getSourceDecoration() {
+            return sourceDecoration;
+        }
 
-		public RotatableDecoration getTargetDecoration() {
-			return targetDecoration;
-		}
+        public RotatableDecoration getTargetDecoration() {
+            return targetDecoration;
+        }
 
-		public String getTargetLabel() {
-			return targetLabel;
-		}
+        public String getTargetLabel() {
+            return targetLabel;
+        }
 
-	}
+    }
 }

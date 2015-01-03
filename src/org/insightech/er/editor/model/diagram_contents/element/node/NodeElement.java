@@ -10,136 +10,136 @@ import org.insightech.er.editor.model.diagram_contents.element.connection.Connec
 
 public abstract class NodeElement extends ViewableModel implements ObjectModel {
 
-	private static final long serialVersionUID = -5143984125818569247L;
+    private static final long serialVersionUID = -5143984125818569247L;
 
-	public static final String PROPERTY_CHANGE_RECTANGLE = "rectangle";
+    public static final String PROPERTY_CHANGE_RECTANGLE = "rectangle";
 
-	public static final String PROPERTY_CHANGE_INCOMING = "incoming";
+    public static final String PROPERTY_CHANGE_INCOMING = "incoming";
 
-	public static final String PROPERTY_CHANGE_OUTGOING = "outgoing";
+    public static final String PROPERTY_CHANGE_OUTGOING = "outgoing";
 
-	private Location location;
+    private Location location;
 
-	private List<ConnectionElement> incomings = new ArrayList<ConnectionElement>();
+    private List<ConnectionElement> incomings = new ArrayList<ConnectionElement>();
 
-	private List<ConnectionElement> outgoings = new ArrayList<ConnectionElement>();
+    private List<ConnectionElement> outgoings = new ArrayList<ConnectionElement>();
 
-	private ERDiagram diagram;
-	
-	/**
-	 * ���̗v�f��ύX�����Ƃ��A�����f����̗v�f���ύX����K�v�����邩�H
-	 * @return
-	 */
-	abstract public boolean needsUpdateOtherModel();
+    private ERDiagram diagram;
 
-	public NodeElement() {
-		this.location = new Location(0, 0, 0, 0);
-	}
+    /**
+     * ���̗v�f��ύX�����Ƃ��A�����f����̗v�f���ύX����K�v�����邩�H
+     * @return
+     */
+    abstract public boolean needsUpdateOtherModel();
 
-	public void setDiagram(ERDiagram diagram) {
-		this.diagram = diagram;
-	}
+    public NodeElement() {
+        this.location = new Location(0, 0, 0, 0);
+    }
 
-	public ERDiagram getDiagram() {
-		return diagram;
-	}
+    public void setDiagram(ERDiagram diagram) {
+        this.diagram = diagram;
+    }
 
-	public int getX() {
-		return this.location.x;
-	}
+    public ERDiagram getDiagram() {
+        return diagram;
+    }
 
-	public int getY() {
-		return this.location.y;
-	}
+    public int getX() {
+        return this.location.x;
+    }
 
-	public int getWidth() {
-		return this.location.width;
-	}
+    public int getY() {
+        return this.location.y;
+    }
 
-	public int getHeight() {
-		return this.location.height;
-	}
+    public int getWidth() {
+        return this.location.width;
+    }
 
-	public void setLocation(Location location) {
-		this.location = location;
+    public int getHeight() {
+        return this.location.height;
+    }
 
-		this.firePropertyChange(PROPERTY_CHANGE_RECTANGLE, null, null);
-	}
+    public void setLocation(Location location) {
+        this.location = location;
 
-	public List<ConnectionElement> getIncomings() {
-		return incomings;
-	}
+        this.firePropertyChange(PROPERTY_CHANGE_RECTANGLE, null, null);
+    }
 
-	public List<ConnectionElement> getOutgoings() {
-		return outgoings;
-	}
+    public List<ConnectionElement> getIncomings() {
+        return incomings;
+    }
 
-	public void setIncoming(List<ConnectionElement> relations) {
-		this.incomings = relations;
-		this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
-	}
+    public List<ConnectionElement> getOutgoings() {
+        return outgoings;
+    }
 
-	public void setOutgoing(List<ConnectionElement> relations) {
-		this.outgoings = relations;
-		this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
-	}
+    public void setIncoming(List<ConnectionElement> relations) {
+        this.incomings = relations;
+        this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
+    }
 
-	public void addIncoming(ConnectionElement relation) {
-		this.incomings.add(relation);
-		this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
-	}
+    public void setOutgoing(List<ConnectionElement> relations) {
+        this.outgoings = relations;
+        this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
+    }
 
-	public void removeIncoming(ConnectionElement relation) {
-		this.incomings.remove(relation);
-		this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
-	}
+    public void addIncoming(ConnectionElement relation) {
+        this.incomings.add(relation);
+        this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
+    }
 
-	public void addOutgoing(ConnectionElement relation) {
-		this.outgoings.add(relation);
-		this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
-	}
+    public void removeIncoming(ConnectionElement relation) {
+        this.incomings.remove(relation);
+        this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
+    }
 
-	public void removeOutgoing(ConnectionElement relation) {
-		this.outgoings.remove(relation);
-		this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
-	}
+    public void addOutgoing(ConnectionElement relation) {
+        this.outgoings.add(relation);
+        this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
+    }
 
-	public List<NodeElement> getReferringElementList() {
-		List<NodeElement> referringElementList = new ArrayList<NodeElement>();
+    public void removeOutgoing(ConnectionElement relation) {
+        this.outgoings.remove(relation);
+        this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
+    }
 
-		for (ConnectionElement connectionElement : this.getOutgoings()) {
-			NodeElement targetElement = connectionElement.getTarget();
+    public List<NodeElement> getReferringElementList() {
+        List<NodeElement> referringElementList = new ArrayList<NodeElement>();
 
-			referringElementList.add(targetElement);
-		}
+        for (ConnectionElement connectionElement : this.getOutgoings()) {
+            NodeElement targetElement = connectionElement.getTarget();
 
-		return referringElementList;
-	}
+            referringElementList.add(targetElement);
+        }
 
-	public List<NodeElement> getReferedElementList() {
-		List<NodeElement> referedElementList = new ArrayList<NodeElement>();
+        return referringElementList;
+    }
 
-		for (ConnectionElement connectionElement : this.getIncomings()) {
-			NodeElement sourceElement = connectionElement.getSource();
+    public List<NodeElement> getReferedElementList() {
+        List<NodeElement> referedElementList = new ArrayList<NodeElement>();
 
-			referedElementList.add(sourceElement);
-		}
+        for (ConnectionElement connectionElement : this.getIncomings()) {
+            NodeElement sourceElement = connectionElement.getSource();
 
-		return referedElementList;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NodeElement clone() {
-		NodeElement clone = (NodeElement) super.clone();
+            referedElementList.add(sourceElement);
+        }
 
-		clone.location = this.location.clone();
-		clone.setIncoming(new ArrayList<ConnectionElement>());
-		clone.setOutgoing(new ArrayList<ConnectionElement>());
+        return referedElementList;
+    }
 
-		return clone;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public NodeElement clone() {
+        NodeElement clone = (NodeElement) super.clone();
+
+        clone.location = this.location.clone();
+        clone.setIncoming(new ArrayList<ConnectionElement>());
+        clone.setOutgoing(new ArrayList<ConnectionElement>());
+
+        return clone;
+    }
 
 }

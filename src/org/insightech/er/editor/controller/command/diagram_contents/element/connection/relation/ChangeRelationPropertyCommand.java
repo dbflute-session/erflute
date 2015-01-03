@@ -6,58 +6,52 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.TableV
 
 public class ChangeRelationPropertyCommand extends AbstractCommand {
 
-	private Relation oldCopyRelation;
+    private Relation oldCopyRelation;
 
-	private Relation newCopyRelation;
+    private Relation newCopyRelation;
 
-	private Relation relation;
+    private Relation relation;
 
-	private TableView oldTargetTable;
+    private TableView oldTargetTable;
 
-	public ChangeRelationPropertyCommand(Relation relation,
-			Relation newCopyRelation) {
-		this.relation = relation;
-		this.oldCopyRelation = relation.copy();
-		this.newCopyRelation = newCopyRelation;
+    public ChangeRelationPropertyCommand(Relation relation, Relation newCopyRelation) {
+        this.relation = relation;
+        this.oldCopyRelation = relation.copy();
+        this.newCopyRelation = newCopyRelation;
 
-		this.oldTargetTable = relation.getTargetTableView().copyData();
-	}
+        this.oldTargetTable = relation.getTargetTableView().copyData();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.newCopyRelation.restructureRelationData(this.relation);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.newCopyRelation.restructureRelationData(this.relation);
 
-		if (this.newCopyRelation.isReferenceForPK()) {
-			this.relation.setForeignKeyColumnForPK();
+        if (this.newCopyRelation.isReferenceForPK()) {
+            this.relation.setForeignKeyColumnForPK();
 
-		} else if (this.newCopyRelation.getReferencedComplexUniqueKey() != null) {
-			this.relation.setForeignKeyForComplexUniqueKey(this.newCopyRelation
-					.getReferencedComplexUniqueKey());
+        } else if (this.newCopyRelation.getReferencedComplexUniqueKey() != null) {
+            this.relation.setForeignKeyForComplexUniqueKey(this.newCopyRelation.getReferencedComplexUniqueKey());
 
-		} else {
-			this.relation.setForeignKeyColumn(this.newCopyRelation
-					.getReferencedColumn());
-		}
-	}
+        } else {
+            this.relation.setForeignKeyColumn(this.newCopyRelation.getReferencedColumn());
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.oldCopyRelation.restructureRelationData(this.relation);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.oldCopyRelation.restructureRelationData(this.relation);
 
-		this.relation
-				.setReferenceForPK(this.oldCopyRelation.isReferenceForPK());
-		this.relation.setReferencedComplexUniqueKey(this.oldCopyRelation
-				.getReferencedComplexUniqueKey());
-		this.relation.setReferencedColumn(this.oldCopyRelation
-				.getReferencedColumn());
+        this.relation.setReferenceForPK(this.oldCopyRelation.isReferenceForPK());
+        this.relation.setReferencedComplexUniqueKey(this.oldCopyRelation.getReferencedComplexUniqueKey());
+        this.relation.setReferencedColumn(this.oldCopyRelation.getReferencedColumn());
 
-		this.oldTargetTable.restructureData(this.relation.getTargetTableView());
-	}
+        this.oldTargetTable.restructureData(this.relation.getTargetTableView());
+    }
 
 }

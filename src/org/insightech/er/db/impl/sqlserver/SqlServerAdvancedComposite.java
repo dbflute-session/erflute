@@ -5,8 +5,8 @@ import org.insightech.er.editor.view.dialog.element.table.tab.AdvancedComposite;
 
 public class SqlServerAdvancedComposite extends AdvancedComposite {
 
-	public SqlServerAdvancedComposite(Composite parent) {
-		super(parent);
-	}
+    public SqlServerAdvancedComposite(Composite parent) {
+        super(parent);
+    }
 
 }

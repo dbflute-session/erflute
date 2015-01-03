@@ -2,6 +2,6 @@ package org.insightech.er.editor.model.diagram_contents.element.node.table.colum
 
 public interface ColumnHolder {
 
-	public String getName();
+    public String getName();
 
 }

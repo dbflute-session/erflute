@@ -38,224 +38,202 @@ import org.insightech.er.util.Format;
 
 public class RelationEditPart extends ERDiagramConnectionEditPart {
 
-	private Label targetLabel;
+    private Label targetLabel;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected IFigure createFigure() {
-		boolean bezier = this.getDiagram().getDiagramContents().getSettings()
-				.isUseBezierCurve();
-		PolylineConnection connection = new ERDiagramConnection(bezier);
-		connection.setConnectionRouter(new BendpointConnectionRouter());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IFigure createFigure() {
+        boolean bezier = this.getDiagram().getDiagramContents().getSettings().isUseBezierCurve();
+        PolylineConnection connection = new ERDiagramConnection(bezier);
+        connection.setConnectionRouter(new BendpointConnectionRouter());
 
-		ConnectionEndpointLocator targetLocator = new ConnectionEndpointLocator(
-				connection, true);
-		this.targetLabel = new Label("");
-		connection.add(targetLabel, targetLocator);
+        ConnectionEndpointLocator targetLocator = new ConnectionEndpointLocator(connection, true);
+        this.targetLabel = new Label("");
+        connection.add(targetLabel, targetLocator);
 
-		return connection;
-	}
+        return connection;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createEditPolicies() {
-		this.installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-				new ConnectionEndpointEditPolicy());
-		this.installEditPolicy(EditPolicy.CONNECTION_ROLE,
-				new RelationEditPolicy());
-		this.installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE,
-				new RelationBendpointEditPolicy());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createEditPolicies() {
+        this.installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
+        this.installEditPolicy(EditPolicy.CONNECTION_ROLE, new RelationEditPolicy());
+        this.installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new RelationBendpointEditPolicy());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshBendpoints() {
-		try {
-			// ベンド・ポイントの位置情報の取得
-			Relation relation = (Relation) this.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshBendpoints() {
+        try {
+            // ベンド・ポイントの位置情報の取得
+            Relation relation = (Relation) this.getModel();
 
-			// 実際のベンド・ポイントのリスト
-			List<org.eclipse.draw2d.Bendpoint> constraint = new ArrayList<org.eclipse.draw2d.Bendpoint>();
+            // 実際のベンド・ポイントのリスト
+            List<org.eclipse.draw2d.Bendpoint> constraint = new ArrayList<org.eclipse.draw2d.Bendpoint>();
 
-			for (Bendpoint bendPoint : relation.getBendpoints()) {
-				if (bendPoint.isRelative()) {
+            for (Bendpoint bendPoint : relation.getBendpoints()) {
+                if (bendPoint.isRelative()) {
 
-					ERTableEditPart tableEditPart = (ERTableEditPart) this
-							.getSource();
-					if (tableEditPart != null) {
-						Rectangle bounds = tableEditPart.getFigure()
-								.getBounds();
-						int width = bounds.width;
-						int height = bounds.height;
+                    ERTableEditPart tableEditPart = (ERTableEditPart) this.getSource();
+                    if (tableEditPart != null) {
+                        Rectangle bounds = tableEditPart.getFigure().getBounds();
+                        int width = bounds.width;
+                        int height = bounds.height;
 
-						if (width == 0) {
-							// tableEditPart.getFigure().getUpdateManager()
-							// .performUpdate();
+                        if (width == 0) {
+                            // tableEditPart.getFigure().getUpdateManager()
+                            // .performUpdate();
 
-							bounds = tableEditPart.getFigure().getBounds();
-							width = bounds.width;
-							height = bounds.height;
-						}
+                            bounds = tableEditPart.getFigure().getBounds();
+                            width = bounds.width;
+                            height = bounds.height;
+                        }
 
-						RelativeBendpoint point = new RelativeBendpoint();
+                        RelativeBendpoint point = new RelativeBendpoint();
 
-						int xp = relation.getTargetXp();
-						int x;
+                        int xp = relation.getTargetXp();
+                        int x;
 
-						if (xp == -1) {
-							x = bounds.x + bounds.width;
-						} else {
-							x = bounds.x + (bounds.width * xp / 100);
-						}
+                        if (xp == -1) {
+                            x = bounds.x + bounds.width;
+                        } else {
+                            x = bounds.x + (bounds.width * xp / 100);
+                        }
 
-						point.setRelativeDimensions(new Dimension(width
-								* bendPoint.getX() / 100 - bounds.x
-								- bounds.width + x, 0), new Dimension(width
-								* bendPoint.getX() / 100 - bounds.x
-								- bounds.width + x, 0));
-						point.setWeight(0);
-						point.setConnection(this.getConnectionFigure());
+                        point.setRelativeDimensions(new Dimension(width * bendPoint.getX() / 100 - bounds.x
+                                - bounds.width + x, 0), new Dimension(width * bendPoint.getX() / 100 - bounds.x
+                                - bounds.width + x, 0));
+                        point.setWeight(0);
+                        point.setConnection(this.getConnectionFigure());
 
-						constraint.add(point);
+                        constraint.add(point);
 
-						point = new RelativeBendpoint();
-						point.setRelativeDimensions(new Dimension(width
-								* bendPoint.getX() / 100 - bounds.x
-								- bounds.width + x, height * bendPoint.getY()
-								/ 100), new Dimension(width * bendPoint.getX()
-								/ 100 - bounds.x - bounds.width + x, height
-								* bendPoint.getY() / 100));
-						point.setWeight(0);
-						point.setConnection(this.getConnectionFigure());
+                        point = new RelativeBendpoint();
+                        point.setRelativeDimensions(new Dimension(width * bendPoint.getX() / 100 - bounds.x
+                                - bounds.width + x, height * bendPoint.getY() / 100),
+                                new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x, height
+                                        * bendPoint.getY() / 100));
+                        point.setWeight(0);
+                        point.setConnection(this.getConnectionFigure());
 
-						constraint.add(point);
+                        constraint.add(point);
 
-						point = new RelativeBendpoint();
-						point.setRelativeDimensions(
-								new Dimension(x - bounds.x - bounds.width,
-										height * bendPoint.getY() / 100),
-								new Dimension(x - bounds.x - bounds.width,
-										height * bendPoint.getY() / 100));
-						point.setWeight(0);
-						point.setConnection(this.getConnectionFigure());
+                        point = new RelativeBendpoint();
+                        point.setRelativeDimensions(
+                                new Dimension(x - bounds.x - bounds.width, height * bendPoint.getY() / 100),
+                                new Dimension(x - bounds.x - bounds.width, height * bendPoint.getY() / 100));
+                        point.setWeight(0);
+                        point.setConnection(this.getConnectionFigure());
 
-						constraint.add(point);
-					}
+                        constraint.add(point);
+                    }
 
-				} else {
-					constraint.add(new AbsoluteBendpoint(bendPoint.getX(),
-							bendPoint.getY()));
-				}
+                } else {
+                    constraint.add(new AbsoluteBendpoint(bendPoint.getX(), bendPoint.getY()));
+                }
 
-			}
+            }
 
-			this.getConnectionFigure().setRoutingConstraint(constraint);
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
-		}
-	}
+            this.getConnectionFigure().setRoutingConstraint(constraint);
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshVisuals() {
-		super.refreshVisuals();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshVisuals() {
+        super.refreshVisuals();
 
-		ERDiagram diagram = this.getDiagram();
+        ERDiagram diagram = this.getDiagram();
 
-		if (diagram != null) {
-			Relation relation = (Relation) this.getModel();
+        if (diagram != null) {
+            Relation relation = (Relation) this.getModel();
 
-			PolylineConnection connection = (PolylineConnection) this
-					.getConnectionFigure();
+            PolylineConnection connection = (PolylineConnection) this.getConnectionFigure();
 
-			String notation = diagram.getDiagramContents().getSettings()
-					.getNotation();
+            String notation = diagram.getDiagramContents().getSettings().getNotation();
 
-			Decoration decoration = DecorationFactory.getDecoration(notation,
-					relation.getParentCardinality(), relation
-							.getChildCardinality());
+            Decoration decoration =
+                    DecorationFactory.getDecoration(notation, relation.getParentCardinality(),
+                            relation.getChildCardinality());
 
-			connection.setSourceDecoration(decoration.getSourceDecoration());
-			connection.setTargetDecoration(decoration.getTargetDecoration());
-			targetLabel.setText(Format.null2blank(decoration.getTargetLabel()));
-		}
+            connection.setSourceDecoration(decoration.getSourceDecoration());
+            connection.setTargetDecoration(decoration.getTargetDecoration());
+            targetLabel.setText(Format.null2blank(decoration.getTargetLabel()));
+        }
 
-		this.calculateAnchorLocation();
+        this.calculateAnchorLocation();
 
-		this.refreshBendpoints();
-	}
+        this.refreshBendpoints();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performRequest(Request request) {
-		Relation relation = (Relation) this.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performRequest(Request request) {
+        Relation relation = (Relation) this.getModel();
 
-		if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-			Relation copy = relation.copy();
+        if (request.getType().equals(RequestConstants.REQ_OPEN)) {
+            Relation copy = relation.copy();
 
-			RelationDialog dialog = new RelationDialog(PlatformUI
-					.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
+            RelationDialog dialog =
+                    new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
-			if (dialog.open() == IDialogConstants.OK_ID) {
-				ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(
-						relation, copy);
-				this.getViewer().getEditDomain().getCommandStack().execute(
-						command);
-			}
-		}
+            if (dialog.open() == IDialogConstants.OK_ID) {
+                ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(relation, copy);
+                this.getViewer().getEditDomain().getCommandStack().execute(command);
+            }
+        }
 
-		super.performRequest(request);
-	}
+        super.performRequest(request);
+    }
 
-	private void calculateAnchorLocation() {
-		Relation relation = (Relation) this.getModel();
+    private void calculateAnchorLocation() {
+        Relation relation = (Relation) this.getModel();
 
-		TableViewEditPart sourceEditPart = (TableViewEditPart) this.getSource();
+        TableViewEditPart sourceEditPart = (TableViewEditPart) this.getSource();
 
-		Point sourcePoint = null;
-		Point targetPoint = null;
+        Point sourcePoint = null;
+        Point targetPoint = null;
 
-		if (sourceEditPart != null && relation.getSourceXp() != -1
-				&& relation.getSourceYp() != -1) {
-			Rectangle bounds = sourceEditPart.getFigure().getBounds();
-			sourcePoint = new Point(bounds.x
-					+ (bounds.width * relation.getSourceXp() / 100), bounds.y
-					+ (bounds.height * relation.getSourceYp() / 100));
-		}
+        if (sourceEditPart != null && relation.getSourceXp() != -1 && relation.getSourceYp() != -1) {
+            Rectangle bounds = sourceEditPart.getFigure().getBounds();
+            sourcePoint =
+                    new Point(bounds.x + (bounds.width * relation.getSourceXp() / 100), bounds.y
+                            + (bounds.height * relation.getSourceYp() / 100));
+        }
 
-		TableViewEditPart targetEditPart = (TableViewEditPart) this.getTarget();
+        TableViewEditPart targetEditPart = (TableViewEditPart) this.getTarget();
 
-		if (targetEditPart != null && relation.getTargetXp() != -1
-				&& relation.getTargetYp() != -1) {
-			Rectangle bounds = targetEditPart.getFigure().getBounds();
-			targetPoint = new Point(bounds.x
-					+ (bounds.width * relation.getTargetXp() / 100), bounds.y
-					+ (bounds.height * relation.getTargetYp() / 100));
-		}
+        if (targetEditPart != null && relation.getTargetXp() != -1 && relation.getTargetYp() != -1) {
+            Rectangle bounds = targetEditPart.getFigure().getBounds();
+            targetPoint =
+                    new Point(bounds.x + (bounds.width * relation.getTargetXp() / 100), bounds.y
+                            + (bounds.height * relation.getTargetYp() / 100));
+        }
 
-		ConnectionAnchor sourceAnchor = this.getConnectionFigure()
-				.getSourceAnchor();
+        ConnectionAnchor sourceAnchor = this.getConnectionFigure().getSourceAnchor();
 
-		if (sourceAnchor instanceof XYChopboxAnchor) {
-			((XYChopboxAnchor) sourceAnchor).setLocation(sourcePoint);
-		}
+        if (sourceAnchor instanceof XYChopboxAnchor) {
+            ((XYChopboxAnchor) sourceAnchor).setLocation(sourcePoint);
+        }
 
-		ConnectionAnchor targetAnchor = this.getConnectionFigure()
-				.getTargetAnchor();
+        ConnectionAnchor targetAnchor = this.getConnectionFigure().getTargetAnchor();
 
-		if (targetAnchor instanceof XYChopboxAnchor) {
-			((XYChopboxAnchor) targetAnchor).setLocation(targetPoint);
-		}
-	}
+        if (targetAnchor instanceof XYChopboxAnchor) {
+            ((XYChopboxAnchor) targetAnchor).setLocation(targetPoint);
+        }
+    }
 
 }

@@ -18,103 +18,101 @@ import org.insightech.er.editor.view.figure.table.style.AbstractStyleSupport;
 
 public class FrameStyleSupport extends AbstractStyleSupport {
 
-	private ImageFrameBorder border;
+    private ImageFrameBorder border;
 
-	private TitleBarBorder titleBarBorder;
+    private TitleBarBorder titleBarBorder;
 
-	public FrameStyleSupport(TableFigure tableFigure, Settings settings) {
-		super(tableFigure, settings);
-	}
+    public FrameStyleSupport(TableFigure tableFigure, Settings settings) {
+        super(tableFigure, settings);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void init(TableFigure tableFigure) {
-		this.border = new ImageFrameBorder();
-		this.border.setFont(tableFigure.getFont());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void init(TableFigure tableFigure) {
+        this.border = new ImageFrameBorder();
+        this.border.setFont(tableFigure.getFont());
 
-		tableFigure.setBorder(this.border);
-	}
+        tableFigure.setBorder(this.border);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void initTitleBar(Figure top) {
-		this.titleBarBorder = (TitleBarBorder) this.border.getInnerBorder();
-		this.titleBarBorder.setTextAlignment(PositionConstants.CENTER);
-		this.titleBarBorder.setPadding(new Insets(5, 20, 5, 20));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initTitleBar(Figure top) {
+        this.titleBarBorder = (TitleBarBorder) this.border.getInnerBorder();
+        this.titleBarBorder.setTextAlignment(PositionConstants.CENTER);
+        this.titleBarBorder.setPadding(new Insets(5, 20, 5, 20));
+    }
 
-	public void setName(String name) {
-		this.titleBarBorder.setTextColor(this.getTextColor());
-		this.titleBarBorder.setLabel(name);
-	}
+    public void setName(String name) {
+        this.titleBarBorder.setTextColor(this.getTextColor());
+        this.titleBarBorder.setLabel(name);
+    }
 
-	public void setFont(Font font, Font titleFont) {
-		this.titleBarBorder.setFont(titleFont);
-	}
+    public void setFont(Font font, Font titleFont) {
+        this.titleBarBorder.setFont(titleFont);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void adjustBounds(Rectangle rect) {
-		int width = this.border.getTitleBarWidth(this.getTableFigure());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void adjustBounds(Rectangle rect) {
+        int width = this.border.getTitleBarWidth(this.getTableFigure());
 
-		if (width > rect.width) {
-			rect.width = width;
-		}
-	}
+        if (width > rect.width) {
+            rect.width = width;
+        }
+    }
 
-	public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode,
-			String physicalName, String logicalName, String type,
-			boolean primaryKey, boolean foreignKey, boolean isNotNull,
-			boolean uniqueKey, boolean displayKey, boolean displayDetail,
-			boolean displayType, boolean isSelectedReferenced,
-			boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
-			boolean isRemoved) {
+    public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode,
+            String physicalName, String logicalName, String type, boolean primaryKey, boolean foreignKey,
+            boolean isNotNull, boolean uniqueKey, boolean displayKey, boolean displayDetail, boolean displayType,
+            boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
+            boolean isRemoved) {
 
-		Label label = this.createColumnLabel();
+        Label label = this.createColumnLabel();
 
-		label.setForegroundColor(this.getTextColor());
+        label.setForegroundColor(this.getTextColor());
 
-		StringBuilder text = new StringBuilder();
-		text.append(this.getColumnText(table, normalColumn, viewMode, physicalName, logicalName,
-				type, isNotNull, uniqueKey, displayDetail, displayType));
+        StringBuilder text = new StringBuilder();
+        text.append(this.getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull,
+                uniqueKey, displayDetail, displayType));
 
-		if (displayKey) {
-			if (primaryKey && foreignKey) {
-				label.setForegroundColor(ColorConstants.blue);
+        if (displayKey) {
+            if (primaryKey && foreignKey) {
+                label.setForegroundColor(ColorConstants.blue);
 
-				text.append(" ");
-				text.append("(PFK)");
+                text.append(" ");
+                text.append("(PFK)");
 
-			} else if (primaryKey) {
-				label.setForegroundColor(ColorConstants.red);
+            } else if (primaryKey) {
+                label.setForegroundColor(ColorConstants.red);
 
-				text.append(" ");
-				text.append("(PK)");
+                text.append(" ");
+                text.append("(PK)");
 
-			} else if (foreignKey) {
-				label.setForegroundColor(ColorConstants.darkGreen);
+            } else if (foreignKey) {
+                label.setForegroundColor(ColorConstants.darkGreen);
 
-				text.append(" ");
-				text.append("(FK)");
-			}
-		}
+                text.append(" ");
+                text.append("(FK)");
+            }
+        }
 
-		this.setColumnFigureColor(columnFigure, isSelectedReferenced,
-				isSelectedForeignKey, isAdded, isUpdated, isRemoved);
+        this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated,
+                isRemoved);
 
-		label.setText(text.toString());
+        label.setText(text.toString());
 
-		columnFigure.add(label);
-	}
+        columnFigure.add(label);
+    }
 
-	public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
-		// TODO Auto-generated method stub
+    public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 }

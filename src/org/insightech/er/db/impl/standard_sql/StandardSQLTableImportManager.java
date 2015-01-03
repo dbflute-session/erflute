@@ -4,11 +4,11 @@ import org.insightech.er.editor.model.dbimport.ImportFromDBManagerBase;
 
 public class StandardSQLTableImportManager extends ImportFromDBManagerBase {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getViewDefinitionSQL(String schema) {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getViewDefinitionSQL(String schema) {
+        return null;
+    }
 }

@@ -15,64 +15,56 @@ import org.insightech.er.util.Format;
 
 public class DuplicatedColumnNameRule extends TableRule {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean validate(ERTable table) {
-		Set<String> columnNameSet = new HashSet<String>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean validate(ERTable table) {
+        Set<String> columnNameSet = new HashSet<String>();
 
-		for (Column column : table.getColumns()) {
-			if (column instanceof ColumnGroup) {
-				ColumnGroup columnGroup = (ColumnGroup) column;
+        for (Column column : table.getColumns()) {
+            if (column instanceof ColumnGroup) {
+                ColumnGroup columnGroup = (ColumnGroup) column;
 
-				for (NormalColumn normalColumn : columnGroup.getColumns()) {
-					String columnName = Format.null2blank(
-							normalColumn.getPhysicalName()).toLowerCase();
+                for (NormalColumn normalColumn : columnGroup.getColumns()) {
+                    String columnName = Format.null2blank(normalColumn.getPhysicalName()).toLowerCase();
 
-					if (columnNameSet.contains(columnName)) {
-						ValidateResult result = new ValidateResult();
-						result
-								.setMessage(ResourceString
-										.getResourceString("error.validate.duplicated.column.name1")
-										+ table.getPhysicalName()
-										+ ResourceString
-												.getResourceString("error.validate.duplicated.column.name2")
-										+ columnName);
-						result.setLocation(table.getLogicalName());
-						result.setSeverity(IMarker.SEVERITY_WARNING);
-						result.setObject(table);
+                    if (columnNameSet.contains(columnName)) {
+                        ValidateResult result = new ValidateResult();
+                        result.setMessage(ResourceString.getResourceString("error.validate.duplicated.column.name1")
+                                + table.getPhysicalName()
+                                + ResourceString.getResourceString("error.validate.duplicated.column.name2")
+                                + columnName);
+                        result.setLocation(table.getLogicalName());
+                        result.setSeverity(IMarker.SEVERITY_WARNING);
+                        result.setObject(table);
 
-						this.addError(result);
-					}
+                        this.addError(result);
+                    }
 
-					columnNameSet.add(columnName);
-				}
-			} else if (column instanceof NormalColumn) {
-				NormalColumn normalColumn = (NormalColumn) column;
+                    columnNameSet.add(columnName);
+                }
+            } else if (column instanceof NormalColumn) {
+                NormalColumn normalColumn = (NormalColumn) column;
 
-				String columnName = normalColumn.getPhysicalName();
+                String columnName = normalColumn.getPhysicalName();
 
-				if (columnNameSet.contains(columnName)) {
-					ValidateResult result = new ValidateResult();
-					result
-							.setMessage(ResourceString
-									.getResourceString("error.validate.duplicated.column.name1")
-									+ table.getPhysicalName()
-									+ ResourceString
-											.getResourceString("error.validate.duplicated.column.name2")
-									+ columnName);
-					result.setLocation(table.getLogicalName());
-					result.setSeverity(IMarker.SEVERITY_WARNING);
-					result.setObject(table);
+                if (columnNameSet.contains(columnName)) {
+                    ValidateResult result = new ValidateResult();
+                    result.setMessage(ResourceString.getResourceString("error.validate.duplicated.column.name1")
+                            + table.getPhysicalName()
+                            + ResourceString.getResourceString("error.validate.duplicated.column.name2") + columnName);
+                    result.setLocation(table.getLogicalName());
+                    result.setSeverity(IMarker.SEVERITY_WARNING);
+                    result.setObject(table);
 
-					this.addError(result);
-				}
+                    this.addError(result);
+                }
 
-				columnNameSet.add(columnName);
-			}
-		}
+                columnNameSet.add(columnName);
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

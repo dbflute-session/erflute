@@ -12,55 +12,53 @@ import org.insightech.er.util.Format;
 
 public class SqlTabWrapper extends ValidatableTabWrapper {
 
-	private View copyData;
+    private View copyData;
 
-	private Text sqlText;
+    private Text sqlText;
 
-	private ViewDialog viewDialog;
+    private ViewDialog viewDialog;
 
-	public SqlTabWrapper(ViewDialog viewDialog, TabFolder parent, int style,
-			View copyData) {
-		super(viewDialog, parent, style, "label.sql");
+    public SqlTabWrapper(ViewDialog viewDialog, TabFolder parent, int style, View copyData) {
+        super(viewDialog, parent, style, "label.sql");
 
-		this.viewDialog = viewDialog;
-		this.copyData = copyData;
+        this.viewDialog = viewDialog;
+        this.copyData = copyData;
 
-		this.init();
-	}
+        this.init();
+    }
 
-	@Override
-	public void initComposite() {
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		this.setLayout(gridLayout);
+    @Override
+    public void initComposite() {
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 1;
+        this.setLayout(gridLayout);
 
-		this.sqlText = CompositeFactory.createTextArea(this.viewDialog, this,
-				"label.sql", 400, 400, 1, true);
+        this.sqlText = CompositeFactory.createTextArea(this.viewDialog, this, "label.sql", 400, 400, 1, true);
 
-		this.sqlText.setText(Format.null2blank(copyData.getSql()));
-	}
+        this.sqlText.setText(Format.null2blank(copyData.getSql()));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void validatePage() throws InputException {
-		String text = sqlText.getText().trim();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void validatePage() throws InputException {
+        String text = sqlText.getText().trim();
 
-		if (text.equals("")) {
-			throw new InputException("error.view.sql.empty");
-		}
+        if (text.equals("")) {
+            throw new InputException("error.view.sql.empty");
+        }
 
-		this.copyData.setSql(text);
-	}
+        this.copyData.setSql(text);
+    }
 
-	@Override
-	public void setInitFocus() {
-		this.sqlText.setFocus();
-	}
+    @Override
+    public void setInitFocus() {
+        this.sqlText.setFocus();
+    }
 
-	@Override
-	public void perfomeOK() {
-	}
+    @Override
+    public void perfomeOK() {
+    }
 
 }

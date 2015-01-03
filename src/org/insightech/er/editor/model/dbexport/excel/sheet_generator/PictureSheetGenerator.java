@@ -13,154 +13,144 @@ import org.insightech.er.util.POIUtils.CellLocation;
 
 public class PictureSheetGenerator {
 
-	private static final String KEYWORD_ER = "$ER";
+    private static final String KEYWORD_ER = "$ER";
 
-	private byte[] imageBuffer;
+    private byte[] imageBuffer;
 
-	private int pictureIndex;
+    private int pictureIndex;
 
-	private int excelPictureType;
+    private int excelPictureType;
 
-	public PictureSheetGenerator(HSSFWorkbook workbook, byte[] imageBuffer,
-			int excelPictureType) {
-		this.imageBuffer = imageBuffer;
-		this.excelPictureType = excelPictureType;
+    public PictureSheetGenerator(HSSFWorkbook workbook, byte[] imageBuffer, int excelPictureType) {
+        this.imageBuffer = imageBuffer;
+        this.excelPictureType = excelPictureType;
 
-		if (this.imageBuffer != null) {
-			this.pictureIndex = workbook.addPicture(this.imageBuffer,
-					this.excelPictureType);
-		}
-	}
+        if (this.imageBuffer != null) {
+            this.pictureIndex = workbook.addPicture(this.imageBuffer, this.excelPictureType);
+        }
+    }
 
-	public void setImage(HSSFWorkbook workbook, HSSFSheet sheet) {
-		CellLocation cellLocation = POIUtils.findMatchCell(sheet, "\\"
-				+ KEYWORD_ER + ".*");
-System.out.println(cellLocation);
-		if (cellLocation != null) {
-			int width = -1;
-			int height = -1;
+    public void setImage(HSSFWorkbook workbook, HSSFSheet sheet) {
+        CellLocation cellLocation = POIUtils.findMatchCell(sheet, "\\" + KEYWORD_ER + ".*");
+        System.out.println(cellLocation);
+        if (cellLocation != null) {
+            int width = -1;
+            int height = -1;
 
-			String value = POIUtils.getCellValue(sheet, cellLocation);
+            String value = POIUtils.getCellValue(sheet, cellLocation);
 
-			int startIndex = value.indexOf("(");
-			if (startIndex != -1) {
-				int middleIndex = value.indexOf(",", startIndex + 1);
-				if (middleIndex != -1) {
-					width = Integer.parseInt(value.substring(startIndex + 1,
-							middleIndex).trim());
-					height = Integer.parseInt(value.substring(middleIndex + 1,
-							value.length() - 1).trim());
-				}
-			}
+            int startIndex = value.indexOf("(");
+            if (startIndex != -1) {
+                int middleIndex = value.indexOf(",", startIndex + 1);
+                if (middleIndex != -1) {
+                    width = Integer.parseInt(value.substring(startIndex + 1, middleIndex).trim());
+                    height = Integer.parseInt(value.substring(middleIndex + 1, value.length() - 1).trim());
+                }
+            }
 
-			this.setImage(workbook, sheet, cellLocation, width, height);
-		}
-	}
+            this.setImage(workbook, sheet, cellLocation, width, height);
+        }
+    }
 
-	private void setImage(HSSFWorkbook workbook, HSSFSheet sheet,
-			CellLocation cellLocation, int width, int height) {
-		POIUtils.setCellValue(sheet, cellLocation, "");
-System.out.println("this.imageBuffer:" + this.imageBuffer);
-		if (this.imageBuffer != null) {
-			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+    private void setImage(HSSFWorkbook workbook, HSSFSheet sheet, CellLocation cellLocation, int width, int height) {
+        POIUtils.setCellValue(sheet, cellLocation, "");
+        System.out.println("this.imageBuffer:" + this.imageBuffer);
+        if (this.imageBuffer != null) {
+            HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 
-			HSSFPicture picture = patriarch.createPicture(
-					new HSSFClientAnchor(), this.pictureIndex);
+            HSSFPicture picture = patriarch.createPicture(new HSSFClientAnchor(), this.pictureIndex);
 
-			Dimension dimension = picture.getImageDimension();
-			float rate = dimension.width / dimension.height;
-			float specifiedRate = width / height;
+            Dimension dimension = picture.getImageDimension();
+            float rate = dimension.width / dimension.height;
+            float specifiedRate = width / height;
 
-			if (width == -1 || height == -1) {
-				width = dimension.width;
-				height = dimension.height;
-				
-			} else {
-				if (rate > specifiedRate) {
-					if (dimension.width > width) {
-						height = (int) (width / rate);
+            if (width == -1 || height == -1) {
+                width = dimension.width;
+                height = dimension.height;
 
-					} else {
-						width = dimension.width;
-						height = dimension.height;
-					}
+            } else {
+                if (rate > specifiedRate) {
+                    if (dimension.width > width) {
+                        height = (int) (width / rate);
 
-				} else {
-					if (dimension.height > height) {
-						width = (int) (height * rate);
+                    } else {
+                        width = dimension.width;
+                        height = dimension.height;
+                    }
 
-					} else {
-						width = dimension.width;
-						height = dimension.height;
-					}
-				}
-			}
+                } else {
+                    if (dimension.height > height) {
+                        width = (int) (height * rate);
 
-			HSSFClientAnchor preferredSize = this.getPreferredSize(sheet,
-					new HSSFClientAnchor(0, 0, 0, 0, (short) cellLocation.c,
-							cellLocation.r, (short) 0, 0), width, height);
-			picture.setAnchor(preferredSize);
-		}
-	}
+                    } else {
+                        width = dimension.width;
+                        height = dimension.height;
+                    }
+                }
+            }
 
-	public HSSFClientAnchor getPreferredSize(HSSFSheet sheet,
-			HSSFClientAnchor anchor, int width, int height) {
-		float w = 0.0F;
-		w += getColumnWidthInPixels(sheet, anchor.getCol1())
-				* (float) (1 - anchor.getDx1() / 1024);
+            HSSFClientAnchor preferredSize =
+                    this.getPreferredSize(sheet, new HSSFClientAnchor(0, 0, 0, 0, (short) cellLocation.c,
+                            cellLocation.r, (short) 0, 0), width, height);
+            picture.setAnchor(preferredSize);
+        }
+    }
 
-		short col2 = (short) (anchor.getCol1() + 1);
-		int dx2 = 0;
-		for (; w < (float) width; w += getColumnWidthInPixels(sheet, col2++))
-			;
-		if (w > (float) width) {
-			col2--;
-			float cw = getColumnWidthInPixels(sheet, col2);
-			float delta = w - (float) width;
-			dx2 = (int) (((cw - delta) / cw) * 1024F);
-		}
-		anchor.setCol2(col2);
-		anchor.setDx2(dx2);
-		float h = 0.0F;
-		h += (float) (1 - anchor.getDy1() / 256)
-				* getRowHeightInPixels(sheet, anchor.getRow1());
-		int row2 = anchor.getRow1() + 1;
-		int dy2 = 0;
-		for (; h < (float) height; h += getRowHeightInPixels(sheet, row2++))
-			;
-		if (h > (float) height) {
-			row2--;
-			float ch = getRowHeightInPixels(sheet, row2);
-			float delta = h - (float) height;
-			dy2 = (int) (((ch - delta) / ch) * 256F);
-		}
-		anchor.setRow2(row2);
-		anchor.setDy2(dy2);
-		return anchor;
-	}
+    public HSSFClientAnchor getPreferredSize(HSSFSheet sheet, HSSFClientAnchor anchor, int width, int height) {
+        float w = 0.0F;
+        w += getColumnWidthInPixels(sheet, anchor.getCol1()) * (float) (1 - anchor.getDx1() / 1024);
 
-	private float getColumnWidthInPixels(HSSFSheet sheet, int column) {
-		int cw = sheet.getColumnWidth(column);
-		float px = getPixelWidth(sheet, column);
-		return (float) cw / px;
-	}
+        short col2 = (short) (anchor.getCol1() + 1);
+        int dx2 = 0;
+        for (; w < (float) width; w += getColumnWidthInPixels(sheet, col2++))
+            ;
+        if (w > (float) width) {
+            col2--;
+            float cw = getColumnWidthInPixels(sheet, col2);
+            float delta = w - (float) width;
+            dx2 = (int) (((cw - delta) / cw) * 1024F);
+        }
+        anchor.setCol2(col2);
+        anchor.setDx2(dx2);
+        float h = 0.0F;
+        h += (float) (1 - anchor.getDy1() / 256) * getRowHeightInPixels(sheet, anchor.getRow1());
+        int row2 = anchor.getRow1() + 1;
+        int dy2 = 0;
+        for (; h < (float) height; h += getRowHeightInPixels(sheet, row2++))
+            ;
+        if (h > (float) height) {
+            row2--;
+            float ch = getRowHeightInPixels(sheet, row2);
+            float delta = h - (float) height;
+            dy2 = (int) (((ch - delta) / ch) * 256F);
+        }
+        anchor.setRow2(row2);
+        anchor.setDy2(dy2);
+        return anchor;
+    }
 
-	private float getRowHeightInPixels(HSSFSheet sheet, int i) {
-		HSSFRow row = sheet.getRow(i);
-		float height;
-		if (row != null) {
-			height = row.getHeight();
-		} else {
-			height = sheet.getDefaultRowHeight();
-		}
+    private float getColumnWidthInPixels(HSSFSheet sheet, int column) {
+        int cw = sheet.getColumnWidth(column);
+        float px = getPixelWidth(sheet, column);
+        return (float) cw / px;
+    }
 
-		return height / 15F;
-	}
+    private float getRowHeightInPixels(HSSFSheet sheet, int i) {
+        HSSFRow row = sheet.getRow(i);
+        float height;
+        if (row != null) {
+            height = row.getHeight();
+        } else {
+            height = sheet.getDefaultRowHeight();
+        }
 
-	private float getPixelWidth(HSSFSheet sheet, int column) {
-		int def = sheet.getDefaultColumnWidth() * 256;
-		int cw = sheet.getColumnWidth(column);
-		return cw != def ? 36.56F : 32F;
-	}
+        return height / 15F;
+    }
+
+    private float getPixelWidth(HSSFSheet sheet, int column) {
+        int def = sheet.getDefaultColumnWidth() * 256;
+        int cw = sheet.getColumnWidth(column);
+        return cw != def ? 36.56F : 32F;
+    }
 
 }

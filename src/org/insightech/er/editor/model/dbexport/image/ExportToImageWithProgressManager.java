@@ -7,56 +7,51 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.graphics.Image;
 import org.insightech.er.ResourceString;
 
-public class ExportToImageWithProgressManager extends ExportToImageManager
-		implements IRunnableWithProgress {
+public class ExportToImageWithProgressManager extends ExportToImageManager implements IRunnableWithProgress {
 
-	private Exception exception;
+    private Exception exception;
 
-	private IProgressMonitor monitor;
+    private IProgressMonitor monitor;
 
-	public ExportToImageWithProgressManager(Image img, int format,
-			String saveFilePath) {
-		super(img, format, saveFilePath);
-	}
+    public ExportToImageWithProgressManager(Image img, int format, String saveFilePath) {
+        super(img, format, saveFilePath);
+    }
 
-	/**
-	 * exception ���擾���܂�.
-	 * 
-	 * @return exception
-	 */
-	public Exception getException() {
-		return exception;
-	}
+    /**
+     * exception ���擾���܂�.
+     * 
+     * @return exception
+     */
+    public Exception getException() {
+        return exception;
+    }
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException,
-			InterruptedException {
+    public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-		monitor.beginTask(ResourceString
-				.getResourceString("dialog.message.export.image"), img
-				.getBounds().width
-				* img.getBounds().height);
+        monitor.beginTask(ResourceString.getResourceString("dialog.message.export.image"),
+                img.getBounds().width * img.getBounds().height);
 
-		try {
-			this.monitor = monitor;
-			doProcess();
+        try {
+            this.monitor = monitor;
+            doProcess();
 
-		} catch (InterruptedException e) {
-			throw e;
+        } catch (InterruptedException e) {
+            throw e;
 
-		} catch (Exception e) {
-			this.exception = e;
-		}
+        } catch (Exception e) {
+            this.exception = e;
+        }
 
-		monitor.done();
-	}
+        monitor.done();
+    }
 
-	@Override
-	protected void doPostTask() throws InterruptedException {
-		this.monitor.worked(1);
+    @Override
+    protected void doPostTask() throws InterruptedException {
+        this.monitor.worked(1);
 
-		if (this.monitor.isCanceled()) {
-			throw new InterruptedException("Cancel has been requested.");
-		}
-	}
+        if (this.monitor.isCanceled()) {
+            throw new InterruptedException("Cancel has been requested.");
+        }
+    }
 
 }

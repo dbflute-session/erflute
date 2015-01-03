@@ -15,50 +15,49 @@ import org.insightech.er.editor.model.ERModelUtil;
 
 public class DeleteWithoutUpdateAction extends DeleteAction {
 
-	private ERDiagramEditor part;
+    private ERDiagramEditor part;
 
-	public DeleteWithoutUpdateAction(ERDiagramEditor part) {
-		super((IWorkbenchPart) part);
-		this.part = part;
-		this.setText(ResourceString.getResourceString("action.title.delete"));
-		this.setToolTipText(ResourceString
-				.getResourceString("action.title.delete"));
+    public DeleteWithoutUpdateAction(ERDiagramEditor part) {
+        super((IWorkbenchPart) part);
+        this.part = part;
+        this.setText(ResourceString.getResourceString("action.title.delete"));
+        this.setToolTipText(ResourceString.getResourceString("action.title.delete"));
 
-		this.setActionDefinitionId("org.eclipse.ui.edit.delete");
-	}
+        this.setActionDefinitionId("org.eclipse.ui.edit.delete");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Command createDeleteCommand(List objects) {
-		Command command = super.createDeleteCommand(objects);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Command createDeleteCommand(List objects) {
+        Command command = super.createDeleteCommand(objects);
 
-		if (command == null) {
-			return null;
-		}
+        if (command == null) {
+            return null;
+        }
 
-		if (command instanceof CompoundCommand) {
-			CompoundCommand compoundCommand = (CompoundCommand) command;
-			if (compoundCommand.getCommands().isEmpty()) {
-				return null;
-			}
-		}
+        if (command instanceof CompoundCommand) {
+            CompoundCommand compoundCommand = (CompoundCommand) command;
+            if (compoundCommand.getCommands().isEmpty()) {
+                return null;
+            }
+        }
 
-		EditPart editPart = part.getGraphicalViewer().getContents();
-		ERDiagram diagram = ERModelUtil.getDiagram(editPart);
+        EditPart editPart = part.getGraphicalViewer().getContents();
+        ERDiagram diagram = ERModelUtil.getDiagram(editPart);
 
-		return new WithoutUpdateCommandWrapper(command, diagram);
-	}
+        return new WithoutUpdateCommandWrapper(command, diagram);
+    }
 
-	@Override
-	protected boolean calculateEnabled() {
-		Command cmd = createDeleteCommand(getSelectedObjects());
-		if (cmd == null) {
-			return false;
-		}
+    @Override
+    protected boolean calculateEnabled() {
+        Command cmd = createDeleteCommand(getSelectedObjects());
+        if (cmd == null) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

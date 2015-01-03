@@ -9,20 +9,19 @@ import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public class ToggleMainColumnAction extends AbstractBaseAction {
 
-	public static final String ID = ToggleMainColumnAction.class.getName();
+    public static final String ID = ToggleMainColumnAction.class.getName();
 
-	public ToggleMainColumnAction(ERDiagramEditor editor) {
-		super(ID, null, IAction.AS_CHECK_BOX, editor);
-		this.setText(ResourceString
-				.getResourceString("action.title.display.mainColumn"));
-	}
+    public ToggleMainColumnAction(ERDiagramEditor editor) {
+        super(ID, null, IAction.AS_CHECK_BOX, editor);
+        this.setText(ResourceString.getResourceString("action.title.display.mainColumn"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
-		diagram.setShowMainColumn(this.isChecked());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
+        diagram.setShowMainColumn(this.isChecked());
+    }
 }

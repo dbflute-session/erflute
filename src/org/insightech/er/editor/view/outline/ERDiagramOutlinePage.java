@@ -56,278 +56,270 @@ import org.insightech.er.editor.view.drag_drop.ERDiagramTransferDragSourceListen
 
 public class ERDiagramOutlinePage extends ContentOutlinePage {
 
-	// �y�[�W���A�E�g���C���ƃT���l�C���ɕ�������R���|�W�b�g
-	private SashForm sash;
+    // �y�[�W���A�E�g���C���ƃT���l�C���ɕ�������R���|�W�b�g
+    private SashForm sash;
 
-	private TreeViewer viewer;
+    private TreeViewer viewer;
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	private LightweightSystem lws;
+    private LightweightSystem lws;
 
-	private ScrollableThumbnail thumbnail;
+    private ScrollableThumbnail thumbnail;
 
-	private GraphicalViewer graphicalViewer;
+    private GraphicalViewer graphicalViewer;
 
-	private ActionRegistry outlineActionRegistory;
+    private ActionRegistry outlineActionRegistory;
 
-	private ActionRegistry registry;
+    private ActionRegistry registry;
 
-	private boolean quickMode;
+    private boolean quickMode;
 
-	private ERDiagramOutlineEditPartFactory editPartFactory;
+    private ERDiagramOutlineEditPartFactory editPartFactory;
 
-	public ERDiagramOutlinePage(ERDiagram diagram) {
-		// GEF�c���[�r���[�����g�p����
-		super(new TreeViewer());
+    public ERDiagramOutlinePage(ERDiagram diagram) {
+        // GEF�c���[�r���[�����g�p����
+        super(new TreeViewer());
 
-		this.viewer = (TreeViewer) this.getViewer();
-		this.diagram = diagram;
+        this.viewer = (TreeViewer) this.getViewer();
+        this.diagram = diagram;
 
-		this.outlineActionRegistory = new ActionRegistry();
-		this.registerAction(this.viewer, outlineActionRegistory);
-	}
+        this.outlineActionRegistory = new ActionRegistry();
+        this.registerAction(this.viewer, outlineActionRegistory);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void createControl(Composite parent) {
-		this.sash = new SashForm(parent, SWT.VERTICAL);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void createControl(Composite parent) {
+        this.sash = new SashForm(parent, SWT.VERTICAL);
 
-		// �R���X�g���N�^�Ŏw�肵���r���[���̍쐬
-		this.viewer.createControl(this.sash);
+        // �R���X�g���N�^�Ŏw�肵���r���[���̍쐬
+        this.viewer.createControl(this.sash);
 
-		editPartFactory = new ERDiagramOutlineEditPartFactory();
-		editPartFactory.setQuickMode(quickMode);
+        editPartFactory = new ERDiagramOutlineEditPartFactory();
+        editPartFactory.setQuickMode(quickMode);
 
-		this.viewer.setEditPartFactory(editPartFactory);
+        this.viewer.setEditPartFactory(editPartFactory);
 
-		// �O���t�B�J���E�G�f�B�^�̃��[�g�E���f�����c���[�E�r���[���ɂ��ݒ�
-		this.viewer.setContents(this.diagram);
+        // �O���t�B�J���E�G�f�B�^�̃��[�g�E���f�����c���[�E�r���[���ɂ��ݒ�
+        this.viewer.setContents(this.diagram);
 
-		if (!quickMode) {
-			Canvas canvas = new Canvas(this.sash, SWT.BORDER);
-			// �T���l�C���E�t�B�M���A��z�u����ׂ� LightweightSystem
-			this.lws = new LightweightSystem(canvas);
-		}
+        if (!quickMode) {
+            Canvas canvas = new Canvas(this.sash, SWT.BORDER);
+            // �T���l�C���E�t�B�M���A��z�u����ׂ� LightweightSystem
+            this.lws = new LightweightSystem(canvas);
+        }
 
-		this.resetView(this.registry);
+        this.resetView(this.registry);
 
-		AbstractTransferDragSourceListener dragSourceListener = new ERDiagramTransferDragSourceListener(
-				this.viewer, TemplateTransfer.getInstance());
-		this.viewer.addDragSourceListener(dragSourceListener);
-	}
+        AbstractTransferDragSourceListener dragSourceListener =
+                new ERDiagramTransferDragSourceListener(this.viewer, TemplateTransfer.getInstance());
+        this.viewer.addDragSourceListener(dragSourceListener);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Control getControl() {
-		// �A�E�g���C���E�r���[���A�N�e�B�u�ɂ������Ƀt�H�[�J�X���ݒ肳���R���g���[����Ԃ�
-		return sash;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Control getControl() {
+        // �A�E�g���C���E�r���[���A�N�e�B�u�ɂ������Ƀt�H�[�J�X���ݒ肳���R���g���[����Ԃ�
+        return sash;
+    }
 
-	private void showThumbnail() {
-		if (quickMode) {
-			return;
-		}
-		// RootEditPart�̃r���[���\�[�X�Ƃ��ăT���l�C�����쐬
-		ScalableFreeformRootEditPart editPart = (ScalableFreeformRootEditPart) this.graphicalViewer
-				.getRootEditPart();
+    private void showThumbnail() {
+        if (quickMode) {
+            return;
+        }
+        // RootEditPart�̃r���[���\�[�X�Ƃ��ăT���l�C�����쐬
+        ScalableFreeformRootEditPart editPart = (ScalableFreeformRootEditPart) this.graphicalViewer.getRootEditPart();
 
-		if (this.thumbnail != null) {
-			this.thumbnail.deactivate();
-		}
+        if (this.thumbnail != null) {
+            this.thumbnail.deactivate();
+        }
 
-		this.thumbnail = new ScrollableThumbnail((Viewport) editPart
-				.getFigure());
-		this.thumbnail.setSource(editPart
-				.getLayer(LayerConstants.PRINTABLE_LAYERS));
+        this.thumbnail = new ScrollableThumbnail((Viewport) editPart.getFigure());
+        this.thumbnail.setSource(editPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
 
-		this.lws.setContents(this.thumbnail);
+        this.lws.setContents(this.thumbnail);
 
-	}
+    }
 
-	private void initDropTarget() {
-		AbstractTransferDropTargetListener dropTargetListener = new ERDiagramOutlineTransferDropTargetListener(
-				this.graphicalViewer, TemplateTransfer.getInstance());
+    private void initDropTarget() {
+        AbstractTransferDropTargetListener dropTargetListener =
+                new ERDiagramOutlineTransferDropTargetListener(this.graphicalViewer, TemplateTransfer.getInstance());
 
-		this.graphicalViewer.addDropTargetListener(dropTargetListener);
-	}
+        this.graphicalViewer.addDropTargetListener(dropTargetListener);
+    }
 
-	public void setCategory(EditDomain editDomain,
-			GraphicalViewer graphicalViewer, MenuManager outlineMenuMgr,
-			ActionRegistry registry) {
-		this.graphicalViewer = graphicalViewer;
-		this.viewer.setContextMenu(outlineMenuMgr);
+    public void setCategory(EditDomain editDomain, GraphicalViewer graphicalViewer, MenuManager outlineMenuMgr,
+            ActionRegistry registry) {
+        this.graphicalViewer = graphicalViewer;
+        this.viewer.setContextMenu(outlineMenuMgr);
 
-		// �G�f�B�b�g�E�h���C���̐ݒ�
-		this.viewer.setEditDomain(editDomain);
-		this.registry = registry;
+        // �G�f�B�b�g�E�h���C���̐ݒ�
+        this.viewer.setEditDomain(editDomain);
+        this.registry = registry;
 
-		if (this.getSite() != null) {
-			this.resetView(registry);
-		}
-	}
+        if (this.getSite() != null) {
+            this.resetView(registry);
+        }
+    }
 
-	private void resetAction(ActionRegistry registry) {
-		// �A�E�g���C���E�y�[�W�ŗL���ɂ���A�N�V����
-		if (getSite() == null) {
-			return;
-		}
-		IActionBars bars = this.getSite().getActionBars();
+    private void resetAction(ActionRegistry registry) {
+        // �A�E�g���C���E�y�[�W�ŗL���ɂ���A�N�V����
+        if (getSite() == null) {
+            return;
+        }
+        IActionBars bars = this.getSite().getActionBars();
 
-		String id = ActionFactory.UNDO.getId();
-		bars.setGlobalActionHandler(id, registry.getAction(id));
+        String id = ActionFactory.UNDO.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));
 
-		id = ActionFactory.REDO.getId();
-		bars.setGlobalActionHandler(id, registry.getAction(id));
+        id = ActionFactory.REDO.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));
 
-		id = ActionFactory.DELETE.getId();
-		bars.setGlobalActionHandler(id, registry.getAction(id));
+        id = ActionFactory.DELETE.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));
 
-		bars.updateActionBars();
-	}
+        bars.updateActionBars();
+    }
 
-	private void resetView(ActionRegistry registry) {
-		this.showThumbnail();
-		this.initDropTarget();
-		this.resetAction(registry);
-	}
+    private void resetView(ActionRegistry registry) {
+        this.showThumbnail();
+        this.initDropTarget();
+        this.resetAction(registry);
+    }
 
-	private void registerAction(TreeViewer treeViewer,
-			ActionRegistry actionRegistry) {
-		IAction[] actions = { new CreateIndexAction(treeViewer),
-				new CreateSequenceAction(treeViewer),
-				new CreateTriggerAction(treeViewer),
-				new CreateTablespaceAction(treeViewer),
-				new ChangeOutlineViewToPhysicalAction(treeViewer),
-				new ChangeOutlineViewToLogicalAction(treeViewer),
-				new ChangeOutlineViewToBothAction(treeViewer),
-				new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
-				new ChangeOutlineViewOrderByLogicalNameAction(treeViewer),
-				new ChangeNameAction(treeViewer),
-		};
+    private void registerAction(TreeViewer treeViewer, ActionRegistry actionRegistry) {
+        IAction[] actions =
+                { new CreateIndexAction(treeViewer), new CreateSequenceAction(treeViewer),
+                        new CreateTriggerAction(treeViewer), new CreateTablespaceAction(treeViewer),
+                        new ChangeOutlineViewToPhysicalAction(treeViewer),
+                        new ChangeOutlineViewToLogicalAction(treeViewer),
+                        new ChangeOutlineViewToBothAction(treeViewer),
+                        new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
+                        new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer), };
 
-		for (IAction action : actions) {
-			actionRegistry.registerAction(action);
-		}
-	}
+        for (IAction action : actions) {
+            actionRegistry.registerAction(action);
+        }
+    }
 
-	public ActionRegistry getOutlineActionRegistory() {
-		return outlineActionRegistory;
-	}
+    public ActionRegistry getOutlineActionRegistory() {
+        return outlineActionRegistory;
+    }
 
-	@Override
-	public EditPartViewer getViewer() {
-		return super.getViewer();
-	}
+    @Override
+    public EditPartViewer getViewer() {
+        return super.getViewer();
+    }
 
-	public void update() {
-		viewer.flush();
-//		gettr
-//		if (model != null) {
-//			try {
-//				model.update(editor.getDocumentProvider()
-//						.getDocument(editor.getEditorInput()).get());
-//			} catch (Throwable t) {
-//				t.printStackTrace();
-//			}
-//		}
-	}
+    public void update() {
+        viewer.flush();
+        //		gettr
+        //		if (model != null) {
+        //			try {
+        //				model.update(editor.getDocumentProvider()
+        //						.getDocument(editor.getEditorInput()).get());
+        //			} catch (Throwable t) {
+        //				t.printStackTrace();
+        //			}
+        //		}
+    }
 
-	public void setFilterText(String filterText) {
-		editPartFactory.setFilterText(filterText);
-		viewer.setContents(diagram);
-		Tree tree = (Tree)viewer.getControl();
-		TreeItem[] items = tree.getItems();
-		expand(items);
-		TreeItem[] tableItems = items[0].getItems();
-		if (tableItems.length >= 1) {
-			tree.setSelection(tableItems[0]);
-		}
-//		viewer.getContents().getChildren();
+    public void setFilterText(String filterText) {
+        editPartFactory.setFilterText(filterText);
+        viewer.setContents(diagram);
+        Tree tree = (Tree) viewer.getControl();
+        TreeItem[] items = tree.getItems();
+        expand(items);
+        TreeItem[] tableItems = items[0].getItems();
+        if (tableItems.length >= 1) {
+            tree.setSelection(tableItems[0]);
+        }
+        //		viewer.getContents().getChildren();
 
+        //		viewer.flush();
+        //		viewer.getEditPartFactory()
+        //		if (filterText == null) {
+        //			filterText = "";
+        //		}
+        //		this.filterText = filterText;
+        //		getTreeViewer().refresh();
+        //		getTreeViewer().expandAll();
+        //		JavaScriptElement element = getFirstElement(model, filterText);
+        //		if(element != null){
+        //			getViewer().setSelection(new StructuredSelection(element), true);
+        //		}
+    }
 
+    private void expand(TreeItem[] items) {
+        for (int i = 0; i < items.length; i++) {
+            expand(items[i].getItems());
+            items[i].setExpanded(true);
+        }
+    }
 
-//		viewer.flush();
-//		viewer.getEditPartFactory()
-//		if (filterText == null) {
-//			filterText = "";
-//		}
-//		this.filterText = filterText;
-//		getTreeViewer().refresh();
-//		getTreeViewer().expandAll();
-//		JavaScriptElement element = getFirstElement(model, filterText);
-//		if(element != null){
-//			getViewer().setSelection(new StructuredSelection(element), true);
-//		}
-	}
+    /**
+     * quickMode��ݒ肵�܂��B
+     * @param quickMode quickMode
+     */
+    public void setQuickMode(boolean quickMode) {
+        this.quickMode = quickMode;
+    }
 
-	private void expand(TreeItem[] items) {
-		for (int i = 0; i < items.length; i++) {
-			expand(items[i].getItems());
-			items[i].setExpanded(true);
-		}
-	}
+    public void selectSelection() {
+        IStructuredSelection sel = (IStructuredSelection) getViewer().getSelection();
+        Object firstElement = sel.getFirstElement();
+        if (firstElement instanceof ERDiagramOutlineEditPart) {
+            Tree tree = (Tree) viewer.getControl();
+            TreeItem[] items = tree.getItems();
+            expand(items);
+            TreeItem[] tableItems = items[0].getItems();
+            if (tableItems.length >= 1) {
+                Object data = tableItems[0].getData();
+                firstElement = data;
+            }
+        }
+        if (firstElement instanceof TableOutlineEditPart) {
+            Object model = ((TableOutlineEditPart) firstElement).getModel();
+            ERTable table = (ERTable) model;
 
-	/**
-	 * quickMode��ݒ肵�܂��B
-	 * @param quickMode quickMode
-	 */
-	public void setQuickMode(boolean quickMode) {
-	    this.quickMode = quickMode;
-	}
+            if (diagram.getCurrentErmodel() == null) {
+                // �S�̃r���[
+                ERDiagramEditor editor = ((ERDiagramEditor) diagram.getEditor().getActiveEditor());
+                editor.reveal(table);
+                return;
+            }
 
-	public void selectSelection() {
-		IStructuredSelection sel = (IStructuredSelection) getViewer().getSelection();
-		Object firstElement = sel.getFirstElement();
-		if (firstElement instanceof ERDiagramOutlineEditPart) {
-			Tree tree = (Tree)viewer.getControl();
-			TreeItem[] items = tree.getItems();
-			expand(items);
-			TreeItem[] tableItems = items[0].getItems();
-			if (tableItems.length >= 1) {
-				Object data = tableItems[0].getData();
-				firstElement = data;
-			}
-		}
-		if (firstElement instanceof TableOutlineEditPart) {
-			Object model = ((TableOutlineEditPart)firstElement).getModel();
-			ERTable table = (ERTable) model;
+            ERModel erModel = table.getDiagram().findModelByTable(table);
+            if (erModel != null) {
 
-			if (diagram.getCurrentErmodel() == null) {
-				// �S�̃r���[
-				ERDiagramEditor editor = ((ERDiagramEditor) diagram.getEditor().getActiveEditor());
-				editor.reveal(table);
-				return;
-			}
+                OpenERModelCommand command = new OpenERModelCommand(diagram, erModel);
+                command.setTable(table);
+                this.getViewer().getEditDomain().getCommandStack().execute(command);
 
-			ERModel erModel = table.getDiagram().findModelByTable(table);
-			if (erModel != null) {
+                // �A�E�g���C���r���[�̗v�f��I��
+                ERDiagramOutlineEditPart contents =
+                        (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
+                if (contents != null) {
+                    List<ERModelOutlineEditPart> parts =
+                            ((ERModelSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
+                    for (ERModelOutlineEditPart part : parts) {
+                        if (part.getModel().equals(erModel)) {
+                            ISelection selection = new StructuredSelection(part);
+                            diagram.getEditor().getOutlinePage().setSelection(selection);
+                        }
+                    }
+                }
 
-				OpenERModelCommand command = new OpenERModelCommand(diagram, erModel);
-				command.setTable(table);
-				this.getViewer().getEditDomain().getCommandStack().execute(command);
+            } else {
+                Activator.showMessageDialog(table.getPhysicalName() + " �e�[�u���͂��̃_�C�A�O�����ɂ��z�u����Ă��܂���B");
+            }
 
-				// �A�E�g���C���r���[�̗v�f��I��
-				ERDiagramOutlineEditPart contents = (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
-				if (contents != null) {
-					List<ERModelOutlineEditPart> parts = ((ERModelSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
-					for (ERModelOutlineEditPart part : parts) {
-						if (part.getModel().equals(erModel)) {
-							ISelection selection = new StructuredSelection(part);
-							diagram.getEditor().getOutlinePage().setSelection(selection);
-						}
-					}
-				}
-
-			} else {
-				Activator.showMessageDialog(table.getPhysicalName() + " �e�[�u���͂��̃_�C�A�O�����ɂ��z�u����Ă��܂���B");
-			}
-
-		}
-	}
+        }
+    }
 
 }

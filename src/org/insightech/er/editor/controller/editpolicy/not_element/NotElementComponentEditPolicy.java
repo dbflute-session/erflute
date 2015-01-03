@@ -8,28 +8,26 @@ import org.insightech.er.editor.model.ERDiagram;
 
 public abstract class NotElementComponentEditPolicy extends ComponentEditPolicy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Command createDeleteCommand(GroupRequest request) {
-		if (this.getHost() instanceof DeleteableEditPart) {
-			DeleteableEditPart editPart = (DeleteableEditPart) this.getHost();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Command createDeleteCommand(GroupRequest request) {
+        if (this.getHost() instanceof DeleteableEditPart) {
+            DeleteableEditPart editPart = (DeleteableEditPart) this.getHost();
 
-			if (!editPart.isDeleteable()) {
-				return null;
-			}
+            if (!editPart.isDeleteable()) {
+                return null;
+            }
 
-		} else {
-			return null;
-		}
+        } else {
+            return null;
+        }
 
-		ERDiagram diagram = (ERDiagram) this.getHost().getRoot().getContents()
-				.getModel();
+        ERDiagram diagram = (ERDiagram) this.getHost().getRoot().getContents().getModel();
 
-		return this.createDeleteCommand(diagram, this.getHost().getModel());
-	}
+        return this.createDeleteCommand(diagram, this.getHost().getModel());
+    }
 
-	protected abstract Command createDeleteCommand(ERDiagram diagram,
-			Object model);
+    protected abstract Command createDeleteCommand(ERDiagram diagram, Object model);
 }

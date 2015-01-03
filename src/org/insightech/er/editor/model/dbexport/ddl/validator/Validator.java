@@ -22,51 +22,51 @@ import org.insightech.er.editor.model.dbexport.ddl.validator.rule.view.impl.Rese
 
 public class Validator {
 
-	private static final List<Rule> RULE_LIST = new ArrayList<Rule>();
+    private static final List<Rule> RULE_LIST = new ArrayList<Rule>();
 
-	static {
-		// �S�̂ɑ΂��郋�[��
-		new DuplicatedPhysicalNameRule();
-		new ReservedNameRule();
+    static {
+        // �S�̂ɑ΂��郋�[��
+        new DuplicatedPhysicalNameRule();
+        new ReservedNameRule();
 
-		// �e�[�u���ɑ΂��郋�[��
-		new NoTableNameRule();
-		new NoColumnRule();
-		new DuplicatedColumnNameRule();
-		new ReservedWordTableNameRule();
-		new FullTextIndexRule();
+        // �e�[�u���ɑ΂��郋�[��
+        new NoTableNameRule();
+        new NoColumnRule();
+        new DuplicatedColumnNameRule();
+        new ReservedWordTableNameRule();
+        new FullTextIndexRule();
 
-		// �r���[�ɑ΂��郋�[��
-		new NoViewNameRule();
-		new ReservedWordViewNameRule();
-		new NoViewSqlRule();
+        // �r���[�ɑ΂��郋�[��
+        new NoViewNameRule();
+        new ReservedWordViewNameRule();
+        new NoViewSqlRule();
 
-		// ��ɑ΂��郋�[��
-		new NoColumnNameRule();
-		new NoColumnTypeRule();
-		new ReservedWordColumnNameRule();
-		new UninputTablespaceRule();
-	}
+        // ��ɑ΂��郋�[��
+        new NoColumnNameRule();
+        new NoColumnTypeRule();
+        new ReservedWordColumnNameRule();
+        new UninputTablespaceRule();
+    }
 
-	public static void addRule(Rule rule) {
-		RULE_LIST.add(rule);
-	}
+    public static void addRule(Rule rule) {
+        RULE_LIST.add(rule);
+    }
 
-	public List<ValidateResult> validate(ERDiagram diagram) {
-		List<ValidateResult> errorList = new ArrayList<ValidateResult>();
+    public List<ValidateResult> validate(ERDiagram diagram) {
+        List<ValidateResult> errorList = new ArrayList<ValidateResult>();
 
-		for (Rule rule : RULE_LIST) {
-			boolean ret = rule.validate(diagram);
+        for (Rule rule : RULE_LIST) {
+            boolean ret = rule.validate(diagram);
 
-			errorList.addAll(rule.getErrorList());
-			rule.clear();
+            errorList.addAll(rule.getErrorList());
+            rule.clear();
 
-			if (!ret) {
-				break;
-			}
-		}
+            if (!ret) {
+                break;
+            }
+        }
 
-		return errorList;
-	}
+        return errorList;
+    }
 
 }

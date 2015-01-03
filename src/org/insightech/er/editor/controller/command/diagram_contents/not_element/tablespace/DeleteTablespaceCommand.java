@@ -7,28 +7,28 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class DeleteTablespaceCommand extends AbstractCommand {
 
-	private TablespaceSet tablespaceSet;
+    private TablespaceSet tablespaceSet;
 
-	private Tablespace tablespace;
+    private Tablespace tablespace;
 
-	public DeleteTablespaceCommand(ERDiagram diagram, Tablespace tablespace) {
-		this.tablespaceSet = diagram.getDiagramContents().getTablespaceSet();
-		this.tablespace = tablespace;
-	}
+    public DeleteTablespaceCommand(ERDiagram diagram, Tablespace tablespace) {
+        this.tablespaceSet = diagram.getDiagramContents().getTablespaceSet();
+        this.tablespace = tablespace;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.tablespaceSet.remove(this.tablespace);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.tablespaceSet.remove(this.tablespace);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.tablespaceSet.addTablespace(this.tablespace);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.tablespaceSet.addTablespace(this.tablespace);
+    }
 }

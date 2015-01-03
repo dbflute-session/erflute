@@ -41,278 +41,270 @@ import org.insightech.er.editor.view.figure.connection.ERDiagramConnection;
 import org.insightech.er.editor.view.figure.table.TableFigure;
 import org.insightech.er.util.Check;
 
-public abstract class NodeElementEditPart extends AbstractModelEditPart
-		implements NodeEditPart, DeleteableEditPart {
+public abstract class NodeElementEditPart extends AbstractModelEditPart implements NodeEditPart, DeleteableEditPart {
 
-	private Font font;
-	private Font largeFont;
+    private Font font;
+    private Font largeFont;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void deactivate() {
-		this.disposeFont();
-		super.deactivate();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deactivate() {
+        this.disposeFont();
+        super.deactivate();
+    }
 
-	protected void disposeFont() {
-		if (this.font != null) {
-			this.font.dispose();
-		}
-	}
+    protected void disposeFont() {
+        if (this.font != null) {
+            this.font.dispose();
+        }
+    }
 
-	@Override
-	public void doPropertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_RECTANGLE)) {
-			refreshVisuals();
+    @Override
+    public void doPropertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_RECTANGLE)) {
+            refreshVisuals();
 
-		} else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
-			refreshVisuals();
+        } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
+            refreshVisuals();
 
-		} else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_FONT)) {
-			this.changeFont(this.figure);
-			refreshVisuals();
-//			if (getNodeModel().needsUpdateOtherModel()) {
-//				// �S�r���[�̃��t���b�V��
-//				getNodeModel().getDiagram().refreshAllModel(event, getNodeModel());
-//			} else {
-//				refreshVisuals();
-//			}
-//
+        } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_FONT)) {
+            this.changeFont(this.figure);
+            refreshVisuals();
+            //			if (getNodeModel().needsUpdateOtherModel()) {
+            //				// �S�r���[�̃��t���b�V��
+            //				getNodeModel().getDiagram().refreshAllModel(event, getNodeModel());
+            //			} else {
+            //				refreshVisuals();
+            //			}
+            //
 
-		} else if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_INCOMING)) {
-			refreshTargetConnections();
+        } else if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_INCOMING)) {
+            refreshTargetConnections();
 
-		} else if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_OUTGOING)) {
-			refreshSourceConnections();
-		}
-	}
+        } else if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_OUTGOING)) {
+            refreshSourceConnections();
+        }
+    }
 
-	public NodeElement getNodeModel() {
-		return (NodeElement) super.getModel();
-	}
+    public NodeElement getNodeModel() {
+        return (NodeElement) super.getModel();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createEditPolicies() {
-		this.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new NodeElementGraphicalNodeEditPolicy());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createEditPolicies() {
+        this.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new NodeElementGraphicalNodeEditPolicy());
+    }
 
-	protected void setVisible() {
-		NodeElement element = (NodeElement) this.getModel();
-		Category category = this.getCurrentCategory();
+    protected void setVisible() {
+        NodeElement element = (NodeElement) this.getModel();
+        Category category = this.getCurrentCategory();
 
-		if (category != null) {
-			this.figure.setVisible(category.isVisible(element, this
-					.getDiagram()));
+        if (category != null) {
+            this.figure.setVisible(category.isVisible(element, this.getDiagram()));
 
-		} else {
-			this.figure.setVisible(true);
-		}
-	}
+        } else {
+            this.figure.setVisible(true);
+        }
+    }
 
-	protected Font changeFont(IFigure figure) {
-		this.disposeFont();
+    protected Font changeFont(IFigure figure) {
+        this.disposeFont();
 
-		NodeElement nodeElement = (NodeElement) this.getModel();
+        NodeElement nodeElement = (NodeElement) this.getModel();
 
-		String fontName = nodeElement.getFontName();
-		int fontSize = nodeElement.getFontSize();
+        String fontName = nodeElement.getFontName();
+        int fontSize = nodeElement.getFontSize();
 
-		if (Check.isEmpty(fontName)) {
-			FontData fontData = Display.getCurrent().getSystemFont()
-					.getFontData()[0];
-			fontName = fontData.getName();
-			nodeElement.setFontName(fontName);
-		}
-		if (fontSize <= 0) {
-			fontSize = ViewableModel.DEFAULT_FONT_SIZE;
-			nodeElement.setFontSize(fontSize);
-		}
+        if (Check.isEmpty(fontName)) {
+            FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
+            fontName = fontData.getName();
+            nodeElement.setFontName(fontName);
+        }
+        if (fontSize <= 0) {
+            fontSize = ViewableModel.DEFAULT_FONT_SIZE;
+            nodeElement.setFontSize(fontSize);
+        }
 
-		this.font = new Font(Display.getCurrent(), fontName, fontSize, SWT.NORMAL);
+        this.font = new Font(Display.getCurrent(), fontName, fontSize, SWT.NORMAL);
 
-		if (getDiagram().getDiagramContents().getSettings().getTitleFontEm() != null) {
-			int largeFontSize = getDiagram().getDiagramContents().getSettings().getTitleFontEm().multiply(new BigDecimal(nodeElement.getFontSize())).intValue();
-			this.largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
-		}
+        if (getDiagram().getDiagramContents().getSettings().getTitleFontEm() != null) {
+            int largeFontSize =
+                    getDiagram().getDiagramContents().getSettings().getTitleFontEm()
+                            .multiply(new BigDecimal(nodeElement.getFontSize())).intValue();
+            this.largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
+        }
 
-		figure.setFont(this.font);
-		if (figure instanceof TableFigure) {
-			((TableFigure)figure).setLargeFont(this.largeFont);
-		}
+        figure.setFont(this.font);
+        if (figure instanceof TableFigure) {
+            ((TableFigure) figure).setLargeFont(this.largeFont);
+        }
 
-		return font;
-	}
+        return font;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void refreshVisuals() {
-		NodeElement element = (NodeElement) this.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void refreshVisuals() {
+        NodeElement element = (NodeElement) this.getModel();
 
-		this.setVisible();
+        this.setVisible();
 
-		Rectangle rectangle = this.getRectangle();
+        Rectangle rectangle = this.getRectangle();
 
-		GraphicalEditPart parent = (GraphicalEditPart) this.getParent();
+        GraphicalEditPart parent = (GraphicalEditPart) this.getParent();
 
-		IFigure figure = this.getFigure();
+        IFigure figure = this.getFigure();
 
-		int[] color = element.getColor();
+        int[] color = element.getColor();
 
-		if (color != null) {
-			ChangeTrackingList changeTrackingList = this.getDiagram()
-					.getChangeTrackingList();
+        if (color != null) {
+            ChangeTrackingList changeTrackingList = this.getDiagram().getChangeTrackingList();
 
-			if (changeTrackingList.isCalculated()
-					&& (element instanceof Note || element instanceof ERTable)) {
-				if (changeTrackingList.isAdded(element)) {
-					figure.setBackgroundColor(Resources.ADDED_COLOR);
+            if (changeTrackingList.isCalculated() && (element instanceof Note || element instanceof ERTable)) {
+                if (changeTrackingList.isAdded(element)) {
+                    figure.setBackgroundColor(Resources.ADDED_COLOR);
 
-				} else if (changeTrackingList.getUpdatedNodeElement(element) != null) {
-					figure.setBackgroundColor(Resources.UPDATED_COLOR);
+                } else if (changeTrackingList.getUpdatedNodeElement(element) != null) {
+                    figure.setBackgroundColor(Resources.UPDATED_COLOR);
 
-				} else {
-					figure.setBackgroundColor(ColorConstants.white);
-				}
+                } else {
+                    figure.setBackgroundColor(ColorConstants.white);
+                }
 
-			} else {
-				Color bgColor = Resources.getColor(color);
-				figure.setBackgroundColor(bgColor);
-			}
+            } else {
+                Color bgColor = Resources.getColor(color);
+                figure.setBackgroundColor(bgColor);
+            }
 
-		}
+        }
 
-		parent.setLayoutConstraint(this, figure, rectangle);
+        parent.setLayoutConstraint(this, figure, rectangle);
 
-	}
+    }
 
-	public void refreshConnections() {
-		for (Object sourceConnection : this.getSourceConnections()) {
-			ConnectionEditPart editPart = (ConnectionEditPart) sourceConnection;
-			ConnectionElement connectinoElement = (ConnectionElement) editPart
-					.getModel();
-			connectinoElement.setParentMove();
-		}
+    public void refreshConnections() {
+        for (Object sourceConnection : this.getSourceConnections()) {
+            ConnectionEditPart editPart = (ConnectionEditPart) sourceConnection;
+            ConnectionElement connectinoElement = (ConnectionElement) editPart.getModel();
+            connectinoElement.setParentMove();
+        }
 
-		for (Object targetConnection : this.getTargetConnections()) {
-			ConnectionEditPart editPart = (ConnectionEditPart) targetConnection;
-			ConnectionElement connectinoElement = (ConnectionElement) editPart
-					.getModel();
+        for (Object targetConnection : this.getTargetConnections()) {
+            ConnectionEditPart editPart = (ConnectionEditPart) targetConnection;
+            ConnectionElement connectinoElement = (ConnectionElement) editPart.getModel();
 
-			connectinoElement.setParentMove();
-		}
-	}
+            connectinoElement.setParentMove();
+        }
+    }
 
-	protected Rectangle getRectangle() {
-		NodeElement element = (NodeElement) this.getModel();
+    protected Rectangle getRectangle() {
+        NodeElement element = (NodeElement) this.getModel();
 
-		Point point = new Point(element.getX(), element.getY());
+        Point point = new Point(element.getX(), element.getY());
 
-		Dimension dimension = new Dimension(element.getWidth(), element
-				.getHeight());
+        Dimension dimension = new Dimension(element.getWidth(), element.getHeight());
 
-		Dimension minimumSize = this.figure.getMinimumSize();
+        Dimension minimumSize = this.figure.getMinimumSize();
 
-		if (dimension.width != -1 && dimension.width < minimumSize.width) {
-			dimension.width = minimumSize.width;
-		}
-		if (dimension.height != -1 && dimension.height < minimumSize.height) {
-			dimension.height = minimumSize.height;
-		}
+        if (dimension.width != -1 && dimension.width < minimumSize.width) {
+            dimension.width = minimumSize.width;
+        }
+        if (dimension.height != -1 && dimension.height < minimumSize.height) {
+            dimension.height = minimumSize.height;
+        }
 
-		return new Rectangle(point, dimension);
-	}
+        return new Rectangle(point, dimension);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List getModelSourceConnections() {
-		NodeElement element = (NodeElement) this.getModel();
-		return element.getOutgoings();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List getModelSourceConnections() {
+        NodeElement element = (NodeElement) this.getModel();
+        return element.getOutgoings();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List getModelTargetConnections() {
-		NodeElement element = (NodeElement) this.getModel();
-		return element.getIncomings();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List getModelTargetConnections() {
+        NodeElement element = (NodeElement) this.getModel();
+        return element.getIncomings();
+    }
 
-	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
-		return new ChopboxAnchor(this.getFigure());
-	}
+    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
+        return new ChopboxAnchor(this.getFigure());
+    }
 
-	public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
-		return new ChopboxAnchor(this.getFigure());
-	}
+    public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
+        return new ChopboxAnchor(this.getFigure());
+    }
 
-	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
-		return new ChopboxAnchor(this.getFigure());
-	}
+    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
+        return new ChopboxAnchor(this.getFigure());
+    }
 
-	public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
-		return new ChopboxAnchor(this.getFigure());
-	}
+    public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
+        return new ChopboxAnchor(this.getFigure());
+    }
 
-	public void changeSettings(Settings settings) {
-		this.refresh();
+    public void changeSettings(Settings settings) {
+        this.refresh();
 
-		for (Object object : this.getSourceConnections()) {
-			ERDiagramConnectionEditPart editPart = (ERDiagramConnectionEditPart) object;
-			ERDiagramConnection connection = (ERDiagramConnection) editPart
-					.getFigure();
-			connection.setBezier(settings.isUseBezierCurve());
+        for (Object object : this.getSourceConnections()) {
+            ERDiagramConnectionEditPart editPart = (ERDiagramConnectionEditPart) object;
+            ERDiagramConnection connection = (ERDiagramConnection) editPart.getFigure();
+            connection.setBezier(settings.isUseBezierCurve());
 
-			editPart.refresh();
-		}
-	}
+            editPart.refresh();
+        }
+    }
 
-	public boolean isDeleteable() {
-		return true;
-	}
+    public boolean isDeleteable() {
+        return true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setSelected(int value) {
-		if (value != 0 && getViewer() != null) {
-			for (Object editPartObject : this.getViewer().getSelectedEditParts()) {
-				if (editPartObject instanceof ColumnEditPart) {
-					((ColumnEditPart) editPartObject).setSelected(0);
-				}
-			}
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSelected(int value) {
+        if (value != 0 && getViewer() != null) {
+            for (Object editPartObject : this.getViewer().getSelectedEditParts()) {
+                if (editPartObject instanceof ColumnEditPart) {
+                    ((ColumnEditPart) editPartObject).setSelected(0);
+                }
+            }
+        }
 
-		super.setSelected(value);
-	}
+        super.setSelected(value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performRequest(Request request) {
-		if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-			try {
-				performRequestOpen();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performRequest(Request request) {
+        if (request.getType().equals(RequestConstants.REQ_OPEN)) {
+            try {
+                performRequestOpen();
 
-			} catch (Exception e) {
-				Activator.showExceptionDialog(e);
-			}
-		}
+            } catch (Exception e) {
+                Activator.showExceptionDialog(e);
+            }
+        }
 
-		super.performRequest(request);
-	}
+        super.performRequest(request);
+    }
 
-	abstract protected void performRequestOpen();
+    abstract protected void performRequestOpen();
 }

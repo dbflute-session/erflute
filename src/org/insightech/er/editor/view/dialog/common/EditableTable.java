@@ -5,11 +5,11 @@ import org.eclipse.swt.widgets.Control;
 
 public interface EditableTable {
 
-	public void setData(Point xy, Control control);
+    public void setData(Point xy, Control control);
 
-	public Control getControl(Point xy);
+    public Control getControl(Point xy);
 
-	public void onDoubleClicked(Point xy);
-	
-	public boolean validate();
+    public void onDoubleClicked(Point xy);
+
+    public boolean validate();
 }

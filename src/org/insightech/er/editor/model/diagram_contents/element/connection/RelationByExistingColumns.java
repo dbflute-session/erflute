@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 public class RelationByExistingColumns implements Serializable {
 
-	private static final long serialVersionUID = -8722770738383212010L;
+    private static final long serialVersionUID = -8722770738383212010L;
 
 }

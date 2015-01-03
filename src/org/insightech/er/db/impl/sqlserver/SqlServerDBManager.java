@@ -18,111 +18,108 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class SqlServerDBManager extends DBManagerBase {
 
-	public static final String ID = "SQLServer";
+    public static final String ID = "SQLServer";
 
-	public String getId() {
-		return ID;
-	}
+    public String getId() {
+        return ID;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDriverClassName() {
-		return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDriverClassName() {
+        return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getURL() {
-		return "jdbc:sqlserver://<SERVER NAME>:<PORT>;database=<DB NAME>";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getURL() {
+        return "jdbc:sqlserver://<SERVER NAME>:<PORT>;database=<DB NAME>";
+    }
 
-	public int getDefaultPort() {
-		return 1433;
-	}
+    public int getDefaultPort() {
+        return 1433;
+    }
 
-	public SqlTypeManager getSqlTypeManager() {
-		return new SqlServerSqlTypeManager();
-	}
+    public SqlTypeManager getSqlTypeManager() {
+        return new SqlServerSqlTypeManager();
+    }
 
-	public TableProperties createTableProperties(TableProperties tableProperties) {
-		if (tableProperties != null
-				&& tableProperties instanceof SqlServerTableProperties) {
-			return tableProperties;
-		}
+    public TableProperties createTableProperties(TableProperties tableProperties) {
+        if (tableProperties != null && tableProperties instanceof SqlServerTableProperties) {
+            return tableProperties;
+        }
 
-		return new SqlServerTableProperties();
-	}
+        return new SqlServerTableProperties();
+    }
 
-	public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
-		return new SqlServerDDLCreator(diagram, semicolon);
-	}
+    public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
+        return new SqlServerDDLCreator(diagram, semicolon);
+    }
 
-	public List<String> getIndexTypeList(ERTable table) {
-		List<String> list = new ArrayList<String>();
+    public List<String> getIndexTypeList(ERTable table) {
+        List<String> list = new ArrayList<String>();
 
-		list.add("BTREE");
+        list.add("BTREE");
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	protected int[] getSupportItems() {
-		return new int[] { SUPPORT_AUTO_INCREMENT,
-				SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_SCHEMA };
-	}
+    @Override
+    protected int[] getSupportItems() {
+        return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_SCHEMA };
+    }
 
-	public ImportFromDBManager getTableImportManager() {
-		return new SqlServerTableImportManager();
-	}
+    public ImportFromDBManager getTableImportManager() {
+        return new SqlServerTableImportManager();
+    }
 
-	public PreImportFromDBManager getPreTableImportManager() {
-		return new SqlServerPreTableImportManager();
-	}
+    public PreImportFromDBManager getPreTableImportManager() {
+        return new SqlServerPreTableImportManager();
+    }
 
-	public PreTableExportManager getPreTableExportManager() {
-		return new SqlServerPreTableExportManager();
-	}
+    public PreTableExportManager getPreTableExportManager() {
+        return new SqlServerPreTableExportManager();
+    }
 
-	public TablespaceProperties createTablespaceProperties() {
-		return new SqlServerTablespaceProperties();
-	}
+    public TablespaceProperties createTablespaceProperties() {
+        return new SqlServerTablespaceProperties();
+    }
 
-	public TablespaceProperties checkTablespaceProperties(
-			TablespaceProperties tablespaceProperties) {
+    public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
 
-		if (!(tablespaceProperties instanceof SqlServerTablespaceProperties)) {
-			return new SqlServerTablespaceProperties();
-		}
+        if (!(tablespaceProperties instanceof SqlServerTablespaceProperties)) {
+            return new SqlServerTablespaceProperties();
+        }
 
-		return tablespaceProperties;
-	}
+        return tablespaceProperties;
+    }
 
-	public String[] getCurrentTimeValue() {
-		return new String[] { "GETDATE()", "CURRENT_TIMESTAMP" };
-	}
-	
-	@Override
-	public List<String> getSystemSchemaList() {
-		List<String> list = new ArrayList<String>();
-		
-		list.add("db_accessadmin");
-		list.add("db_backupoperator");
-		list.add("db_datareader");
-		list.add("db_datawriter");
-		list.add("db_ddladmin");
-		list.add("db_denydatareader");
-		list.add("db_denydatawriter");
-		list.add("db_owner");
-		list.add("db_securityadmin");
-		
-		return list;
-	}
+    public String[] getCurrentTimeValue() {
+        return new String[] { "GETDATE()", "CURRENT_TIMESTAMP" };
+    }
 
-	public BigDecimal getSequenceMaxValue() {
-		return null;
-	}
+    @Override
+    public List<String> getSystemSchemaList() {
+        List<String> list = new ArrayList<String>();
+
+        list.add("db_accessadmin");
+        list.add("db_backupoperator");
+        list.add("db_datareader");
+        list.add("db_datawriter");
+        list.add("db_ddladmin");
+        list.add("db_denydatareader");
+        list.add("db_denydatawriter");
+        list.add("db_owner");
+        list.add("db_securityadmin");
+
+        return list;
+    }
+
+    public BigDecimal getSequenceMaxValue() {
+        return null;
+    }
 }

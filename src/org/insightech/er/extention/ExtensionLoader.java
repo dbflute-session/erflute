@@ -11,28 +11,26 @@ import org.insightech.er.editor.ERDiagramEditor;
 
 public class ExtensionLoader {
 
-	private List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<ExtendPopupMenu>();;
+    private List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<ExtendPopupMenu>();;
 
-	public ExtensionLoader(ERDiagramEditor editor) throws CoreException {
-		this.extendPopupMenuList = ExtendPopupMenu.loadExtensions(editor);
-	}
+    public ExtensionLoader(ERDiagramEditor editor) throws CoreException {
+        this.extendPopupMenuList = ExtendPopupMenu.loadExtensions(editor);
+    }
 
-	public List<IAction> createExtendedActions() {
-		List<IAction> actionList = new ArrayList<IAction>();
+    public List<IAction> createExtendedActions() {
+        List<IAction> actionList = new ArrayList<IAction>();
 
-		for (ExtendPopupMenu extendPopupMenu : this.extendPopupMenuList) {
-			actionList.add(extendPopupMenu.getAction());
-		}
+        for (ExtendPopupMenu extendPopupMenu : this.extendPopupMenuList) {
+            actionList.add(extendPopupMenu.getAction());
+        }
 
-		return actionList;
-	}
+        return actionList;
+    }
 
-	public void addERDiagramPopupMenu(MenuManager menuMgr,
-			ActionRegistry actionregistry) {
-		for (ExtendPopupMenu extendPopupMenu : this.extendPopupMenuList) {
-			menuMgr.findMenuUsingPath(extendPopupMenu.getPath()).add(
-					extendPopupMenu.getAction());
-		}
-	}
+    public void addERDiagramPopupMenu(MenuManager menuMgr, ActionRegistry actionregistry) {
+        for (ExtendPopupMenu extendPopupMenu : this.extendPopupMenuList) {
+            menuMgr.findMenuUsingPath(extendPopupMenu.getPath()).add(extendPopupMenu.getAction());
+        }
+    }
 
 }

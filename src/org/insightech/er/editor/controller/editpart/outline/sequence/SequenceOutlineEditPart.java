@@ -23,77 +23,73 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.view.dialog.outline.sequence.SequenceDialog;
 
-public class SequenceOutlineEditPart extends AbstractOutlineEditPart implements
-		DeleteableEditPart {
+public class SequenceOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
-	public void propertyChange(PropertyChangeEvent evt) {
-	}
+    public void propertyChange(PropertyChangeEvent evt) {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshOutlineVisuals() {
-		Sequence sequence = (Sequence) this.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshOutlineVisuals() {
+        Sequence sequence = (Sequence) this.getModel();
 
-		if (!DBManagerFactory.getDBManager(this.getDiagram()).isSupported(
-				DBManager.SUPPORT_SEQUENCE)) {
-			((TreeItem) getWidget()).setForeground(ColorConstants.lightGray);
-		
-		} else {
-			((TreeItem) getWidget()).setForeground(ColorConstants.black);
-		}
+        if (!DBManagerFactory.getDBManager(this.getDiagram()).isSupported(DBManager.SUPPORT_SEQUENCE)) {
+            ((TreeItem) getWidget()).setForeground(ColorConstants.lightGray);
 
-		this.setWidgetText(this.getDiagram().filter(sequence.getName()));
-		this.setWidgetImage(Activator.getImage(ImageKey.SEQUENCE));
-	}
+        } else {
+            ((TreeItem) getWidget()).setForeground(ColorConstants.black);
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performRequest(Request request) {
-		try {
-			Sequence sequence = (Sequence) this.getModel();
-			ERDiagram diagram = this.getDiagram();
+        this.setWidgetText(this.getDiagram().filter(sequence.getName()));
+        this.setWidgetImage(Activator.getImage(ImageKey.SEQUENCE));
+    }
 
-			if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-				SequenceDialog dialog = new SequenceDialog(PlatformUI
-						.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						sequence, diagram);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performRequest(Request request) {
+        try {
+            Sequence sequence = (Sequence) this.getModel();
+            ERDiagram diagram = this.getDiagram();
 
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					EditSequenceCommand command = new EditSequenceCommand(
-							diagram, sequence, dialog.getResult());
-					this.execute(command);
-				}
-			}
+            if (request.getType().equals(RequestConstants.REQ_OPEN)) {
+                SequenceDialog dialog =
+                        new SequenceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), sequence,
+                                diagram);
 
-			super.performRequest(request);
+                if (dialog.open() == IDialogConstants.OK_ID) {
+                    EditSequenceCommand command = new EditSequenceCommand(diagram, sequence, dialog.getResult());
+                    this.execute(command);
+                }
+            }
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
-		}
-	}
+            super.performRequest(request);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createEditPolicies() {
-		this.installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new SequenceComponentEditPolicy());
-	}
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DragTracker getDragTracker(Request req) {
-		return new SelectEditPartTracker(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createEditPolicies() {
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new SequenceComponentEditPolicy());
+    }
 
-	public boolean isDeleteable() {
-		return true;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DragTracker getDragTracker(Request req) {
+        return new SelectEditPartTracker(this);
+    }
+
+    public boolean isDeleteable() {
+        return true;
+    }
 }

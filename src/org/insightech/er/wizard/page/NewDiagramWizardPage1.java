@@ -18,106 +18,98 @@ import org.insightech.er.editor.persistent.Persistent;
 
 public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	private static final String EXTENSION = ".erm";
+    private static final String EXTENSION = ".erm";
 
-	public NewDiagramWizardPage1(IStructuredSelection selection) {
-		super(ResourceString.getResourceString("wizard.new.diagram.title"),
-				selection);
+    public NewDiagramWizardPage1(IStructuredSelection selection) {
+        super(ResourceString.getResourceString("wizard.new.diagram.title"), selection);
 
-		this.setTitle(ResourceString
-				.getResourceString("wizard.new.diagram.title"));
-	}
+        this.setTitle(ResourceString.getResourceString("wizard.new.diagram.title"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void createControl(Composite parent) {
-		super.createControl(parent);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void createControl(Composite parent) {
+        super.createControl(parent);
 
-		this.setFileName("newfile");
-	}
+        this.setFileName("newfile");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean validatePage() {
-		boolean valid = super.validatePage();
-		if (valid) {
-			String fileName = this.getFileName();
-			if (fileName.indexOf(".") != -1 && !fileName.endsWith(EXTENSION)) {
-				this.setErrorMessage(ResourceString
-						.getResourceString("error.erm.extension"));
-				valid = false;
-			}
-		}
-		if (valid) {
-			String fileName = this.getFileName();
-			if (fileName.indexOf(".") == -1) {
-				fileName = fileName + EXTENSION;
-			}
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			IWorkspaceRoot root = workspace.getRoot();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean validatePage() {
+        boolean valid = super.validatePage();
+        if (valid) {
+            String fileName = this.getFileName();
+            if (fileName.indexOf(".") != -1 && !fileName.endsWith(EXTENSION)) {
+                this.setErrorMessage(ResourceString.getResourceString("error.erm.extension"));
+                valid = false;
+            }
+        }
+        if (valid) {
+            String fileName = this.getFileName();
+            if (fileName.indexOf(".") == -1) {
+                fileName = fileName + EXTENSION;
+            }
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            IWorkspaceRoot root = workspace.getRoot();
 
-			IPath containerPath = this.getContainerFullPath();
-			IPath newFilePath = containerPath.append(fileName);
+            IPath containerPath = this.getContainerFullPath();
+            IPath newFilePath = containerPath.append(fileName);
 
-			if (root.getFile(newFilePath).exists()) {
-				this
-						.setErrorMessage("'"
-								+ fileName
-								+ "' "
-								+ ResourceString
-										.getResourceString("error.file.already.exists"));
-				valid = false;
-			}
-		}
+            if (root.getFile(newFilePath).exists()) {
+                this.setErrorMessage("'" + fileName + "' "
+                        + ResourceString.getResourceString("error.file.already.exists"));
+                valid = false;
+            }
+        }
 
-		if (valid) {
-			this.setMessage(ResourceString
-					.getResourceString("wizard.new.diagram.message"));
-		}
+        if (valid) {
+            this.setMessage(ResourceString.getResourceString("wizard.new.diagram.message"));
+        }
 
-		return valid;
-	}
+        return valid;
+    }
 
-	public void createERDiagram(String database) {
-		this.diagram = new ERDiagram(database);
-		this.diagram.init();
-	}
+    public void createERDiagram(String database) {
+        this.diagram = new ERDiagram(database);
+        this.diagram.init();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected InputStream getInitialContents() {
-		Persistent persistent = Persistent.getInstance();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected InputStream getInitialContents() {
+        Persistent persistent = Persistent.getInstance();
 
-		try {
-			InputStream in = persistent.createInputStream(this.diagram);
-			return in;
+        try {
+            InputStream in = persistent.createInputStream(this.diagram);
+            return in;
 
-		} catch (IOException e) {
-			Activator.showExceptionDialog(e);
-		}
+        } catch (IOException e) {
+            Activator.showExceptionDialog(e);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IFile createNewFile() {
-		String fileName = this.getFileName();
-		if (fileName.indexOf(".") == -1) {
-			this.setFileName(fileName + EXTENSION);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IFile createNewFile() {
+        String fileName = this.getFileName();
+        if (fileName.indexOf(".") == -1) {
+            this.setFileName(fileName + EXTENSION);
+        }
 
-		return super.createNewFile();
-	}
+        return super.createNewFile();
+    }
 
 }

@@ -22,117 +22,113 @@ import org.insightech.er.util.Check;
 
 public class ExportToDBDialog extends AbstractDialog {
 
-	private Text textArea;
+    private Text textArea;
 
-	private DBSetting dbSetting;
+    private DBSetting dbSetting;
 
-	private String ddl;
+    private String ddl;
 
-	public ExportToDBDialog(Shell parentShell, ERDiagram diagram,
-			DBSetting dbSetting, String ddl) {
-		super(parentShell);
+    public ExportToDBDialog(Shell parentShell, ERDiagram diagram, DBSetting dbSetting, String ddl) {
+        super(parentShell);
 
-		this.dbSetting = dbSetting;
-		this.ddl = ddl;
-	}
+        this.dbSetting = dbSetting;
+        this.ddl = ddl;
+    }
 
-	@Override
-	protected void initialize(Composite composite) {
-		this.textArea = CompositeFactory.createTextArea(null, composite,
-				"dialog.message.export.db.sql", 600, 400, 1, false, false);
-	}
+    @Override
+    protected void initialize(Composite composite) {
+        this.textArea =
+                CompositeFactory.createTextArea(null, composite, "dialog.message.export.db.sql", 600, 400, 1, false,
+                        false);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		this.createButton(parent, IDialogConstants.OK_ID, ResourceString
-				.getResourceString("label.button.execute"), true);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createButtonsForButtonBar(Composite parent) {
+        this.createButton(parent, IDialogConstants.OK_ID, ResourceString.getResourceString("label.button.execute"),
+                true);
+    }
 
-	@Override
-	protected String getErrorMessage() {
-		if ("".equals(this.textArea.getText().trim())) {
-			return "";
-		}
+    @Override
+    protected String getErrorMessage() {
+        if ("".equals(this.textArea.getText().trim())) {
+            return "";
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	protected String getTitle() {
-		return "dialog.title.export.db";
-	}
+    @Override
+    protected String getTitle() {
+        return "dialog.title.export.db";
+    }
 
-	@Override
-	protected void perfomeOK() throws InputException {
-		String executeDDL = this.textArea.getSelectionText();
-		if (Check.isEmpty(executeDDL)) {
-			executeDDL = this.textArea.getText();
-		}
+    @Override
+    protected void perfomeOK() throws InputException {
+        String executeDDL = this.textArea.getSelectionText();
+        if (Check.isEmpty(executeDDL)) {
+            executeDDL = this.textArea.getText();
+        }
 
-		if (!Activator.showConfirmDialog("dialog.message.export.db.confirm")) {
-			return;
-		}
+        if (!Activator.showConfirmDialog("dialog.message.export.db.confirm")) {
+            return;
+        }
 
-		Connection con = null;
+        Connection con = null;
 
-		try {
-			con = this.dbSetting.connect();
+        try {
+            con = this.dbSetting.connect();
 
-			ProgressMonitorDialog dialog = new ProgressMonitorDialog(this
-					.getShell());
+            ProgressMonitorDialog dialog = new ProgressMonitorDialog(this.getShell());
 
-			ExportToDBManager exportToDBManager = new ExportToDBManager();
-			exportToDBManager.init(con, executeDDL);
+            ExportToDBManager exportToDBManager = new ExportToDBManager();
+            exportToDBManager.init(con, executeDDL);
 
-			try {
-				dialog.run(true, true, exportToDBManager);
+            try {
+                dialog.run(true, true, exportToDBManager);
 
-				Exception e = exportToDBManager.getException();
-				if (e != null) {
-					Activator.showMessageDialog(e.getMessage());
-					throw new InputException(null);
+                Exception e = exportToDBManager.getException();
+                if (e != null) {
+                    Activator.showMessageDialog(e.getMessage());
+                    throw new InputException(null);
 
-				} else {
-					Activator
-							.showMessageDialog("dialog.message.export.db.finish");
-				}
+                } else {
+                    Activator.showMessageDialog("dialog.message.export.db.finish");
+                }
 
-			} catch (InvocationTargetException e) {
-			} catch (InterruptedException e) {
-			}
+            } catch (InvocationTargetException e) {} catch (InterruptedException e) {}
 
-		} catch (InputException e) {
-			throw e;
+        } catch (InputException e) {
+            throw e;
 
-		} catch (Exception e) {
-			Activator.log(e);
-			Throwable cause = e.getCause();
+        } catch (Exception e) {
+            Activator.log(e);
+            Throwable cause = e.getCause();
 
-			if (cause instanceof UnknownHostException) {
-				throw new InputException("error.server.not.found");
-			}
+            if (cause instanceof UnknownHostException) {
+                throw new InputException("error.server.not.found");
+            }
 
-			Activator.showMessageDialog(e.getMessage());
-			throw new InputException("error.database.not.found");
+            Activator.showMessageDialog(e.getMessage());
+            throw new InputException("error.database.not.found");
 
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					Activator.showExceptionDialog(e);
-				}
-			}
-		}
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    Activator.showExceptionDialog(e);
+                }
+            }
+        }
 
-	}
+    }
 
-	@Override
-	protected void setData() {
-		this.textArea.setText(this.ddl);
-	}
+    @Override
+    protected void setData() {
+        this.textArea.setText(this.ddl);
+    }
 
 }

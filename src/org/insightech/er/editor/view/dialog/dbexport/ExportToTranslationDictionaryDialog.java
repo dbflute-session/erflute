@@ -37,192 +37,177 @@ import org.insightech.er.util.Check;
 
 public class ExportToTranslationDictionaryDialog extends AbstractDialog {
 
-	private Text dictionaryNameText;
+    private Text dictionaryNameText;
 
-	private Table dictionaryTable;
+    private Table dictionaryTable;
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	public ExportToTranslationDictionaryDialog(Shell parentShell,
-			ERDiagram diagram) {
-		super(parentShell, 2);
+    public ExportToTranslationDictionaryDialog(Shell parentShell, ERDiagram diagram) {
+        super(parentShell, 2);
 
-		this.diagram = diagram;
-	}
+        this.diagram = diagram;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initialize(Composite parent) {
-		GridData gridData2 = new GridData();
-		gridData2.horizontalSpan = 2;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initialize(Composite parent) {
+        GridData gridData2 = new GridData();
+        gridData2.horizontalSpan = 2;
 
-		GridData gridData = new GridData();
-		gridData.widthHint = 200;
+        GridData gridData = new GridData();
+        gridData.widthHint = 200;
 
-		Label label = new Label(parent, SWT.NONE);
-		label
-				.setText(ResourceString
-						.getResourceString("dialog.message.export.translation.dictionary"));
-		label.setLayoutData(gridData2);
+        Label label = new Label(parent, SWT.NONE);
+        label.setText(ResourceString.getResourceString("dialog.message.export.translation.dictionary"));
+        label.setLayoutData(gridData2);
 
-		label = new Label(parent, SWT.NONE);
-		label = new Label(parent, SWT.NONE);
+        label = new Label(parent, SWT.NONE);
+        label = new Label(parent, SWT.NONE);
 
-		label = new Label(parent, SWT.NONE);
-		label.setText(ResourceString
-				.getResourceString("label.translation.dictionary.name"));
+        label = new Label(parent, SWT.NONE);
+        label.setText(ResourceString.getResourceString("label.translation.dictionary.name"));
 
-		this.dictionaryNameText = new Text(parent, SWT.BORDER);
-		this.dictionaryNameText.setLayoutData(gridData);
+        this.dictionaryNameText = new Text(parent, SWT.BORDER);
+        this.dictionaryNameText.setLayoutData(gridData);
 
-		this.dictionaryNameText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				validate();
-			}
-		});
+        this.dictionaryNameText.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                validate();
+            }
+        });
 
-		this.createTable(parent);
-	}
+        this.createTable(parent);
+    }
 
-	private void createTable(Composite parent) {
-		GridData gridData = new GridData();
-		gridData.heightHint = 150;
-		gridData.horizontalSpan = 2;
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
+    private void createTable(Composite parent) {
+        GridData gridData = new GridData();
+        gridData.heightHint = 150;
+        gridData.horizontalSpan = 2;
+        gridData.horizontalAlignment = GridData.FILL;
+        gridData.grabExcessHorizontalSpace = true;
 
-		this.dictionaryTable = new Table(parent, SWT.FULL_SELECTION
-				| SWT.BORDER | SWT.MULTI);
-		this.dictionaryTable.setHeaderVisible(true);
-		this.dictionaryTable.setLinesVisible(true);
-		this.dictionaryTable.setLayoutData(gridData);
+        this.dictionaryTable = new Table(parent, SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
+        this.dictionaryTable.setHeaderVisible(true);
+        this.dictionaryTable.setLinesVisible(true);
+        this.dictionaryTable.setLayoutData(gridData);
 
-		TableColumn tableColumn = new TableColumn(this.dictionaryTable,
-				SWT.LEFT);
-		tableColumn.setWidth(250);
-		tableColumn.setText(ResourceString
-				.getResourceString("label.physical.name"));
+        TableColumn tableColumn = new TableColumn(this.dictionaryTable, SWT.LEFT);
+        tableColumn.setWidth(250);
+        tableColumn.setText(ResourceString.getResourceString("label.physical.name"));
 
-		TableColumn tableColumn1 = new TableColumn(this.dictionaryTable,
-				SWT.LEFT);
-		tableColumn1.setWidth(250);
-		tableColumn1.setText(ResourceString
-				.getResourceString("label.logical.name"));
+        TableColumn tableColumn1 = new TableColumn(this.dictionaryTable, SWT.LEFT);
+        tableColumn1.setWidth(250);
+        tableColumn1.setText(ResourceString.getResourceString("label.logical.name"));
 
-	}
+    }
 
-	@Override
-	protected String getErrorMessage() {
-		if (isBlank(this.dictionaryNameText)) {
-			return "error.translation.dictionary.name.empty";
-		}
+    @Override
+    protected String getErrorMessage() {
+        if (isBlank(this.dictionaryNameText)) {
+            return "error.translation.dictionary.name.empty";
+        }
 
-		String fileName = this.dictionaryNameText.getText().trim();
+        String fileName = this.dictionaryNameText.getText().trim();
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IStatus result = workspace.validateName(fileName, IResource.FILE);
-		if (!result.isOK()) {
-			return result.getMessage();
-		}
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IStatus result = workspace.validateName(fileName, IResource.FILE);
+        if (!result.isOK()) {
+            return result.getMessage();
+        }
 
-		File file = new File(PreferenceInitializer.getTranslationPath(fileName));
-		if (file.exists()) {
-			return "error.translation.dictionary.name.duplicated";
-		}
+        File file = new File(PreferenceInitializer.getTranslationPath(fileName));
+        if (file.exists()) {
+            return "error.translation.dictionary.name.duplicated";
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	protected void perfomeOK() throws InputException {
-		String fileName = this.dictionaryNameText.getText().trim();
-		File file = new File(PreferenceInitializer.getTranslationPath(fileName));
-		file.getParentFile().mkdirs();
+    @Override
+    protected void perfomeOK() throws InputException {
+        String fileName = this.dictionaryNameText.getText().trim();
+        File file = new File(PreferenceInitializer.getTranslationPath(fileName));
+        file.getParentFile().mkdirs();
 
-		BufferedWriter writer = null;
+        BufferedWriter writer = null;
 
-		try {
-			writer = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(file), "UTF-8"));
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
 
-			for (TableItem tableItem : this.dictionaryTable.getItems()) {
-				writer.write(tableItem.getText(0));
-				writer.write(",");
-				writer.write(tableItem.getText(1));
-				writer.write("\r\n");
-			}
+            for (TableItem tableItem : this.dictionaryTable.getItems()) {
+                writer.write(tableItem.getText(0));
+                writer.write(",");
+                writer.write(tableItem.getText(1));
+                writer.write("\r\n");
+            }
 
-			PreferenceInitializer.addPreferenceValue(fileName);
+            PreferenceInitializer.addPreferenceValue(fileName);
 
-		} catch (IOException e) {
-			Activator.showExceptionDialog(e);
-		} finally {
-			if (writer != null) {
-				try {
-					writer.close();
-				} catch (IOException e) {
-					Activator.showExceptionDialog(e);
-				}
-			}
-		}
-	}
+        } catch (IOException e) {
+            Activator.showExceptionDialog(e);
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    Activator.showExceptionDialog(e);
+                }
+            }
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void setData() {
-		DiagramContents diagramContents = this.diagram.getDiagramContents();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setData() {
+        DiagramContents diagramContents = this.diagram.getDiagramContents();
 
-		TranslationResources resources = new TranslationResources(
-				diagramContents.getSettings().getTranslationSetting());
+        TranslationResources resources =
+                new TranslationResources(diagramContents.getSettings().getTranslationSetting());
 
-		Map<String, String> newDictionary = new TreeMap<String, String>();
+        Map<String, String> newDictionary = new TreeMap<String, String>();
 
-		for (TableView tableView : diagramContents.getContents()
-				.getTableViewList()) {
-			String physicalName = tableView.getPhysicalName();
-			String logicalName = tableView.getLogicalName();
+        for (TableView tableView : diagramContents.getContents().getTableViewList()) {
+            String physicalName = tableView.getPhysicalName();
+            String logicalName = tableView.getLogicalName();
 
-			this
-					.addNewWord(physicalName, logicalName, resources,
-							newDictionary);
+            this.addNewWord(physicalName, logicalName, resources, newDictionary);
 
-			for (NormalColumn normalColumn : tableView.getExpandedColumns()) {
-				physicalName = normalColumn.getPhysicalName();
-				logicalName = normalColumn.getLogicalName();
+            for (NormalColumn normalColumn : tableView.getExpandedColumns()) {
+                physicalName = normalColumn.getPhysicalName();
+                logicalName = normalColumn.getLogicalName();
 
-				this.addNewWord(physicalName, logicalName, resources,
-						newDictionary);
-			}
-		}
+                this.addNewWord(physicalName, logicalName, resources, newDictionary);
+            }
+        }
 
-		for (Map.Entry<String, String> entry : newDictionary.entrySet()) {
-			TableItem tableItem = new TableItem(this.dictionaryTable, SWT.NONE);
-			tableItem.setText(0, entry.getKey());
-			tableItem.setText(1, entry.getValue());
-		}
-	}
+        for (Map.Entry<String, String> entry : newDictionary.entrySet()) {
+            TableItem tableItem = new TableItem(this.dictionaryTable, SWT.NONE);
+            tableItem.setText(0, entry.getKey());
+            tableItem.setText(1, entry.getValue());
+        }
+    }
 
-	private void addNewWord(String physicalName, String logicalName,
-			TranslationResources resources, Map<String, String> newDictionary) {
-		physicalName = physicalName.toLowerCase();
-		logicalName = logicalName.toLowerCase();
+    private void addNewWord(String physicalName, String logicalName, TranslationResources resources,
+            Map<String, String> newDictionary) {
+        physicalName = physicalName.toLowerCase();
+        logicalName = logicalName.toLowerCase();
 
-		if (!Check.isEmpty(physicalName) && !Check.isEmpty(logicalName)
-				&& !resources.contains(physicalName)
-				&& !newDictionary.containsKey(physicalName)) {
-			newDictionary.put(physicalName, logicalName);
-		}
-	}
+        if (!Check.isEmpty(physicalName) && !Check.isEmpty(logicalName) && !resources.contains(physicalName)
+                && !newDictionary.containsKey(physicalName)) {
+            newDictionary.put(physicalName, logicalName);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getTitle() {
-		return "dialog.title.export.translation.dictionary";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getTitle() {
+        return "dialog.title.export.translation.dictionary";
+    }
 }

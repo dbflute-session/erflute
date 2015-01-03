@@ -7,118 +7,113 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 
 public class TestData implements Cloneable, Comparable<TestData> {
 
-	public static final int EXPORT_FORMT_SQL = 0;
+    public static final int EXPORT_FORMT_SQL = 0;
 
-	public static final int EXPORT_FORMT_DBUNIT = 1;
-	
-	public static final int EXPORT_FORMT_DBUNIT_FLAT_XML = 2;
+    public static final int EXPORT_FORMT_DBUNIT = 1;
 
-	public static final int EXPORT_FORMT_DBUNIT_XLS = 3;
+    public static final int EXPORT_FORMT_DBUNIT_FLAT_XML = 2;
 
-	public static final int EXPORT_ORDER_DIRECT_TO_REPEAT = 0;
-	
-	public static final int EXPORT_ORDER_REPEAT_TO_DIRECT = 1;
-	
-	private String name;
+    public static final int EXPORT_FORMT_DBUNIT_XLS = 3;
 
-	private int exportOrder;
-	
-	private Map<ERTable, TableTestData> tableTestDataMap;
+    public static final int EXPORT_ORDER_DIRECT_TO_REPEAT = 0;
 
-	public TestData() {
-		this.tableTestDataMap = new LinkedHashMap<ERTable, TableTestData>();
-	}
+    public static final int EXPORT_ORDER_REPEAT_TO_DIRECT = 1;
 
-	public String getName() {
-		return name;
-	}
+    private String name;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private int exportOrder;
 
-	
+    private Map<ERTable, TableTestData> tableTestDataMap;
 
-	public int getExportOrder() {
-		return exportOrder;
-	}
+    public TestData() {
+        this.tableTestDataMap = new LinkedHashMap<ERTable, TableTestData>();
+    }
 
-	public void setExportOrder(int exportOrder) {
-		this.exportOrder = exportOrder;
-	}
+    public String getName() {
+        return name;
+    }
 
-	
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Map<ERTable, TableTestData> getTableTestDataMap() {
-		return tableTestDataMap;
-	}
+    public int getExportOrder() {
+        return exportOrder;
+    }
 
-	public void setTableTestDataMap(Map<ERTable, TableTestData> tableTestDataMap) {
-		this.tableTestDataMap = tableTestDataMap;
-	}
+    public void setExportOrder(int exportOrder) {
+        this.exportOrder = exportOrder;
+    }
 
-	public void putTableTestData(ERTable table, TableTestData tableTestData) {
-		this.tableTestDataMap.put(table, tableTestData);
-	}
+    public Map<ERTable, TableTestData> getTableTestDataMap() {
+        return tableTestDataMap;
+    }
 
-	public boolean contains(ERTable table) {
-		return this.tableTestDataMap.containsKey(table);
-	}
+    public void setTableTestDataMap(Map<ERTable, TableTestData> tableTestDataMap) {
+        this.tableTestDataMap = tableTestDataMap;
+    }
 
-	public ERTable get(int index) {
-		int i = 0;
+    public void putTableTestData(ERTable table, TableTestData tableTestData) {
+        this.tableTestDataMap.put(table, tableTestData);
+    }
 
-		for (ERTable table : this.tableTestDataMap.keySet()) {
-			if (i == index) {
-				return table;
-			}
-			i++;
-		}
+    public boolean contains(ERTable table) {
+        return this.tableTestDataMap.containsKey(table);
+    }
 
-		return null;
-	}
+    public ERTable get(int index) {
+        int i = 0;
 
-	public void removeTableTestData(int index) {
-		int i = 0;
+        for (ERTable table : this.tableTestDataMap.keySet()) {
+            if (i == index) {
+                return table;
+            }
+            i++;
+        }
 
-		for (ERTable table : this.tableTestDataMap.keySet()) {
-			if (i == index) {
-				this.tableTestDataMap.remove(table);
-				break;
-			}
+        return null;
+    }
 
-			i++;
-		}
-	}
+    public void removeTableTestData(int index) {
+        int i = 0;
 
-	@Override
-	public TestData clone() {
-		TestData clone = new TestData();
+        for (ERTable table : this.tableTestDataMap.keySet()) {
+            if (i == index) {
+                this.tableTestDataMap.remove(table);
+                break;
+            }
 
-		clone.name = this.name;
-		clone.exportOrder = this.exportOrder;
+            i++;
+        }
+    }
 
-		for (Map.Entry<ERTable, TableTestData> entry : this.tableTestDataMap
-				.entrySet()) {
-			TableTestData cloneTableTestData = entry.getValue().clone();
-			clone.tableTestDataMap.put(entry.getKey(), cloneTableTestData);
-		}
+    @Override
+    public TestData clone() {
+        TestData clone = new TestData();
 
-		return clone;
-	}
+        clone.name = this.name;
+        clone.exportOrder = this.exportOrder;
 
-	public int compareTo(TestData other) {
-		if (other == null) {
-			return -1;
-		}
+        for (Map.Entry<ERTable, TableTestData> entry : this.tableTestDataMap.entrySet()) {
+            TableTestData cloneTableTestData = entry.getValue().clone();
+            clone.tableTestDataMap.put(entry.getKey(), cloneTableTestData);
+        }
 
-		if (this.name == null) {
-			return 1;
-		}
-		if (other.name == null) {
-			return -1;
-		}
+        return clone;
+    }
 
-		return this.name.toUpperCase().compareTo(other.name.toUpperCase());
-	}
+    public int compareTo(TestData other) {
+        if (other == null) {
+            return -1;
+        }
+
+        if (this.name == null) {
+            return 1;
+        }
+        if (other.name == null) {
+            return -1;
+        }
+
+        return this.name.toUpperCase().compareTo(other.name.toUpperCase());
+    }
 }

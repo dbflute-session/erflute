@@ -16,60 +16,56 @@ import org.eclipse.ui.internal.ide.misc.ResourceAndContainerGroup;
 @SuppressWarnings("restriction")
 public class InternalDirectoryDialog extends TitleAreaDialog implements Listener {
 
-	private ResourceAndContainerGroup resourceGroup;
-	private IPath fullPath;
-	private String initialFolder;
+    private ResourceAndContainerGroup resourceGroup;
+    private IPath fullPath;
+    private String initialFolder;
 
-	protected InternalDirectoryDialog(Shell parentShell, String initialFolder) {
-		super(parentShell);
-		this.initialFolder = initialFolder;
-	}
+    protected InternalDirectoryDialog(Shell parentShell, String initialFolder) {
+        super(parentShell);
+        this.initialFolder = initialFolder;
+    }
 
-	@Override
-	protected Control createContents(Composite parent) {
-		return super.createContents(parent);
-	}
+    @Override
+    protected Control createContents(Composite parent) {
+        return super.createContents(parent);
+    }
 
-	@Override
-	protected Control createDialogArea(Composite parent) {
+    @Override
+    protected Control createDialogArea(Composite parent) {
 
-		Composite topLevel = new Composite(parent, SWT.NONE);
-		topLevel.setLayout(new GridLayout());
-		topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL
-				| GridData.HORIZONTAL_ALIGN_FILL));
-		topLevel.setFont(parent.getFont());
+        Composite topLevel = new Composite(parent, SWT.NONE);
+        topLevel.setLayout(new GridLayout());
+        topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
+        topLevel.setFont(parent.getFont());
 
-		resourceGroup = new ResourceAndContainerGroup(topLevel, this,
-				"Directory name:",
-				"folder", false,
-				250);
-		resourceGroup.setContainerFullPath(new Path(initialFolder));
+        resourceGroup = new ResourceAndContainerGroup(topLevel, this, "Directory name:", "folder", false, 250);
+        resourceGroup.setContainerFullPath(new Path(initialFolder));
 
-//		if (new Path(initialFolder).lastSegment() != null) {
-//			resourceGroup.setResource(new Path(initialFolder).lastSegment());
-//		}
+        //		if (new Path(initialFolder).lastSegment() != null) {
+        //			resourceGroup.setResource(new Path(initialFolder).lastSegment());
+        //		}
 
-		setTitle("Directory");
+        setTitle("Directory");
 
-		return super.createDialogArea(parent);
-	}
+        return super.createDialogArea(parent);
+    }
 
-	@Override
-	public void handleEvent(Event event) {
-	}
+    @Override
+    public void handleEvent(Event event) {
+    }
 
-	@Override
-	protected void okPressed() {
-		if (resourceGroup.getContainerFullPath() == null) {
-			setErrorMessage("èoóÕêÊÇëIëÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB");
-		} else {
-			fullPath = resourceGroup.getContainerFullPath().append(resourceGroup.getResource());
-			super.okPressed();
-		}
-	}
+    @Override
+    protected void okPressed() {
+        if (resourceGroup.getContainerFullPath() == null) {
+            setErrorMessage("ÔøΩoÔøΩÕêÔøΩÔøΩIÔøΩÔøΩÔøΩÔøΩÔøΩƒÇÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩB");
+        } else {
+            fullPath = resourceGroup.getContainerFullPath().append(resourceGroup.getResource());
+            super.okPressed();
+        }
+    }
 
-	public IPath getResourcePath() {
-		return fullPath;
-	}
+    public IPath getResourcePath() {
+        return fullPath;
+    }
 
 }

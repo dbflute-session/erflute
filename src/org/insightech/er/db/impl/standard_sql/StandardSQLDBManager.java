@@ -17,90 +17,86 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class StandardSQLDBManager extends DBManagerBase {
 
-	public static final String ID = "StandardSQL";
+    public static final String ID = "StandardSQL";
 
-	public String getId() {
-		return ID;
-	}
+    public String getId() {
+        return ID;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDriverClassName() {
-		return "";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDriverClassName() {
+        return "";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getURL() {
-		return "";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getURL() {
+        return "";
+    }
 
-	public int getDefaultPort() {
-		return 0;
-	}
+    public int getDefaultPort() {
+        return 0;
+    }
 
-	public SqlTypeManager getSqlTypeManager() {
-		return new StandardSQLSqlTypeManager();
-	}
+    public SqlTypeManager getSqlTypeManager() {
+        return new StandardSQLSqlTypeManager();
+    }
 
-	public TableProperties createTableProperties(TableProperties tableProperties) {
-		if (tableProperties != null
-				&& tableProperties instanceof StandardSQLTableProperties) {
-			return tableProperties;
-		}
+    public TableProperties createTableProperties(TableProperties tableProperties) {
+        if (tableProperties != null && tableProperties instanceof StandardSQLTableProperties) {
+            return tableProperties;
+        }
 
-		return new StandardSQLTableProperties();
-	}
+        return new StandardSQLTableProperties();
+    }
 
-	public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
-		return new StandardSQLDDLCreator(diagram, semicolon);
-	}
+    public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
+        return new StandardSQLDDLCreator(diagram, semicolon);
+    }
 
-	public List<String> getIndexTypeList(ERTable table) {
-		List<String> list = new ArrayList<String>();
+    public List<String> getIndexTypeList(ERTable table) {
+        List<String> list = new ArrayList<String>();
 
-		list.add("BTREE");
+        list.add("BTREE");
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	protected int[] getSupportItems() {
-		return new int[] { SUPPORT_AUTO_INCREMENT,
-				SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_SCHEMA,
-				SUPPORT_SEQUENCE };
-	}
+    @Override
+    protected int[] getSupportItems() {
+        return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_SCHEMA, SUPPORT_SEQUENCE };
+    }
 
-	public ImportFromDBManager getTableImportManager() {
-		return new StandardSQLTableImportManager();
-	}
+    public ImportFromDBManager getTableImportManager() {
+        return new StandardSQLTableImportManager();
+    }
 
-	public PreImportFromDBManager getPreTableImportManager() {
-		return new StandardSQLPreTableImportManager();
-	}
+    public PreImportFromDBManager getPreTableImportManager() {
+        return new StandardSQLPreTableImportManager();
+    }
 
-	public PreTableExportManager getPreTableExportManager() {
-		return new StandardSQLPreTableExportManager();
-	}
+    public PreTableExportManager getPreTableExportManager() {
+        return new StandardSQLPreTableExportManager();
+    }
 
-	public TablespaceProperties createTablespaceProperties() {
-		return null;
-	}
+    public TablespaceProperties createTablespaceProperties() {
+        return null;
+    }
 
-	public TablespaceProperties checkTablespaceProperties(
-			TablespaceProperties tablespaceProperties) {
-		return null;
-	}
+    public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
+        return null;
+    }
 
-	public String[] getCurrentTimeValue() {
-		return new String[] { "CURRENT_TIMESTAMP" };
-	}
+    public String[] getCurrentTimeValue() {
+        return new String[] { "CURRENT_TIMESTAMP" };
+    }
 
-	public BigDecimal getSequenceMaxValue() {
-		return null;
-	}
+    public BigDecimal getSequenceMaxValue() {
+        return null;
+    }
 }

@@ -13,40 +13,39 @@ import org.insightech.er.editor.controller.editpart.element.node.column.NormalCo
 
 public class ERDiagramMatchHeightAction extends MatchHeightAction {
 
-	public ERDiagramMatchHeightAction(IWorkbenchPart part) {
-		super(part);
-		this.setImageDescriptor(Activator
-				.getImageDescriptor(ImageKey.MATCH_HEIGHT));
-		this.setDisabledImageDescriptor(null);
-	}
+    public ERDiagramMatchHeightAction(IWorkbenchPart part) {
+        super(part);
+        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.MATCH_HEIGHT));
+        this.setDisabledImageDescriptor(null);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List getSelectedObjects() {
-		List objects = new ArrayList(super.getSelectedObjects());
-		boolean first = true;
+    @SuppressWarnings("unchecked")
+    @Override
+    protected List getSelectedObjects() {
+        List objects = new ArrayList(super.getSelectedObjects());
+        boolean first = true;
 
-		for (Iterator iter = objects.iterator(); iter.hasNext();) {
-			Object object = iter.next();
+        for (Iterator iter = objects.iterator(); iter.hasNext();) {
+            Object object = iter.next();
 
-			if (!(object instanceof EditPart)) {
-				iter.remove();
-				
-			} else {
-				EditPart editPart = (EditPart) object;
-				if (editPart instanceof NormalColumnEditPart) {
-					iter.remove();
+            if (!(object instanceof EditPart)) {
+                iter.remove();
 
-				} else {
-					if (first) {
-						editPart.setSelected(2);
-						first = false;
-					}
-				}
-			}
-		}
+            } else {
+                EditPart editPart = (EditPart) object;
+                if (editPart instanceof NormalColumnEditPart) {
+                    iter.remove();
 
-		return objects;
-	}
+                } else {
+                    if (first) {
+                        editPart.setSelected(2);
+                        first = false;
+                    }
+                }
+            }
+        }
+
+        return objects;
+    }
 
 }

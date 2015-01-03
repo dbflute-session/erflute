@@ -9,8 +9,7 @@ import org.insightech.er.editor.model.settings.DBSetting;
 
 public interface ImportFromDBManager {
 
-	public void init(Connection con, DBSetting dbSetting, ERDiagram diagram,
-			List<DBObject> dbObjectList, boolean useCommentAsLogicalNameButton,
-			boolean mergeWord) throws SQLException;
+    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<DBObject> dbObjectList,
+            boolean useCommentAsLogicalNameButton, boolean mergeWord) throws SQLException;
 
 }

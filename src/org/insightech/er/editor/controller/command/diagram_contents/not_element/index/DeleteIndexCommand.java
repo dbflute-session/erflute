@@ -10,33 +10,33 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.index.
 
 public class DeleteIndexCommand extends AbstractCommand {
 
-	private ERTable table;
+    private ERTable table;
 
-	private List<Index> oldIndexList;
+    private List<Index> oldIndexList;
 
-	private List<Index> newIndexList;
+    private List<Index> newIndexList;
 
-	public DeleteIndexCommand(ERDiagram diagram, Index index) {
-		this.table = index.getTable();
+    public DeleteIndexCommand(ERDiagram diagram, Index index) {
+        this.table = index.getTable();
 
-		this.oldIndexList = index.getTable().getIndexes();
-		this.newIndexList = new ArrayList<Index>(oldIndexList);
-		this.newIndexList.remove(index);
-	}
+        this.oldIndexList = index.getTable().getIndexes();
+        this.newIndexList = new ArrayList<Index>(oldIndexList);
+        this.newIndexList.remove(index);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.table.setIndexes(this.newIndexList);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.table.setIndexes(this.newIndexList);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.table.setIndexes(this.oldIndexList);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.table.setIndexes(this.oldIndexList);
+    }
 }

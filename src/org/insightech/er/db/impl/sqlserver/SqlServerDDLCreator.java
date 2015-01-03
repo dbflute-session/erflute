@@ -10,96 +10,96 @@ import org.insightech.er.util.Check;
 
 public class SqlServerDDLCreator extends DDLCreator {
 
-	public SqlServerDDLCreator(ERDiagram diagram, boolean semicolon) {
-		super(diagram, semicolon);
-	}
+    public SqlServerDDLCreator(ERDiagram diagram, boolean semicolon) {
+        super(diagram, semicolon);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getColulmnDDL(NormalColumn normalColumn) {
-		StringBuilder ddl = new StringBuilder();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getColulmnDDL(NormalColumn normalColumn) {
+        StringBuilder ddl = new StringBuilder();
 
-		ddl.append(super.getColulmnDDL(normalColumn));
+        ddl.append(super.getColulmnDDL(normalColumn));
 
-		if (normalColumn.isAutoIncrement()) {
-			ddl.append(" IDENTITY ");
+        if (normalColumn.isAutoIncrement()) {
+            ddl.append(" IDENTITY ");
 
-			Sequence sequence = normalColumn.getAutoIncrementSetting();
+            Sequence sequence = normalColumn.getAutoIncrementSetting();
 
-			if (sequence.getIncrement() != null || sequence.getStart() != null) {
-				ddl.append("(");
-				if (sequence.getStart() != null) {
-					ddl.append(sequence.getStart());
+            if (sequence.getIncrement() != null || sequence.getStart() != null) {
+                ddl.append("(");
+                if (sequence.getStart() != null) {
+                    ddl.append(sequence.getStart());
 
-				} else {
-					ddl.append("1");
-				}
+                } else {
+                    ddl.append("1");
+                }
 
-				if (sequence.getIncrement() != null) {
-					ddl.append(", ");
-					ddl.append(sequence.getIncrement());
-				}
+                if (sequence.getIncrement() != null) {
+                    ddl.append(", ");
+                    ddl.append(sequence.getIncrement());
+                }
 
-				ddl.append(")");
-			}
-		}
+                ddl.append(")");
+            }
+        }
 
-		return ddl.toString();
-	}
+        return ddl.toString();
+    }
 
-	@Override
-	protected String getDDL(Tablespace tablespace) {
-		DB2TablespaceProperties tablespaceProperties = (DB2TablespaceProperties) tablespace
-				.getProperties(this.environment, this.getDiagram());
+    @Override
+    protected String getDDL(Tablespace tablespace) {
+        DB2TablespaceProperties tablespaceProperties =
+                (DB2TablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
-		StringBuilder ddl = new StringBuilder();
+        StringBuilder ddl = new StringBuilder();
 
-		ddl.append("CREATE ");
-		if (!Check.isEmpty(tablespaceProperties.getType())) {
-			ddl.append(tablespaceProperties.getType());
-			ddl.append(" ");
-		}
+        ddl.append("CREATE ");
+        if (!Check.isEmpty(tablespaceProperties.getType())) {
+            ddl.append(tablespaceProperties.getType());
+            ddl.append(" ");
+        }
 
-		ddl.append("TABLESPACE ");
-		ddl.append(filter(tablespace.getName()));
-		ddl.append("\r\n");
+        ddl.append("TABLESPACE ");
+        ddl.append(filter(tablespace.getName()));
+        ddl.append("\r\n");
 
-		if (!Check.isEmpty(tablespaceProperties.getPageSize())) {
-			ddl.append(" PAGESIZE ");
-			ddl.append(tablespaceProperties.getPageSize());
-			ddl.append("\r\n");
-		}
+        if (!Check.isEmpty(tablespaceProperties.getPageSize())) {
+            ddl.append(" PAGESIZE ");
+            ddl.append(tablespaceProperties.getPageSize());
+            ddl.append("\r\n");
+        }
 
-		ddl.append(" MANAGED BY ");
-		ddl.append(tablespaceProperties.getManagedBy());
-		ddl.append(" USING(");
-		ddl.append(tablespaceProperties.getContainer());
-		ddl.append(")\r\n");
+        ddl.append(" MANAGED BY ");
+        ddl.append(tablespaceProperties.getManagedBy());
+        ddl.append(" USING(");
+        ddl.append(tablespaceProperties.getContainer());
+        ddl.append(")\r\n");
 
-		if (!Check.isEmpty(tablespaceProperties.getExtentSize())) {
-			ddl.append(" EXTENTSIZE ");
-			ddl.append(tablespaceProperties.getExtentSize());
-			ddl.append("\r\n");
-		}
+        if (!Check.isEmpty(tablespaceProperties.getExtentSize())) {
+            ddl.append(" EXTENTSIZE ");
+            ddl.append(tablespaceProperties.getExtentSize());
+            ddl.append("\r\n");
+        }
 
-		if (!Check.isEmpty(tablespaceProperties.getPrefetchSize())) {
-			ddl.append(" PREFETCHSIZE ");
-			ddl.append(tablespaceProperties.getPrefetchSize());
-			ddl.append("\r\n");
-		}
+        if (!Check.isEmpty(tablespaceProperties.getPrefetchSize())) {
+            ddl.append(" PREFETCHSIZE ");
+            ddl.append(tablespaceProperties.getPrefetchSize());
+            ddl.append("\r\n");
+        }
 
-		if (!Check.isEmpty(tablespaceProperties.getBufferPoolName())) {
-			ddl.append(" BUFFERPOOL ");
-			ddl.append(tablespaceProperties.getBufferPoolName());
-			ddl.append("\r\n");
-		}
+        if (!Check.isEmpty(tablespaceProperties.getBufferPoolName())) {
+            ddl.append(" BUFFERPOOL ");
+            ddl.append(tablespaceProperties.getBufferPoolName());
+            ddl.append("\r\n");
+        }
 
-		if (this.semicolon) {
-			ddl.append(";");
-		}
+        if (this.semicolon) {
+            ddl.append(";");
+        }
 
-		return ddl.toString();
-	}
+        return ddl.toString();
+    }
 }

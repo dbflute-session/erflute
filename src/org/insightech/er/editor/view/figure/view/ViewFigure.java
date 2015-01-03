@@ -6,13 +6,13 @@ import org.insightech.er.editor.view.figure.table.TableFigure;
 
 public class ViewFigure extends TableFigure {
 
-	public ViewFigure(Settings settings) {
-		super(settings);
-	}
+    public ViewFigure(Settings settings) {
+        super(settings);
+    }
 
-	@Override
-	public String getImageKey() {
-		return ImageKey.VIEW;
-	}
+    @Override
+    public String getImageKey() {
+        return ImageKey.VIEW;
+    }
 
 }

@@ -14,41 +14,39 @@ import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERMo
 
 public class ChangeNameAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = ChangeNameAction.class.getName();
+    public static final String ID = ChangeNameAction.class.getName();
 
-	public ChangeNameAction(TreeViewer treeViewer) {
-		super(ID,
-				ResourceString.getResourceString("action.title.change.name"),
-				treeViewer);
-	}
+    public ChangeNameAction(TreeViewer treeViewer) {
+        super(ID, ResourceString.getResourceString("action.title.change.name"), treeViewer);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
 
-		ERDiagram diagram = this.getDiagram();
+        ERDiagram diagram = this.getDiagram();
 
-		List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
-		EditPart editPart = (EditPart) selectedEditParts.get(0);
-		Object model = editPart.getModel();
-		if (model instanceof ERModel) {
-			ERModel ermodel = (ERModel) model;
-			
-			InputDialog dialog = new InputDialog(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"ñºëOïœçX", "É_ÉCÉAÉOÉâÉÄñºÇì¸óÕÇµÇƒâ∫Ç≥Ç¢ÅB", ermodel.getName(), null);
-			if (dialog.open() == IDialogConstants.OK_ID) {
-				ermodel.setName(dialog.getValue());
-				diagram.getDiagramContents().getModelSet().changeModel(ermodel);
-				ermodel.getDiagram().getEditor().setDirty(true);
-//				ermodel.changeAll();
-//				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());
-//				this.execute(command);
-			}
-		}
+        List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
+        EditPart editPart = (EditPart) selectedEditParts.get(0);
+        Object model = editPart.getModel();
+        if (model instanceof ERModel) {
+            ERModel ermodel = (ERModel) model;
 
-	}
+            InputDialog dialog =
+                    new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "ÔøΩÔøΩÔøΩOÔøΩœçX",
+                            "ÔøΩ_ÔøΩCÔøΩAÔøΩOÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕÇÔøΩÔøΩƒâÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩB", ermodel.getName(), null);
+            if (dialog.open() == IDialogConstants.OK_ID) {
+                ermodel.setName(dialog.getValue());
+                diagram.getDiagramContents().getModelSet().changeModel(ermodel);
+                ermodel.getDiagram().getEditor().setDirty(true);
+                //				ermodel.changeAll();
+                //				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());
+                //				this.execute(command);
+            }
+        }
+
+    }
 
 }

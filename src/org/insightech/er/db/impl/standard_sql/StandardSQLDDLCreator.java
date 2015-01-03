@@ -6,12 +6,12 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class StandardSQLDDLCreator extends DDLCreator {
 
-	public StandardSQLDDLCreator(ERDiagram diagram, boolean semicolon) {
-		super(diagram, semicolon);
-	}
+    public StandardSQLDDLCreator(ERDiagram diagram, boolean semicolon) {
+        super(diagram, semicolon);
+    }
 
-	@Override
-	protected String getDDL(Tablespace tablespace) {
-		return null;
-	}
+    @Override
+    protected String getDDL(Tablespace tablespace) {
+        return null;
+    }
 }

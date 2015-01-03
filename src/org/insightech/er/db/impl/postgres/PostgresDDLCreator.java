@@ -20,249 +20,235 @@ import org.insightech.er.util.Check;
 
 public class PostgresDDLCreator extends DDLCreator {
 
-	private static final Pattern DROP_TRIGGER_TABLE_PATTERN = Pattern
-			.compile(".*\\s[oO][nN]\\s+(.+)\\s.*");
+    private static final Pattern DROP_TRIGGER_TABLE_PATTERN = Pattern.compile(".*\\s[oO][nN]\\s+(.+)\\s.*");
 
-	public PostgresDDLCreator(ERDiagram diagram, boolean semicolon) {
-		super(diagram, semicolon);
-	}
+    public PostgresDDLCreator(ERDiagram diagram, boolean semicolon) {
+        super(diagram, semicolon);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getPostDDL(ERTable table) {
-		PostgresTableProperties commonTableProperties = (PostgresTableProperties) this
-				.getDiagram().getDiagramContents().getSettings()
-				.getTableViewProperties();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getPostDDL(ERTable table) {
+        PostgresTableProperties commonTableProperties =
+                (PostgresTableProperties) this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
 
-		PostgresTableProperties tableProperties = (PostgresTableProperties) table
-				.getTableViewProperties();
+        PostgresTableProperties tableProperties = (PostgresTableProperties) table.getTableViewProperties();
 
-		boolean isWithoutOIDs = tableProperties.isWithoutOIDs();
-		if (!isWithoutOIDs) {
-			isWithoutOIDs = commonTableProperties.isWithoutOIDs();
-		}
+        boolean isWithoutOIDs = tableProperties.isWithoutOIDs();
+        if (!isWithoutOIDs) {
+            isWithoutOIDs = commonTableProperties.isWithoutOIDs();
+        }
 
-		StringBuilder postDDL = new StringBuilder();
+        StringBuilder postDDL = new StringBuilder();
 
-		if (isWithoutOIDs) {
-			postDDL.append(" WITHOUT OIDS");
-		}
+        if (isWithoutOIDs) {
+            postDDL.append(" WITHOUT OIDS");
+        }
 
-		postDDL.append(super.getPostDDL(table));
+        postDDL.append(super.getPostDDL(table));
 
-		return postDDL.toString();
-	}
+        return postDDL.toString();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<String> getCommentDDL(ERTable table) {
-		List<String> ddlList = new ArrayList<String>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getCommentDDL(ERTable table) {
+        List<String> ddlList = new ArrayList<String>();
 
-		String tableComment = this.filterComment(table.getLogicalName(), table
-				.getDescription(), false);
+        String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
 
-		if (!Check.isEmpty(tableComment)) {
-			StringBuilder ddl = new StringBuilder();
+        if (!Check.isEmpty(tableComment)) {
+            StringBuilder ddl = new StringBuilder();
 
-			ddl.append("COMMENT ON TABLE ");
-			ddl.append(filter(table.getNameWithSchema(this.getDiagram()
-					.getDatabase())));
-			ddl.append(" IS '");
-			ddl.append(tableComment.replaceAll("'", "''"));
-			ddl.append("'");
-			if (this.semicolon) {
-				ddl.append(";");
-			}
+            ddl.append("COMMENT ON TABLE ");
+            ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
+            ddl.append(" IS '");
+            ddl.append(tableComment.replaceAll("'", "''"));
+            ddl.append("'");
+            if (this.semicolon) {
+                ddl.append(";");
+            }
 
-			ddlList.add(ddl.toString());
-		}
+            ddlList.add(ddl.toString());
+        }
 
-		for (Column column : table.getColumns()) {
-			if (column instanceof NormalColumn) {
-				NormalColumn normalColumn = (NormalColumn) column;
+        for (Column column : table.getColumns()) {
+            if (column instanceof NormalColumn) {
+                NormalColumn normalColumn = (NormalColumn) column;
 
-				String comment = this.filterComment(normalColumn
-						.getLogicalName(), normalColumn.getDescription(), true);
+                String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
-				if (!Check.isEmpty(comment)) {
-					StringBuilder ddl = new StringBuilder();
+                if (!Check.isEmpty(comment)) {
+                    StringBuilder ddl = new StringBuilder();
 
-					ddl.append("COMMENT ON COLUMN ");
-					ddl.append(filter(table.getNameWithSchema(this.getDiagram()
-							.getDatabase())));
-					ddl.append(".");
-					ddl.append(filter(normalColumn.getPhysicalName()));
-					ddl.append(" IS '");
-					ddl.append(comment.replaceAll("'", "''"));
-					ddl.append("'");
-					if (this.semicolon) {
-						ddl.append(";");
-					}
+                    ddl.append("COMMENT ON COLUMN ");
+                    ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
+                    ddl.append(".");
+                    ddl.append(filter(normalColumn.getPhysicalName()));
+                    ddl.append(" IS '");
+                    ddl.append(comment.replaceAll("'", "''"));
+                    ddl.append("'");
+                    if (this.semicolon) {
+                        ddl.append(";");
+                    }
 
-					ddlList.add(ddl.toString());
-				}
+                    ddlList.add(ddl.toString());
+                }
 
-			} else {
-				ColumnGroup columnGroup = (ColumnGroup) column;
+            } else {
+                ColumnGroup columnGroup = (ColumnGroup) column;
 
-				for (NormalColumn normalColumn : columnGroup.getColumns()) {
-					String comment = this.filterComment(normalColumn
-							.getLogicalName(), normalColumn.getDescription(),
-							true);
+                for (NormalColumn normalColumn : columnGroup.getColumns()) {
+                    String comment =
+                            this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
-					if (!Check.isEmpty(comment)) {
-						StringBuilder ddl = new StringBuilder();
+                    if (!Check.isEmpty(comment)) {
+                        StringBuilder ddl = new StringBuilder();
 
-						ddl.append("COMMENT ON COLUMN ");
-						ddl.append(filter(table.getNameWithSchema(this
-								.getDiagram().getDatabase())));
-						ddl.append(".");
-						ddl.append(filter(normalColumn.getPhysicalName()));
-						ddl.append(" IS '");
-						ddl.append(comment.replaceAll("'", "''"));
-						ddl.append("'");
-						if (this.semicolon) {
-							ddl.append(";");
-						}
+                        ddl.append("COMMENT ON COLUMN ");
+                        ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
+                        ddl.append(".");
+                        ddl.append(filter(normalColumn.getPhysicalName()));
+                        ddl.append(" IS '");
+                        ddl.append(comment.replaceAll("'", "''"));
+                        ddl.append("'");
+                        if (this.semicolon) {
+                            ddl.append(";");
+                        }
 
-						ddlList.add(ddl.toString());
-					}
-				}
-			}
-		}
+                        ddlList.add(ddl.toString());
+                    }
+                }
+            }
+        }
 
-		return ddlList;
-	}
+        return ddlList;
+    }
 
-	@Override
-	protected String getDDL(Tablespace tablespace) {
-		PostgresTablespaceProperties tablespaceProperties = (PostgresTablespaceProperties) tablespace
-				.getProperties(this.environment, this.getDiagram());
+    @Override
+    protected String getDDL(Tablespace tablespace) {
+        PostgresTablespaceProperties tablespaceProperties =
+                (PostgresTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
-		StringBuilder ddl = new StringBuilder();
+        StringBuilder ddl = new StringBuilder();
 
-		ddl.append("CREATE TABLESPACE ");
-		ddl.append(filter(tablespace.getName()));
-		ddl.append("\r\n");
+        ddl.append("CREATE TABLESPACE ");
+        ddl.append(filter(tablespace.getName()));
+        ddl.append("\r\n");
 
-		if (!Check.isEmpty(tablespaceProperties.getOwner())) {
-			ddl.append(" OWNER ");
-			ddl.append(tablespaceProperties.getOwner());
-			ddl.append("\r\n");
-		}
+        if (!Check.isEmpty(tablespaceProperties.getOwner())) {
+            ddl.append(" OWNER ");
+            ddl.append(tablespaceProperties.getOwner());
+            ddl.append("\r\n");
+        }
 
-		ddl.append(" LOCATION '");
-		ddl.append(tablespaceProperties.getLocation());
-		ddl.append("'\r\n");
+        ddl.append(" LOCATION '");
+        ddl.append(tablespaceProperties.getLocation());
+        ddl.append("'\r\n");
 
-		if (this.semicolon) {
-			ddl.append(";");
-		}
+        if (this.semicolon) {
+            ddl.append(";");
+        }
 
-		return ddl.toString();
-	}
+        return ddl.toString();
+    }
 
-	private String getAutoIncrementSettingDDL(ERTable table, NormalColumn column) {
-		StringBuilder ddl = new StringBuilder();
+    private String getAutoIncrementSettingDDL(ERTable table, NormalColumn column) {
+        StringBuilder ddl = new StringBuilder();
 
-		Sequence sequence = column.getAutoIncrementSetting();
+        Sequence sequence = column.getAutoIncrementSetting();
 
-		if (sequence.getIncrement() != null || sequence.getMinValue() != null
-				|| sequence.getMaxValue() != null
-				|| sequence.getStart() != null || sequence.getCache() != null
-				|| sequence.isCycle()) {
+        if (sequence.getIncrement() != null || sequence.getMinValue() != null || sequence.getMaxValue() != null
+                || sequence.getStart() != null || sequence.getCache() != null || sequence.isCycle()) {
 
-			ddl.append("ALTER SEQUENCE ");
-			ddl.append(filter(table.getNameWithSchema(this.getDiagram()
-					.getDatabase())
-					+ "_" + column.getPhysicalName() + "_SEQ"));
+            ddl.append("ALTER SEQUENCE ");
+            ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase()) + "_" + column.getPhysicalName()
+                    + "_SEQ"));
 
-			if (sequence.getIncrement() != null) {
-				ddl.append(" INCREMENT ");
-				ddl.append(sequence.getIncrement());
-			}
-			if (sequence.getMinValue() != null) {
-				ddl.append(" MINVALUE ");
-				ddl.append(sequence.getMinValue());
-			}
-			if (sequence.getMaxValue() != null) {
-				ddl.append(" MAXVALUE ");
-				ddl.append(sequence.getMaxValue());
-			}
-			if (sequence.getStart() != null) {
-				ddl.append(" START ");
-				ddl.append(sequence.getStart());
-			}
-			if (sequence.getCache() != null) {
-				ddl.append(" CACHE ");
-				ddl.append(sequence.getCache());
-			}
-			if (sequence.isCycle()) {
-				ddl.append(" CYCLE");
-			}
-			if (this.semicolon) {
-				ddl.append(";");
-			}
-		}
+            if (sequence.getIncrement() != null) {
+                ddl.append(" INCREMENT ");
+                ddl.append(sequence.getIncrement());
+            }
+            if (sequence.getMinValue() != null) {
+                ddl.append(" MINVALUE ");
+                ddl.append(sequence.getMinValue());
+            }
+            if (sequence.getMaxValue() != null) {
+                ddl.append(" MAXVALUE ");
+                ddl.append(sequence.getMaxValue());
+            }
+            if (sequence.getStart() != null) {
+                ddl.append(" START ");
+                ddl.append(sequence.getStart());
+            }
+            if (sequence.getCache() != null) {
+                ddl.append(" CACHE ");
+                ddl.append(sequence.getCache());
+            }
+            if (sequence.isCycle()) {
+                ddl.append(" CYCLE");
+            }
+            if (this.semicolon) {
+                ddl.append(";");
+            }
+        }
 
-		return ddl.toString();
-	}
+        return ddl.toString();
+    }
 
-	@Override
-	protected String getTableSettingDDL(ERTable table) {
-		StringBuilder ddl = new StringBuilder();
+    @Override
+    protected String getTableSettingDDL(ERTable table) {
+        StringBuilder ddl = new StringBuilder();
 
-		boolean first = true;
+        boolean first = true;
 
-		for (NormalColumn column : table.getNormalColumns()) {
-			if (SqlType.SQL_TYPE_ID_SERIAL.equals(column.getType().getId())
-					|| SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(column.getType()
-							.getId())) {
-				String autoIncrementSettingDDL = getAutoIncrementSettingDDL(
-						table, column);
-				if (!Check.isEmpty(autoIncrementSettingDDL)) {
-					ddl.append(autoIncrementSettingDDL);
-					ddl.append("\r\n");
-					first = false;
-				}
-			}
-		}
+        for (NormalColumn column : table.getNormalColumns()) {
+            if (SqlType.SQL_TYPE_ID_SERIAL.equals(column.getType().getId())
+                    || SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(column.getType().getId())) {
+                String autoIncrementSettingDDL = getAutoIncrementSettingDDL(table, column);
+                if (!Check.isEmpty(autoIncrementSettingDDL)) {
+                    ddl.append(autoIncrementSettingDDL);
+                    ddl.append("\r\n");
+                    first = false;
+                }
+            }
+        }
 
-		if (!first) {
-			ddl.append("\r\n");
-			ddl.append("\r\n");
-		}
+        if (!first) {
+            ddl.append("\r\n");
+            ddl.append("\r\n");
+        }
 
-		return ddl.toString();
-	}
+        return ddl.toString();
+    }
 
-	@Override
-	public String getDropDDL(Trigger trigger) {
-		StringBuilder ddl = new StringBuilder();
+    @Override
+    public String getDropDDL(Trigger trigger) {
+        StringBuilder ddl = new StringBuilder();
 
-		ddl.append("DROP TRIGGER ");
-		ddl.append(this.getIfExistsOption());
-		ddl.append(filter(trigger.getName()));
-		ddl.append(" ON ");
+        ddl.append("DROP TRIGGER ");
+        ddl.append(this.getIfExistsOption());
+        ddl.append(filter(trigger.getName()));
+        ddl.append(" ON ");
 
-		Matcher matcher = DROP_TRIGGER_TABLE_PATTERN.matcher(trigger.getSql());
-		if (matcher.find()) {
-			ddl.append(matcher.group(1));
-		}
+        Matcher matcher = DROP_TRIGGER_TABLE_PATTERN.matcher(trigger.getSql());
+        if (matcher.find()) {
+            ddl.append(matcher.group(1));
+        }
 
-		if (this.semicolon) {
-			ddl.append(";");
-		}
+        if (this.semicolon) {
+            ddl.append(";");
+        }
 
-		return ddl.toString();
-	}
+        return ddl.toString();
+    }
 
-	@Override
-	public String getIfExistsOption() {
-		return "IF EXISTS ";
-	}
+    @Override
+    public String getIfExistsOption() {
+        return "IF EXISTS ";
+    }
 }

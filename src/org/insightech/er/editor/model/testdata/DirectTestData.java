@@ -9,37 +9,37 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.column
 
 public class DirectTestData implements Cloneable {
 
-	private List<Map<NormalColumn, String>> dataList;
+    private List<Map<NormalColumn, String>> dataList;
 
-	public DirectTestData() {
-		this.dataList = new ArrayList<Map<NormalColumn, String>>();
-	}
+    public DirectTestData() {
+        this.dataList = new ArrayList<Map<NormalColumn, String>>();
+    }
 
-	public List<Map<NormalColumn, String>> getDataList() {
-		return dataList;
-	}
+    public List<Map<NormalColumn, String>> getDataList() {
+        return dataList;
+    }
 
-	public void setDataList(List<Map<NormalColumn, String>> dataList) {
-		this.dataList = dataList;
-	}
+    public void setDataList(List<Map<NormalColumn, String>> dataList) {
+        this.dataList = dataList;
+    }
 
-	public int getTestDataNum() {
-		return this.dataList.size();
-	}
+    public int getTestDataNum() {
+        return this.dataList.size();
+    }
 
-	@Override
-	public DirectTestData clone() {
-		DirectTestData clone = new DirectTestData();
+    @Override
+    public DirectTestData clone() {
+        DirectTestData clone = new DirectTestData();
 
-		for (Map<NormalColumn, String> data : this.dataList) {
-			Map<NormalColumn, String> cloneData = new HashMap<NormalColumn, String>();
-			for (Map.Entry<NormalColumn, String> entry : data.entrySet()) {
-				cloneData.put(entry.getKey(), entry.getValue());
-			}
+        for (Map<NormalColumn, String> data : this.dataList) {
+            Map<NormalColumn, String> cloneData = new HashMap<NormalColumn, String>();
+            for (Map.Entry<NormalColumn, String> entry : data.entrySet()) {
+                cloneData.put(entry.getKey(), entry.getValue());
+            }
 
-			clone.dataList.add(cloneData);
-		}
+            clone.dataList.add(cloneData);
+        }
 
-		return clone;
-	}
+        return clone;
+    }
 }

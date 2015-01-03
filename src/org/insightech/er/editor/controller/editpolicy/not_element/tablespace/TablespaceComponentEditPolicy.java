@@ -8,12 +8,12 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class TablespaceComponentEditPolicy extends NotElementComponentEditPolicy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Command createDeleteCommand(ERDiagram diagram, Object model) {
-		return new DeleteTablespaceCommand(diagram, (Tablespace) model);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Command createDeleteCommand(ERDiagram diagram, Object model) {
+        return new DeleteTablespaceCommand(diagram, (Tablespace) model);
+    }
 
 }

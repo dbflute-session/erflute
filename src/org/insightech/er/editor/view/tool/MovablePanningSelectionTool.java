@@ -22,108 +22,103 @@ import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERMo
 
 public class MovablePanningSelectionTool extends PanningSelectionTool {
 
-	public static boolean shift = false;
+    public static boolean shift = false;
 
-	@Override
-	protected boolean handleKeyUp(KeyEvent event) {
-		if (event.keyCode == SWT.SHIFT) {
-			shift = true;
-		}
+    @Override
+    protected boolean handleKeyUp(KeyEvent event) {
+        if (event.keyCode == SWT.SHIFT) {
+            shift = true;
+        }
 
-		return super.handleKeyUp(event);
-	}
+        return super.handleKeyUp(event);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean handleKeyDown(KeyEvent event) {
-		int dx = 0;
-		int dy = 0;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean handleKeyDown(KeyEvent event) {
+        int dx = 0;
+        int dy = 0;
 
-		if (event.keyCode == SWT.SHIFT) {
-			shift = true;
-		}
+        if (event.keyCode == SWT.SHIFT) {
+            shift = true;
+        }
 
-		if (event.keyCode == SWT.ARROW_DOWN) {
-			dy = 1;
+        if (event.keyCode == SWT.ARROW_DOWN) {
+            dy = 1;
 
-		} else if (event.keyCode == SWT.ARROW_LEFT) {
-			dx = -1;
+        } else if (event.keyCode == SWT.ARROW_LEFT) {
+            dx = -1;
 
-		} else if (event.keyCode == SWT.ARROW_RIGHT) {
-			dx = 1;
+        } else if (event.keyCode == SWT.ARROW_RIGHT) {
+            dx = 1;
 
-		} else if (event.keyCode == SWT.ARROW_UP) {
-			dy = -1;
-		}
+        } else if (event.keyCode == SWT.ARROW_UP) {
+            dy = -1;
+        }
 
-		NodeElementEditPart targetEditPart = null;
+        NodeElementEditPart targetEditPart = null;
 
-		Object model = this.getCurrentViewer().getContents().getModel();
+        Object model = this.getCurrentViewer().getContents().getModel();
 
-		ERDiagram diagram = null;
-		if (model instanceof ERModel) {
-			diagram = ((ERModel) model).getDiagram();
-		}
-		if (model instanceof ERDiagram) {
-			diagram = (ERDiagram) model;
-		}
+        ERDiagram diagram = null;
+        if (model instanceof ERModel) {
+            diagram = ((ERModel) model).getDiagram();
+        }
+        if (model instanceof ERDiagram) {
+            diagram = (ERDiagram) model;
+        }
 
-		if (diagram != null) {
+        if (diagram != null) {
 
-			List selectedObject = this.getCurrentViewer().getSelectedEditParts();
-			if (!selectedObject.isEmpty()) {
+            List selectedObject = this.getCurrentViewer().getSelectedEditParts();
+            if (!selectedObject.isEmpty()) {
 
-				CompoundCommand command = new CompoundCommand();
+                CompoundCommand command = new CompoundCommand();
 
-				for (Object object : selectedObject) {
+                for (Object object : selectedObject) {
 
-					if (object instanceof ERTableEditPart
-							|| object instanceof NoteEditPart) {
-						NodeElementEditPart editPart = (NodeElementEditPart) object;
-						targetEditPart = editPart;
+                    if (object instanceof ERTableEditPart || object instanceof NoteEditPart) {
+                        NodeElementEditPart editPart = (NodeElementEditPart) object;
+                        targetEditPart = editPart;
 
-						NodeElement nodeElement = (NodeElement) editPart.getModel();
+                        NodeElement nodeElement = (NodeElement) editPart.getModel();
 
-						MoveElementCommand moveElementCommand = new MoveElementCommand(
-								diagram, editPart.getFigure().getBounds(),
-								nodeElement.getX() + dx, nodeElement.getY() + dy,
-								nodeElement.getWidth(), nodeElement.getHeight(),
-								nodeElement);
+                        MoveElementCommand moveElementCommand =
+                                new MoveElementCommand(diagram, editPart.getFigure().getBounds(), nodeElement.getX()
+                                        + dx, nodeElement.getY() + dy, nodeElement.getWidth(), nodeElement.getHeight(),
+                                        nodeElement);
 
-						command.add(moveElementCommand);
-					}
-				}
+                        command.add(moveElementCommand);
+                    }
+                }
 
-				this.getCurrentViewer().getEditDomain().getCommandStack().execute(
-						command.unwrap());
-			}
-		}
+                this.getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
+            }
+        }
 
+        if (event.keyCode == SWT.CR && targetEditPart != null) {
+            Request request = new Request();
+            request.setType(RequestConstants.REQ_OPEN);
+            targetEditPart.performRequest(request);
+        }
 
-		if (event.keyCode == SWT.CR && targetEditPart != null) {
-			Request request = new Request();
-			request.setType(RequestConstants.REQ_OPEN);
-			targetEditPart.performRequest(request);
-		}
+        return super.handleKeyDown(event);
+    }
 
-		return super.handleKeyDown(event);
-	}
+    @Override
+    public void mouseDown(MouseEvent e, EditPartViewer viewer) {
+        if (viewer.getContents() instanceof ERDiagramEditPart) {
+            ERDiagramEditPart editPart = (ERDiagramEditPart) viewer.getContents();
+            ERDiagram diagram = (ERDiagram) editPart.getModel();
 
-	@Override
-	public void mouseDown(MouseEvent e, EditPartViewer viewer) {
-		if (viewer.getContents() instanceof ERDiagramEditPart) {
-			ERDiagramEditPart editPart = (ERDiagramEditPart) viewer
-					.getContents();
-			ERDiagram diagram = (ERDiagram) editPart.getModel();
+            diagram.mousePoint = new Point(e.x, e.y);
 
-			diagram.mousePoint = new Point(e.x, e.y);
+            editPart.getFigure().translateToRelative(diagram.mousePoint);
+        }
 
-			editPart.getFigure().translateToRelative(diagram.mousePoint);
-		}
-
-		super.mouseDown(e, viewer);
-	}
+        super.mouseDown(e, viewer);
+    }
 
 }

@@ -6,29 +6,28 @@ import org.eclipse.draw2d.Graphics;
 
 public class GroupColumnFigure extends Figure {
 
-	public GroupColumnFigure() {
-		FlowLayout layout = new FlowLayout();
-		layout.setStretchMinorAxis(true);
-		layout.setMajorSpacing(0);
-		layout.setMinorSpacing(0);
-		this.setLayoutManager(layout);
-	}
+    public GroupColumnFigure() {
+        FlowLayout layout = new FlowLayout();
+        layout.setStretchMinorAxis(true);
+        layout.setMajorSpacing(0);
+        layout.setMinorSpacing(0);
+        this.setLayoutManager(layout);
+    }
 
-	public void clearLabel() {
-		this.removeAll();
-	}
+    public void clearLabel() {
+        this.removeAll();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void paintFigure(Graphics graphics) {
-		if (graphics.getBackgroundColor().equals(
-				this.getParent().getBackgroundColor())) {
-			graphics.setAlpha(0);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void paintFigure(Graphics graphics) {
+        if (graphics.getBackgroundColor().equals(this.getParent().getBackgroundColor())) {
+            graphics.setAlpha(0);
+        }
 
-		super.paintFigure(graphics);
-	}
+        super.paintFigure(graphics);
+    }
 
 }

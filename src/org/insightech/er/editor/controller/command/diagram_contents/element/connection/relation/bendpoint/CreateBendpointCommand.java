@@ -6,36 +6,35 @@ import org.insightech.er.editor.model.diagram_contents.element.connection.Connec
 
 public class CreateBendpointCommand extends AbstractCommand {
 
-	private ConnectionElement connection;
+    private ConnectionElement connection;
 
-	int x;
+    int x;
 
-	int y;
+    int y;
 
-	private int index;
+    private int index;
 
-	public CreateBendpointCommand(ConnectionElement connection, int x, int y,
-			int index) {
-		this.connection = connection;
-		this.x = x;
-		this.y = y;
-		this.index = index;
-	}
+    public CreateBendpointCommand(ConnectionElement connection, int x, int y, int index) {
+        this.connection = connection;
+        this.x = x;
+        this.y = y;
+        this.index = index;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		Bendpoint bendpoint = new Bendpoint(this.x, this.y);
-		connection.addBendpoint(index, bendpoint);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        Bendpoint bendpoint = new Bendpoint(this.x, this.y);
+        connection.addBendpoint(index, bendpoint);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		connection.removeBendpoint(index);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        connection.removeBendpoint(index);
+    }
 }

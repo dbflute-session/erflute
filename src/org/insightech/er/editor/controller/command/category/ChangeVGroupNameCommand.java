@@ -6,37 +6,36 @@ import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.VGro
 
 public class ChangeVGroupNameCommand extends AbstractCommand {
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	private String oldName;
+    private String oldName;
 
-	private String newName;
+    private String newName;
 
-	private VGroup category;
+    private VGroup category;
 
-	public ChangeVGroupNameCommand(ERDiagram diagram, VGroup category,
-			String newName) {
-		this.diagram = diagram;
-		this.category = category;
-		this.newName = newName;
+    public ChangeVGroupNameCommand(ERDiagram diagram, VGroup category, String newName) {
+        this.diagram = diagram;
+        this.category = category;
+        this.newName = newName;
 
-		this.oldName = category.getName();
-	}
+        this.oldName = category.getName();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.category.setName(this.newName);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.category.setName(this.newName);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.category.setName(this.oldName);
-	}
-	
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.category.setName(this.oldName);
+    }
+
 }

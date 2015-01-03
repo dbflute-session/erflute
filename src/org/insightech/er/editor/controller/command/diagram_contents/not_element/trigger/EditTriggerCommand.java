@@ -7,34 +7,33 @@ import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigg
 
 public class EditTriggerCommand extends AbstractCommand {
 
-	private TriggerSet triggerSet;
+    private TriggerSet triggerSet;
 
-	private Trigger oldTrigger;
+    private Trigger oldTrigger;
 
-	private Trigger newTrigger;
+    private Trigger newTrigger;
 
-	public EditTriggerCommand(ERDiagram diagram, Trigger oldTrigger,
-			Trigger newTrigger) {
-		this.triggerSet = diagram.getDiagramContents().getTriggerSet();
-		this.oldTrigger = oldTrigger;
-		this.newTrigger = newTrigger;
-	}
+    public EditTriggerCommand(ERDiagram diagram, Trigger oldTrigger, Trigger newTrigger) {
+        this.triggerSet = diagram.getDiagramContents().getTriggerSet();
+        this.oldTrigger = oldTrigger;
+        this.newTrigger = newTrigger;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.triggerSet.remove(this.oldTrigger);
-		this.triggerSet.addTrigger(this.newTrigger);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.triggerSet.remove(this.oldTrigger);
+        this.triggerSet.addTrigger(this.newTrigger);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.triggerSet.remove(this.newTrigger);
-		this.triggerSet.addTrigger(this.oldTrigger);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.triggerSet.remove(this.newTrigger);
+        this.triggerSet.addTrigger(this.oldTrigger);
+    }
 }

@@ -10,34 +10,34 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.index.
 
 public class CreateIndexCommand extends AbstractCommand {
 
-	private ERTable table;
+    private ERTable table;
 
-	private List<Index> oldIndexList;
+    private List<Index> oldIndexList;
 
-	private List<Index> newIndexList;
+    private List<Index> newIndexList;
 
-	public CreateIndexCommand(ERDiagram diagram, Index newIndex) {
-		this.table = newIndex.getTable();
+    public CreateIndexCommand(ERDiagram diagram, Index newIndex) {
+        this.table = newIndex.getTable();
 
-		this.oldIndexList = newIndex.getTable().getIndexes();
-		this.newIndexList = new ArrayList<Index>(oldIndexList);
+        this.oldIndexList = newIndex.getTable().getIndexes();
+        this.newIndexList = new ArrayList<Index>(oldIndexList);
 
-		this.newIndexList.add(newIndex);
-	}
+        this.newIndexList.add(newIndex);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.table.setIndexes(this.newIndexList);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.table.setIndexes(this.newIndexList);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.table.setIndexes(this.oldIndexList);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.table.setIndexes(this.oldIndexList);
+    }
 }

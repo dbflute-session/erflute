@@ -16,381 +16,378 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.index.
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 
-
 /**
- * ƒ_ƒCƒAƒOƒ‰ƒ€iERModelj“à‚É’è‹`‚³‚ê‚½‰¼‘zƒe[ƒuƒ‹‚Å‚·B
+ * ï¿½_ï¿½Cï¿½Aï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½iERModelï¿½jï¿½ï¿½ï¿½É’ï¿½`ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½zï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Å‚ï¿½ï¿½B
  * @author iwami
  */
 public class ERVirtualTable extends ERTable {
 
-	/** eƒ‚ƒfƒ‹ */
-	private ERModel model;
-	
-	/** ƒe[ƒuƒ‹À‘Ì */
-	private ERTable rawTable;
-	
-	@Override
-	public void setLocation(Location location) {
-		// TODO Auto-generated method stub
-		super.setLocation(location);
-	}
-	
-	public ERVirtualTable(ERModel model, ERTable rawTable) {
-		super();
-		this.model = model;
-		this.rawTable = rawTable;
-//		setDiagram(rawTable.getDiagram());
-//		this.tableViewProperties = DBManagerFactory.getDBManager(
-//				this.getDiagram()).createTableProperties(
-//				(TableProperties) this.tableViewProperties);
-//
-//		Dictionary dictionary = this.getDiagram().getDiagramContents()
-//				.getDictionary();
-//
-//		setPhysicalName(rawTable.getPhysicalName());
-//		setLogicalName(this.getLogicalName());
-//		setDescription(this.getDescription());
-//
-//		for (NormalColumn toColumn : to.getNormalColumns()) {
-//			dictionary.remove(toColumn);
-//		}
-//
-//		List<Column> columns = new ArrayList<Column>();
-//
-//		List<NormalColumn> newPrimaryKeyColumns = new ArrayList<NormalColumn>();
-//
-//		for (Column fromColumn : this.getColumns()) {
-//			if (fromColumn instanceof NormalColumn) {
-//				CopyColumn copyColumn = (CopyColumn) fromColumn;
-//
-//				CopyWord copyWord = copyColumn.getWord();
-//				if (copyColumn.isForeignKey()) {
-//					copyWord = null;
-//				}
-//
-//				if (copyWord != null) {
-//					Word originalWord = copyColumn.getOriginalWord();
-//					dictionary.copyTo(copyWord, originalWord);
-//				}
-//
-//				NormalColumn restructuredColumn = copyColumn
-//						.getRestructuredColumn();
-//
-//				restructuredColumn.setColumnHolder(this);
-//				if (copyWord == null) {
-//					restructuredColumn.setWord(null);
-//				}
-//				columns.add(restructuredColumn);
-//
-//				if (restructuredColumn.isPrimaryKey()) {
-//					newPrimaryKeyColumns.add(restructuredColumn);
-//				}
-//
-//				dictionary.add(restructuredColumn);
-//
-//			} else {
-//				columns.add(fromColumn);
-//			}
-//		}
-//
-//		this.setTargetTableRelation(to, newPrimaryKeyColumns);
-//
-//		to.setColumns(columns);
+    /** ï¿½eï¿½ï¿½ï¿½fï¿½ï¿½ */
+    private ERModel model;
 
-//		rawTable.copyTableViewData(this).restructureData(this);
-//		rawTable.clone().restructureData(this);
-//		rawTable.restructureData(this);
-//		restructureData(rawTable);
-	}
+    /** ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+    private ERTable rawTable;
 
-	// ---------------------------------------------------------------- Delegete Methods
+    @Override
+    public void setLocation(Location location) {
+        // TODO Auto-generated method stub
+        super.setLocation(location);
+    }
 
-	@Override
-	public void setFontSize(int fontSize) {
-		// TODO Auto-generated method stub
-		super.setFontSize(fontSize);
-	}
-	
-	@Override
-	public int getFontSize() {
-		// TODO Auto-generated method stub
-		return super.getFontSize();
-	}
-	
-//	@Override
-//	public int getFontSize() {
-//		if (super.getFontSize() == 0) {
-//			return super.getFontSize();
-//		}
-//		return rawTable.getFontSize();
-//	}
-//	
-//	@Override
-//	public String getFontName() {
-//		if (super.getFontName() == null) {
-//			return super.getFontName();
-//		}
-//		return rawTable.getFontName();
-//	}
+    public ERVirtualTable(ERModel model, ERTable rawTable) {
+        super();
+        this.model = model;
+        this.rawTable = rawTable;
+        //		setDiagram(rawTable.getDiagram());
+        //		this.tableViewProperties = DBManagerFactory.getDBManager(
+        //				this.getDiagram()).createTableProperties(
+        //				(TableProperties) this.tableViewProperties);
+        //
+        //		Dictionary dictionary = this.getDiagram().getDiagramContents()
+        //				.getDictionary();
+        //
+        //		setPhysicalName(rawTable.getPhysicalName());
+        //		setLogicalName(this.getLogicalName());
+        //		setDescription(this.getDescription());
+        //
+        //		for (NormalColumn toColumn : to.getNormalColumns()) {
+        //			dictionary.remove(toColumn);
+        //		}
+        //
+        //		List<Column> columns = new ArrayList<Column>();
+        //
+        //		List<NormalColumn> newPrimaryKeyColumns = new ArrayList<NormalColumn>();
+        //
+        //		for (Column fromColumn : this.getColumns()) {
+        //			if (fromColumn instanceof NormalColumn) {
+        //				CopyColumn copyColumn = (CopyColumn) fromColumn;
+        //
+        //				CopyWord copyWord = copyColumn.getWord();
+        //				if (copyColumn.isForeignKey()) {
+        //					copyWord = null;
+        //				}
+        //
+        //				if (copyWord != null) {
+        //					Word originalWord = copyColumn.getOriginalWord();
+        //					dictionary.copyTo(copyWord, originalWord);
+        //				}
+        //
+        //				NormalColumn restructuredColumn = copyColumn
+        //						.getRestructuredColumn();
+        //
+        //				restructuredColumn.setColumnHolder(this);
+        //				if (copyWord == null) {
+        //					restructuredColumn.setWord(null);
+        //				}
+        //				columns.add(restructuredColumn);
+        //
+        //				if (restructuredColumn.isPrimaryKey()) {
+        //					newPrimaryKeyColumns.add(restructuredColumn);
+        //				}
+        //
+        //				dictionary.add(restructuredColumn);
+        //
+        //			} else {
+        //				columns.add(fromColumn);
+        //			}
+        //		}
+        //
+        //		this.setTargetTableRelation(to, newPrimaryKeyColumns);
+        //
+        //		to.setColumns(columns);
 
-	@Override
-	public void setColor(int red, int green, int blue) {
-		rawTable.setColor(red, green, blue);
-	}
-	
-	@Override
-	public int[] getColor() {
-		return rawTable.getColor();
-	}
+        //		rawTable.copyTableViewData(this).restructureData(this);
+        //		rawTable.clone().restructureData(this);
+        //		rawTable.restructureData(this);
+        //		restructureData(rawTable);
+    }
 
-	@Override
-	public ERDiagram getDiagram() {
-		return rawTable.getDiagram();
-	}
+    // ---------------------------------------------------------------- Delegete Methods
 
-	public void setPoint(int x, int y) {
-		this.setLocation(new Location(x, y, getWidth(), getHeight()));
-	}
-	
-//	@Override
-//	public int getX() {
-//		return rawTable.getX();
-//	}
-//
-//	@Override
-//	public int getY() {
-//		return rawTable.getY();
-//	}
+    @Override
+    public void setFontSize(int fontSize) {
+        // TODO Auto-generated method stub
+        super.setFontSize(fontSize);
+    }
 
-	@Override
-	public int getWidth() {
-		return rawTable.getWidth();
-	}
+    @Override
+    public int getFontSize() {
+        // TODO Auto-generated method stub
+        return super.getFontSize();
+    }
 
-	@Override
-	public int getHeight() {
-		return rawTable.getHeight();
-	}
+    //	@Override
+    //	public int getFontSize() {
+    //		if (super.getFontSize() == 0) {
+    //			return super.getFontSize();
+    //		}
+    //		return rawTable.getFontSize();
+    //	}
+    //	
+    //	@Override
+    //	public String getFontName() {
+    //		if (super.getFontName() == null) {
+    //			return super.getFontName();
+    //		}
+    //		return rawTable.getFontName();
+    //	}
 
-	@Override
-	public List<ConnectionElement> getIncomings() {
-		System.out.println("ERVirtualTable::getIncomings");
-		List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
-		List<ERVirtualTable> modelTables = model.getTables();
-		for (ConnectionElement el : rawTable.getIncomings()) {
-			NodeElement findEl = el.getSource();
-			if (findEl instanceof Note) {
-				if (((Note)findEl).getModel().equals(model)) {
-					elements.add(el);
-				}
-//				elements.add(el);
-			} else {
-				for (ERVirtualTable vtable : modelTables) {
-					if (vtable.getRawTable().equals(findEl)) {
-						elements.add(el);
-						break;
-					}
-				}
-			}
-		}
-		return elements;
-	}
+    @Override
+    public void setColor(int red, int green, int blue) {
+        rawTable.setColor(red, green, blue);
+    }
 
-	@Override
-	public List<ConnectionElement> getOutgoings() {
-		List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
-		List<ERVirtualTable> modelTables = model.getTables();
-		for (ConnectionElement el : rawTable.getOutgoings()) {
-			NodeElement findEl = el.getTarget();
-			if (findEl instanceof Note) {
-				if (((Note)findEl).getModel().equals(model)) {
-					elements.add(el);
-				}
-				elements.add(el);
-			} else {
-				for (ERVirtualTable vtable : modelTables) {
-					if (vtable.getRawTable().equals(findEl)) {
-						elements.add(el);
-						break;
-					}
-				}
-			}
-		}
-		return elements;
-	}
-	
-	
+    @Override
+    public int[] getColor() {
+        return rawTable.getColor();
+    }
 
-	@Override
-	public NormalColumn getAutoIncrementColumn() {
-		return rawTable.getAutoIncrementColumn();
-	}
+    @Override
+    public ERDiagram getDiagram() {
+        return rawTable.getDiagram();
+    }
 
-	@Override
-	public TableViewProperties getTableViewProperties() {
-		return rawTable.getTableViewProperties();
-	}
+    public void setPoint(int x, int y) {
+        this.setLocation(new Location(x, y, getWidth(), getHeight()));
+    }
 
-	@Override
-	public String getPhysicalName() {
-		return rawTable.getPhysicalName();
-	}
+    //	@Override
+    //	public int getX() {
+    //		return rawTable.getX();
+    //	}
+    //
+    //	@Override
+    //	public int getY() {
+    //		return rawTable.getY();
+    //	}
 
-	@Override
-	public List<NodeElement> getReferringElementList() {
-		return rawTable.getReferringElementList();
-	}
+    @Override
+    public int getWidth() {
+        return rawTable.getWidth();
+    }
 
-	@Override
-	public TableViewProperties getTableViewProperties(String database) {
-		return rawTable.getTableViewProperties(database);
-	}
+    @Override
+    public int getHeight() {
+        return rawTable.getHeight();
+    }
 
-	@Override
-	public String getLogicalName() {
-		return rawTable.getLogicalName();
-	}
+    @Override
+    public List<ConnectionElement> getIncomings() {
+        System.out.println("ERVirtualTable::getIncomings");
+        List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
+        List<ERVirtualTable> modelTables = model.getTables();
+        for (ConnectionElement el : rawTable.getIncomings()) {
+            NodeElement findEl = el.getSource();
+            if (findEl instanceof Note) {
+                if (((Note) findEl).getModel().equals(model)) {
+                    elements.add(el);
+                }
+                //				elements.add(el);
+            } else {
+                for (ERVirtualTable vtable : modelTables) {
+                    if (vtable.getRawTable().equals(findEl)) {
+                        elements.add(el);
+                        break;
+                    }
+                }
+            }
+        }
+        return elements;
+    }
 
-	@Override
-	public List<NodeElement> getReferedElementList() {
-		return rawTable.getReferedElementList();
-	}
+    @Override
+    public List<ConnectionElement> getOutgoings() {
+        List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
+        List<ERVirtualTable> modelTables = model.getTables();
+        for (ConnectionElement el : rawTable.getOutgoings()) {
+            NodeElement findEl = el.getTarget();
+            if (findEl instanceof Note) {
+                if (((Note) findEl).getModel().equals(model)) {
+                    elements.add(el);
+                }
+                elements.add(el);
+            } else {
+                for (ERVirtualTable vtable : modelTables) {
+                    if (vtable.getRawTable().equals(findEl)) {
+                        elements.add(el);
+                        break;
+                    }
+                }
+            }
+        }
+        return elements;
+    }
 
-	@Override
-	public String getName() {
-		return rawTable.getName();
-	}
+    @Override
+    public NormalColumn getAutoIncrementColumn() {
+        return rawTable.getAutoIncrementColumn();
+    }
 
-	@Override
-	public String getDescription() {
-		return rawTable.getDescription();
-	}
+    @Override
+    public TableViewProperties getTableViewProperties() {
+        return rawTable.getTableViewProperties();
+    }
 
-	@Override
-	public List<Column> getColumns() {
-		return rawTable.getColumns();
-	}
+    @Override
+    public String getPhysicalName() {
+        return rawTable.getPhysicalName();
+    }
 
-	@Override
-	public List<NormalColumn> getExpandedColumns() {
-		return rawTable.getExpandedColumns();
-	}
+    @Override
+    public List<NodeElement> getReferringElementList() {
+        return rawTable.getReferringElementList();
+    }
 
-	@Override
-	public List<Relation> getIncomingRelations() {
-		List<Relation> elements = new ArrayList<Relation>();
-		List<ERVirtualTable> modelTables = model.getTables();
-		for (Relation el : rawTable.getIncomingRelations()) {
-			NodeElement findEl = el.getSource();
-			for (ERVirtualTable vtable : modelTables) {
-				if (vtable.getRawTable().equals(findEl)) {
-					elements.add(el);
-					break;
-				}
-			}
-		}
-		return elements;
-//		return rawTable.getIncomingRelations();
-	}
+    @Override
+    public TableViewProperties getTableViewProperties(String database) {
+        return rawTable.getTableViewProperties(database);
+    }
 
-	@Override
-	public List<Relation> getOutgoingRelations() {
-		List<Relation> elements = new ArrayList<Relation>();
-		List<ERVirtualTable> modelTables = model.getTables();
-		for (Relation el : rawTable.getOutgoingRelations()) {
-			NodeElement findEl = el.getSource();
-			for (ERVirtualTable vtable : modelTables) {
-				if (vtable.getRawTable().equals(findEl)) {
-					elements.add(el);
-					break;
-				}
-			}
-		}
-		return elements;
-//		return rawTable.getOutgoingRelations();
-	}
+    @Override
+    public String getLogicalName() {
+        return rawTable.getLogicalName();
+    }
 
-	@Override
-	public List<NormalColumn> getNormalColumns() {
-		return rawTable.getNormalColumns();
-	}
+    @Override
+    public List<NodeElement> getReferedElementList() {
+        return rawTable.getReferedElementList();
+    }
 
-	@Override
-	public int getPrimaryKeySize() {
-		return rawTable.getPrimaryKeySize();
-	}
+    @Override
+    public String getName() {
+        return rawTable.getName();
+    }
 
-	@Override
-	public Column getColumn(int index) {
-		return rawTable.getColumn(index);
-	}
+    @Override
+    public String getDescription() {
+        return rawTable.getDescription();
+    }
 
-	@Override
-	public List<NormalColumn> getPrimaryKeys() {
-		return rawTable.getPrimaryKeys();
-	}
+    @Override
+    public List<Column> getColumns() {
+        return rawTable.getColumns();
+    }
 
-	@Override
-	public Index getIndex(int index) {
-		return rawTable.getIndex(index);
-	}
+    @Override
+    public List<NormalColumn> getExpandedColumns() {
+        return rawTable.getExpandedColumns();
+    }
 
-	@Override
-	public List<Index> getIndexes() {
-		return rawTable.getIndexes();
-	}
+    @Override
+    public List<Relation> getIncomingRelations() {
+        List<Relation> elements = new ArrayList<Relation>();
+        List<ERVirtualTable> modelTables = model.getTables();
+        for (Relation el : rawTable.getIncomingRelations()) {
+            NodeElement findEl = el.getSource();
+            for (ERVirtualTable vtable : modelTables) {
+                if (vtable.getRawTable().equals(findEl)) {
+                    elements.add(el);
+                    break;
+                }
+            }
+        }
+        return elements;
+        //		return rawTable.getIncomingRelations();
+    }
 
-	@Override
-	public List<ComplexUniqueKey> getComplexUniqueKeyList() {
-		return rawTable.getComplexUniqueKeyList();
-	}
+    @Override
+    public List<Relation> getOutgoingRelations() {
+        List<Relation> elements = new ArrayList<Relation>();
+        List<ERVirtualTable> modelTables = model.getTables();
+        for (Relation el : rawTable.getOutgoingRelations()) {
+            NodeElement findEl = el.getSource();
+            for (ERVirtualTable vtable : modelTables) {
+                if (vtable.getRawTable().equals(findEl)) {
+                    elements.add(el);
+                    break;
+                }
+            }
+        }
+        return elements;
+        //		return rawTable.getOutgoingRelations();
+    }
 
-	@Override
-	public String getConstraint() {
-		return rawTable.getConstraint();
-	}
+    @Override
+    public List<NormalColumn> getNormalColumns() {
+        return rawTable.getNormalColumns();
+    }
 
-	@Override
-	public String getPrimaryKeyName() {
-		return rawTable.getPrimaryKeyName();
-	}
+    @Override
+    public int getPrimaryKeySize() {
+        return rawTable.getPrimaryKeySize();
+    }
 
-	@Override
-	public String getOption() {
-		return rawTable.getOption();
-	}
+    @Override
+    public Column getColumn(int index) {
+        return rawTable.getColumn(index);
+    }
 
-	@Override
-	public String getNameWithSchema(String database) {
-		return rawTable.getNameWithSchema(database);
-	}
+    @Override
+    public List<NormalColumn> getPrimaryKeys() {
+        return rawTable.getPrimaryKeys();
+    }
 
-	/**
-	 * ƒe[ƒuƒ‹À‘Ì‚ğæ“¾‚µ‚Ü‚·B
-	 * @return ƒe[ƒuƒ‹À‘Ì
-	 */
-	public ERTable getRawTable() {
-	    return rawTable;
-	}
+    @Override
+    public Index getIndex(int index) {
+        return rawTable.getIndex(index);
+    }
 
-	/**
-	 * ƒe[ƒuƒ‹À‘Ì‚ğİ’è‚µ‚Ü‚·B
-	 * @param rawTable ƒe[ƒuƒ‹À‘Ì
-	 */
-	public void setRawTable(ERTable rawTable) {
-	    this.rawTable = rawTable;
-	}
+    @Override
+    public List<Index> getIndexes() {
+        return rawTable.getIndexes();
+    }
 
-	@Override
-	public String getObjectType() {
-		return "vtable";
-	}
+    @Override
+    public List<ComplexUniqueKey> getComplexUniqueKeyList() {
+        return rawTable.getComplexUniqueKeyList();
+    }
 
-	/**
-	 * ƒe[ƒuƒ‹À‘Ì‚ğXV‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚Ü‚·B
-	 */
-	public void doChangeTable() {
-		firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
-	}
+    @Override
+    public String getConstraint() {
+        return rawTable.getConstraint();
+    }
+
+    @Override
+    public String getPrimaryKeyName() {
+        return rawTable.getPrimaryKeyName();
+    }
+
+    @Override
+    public String getOption() {
+        return rawTable.getOption();
+    }
+
+    @Override
+    public String getNameWithSchema(String database) {
+        return rawTable.getNameWithSchema(database);
+    }
+
+    /**
+     * ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+     * @return ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    public ERTable getRawTable() {
+        return rawTable;
+    }
+
+    /**
+     * ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
+     * @param rawTable ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    public void setRawTable(ERTable rawTable) {
+        this.rawTable = rawTable;
+    }
+
+    @Override
+    public String getObjectType() {
+        return "vtable";
+    }
+
+    /**
+     * ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÉŒÄ‚Î‚ï¿½Ü‚ï¿½ï¿½B
+     */
+    public void doChangeTable() {
+        firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
+    }
 
 }

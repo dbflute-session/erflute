@@ -2,10 +2,10 @@ package org.insightech.er.common.widgets.table;
 
 public interface CellEditWorker {
 
-	public void addNewRow();
+    public void addNewRow();
 
-	public void changeRowNum();
+    public void changeRowNum();
 
-	public boolean isModified(int row, int column);
+    public boolean isModified(int row, int column);
 
 }

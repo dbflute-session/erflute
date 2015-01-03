@@ -12,30 +12,27 @@ import org.insightech.er.editor.ERDiagramEditor;
 
 public class PrintImageAction extends PrintAction {
 
-	public PrintImageAction(ERDiagramEditor part) {
-		super((IWorkbenchPart) part);
-	}
+    public PrintImageAction(ERDiagramEditor part) {
+        super((IWorkbenchPart) part);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void run() {
-		GraphicalViewer viewer;
-		viewer = (GraphicalViewer) getWorkbenchPart().getAdapter(
-				GraphicalViewer.class);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void run() {
+        GraphicalViewer viewer;
+        viewer = (GraphicalViewer) getWorkbenchPart().getAdapter(GraphicalViewer.class);
 
-		PrintDialog dialog = new PrintDialog(viewer.getControl().getShell(),
-				SWT.NULL);
-		PrinterData data = dialog.open();
+        PrintDialog dialog = new PrintDialog(viewer.getControl().getShell(), SWT.NULL);
+        PrinterData data = dialog.open();
 
-		if (data != null) {
-			Printer printer = new Printer(data);
-			PrintGraphicalViewerOperation op = new PrintERDiagramOperation(
-					printer, viewer);
+        if (data != null) {
+            Printer printer = new Printer(data);
+            PrintGraphicalViewerOperation op = new PrintERDiagramOperation(printer, viewer);
 
-			op.run(getWorkbenchPart().getTitle());
-		}
-	}
+            op.run(getWorkbenchPart().getTitle());
+        }
+    }
 
 }

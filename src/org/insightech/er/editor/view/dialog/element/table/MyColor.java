@@ -4,33 +4,33 @@ import java.util.Arrays;
 
 public class MyColor {
 
-	private int[] colors;
+    private int[] colors;
 
-	public MyColor(int[] color) {
-		this.colors = color;
-	}
+    public MyColor(int[] color) {
+        this.colors = color;
+    }
 
-	@Override
-	public int hashCode() {
-		return colors[0] + colors[1] + colors[2];
-	}
+    @Override
+    public int hashCode() {
+        return colors[0] + colors[1] + colors[2];
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof MyColor) {
-			MyColor other = (MyColor) obj;
-			return Arrays.equals(other.colors, this.colors);
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MyColor) {
+            MyColor other = (MyColor) obj;
+            return Arrays.equals(other.colors, this.colors);
+        } else {
+            return false;
+        }
+    }
 
-	/**
-	 * colors‚ğæ“¾‚µ‚Ü‚·B
-	 * @return colors
-	 */
-	public int[] getColors() {
-	    return colors;
-	}
+    /**
+     * colorsï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+     * @return colors
+     */
+    public int[] getColors() {
+        return colors;
+    }
 
 }

@@ -9,28 +9,26 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.action.outline.AbstractOutlineBaseAction;
 
-public class ChangeOutlineViewOrderByPhysicalNameAction extends
-		AbstractOutlineBaseAction {
+public class ChangeOutlineViewOrderByPhysicalNameAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = ChangeOutlineViewOrderByPhysicalNameAction.class
-			.getName();
+    public static final String ID = ChangeOutlineViewOrderByPhysicalNameAction.class.getName();
 
-	public ChangeOutlineViewOrderByPhysicalNameAction(TreeViewer treeViewer) {
-		super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
-		this.setText(ResourceString.getResourceString("label.physical.name"));
-	}
+    public ChangeOutlineViewOrderByPhysicalNameAction(TreeViewer treeViewer) {
+        super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
+        this.setText(ResourceString.getResourceString("label.physical.name"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(
-				diagram, Settings.VIEW_MODE_PHYSICAL);
+        ChangeOutlineViewOrderByCommand command =
+                new ChangeOutlineViewOrderByCommand(diagram, Settings.VIEW_MODE_PHYSICAL);
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 
 }

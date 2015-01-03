@@ -38,69 +38,69 @@ import org.insightech.er.editor.model.tracking.RemovedNote;
 
 public class ERDiagramEditPartFactory implements EditPartFactory {
 
-	public ERDiagramEditPartFactory() {
-	}
+    public ERDiagramEditPartFactory() {
+    }
 
-	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart editPart = null;
+    public EditPart createEditPart(EditPart context, Object model) {
+        EditPart editPart = null;
 
-		if (model instanceof ERModel) {
-			editPart = new ERModelEditPart();
-		} else if (model instanceof ERVirtualTable) {
-			editPart = new ERVirtualTableEditPart();
-		} else if (model instanceof ERTable) {
-			editPart = new ERTableEditPart();
+        if (model instanceof ERModel) {
+            editPart = new ERModelEditPart();
+        } else if (model instanceof ERVirtualTable) {
+            editPart = new ERVirtualTableEditPart();
+        } else if (model instanceof ERTable) {
+            editPart = new ERTableEditPart();
 
-		} else if (model instanceof View) {
-			editPart = new ViewEditPart();
+        } else if (model instanceof View) {
+            editPart = new ViewEditPart();
 
-		} else if (model instanceof ERDiagram) {
-			editPart = new ERDiagramEditPart();
+        } else if (model instanceof ERDiagram) {
+            editPart = new ERDiagramEditPart();
 
-		} else if (model instanceof Relation) {
-			editPart = new RelationEditPart();
+        } else if (model instanceof Relation) {
+            editPart = new RelationEditPart();
 
-		} else if (model instanceof Note) {
-			editPart = new NoteEditPart();
+        } else if (model instanceof Note) {
+            editPart = new NoteEditPart();
 
-		} else if (model instanceof Index) {
-			editPart = new IndexEditPart();
+        } else if (model instanceof Index) {
+            editPart = new IndexEditPart();
 
-		} else if (model instanceof ModelProperties) {
-			editPart = new ModelPropertiesEditPart();
+        } else if (model instanceof ModelProperties) {
+            editPart = new ModelPropertiesEditPart();
 
-		} else if (model instanceof CommentConnection) {
-			editPart = new CommentConnectionEditPart();
+        } else if (model instanceof CommentConnection) {
+            editPart = new CommentConnectionEditPart();
 
-		} else if (model instanceof Category) {
-			editPart = new CategoryEditPart();
+        } else if (model instanceof Category) {
+            editPart = new CategoryEditPart();
 
-		} else if (model instanceof RemovedERTable) {
-			editPart = new RemovedERTableEditPart();
+        } else if (model instanceof RemovedERTable) {
+            editPart = new RemovedERTableEditPart();
 
-		} else if (model instanceof RemovedNote) {
-			editPart = new RemovedNoteEditPart();
+        } else if (model instanceof RemovedNote) {
+            editPart = new RemovedNoteEditPart();
 
-		} else if (model instanceof NormalColumn) {
-			editPart = new NormalColumnEditPart();
+        } else if (model instanceof NormalColumn) {
+            editPart = new NormalColumnEditPart();
 
-		} else if (model instanceof ColumnGroup) {
-			editPart = new GroupColumnEditPart();
+        } else if (model instanceof ColumnGroup) {
+            editPart = new GroupColumnEditPart();
 
-		} else if (model instanceof InsertedImage) {
-			editPart = new InsertedImageEditPart();
+        } else if (model instanceof InsertedImage) {
+            editPart = new InsertedImageEditPart();
 
-		} else if (model instanceof VGroup) {
-			editPart = new VGroupEditPart();
+        } else if (model instanceof VGroup) {
+            editPart = new VGroupEditPart();
 
-		}
+        }
 
-		if (editPart != null) {
-			editPart.setModel(model);
-		} else {
-			System.out.println("error");
-		}
+        if (editPart != null) {
+            editPart.setModel(model);
+        } else {
+            System.out.println("error");
+        }
 
-		return editPart;
-	}
+        return editPart;
+    }
 }

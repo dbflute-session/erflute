@@ -11,26 +11,23 @@ import org.insightech.er.editor.view.action.outline.AbstractOutlineBaseAction;
 
 public class ChangeOutlineViewToLogicalAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = ChangeOutlineViewToLogicalAction.class
-			.getName();
+    public static final String ID = ChangeOutlineViewToLogicalAction.class.getName();
 
-	public ChangeOutlineViewToLogicalAction(TreeViewer treeViewer) {
-		super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
-		this.setText(ResourceString
-				.getResourceString("action.title.change.mode.to.logical"));
-	}
+    public ChangeOutlineViewToLogicalAction(TreeViewer treeViewer) {
+        super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
+        this.setText(ResourceString.getResourceString("action.title.change.mode.to.logical"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeOutlineViewModeCommand command = new ChangeOutlineViewModeCommand(
-				diagram, Settings.VIEW_MODE_LOGICAL);
+        ChangeOutlineViewModeCommand command = new ChangeOutlineViewModeCommand(diagram, Settings.VIEW_MODE_LOGICAL);
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 
 }

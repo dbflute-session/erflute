@@ -20,248 +20,220 @@ import org.insightech.er.editor.model.testdata.TestData;
 
 public abstract class TestDataCreator {
 
-	protected ERDiagram diagram;
+    protected ERDiagram diagram;
 
-	protected ExportTestDataSetting exportTestDataSetting;
+    protected ExportTestDataSetting exportTestDataSetting;
 
-	protected TestData testData;
+    protected TestData testData;
 
-	protected Map<NormalColumn, List<String>> valueListMap;
+    protected Map<NormalColumn, List<String>> valueListMap;
 
-	public TestDataCreator() {
-	}
+    public TestDataCreator() {
+    }
 
-	public void init(TestData testData) {
-		this.testData = testData;
-		this.valueListMap = new HashMap<NormalColumn, List<String>>();
-	}
+    public void init(TestData testData) {
+        this.testData = testData;
+        this.valueListMap = new HashMap<NormalColumn, List<String>>();
+    }
 
-	public String getMergedRepeatTestDataValue(int count,
-			RepeatTestDataDef repeatTestDataDef, NormalColumn column) {
-		String modifiedValue = repeatTestDataDef.getModifiedValues().get(count);
+    public String getMergedRepeatTestDataValue(int count, RepeatTestDataDef repeatTestDataDef, NormalColumn column) {
+        String modifiedValue = repeatTestDataDef.getModifiedValues().get(count);
 
-		if (modifiedValue != null) {
-			return modifiedValue;
+        if (modifiedValue != null) {
+            return modifiedValue;
 
-		} else {
-			String value = this.getRepeatTestDataValue(count,
-					repeatTestDataDef, column);
-			if (value == null) {
-				return "null";
-			}
+        } else {
+            String value = this.getRepeatTestDataValue(count, repeatTestDataDef, column);
+            if (value == null) {
+                return "null";
+            }
 
-			return value;
-		}
-	}
+            return value;
+        }
+    }
 
-	public String getRepeatTestDataValue(int count,
-			RepeatTestDataDef repeatTestDataDef, NormalColumn column) {
-		if (repeatTestDataDef == null) {
-			return null;
-		}
+    public String getRepeatTestDataValue(int count, RepeatTestDataDef repeatTestDataDef, NormalColumn column) {
+        if (repeatTestDataDef == null) {
+            return null;
+        }
 
-		String type = repeatTestDataDef.getType();
+        String type = repeatTestDataDef.getType();
 
-		int repeatNum = repeatTestDataDef.getRepeatNum();
+        int repeatNum = repeatTestDataDef.getRepeatNum();
 
-		if (RepeatTestDataDef.TYPE_FORMAT.equals(type)) {
-			int from = repeatTestDataDef.getFrom();
-			int increment = repeatTestDataDef.getIncrement();
-			int to = repeatTestDataDef.getTo();
+        if (RepeatTestDataDef.TYPE_FORMAT.equals(type)) {
+            int from = repeatTestDataDef.getFrom();
+            int increment = repeatTestDataDef.getIncrement();
+            int to = repeatTestDataDef.getTo();
 
-			String template = repeatTestDataDef.getTemplate();
+            String template = repeatTestDataDef.getTemplate();
 
-			int no = from;
+            int no = from;
 
-			if (repeatNum != 0 && to - from + 1 != 0) {
-				no = from
-						+ (((count / repeatNum) * increment) % (to - from + 1));
+            if (repeatNum != 0 && to - from + 1 != 0) {
+                no = from + (((count / repeatNum) * increment) % (to - from + 1));
 
-			}
+            }
 
-			String value = template.replaceAll("%", String.valueOf(no));
-			if (column.getType() != null && column.getType().isTimestamp()) {
-				SimpleDateFormat format1 = new SimpleDateFormat(
-						"yyyy-MM-dd HH:mm:ss.SSS");
+            String value = template.replaceAll("%", String.valueOf(no));
+            if (column.getType() != null && column.getType().isTimestamp()) {
+                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-				try {
-					value = format1.format(format1.parse(value));
+                try {
+                    value = format1.format(format1.parse(value));
 
-				} catch (ParseException e1) {
-					SimpleDateFormat format2 = new SimpleDateFormat(
-							"yyyy-MM-dd HH:mm:ss");
+                } catch (ParseException e1) {
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-					try {
-						value = format2.format(format2.parse(value));
+                    try {
+                        value = format2.format(format2.parse(value));
 
-					} catch (ParseException e2) {
-						SimpleDateFormat format3 = new SimpleDateFormat(
-								"yyyy-MM-dd");
+                    } catch (ParseException e2) {
+                        SimpleDateFormat format3 = new SimpleDateFormat("yyyy-MM-dd");
 
-						try {
-							value = format3.format(format3.parse(value));
+                        try {
+                            value = format3.format(format3.parse(value));
 
-						} catch (ParseException e3) {
-						}
-					}
+                        } catch (ParseException e3) {}
+                    }
 
-				}
+                }
 
-			}
+            }
 
-			return value;
+            return value;
 
-		} else if (RepeatTestDataDef.TYPE_FOREIGNKEY.equals(type)) {
-			NormalColumn referencedColumn = column.getFirstReferencedColumn();
-			if (referencedColumn == null) {
-				return null;
-			}
+        } else if (RepeatTestDataDef.TYPE_FOREIGNKEY.equals(type)) {
+            NormalColumn referencedColumn = column.getFirstReferencedColumn();
+            if (referencedColumn == null) {
+                return null;
+            }
 
-			List<String> referencedValueList = this
-					.getValueList(referencedColumn);
+            List<String> referencedValueList = this.getValueList(referencedColumn);
 
-			if (referencedValueList.size() == 0) {
-				return null;
-			}
+            if (referencedValueList.size() == 0) {
+                return null;
+            }
 
-			int index = (count / repeatNum) % referencedValueList.size();
+            int index = (count / repeatNum) % referencedValueList.size();
 
-			return referencedValueList.get(index);
+            return referencedValueList.get(index);
 
-		} else if (RepeatTestDataDef.TYPE_ENUM.equals(type)) {
-			String[] selects = repeatTestDataDef.getSelects();
-
-			if (selects.length == 0) {
-				return null;
-			}
+        } else if (RepeatTestDataDef.TYPE_ENUM.equals(type)) {
+            String[] selects = repeatTestDataDef.getSelects();
 
-			return selects[(count / repeatNum) % selects.length];
-		}
-
-		return null;
-	}
+            if (selects.length == 0) {
+                return null;
+            }
 
-	private List<String> getValueList(NormalColumn column) {
-		List<String> valueList = this.valueListMap.get(column);
-
-		if (valueList == null) {
-			valueList = new ArrayList<String>();
-
-			ERTable table = (ERTable) column.getColumnHolder();
-			TableTestData tableTestData = this.testData.getTableTestDataMap()
-					.get(table);
-
-			if (tableTestData != null) {
-				DirectTestData directTestData = tableTestData
-						.getDirectTestData();
-				RepeatTestData repeatTestData = tableTestData
-						.getRepeatTestData();
+            return selects[(count / repeatNum) % selects.length];
+        }
 
-				if (this.testData.getExportOrder() == TestData.EXPORT_ORDER_DIRECT_TO_REPEAT) {
-					for (Map<NormalColumn, String> data : directTestData
-							.getDataList()) {
-						String value = data.get(column);
-						valueList.add(value);
-					}
+        return null;
+    }
 
-					for (int i = 0; i < repeatTestData.getTestDataNum(); i++) {
-						String value = this.getMergedRepeatTestDataValue(i,
-								repeatTestData.getDataDef(column), column);
-						valueList.add(value);
-					}
+    private List<String> getValueList(NormalColumn column) {
+        List<String> valueList = this.valueListMap.get(column);
 
-				} else {
-					for (int i = 0; i < repeatTestData.getTestDataNum(); i++) {
-						String value = this.getRepeatTestDataValue(i,
-								repeatTestData.getDataDef(column), column);
-						valueList.add(value);
-					}
+        if (valueList == null) {
+            valueList = new ArrayList<String>();
 
-					for (Map<NormalColumn, String> data : directTestData
-							.getDataList()) {
-						String value = data.get(column);
-						valueList.add(value);
-					}
+            ERTable table = (ERTable) column.getColumnHolder();
+            TableTestData tableTestData = this.testData.getTableTestDataMap().get(table);
 
-				}
-			}
-		}
+            if (tableTestData != null) {
+                DirectTestData directTestData = tableTestData.getDirectTestData();
+                RepeatTestData repeatTestData = tableTestData.getRepeatTestData();
 
-		return valueList;
-	}
+                if (this.testData.getExportOrder() == TestData.EXPORT_ORDER_DIRECT_TO_REPEAT) {
+                    for (Map<NormalColumn, String> data : directTestData.getDataList()) {
+                        String value = data.get(column);
+                        valueList.add(value);
+                    }
 
-	final public void write(ExportTestDataSetting exportTestDataSetting,
-			ERDiagram diagram) throws IOException {
-		this.exportTestDataSetting = exportTestDataSetting;
-		this.diagram = diagram;
+                    for (int i = 0; i < repeatTestData.getTestDataNum(); i++) {
+                        String value = this.getMergedRepeatTestDataValue(i, repeatTestData.getDataDef(column), column);
+                        valueList.add(value);
+                    }
 
-		try {
-			this.openFile();
+                } else {
+                    for (int i = 0; i < repeatTestData.getTestDataNum(); i++) {
+                        String value = this.getRepeatTestDataValue(i, repeatTestData.getDataDef(column), column);
+                        valueList.add(value);
+                    }
 
-			this.write();
+                    for (Map<NormalColumn, String> data : directTestData.getDataList()) {
+                        String value = data.get(column);
+                        valueList.add(value);
+                    }
 
-		} finally {
-			this.closeFile();
-		}
-	}
+                }
+            }
+        }
 
-	protected abstract void openFile() throws IOException;
+        return valueList;
+    }
 
-	protected void write() throws IOException {
-		for (Map.Entry<ERTable, TableTestData> entry : this.testData
-				.getTableTestDataMap().entrySet()) {
-			ERTable table = entry.getKey();
+    final public void write(ExportTestDataSetting exportTestDataSetting, ERDiagram diagram) throws IOException {
+        this.exportTestDataSetting = exportTestDataSetting;
+        this.diagram = diagram;
 
-			if (skipTable(table)) {
-				continue;
-			}
+        try {
+            this.openFile();
 
-			TableTestData tableTestData = entry.getValue();
+            this.write();
 
-			DirectTestData directTestData = tableTestData.getDirectTestData();
-			RepeatTestData repeatTestData = tableTestData.getRepeatTestData();
+        } finally {
+            this.closeFile();
+        }
+    }
 
-			this.writeTableHeader(diagram, table);
+    protected abstract void openFile() throws IOException;
 
-			if (this.testData.getExportOrder() == TestData.EXPORT_ORDER_DIRECT_TO_REPEAT) {
-				for (Map<NormalColumn, String> data : directTestData
-						.getDataList()) {
-					this
-							.writeDirectTestData(table, data, diagram
-									.getDatabase());
-				}
+    protected void write() throws IOException {
+        for (Map.Entry<ERTable, TableTestData> entry : this.testData.getTableTestDataMap().entrySet()) {
+            ERTable table = entry.getKey();
 
-				this.writeRepeatTestData(table, repeatTestData, diagram
-						.getDatabase());
+            if (skipTable(table)) {
+                continue;
+            }
 
-			} else {
-				this.writeRepeatTestData(table, repeatTestData, diagram
-						.getDatabase());
+            TableTestData tableTestData = entry.getValue();
 
-				for (Map<NormalColumn, String> data : directTestData
-						.getDataList()) {
-					this
-							.writeDirectTestData(table, data, diagram
-									.getDatabase());
-				}
-			}
+            DirectTestData directTestData = tableTestData.getDirectTestData();
+            RepeatTestData repeatTestData = tableTestData.getRepeatTestData();
 
-			this.writeTableFooter(table);
-		}
+            this.writeTableHeader(diagram, table);
 
-	}
+            if (this.testData.getExportOrder() == TestData.EXPORT_ORDER_DIRECT_TO_REPEAT) {
+                for (Map<NormalColumn, String> data : directTestData.getDataList()) {
+                    this.writeDirectTestData(table, data, diagram.getDatabase());
+                }
 
-	protected abstract boolean skipTable(ERTable table);
+                this.writeRepeatTestData(table, repeatTestData, diagram.getDatabase());
 
-	protected abstract void writeTableHeader(ERDiagram diagram, ERTable table);
+            } else {
+                this.writeRepeatTestData(table, repeatTestData, diagram.getDatabase());
 
-	protected abstract void writeTableFooter(ERTable table);
+                for (Map<NormalColumn, String> data : directTestData.getDataList()) {
+                    this.writeDirectTestData(table, data, diagram.getDatabase());
+                }
+            }
 
-	protected abstract void writeDirectTestData(ERTable table,
-			Map<NormalColumn, String> data, String database);
+            this.writeTableFooter(table);
+        }
 
-	protected abstract void writeRepeatTestData(ERTable table,
-			RepeatTestData repeatTestData, String database);
+    }
 
-	protected abstract void closeFile() throws IOException;
+    protected abstract boolean skipTable(ERTable table);
+
+    protected abstract void writeTableHeader(ERDiagram diagram, ERTable table);
+
+    protected abstract void writeTableFooter(ERTable table);
+
+    protected abstract void writeDirectTestData(ERTable table, Map<NormalColumn, String> data, String database);
+
+    protected abstract void writeRepeatTestData(ERTable table, RepeatTestData repeatTestData, String database);
+
+    protected abstract void closeFile() throws IOException;
 }

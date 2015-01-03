@@ -11,120 +11,120 @@ import org.insightech.er.util.io.IOUtils;
 
 public class InsertedImage extends NodeElement {
 
-	private static final long serialVersionUID = -2035035973213266486L;
+    private static final long serialVersionUID = -2035035973213266486L;
 
-	public static final String PROPERTY_CHANGE_IMAGE = "image";
+    public static final String PROPERTY_CHANGE_IMAGE = "image";
 
-	private String base64EncodedData;
+    private String base64EncodedData;
 
-	/** 0�@�`�@360 */
-	private int hue;
+    /** 0�@�`�@360 */
+    private int hue;
 
-	/** -100�@�`�@+100 */
-	private int saturation;
+    /** -100�@�`�@+100 */
+    private int saturation;
 
-	/** -100�@�`�@+100 */
-	private int brightness;
+    /** -100�@�`�@+100 */
+    private int brightness;
 
-	private int alpha;
-	
-	private boolean fixAspectRatio;
-	
-	public InsertedImage() {
-		this.alpha = 255;
-	}
+    private int alpha;
 
-	public String getBase64EncodedData() {
-		return base64EncodedData;
-	}
+    private boolean fixAspectRatio;
 
-	public void setBase64EncodedData(String base64EncodedData) {
-		this.base64EncodedData = base64EncodedData;
-	}
+    public InsertedImage() {
+        this.alpha = 255;
+    }
 
-	public String getDescription() {
-		return null;
-	}
+    public String getBase64EncodedData() {
+        return base64EncodedData;
+    }
 
-	public String getName() {
-		return null;
-	}
+    public void setBase64EncodedData(String base64EncodedData) {
+        this.base64EncodedData = base64EncodedData;
+    }
 
-	public String getObjectType() {
-		return "image";
-	}
+    public String getDescription() {
+        return null;
+    }
 
-	public void setImageFilePath(String imageFilePath) {
-		InputStream in = null;
+    public String getName() {
+        return null;
+    }
 
-		try {
-			in = new BufferedInputStream(new FileInputStream(imageFilePath));
+    public String getObjectType() {
+        return "image";
+    }
 
-			byte[] data = IOUtils.toByteArray(in);
+    public void setImageFilePath(String imageFilePath) {
+        InputStream in = null;
 
-			String encodedData = new String(Base64.encodeBase64(data));
-			this.setBase64EncodedData(encodedData);
+        try {
+            in = new BufferedInputStream(new FileInputStream(imageFilePath));
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
+            byte[] data = IOUtils.toByteArray(in);
 
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (Exception e) {
-					Activator.showExceptionDialog(e);
-				}
-			}
-		}
-	}
+            String encodedData = new String(Base64.encodeBase64(data));
+            this.setBase64EncodedData(encodedData);
 
-	public int getHue() {
-		return hue;
-	}
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
 
-	public void setHue(int hue) {
-		this.hue = hue;
-	}
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (Exception e) {
+                    Activator.showExceptionDialog(e);
+                }
+            }
+        }
+    }
 
-	public int getSaturation() {
-		return saturation;
-	}
+    public int getHue() {
+        return hue;
+    }
 
-	public void setSaturation(int saturation) {
-		this.saturation = saturation;
-	}
+    public void setHue(int hue) {
+        this.hue = hue;
+    }
 
-	public int getBrightness() {
-		return brightness;
-	}
+    public int getSaturation() {
+        return saturation;
+    }
 
-	public void setBrightness(int brightness) {
-		this.brightness = brightness;
-	}
+    public void setSaturation(int saturation) {
+        this.saturation = saturation;
+    }
 
-	public int getAlpha() {
-		return alpha;
-	}
+    public int getBrightness() {
+        return brightness;
+    }
 
-	public void setAlpha(int alpha) {
-		this.alpha = alpha;
-	}
+    public void setBrightness(int brightness) {
+        this.brightness = brightness;
+    }
 
-	public boolean isFixAspectRatio() {
-		return fixAspectRatio;
-	}
+    public int getAlpha() {
+        return alpha;
+    }
 
-	public void setFixAspectRatio(boolean fixAspectRatio) {
-		this.fixAspectRatio = fixAspectRatio;
-	}
+    public void setAlpha(int alpha) {
+        this.alpha = alpha;
+    }
 
-	public void setDirty() {
-		this.firePropertyChange(PROPERTY_CHANGE_IMAGE, null, null);
-	}
+    public boolean isFixAspectRatio() {
+        return fixAspectRatio;
+    }
 
-	@Override
-	public boolean needsUpdateOtherModel() {
-		return true; // �s��
-	}
+    public void setFixAspectRatio(boolean fixAspectRatio) {
+        this.fixAspectRatio = fixAspectRatio;
+    }
+
+    public void setDirty() {
+        this.firePropertyChange(PROPERTY_CHANGE_IMAGE, null, null);
+    }
+
+    @Override
+    public boolean needsUpdateOtherModel() {
+        return true; // �s��
+    }
 }

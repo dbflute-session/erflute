@@ -15,44 +15,44 @@ import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERMo
 
 public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
 
-	@Override
-	protected List getModelChildren() {
-		ERModelSet modelSet = (ERModelSet) this.getModel();
+    @Override
+    protected List getModelChildren() {
+        ERModelSet modelSet = (ERModelSet) this.getModel();
 
-		List<ERModel> list = new ArrayList<ERModel>();
-		for (ERModel table : modelSet) {
-			list.add(table);
-		}
-		Collections.sort(list, new Comparator<ERModel>() {
-			@Override
-			public int compare(ERModel o1, ERModel o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
+        List<ERModel> list = new ArrayList<ERModel>();
+        for (ERModel table : modelSet) {
+            list.add(table);
+        }
+        Collections.sort(list, new Comparator<ERModel>() {
+            @Override
+            public int compare(ERModel o1, ERModel o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
 
-//		if (this.getDiagram().getDiagramContents().getSettings()
-//				.getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
-//			Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
-//
-//		} else {
-//			Collections.sort(list, TableView.PHYSICAL_NAME_COMPARATOR);
-//
-//		}
+        //		if (this.getDiagram().getDiagramContents().getSettings()
+        //				.getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
+        //			Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
+        //
+        //		} else {
+        //			Collections.sort(list, TableView.PHYSICAL_NAME_COMPARATOR);
+        //
+        //		}
 
-		return list;
-	}
+        return list;
+    }
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(ERModelSet.PROPERTY_CHANGE_MODEL_SET)) {
-			refresh();
-		}
-	}
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(ERModelSet.PROPERTY_CHANGE_MODEL_SET)) {
+            refresh();
+        }
+    }
 
-	@Override
-	protected void refreshOutlineVisuals() {
-		this.setWidgetText(ResourceString.getResourceString("label.ermodel")
-				+ " (" + this.getModelChildren().size() + ")");
-		this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
-	}
+    @Override
+    protected void refreshOutlineVisuals() {
+        this.setWidgetText(ResourceString.getResourceString("label.ermodel") + " (" + this.getModelChildren().size()
+                + ")");
+        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+    }
 
 }

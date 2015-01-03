@@ -8,22 +8,21 @@ import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 
 public class NoteDirectEditPolicy extends DirectEditPolicy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Command getDirectEditCommand(DirectEditRequest request) {
-		String text = (String) request.getCellEditor().getValue();
-		NoteEditCommand command = new NoteEditCommand((Note) getHost()
-				.getModel(), text);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Command getDirectEditCommand(DirectEditRequest request) {
+        String text = (String) request.getCellEditor().getValue();
+        NoteEditCommand command = new NoteEditCommand((Note) getHost().getModel(), text);
 
-		return command;
-	}
+        return command;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void showCurrentEditValue(DirectEditRequest request) {
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void showCurrentEditValue(DirectEditRequest request) {
+    }
 }

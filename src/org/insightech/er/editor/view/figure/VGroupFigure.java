@@ -8,24 +8,24 @@ import org.eclipse.draw2d.ToolbarLayout;
 
 public class VGroupFigure extends RectangleFigure {
 
-	private Label label;
+    private Label label;
 
-	public VGroupFigure(String name) {
-		this.setOpaque(true);
+    public VGroupFigure(String name) {
+        this.setOpaque(true);
 
-		ToolbarLayout layout = new ToolbarLayout();
-		this.setLayoutManager(layout);
+        ToolbarLayout layout = new ToolbarLayout();
+        this.setLayoutManager(layout);
 
-		this.label = new Label();
-		this.label.setText(name);
-		this.label.setBorder(new MarginBorder(7));
-		this.add(this.label);
-	}
+        this.label = new Label();
+        this.label.setText(name);
+        this.label.setBorder(new MarginBorder(7));
+        this.add(this.label);
+    }
 
-	@Override
-	protected void fillShape(Graphics graphics) {
-		graphics.setAlpha(100);
-		super.fillShape(graphics);
-	}
+    @Override
+    protected void fillShape(Graphics graphics) {
+        graphics.setAlpha(100);
+        super.fillShape(graphics);
+    }
 
 }

@@ -32,174 +32,162 @@ import org.insightech.er.util.Format;
 
 public class ExportToJavaDialog extends AbstractDialog {
 
-	private DirectoryText outputDirText;
+    private DirectoryText outputDirText;
 
-	private Text packageText;
+    private Text packageText;
 
-	private Text classNameSuffixText;
+    private Text classNameSuffixText;
 
-	private Button withHibernateButton;
+    private Button withHibernateButton;
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	private IEditorPart editorPart;
+    private IEditorPart editorPart;
 
-	private ExportSetting exportSetting;
+    private ExportSetting exportSetting;
 
-	private Combo fileEncodingCombo;
+    private Combo fileEncodingCombo;
 
-	public ExportToJavaDialog(Shell parentShell, ERDiagram diagram,
-			IEditorPart editorPart) {
-		super(parentShell, 3);
+    public ExportToJavaDialog(Shell parentShell, ERDiagram diagram, IEditorPart editorPart) {
+        super(parentShell, 3);
 
-		this.diagram = diagram;
-		this.editorPart = editorPart;
-	}
+        this.diagram = diagram;
+        this.editorPart = editorPart;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initLayout(GridLayout layout) {
-		super.initLayout(layout);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initLayout(GridLayout layout) {
+        super.initLayout(layout);
 
-		layout.verticalSpacing = 15;
-	}
+        layout.verticalSpacing = 15;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initialize(Composite parent) {
-		GridData gridData = new GridData();
-		gridData.widthHint = 200;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initialize(Composite parent) {
+        GridData gridData = new GridData();
+        gridData.widthHint = 200;
 
-		this.packageText = CompositeFactory.createText(this, parent,
-				"label.package.name", 2, false);
-		this.classNameSuffixText = CompositeFactory.createText(this, parent,
-				"label.class.name.suffix", 2, false);
+        this.packageText = CompositeFactory.createText(this, parent, "label.package.name", 2, false);
+        this.classNameSuffixText = CompositeFactory.createText(this, parent, "label.class.name.suffix", 2, false);
 
-		CompositeFactory.createLabel(parent, "label.output.dir");
-		this.outputDirText = new DirectoryText(parent, SWT.BORDER);
-		this.outputDirText.setLayoutData(gridData);
+        CompositeFactory.createLabel(parent, "label.output.dir");
+        this.outputDirText = new DirectoryText(parent, SWT.BORDER);
+        this.outputDirText.setLayoutData(gridData);
 
-		this.outputDirText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				validate();
-			}
-		});
+        this.outputDirText.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                validate();
+            }
+        });
 
-		this.fileEncodingCombo = CompositeFactory.createFileEncodingCombo(
-				this.editorPart, this, parent, "label.output.file.encoding", 1);
+        this.fileEncodingCombo =
+                CompositeFactory
+                        .createFileEncodingCombo(this.editorPart, this, parent, "label.output.file.encoding", 1);
 
-		this.withHibernateButton = CompositeFactory.createCheckbox(this,
-				parent, "label.with.hibernate", 2);
-	}
+        this.withHibernateButton = CompositeFactory.createCheckbox(this, parent, "label.with.hibernate", 2);
+    }
 
-	@Override
-	protected String getErrorMessage() {
-		if (this.outputDirText.isBlank()) {
-			return "error.output.dir.is.empty";
-		}
+    @Override
+    protected String getErrorMessage() {
+        if (this.outputDirText.isBlank()) {
+            return "error.output.dir.is.empty";
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	protected void perfomeOK() throws InputException {
-		InputStream stream = null;
+    @Override
+    protected void perfomeOK() throws InputException {
+        InputStream stream = null;
 
-		try {
-			ProgressMonitorDialog monitor = new ProgressMonitorDialog(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getShell());
+        try {
+            ProgressMonitorDialog monitor =
+                    new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
-			String outputDirPath = this.outputDirText.getFilePath();
-			String packageName = this.packageText.getText();
-			String classNameSuffix = this.classNameSuffixText.getText();
-			String fileEncoding = this.fileEncodingCombo.getText();
-			boolean withHibernate = this.withHibernateButton.getSelection();
+            String outputDirPath = this.outputDirText.getFilePath();
+            String packageName = this.packageText.getText();
+            String classNameSuffix = this.classNameSuffixText.getText();
+            String fileEncoding = this.fileEncodingCombo.getText();
+            boolean withHibernate = this.withHibernateButton.getSelection();
 
-			this.exportSetting = this.diagram.getDiagramContents()
-					.getSettings().getExportSetting().clone();
-			ExportJavaSetting exportJavaSetting = this.exportSetting
-					.getExportJavaSetting();
+            this.exportSetting = this.diagram.getDiagramContents().getSettings().getExportSetting().clone();
+            ExportJavaSetting exportJavaSetting = this.exportSetting.getExportJavaSetting();
 
-			exportJavaSetting.setJavaOutput(outputDirPath);
-			exportJavaSetting.setPackageName(packageName);
-			exportJavaSetting.setClassNameSuffix(classNameSuffix);
-			exportJavaSetting.setSrcFileEncoding(fileEncoding);
-			exportJavaSetting.setWithHibernate(withHibernate);
+            exportJavaSetting.setJavaOutput(outputDirPath);
+            exportJavaSetting.setPackageName(packageName);
+            exportJavaSetting.setClassNameSuffix(classNameSuffix);
+            exportJavaSetting.setSrcFileEncoding(fileEncoding);
+            exportJavaSetting.setWithHibernate(withHibernate);
 
-			ExportToJavaWithProgressManager manager = new ExportToJavaWithProgressManager(
-					exportJavaSetting, diagram);
-			monitor.run(true, true, manager);
+            ExportToJavaWithProgressManager manager = new ExportToJavaWithProgressManager(exportJavaSetting, diagram);
+            monitor.run(true, true, manager);
 
-			if (manager.getException() != null) {
-				throw manager.getException();
-			}
+            if (manager.getException() != null) {
+                throw manager.getException();
+            }
 
-		} catch (IOException e) {
-			Activator.showMessageDialog(e.getMessage());
+        } catch (IOException e) {
+            Activator.showMessageDialog(e.getMessage());
 
-		} catch (InterruptedException e) {
+        } catch (InterruptedException e) {
 
-		} catch (Exception e) {
-			Activator.showExceptionDialog(e);
+        } catch (Exception e) {
+            Activator.showExceptionDialog(e);
 
-		} finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e) {
-					Activator.showExceptionDialog(e);
-				}
-			}
-		}
-	}
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    Activator.showExceptionDialog(e);
+                }
+            }
+        }
+    }
 
-	public ExportSetting getExportSetting() {
-		return this.exportSetting;
-	}
+    public ExportSetting getExportSetting() {
+        return this.exportSetting;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void setData() {
-		Settings settings = this.diagram.getDiagramContents().getSettings();
-		ExportJavaSetting exportSetting = settings.getExportSetting()
-				.getExportJavaSetting();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setData() {
+        Settings settings = this.diagram.getDiagramContents().getSettings();
+        ExportJavaSetting exportSetting = settings.getExportSetting().getExportJavaSetting();
 
-		String outputDir = Format.null2blank(exportSetting.getJavaOutput());
+        String outputDir = Format.null2blank(exportSetting.getJavaOutput());
 
-		if ("".equals(outputDir)) {
-			IFile file = ((IFileEditorInput) editorPart.getEditorInput())
-					.getFile();
-			outputDir = file.getParent().getLocation().toOSString();
-		}
+        if ("".equals(outputDir)) {
+            IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
+            outputDir = file.getParent().getLocation().toOSString();
+        }
 
-		this.outputDirText.setText(outputDir);
+        this.outputDirText.setText(outputDir);
 
-		this.packageText.setText(Format.null2blank(exportSetting
-				.getPackageName()));
-		this.classNameSuffixText.setText(Format.null2blank(exportSetting
-				.getClassNameSuffix()));
+        this.packageText.setText(Format.null2blank(exportSetting.getPackageName()));
+        this.classNameSuffixText.setText(Format.null2blank(exportSetting.getClassNameSuffix()));
 
-		String srcFileEncoding = Format.null2blank(exportSetting
-				.getSrcFileEncoding());
-		if (!"".equals(srcFileEncoding)) {
-			this.fileEncodingCombo.setText(srcFileEncoding);
-		}
+        String srcFileEncoding = Format.null2blank(exportSetting.getSrcFileEncoding());
+        if (!"".equals(srcFileEncoding)) {
+            this.fileEncodingCombo.setText(srcFileEncoding);
+        }
 
-		this.withHibernateButton.setSelection(exportSetting.isWithHibernate());
-	}
+        this.withHibernateButton.setSelection(exportSetting.isWithHibernate());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getTitle() {
-		return "dialog.title.export.java";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getTitle() {
+        return "dialog.title.export.java";
+    }
 }

@@ -14,48 +14,47 @@ import org.insightech.er.editor.model.diagram_contents.not_element.group.GroupSe
 
 public class GroupSetOutlineEditPart extends AbstractOutlineEditPart {
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(GroupSet.PROPERTY_CHANGE_GROUP_SET)) {
-			refresh();
-		}
-	}
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(GroupSet.PROPERTY_CHANGE_GROUP_SET)) {
+            refresh();
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List getModelChildren() {
-		GroupSet columnGroupSet = (GroupSet) this.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List getModelChildren() {
+        GroupSet columnGroupSet = (GroupSet) this.getModel();
 
-		List<ColumnGroup> columnGroupList = columnGroupSet.getGroupList();
+        List<ColumnGroup> columnGroupList = columnGroupSet.getGroupList();
 
-		Collections.sort(columnGroupList);
+        Collections.sort(columnGroupList);
 
-		return columnGroupList;
-	}
+        return columnGroupList;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshOutlineVisuals() {
-		this.setWidgetText(ResourceString
-				.getResourceString("label.column.group")
-				+ " (" + this.getModelChildren().size() + ")");
-		this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshOutlineVisuals() {
+        this.setWidgetText(ResourceString.getResourceString("label.column.group") + " ("
+                + this.getModelChildren().size() + ")");
+        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshChildren() {
-		super.refreshChildren();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshChildren() {
+        super.refreshChildren();
 
-		for (Object child : this.getChildren()) {
-			EditPart part = (EditPart) child;
-			part.refresh();
-		}
-	}
+        for (Object child : this.getChildren()) {
+            EditPart part = (EditPart) child;
+            part.refresh();
+        }
+    }
 
 }

@@ -6,14 +6,13 @@ import org.insightech.er.preference.PreferenceInitializer;
 
 public class TranslationFileListEditor extends FileListEditor {
 
-	public TranslationFileListEditor(String name, String labelText,
-			Composite parent) {
-		super(name, labelText, parent, "*.txt");
-	}
+    public TranslationFileListEditor(String name, String labelText, Composite parent) {
+        super(name, labelText, parent, "*.txt");
+    }
 
-	@Override
-	protected String getStorePath(String name) {
-		return PreferenceInitializer.getTranslationPath(name);
-	}
+    @Override
+    protected String getStorePath(String name) {
+        return PreferenceInitializer.getTranslationPath(name);
+    }
 
 }

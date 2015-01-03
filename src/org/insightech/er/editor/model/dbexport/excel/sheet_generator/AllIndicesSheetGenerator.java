@@ -15,70 +15,59 @@ import org.insightech.er.util.POIUtils;
 
 public class AllIndicesSheetGenerator extends IndexSheetGenerator {
 
-	@Override
-	public void generate(IProgressMonitor monitor, HSSFWorkbook workbook,
-			int sheetNo, boolean useLogicalNameAsSheetName,
-			Map<String, Integer> sheetNameMap,
-			Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
-			Map<String, LoopDefinition> loopDefinitionMap) {
-		this.clear();
-		
-		LoopDefinition loopDefinition = loopDefinitionMap.get(this
-				.getTemplateSheetName());
+    @Override
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
+            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
+            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+        this.clear();
 
-		HSSFSheet newSheet = createNewSheet(workbook, sheetNo,
-				loopDefinition.sheetName, sheetNameMap);
+        LoopDefinition loopDefinition = loopDefinitionMap.get(this.getTemplateSheetName());
 
-		sheetObjectMap.put(workbook.getSheetName(workbook
-				.getSheetIndex(newSheet)), diagram.getDiagramContents()
-				.getIndexSet());
+        HSSFSheet newSheet = createNewSheet(workbook, sheetNo, loopDefinition.sheetName, sheetNameMap);
 
-		HSSFSheet oldSheet = workbook.getSheetAt(sheetNo);
+        sheetObjectMap.put(workbook.getSheetName(workbook.getSheetIndex(newSheet)), diagram.getDiagramContents()
+                .getIndexSet());
 
-		boolean first = true;
+        HSSFSheet oldSheet = workbook.getSheetAt(sheetNo);
 
-		for (ERTable table : diagram.getDiagramContents().getContents()
-				.getTableSet()) {
+        boolean first = true;
 
-			if (diagram.getCurrentCategory() != null
-					&& !diagram.getCurrentCategory().contains(table)) {
-				continue;
-			}
-			
-			for (Index index : table.getIndexes()) {
-				if (first) {
-					first = false;
+        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
 
-				} else {
-					POIUtils.copyRow(oldSheet, newSheet,
-							loopDefinition.startLine - 1, oldSheet
-									.getLastRowNum(), newSheet.getLastRowNum()
-									+ loopDefinition.spaceLine + 1);
-				}
+            if (diagram.getCurrentCategory() != null && !diagram.getCurrentCategory().contains(table)) {
+                continue;
+            }
 
-				this.setIndexData(workbook, newSheet, index);
+            for (Index index : table.getIndexes()) {
+                if (first) {
+                    first = false;
 
-				newSheet.setRowBreak(newSheet.getLastRowNum()
-						+ loopDefinition.spaceLine);
+                } else {
+                    POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(),
+                            newSheet.getLastRowNum() + loopDefinition.spaceLine + 1);
+                }
 
-				monitor.worked(1);
-			}
-		}
+                this.setIndexData(workbook, newSheet, index);
 
-		if (first) {
-			for (int i = loopDefinition.startLine - 1; i <= newSheet
-					.getLastRowNum(); i++) {
-				HSSFRow row = newSheet.getRow(i);
-				if (row != null) {
-					newSheet.removeRow(row);
-				}
-			}
-		}
-	}
+                newSheet.setRowBreak(newSheet.getLastRowNum() + loopDefinition.spaceLine);
 
-	@Override
-	public String getTemplateSheetName() {
-		return "all_indices_template";
-	}
+                monitor.worked(1);
+            }
+        }
+
+        if (first) {
+            for (int i = loopDefinition.startLine - 1; i <= newSheet.getLastRowNum(); i++) {
+                HSSFRow row = newSheet.getRow(i);
+                if (row != null) {
+                    newSheet.removeRow(row);
+                }
+            }
+        }
+    }
+
+    @Override
+    public String getTemplateSheetName() {
+        return "all_indices_template";
+    }
 
 }

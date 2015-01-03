@@ -13,57 +13,54 @@ import org.insightech.er.util.Format;
 
 public abstract class AbstractErrorDialog extends Dialog {
 
-	protected Text textArea;
+    protected Text textArea;
 
-	public AbstractErrorDialog(Shell parentShell) {
-		super(parentShell);
-	}
+    public AbstractErrorDialog(Shell parentShell) {
+        super(parentShell);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Control createDialogArea(Composite parent) {
-		this.getShell().setText(
-				ResourceString.getResourceString(this.getTitle()));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Control createDialogArea(Composite parent) {
+        this.getShell().setText(ResourceString.getResourceString(this.getTitle()));
 
-		Composite composite = (Composite) super.createDialogArea(parent);
+        Composite composite = (Composite) super.createDialogArea(parent);
 
-		this.textArea = CompositeFactory.createTextArea(null, composite, this
-				.getMessage(), 400, 200, 1, false, false);
+        this.textArea = CompositeFactory.createTextArea(null, composite, this.getMessage(), 400, 200, 1, false, false);
 
-		composite.setLayout(new GridLayout());
+        composite.setLayout(new GridLayout());
 
-		this.textArea.setText(Format.null2blank(this.getData()));
+        this.textArea.setText(Format.null2blank(this.getData()));
 
-		return composite;
-	}
+        return composite;
+    }
 
-	protected abstract String getData();
+    protected abstract String getData();
 
-	protected String getMessage() {
-		return "dialog.message.export.ddl.error";
-	}
+    protected String getMessage() {
+        return "dialog.message.export.ddl.error";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		this.createButton(parent, IDialogConstants.OK_ID,
-				IDialogConstants.OK_LABEL, true);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createButtonsForButtonBar(Composite parent) {
+        this.createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void buttonPressed(int buttonId) {
-		setReturnCode(buttonId);
-		close();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void buttonPressed(int buttonId) {
+        setReturnCode(buttonId);
+        close();
 
-		super.buttonPressed(buttonId);
-	}
+        super.buttonPressed(buttonId);
+    }
 
-	protected abstract String getTitle();
+    protected abstract String getTitle();
 }

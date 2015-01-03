@@ -14,47 +14,46 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class TablespaceSetOutlineEditPart extends AbstractOutlineEditPart {
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(
-				TablespaceSet.PROPERTY_CHANGE_TABLESPACE_SET)) {
-			refresh();
-		}
-	}
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(TablespaceSet.PROPERTY_CHANGE_TABLESPACE_SET)) {
+            refresh();
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List getModelChildren() {
-		TablespaceSet tablespaceSet = (TablespaceSet) this.getModel();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List getModelChildren() {
+        TablespaceSet tablespaceSet = (TablespaceSet) this.getModel();
 
-		List<Tablespace> tablespaceList = tablespaceSet.getTablespaceList();
-		Collections.sort(tablespaceList);
+        List<Tablespace> tablespaceList = tablespaceSet.getTablespaceList();
+        Collections.sort(tablespaceList);
 
-		return tablespaceList;
-	}
+        return tablespaceList;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshOutlineVisuals() {
-		this.setWidgetText(ResourceString.getResourceString("label.tablespace")
-				+ " (" + this.getModelChildren().size() + ")");
-		this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshOutlineVisuals() {
+        this.setWidgetText(ResourceString.getResourceString("label.tablespace") + " (" + this.getModelChildren().size()
+                + ")");
+        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshChildren() {
-		super.refreshChildren();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshChildren() {
+        super.refreshChildren();
 
-		for (Object child : this.getChildren()) {
-			EditPart part = (EditPart) child;
-			part.refresh();
-		}
-	}
+        for (Object child : this.getChildren()) {
+            EditPart part = (EditPart) child;
+            part.refresh();
+        }
+    }
 
 }

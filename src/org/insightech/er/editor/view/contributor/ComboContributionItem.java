@@ -24,107 +24,103 @@ import org.insightech.er.editor.model.ViewableModel;
 
 public abstract class ComboContributionItem extends ContributionItem {
 
-	private Combo combo;
+    private Combo combo;
 
-	private ToolItem toolitem;
+    private ToolItem toolitem;
 
-	private IWorkbenchPage workbenchPage;
+    private IWorkbenchPage workbenchPage;
 
-	public ComboContributionItem(String id, IWorkbenchPage workbenchPage) {
-		super(id);
+    public ComboContributionItem(String id, IWorkbenchPage workbenchPage) {
+        super(id);
 
-		this.workbenchPage = workbenchPage;
-	}
+        this.workbenchPage = workbenchPage;
+    }
 
-	@Override
-	public final void fill(Composite parent) {
-		this.createControl(parent);
-	}
+    @Override
+    public final void fill(Composite parent) {
+        this.createControl(parent);
+    }
 
-	@Override
-	public void fill(ToolBar parent, int index) {
-		this.toolitem = new ToolItem(parent, SWT.SEPARATOR, index);
-		Control control = this.createControl(parent);
-		this.toolitem.setControl(control);
-	}
+    @Override
+    public void fill(ToolBar parent, int index) {
+        this.toolitem = new ToolItem(parent, SWT.SEPARATOR, index);
+        Control control = this.createControl(parent);
+        this.toolitem.setControl(control);
+    }
 
-	protected Control createControl(Composite parent) {
-		this.combo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
-		// FontData fontData =
-		// Display.getCurrent().getSystemFont().getFontData()[0];
-		// Font font = new Font(Display.getCurrent(), fontData.getName(), 7,
-		// SWT.NORMAL);
-		// this.combo.setFont(font);
-		this.setData(this.combo);
+    protected Control createControl(Composite parent) {
+        this.combo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+        // FontData fontData =
+        // Display.getCurrent().getSystemFont().getFontData()[0];
+        // Font font = new Font(Display.getCurrent(), fontData.getName(), 7,
+        // SWT.NORMAL);
+        // this.combo.setFont(font);
+        this.setData(this.combo);
 
-		this.combo.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				List selectedEditParts = ((IStructuredSelection) workbenchPage
-						.getSelection()).toList();
+        this.combo.addSelectionListener(new SelectionListener() {
+            public void widgetSelected(SelectionEvent e) {
+                List selectedEditParts = ((IStructuredSelection) workbenchPage.getSelection()).toList();
 
-				CompoundCommand compoundCommand = new CompoundCommand();
+                CompoundCommand compoundCommand = new CompoundCommand();
 
-				for (Object editPart : selectedEditParts) {
+                for (Object editPart : selectedEditParts) {
 
-					Object model = ((EditPart) editPart).getModel();
+                    Object model = ((EditPart) editPart).getModel();
 
-					if (model instanceof ViewableModel) {
-						ViewableModel viewableModel = (ViewableModel) model;
+                    if (model instanceof ViewableModel) {
+                        ViewableModel viewableModel = (ViewableModel) model;
 
-						Command command = createCommand(viewableModel);
+                        Command command = createCommand(viewableModel);
 
-						if (command != null) {
-							compoundCommand.add(command);
-						}
-					}
-				}
+                        if (command != null) {
+                            compoundCommand.add(command);
+                        }
+                    }
+                }
 
-				if (!compoundCommand.getCommands().isEmpty()) {
-					executeCommand(compoundCommand);
-				}
-			}
+                if (!compoundCommand.getCommands().isEmpty()) {
+                    executeCommand(compoundCommand);
+                }
+            }
 
-			public void widgetDefaultSelected(SelectionEvent e) {
+            public void widgetDefaultSelected(SelectionEvent e) {
 
-			}
-		});
+            }
+        });
 
-		this.combo.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {
-			}
+        this.combo.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+            }
 
-			public void focusLost(FocusEvent e) {
-			}
-		});
+            public void focusLost(FocusEvent e) {
+            }
+        });
 
-		this.toolitem.setWidth(this.computeWidth(this.combo));
-		return combo;
-	}
+        this.toolitem.setWidth(this.computeWidth(this.combo));
+        return combo;
+    }
 
-	abstract protected Command createCommand(ViewableModel viewableModel);
+    abstract protected Command createCommand(ViewableModel viewableModel);
 
-	private int computeWidth(Control control) {
-		return control.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x;
-	}
+    private int computeWidth(Control control) {
+        return control.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x;
+    }
 
-	abstract protected void setData(Combo combo);
+    abstract protected void setData(Combo combo);
 
-	private void executeCommand(Command command) {
-		ERDiagramMultiPageEditor multiPageEditor = (ERDiagramMultiPageEditor) this.workbenchPage
-				.getActiveEditor();
-		ERDiagramEditor editor = (ERDiagramEditor) multiPageEditor
-				.getActiveEditor();
-		editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(
-				command);
-	}
+    private void executeCommand(Command command) {
+        ERDiagramMultiPageEditor multiPageEditor = (ERDiagramMultiPageEditor) this.workbenchPage.getActiveEditor();
+        ERDiagramEditor editor = (ERDiagramEditor) multiPageEditor.getActiveEditor();
+        editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
+    }
 
-	public void setText(String text) {
-		if (this.combo != null && !this.combo.isDisposed() && text != null) {
-			this.combo.setText(text);
-		}
-	}
+    public void setText(String text) {
+        if (this.combo != null && !this.combo.isDisposed() && text != null) {
+            this.combo.setText(text);
+        }
+    }
 
-	public String getText() {
-		return this.combo.getText();
-	}
+    public String getText() {
+        return this.combo.getText();
+    }
 }

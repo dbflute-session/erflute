@@ -7,16 +7,16 @@ import org.insightech.er.editor.view.dialog.outline.tablespace.TablespaceDialog;
 
 public class HSQLDBEclipseDBManager extends EclipseDBManagerBase {
 
-	public String getId() {
-		return HSQLDBDBManager.ID;
-	}
+    public String getId() {
+        return HSQLDBDBManager.ID;
+    }
 
-	public AdvancedComposite createAdvancedComposite(Composite composite) {
-		return new HSQLDBAdvancedComposite(composite);
-	}
+    public AdvancedComposite createAdvancedComposite(Composite composite) {
+        return new HSQLDBAdvancedComposite(composite);
+    }
 
-	public TablespaceDialog createTablespaceDialog() {
-		return null;
-	}
+    public TablespaceDialog createTablespaceDialog() {
+        return null;
+    }
 
 }

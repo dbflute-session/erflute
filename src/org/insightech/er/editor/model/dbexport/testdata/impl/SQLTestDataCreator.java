@@ -11,129 +11,125 @@ import org.insightech.er.util.Format;
 
 public class SQLTestDataCreator extends AbstractTextTestDataCreator {
 
-	@Override
-	protected void writeDirectTestData(ERTable table,
-			Map<NormalColumn, String> data, String database) {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    protected void writeDirectTestData(ERTable table, Map<NormalColumn, String> data, String database) {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append("INSERT INTO ");
-		sb.append(table.getNameWithSchema(database));
-		sb.append(" (");
+        sb.append("INSERT INTO ");
+        sb.append(table.getNameWithSchema(database));
+        sb.append(" (");
 
-		StringBuilder valueSb = new StringBuilder();
+        StringBuilder valueSb = new StringBuilder();
 
-		boolean first = true;
-		for (NormalColumn column : table.getExpandedColumns()) {
-			if (!first) {
-				sb.append(", ");
-				valueSb.append(", ");
-			}
+        boolean first = true;
+        for (NormalColumn column : table.getExpandedColumns()) {
+            if (!first) {
+                sb.append(", ");
+                valueSb.append(", ");
+            }
 
-			sb.append(column.getPhysicalName());
+            sb.append(column.getPhysicalName());
 
-			String value = Format.null2blank(data.get(column));
+            String value = Format.null2blank(data.get(column));
 
-			if (value != null && !"null".equals(value.toLowerCase())) {
-				valueSb.append("'");
-				valueSb.append(value);
-				valueSb.append("'");
+            if (value != null && !"null".equals(value.toLowerCase())) {
+                valueSb.append("'");
+                valueSb.append(value);
+                valueSb.append("'");
 
-			} else {
-				valueSb.append("null");
-			}
+            } else {
+                valueSb.append("null");
+            }
 
-			first = false;
-		}
+            first = false;
+        }
 
-		sb.append(") VALUES (");
-		sb.append(valueSb.toString());
+        sb.append(") VALUES (");
+        sb.append(valueSb.toString());
 
-		sb.append(");\r\n");
+        sb.append(");\r\n");
 
-		out.print(sb.toString());
-	}
+        out.print(sb.toString());
+    }
 
-	@Override
-	protected void writeRepeatTestData(ERTable table,
-			RepeatTestData repeatTestData, String database) {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    protected void writeRepeatTestData(ERTable table, RepeatTestData repeatTestData, String database) {
+        StringBuilder sb = new StringBuilder();
 
-		for (int i = 0; i < repeatTestData.getTestDataNum(); i++) {
-			sb.append("INSERT INTO ");
-			sb.append(table.getNameWithSchema(database));
-			sb.append(" (");
+        for (int i = 0; i < repeatTestData.getTestDataNum(); i++) {
+            sb.append("INSERT INTO ");
+            sb.append(table.getNameWithSchema(database));
+            sb.append(" (");
 
-			StringBuilder valueSb = new StringBuilder();
+            StringBuilder valueSb = new StringBuilder();
 
-			boolean first = true;
-			for (NormalColumn column : table.getExpandedColumns()) {
-				if (!first) {
-					sb.append(", ");
-					valueSb.append(", ");
-				}
+            boolean first = true;
+            for (NormalColumn column : table.getExpandedColumns()) {
+                if (!first) {
+                    sb.append(", ");
+                    valueSb.append(", ");
+                }
 
-				sb.append(column.getPhysicalName());
+                sb.append(column.getPhysicalName());
 
-				RepeatTestDataDef repeatTestDataDef = repeatTestData
-						.getDataDef(column);
+                RepeatTestDataDef repeatTestDataDef = repeatTestData.getDataDef(column);
 
-				String value = this.getMergedRepeatTestDataValue(i,
-						repeatTestDataDef, column);
+                String value = this.getMergedRepeatTestDataValue(i, repeatTestDataDef, column);
 
-				if (value != null && !"null".equals(value.toLowerCase())) {
-					valueSb.append("'");
-					valueSb.append(value);
-					valueSb.append("'");
+                if (value != null && !"null".equals(value.toLowerCase())) {
+                    valueSb.append("'");
+                    valueSb.append(value);
+                    valueSb.append("'");
 
-				} else {
-					valueSb.append("null");
-				}
+                } else {
+                    valueSb.append("null");
+                }
 
-				first = false;
-			}
+                first = false;
+            }
 
-			sb.append(") VALUES (");
-			sb.append(valueSb.toString());
+            sb.append(") VALUES (");
+            sb.append(valueSb.toString());
 
-			sb.append(");\r\n");
-		}
+            sb.append(");\r\n");
+        }
 
-		out.print(sb.toString());
-	}
+        out.print(sb.toString());
+    }
 
-	@Override
-	protected String getFooter() {
-		return "";
-	}
+    @Override
+    protected String getFooter() {
+        return "";
+    }
 
-	@Override
-	protected String getHeader() {
-		return "";
-	}
+    @Override
+    protected String getHeader() {
+        return "";
+    }
 
-	@Override
-	protected void writeTableHeader(ERDiagram diagram, ERTable table) {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    protected void writeTableHeader(ERDiagram diagram, ERTable table) {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append("-- ");
-		sb.append(table.getLogicalName());
-		sb.append("\r\n");
+        sb.append("-- ");
+        sb.append(table.getLogicalName());
+        sb.append("\r\n");
 
-		out.print(sb.toString());
-	}
+        out.print(sb.toString());
+    }
 
-	@Override
-	protected void writeTableFooter(ERTable table) {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    protected void writeTableFooter(ERTable table) {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append("\r\n");
-		sb.append("\r\n");
+        sb.append("\r\n");
+        sb.append("\r\n");
 
-		out.print(sb.toString());
-	}
+        out.print(sb.toString());
+    }
 
-	@Override
-	protected String getFileExtention() {
-		return ".sql";
-	}
+    @Override
+    protected String getFileExtention() {
+        return ".sql";
+    }
 }

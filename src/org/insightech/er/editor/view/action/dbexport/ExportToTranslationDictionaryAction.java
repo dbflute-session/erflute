@@ -10,26 +10,21 @@ import org.insightech.er.editor.view.dialog.dbexport.ExportToTranslationDictiona
 
 public class ExportToTranslationDictionaryAction extends AbstractBaseAction {
 
-	public static final String ID = ExportToTranslationDictionaryAction.class
-			.getName();
+    public static final String ID = ExportToTranslationDictionaryAction.class.getName();
 
-	public ExportToTranslationDictionaryAction(ERDiagramEditor editor) {
-		super(
-				ID,
-				ResourceString
-						.getResourceString("action.title.export.translation.dictionary"),
-				editor);
-	}
+    public ExportToTranslationDictionaryAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.export.translation.dictionary"), editor);
+    }
 
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ExportToTranslationDictionaryDialog dialog = new ExportToTranslationDictionaryDialog(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				diagram);
+        ExportToTranslationDictionaryDialog dialog =
+                new ExportToTranslationDictionaryDialog(
+                        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 
-		dialog.open();
-	}
+        dialog.open();
+    }
 
 }

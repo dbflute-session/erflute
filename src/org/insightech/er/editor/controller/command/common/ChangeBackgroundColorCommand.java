@@ -7,51 +7,49 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirt
 
 public class ChangeBackgroundColorCommand extends AbstractCommand {
 
-	private ViewableModel model;
+    private ViewableModel model;
 
-	private int red;
+    private int red;
 
-	private int green;
+    private int green;
 
-	private int blue;
+    private int blue;
 
-	private int[] oldColor;
+    private int[] oldColor;
 
-	public ChangeBackgroundColorCommand(ViewableModel model, int red,
-			int green, int blue) {
-		this.model = model;
+    public ChangeBackgroundColorCommand(ViewableModel model, int red, int green, int blue) {
+        this.model = model;
 
-		this.red = red;
-		this.green = green;
-		this.blue = blue;
-	}
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.oldColor = this.model.getColor();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.oldColor = this.model.getColor();
 
-		this.model.setColor(red, green, blue);
-		if (model instanceof ERVirtualTable) {
-			ERModelUtil.refreshDiagram(((ERVirtualTable) model).getDiagram(), ((ERVirtualTable)model).getRawTable());
-		}
-	}
+        this.model.setColor(red, green, blue);
+        if (model instanceof ERVirtualTable) {
+            ERModelUtil.refreshDiagram(((ERVirtualTable) model).getDiagram(), ((ERVirtualTable) model).getRawTable());
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		if (this.oldColor == null) {
-			this.oldColor = new int[3];
-			this.oldColor[0] = 255;
-			this.oldColor[1] = 255;
-			this.oldColor[2] = 255;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        if (this.oldColor == null) {
+            this.oldColor = new int[3];
+            this.oldColor[0] = 255;
+            this.oldColor[1] = 255;
+            this.oldColor[2] = 255;
+        }
 
-		this.model.setColor(this.oldColor[0], this.oldColor[1],
-				this.oldColor[2]);
-	}
+        this.model.setColor(this.oldColor[0], this.oldColor[1], this.oldColor[2]);
+    }
 }

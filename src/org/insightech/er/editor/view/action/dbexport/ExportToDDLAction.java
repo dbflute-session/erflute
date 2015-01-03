@@ -14,39 +14,34 @@ import org.insightech.er.editor.view.dialog.dbexport.ExportToDDLDialog;
 
 public class ExportToDDLAction extends AbstractBaseAction {
 
-	public static final String ID = ExportToDDLAction.class.getName();
+    public static final String ID = ExportToDDLAction.class.getName();
 
-	public ExportToDDLAction(ERDiagramEditor editor) {
-		super(ID, ResourceString.getResourceString("action.title.export.ddl"),
-				editor);
-		this.setImageDescriptor(Activator
-				.getImageDescriptor(ImageKey.EXPORT_DDL));
-	}
+    public ExportToDDLAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.export.ddl"), editor);
+        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_DDL));
+    }
 
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ExportToDDLDialog dialog = new ExportToDDLDialog(PlatformUI
-				.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram,
-				this.getEditorPart(), this.getGraphicalViewer());
+        ExportToDDLDialog dialog =
+                new ExportToDDLDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram,
+                        this.getEditorPart(), this.getGraphicalViewer());
 
-		dialog.open();
+        dialog.open();
 
-		this.refreshProject();
+        this.refreshProject();
 
-		if (dialog.getExportSetting() != null
-				&& !diagram.getDiagramContents().getSettings()
-						.getExportSetting().equals(dialog.getExportSetting())) {
-			Settings newSettings = (Settings) diagram.getDiagramContents()
-					.getSettings().clone();
-			newSettings.setExportSetting(dialog.getExportSetting());
+        if (dialog.getExportSetting() != null
+                && !diagram.getDiagramContents().getSettings().getExportSetting().equals(dialog.getExportSetting())) {
+            Settings newSettings = (Settings) diagram.getDiagramContents().getSettings().clone();
+            newSettings.setExportSetting(dialog.getExportSetting());
 
-			ChangeSettingsCommand command = new ChangeSettingsCommand(diagram,
-					newSettings);
-			this.execute(command);
-		}
+            ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, newSettings);
+            this.execute(command);
+        }
 
-	}
+    }
 
 }

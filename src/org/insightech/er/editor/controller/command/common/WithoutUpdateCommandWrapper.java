@@ -6,57 +6,57 @@ import org.insightech.er.editor.model.ERDiagram;
 
 public class WithoutUpdateCommandWrapper extends Command {
 
-	private Command command;
+    private Command command;
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	public WithoutUpdateCommandWrapper(Command command, ERDiagram diagram) {
-		this.command = command;
-		this.diagram = diagram;
-	}
+    public WithoutUpdateCommandWrapper(Command command, ERDiagram diagram) {
+        this.command = command;
+        this.diagram = diagram;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute() {
-		ERDiagramEditPart.setUpdateable(false);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute() {
+        ERDiagramEditPart.setUpdateable(false);
 
-		command.execute();
+        command.execute();
 
-		ERDiagramEditPart.setUpdateable(true);
+        ERDiagramEditPart.setUpdateable(true);
 
-		this.diagram.changeAll();
-	}
+        this.diagram.changeAll();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void undo() {
-		ERDiagramEditPart.setUpdateable(false);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void undo() {
+        ERDiagramEditPart.setUpdateable(false);
 
-		command.undo();
+        command.undo();
 
-		ERDiagramEditPart.setUpdateable(true);
+        ERDiagramEditPart.setUpdateable(true);
 
-		this.diagram.changeAll();
-	}
+        this.diagram.changeAll();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canExecute() {
-		return command.canExecute();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canExecute() {
+        return command.canExecute();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canUndo() {
-		return command.canUndo();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canUndo() {
+        return command.canUndo();
+    }
 
 }

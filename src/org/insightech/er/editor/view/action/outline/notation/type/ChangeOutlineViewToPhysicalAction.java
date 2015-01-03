@@ -9,29 +9,25 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.action.outline.AbstractOutlineBaseAction;
 
-public class ChangeOutlineViewToPhysicalAction extends
-		AbstractOutlineBaseAction {
+public class ChangeOutlineViewToPhysicalAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = ChangeOutlineViewToPhysicalAction.class
-			.getName();
+    public static final String ID = ChangeOutlineViewToPhysicalAction.class.getName();
 
-	public ChangeOutlineViewToPhysicalAction(TreeViewer treeViewer) {
-		super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
-		this.setText(ResourceString
-				.getResourceString("action.title.change.mode.to.physical"));
-	}
+    public ChangeOutlineViewToPhysicalAction(TreeViewer treeViewer) {
+        super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
+        this.setText(ResourceString.getResourceString("action.title.change.mode.to.physical"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeOutlineViewModeCommand command = new ChangeOutlineViewModeCommand(
-				diagram, Settings.VIEW_MODE_PHYSICAL);
+        ChangeOutlineViewModeCommand command = new ChangeOutlineViewModeCommand(diagram, Settings.VIEW_MODE_PHYSICAL);
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 
 }

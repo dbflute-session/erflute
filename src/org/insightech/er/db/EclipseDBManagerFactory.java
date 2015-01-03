@@ -18,40 +18,38 @@ import org.insightech.er.editor.model.ERDiagram;
 
 public class EclipseDBManagerFactory {
 
-	private static final List<EclipseDBManager> DB_LIST = new ArrayList<EclipseDBManager>();
+    private static final List<EclipseDBManager> DB_LIST = new ArrayList<EclipseDBManager>();
 
-	static {
-		new StandardSQLEclipseDBManager();
-		new DB2EclipseDBManager();
-		new HSQLDBEclipseDBManager();
-		new AccessEclipseDBManager();
-		new MySQLEclipseDBManager();
-		new OracleEclipseDBManager();
-		new PostgresEclipseDBManager();
-		new SQLiteEclipseDBManager();
-		new SqlServerEclipseDBManager();
-		new SqlServer2008EclipseDBManager();
-	}
+    static {
+        new StandardSQLEclipseDBManager();
+        new DB2EclipseDBManager();
+        new HSQLDBEclipseDBManager();
+        new AccessEclipseDBManager();
+        new MySQLEclipseDBManager();
+        new OracleEclipseDBManager();
+        new PostgresEclipseDBManager();
+        new SQLiteEclipseDBManager();
+        new SqlServerEclipseDBManager();
+        new SqlServer2008EclipseDBManager();
+    }
 
-	static void addDB(EclipseDBManager manager) {
-		DB_LIST.add(manager);
-	}
+    static void addDB(EclipseDBManager manager) {
+        DB_LIST.add(manager);
+    }
 
-	public static EclipseDBManager getEclipseDBManager(String database) {
-		for (EclipseDBManager manager : DB_LIST) {
-			if (manager.getId().equals(database)) {
-				return manager;
-			}
-		}
+    public static EclipseDBManager getEclipseDBManager(String database) {
+        for (EclipseDBManager manager : DB_LIST) {
+            if (manager.getId().equals(database)) {
+                return manager;
+            }
+        }
 
-		throw new IllegalArgumentException(
-				ResourceString
-						.getResourceString("error.database.is.not.supported")
-						+ database);
-	}
+        throw new IllegalArgumentException(ResourceString.getResourceString("error.database.is.not.supported")
+                + database);
+    }
 
-	public static EclipseDBManager getEclipseDBManager(ERDiagram diagram) {
-		return getEclipseDBManager(diagram.getDatabase());
-	}
+    public static EclipseDBManager getEclipseDBManager(ERDiagram diagram) {
+        return getEclipseDBManager(diagram.getDatabase());
+    }
 
 }

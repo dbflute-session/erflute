@@ -10,25 +10,22 @@ import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public class ChangeNotationExpandGroupAction extends AbstractBaseAction {
 
-	public static final String ID = ChangeNotationExpandGroupAction.class
-			.getName();
+    public static final String ID = ChangeNotationExpandGroupAction.class.getName();
 
-	public ChangeNotationExpandGroupAction(ERDiagramEditor editor) {
-		super(ID, null, IAction.AS_CHECK_BOX, editor);
-		this.setText(ResourceString
-				.getResourceString("action.title.notation.expand.group"));
-	}
+    public ChangeNotationExpandGroupAction(ERDiagramEditor editor) {
+        super(ID, null, IAction.AS_CHECK_BOX, editor);
+        this.setText(ResourceString.getResourceString("action.title.notation.expand.group"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeNotationExpandGroupCommand command = new ChangeNotationExpandGroupCommand(
-				diagram, this.isChecked());
+        ChangeNotationExpandGroupCommand command = new ChangeNotationExpandGroupCommand(diagram, this.isChecked());
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 }

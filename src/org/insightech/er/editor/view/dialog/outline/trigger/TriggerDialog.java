@@ -14,89 +14,86 @@ import org.insightech.er.util.Format;
 
 public class TriggerDialog extends AbstractDialog {
 
-	private Text nameText;
+    private Text nameText;
 
-	private Text schemaText;
+    private Text schemaText;
 
-	private Text sqlText;
+    private Text sqlText;
 
-	private Text descriptionText;
+    private Text descriptionText;
 
-	private Trigger trigger;
+    private Trigger trigger;
 
-	private Trigger result;
+    private Trigger result;
 
-	public TriggerDialog(Shell parentShell, Trigger trigger) {
-		super(parentShell, 2);
-		this.setShellStyle(this.getShellStyle() | SWT.RESIZE);
+    public TriggerDialog(Shell parentShell, Trigger trigger) {
+        super(parentShell, 2);
+        this.setShellStyle(this.getShellStyle() | SWT.RESIZE);
 
-		this.trigger = trigger;
-	}
+        this.trigger = trigger;
+    }
 
-	@Override
-	protected void initialize(Composite composite) {
-		this.nameText = CompositeFactory.createText(this, composite,
-				"label.trigger.name", false);
-		this.schemaText = CompositeFactory.createText(this, composite,
-				"label.schema", false);
-		this.sqlText = CompositeFactory.createTextArea(this, composite,
-				"label.sql", Resources.DESCRIPTION_WIDTH, 300, 1, false);
-		this.descriptionText = CompositeFactory.createTextArea(this, composite,
-				"label.description", -1, 100, 1, true);
-	}
+    @Override
+    protected void initialize(Composite composite) {
+        this.nameText = CompositeFactory.createText(this, composite, "label.trigger.name", false);
+        this.schemaText = CompositeFactory.createText(this, composite, "label.schema", false);
+        this.sqlText =
+                CompositeFactory.createTextArea(this, composite, "label.sql", Resources.DESCRIPTION_WIDTH, 300, 1,
+                        false);
+        this.descriptionText = CompositeFactory.createTextArea(this, composite, "label.description", -1, 100, 1, true);
+    }
 
-	@Override
-	protected String getErrorMessage() {
-		String text = nameText.getText().trim();
-		if (text.equals("")) {
-			return "error.trigger.name.empty";
-		}
+    @Override
+    protected String getErrorMessage() {
+        String text = nameText.getText().trim();
+        if (text.equals("")) {
+            return "error.trigger.name.empty";
+        }
 
-		if (!Check.isAlphabet(text)) {
-			return "error.trigger.name.not.alphabet";
-		}
+        if (!Check.isAlphabet(text)) {
+            return "error.trigger.name.not.alphabet";
+        }
 
-		text = schemaText.getText();
-		if (!Check.isAlphabet(text)) {
-			return "error.schema.not.alphabet";
-		}
+        text = schemaText.getText();
+        if (!Check.isAlphabet(text)) {
+            return "error.schema.not.alphabet";
+        }
 
-		text = sqlText.getText();
-		if (text.equals("")) {
-			return "error.trigger.sql.empty";
-		}
+        text = sqlText.getText();
+        if (text.equals("")) {
+            return "error.trigger.sql.empty";
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	protected String getTitle() {
-		return "dialog.title.trigger";
-	}
+    @Override
+    protected String getTitle() {
+        return "dialog.title.trigger";
+    }
 
-	@Override
-	protected void perfomeOK() throws InputException {
-		this.result = new Trigger();
+    @Override
+    protected void perfomeOK() throws InputException {
+        this.result = new Trigger();
 
-		this.result.setName(this.nameText.getText().trim());
-		this.result.setSchema(this.schemaText.getText().trim());
-		this.result.setSql(this.sqlText.getText().trim());
-		this.result.setDescription(this.descriptionText.getText().trim());
-	}
+        this.result.setName(this.nameText.getText().trim());
+        this.result.setSchema(this.schemaText.getText().trim());
+        this.result.setSql(this.sqlText.getText().trim());
+        this.result.setDescription(this.descriptionText.getText().trim());
+    }
 
-	@Override
-	protected void setData() {
-		if (this.trigger != null) {
-			this.nameText.setText(Format.toString(this.trigger.getName()));
-			this.schemaText.setText(Format.toString(this.trigger.getSchema()));
-			this.sqlText.setText(Format.toString(this.trigger.getSql()));
-			this.descriptionText.setText(Format.toString(this.trigger
-					.getDescription()));
-		}
-	}
+    @Override
+    protected void setData() {
+        if (this.trigger != null) {
+            this.nameText.setText(Format.toString(this.trigger.getName()));
+            this.schemaText.setText(Format.toString(this.trigger.getSchema()));
+            this.sqlText.setText(Format.toString(this.trigger.getSql()));
+            this.descriptionText.setText(Format.toString(this.trigger.getDescription()));
+        }
+    }
 
-	public Trigger getResult() {
-		return result;
-	}
+    public Trigger getResult() {
+        return result;
+    }
 
 }

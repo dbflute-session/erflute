@@ -10,24 +10,22 @@ import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public class ChangeStampAction extends AbstractBaseAction {
 
-	public static final String ID = ChangeStampAction.class.getName();
+    public static final String ID = ChangeStampAction.class.getName();
 
-	public ChangeStampAction(ERDiagramEditor editor) {
-		super(ID, null, IAction.AS_CHECK_BOX, editor);
-		this.setText(ResourceString
-				.getResourceString("action.title.display.stamp"));
-	}
+    public ChangeStampAction(ERDiagramEditor editor) {
+        super(ID, null, IAction.AS_CHECK_BOX, editor);
+        this.setText(ResourceString.getResourceString("action.title.display.stamp"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeStampCommand command = new ChangeStampCommand(diagram, this
-				.isChecked());
+        ChangeStampCommand command = new ChangeStampCommand(diagram, this.isChecked());
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 }

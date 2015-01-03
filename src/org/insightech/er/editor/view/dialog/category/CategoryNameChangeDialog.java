@@ -10,54 +10,53 @@ import org.insightech.er.editor.model.diagram_contents.element.node.category.Cat
 
 public class CategoryNameChangeDialog extends AbstractDialog {
 
-	private Text categoryNameText = null;
+    private Text categoryNameText = null;
 
-	private Category targetCategory;
+    private Category targetCategory;
 
-	private String categoryName;
+    private String categoryName;
 
-	public CategoryNameChangeDialog(Shell parentShell, Category category) {
-		super(parentShell, 2);
-		this.targetCategory = category;
-	}
+    public CategoryNameChangeDialog(Shell parentShell, Category category) {
+        super(parentShell, 2);
+        this.targetCategory = category;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initialize(Composite composite) {
-		this.categoryNameText = CompositeFactory.createText(this, composite,
-				"label.category.name", true);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initialize(Composite composite) {
+        this.categoryNameText = CompositeFactory.createText(this, composite, "label.category.name", true);
+    }
 
-	@Override
-	protected String getTitle() {
-		return "dialog.title.change.category.name";
-	}
+    @Override
+    protected String getTitle() {
+        return "dialog.title.change.category.name";
+    }
 
-	@Override
-	protected void perfomeOK() throws InputException {
-	}
+    @Override
+    protected void perfomeOK() throws InputException {
+    }
 
-	@Override
-	protected void setData() {
-		this.categoryNameText.setText(this.targetCategory.getName());
-	}
+    @Override
+    protected void setData() {
+        this.categoryNameText.setText(this.targetCategory.getName());
+    }
 
-	@Override
-	protected String getErrorMessage() {
-		String text = categoryNameText.getText().trim();
+    @Override
+    protected String getErrorMessage() {
+        String text = categoryNameText.getText().trim();
 
-		if ("".equals(text)) {
-			return "error.category.name.empty";
-		}
+        if ("".equals(text)) {
+            return "error.category.name.empty";
+        }
 
-		this.categoryName = text;
+        this.categoryName = text;
 
-		return null;
-	}
+        return null;
+    }
 
-	public String getCategoryName() {
-		return this.categoryName;
-	}
+    public String getCategoryName() {
+        return this.categoryName;
+    }
 }

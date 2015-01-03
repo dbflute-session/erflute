@@ -21,53 +21,50 @@ import org.insightech.er.editor.view.action.AbstractBaseSelectionAction;
 
 public class ResizeModelAction extends AbstractBaseSelectionAction {
 
-	public static final String ID = ResizeModelAction.class.getName();
+    public static final String ID = ResizeModelAction.class.getName();
 
-	public ResizeModelAction(ERDiagramEditor editor) {
-		super(ID, ResourceString.getResourceString("action.title.auto.resize"),
-				editor);
-		this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.RESIZE));
-	}
+    public ResizeModelAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.auto.resize"), editor);
+        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.RESIZE));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List<Command> getCommand(EditPart editPart, Event event) {
-		List<Command> commandList = new ArrayList<Command>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List<Command> getCommand(EditPart editPart, Event event) {
+        List<Command> commandList = new ArrayList<Command>();
 
-		if (editPart instanceof IResizable) {
-			NodeElement nodeElement = (NodeElement) editPart.getModel();
+        if (editPart instanceof IResizable) {
+            NodeElement nodeElement = (NodeElement) editPart.getModel();
 
-			MoveElementCommand command = new MoveElementCommand(this
-					.getDiagram(), ((NodeElementEditPart) editPart).getFigure()
-					.getBounds(), nodeElement.getX(), nodeElement.getY(), -1,
-					-1, nodeElement);
+            MoveElementCommand command =
+                    new MoveElementCommand(this.getDiagram(), ((NodeElementEditPart) editPart).getFigure().getBounds(),
+                            nodeElement.getX(), nodeElement.getY(), -1, -1, nodeElement);
 
-			commandList.add(command);
-		}
+            commandList.add(command);
+        }
 
-		return commandList;
-	}
+        return commandList;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean calculateEnabled() {
-		GraphicalViewer viewer = this.getGraphicalViewer();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean calculateEnabled() {
+        GraphicalViewer viewer = this.getGraphicalViewer();
 
-		for (Object object : viewer.getSelectedEditParts()) {
-			if (object instanceof NodeElementEditPart) {
-				NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) object;
+        for (Object object : viewer.getSelectedEditParts()) {
+            if (object instanceof NodeElementEditPart) {
+                NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) object;
 
-				if (nodeElementEditPart instanceof ERTableEditPart
-						|| nodeElementEditPart instanceof NoteEditPart) {
-					return true;
-				}
-			}
-		}
+                if (nodeElementEditPart instanceof ERTableEditPart || nodeElementEditPart instanceof NoteEditPart) {
+                    return true;
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

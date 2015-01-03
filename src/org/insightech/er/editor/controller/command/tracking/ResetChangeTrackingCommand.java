@@ -9,32 +9,32 @@ import org.insightech.er.editor.model.tracking.ChangeTrackingList;
  */
 public class ResetChangeTrackingCommand extends AbstractCommand {
 
-	private ERDiagram diagram;
-	private ChangeTrackingList changeTrackingList;
+    private ERDiagram diagram;
+    private ChangeTrackingList changeTrackingList;
 
-	private boolean oldCalculated;
+    private boolean oldCalculated;
 
-	public ResetChangeTrackingCommand(ERDiagram diagram) {
-		this.diagram = diagram;
-		this.changeTrackingList = this.diagram.getChangeTrackingList();
-		this.oldCalculated = this.changeTrackingList.isCalculated();
-	}
+    public ResetChangeTrackingCommand(ERDiagram diagram) {
+        this.diagram = diagram;
+        this.changeTrackingList = this.diagram.getChangeTrackingList();
+        this.oldCalculated = this.changeTrackingList.isCalculated();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.changeTrackingList.setCalculated(false);
-		this.diagram.changeAll();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.changeTrackingList.setCalculated(false);
+        this.diagram.changeAll();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.changeTrackingList.setCalculated(oldCalculated);
-		this.diagram.changeAll();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.changeTrackingList.setCalculated(oldCalculated);
+        this.diagram.changeAll();
+    }
 }

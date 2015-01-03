@@ -2,6 +2,6 @@ package org.insightech.er.editor.model.diagram_contents.element.node.table.prope
 
 public interface TablePropertiesHolder {
 
-	public TableViewProperties getTableViewProperties();
+    public TableViewProperties getTableViewProperties();
 
 }

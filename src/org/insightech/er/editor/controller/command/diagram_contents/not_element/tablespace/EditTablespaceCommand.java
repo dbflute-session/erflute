@@ -7,37 +7,36 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class EditTablespaceCommand extends AbstractCommand {
 
-	private TablespaceSet tablespaceSet;
+    private TablespaceSet tablespaceSet;
 
-	private Tablespace tablespace;
+    private Tablespace tablespace;
 
-	private Tablespace oldTablespace;
+    private Tablespace oldTablespace;
 
-	private Tablespace newTablespace;
+    private Tablespace newTablespace;
 
-	public EditTablespaceCommand(ERDiagram diagram, Tablespace tablespace,
-			Tablespace newTablespace) {
-		this.tablespaceSet = diagram.getDiagramContents().getTablespaceSet();
-		this.tablespace = tablespace;
-		this.oldTablespace = (Tablespace) this.tablespace.clone();
-		this.newTablespace = newTablespace;
-	}
+    public EditTablespaceCommand(ERDiagram diagram, Tablespace tablespace, Tablespace newTablespace) {
+        this.tablespaceSet = diagram.getDiagramContents().getTablespaceSet();
+        this.tablespace = tablespace;
+        this.oldTablespace = (Tablespace) this.tablespace.clone();
+        this.newTablespace = newTablespace;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.newTablespace.copyTo(this.tablespace);
-		this.tablespaceSet.addTablespace(this.tablespace);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.newTablespace.copyTo(this.tablespace);
+        this.tablespaceSet.addTablespace(this.tablespace);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.oldTablespace.copyTo(this.tablespace);
-		this.tablespaceSet.addTablespace(this.tablespace);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.oldTablespace.copyTo(this.tablespace);
+        this.tablespaceSet.addTablespace(this.tablespace);
+    }
 }

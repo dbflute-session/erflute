@@ -13,82 +13,76 @@ import org.insightech.er.util.Format;
 
 public class ConstraintTabWrapper extends ValidatableTabWrapper {
 
-	private ERTable copyData;
+    private ERTable copyData;
 
-	private Text constraintText;
+    private Text constraintText;
 
-	private Text primaryKeyNameText;
+    private Text primaryKeyNameText;
 
-	private Text optionText;
+    private Text optionText;
 
-	private TableDialog tableDialog;
+    private TableDialog tableDialog;
 
-	public ConstraintTabWrapper(TableDialog tableDialog, TabFolder parent,
-			int style, ERTable copyData) {
-		super(tableDialog, parent, style, "label.constraint.and.option");
+    public ConstraintTabWrapper(TableDialog tableDialog, TabFolder parent, int style, ERTable copyData) {
+        super(tableDialog, parent, style, "label.constraint.and.option");
 
-		this.copyData = copyData;
-		this.tableDialog = tableDialog;
+        this.copyData = copyData;
+        this.tableDialog = tableDialog;
 
-		this.init();
-	}
+        this.init();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void validatePage() throws InputException {
-		String text = constraintText.getText().trim();
-		this.copyData.setConstraint(text);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void validatePage() throws InputException {
+        String text = constraintText.getText().trim();
+        this.copyData.setConstraint(text);
 
-		text = primaryKeyNameText.getText().trim();
-		if (!Check.isAlphabet(text)) {
-			throw new InputException("error.primary.key.name.not.alphabet");
-		}
-		this.copyData.setPrimaryKeyName(text);
+        text = primaryKeyNameText.getText().trim();
+        if (!Check.isAlphabet(text)) {
+            throw new InputException("error.primary.key.name.not.alphabet");
+        }
+        this.copyData.setPrimaryKeyName(text);
 
-		text = optionText.getText().trim();
-		this.copyData.setOption(text);
-	}
+        text = optionText.getText().trim();
+        this.copyData.setOption(text);
+    }
 
-	@Override
-	public void initComposite() {
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		this.setLayout(gridLayout);
+    @Override
+    public void initComposite() {
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 1;
+        this.setLayout(gridLayout);
 
-		CompositeFactory.createLabel(this, "label.table.constraint", 1);
+        CompositeFactory.createLabel(this, "label.table.constraint", 1);
 
-		this.constraintText = CompositeFactory.createTextArea(tableDialog,
-				this, null, -1, 100, 1, false);
+        this.constraintText = CompositeFactory.createTextArea(tableDialog, this, null, -1, 100, 1, false);
 
-		this.constraintText
-				.setText(Format.null2blank(copyData.getConstraint()));
+        this.constraintText.setText(Format.null2blank(copyData.getConstraint()));
 
-		CompositeFactory.filler(this, 1);
+        CompositeFactory.filler(this, 1);
 
-		this.primaryKeyNameText = CompositeFactory.createText(tableDialog,
-				this, "label.primary.key.name", 1, false);
-		this.primaryKeyNameText.setText(Format.null2blank(copyData
-				.getPrimaryKeyName()));
+        this.primaryKeyNameText = CompositeFactory.createText(tableDialog, this, "label.primary.key.name", 1, false);
+        this.primaryKeyNameText.setText(Format.null2blank(copyData.getPrimaryKeyName()));
 
-		CompositeFactory.filler(this, 1);
+        CompositeFactory.filler(this, 1);
 
-		CompositeFactory.createLabel(this, "label.option", 1);
+        CompositeFactory.createLabel(this, "label.option", 1);
 
-		this.optionText = CompositeFactory.createTextArea(tableDialog, this,
-				null, -1, 100, 1, false);
+        this.optionText = CompositeFactory.createTextArea(tableDialog, this, null, -1, 100, 1, false);
 
-		this.optionText.setText(Format.null2blank(copyData.getOption()));
-	}
+        this.optionText.setText(Format.null2blank(copyData.getOption()));
+    }
 
-	@Override
-	public void setInitFocus() {
-		this.constraintText.setFocus();
-	}
+    @Override
+    public void setInitFocus() {
+        this.constraintText.setFocus();
+    }
 
-	@Override
-	public void perfomeOK() {
-	}
+    @Override
+    public void perfomeOK() {
+    }
 
 }

@@ -16,77 +16,64 @@ import org.insightech.er.util.POIUtils;
 
 public class AllTablesSheetGenerator extends TableSheetGenerator {
 
-	@Override
-	public void generate(IProgressMonitor monitor, HSSFWorkbook workbook,
-			int sheetNo, boolean useLogicalNameAsSheetName,
-			Map<String, Integer> sheetNameMap,
-			Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram,
-			Map<String, LoopDefinition> loopDefinitionMap) {
-		this.clear();
-		
-		LoopDefinition loopDefinition = loopDefinitionMap.get(this
-				.getTemplateSheetName());
+    @Override
+    public void generate(IProgressMonitor monitor, HSSFWorkbook workbook, int sheetNo,
+            boolean useLogicalNameAsSheetName, Map<String, Integer> sheetNameMap,
+            Map<String, ObjectModel> sheetObjectMap, ERDiagram diagram, Map<String, LoopDefinition> loopDefinitionMap) {
+        this.clear();
 
-		HSSFSheet newSheet = createNewSheet(workbook, sheetNo,
-				loopDefinition.sheetName, sheetNameMap);
+        LoopDefinition loopDefinition = loopDefinitionMap.get(this.getTemplateSheetName());
 
-		sheetObjectMap.put(workbook.getSheetName(workbook
-				.getSheetIndex(newSheet)), new TableSet());
+        HSSFSheet newSheet = createNewSheet(workbook, sheetNo, loopDefinition.sheetName, sheetNameMap);
 
-		HSSFSheet oldSheet = workbook.getSheetAt(sheetNo);
+        sheetObjectMap.put(workbook.getSheetName(workbook.getSheetIndex(newSheet)), new TableSet());
 
-		List<ERTable> tableContents = null;
+        HSSFSheet oldSheet = workbook.getSheetAt(sheetNo);
 
-		if (diagram.getCurrentCategory() != null) {
-			tableContents = diagram.getCurrentCategory().getTableContents();
-		} else {
-			tableContents = diagram.getDiagramContents().getContents()
-					.getTableSet().getList();
-		}
+        List<ERTable> tableContents = null;
 
-		boolean first = true;
+        if (diagram.getCurrentCategory() != null) {
+            tableContents = diagram.getCurrentCategory().getTableContents();
+        } else {
+            tableContents = diagram.getDiagramContents().getContents().getTableSet().getList();
+        }
 
-		for (ERTable table : tableContents) {
-			if (first) {
-				first = false;
+        boolean first = true;
 
-			} else {
-				POIUtils
-						.copyRow(oldSheet, newSheet,
-								loopDefinition.startLine - 1, oldSheet
-										.getLastRowNum(), newSheet
-										.getLastRowNum()
-										+ loopDefinition.spaceLine + 1);
-			}
+        for (ERTable table : tableContents) {
+            if (first) {
+                first = false;
 
-			this.setTableData(workbook, newSheet, table);
+            } else {
+                POIUtils.copyRow(oldSheet, newSheet, loopDefinition.startLine - 1, oldSheet.getLastRowNum(),
+                        newSheet.getLastRowNum() + loopDefinition.spaceLine + 1);
+            }
 
-			newSheet.setRowBreak(newSheet.getLastRowNum()
-					+ loopDefinition.spaceLine);
+            this.setTableData(workbook, newSheet, table);
 
-			monitor.worked(1);
-		}
+            newSheet.setRowBreak(newSheet.getLastRowNum() + loopDefinition.spaceLine);
 
-		if (first) {
-			for (int i = loopDefinition.startLine - 1; i <= newSheet
-					.getLastRowNum(); i++) {
-				HSSFRow row = newSheet.getRow(i);
-				if (row != null) {
-					newSheet.removeRow(row);
-				}
-			}
-		}
-	}
+            monitor.worked(1);
+        }
 
-	@Override
-	public String getTemplateSheetName() {
-		return "all_tables_template";
-	}
+        if (first) {
+            for (int i = loopDefinition.startLine - 1; i <= newSheet.getLastRowNum(); i++) {
+                HSSFRow row = newSheet.getRow(i);
+                if (row != null) {
+                    newSheet.removeRow(row);
+                }
+            }
+        }
+    }
 
-	@Override
-	public int count(ERDiagram diagram) {
-		return diagram.getDiagramContents().getContents().getTableSet()
-				.getList().size();
-	}
+    @Override
+    public String getTemplateSheetName() {
+        return "all_tables_template";
+    }
+
+    @Override
+    public int count(ERDiagram diagram) {
+        return diagram.getDiagramContents().getContents().getTableSet().getList().size();
+    }
 
 }

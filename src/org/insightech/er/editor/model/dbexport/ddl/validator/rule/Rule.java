@@ -7,9 +7,9 @@ import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 
 public interface Rule {
 
-	public List<ValidateResult> getErrorList();
+    public List<ValidateResult> getErrorList();
 
-	public void clear();
+    public void clear();
 
-	abstract public boolean validate(ERDiagram diagram);
+    abstract public boolean validate(ERDiagram diagram);
 }

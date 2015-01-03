@@ -12,86 +12,81 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 
 public class AdvancedComposite extends Composite {
 
-	private Combo tableSpaceCombo;
+    private Combo tableSpaceCombo;
 
-	private Text schemaText;
+    private Text schemaText;
 
-	protected ViewProperties viewProperties;
+    protected ViewProperties viewProperties;
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	public AdvancedComposite(Composite parent) {
-		super(parent, SWT.NONE);
-	}
+    public AdvancedComposite(Composite parent) {
+        super(parent, SWT.NONE);
+    }
 
-	public final void initialize(ViewProperties viewProperties,
-			ERDiagram diagram) {
-		this.viewProperties = viewProperties;
-		this.diagram = diagram;
+    public final void initialize(ViewProperties viewProperties, ERDiagram diagram) {
+        this.viewProperties = viewProperties;
+        this.diagram = diagram;
 
-		this.initComposite();
-		this.setData();
-	}
+        this.initComposite();
+        this.setData();
+    }
 
-	protected void initComposite() {
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
+    protected void initComposite() {
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 2;
 
-		this.setLayout(gridLayout);
+        this.setLayout(gridLayout);
 
-		this.tableSpaceCombo = CompositeFactory.createReadOnlyCombo(null, this,
-				"label.tablespace");
-		this.schemaText = CompositeFactory.createText(null, this,
-				"label.schema", 1, 120, false);
+        this.tableSpaceCombo = CompositeFactory.createReadOnlyCombo(null, this, "label.tablespace");
+        this.schemaText = CompositeFactory.createText(null, this, "label.schema", 1, 120, false);
 
-		this.initTablespaceCombo();
-	}
+        this.initTablespaceCombo();
+    }
 
-	private void initTablespaceCombo() {
-		this.tableSpaceCombo.add("");
+    private void initTablespaceCombo() {
+        this.tableSpaceCombo.add("");
 
-		for (Tablespace tablespace : this.diagram.getDiagramContents()
-				.getTablespaceSet()) {
-			this.tableSpaceCombo.add(tablespace.getName());
-		}
-	}
+        for (Tablespace tablespace : this.diagram.getDiagramContents().getTablespaceSet()) {
+            this.tableSpaceCombo.add(tablespace.getName());
+        }
+    }
 
-	protected void setData() {
-		Tablespace tablespace = this.viewProperties.getTableSpace();
+    protected void setData() {
+        Tablespace tablespace = this.viewProperties.getTableSpace();
 
-		if (tablespace != null) {
-			int index = this.diagram.getDiagramContents().getTablespaceSet()
-					.getTablespaceList().indexOf(tablespace);
-			this.tableSpaceCombo.select(index + 1);
-		}
+        if (tablespace != null) {
+            int index = this.diagram.getDiagramContents().getTablespaceSet().getTablespaceList().indexOf(tablespace);
+            this.tableSpaceCombo.select(index + 1);
+        }
 
-		if (this.viewProperties.getSchema() != null && this.schemaText != null) {
-			this.schemaText.setText(this.viewProperties.getSchema());
-		}
-	}
+        if (this.viewProperties.getSchema() != null && this.schemaText != null) {
+            this.schemaText.setText(this.viewProperties.getSchema());
+        }
+    }
 
-	public boolean validate() {
-		if (this.tableSpaceCombo != null) {
-			int tablespaceIndex = this.tableSpaceCombo.getSelectionIndex();
-			if (tablespaceIndex > 0) {
-				Tablespace tablespace = this.diagram.getDiagramContents()
-						.getTablespaceSet().getTablespaceList().get(
-								tablespaceIndex - 1);
-				this.viewProperties.setTableSpace(tablespace);
+    public boolean validate() {
+        if (this.tableSpaceCombo != null) {
+            int tablespaceIndex = this.tableSpaceCombo.getSelectionIndex();
+            if (tablespaceIndex > 0) {
+                Tablespace tablespace =
+                        this.diagram.getDiagramContents().getTablespaceSet().getTablespaceList()
+                                .get(tablespaceIndex - 1);
+                this.viewProperties.setTableSpace(tablespace);
 
-			} else {
-				this.viewProperties.setTableSpace(null);
-			}
-		}
+            } else {
+                this.viewProperties.setTableSpace(null);
+            }
+        }
 
-		if (this.schemaText != null) {
-			this.viewProperties.setSchema(this.schemaText.getText());
-		}
+        if (this.schemaText != null) {
+            this.viewProperties.setSchema(this.schemaText.getText());
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	public void setInitFocus() {
-		this.tableSpaceCombo.setFocus();
-	}
+    public void setInitFocus() {
+        this.tableSpaceCombo.setFocus();
+    }
 }

@@ -11,46 +11,44 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.proper
 
 public class AdvancedTabWrapper extends ValidatableTabWrapper {
 
-	private ERTable table;
+    private ERTable table;
 
-	private AdvancedComposite composite;
+    private AdvancedComposite composite;
 
-	public AdvancedTabWrapper(AbstractDialog dialog, TabFolder parent,
-			int style, ERTable table) {
-		super(dialog, parent, style, "label.advanced.settings");
+    public AdvancedTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable table) {
+        super(dialog, parent, style, "label.advanced.settings");
 
-		this.table = table;
+        this.table = table;
 
-		this.init();
-	}
+        this.init();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void validatePage() throws InputException {
-		this.composite.validate();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void validatePage() throws InputException {
+        this.composite.validate();
+    }
 
-	@Override
-	public void initComposite() {
-		this.setLayout(new GridLayout());
-		this.composite = EclipseDBManagerFactory.getEclipseDBManager(
-				this.table.getDiagram()).createAdvancedComposite(this);
-		this.composite.initialize(this.dialog,
-				(TableProperties) this.table.getTableViewProperties(),
-				this.table.getDiagram(), this.table);
-	}
+    @Override
+    public void initComposite() {
+        this.setLayout(new GridLayout());
+        this.composite =
+                EclipseDBManagerFactory.getEclipseDBManager(this.table.getDiagram()).createAdvancedComposite(this);
+        this.composite.initialize(this.dialog, (TableProperties) this.table.getTableViewProperties(),
+                this.table.getDiagram(), this.table);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setInitFocus() {
-		this.composite.setInitFocus();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setInitFocus() {
+        this.composite.setInitFocus();
+    }
 
-	@Override
-	public void perfomeOK() {
-	}
+    @Override
+    public void perfomeOK() {
+    }
 }

@@ -10,23 +10,22 @@ import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public class ChangeTitleFontSizeAction extends AbstractBaseAction {
 
-	public static final String ID = ChangeTitleFontSizeAction.class.getName();
+    public static final String ID = ChangeTitleFontSizeAction.class.getName();
 
-	public ChangeTitleFontSizeAction(ERDiagramEditor editor) {
-		super(ID, null, IAction.AS_CHECK_BOX, editor);
-		this.setText(ResourceString.getResourceString("action.title.display.titleFontLarge"));
-	}
+    public ChangeTitleFontSizeAction(ERDiagramEditor editor) {
+        super(ID, null, IAction.AS_CHECK_BOX, editor);
+        this.setText(ResourceString.getResourceString("action.title.display.titleFontLarge"));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		ChangeTitleFontSizeCommand command = new ChangeTitleFontSizeCommand(diagram, this
-				.isChecked());
+        ChangeTitleFontSizeCommand command = new ChangeTitleFontSizeCommand(diagram, this.isChecked());
 
-		this.execute(command);
-	}
+        this.execute(command);
+    }
 }

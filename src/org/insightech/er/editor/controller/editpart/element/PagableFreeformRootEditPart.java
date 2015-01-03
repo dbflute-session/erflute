@@ -11,67 +11,67 @@ import org.insightech.er.editor.model.settings.PageSetting;
 
 public class PagableFreeformRootEditPart extends ScalableFreeformRootEditPart {
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	public PagableFreeformRootEditPart(ERDiagram diagram) {
-		this.diagram = diagram;
-	}
+    public PagableFreeformRootEditPart(ERDiagram diagram) {
+        this.diagram = diagram;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected GridLayer createGridLayer() {
-		return new PagableGridLayer();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected GridLayer createGridLayer() {
+        return new PagableGridLayer();
+    }
 
-	private class PagableGridLayer extends GridLayer {
+    private class PagableGridLayer extends GridLayer {
 
-		private int i = 0;
+        private int i = 0;
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		protected void paintGrid(Graphics g) {
-			super.paintGrid(g);
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void paintGrid(Graphics g) {
+            super.paintGrid(g);
 
-			Rectangle clip = g.getClip(Rectangle.SINGLETON);
+            Rectangle clip = g.getClip(Rectangle.SINGLETON);
 
-			PageSetting pageSetting = diagram.getPageSetting();
+            PageSetting pageSetting = diagram.getPageSetting();
 
-			int width = pageSetting.getWidth();
-			int height = pageSetting.getHeight();
+            int width = pageSetting.getWidth();
+            int height = pageSetting.getHeight();
 
-			Rectangle rect = clip;
+            Rectangle rect = clip;
 
-			Color color = g.getForegroundColor();
-			g.setForegroundColor(ColorConstants.lightGray);
+            Color color = g.getForegroundColor();
+            g.setForegroundColor(ColorConstants.lightGray);
 
-			int startX = rect.x;
-			if (startX > 0) {
-				startX = 0;
-			}
-			int startY = rect.y;
-			if (startY > 0) {
-				startY = 0;
-			}
+            int startX = rect.x;
+            if (startX > 0) {
+                startX = 0;
+            }
+            int startY = rect.y;
+            if (startY > 0) {
+                startY = 0;
+            }
 
-			for (int i = startX; i < rect.x + rect.width; i += width) {
-				g.drawLine(i, rect.y, i, rect.y + rect.height);
-			}
+            for (int i = startX; i < rect.x + rect.width; i += width) {
+                g.drawLine(i, rect.y, i, rect.y + rect.height);
+            }
 
-			for (int i = startY; i < rect.y + rect.height; i += height) {
-				g.drawLine(rect.x, i, rect.x + rect.width, i);
-			}
+            for (int i = startY; i < rect.y + rect.height; i += height) {
+                g.drawLine(rect.x, i, rect.x + rect.width, i);
+            }
 
-			g.setForegroundColor(color);
+            g.setForegroundColor(color);
 
-			i++;
-			if (i > 0) {
-				i = -1;
-				repaint();
-			}
-		}
-	}
+            i++;
+            if (i > 0) {
+                i = -1;
+                repaint();
+            }
+        }
+    }
 }

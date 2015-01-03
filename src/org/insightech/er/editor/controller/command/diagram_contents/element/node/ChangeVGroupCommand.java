@@ -8,32 +8,32 @@ import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.VGro
 
 public class ChangeVGroupCommand extends AbstractCommand {
 
-	private ERModel model;
+    private ERModel model;
 
-	private List<VGroup> oldVgroups;
+    private List<VGroup> oldVgroups;
 
-	private List<VGroup> vgroups;
+    private List<VGroup> vgroups;
 
-	public ChangeVGroupCommand(ERModel model, List<VGroup> vgroups) {
-		this.model = model;
-		this.oldVgroups = model.getGroups();
-		this.vgroups = vgroups;
-	}
+    public ChangeVGroupCommand(ERModel model, List<VGroup> vgroups) {
+        this.model = model;
+        this.oldVgroups = model.getGroups();
+        this.vgroups = vgroups;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		model.setGroups(vgroups);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        model.setGroups(vgroups);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		model.setGroups(oldVgroups);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        model.setGroups(oldVgroups);
+    }
 
 }

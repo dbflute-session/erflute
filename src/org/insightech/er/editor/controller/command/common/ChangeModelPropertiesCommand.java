@@ -9,36 +9,34 @@ import org.insightech.er.util.NameValue;
 
 public class ChangeModelPropertiesCommand extends AbstractCommand {
 
-	private List<NameValue> oldProperties;
+    private List<NameValue> oldProperties;
 
-	private List<NameValue> newProperties;
+    private List<NameValue> newProperties;
 
-	private ModelProperties modelProperties;
+    private ModelProperties modelProperties;
 
-	public ChangeModelPropertiesCommand(ERDiagram diagram,
-			ModelProperties properties) {
-		this.modelProperties = diagram.getDiagramContents().getSettings()
-				.getModelProperties();
+    public ChangeModelPropertiesCommand(ERDiagram diagram, ModelProperties properties) {
+        this.modelProperties = diagram.getDiagramContents().getSettings().getModelProperties();
 
-		this.oldProperties = this.modelProperties.getProperties();
-		this.newProperties = properties.getProperties();
-	}
+        this.oldProperties = this.modelProperties.getProperties();
+        this.newProperties = properties.getProperties();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doExecute() {
-		this.modelProperties.setProperties(newProperties);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.modelProperties.setProperties(newProperties);
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void doUndo() {
-		this.modelProperties.setProperties(oldProperties);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.modelProperties.setProperties(oldProperties);
+    }
 
 }

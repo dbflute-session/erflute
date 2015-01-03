@@ -12,28 +12,26 @@ import org.insightech.er.editor.view.dialog.outline.sequence.SequenceDialog;
 
 public class CreateSequenceAction extends AbstractOutlineBaseAction {
 
-	public static final String ID = CreateSequenceAction.class.getName();
+    public static final String ID = CreateSequenceAction.class.getName();
 
-	public CreateSequenceAction(TreeViewer treeViewer) {
-		super(ID, ResourceString
-				.getResourceString("action.title.create.sequence"), treeViewer);
-	}
+    public CreateSequenceAction(TreeViewer treeViewer) {
+        super(ID, ResourceString.getResourceString("action.title.create.sequence"), treeViewer);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute(Event event) {
-		ERDiagram diagram = this.getDiagram();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void execute(Event event) {
+        ERDiagram diagram = this.getDiagram();
 
-		SequenceDialog dialog = new SequenceDialog(PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getShell(), null, diagram);
+        SequenceDialog dialog =
+                new SequenceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, diagram);
 
-		if (dialog.open() == IDialogConstants.OK_ID) {
-			CreateSequenceCommand command = new CreateSequenceCommand(diagram,
-					dialog.getResult());
-			this.execute(command);
-		}
-	}
+        if (dialog.open() == IDialogConstants.OK_ID) {
+            CreateSequenceCommand command = new CreateSequenceCommand(diagram, dialog.getResult());
+            this.execute(command);
+        }
+    }
 
 }

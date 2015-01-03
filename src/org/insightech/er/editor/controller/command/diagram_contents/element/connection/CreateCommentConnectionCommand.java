@@ -7,47 +7,46 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirt
 
 public class CreateCommentConnectionCommand extends CreateConnectionCommand {
 
-	public CreateCommentConnectionCommand(ConnectionElement connection) {
-		super(connection);
-	}
+    public CreateCommentConnectionCommand(ConnectionElement connection) {
+        super(connection);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canExecute() {
-		if (!super.canExecute()) {
-			return false;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canExecute() {
+        if (!super.canExecute()) {
+            return false;
+        }
 
-		if (!(this.getSourceModel() instanceof Note)
-				&& !(this.getTargetModel() instanceof Note)) {
-			return false;
-		}
+        if (!(this.getSourceModel() instanceof Note) && !(this.getTargetModel() instanceof Note)) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	protected void doExecute() {
-		NodeElement source = (NodeElement) this.source.getModel();
-		NodeElement target = (NodeElement) this.target.getModel();
+    @Override
+    protected void doExecute() {
+        NodeElement source = (NodeElement) this.source.getModel();
+        NodeElement target = (NodeElement) this.target.getModel();
 
-		// Table���m�̃����[�V�����́ATable <=> Table �Ōq��
-		if (source instanceof ERVirtualTable) {
-			source = ((ERVirtualTable)source).getRawTable();
-		}
-		if (target instanceof ERVirtualTable) {
-			target = ((ERVirtualTable)target).getRawTable();
-		}
-		
-		connection.setSource(source);
-		connection.setTarget(target);
-		
-		if (source instanceof Note) {
-			Note note = (Note) source;
-			note.getModel().changeAll();
-		}
-	}
+        // Table���m�̃����[�V�����́ATable <=> Table �Ōq��
+        if (source instanceof ERVirtualTable) {
+            source = ((ERVirtualTable) source).getRawTable();
+        }
+        if (target instanceof ERVirtualTable) {
+            target = ((ERVirtualTable) target).getRawTable();
+        }
+
+        connection.setSource(source);
+        connection.setTarget(target);
+
+        if (source instanceof Note) {
+            Note note = (Note) source;
+            note.getModel().changeAll();
+        }
+    }
 
 }

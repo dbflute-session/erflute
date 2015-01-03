@@ -9,58 +9,55 @@ import org.insightech.er.util.Format;
 
 public class PostgresTablespaceDialog extends TablespaceDialog {
 
-	private Text location;
+    private Text location;
 
-	private Text owner;
+    private Text owner;
 
-	@Override
-	protected void initialize(Composite composite) {
-		super.initialize(composite);
+    @Override
+    protected void initialize(Composite composite) {
+        super.initialize(composite);
 
-		this.location = CompositeFactory.createText(this, composite,
-				"label.tablespace.location", false);
-		CompositeFactory.filler(composite, 1);
-		CompositeFactory.createExampleLabel(composite,
-				"label.tablespace.data.file.example");
-		this.owner = CompositeFactory.createText(this, composite,
-				"label.tablespace.owner", false);
-	}
+        this.location = CompositeFactory.createText(this, composite, "label.tablespace.location", false);
+        CompositeFactory.filler(composite, 1);
+        CompositeFactory.createExampleLabel(composite, "label.tablespace.data.file.example");
+        this.owner = CompositeFactory.createText(this, composite, "label.tablespace.owner", false);
+    }
 
-	@Override
-	protected TablespaceProperties setTablespaceProperties() {
-		PostgresTablespaceProperties properties = new PostgresTablespaceProperties();
+    @Override
+    protected TablespaceProperties setTablespaceProperties() {
+        PostgresTablespaceProperties properties = new PostgresTablespaceProperties();
 
-		properties.setLocation(this.location.getText().trim());
-		properties.setOwner(this.owner.getText().trim());
+        properties.setLocation(this.location.getText().trim());
+        properties.setOwner(this.owner.getText().trim());
 
-		return properties;
-	}
+        return properties;
+    }
 
-	@Override
-	protected void setData(TablespaceProperties tablespaceProperties) {
-		if (tablespaceProperties instanceof PostgresTablespaceProperties) {
-			PostgresTablespaceProperties properties = (PostgresTablespaceProperties) tablespaceProperties;
+    @Override
+    protected void setData(TablespaceProperties tablespaceProperties) {
+        if (tablespaceProperties instanceof PostgresTablespaceProperties) {
+            PostgresTablespaceProperties properties = (PostgresTablespaceProperties) tablespaceProperties;
 
-			this.location.setText(Format.toString(properties.getLocation()));
-			this.owner.setText(Format.toString(properties.getOwner()));
-		}
-	}
+            this.location.setText(Format.toString(properties.getLocation()));
+            this.owner.setText(Format.toString(properties.getOwner()));
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getErrorMessage() {
-		String errorMessage = super.getErrorMessage();
-		if (errorMessage != null) {
-			return errorMessage;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getErrorMessage() {
+        String errorMessage = super.getErrorMessage();
+        if (errorMessage != null) {
+            return errorMessage;
+        }
 
-		String text = this.location.getText().trim();
-		if (text.equals("")) {
-			return "error.tablespace.location.empty";
-		}
+        String text = this.location.getText().trim();
+        if (text.equals("")) {
+            return "error.tablespace.location.empty";
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

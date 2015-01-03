@@ -21,84 +21,79 @@ import org.insightech.er.editor.view.dialog.option.tab.OptionTabWrapper;
 
 public class OptionSettingDialog extends AbstractDialog {
 
-	private TabFolder tabFolder;
+    private TabFolder tabFolder;
 
-	private List<ValidatableTabWrapper> tabWrapperList;
+    private List<ValidatableTabWrapper> tabWrapperList;
 
-	private Settings settings;
+    private Settings settings;
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	public OptionSettingDialog(Shell parentShell, Settings settings,
-			ERDiagram diagram) {
-		super(parentShell);
+    public OptionSettingDialog(Shell parentShell, Settings settings, ERDiagram diagram) {
+        super(parentShell);
 
-		this.diagram = diagram;
-		this.settings = settings;
-		this.tabWrapperList = new ArrayList<ValidatableTabWrapper>();
-	}
+        this.diagram = diagram;
+        this.settings = settings;
+        this.tabWrapperList = new ArrayList<ValidatableTabWrapper>();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initialize(Composite composite) {
-		GridData gridData = new GridData();
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.grabExcessVerticalSpace = true;
-		gridData.verticalAlignment = GridData.FILL;
-		gridData.horizontalAlignment = GridData.FILL;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initialize(Composite composite) {
+        GridData gridData = new GridData();
+        gridData.grabExcessHorizontalSpace = true;
+        gridData.grabExcessVerticalSpace = true;
+        gridData.verticalAlignment = GridData.FILL;
+        gridData.horizontalAlignment = GridData.FILL;
 
-		this.tabFolder = new TabFolder(composite, SWT.NONE);
-		this.tabFolder.setLayoutData(gridData);
+        this.tabFolder = new TabFolder(composite, SWT.NONE);
+        this.tabFolder.setLayoutData(gridData);
 
-		this.tabWrapperList.add(new DBSelectTabWrapper(this, tabFolder,
-				SWT.NONE, this.settings));
-		this.tabWrapperList.add(new EnvironmentTabWrapper(this, tabFolder,
-				SWT.NONE, this.settings));
-		this.tabWrapperList.add(new AdvancedTabWrapper(this, tabFolder,
-				SWT.NONE, this.settings, this.diagram));
-		this.tabWrapperList.add(new OptionTabWrapper(this, tabFolder, SWT.NONE,
-				this.settings));
+        this.tabWrapperList.add(new DBSelectTabWrapper(this, tabFolder, SWT.NONE, this.settings));
+        this.tabWrapperList.add(new EnvironmentTabWrapper(this, tabFolder, SWT.NONE, this.settings));
+        this.tabWrapperList.add(new AdvancedTabWrapper(this, tabFolder, SWT.NONE, this.settings, this.diagram));
+        this.tabWrapperList.add(new OptionTabWrapper(this, tabFolder, SWT.NONE, this.settings));
 
-		ListenerAppender.addTabListener(tabFolder, tabWrapperList);
+        ListenerAppender.addTabListener(tabFolder, tabWrapperList);
 
-		this.tabWrapperList.get(0).setInitFocus();
-	}
+        this.tabWrapperList.get(0).setInitFocus();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected String getErrorMessage() {
-		try {
-			for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
-				tabWrapper.validatePage();
-			}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getErrorMessage() {
+        try {
+            for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
+                tabWrapper.validatePage();
+            }
 
-		} catch (InputException e) {
-			return e.getMessage();
-		}
+        } catch (InputException e) {
+            return e.getMessage();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	protected String getTitle() {
-		return "dialog.title.option";
-	}
+    @Override
+    protected String getTitle() {
+        return "dialog.title.option";
+    }
 
-	@Override
-	protected void perfomeOK() throws InputException {
-	}
+    @Override
+    protected void perfomeOK() throws InputException {
+    }
 
-	@Override
-	protected void setData() {
-	}
+    @Override
+    protected void setData() {
+    }
 
-	public void initTab() {
-		for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
-			tabWrapper.reset();
-		}
-	}
+    public void initTab() {
+        for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
+            tabWrapper.reset();
+        }
+    }
 }

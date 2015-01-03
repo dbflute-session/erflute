@@ -12,51 +12,48 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 
 public abstract class AbstractTextTestDataCreator extends TestDataCreator {
 
-	protected PrintWriter out;
+    protected PrintWriter out;
 
-	public AbstractTextTestDataCreator() {
-	}
+    public AbstractTextTestDataCreator() {
+    }
 
-	@Override
-	protected void openFile() throws IOException {
-		File file = new File(this.exportTestDataSetting.getExportFilePath());
-		file.getParentFile().mkdirs();
+    @Override
+    protected void openFile() throws IOException {
+        File file = new File(this.exportTestDataSetting.getExportFilePath());
+        file.getParentFile().mkdirs();
 
-		out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(this.exportTestDataSetting
-						.getExportFilePath()
-						+ File.separator
-						+ this.testData.getName()
-						+ this.getFileExtention()), this.exportTestDataSetting
-						.getExportFileEncoding())));
+        out =
+                new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
+                        this.exportTestDataSetting.getExportFilePath() + File.separator + this.testData.getName()
+                                + this.getFileExtention()), this.exportTestDataSetting.getExportFileEncoding())));
 
-	}
+    }
 
-	@Override
-	protected void write() throws IOException {
-		out.print(this.getHeader());
+    @Override
+    protected void write() throws IOException {
+        out.print(this.getHeader());
 
-		super.write();
+        super.write();
 
-		out.print(this.getFooter());
-	}
+        out.print(this.getFooter());
+    }
 
-	@Override
-	protected boolean skipTable(ERTable table) {
-		return false;
-	}
+    @Override
+    protected boolean skipTable(ERTable table) {
+        return false;
+    }
 
-	protected abstract String getHeader();
+    protected abstract String getHeader();
 
-	protected abstract String getFileExtention();
+    protected abstract String getFileExtention();
 
-	protected abstract String getFooter();
+    protected abstract String getFooter();
 
-	@Override
-	protected void closeFile() throws IOException {
-		if (out != null) {
-			out.close();
-		}
-	}
+    @Override
+    protected void closeFile() throws IOException {
+        if (out != null) {
+            out.close();
+        }
+    }
 
 }

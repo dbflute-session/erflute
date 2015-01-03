@@ -20,80 +20,71 @@ import org.insightech.er.util.Format;
 
 public class ExportToDictionaryAction extends AbstractExportAction {
 
-	public static final String ID = ExportToDictionaryAction.class.getName();
+    public static final String ID = ExportToDictionaryAction.class.getName();
 
-	public ExportToDictionaryAction(ERDiagramEditor editor) {
-		super(ID, ResourceString
-				.getResourceString("action.title.export.dictionary"), editor);
-		this.setImageDescriptor(Activator
-				.getImageDescriptor(ImageKey.EXPORT_TO_CSV));
-	}
+    public ExportToDictionaryAction(ERDiagramEditor editor) {
+        super(ID, ResourceString.getResourceString("action.title.export.dictionary"), editor);
+        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_CSV));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void save(IEditorPart editorPart, GraphicalViewer viewer,
-			String saveFilePath) throws Exception {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void save(IEditorPart editorPart, GraphicalViewer viewer, String saveFilePath) throws Exception {
 
-		ERDiagram diagram = this.getDiagram();
+        ERDiagram diagram = this.getDiagram();
 
-		Dictionary dictionary = diagram.getDiagramContents().getDictionary();
+        Dictionary dictionary = diagram.getDiagramContents().getDictionary();
 
-		PrintWriter out = null;
+        PrintWriter out = null;
 
-		try {
-			out = new PrintWriter(new BufferedWriter(new FileWriter(
-					saveFilePath)));
-			CsvWriter writer = new CsvWriter(out);
+        try {
+            out = new PrintWriter(new BufferedWriter(new FileWriter(saveFilePath)));
+            CsvWriter writer = new CsvWriter(out);
 
-			writer.print(ResourceString
-					.getResourceString("label.physical.name"));
-			writer
-					.print(ResourceString
-							.getResourceString("label.logical.name"));
-			writer.print(ResourceString.getResourceString("label.column.type"));
-			writer.print(ResourceString
-					.getResourceString("label.column.description"));
-			writer.crln();
+            writer.print(ResourceString.getResourceString("label.physical.name"));
+            writer.print(ResourceString.getResourceString("label.logical.name"));
+            writer.print(ResourceString.getResourceString("label.column.type"));
+            writer.print(ResourceString.getResourceString("label.column.description"));
+            writer.crln();
 
-			String database = diagram.getDatabase();
+            String database = diagram.getDatabase();
 
-			List<Word> list = dictionary.getWordList();
+            List<Word> list = dictionary.getWordList();
 
-			Collections.sort(list);
+            Collections.sort(list);
 
-			for (Word word : list) {
-				writer.print(word.getPhysicalName());
-				writer.print(word.getLogicalName());
-				if (word.getType() != null) {
-					writer.print(Format.formatType(word.getType(), word
-							.getTypeData(), database));
-				} else {
-					writer.print("");
-				}
-				writer.print(word.getDescription());
+            for (Word word : list) {
+                writer.print(word.getPhysicalName());
+                writer.print(word.getLogicalName());
+                if (word.getType() != null) {
+                    writer.print(Format.formatType(word.getType(), word.getTypeData(), database));
+                } else {
+                    writer.print("");
+                }
+                writer.print(word.getDescription());
 
-				writer.crln();
-			}
+                writer.crln();
+            }
 
-			Activator.showMessageDialog("dialog.message.export.finish");
+            Activator.showMessageDialog("dialog.message.export.finish");
 
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
-	}
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
 
-	@Override
-	protected String[] getFilterExtensions() {
-		return new String[] { "*.csv" };
-	}
+    @Override
+    protected String[] getFilterExtensions() {
+        return new String[] { "*.csv" };
+    }
 
-	@Override
-	protected String getDefaultExtension() {
-		return ".csv";
-	}
+    @Override
+    protected String getDefaultExtension() {
+        return ".csv";
+    }
 
 }

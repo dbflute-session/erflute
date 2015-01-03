@@ -12,48 +12,45 @@ import org.insightech.er.util.Format;
 
 public class DescriptionTabWrapper extends ValidatableTabWrapper {
 
-	private View copyData;
+    private View copyData;
 
-	private Text descriptionText;
+    private Text descriptionText;
 
-	public DescriptionTabWrapper(AbstractDialog dialog, TabFolder parent,
-			int style, View copyData) {
-		super(dialog, parent, style, "label.table.description");
+    public DescriptionTabWrapper(AbstractDialog dialog, TabFolder parent, int style, View copyData) {
+        super(dialog, parent, style, "label.table.description");
 
-		this.copyData = copyData;
+        this.copyData = copyData;
 
-		this.init();
-	}
+        this.init();
+    }
 
-	@Override
-	public void initComposite() {
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		this.setLayout(gridLayout);
+    @Override
+    public void initComposite() {
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 1;
+        this.setLayout(gridLayout);
 
-		this.descriptionText = CompositeFactory.createTextArea(null, this,
-				"label.table.description", -1, 400, 1, true);
+        this.descriptionText = CompositeFactory.createTextArea(null, this, "label.table.description", -1, 400, 1, true);
 
-		this.descriptionText.setText(Format.null2blank(copyData
-				.getDescription()));
-	}
+        this.descriptionText.setText(Format.null2blank(copyData.getDescription()));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void validatePage() throws InputException {
-		String text = descriptionText.getText().trim();
-		this.copyData.setDescription(text);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void validatePage() throws InputException {
+        String text = descriptionText.getText().trim();
+        this.copyData.setDescription(text);
+    }
 
-	@Override
-	public void setInitFocus() {
-		this.descriptionText.setFocus();
-	}
+    @Override
+    public void setInitFocus() {
+        this.descriptionText.setFocus();
+    }
 
-	@Override
-	public void perfomeOK() {
-	}
+    @Override
+    public void perfomeOK() {
+    }
 
 }

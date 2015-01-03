@@ -16,43 +16,38 @@ import org.insightech.er.editor.view.dialog.testdata.detail.TestDataDialog;
 
 public class TestDataEditTest {
 
-	private Display display = new Display();
-	private Shell shell = new Shell(display);
+    private Display display = new Display();
+    private Shell shell = new Shell(display);
 
-	public static void main(String[] args) throws Exception {
-		new Activator();
-		new TestDataEditTest();
-	}
+    public static void main(String[] args) throws Exception {
+        new Activator();
+        new TestDataEditTest();
+    }
 
-	public TestDataEditTest() {
-		initialize(shell);
-	}
+    public TestDataEditTest() {
+        initialize(shell);
+    }
 
-	private void initialize(Composite parent) {
-		ERDiagram diagram = new ERDiagram(MySQLDBManager.ID);
-		ERTable table = new ERTable();
-		table.setPhysicalName("table1");
-		table.setLogicalName("table1");
-		TypeData typeData = new TypeData(null, null, false, null, false, null);
+    private void initialize(Composite parent) {
+        ERDiagram diagram = new ERDiagram(MySQLDBManager.ID);
+        ERTable table = new ERTable();
+        table.setPhysicalName("table1");
+        table.setLogicalName("table1");
+        TypeData typeData = new TypeData(null, null, false, null, false, null);
 
-		Word word1 = new Word("a", "a", SqlType.valueOfId("bigint"), typeData,
-				null, MySQLDBManager.ID);
+        Word word1 = new Word("a", "a", SqlType.valueOfId("bigint"), typeData, null, MySQLDBManager.ID);
 
-		NormalColumn column1 = new NormalColumn(word1, true, true, true, true,
-				null, null, null, null, null);
+        NormalColumn column1 = new NormalColumn(word1, true, true, true, true, null, null, null, null, null);
 
-		Word word2 = new Word("a", "a", SqlType.valueOfId("bigint"), typeData,
-				null, MySQLDBManager.ID);
-		NormalColumn column2 = new NormalColumn(word2, true, true, true, true,
-				null, null, null, null, null);
-		table.addColumn(column1);
-		table.addColumn(column2);
+        Word word2 = new Word("a", "a", SqlType.valueOfId("bigint"), typeData, null, MySQLDBManager.ID);
+        NormalColumn column2 = new NormalColumn(word2, true, true, true, true, null, null, null, null, null);
+        table.addColumn(column1);
+        table.addColumn(column2);
 
-		diagram.addContent(table);
+        diagram.addContent(table);
 
-		TestDataDialog dialog = new TestDataDialog(shell, diagram,
-				new TestData());
+        TestDataDialog dialog = new TestDataDialog(shell, diagram, new TestData());
 
-		dialog.open();
-	}
+        dialog.open();
+    }
 }

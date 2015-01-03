@@ -6,14 +6,13 @@ import org.insightech.er.preference.PreferenceInitializer;
 
 public class TemplateFileListEditor extends FileListEditor {
 
-	public TemplateFileListEditor(String name, String labelText,
-			Composite parent) {
-		super(name, labelText, parent, "*.xls");
-	}
+    public TemplateFileListEditor(String name, String labelText, Composite parent) {
+        super(name, labelText, parent, "*.xls");
+    }
 
-	@Override
-	protected String getStorePath(String name) {
-		return PreferenceInitializer.getTemplatePath(name);
-	}
+    @Override
+    protected String getStorePath(String name) {
+        return PreferenceInitializer.getTemplatePath(name);
+    }
 
 }

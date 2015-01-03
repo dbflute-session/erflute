@@ -10,44 +10,42 @@ import org.insightech.er.editor.model.diagram_contents.element.node.view.propert
 
 public class AdvancedTabWrapper extends ValidatableTabWrapper {
 
-	private View view;
+    private View view;
 
-	private AdvancedComposite composite;
+    private AdvancedComposite composite;
 
-	public AdvancedTabWrapper(AbstractDialog dialog, TabFolder parent,
-			int style, View view) {
-		super(dialog, parent, style, "label.advanced.settings");
+    public AdvancedTabWrapper(AbstractDialog dialog, TabFolder parent, int style, View view) {
+        super(dialog, parent, style, "label.advanced.settings");
 
-		this.view = view;
+        this.view = view;
 
-		this.init();
-	}
+        this.init();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void validatePage() throws InputException {
-		this.composite.validate();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void validatePage() throws InputException {
+        this.composite.validate();
+    }
 
-	@Override
-	public void initComposite() {
-		this.setLayout(new GridLayout());
-		this.composite = new AdvancedComposite(this);
-		this.composite.initialize((ViewProperties) this.view
-				.getTableViewProperties(), this.view.getDiagram());
-	}
+    @Override
+    public void initComposite() {
+        this.setLayout(new GridLayout());
+        this.composite = new AdvancedComposite(this);
+        this.composite.initialize((ViewProperties) this.view.getTableViewProperties(), this.view.getDiagram());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setInitFocus() {
-		this.composite.setInitFocus();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setInitFocus() {
+        this.composite.setInitFocus();
+    }
 
-	@Override
-	public void perfomeOK() {
-	}
+    @Override
+    public void perfomeOK() {
+    }
 }

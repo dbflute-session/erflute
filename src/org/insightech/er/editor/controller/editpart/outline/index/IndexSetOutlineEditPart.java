@@ -18,55 +18,54 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.index.
 
 public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(IndexSet.PROPERTY_CHANGE_INDEXES)) {
-			refresh();
-		}
-	}
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(IndexSet.PROPERTY_CHANGE_INDEXES)) {
+            refresh();
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected List getModelChildren() {
-		List<Index> children = new ArrayList<Index>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List getModelChildren() {
+        List<Index> children = new ArrayList<Index>();
 
-		ERDiagram diagram = this.getDiagram();
-		Category category = this.getCurrentCategory();
+        ERDiagram diagram = this.getDiagram();
+        Category category = this.getCurrentCategory();
 
-		for (ERTable table : diagram.getDiagramContents().getContents()
-				.getTableSet()) {
-			if (category == null || category.contains(table)) {
-				children.addAll(table.getIndexes());
-			}
-		}
+        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+            if (category == null || category.contains(table)) {
+                children.addAll(table.getIndexes());
+            }
+        }
 
-		Collections.sort(children);
+        Collections.sort(children);
 
-		return children;
-	}
+        return children;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshOutlineVisuals() {
-		this.setWidgetText(ResourceString.getResourceString("label.index")
-				+ " (" + this.getModelChildren().size() + ")");
-		this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshOutlineVisuals() {
+        this.setWidgetText(ResourceString.getResourceString("label.index") + " (" + this.getModelChildren().size()
+                + ")");
+        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void refreshChildren() {
-		super.refreshChildren();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void refreshChildren() {
+        super.refreshChildren();
 
-		for (Object child : this.getChildren()) {
-			EditPart part = (EditPart) child;
-			part.refresh();
-		}
-	}
+        for (Object child : this.getChildren()) {
+            EditPart part = (EditPart) child;
+            part.refresh();
+        }
+    }
 
 }

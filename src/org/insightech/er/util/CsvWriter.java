@@ -13,109 +13,108 @@ import java.util.Date;
  */
 public class CsvWriter {
 
-	private static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat(
-			"yyyy/MM/dd");
+    private static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 
-	private static final String DELIMITER = ",";
+    private static final String DELIMITER = ",";
 
-	private PrintWriter writer;
+    private PrintWriter writer;
 
-	private DateFormat dateFormat;
+    private DateFormat dateFormat;
 
-	private String delimiter;
+    private String delimiter;
 
-	/**
-	 * �R���X�g���N�^
-	 * 
-	 * @param writer
-	 *            �o�͐�
-	 */
-	public CsvWriter(PrintWriter writer) {
-		this.writer = writer;
-		this.delimiter = "";
-		this.dateFormat = DEFAULT_FORMAT;
-	}
+    /**
+     * �R���X�g���N�^
+     * 
+     * @param writer
+     *            �o�͐�
+     */
+    public CsvWriter(PrintWriter writer) {
+        this.writer = writer;
+        this.delimiter = "";
+        this.dateFormat = DEFAULT_FORMAT;
+    }
 
-	/**
-	 * Date �^�̃f�[�^���o�͂���ۂ̃t�H�[�}�b�g�`�����w�肵�܂�
-	 * 
-	 * @param format
-	 *            �t�H�[�}�b�g�`��
-	 */
-	public void setDateFormat(String format) {
-		this.dateFormat = new SimpleDateFormat(format);
-	}
+    /**
+     * Date �^�̃f�[�^���o�͂���ۂ̃t�H�[�}�b�g�`�����w�肵�܂�
+     * 
+     * @param format
+     *            �t�H�[�}�b�g�`��
+     */
+    public void setDateFormat(String format) {
+        this.dateFormat = new SimpleDateFormat(format);
+    }
 
-	/**
-	 * CSV�̂��߂ɕ�������G�X�P�[�v���܂��B
-	 * 
-	 * @param str
-	 *            �G�X�P�[�v�O�̕�����
-	 * @return �G�X�P�[�v���ꂽ������
-	 */
-	public static String escape(String str) {
-		if (str == null) {
-			return "";
-		}
-		return str.replaceAll("\"", "\"\"");
-	}
+    /**
+     * CSV�̂��߂ɕ�������G�X�P�[�v���܂��B
+     * 
+     * @param str
+     *            �G�X�P�[�v�O�̕�����
+     * @return �G�X�P�[�v���ꂽ������
+     */
+    public static String escape(String str) {
+        if (str == null) {
+            return "";
+        }
+        return str.replaceAll("\"", "\"\"");
+    }
 
-	/**
-	 * �I�u�W�F�N�g�̕�����\�����o�͂��܂�
-	 * 
-	 * @param object
-	 *            �I�u�W�F�N�g
-	 */
-	public void print(Object object) {
-		String value = null;
+    /**
+     * �I�u�W�F�N�g�̕�����\�����o�͂��܂�
+     * 
+     * @param object
+     *            �I�u�W�F�N�g
+     */
+    public void print(Object object) {
+        String value = null;
 
-		if (object instanceof Date) {
-			value = dateFormat.format((Date) object);
-		} else {
-			if (object == null) {
-				value = "";
-			} else {
-				value = object.toString();
-			}
-		}
+        if (object instanceof Date) {
+            value = dateFormat.format((Date) object);
+        } else {
+            if (object == null) {
+                value = "";
+            } else {
+                value = object.toString();
+            }
+        }
 
-		writer.print(this.delimiter);
+        writer.print(this.delimiter);
 
-		writer.print("\"");
-		writer.print(escape(value));
-		writer.print("\"");
+        writer.print("\"");
+        writer.print(escape(value));
+        writer.print("\"");
 
-		this.setDelimiter();
-	}
+        this.setDelimiter();
+    }
 
-	/**
-	 * �f���~�^�[���o�͑ΏۂɃZ�b�g���܂�
-	 */
-	private void setDelimiter() {
-		this.delimiter = DELIMITER;
-	}
+    /**
+     * �f���~�^�[���o�͑ΏۂɃZ�b�g���܂�
+     */
+    private void setDelimiter() {
+        this.delimiter = DELIMITER;
+    }
 
-	/**
-	 * �f���~�^�[���o�͑Ώۂ��烊�Z�b�g���܂�
-	 */
-	private void resetDelimiter() {
-		this.delimiter = "";
-	}
+    /**
+     * �f���~�^�[���o�͑Ώۂ��烊�Z�b�g���܂�
+     */
+    private void resetDelimiter() {
+        this.delimiter = "";
+    }
 
-	/**
-	 * ���s�R�[�h���o�͂��܂�
-	 */
-	public void crln() {
-		writer.print("\r\n");
+    /**
+     * ���s�R�[�h���o�͂��܂�
+     */
+    public void crln() {
+        writer.print("\r\n");
 
-		this.resetDelimiter();
-	}
+        this.resetDelimiter();
+    }
 
-	/**
-	 * �o�͐����܂�
-	 */
-	public void close() {
-		this.writer.close();
-	}
+    /**
+     * �o�͐����܂�
+     */
+    public void close() {
+        this.writer.close();
+    }
 
 }

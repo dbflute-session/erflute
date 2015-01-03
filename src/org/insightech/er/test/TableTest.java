@@ -14,23 +14,23 @@ import org.insightech.er.editor.view.dialog.testdata.TestDataManageDialog;
 
 public class TableTest {
 
-	private Display display = new Display();
-	private Shell shell = new Shell(display);
+    private Display display = new Display();
+    private Shell shell = new Shell(display);
 
-	public static void main(String[] args) throws Exception {
-		new Activator();
-		new TableTest();
-	}
+    public static void main(String[] args) throws Exception {
+        new Activator();
+        new TableTest();
+    }
 
-	public TableTest() {
-		initialize(shell);
-	}
+    public TableTest() {
+        initialize(shell);
+    }
 
-	private void initialize(Composite parent) {
-		List<TestData> testDataList = new ArrayList<TestData>();
-		TestDataManageDialog dialog = new TestDataManageDialog(shell, null,
-				new ERDiagram(MySQLDBManager.ID), testDataList);
+    private void initialize(Composite parent) {
+        List<TestData> testDataList = new ArrayList<TestData>();
+        TestDataManageDialog dialog =
+                new TestDataManageDialog(shell, null, new ERDiagram(MySQLDBManager.ID), testDataList);
 
-		dialog.open();
-	}
+        dialog.open();
+    }
 }

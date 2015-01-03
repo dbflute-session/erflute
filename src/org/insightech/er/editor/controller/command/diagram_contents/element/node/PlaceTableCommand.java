@@ -16,105 +16,108 @@ import org.insightech.er.editor.view.dialog.dbexport.ErrorDialog;
 
 public class PlaceTableCommand extends AbstractCommand {
 
-	private ERTable orgTable;
-	private List<ERTable> orgTables;
-	
-	private ERVirtualTable virtualTable;
-	private List<ERVirtualTable> virtualTables;
+    private ERTable orgTable;
+    private List<ERTable> orgTables;
 
-	public PlaceTableCommand(ERTable orgTable) {
-		this.orgTable = orgTable;
-	}
+    private ERVirtualTable virtualTable;
+    private List<ERVirtualTable> virtualTables;
 
-	public PlaceTableCommand(List orgTables) {
-		this.orgTables = orgTables;
-	}
+    public PlaceTableCommand(ERTable orgTable) {
+        this.orgTable = orgTable;
+    }
 
-	@Override
-	protected void doExecute() {
-		
-		if (orgTables != null) {
-			// •¡””z’u
-			EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
-			
-			Point cursorLocation = Display.getCurrent().getCursorLocation();
-			Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
-			FigureCanvas canvas = (FigureCanvas) modelEditor.getGraphicalViewer().getControl();
-			point.x += canvas.getHorizontalBar().getSelection();
-			point.y += canvas.getVerticalBar().getSelection();
+    public PlaceTableCommand(List orgTables) {
+        this.orgTables = orgTables;
+    }
 
-			virtualTables = new ArrayList<ERVirtualTable>();
-			for (ERTable curTable : orgTables) {
-				boolean cantPlace = false;
-				for (ERVirtualTable vtable : modelEditor.getModel().getTables()) {
-					if (vtable.getRawTable().equals(curTable)) {
-						cantPlace = true;
-					}
-				}
-				if (cantPlace) continue;
+    @Override
+    protected void doExecute() {
 
-				ERModel model = curTable.getDiagram().getCurrentErmodel();
+        if (orgTables != null) {
+            // ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½u
+            EROneDiagramEditor modelEditor =
+                    (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
 
-				virtualTable = new ERVirtualTable(model, curTable);
-				virtualTable.setPoint(point.x, point.y);
-				model.addTable(virtualTable);
-				virtualTables.add(virtualTable);
-				// ˆê‚Â‚¸‚Â‰E‰º‚É‚¸‚ç‚µ‚Ä”z’u
-				point.x += 32;
-				point.y += 32;
-			}
-//			modelEditor.setContents(orgTables.get(0).getDiagram().getCurrentErmodel());
-			modelEditor.refresh();
-		} else {
-			ERTable curTable = orgTable;
-			
-			EROneDiagramEditor modelEditor = (EROneDiagramEditor) curTable.getDiagram().getEditor().getActiveEditor();
-			
-			// Šù‚Éƒrƒ…[ã‚É“¯ˆêƒe[ƒuƒ‹‚ª‚ ‚Á‚½‚ç’u‚¯‚È‚¢
-			for (ERVirtualTable vtable : modelEditor.getModel().getTables()) {
-				if (vtable.getRawTable().equals(curTable)) {
-					ErrorDialog dialog = new ErrorDialog(
-							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-							"Šù‚É‚±‚Ìƒe[ƒuƒ‹‚Íƒrƒ…[‚É”z’u‚³‚ê‚Ä‚¢‚Ü‚·Bƒrƒ…[“à‚É“¯ˆêƒe[ƒuƒ‹‚Íˆê‚Â‚µ‚©’u‚¯‚Ü‚¹‚ñB");
-					dialog.open();
-					return;
-				}
-			}
-			
-			Point cursorLocation = Display.getCurrent().getCursorLocation();
-			Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
-			FigureCanvas canvas = (FigureCanvas) modelEditor.getGraphicalViewer().getControl();
-			point.x += canvas.getHorizontalBar().getSelection();
-			point.y += canvas.getVerticalBar().getSelection();
+            Point cursorLocation = Display.getCurrent().getCursorLocation();
+            Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
+            FigureCanvas canvas = (FigureCanvas) modelEditor.getGraphicalViewer().getControl();
+            point.x += canvas.getHorizontalBar().getSelection();
+            point.y += canvas.getVerticalBar().getSelection();
 
-			ERModel model = curTable.getDiagram().getCurrentErmodel();
+            virtualTables = new ArrayList<ERVirtualTable>();
+            for (ERTable curTable : orgTables) {
+                boolean cantPlace = false;
+                for (ERVirtualTable vtable : modelEditor.getModel().getTables()) {
+                    if (vtable.getRawTable().equals(curTable)) {
+                        cantPlace = true;
+                    }
+                }
+                if (cantPlace)
+                    continue;
 
-			virtualTable = new ERVirtualTable(model, curTable);
-			virtualTable.setPoint(point.x, point.y);
-			model.addTable(virtualTable);
-//			modelEditor.setContents(model);
-			modelEditor.refresh();
-		}
-	}
+                ERModel model = curTable.getDiagram().getCurrentErmodel();
 
-	@Override
-	protected void doUndo() {
-		if (orgTables != null) {
-			ERModel model = orgTables.get(0).getDiagram().getCurrentErmodel();
-			
-			for (ERVirtualTable vtable : virtualTables) {
-				model.remove(vtable);
-			}
+                virtualTable = new ERVirtualTable(model, curTable);
+                virtualTable.setPoint(point.x, point.y);
+                model.addTable(virtualTable);
+                virtualTables.add(virtualTable);
+                // ï¿½ï¿½Â‚ï¿½ï¿½Â‰Eï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚µï¿½Ä”zï¿½u
+                point.x += 32;
+                point.y += 32;
+            }
+            //			modelEditor.setContents(orgTables.get(0).getDiagram().getCurrentErmodel());
+            modelEditor.refresh();
+        } else {
+            ERTable curTable = orgTable;
 
-			EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
-			modelEditor.setContents(model);
-		} else {
-			ERModel model = orgTable.getDiagram().getCurrentErmodel();
-			model.remove(virtualTable);
+            EROneDiagramEditor modelEditor = (EROneDiagramEditor) curTable.getDiagram().getEditor().getActiveEditor();
 
-			EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTable.getDiagram().getEditor().getActiveEditor();
-			modelEditor.setContents(model);
-		}
-	}
+            // ï¿½ï¿½ï¿½Éƒrï¿½ï¿½ï¿½[ï¿½ï¿½É“ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½È‚ï¿½
+            for (ERVirtualTable vtable : modelEditor.getModel().getTables()) {
+                if (vtable.getRawTable().equals(curTable)) {
+                    ErrorDialog dialog =
+                            new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                    "ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Íƒrï¿½ï¿½ï¿½[ï¿½É”zï¿½uï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Íˆï¿½Â‚ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B");
+                    dialog.open();
+                    return;
+                }
+            }
+
+            Point cursorLocation = Display.getCurrent().getCursorLocation();
+            Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
+            FigureCanvas canvas = (FigureCanvas) modelEditor.getGraphicalViewer().getControl();
+            point.x += canvas.getHorizontalBar().getSelection();
+            point.y += canvas.getVerticalBar().getSelection();
+
+            ERModel model = curTable.getDiagram().getCurrentErmodel();
+
+            virtualTable = new ERVirtualTable(model, curTable);
+            virtualTable.setPoint(point.x, point.y);
+            model.addTable(virtualTable);
+            //			modelEditor.setContents(model);
+            modelEditor.refresh();
+        }
+    }
+
+    @Override
+    protected void doUndo() {
+        if (orgTables != null) {
+            ERModel model = orgTables.get(0).getDiagram().getCurrentErmodel();
+
+            for (ERVirtualTable vtable : virtualTables) {
+                model.remove(vtable);
+            }
+
+            EROneDiagramEditor modelEditor =
+                    (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            modelEditor.setContents(model);
+        } else {
+            ERModel model = orgTable.getDiagram().getCurrentErmodel();
+            model.remove(virtualTable);
+
+            EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTable.getDiagram().getEditor().getActiveEditor();
+            modelEditor.setContents(model);
+        }
+    }
 
 }

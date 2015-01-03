@@ -5,17 +5,17 @@ import org.insightech.er.editor.model.ERDiagram;
 
 public class GroupColumnDialog extends AbstractRealColumnDialog {
 
-	public GroupColumnDialog(Shell parentShell, ERDiagram diagram) {
-		super(parentShell, diagram);
-	}
+    public GroupColumnDialog(Shell parentShell, ERDiagram diagram) {
+        super(parentShell, diagram);
+    }
 
-	protected int getStyle(int style) {
-		return style;
-	}
+    protected int getStyle(int style) {
+        return style;
+    }
 
-	@Override
-	protected String getTitle() {
-		return "dialog.title.group.column";
-	}
+    @Override
+    protected String getTitle() {
+        return "dialog.title.group.column";
+    }
 
 }

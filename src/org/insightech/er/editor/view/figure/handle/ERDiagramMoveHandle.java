@@ -7,17 +7,17 @@ import org.insightech.er.editor.view.figure.border.ERDiagramLineBorder;
 
 public class ERDiagramMoveHandle extends MoveHandle {
 
-	public ERDiagramMoveHandle(GraphicalEditPart owner) {
-		super(owner);
-	}
+    public ERDiagramMoveHandle(GraphicalEditPart owner) {
+        super(owner);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void initialize() {
-		setOpaque(false);
-		setBorder(new ERDiagramLineBorder());
-		setCursor(Cursors.SIZEALL);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void initialize() {
+        setOpaque(false);
+        setBorder(new ERDiagramLineBorder());
+        setCursor(Cursors.SIZEALL);
+    }
 }

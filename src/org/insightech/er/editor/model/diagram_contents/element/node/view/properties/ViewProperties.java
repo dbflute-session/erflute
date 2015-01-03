@@ -4,6 +4,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.proper
 
 public class ViewProperties extends TableViewProperties {
 
-	private static final long serialVersionUID = -4482559358342532447L;
+    private static final long serialVersionUID = -4482559358342532447L;
 
 }

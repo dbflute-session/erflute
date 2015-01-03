@@ -8,16 +8,16 @@ import org.insightech.er.editor.view.dialog.outline.tablespace.TablespaceDialog;
 
 public class SqlServerEclipseDBManager extends EclipseDBManagerBase {
 
-	public String getId() {
-		return SqlServerDBManager.ID;
-	}
+    public String getId() {
+        return SqlServerDBManager.ID;
+    }
 
-	public AdvancedComposite createAdvancedComposite(Composite composite) {
-		return new SqlServerAdvancedComposite(composite);
-	}
+    public AdvancedComposite createAdvancedComposite(Composite composite) {
+        return new SqlServerAdvancedComposite(composite);
+    }
 
-	public TablespaceDialog createTablespaceDialog() {
-		return new SqlServerTablespaceDialog();
-	}
+    public TablespaceDialog createTablespaceDialog() {
+        return new SqlServerTablespaceDialog();
+    }
 
 }

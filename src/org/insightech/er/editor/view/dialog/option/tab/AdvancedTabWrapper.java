@@ -13,64 +13,63 @@ import org.insightech.er.editor.view.dialog.option.OptionSettingDialog;
 
 public class AdvancedTabWrapper extends ValidatableTabWrapper {
 
-	private Settings settings;
+    private Settings settings;
 
-	private ERDiagram diagram;
+    private ERDiagram diagram;
 
-	private AdvancedComposite composite;
+    private AdvancedComposite composite;
 
-	public AdvancedTabWrapper(OptionSettingDialog dialog, TabFolder parent,
-			int style, Settings settings, ERDiagram diagram) {
-		super(dialog, parent, style, "label.advanced.settings");
+    public AdvancedTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, Settings settings,
+            ERDiagram diagram) {
+        super(dialog, parent, style, "label.advanced.settings");
 
-		this.diagram = diagram;
-		this.settings = settings;
+        this.diagram = diagram;
+        this.settings = settings;
 
-		this.init();
-	}
+        this.init();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void validatePage() throws InputException {
-		this.composite.validate();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void validatePage() throws InputException {
+        this.composite.validate();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void initComposite() {
-		this.setLayout(new GridLayout());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initComposite() {
+        this.setLayout(new GridLayout());
 
-		if (this.composite != null) {
-			this.composite.dispose();
-		}
+        if (this.composite != null) {
+            this.composite.dispose();
+        }
 
-		this.composite = EclipseDBManagerFactory.getEclipseDBManager(
-				this.settings.getDatabase()).createAdvancedComposite(this);
-		this.composite.initialize(this.dialog,
-				(TableProperties) this.settings.getTableViewProperties(),
-				this.diagram, null);
+        this.composite =
+                EclipseDBManagerFactory.getEclipseDBManager(this.settings.getDatabase()).createAdvancedComposite(this);
+        this.composite.initialize(this.dialog, (TableProperties) this.settings.getTableViewProperties(), this.diagram,
+                null);
 
-		this.pack();
-	}
+        this.pack();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setInitFocus() {
-		this.composite.setInitFocus();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setInitFocus() {
+        this.composite.setInitFocus();
+    }
 
-	@Override
-	public void reset() {
-		this.init();
-	}
+    @Override
+    public void reset() {
+        this.init();
+    }
 
-	@Override
-	public void perfomeOK() {
-	}
+    @Override
+    public void perfomeOK() {
+    }
 }

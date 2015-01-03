@@ -8,12 +8,12 @@ import org.insightech.er.editor.ERDiagramEditor;
  */
 public interface IERDiagramActionFactory {
 
-	/**
-	 * IAction �����������N���X��Ԃ�
-	 * 
-	 * @param editor
-	 * @return IAction
-	 */
-	public IAction createIAction(ERDiagramEditor editor);
+    /**
+     * IAction �����������N���X��Ԃ�
+     * 
+     * @param editor
+     * @return IAction
+     */
+    public IAction createIAction(ERDiagramEditor editor);
 
 }

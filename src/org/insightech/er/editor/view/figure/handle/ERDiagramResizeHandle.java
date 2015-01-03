@@ -8,31 +8,31 @@ import org.eclipse.swt.graphics.Color;
 
 public class ERDiagramResizeHandle extends ResizeHandle {
 
-	public ERDiagramResizeHandle(GraphicalEditPart owner, int direction) {
-		super(owner, direction);
-	}
+    public ERDiagramResizeHandle(GraphicalEditPart owner, int direction) {
+        super(owner, direction);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void init() {
-		setPreferredSize(new Dimension(7, 7));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void init() {
+        setPreferredSize(new Dimension(7, 7));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Color getBorderColor() {
-		return ColorConstants.gray;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Color getBorderColor() {
+        return ColorConstants.gray;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Color getFillColor() {
-		return ColorConstants.white;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Color getFillColor() {
+        return ColorConstants.white;
+    }
 }
