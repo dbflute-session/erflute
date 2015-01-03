@@ -39,7 +39,7 @@ public class DBObject {
 	}
 
 	/**
-	 * logicalName‚ğæ“¾‚µ‚Ü‚·B
+	 * logicalNameï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return logicalName
 	 */
 	public String getLogicalName() {
@@ -47,7 +47,7 @@ public class DBObject {
 	}
 
 	/**
-	 * logicalName‚ğİ’è‚µ‚Ü‚·B
+	 * logicalNameï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param logicalName logicalName
 	 */
 	public void setLogicalName(String logicalName) {
@@ -59,7 +59,7 @@ public class DBObject {
 	}
 
 	/**
-	 * schema ‚ğæ“¾‚µ‚Ü‚·.
+	 * schema ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return schema
 	 */
@@ -68,7 +68,7 @@ public class DBObject {
 	}
 
 	/**
-	 * schema ‚ğİ’è‚µ‚Ü‚·.
+	 * schema ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param schema
 	 *            schema
@@ -78,7 +78,7 @@ public class DBObject {
 	}
 
 	/**
-	 * name ‚ğæ“¾‚µ‚Ü‚·.
+	 * name ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return name
 	 */
@@ -87,7 +87,7 @@ public class DBObject {
 	}
 
 	/**
-	 * name ‚ğİ’è‚µ‚Ü‚·.
+	 * name ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param name
 	 *            name
@@ -97,7 +97,7 @@ public class DBObject {
 	}
 
 	/**
-	 * type ‚ğæ“¾‚µ‚Ü‚·.
+	 * type ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return type
 	 */
@@ -106,7 +106,7 @@ public class DBObject {
 	}
 
 	/**
-	 * type ‚ğİ’è‚µ‚Ü‚·.
+	 * type ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param type
 	 *            type

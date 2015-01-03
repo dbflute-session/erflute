@@ -94,7 +94,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 		List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
 		for (NodeElement nodeEl : nodeElementList) {
 			if (nodeEl instanceof Note) {
-				// Note ‚Í‘S‘Ìƒrƒ…[‚É‚Í’u‚©‚È‚¢
+				// Note ï¿½Í‘Sï¿½Ìƒrï¿½ï¿½ï¿½[ï¿½É‚Í’uï¿½ï¿½ï¿½È‚ï¿½
 			} else {
 				modelChildren.add(nodeEl);
 			}
@@ -189,11 +189,11 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 	private void internalRefreshTable(ERTable table) {
 //		for (ERTable tmpTable : getDiagram().getDiagramContents().getContents().getTableSet()) {
 //			if (tmpTable.equals(table)) {
-//				// ƒe[ƒuƒ‹‚ÌXV
+//				// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌXï¿½V
 //				tmpTable.refresh();
 //			}
 //			if (tmpTable.getName().equals(table.getName())) {
-//				// ƒe[ƒuƒ‹‚ÌXV
+//				// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌXï¿½V
 //				entry.getValue().refresh();
 //			}
 //			
@@ -202,11 +202,11 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 		Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
 		for (Entry<NodeElement, EditPart> entry : entrySet) {
 			if (entry.getKey().equals(table)) {
-				// ƒe[ƒuƒ‹‚ÌXV
+				// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌXï¿½V
 				entry.getValue().refresh();
 			}
 			if (table.getName().equals(entry.getKey().getName())) {
-				// ƒe[ƒuƒ‹‚ÌXV
+				// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌXï¿½V
 				entry.getValue().refresh();
 			}
 		}

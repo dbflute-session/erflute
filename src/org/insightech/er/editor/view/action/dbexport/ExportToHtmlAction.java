@@ -97,7 +97,7 @@ public class ExportToHtmlAction extends AbstractExportAction {
 
 			boolean outputImage = true;
 
-			// o—ÍƒfƒBƒŒƒNƒgƒŠ‚Ìíœ
+			// ï¿½oï¿½Íƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Ìíœ
 			File dir = new File(saveFilePath);
 			FileUtils.deleteDirectory(dir);
 

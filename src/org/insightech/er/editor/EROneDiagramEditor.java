@@ -33,8 +33,8 @@ import org.insightech.er.editor.view.outline.ERDiagramOutlinePage;
 import org.insightech.er.editor.view.outline.ERDiagramOutlinePopupMenuManager;
 
 /**
- * TODO ON UPDATEAON DELETE ‚Ìƒvƒ‹ƒ_ƒEƒ“‚ğİ’è‚Å‚«‚é‚à‚Ì‚¾‚¯‚É§ŒÀ‚·‚é<br>
- * TODO ƒfƒtƒHƒ‹ƒg’l‚ÉŒ^‚Ì§ŒÀ‚ğ“K—p‚·‚é<br>
+ * TODO ON UPDATEï¿½AON DELETE ï¿½Ìƒvï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½İ’ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<br>
+ * TODO ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ÉŒ^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½pï¿½ï¿½ï¿½ï¿½<br>
  *
  */
 public class EROneDiagramEditor extends ERDiagramEditor {
@@ -106,7 +106,7 @@ public class EROneDiagramEditor extends ERDiagramEditor {
 	}
 
 	/**
-	 * model‚ğæ“¾‚µ‚Ü‚·B
+	 * modelï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return model
 	 */
 	public ERModel getModel() {

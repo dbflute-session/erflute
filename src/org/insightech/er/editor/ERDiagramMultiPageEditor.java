@@ -55,9 +55,9 @@ import org.insightech.er.util.Format;
 
 /**
  * <pre>
- * ƒGƒfƒBƒ^[ƒNƒ‰ƒX
- * ƒJƒeƒSƒŠ[–ˆ‚Éƒ^ƒuiƒy[ƒWj‚ğì¬‚·‚é
- * Šeƒ^ƒuiƒy[ƒWj‚É‚ÍA{@link ERDiagramEditor} ‚ğŠ„‚è“–‚Ä‚é
+ * ï¿½Gï¿½fï¿½Bï¿½^ï¿½[ï¿½Nï¿½ï¿½ï¿½X
+ * ï¿½Jï¿½eï¿½Sï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Éƒ^ï¿½uï¿½iï¿½yï¿½[ï¿½Wï¿½jï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
+ * ï¿½eï¿½^ï¿½uï¿½iï¿½yï¿½[ï¿½Wï¿½jï¿½É‚ÍA{@link ERDiagramEditor} ï¿½ï¿½ï¿½ï¿½ï¿½è“–ï¿½Ä‚ï¿½
  * </pre>
  */
 public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
@@ -142,10 +142,10 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 		}
 
 		System.out.println(new Date() + " : E");
-		this.initCategoryPages(); // ‚±‚ê‚ª5•bŠ|‚©‚é
+		this.initCategoryPages(); // ï¿½ï¿½ï¿½ê‚ª5ï¿½bï¿½|ï¿½ï¿½ï¿½ï¿½
 
 		System.out.println(new Date() + " : F");
-		this.initStartPage(); // ‚±‚ê‚ª9•bŠ|‚©‚é
+		this.initStartPage(); // ï¿½ï¿½ï¿½ê‚ª9ï¿½bï¿½|ï¿½ï¿½ï¿½ï¿½
 
 		System.out.println(new Date() + " : G");
 		this.addMouseListenerToTabFolder();
@@ -233,7 +233,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 			
 		}
 		
-		// ƒJƒeƒSƒŠ•\¦‚Í–³‚­‚·
+		// ï¿½Jï¿½eï¿½Sï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½
 //		CategorySetting categorySettings = this.diagram.getDiagramContents()
 //				.getSettings().getCategorySetting();
 //		System.out.println(new Date() + " : E1");
@@ -364,7 +364,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 			this.diagram.setCurrentErmodel(null, null);
 			this.diagram.changeAll();
 //			Category category = this.getCurrentPageCategory();
-//			this.diagram.setCurrentCategory(category, 0); // í‚É‘S‘Ì•\¦i‚±‚±‚ÅƒAƒEƒgƒ‰ƒCƒ“ì¬j
+//			this.diagram.setCurrentCategory(category, 0); // ï¿½ï¿½É‘Sï¿½Ì•\ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ÅƒAï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ì¬ï¿½j
 //			this.diagram.setCurrentErmodel(null, null);
 		}
 	}
@@ -381,7 +381,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 //		List<Category> categories = diagram.getDiagramContents().getSettings()
 //				.getCategorySetting().getSelectedCategories();
 
-		return null; // ƒJƒeƒSƒŠ‚ÌŠT”O‚Í–³‚­‚·
+		return null; // ï¿½Jï¿½eï¿½Sï¿½ï¿½ï¿½ÌŠTï¿½Oï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½
 //		int page = this.getActivePage();
 //
 //		if (page == 0) {
@@ -564,7 +564,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 //	@Override
 //	protected void setActivePage(int pageIndex) {
 //		System.out.println("setActivePage : " + pageIndex);
-//		viewer.setContents(diagram); // ‚Æ‚è‚ ‚¦‚¸OFF‚Á‚Ä‚İ‚é
+//		viewer.setContents(diagram); // ï¿½Æ‚è‚ ï¿½ï¿½ï¿½ï¿½OFFï¿½ï¿½ï¿½Ä‚İ‚ï¿½
 //
 //		// TODO Auto-generated method stub
 //		super.setActivePage(pageIndex);
@@ -624,7 +624,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 	}
 
 	/**
-	 * editPartFactory‚ğæ“¾‚µ‚Ü‚·B
+	 * editPartFactoryï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @return editPartFactory
 	 */
@@ -633,7 +633,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 	}
 
 	/**
-	 * zoomComboContributionItem‚ğæ“¾‚µ‚Ü‚·B
+	 * zoomComboContributionItemï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @return zoomComboContributionItem
 	 */
@@ -642,7 +642,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 	}
 
 	/**
-	 * outlinePage‚ğæ“¾‚µ‚Ü‚·B
+	 * outlinePageï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @return outlinePage
 	 */
@@ -662,10 +662,10 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 	}
 
 	public void setCurrentErmodel(ERModel model) {
-		// ‚Æ‚è‚ ‚¦‚¸‚ÍƒGƒfƒBƒ^‚Í2ƒ^ƒuŒÅ’è‚ÅApageNo=0 ‚ª‘S‘ÌA=1‚ªƒrƒ…[iERModelj‚Æ‚·‚é
+		// ï¿½Æ‚è‚ ï¿½ï¿½ï¿½ï¿½ï¿½ÍƒGï¿½fï¿½Bï¿½^ï¿½ï¿½2ï¿½^ï¿½uï¿½Å’ï¿½ÅApageNo=0 ï¿½ï¿½ï¿½Sï¿½ÌA=1ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½iERModelï¿½jï¿½Æ‚ï¿½ï¿½ï¿½
 
 		if (getPageCount() == 1) {
-			// 1‚Â‚¾‚¯‚Ìê‡‚ÍAV‚µ‚­ƒGƒfƒBƒ^‚ğì¬‚·‚é
+			// 1ï¿½Â‚ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½ÍAï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½fï¿½Bï¿½^ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 			EROneDiagramEditor diagramEditor = new EROneDiagramEditor(
 					this.diagram, model, getEditPartFactory(),
 					getZoomComboContributionItem(), getOutlinePage());

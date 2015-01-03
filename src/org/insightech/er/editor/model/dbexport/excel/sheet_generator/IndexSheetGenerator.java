@@ -62,7 +62,7 @@ public class IndexSheetGenerator extends AbstractSheetGenerator {
 	}
 
 	/**
-	 * ƒCƒ“ƒfƒbƒNƒXƒV[ƒg‚Éƒf[ƒ^‚ğİ’è‚µ‚Ü‚·.
+	 * ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Vï¿½[ï¿½gï¿½Éƒfï¿½[ï¿½^ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param workbook
 	 * @param sheet

@@ -11,7 +11,7 @@ public class VGroupSettingOrg implements Serializable, Cloneable {
 
 //	private static final long serialVersionUID = -7691417386790834828L;
 //
-////	/** ”z’u‚µ‚½ƒ‚ƒfƒ‹–¼ */
+////	/** ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ */
 ////	private String modelName;
 //	
 //	private List<VGroup> allCategories;
@@ -28,7 +28,7 @@ public class VGroupSettingOrg implements Serializable, Cloneable {
 ////	}
 //
 //	/**
-//	 * freeLayout ‚ğæ“¾‚µ‚Ü‚·.
+//	 * freeLayout ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 //	 * 
 //	 * @return freeLayout
 //	 */
@@ -37,7 +37,7 @@ public class VGroupSettingOrg implements Serializable, Cloneable {
 //	}
 //
 //	/**
-//	 * freeLayout ‚ğİ’è‚µ‚Ü‚·.
+//	 * freeLayout ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 //	 * 
 //	 * @param freeLayout
 //	 *            freeLayout
@@ -47,7 +47,7 @@ public class VGroupSettingOrg implements Serializable, Cloneable {
 //	}
 //
 //	/**
-//	 * showReferredTables ‚ğæ“¾‚µ‚Ü‚·.
+//	 * showReferredTables ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 //	 * 
 //	 * @return showReferredTables
 //	 */
@@ -56,7 +56,7 @@ public class VGroupSettingOrg implements Serializable, Cloneable {
 //	}
 //
 //	/**
-//	 * showReferredTables ‚ğİ’è‚µ‚Ü‚·.
+//	 * showReferredTables ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 //	 * 
 //	 * @param showReferredTables
 //	 *            showReferredTables
@@ -85,8 +85,8 @@ public class VGroupSettingOrg implements Serializable, Cloneable {
 //	}
 //
 ////	/**
-////	 * ”z’u‚µ‚½ƒ‚ƒfƒ‹–¼‚ğæ“¾‚µ‚Ü‚·B
-////	 * @return ”z’u‚µ‚½ƒ‚ƒfƒ‹–¼
+////	 * ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+////	 * @return ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
 ////	 */
 ////	public String getModelName() {
 ////	    return modelName;

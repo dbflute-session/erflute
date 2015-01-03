@@ -17,13 +17,13 @@ public class InsertedImage extends NodeElement {
 
 	private String base64EncodedData;
 
-	/** 0@`@360 */
+	/** 0ï¿½@ï¿½`ï¿½@360 */
 	private int hue;
 
-	/** -100@`@+100 */
+	/** -100ï¿½@ï¿½`ï¿½@+100 */
 	private int saturation;
 
-	/** -100@`@+100 */
+	/** -100ï¿½@ï¿½`ï¿½@+100 */
 	private int brightness;
 
 	private int alpha;
@@ -125,6 +125,6 @@ public class InsertedImage extends NodeElement {
 
 	@Override
 	public boolean needsUpdateOtherModel() {
-		return true; // •s–¾
+		return true; // ï¿½sï¿½ï¿½
 	}
 }

@@ -65,7 +65,7 @@ public class Dictionary extends AbstractModel {
 
 	public void remove(TableView tableView) {
 		if (tableView instanceof ERVirtualTable) {
-			return; // ‰¼‘zƒe[ƒuƒ‹‚ğÁ‚·‚Æ‚«‚Íƒ[ƒh‚ÍÁ‚³‚È‚¢
+			return; // ï¿½ï¿½ï¿½zï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Íƒï¿½ï¿½[ï¿½hï¿½Íï¿½ï¿½ï¿½ï¿½È‚ï¿½
 		}
 		for (NormalColumn normalColumn : tableView.getNormalColumns()) {
 			this.remove(normalColumn);

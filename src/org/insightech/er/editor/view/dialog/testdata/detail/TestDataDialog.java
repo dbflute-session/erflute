@@ -39,46 +39,46 @@ public class TestDataDialog extends AbstractDialog {
 
 	public static final int TABLE_HEIGHT = 300;
 
-	/*---------- ƒƒCƒ“ƒpƒlƒ‹ -----------*/
+	/*---------- ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½pï¿½lï¿½ï¿½ -----------*/
 
-	/** ¨ */
+	/** ï¿½ï¿½ */
 	private Button addButton;
 
-	/** © */
+	/** ï¿½ï¿½ */
 	private Button removeButton;
 
-	/** ‘Sƒe[ƒuƒ‹ƒŠƒXƒg */
+	/** ï¿½Sï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½g */
 	private org.eclipse.swt.widgets.List allTableListWidget;
 
-	/** ƒeƒXƒgƒf[ƒ^ì¬ƒe[ƒuƒ‹ */
+	/** ï¿½eï¿½Xï¿½gï¿½fï¿½[ï¿½^ï¿½ì¬ï¿½eï¿½[ï¿½uï¿½ï¿½ */
 	private Table selectedTableTable;
 
 	private Button repeatToDirectRadio;
 
 	private Button directToRepeatRadio;
 
-	/*---------- ƒ^ƒuƒpƒlƒ‹ -----------*/
+	/*---------- ï¿½^ï¿½uï¿½pï¿½lï¿½ï¿½ -----------*/
 
-	/** ƒ^ƒuƒtƒHƒ‹ƒ_[ */
+	/** ï¿½^ï¿½uï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½[ */
 	private TabFolder tabFolder;
 
-	/** ƒ^ƒuƒŠƒXƒg */
+	/** ï¿½^ï¿½uï¿½ï¿½ï¿½Xï¿½g */
 	private List<ValidatableTabWrapper> tabWrapperList;
 
 	private DirectTestDataTabWrapper directTestDataTabWrapper;
 
 	private RepeatTestDataTabWrapper repeatTestDataTabWrapper;
 
-	/*---------- ƒf[ƒ^ƒ‚ƒfƒ‹ -----------*/
+	/*---------- ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½fï¿½ï¿½ -----------*/
 
 	private ERDiagram diagram;
 
-	/** Œ»İ•ÒW’†‚Ìƒf[ƒ^ */
+	/** ï¿½ï¿½ï¿½İ•ÒWï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ */
 	private TestData testData;
 
 	private List<ERTable> allTableList;
 
-	/** ƒeƒXƒgƒf[ƒ^–¼ */
+	/** ï¿½eï¿½Xï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½ */
 	private Text nameText;
 
 	private int selectedTableIndex = -1;
@@ -98,7 +98,7 @@ public class TestDataDialog extends AbstractDialog {
 		this.allTableList = diagram.getDiagramContents().getContents()
 				.getTableSet().getList();
 
-		// ƒ^ƒuƒpƒlƒ‹ƒŠƒXƒg
+		// ï¿½^ï¿½uï¿½pï¿½lï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½g
 		this.tabWrapperList = new ArrayList<ValidatableTabWrapper>();
 	}
 
@@ -110,7 +110,7 @@ public class TestDataDialog extends AbstractDialog {
 	}
 
 	private void createNameComposite(Composite parent) {
-		// ƒpƒlƒ‹
+		// ï¿½pï¿½lï¿½ï¿½
 		Composite nameComposite = new Composite(parent, SWT.NONE);
 
 		GridLayout mainLayout = new GridLayout();
@@ -122,7 +122,7 @@ public class TestDataDialog extends AbstractDialog {
 	}
 
 	private void createTopComposite(Composite parent) {
-		// ƒpƒlƒ‹
+		// ï¿½pï¿½lï¿½ï¿½
 		Composite topComposite = new Composite(parent, SWT.NONE);
 
 		GridLayout mainLayout = new GridLayout();
@@ -135,17 +135,17 @@ public class TestDataDialog extends AbstractDialog {
 		topGridData.heightHint = 150;
 		topComposite.setLayoutData(topGridData);
 
-		// ƒe[ƒuƒ‹ˆê——
+		// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ê——
 		this.createAllTableList(topComposite);
 
-		// ¨
+		// ï¿½ï¿½
 		this.addButton = CompositeFactory.createAddButton(topComposite);
 		this.addButton.setEnabled(false);
 
-		// ƒeƒXƒgƒf[ƒ^ì¬ƒe[ƒuƒ‹ˆê——
+		// ï¿½eï¿½Xï¿½gï¿½fï¿½[ï¿½^ï¿½ì¬ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ê——
 		this.createSelectedTableTable(topComposite);
 
-		// ©
+		// ï¿½ï¿½
 		this.removeButton = CompositeFactory.createRemoveButton(topComposite);
 		this.removeButton.setEnabled(false);
 	}
@@ -164,7 +164,7 @@ public class TestDataDialog extends AbstractDialog {
 		group.setLayout(groupLayout);
 		group.setText(ResourceString.getResourceString("label.all.table"));
 
-		// ‘S‚Ä‚Ìƒe[ƒuƒ‹
+		// ï¿½Sï¿½Ä‚Ìƒeï¿½[ï¿½uï¿½ï¿½
 		GridData comboGridData = new GridData();
 		comboGridData.widthHint = 300;
 		comboGridData.grabExcessVerticalSpace = true;
@@ -223,7 +223,7 @@ public class TestDataDialog extends AbstractDialog {
 
 		this.createOutputOrderGroup(composite);
 		
-		// ƒ^ƒu
+		// ï¿½^ï¿½u
 		this.tabFolder = new TabFolder(composite, SWT.NONE);
 		this.tabFolder.setLayoutData(bottomGridData);
 
@@ -259,7 +259,7 @@ public class TestDataDialog extends AbstractDialog {
 
 	
 	private void initSelectedTableTable() {
-		// ƒe[ƒuƒ‹ˆê——
+		// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ê——
 		this.selectedTableTable.removeAll();
 
 		for (Map.Entry<ERTable, TableTestData> entry : testData
@@ -404,7 +404,7 @@ public class TestDataDialog extends AbstractDialog {
 				}
 
 				for (int index : indexes) {
-					// ‘I‘ğ‚³‚ê‚½ƒe[ƒuƒ‹‚É‚Äƒe[ƒuƒ‹ƒeƒXƒgƒf[ƒ^‚ğ’Ç‰Á
+					// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½É‚Äƒeï¿½[ï¿½uï¿½ï¿½ï¿½eï¿½Xï¿½gï¿½fï¿½[ï¿½^ï¿½ï¿½Ç‰ï¿½
 
 					ERTable table = allTableList.get(index);
 					if (!testData.contains(table)) {

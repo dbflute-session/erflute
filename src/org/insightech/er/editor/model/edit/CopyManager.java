@@ -74,59 +74,59 @@ public class CopyManager {
 		Map<Column, Column> columnMap = new HashMap<Column, Column>();
 		Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, ComplexUniqueKey>();
 
-		// ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒm[ƒh‚ÌEditPart‚É‘Î‚µ‚Äˆ—‚ğŒJ‚è•Ô‚µ‚Ü‚·
+		// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½mï¿½[ï¿½hï¿½ï¿½EditPartï¿½É‘Î‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½
 		for (NodeElement nodeElement : nodeElementList) {
 
 			if (nodeElement instanceof ModelProperties) {
-				// ƒ‚ƒfƒ‹ƒvƒƒpƒeƒB‚Ìê‡A‰½‚à‚µ‚Ü‚¹‚ñ
+				// ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
 				continue;
 			}
 
-			// ƒm[ƒh‚ğ•¡»‚µ‚ÄAƒRƒs[î•ñ‚É’Ç‰Á‚µ‚Ü‚·
+			// ï¿½mï¿½[ï¿½hï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½ÄAï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 			NodeElement cloneNodeElement = (NodeElement) nodeElement.clone();
 			copyList.addNodeElement(cloneNodeElement);
 
 			nodeElementMap.put(nodeElement, cloneNodeElement);
 
 			if (nodeElement instanceof ERTable) {
-				// ƒm[ƒh‚ªƒe[ƒuƒ‹‚Ìê‡
-				// —ñ‚ÆƒCƒ“ƒfƒbƒNƒX‚Æ•¡‡ˆêˆÓƒL[‚ğ•¡»‚µ‚Ü‚·B
+				// ï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ìê‡
+				// ï¿½ï¿½ÆƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Æ•ï¿½ï¿½ï¿½ï¿½ï¿½ÓƒLï¿½[ï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 				copyColumnAndIndex((ERTable) nodeElement,
 						(ERTable) cloneNodeElement, columnMap,
 						complexUniqueKeyMap);
 
 			} else if (nodeElement instanceof View) {
-				// ƒm[ƒh‚ªƒrƒ…[‚Ìê‡
-				// —ñ‚ğ•¡»‚µ‚Ü‚·B
+				// ï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½Ìê‡
+				// ï¿½ï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 				copyColumn((View) nodeElement, (View) cloneNodeElement,
 						columnMap);
 			}
 		}
 
-		// •¡»Œã‚Ìƒm[ƒh‚É‘Î‚µ‚ÄAÚ‘±‚ğì‚è‚È‚¨‚µ‚Ü‚·
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒmï¿½[ï¿½hï¿½É‘Î‚ï¿½ï¿½ÄAï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 		Map<ConnectionElement, ConnectionElement> connectionElementMap = new HashMap<ConnectionElement, ConnectionElement>();
 
-		// Ú‘±‚ğ’£‚è‚È‚¨‚µ‚Ü‚·
+		// ï¿½Ú‘ï¿½ï¿½ğ’£‚ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 		for (NodeElement nodeElement : nodeElementMap.keySet()) {
 			NodeElement cloneNodeElement = nodeElementMap.get(nodeElement);
 
-			// •¡»Œ³ƒm[ƒh‚É“ü‚Á‚Ä‚­‚éÚ‘±‚ğ•¡»æ‚É’£‚è‚È‚¨‚µ‚Ü‚·
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½[ï¿½hï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ğ•¡ï¿½ï¿½ï¿½É’ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 			replaceIncoming(nodeElement, cloneNodeElement,
 					connectionElementMap, nodeElementMap);
 		}
 
-		// ŠO•”ƒL[‚ÌQÆ‚ğì‚è’¼‚µ‚Ü‚·
+		// ï¿½Oï¿½ï¿½ï¿½Lï¿½[ï¿½ÌQï¿½Æ‚ï¿½ï¿½ï¿½è’¼ï¿½ï¿½ï¿½Ü‚ï¿½
 		for (NodeElement nodeElement : nodeElementMap.keySet()) {
 
 			if (nodeElement instanceof ERTable) {
 				ERTable table = (ERTable) nodeElement;
 
-				// •¡»Œ³ƒe[ƒuƒ‹‚Ì—ñ‚É‘Î‚µ‚Äˆ—‚ğŒJ‚è•Ô‚µ‚Ü‚·
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ì—ï¿½É‘Î‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½
 				for (Column column : table.getColumns()) {
 					if (column instanceof NormalColumn) {
 						NormalColumn oldColumn = (NormalColumn) column;
 
-						// ŠO•”ƒL[‚Ìê‡
+						// ï¿½Oï¿½ï¿½ï¿½Lï¿½[ï¿½Ìê‡
 						if (oldColumn.isForeignKey()) {
 							NormalColumn newColumn = (NormalColumn) columnMap
 									.get(oldColumn);
@@ -135,17 +135,17 @@ public class CopyManager {
 							for (Relation oldRelation : oldColumn
 									.getRelationList()) {
 
-								// •¡»‚³‚ê‚½ŠÖ˜A‚Ìæ“¾
+								// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Ö˜Aï¿½Ìæ“¾
 								Relation newRelation = (Relation) connectionElementMap
 										.get(oldRelation);
 
 								if (newRelation != null) {
-									// ŠÖ˜A‚à•¡»‚³‚ê‚Ä‚¢‚éê‡
+									// ï¿½Ö˜Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 
 									NormalColumn oldReferencedColumn = newRelation
 											.getReferencedColumn();
 
-									// ƒ†ƒj[ƒNƒL[‚ğQÆ‚µ‚Ä‚¢‚éê‡
+									// ï¿½ï¿½ï¿½jï¿½[ï¿½Nï¿½Lï¿½[ï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 									if (oldReferencedColumn != null) {
 										NormalColumn newReferencedColumn = (NormalColumn) columnMap
 												.get(oldReferencedColumn);
@@ -158,7 +158,7 @@ public class CopyManager {
 									ComplexUniqueKey oldReferencedComplexUniqueKey = newRelation
 											.getReferencedComplexUniqueKey();
 
-									// •¡‡ƒ†ƒj[ƒNƒL[‚ğQÆ‚µ‚Ä‚¢‚éê‡
+									// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½[ï¿½Nï¿½Lï¿½[ï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 									if (oldReferencedComplexUniqueKey != null) {
 										ComplexUniqueKey newReferencedComplexUniqueKey = (ComplexUniqueKey) complexUniqueKeyMap
 												.get(oldReferencedComplexUniqueKey);
@@ -186,7 +186,7 @@ public class CopyManager {
 											newRelation);
 
 								} else {
-									// •¡»æ‚Ì—ñ‚ğŠO•”ƒL[‚Å‚Í‚È‚­A’Êí‚Ì—ñ‚Éì‚è’¼‚µ‚Ü‚·
+									// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Lï¿½[ï¿½Å‚Í‚È‚ï¿½ï¿½Aï¿½Êï¿½Ì—ï¿½Éï¿½è’¼ï¿½ï¿½ï¿½Ü‚ï¿½
 									newColumn.removeReference(oldRelation);
 								}
 							}
@@ -201,24 +201,24 @@ public class CopyManager {
 	}
 
 	/**
-	 * •¡»Œ³ƒm[ƒh‚É“ü‚Á‚Ä‚­‚éÚ‘±‚ğ•¡»æ‚É’£‚è‚È‚¨‚µ‚Ü‚·
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½[ï¿½hï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ğ•¡ï¿½ï¿½ï¿½É’ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 	 */
 	private static void replaceIncoming(NodeElement from, NodeElement to,
 			Map<ConnectionElement, ConnectionElement> connectionElementMap,
 			Map<NodeElement, NodeElement> nodeElementMap) {
 		List<ConnectionElement> cloneIncomings = new ArrayList<ConnectionElement>();
 
-		// •¡»Œ³ƒm[ƒh‚É“ü‚Á‚Ä‚­‚éÚ‘±‚É‘Î‚µ‚Äˆ—‚ğŒJ‚è•Ô‚µ‚Ü‚·
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½[ï¿½hï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½É‘Î‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½
 		for (ConnectionElement incoming : from.getIncomings()) {
 			NodeElement oldSource = incoming.getSource();
 
-			// Ú‘±Œ³‚Ì•¡»‚ğæ“¾‚µ‚Ü‚·
+			// ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
 			NodeElement newSource = nodeElementMap.get(oldSource);
 
-			// Ú‘±Œ³‚à•¡»‚³‚ê‚Ä‚¢‚éê‡
+			// ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 			if (newSource != null) {
 
-				// Ú‘±‚ğ•¡»‚µ‚Ü‚·B
+				// ï¿½Ú‘ï¿½ï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 				ConnectionElement cloneIncoming = (ConnectionElement) incoming
 						.clone();
 
@@ -236,14 +236,14 @@ public class CopyManager {
 	}
 
 	/**
-	 * —ñ‚ÆƒCƒ“ƒfƒbƒNƒX‚Ìî•ñ‚ğ•¡»‚µ‚Ü‚·B
+	 * ï¿½ï¿½ÆƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Ìï¿½ï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @param from
-	 *            Œ³‚Ìƒe[ƒuƒ‹
+	 *            ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½
 	 * @param to
-	 *            •¡»‚³‚ê‚½ƒe[ƒuƒ‹
+	 *            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½eï¿½[ï¿½uï¿½ï¿½
 	 * @param columnMap
-	 *            ƒL[FŒ³‚Ì—ñA’lF•¡»Œã‚Ì—ñ
+	 *            ï¿½Lï¿½[ï¿½Fï¿½ï¿½ï¿½Ì—ï¿½Aï¿½lï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½
 	 */
 	private static void copyColumnAndIndex(ERTable from, ERTable to,
 			Map<Column, Column> columnMap,
@@ -255,22 +255,22 @@ public class CopyManager {
 
 	private static void copyColumn(TableView from, TableView to,
 			Map<Column, Column> columnMap) {
-		// •¡»Œã‚Ì—ñ‚Ìˆê——
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½Ìˆê——
 		List<Column> cloneColumns = new ArrayList<Column>();
 
-		// Œ³‚Ìƒe[ƒuƒ‹‚Ì—ñ‚É‘Î‚µ‚ÄAˆ—‚ğŒJ‚è•Ô‚µ‚Ü‚·B
+		// ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Ì—ï¿½É‘Î‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 		for (Column column : from.getColumns()) {
 
 			Column cloneColumn = null;
 
 			if (column instanceof ColumnGroup) {
-				// ƒOƒ‹[ƒv—ñ‚Ìê‡
-				// •¡»‚Í“Á‚É‚µ‚Ü‚¹‚ñB
+				// ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½Ìê‡
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Í“ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B
 				cloneColumn = column;
 
 			} else {
-				// •’Ê‚Ì—ñ‚Ìê‡
-				// —ñ‚ğ•¡»‚µ‚Ü‚·B
+				// ï¿½ï¿½ï¿½Ê‚Ì—ï¿½Ìê‡
+				// ï¿½ï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 				cloneColumn = (NormalColumn) column.clone();
 			}
 
@@ -279,7 +279,7 @@ public class CopyManager {
 			columnMap.put(column, cloneColumn);
 		}
 
-		// •¡»Œã‚Ìƒe[ƒuƒ‹‚ÉA•¡»Œã‚Ì—ñˆê——‚ğİ’è‚µ‚Ü‚·B
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ÉAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ê——ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 		to.setColumns(cloneColumns);
 	}
 
@@ -288,29 +288,29 @@ public class CopyManager {
 			Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap) {
 		List<ComplexUniqueKey> cloneComplexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
 
-		// Œ³‚Ìƒe[ƒuƒ‹‚Ì•¡‡ˆêˆÓƒL[‚É‘Î‚µ‚ÄAˆ—‚ğŒJ‚è•Ô‚µ‚Ü‚·B
+		// ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ÓƒLï¿½[ï¿½É‘Î‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 		for (ComplexUniqueKey complexUniqueKey : from.getComplexUniqueKeyList()) {
 
-			// •¡‡ˆêˆÓƒL[‚ğ•¡»‚µ‚Ü‚·B
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓƒLï¿½[ï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 			ComplexUniqueKey cloneComplexUniqueKey = (ComplexUniqueKey) complexUniqueKey
 					.clone();
 			complexUniqueKeyMap.put(complexUniqueKey, cloneComplexUniqueKey);
 
 			List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();
 
-			// •¡»Œã‚Ì•¡‡ˆêˆÓƒL[‚Ì—ñ‚É‘Î‚µ‚ÄAˆ—‚ğŒJ‚è•Ô‚µ‚Ü‚·B
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ÓƒLï¿½[ï¿½Ì—ï¿½É‘Î‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 			for (NormalColumn column : cloneComplexUniqueKey.getColumnList()) {
-				// •¡»Œã‚Ì—ñ‚ğæ“¾‚µ‚ÄA•¡»Œã‚Ì•¡‡ˆêˆÓƒL[‚Ì—ñˆê——‚É’Ç‰Á‚µ‚Ü‚·B
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ÓƒLï¿½[ï¿½Ì—ï¿½ê——ï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 				cloneColumns.add((NormalColumn) columnMap.get(column));
 			}
 
-			// •¡»Œã‚Ì•¡‡ˆêˆÓƒL[‚ÉA•¡»Œã‚Ì•¡‡ˆêˆÓƒL[‚Ì—ñˆê——‚ğİ’è‚µ‚Ü‚·B
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ÓƒLï¿½[ï¿½ÉAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ÓƒLï¿½[ï¿½Ì—ï¿½ê——ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 			cloneComplexUniqueKey.setColumnList(cloneColumns);
 
 			cloneComplexUniqueKeyList.add(cloneComplexUniqueKey);
 		}
 
-		// •¡»Œã‚Ìƒe[ƒuƒ‹‚ÉA•¡»Œã‚ÌƒCƒ“ƒfƒbƒNƒXˆê——‚ğİ’è‚µ‚Ü‚·B
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ÉAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ê——ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 		to.setComplexUniqueKeyList(cloneComplexUniqueKeyList);
 	}
 
@@ -318,28 +318,28 @@ public class CopyManager {
 			Map<Column, Column> columnMap) {
 		List<Index> cloneIndexes = new ArrayList<Index>();
 
-		// Œ³‚Ìƒe[ƒuƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX‚É‘Î‚µ‚ÄAˆ—‚ğŒJ‚è•Ô‚µ‚Ü‚·B
+		// ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½É‘Î‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 		for (Index index : from.getIndexes()) {
 
-			// ƒCƒ“ƒfƒbƒNƒX‚ğ•¡»‚µ‚Ü‚·B
+			// ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 			Index cloneIndex = (Index) index.clone();
 
 			List<NormalColumn> cloneIndexColumns = new ArrayList<NormalColumn>();
 
-			// •¡»Œã‚ÌƒCƒ“ƒfƒbƒNƒX‚Ì—ñ‚É‘Î‚µ‚ÄAˆ—‚ğŒJ‚è•Ô‚µ‚Ü‚·B
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Ì—ï¿½É‘Î‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 			for (NormalColumn indexColumn : cloneIndex.getColumns()) {
-				// •¡»Œã‚Ì—ñ‚ğæ“¾‚µ‚ÄA•¡»Œã‚ÌƒCƒ“ƒfƒbƒNƒX—ñˆê——‚É’Ç‰Á‚µ‚Ü‚·B
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ê——ï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 				cloneIndexColumns
 						.add((NormalColumn) columnMap.get(indexColumn));
 			}
 
-			// •¡»Œã‚ÌƒCƒ“ƒfƒbƒNƒX‚ÉA•¡»Œã‚ÌƒCƒ“ƒfƒbƒNƒX—ñˆê——‚ğİ’è‚µ‚Ü‚·B
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ÉAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ê——ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 			cloneIndex.setColumns(cloneIndexColumns);
 
 			cloneIndexes.add(cloneIndex);
 		}
 
-		// •¡»Œã‚Ìƒe[ƒuƒ‹‚ÉA•¡»Œã‚ÌƒCƒ“ƒfƒbƒNƒXˆê——‚ğİ’è‚µ‚Ü‚·B
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ÉAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ê——ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 		to.setIndexes(cloneIndexes);
 	}
 

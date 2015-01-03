@@ -25,23 +25,23 @@ public class Validator {
 	private static final List<Rule> RULE_LIST = new ArrayList<Rule>();
 
 	static {
-		// ‘S‘Ì‚É‘Î‚·‚éƒ‹[ƒ‹
+		// ï¿½Sï¿½Ì‚É‘Î‚ï¿½ï¿½éƒ‹ï¿½[ï¿½ï¿½
 		new DuplicatedPhysicalNameRule();
 		new ReservedNameRule();
 
-		// ƒe[ƒuƒ‹‚É‘Î‚·‚éƒ‹[ƒ‹
+		// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½É‘Î‚ï¿½ï¿½éƒ‹ï¿½[ï¿½ï¿½
 		new NoTableNameRule();
 		new NoColumnRule();
 		new DuplicatedColumnNameRule();
 		new ReservedWordTableNameRule();
 		new FullTextIndexRule();
 
-		// ƒrƒ…[‚É‘Î‚·‚éƒ‹[ƒ‹
+		// ï¿½rï¿½ï¿½ï¿½[ï¿½É‘Î‚ï¿½ï¿½éƒ‹ï¿½[ï¿½ï¿½
 		new NoViewNameRule();
 		new ReservedWordViewNameRule();
 		new NoViewSqlRule();
 
-		// —ñ‚É‘Î‚·‚éƒ‹[ƒ‹
+		// ï¿½ï¿½É‘Î‚ï¿½ï¿½éƒ‹ï¿½[ï¿½ï¿½
 		new NoColumnNameRule();
 		new NoColumnTypeRule();
 		new ReservedWordColumnNameRule();

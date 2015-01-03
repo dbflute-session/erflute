@@ -382,7 +382,7 @@ public class VGroupManageDialog extends AbstractDialog {
 
 		});
 
-		// TODO íœ‚Í–¢À‘•
+		// TODO ï¿½íœï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½
 //		this.deleteCategoryButton.addSelectionListener(new SelectionAdapter() {
 //
 //			/**

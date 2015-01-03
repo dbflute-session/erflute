@@ -18,7 +18,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.edit.CopyManager;
 
 /**
- * ƒRƒs[ƒAƒNƒVƒ‡ƒ“
+ * ï¿½Rï¿½sï¿½[ï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½
  * 
  * @author nakajima
  * 
@@ -26,7 +26,7 @@ import org.insightech.er.editor.model.edit.CopyManager;
 public class CopyAction extends SelectionAction {
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
 	 * 
 	 * @param part
 	 */
@@ -73,18 +73,18 @@ public class CopyAction extends SelectionAction {
 	}
 
 	/**
-	 * ƒRƒs[‚ğÀs‚µ‚Ü‚·B <br>
-	 * ‚±‚Ì“_‚ÌƒRƒs[‘ÎÛ‚ğƒRƒs[—Ìˆæ‚É•¡»‚µ‚Ä‚¨‚«‚Ü‚·<br>
+	 * ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B <br>
+	 * ï¿½ï¿½ï¿½Ìï¿½ï¿½_ï¿½ÌƒRï¿½sï¿½[ï¿½ÎÛ‚ï¿½ï¿½Rï¿½sï¿½[ï¿½Ìˆï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½<br>
 	 */
 	private void copy() {
 		if (!calculateEnabled()) {
 			return;
 		}
 
-		// ƒRƒs[î•ñ‚ğƒNƒŠƒA‚µ‚Ü‚·B
+		// ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 		CopyManager.clear();
 
-		// ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒm[ƒh‚ÌEditPart‚ğæ“¾‚µ‚Ü‚·
+		// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½mï¿½[ï¿½hï¿½ï¿½EditPartï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
 		NodeSet nodeElementList = new NodeSet();
 
 		for (Object object : this.getSelectedObjects()) {

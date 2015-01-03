@@ -22,7 +22,7 @@ public class DeleteElementCommand extends AbstractCommand {
 	@Override
 	protected void doExecute() {
 		this.container.removeContent(this.element);
-		ERModelUtil.refreshDiagram(element.getDiagram()); // TODO ‚¤‚Ü‚­ƒŠƒtƒŒƒbƒVƒ…‚ªŒø‚©‚È‚¢
+		ERModelUtil.refreshDiagram(element.getDiagram()); // TODO ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 
 	}
 

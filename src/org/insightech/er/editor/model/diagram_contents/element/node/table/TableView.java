@@ -86,7 +86,7 @@ public abstract class TableView extends NodeElement implements ObjectModel,
 	}
 
 	/**
-	 * description ‚ğæ“¾‚µ‚Ü‚·.
+	 * description ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return description
 	 */
@@ -95,7 +95,7 @@ public abstract class TableView extends NodeElement implements ObjectModel,
 	}
 
 	/**
-	 * description ‚ğİ’è‚µ‚Ü‚·.
+	 * description ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 *
 	 * @param description
 	 *            description
@@ -317,33 +317,33 @@ public abstract class TableView extends NodeElement implements ObjectModel,
 			List<NormalColumn> newPrimaryKeyColumns) {
 		for (Relation relation : sourceTable.getOutgoingRelations()) {
 
-			// ŠÖ˜A‚ªPK‚ğQÆ‚µ‚Ä‚¢‚éê‡
+			// ï¿½Ö˜Aï¿½ï¿½PKï¿½ï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡
 			if (relation.isReferenceForPK()) {
-				// QÆ‚·‚éƒe[ƒuƒ‹
+				// ï¿½Qï¿½Æ‚ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½
 				TableView targetTable = relation.getTargetTableView();
 
-				// ŠO•”ƒL[ƒŠƒXƒg
+				// ï¿½Oï¿½ï¿½ï¿½Lï¿½[ï¿½ï¿½ï¿½Xï¿½g
 				List<NormalColumn> foreignKeyColumns = relation
 						.getForeignKeyColumns();
 
 				boolean isPrimary = true;
 				boolean isPrimaryChanged = false;
 
-				// QÆ‚³‚ê‚éƒe[ƒuƒ‹‚ÌPK‚É‘Î‚µ‚Äˆ—‚ğs‚¤
+				// ï¿½Qï¿½Æ‚ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½PKï¿½É‘Î‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 				for (NormalColumn primaryKeyColumn : newPrimaryKeyColumns) {
 					boolean isReferenced = false;
 
 					for (Iterator<NormalColumn> iter = foreignKeyColumns
 							.iterator(); iter.hasNext();) {
 
-						// ŠO•”ƒL[
+						// ï¿½Oï¿½ï¿½ï¿½Lï¿½[
 						NormalColumn foreignKeyColumn = iter.next();
 
 						if (isPrimary) {
 							isPrimary = foreignKeyColumn.isPrimaryKey();
 						}
 
-						// ŠO•”ƒL[‚ÌQÆ—ñ‚ªPK—ñ‚Æ“¯‚¶ê‡
+						// ï¿½Oï¿½ï¿½ï¿½Lï¿½[ï¿½ÌQï¿½Æ—ï¿½PKï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½ê‡
 						for (NormalColumn referencedColumn : foreignKeyColumn
 								.getReferencedColumnList()) {
 							if (referencedColumn == primaryKeyColumn) {

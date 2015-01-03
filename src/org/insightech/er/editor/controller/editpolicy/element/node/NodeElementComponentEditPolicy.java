@@ -100,9 +100,9 @@ public class NodeElementComponentEditPolicy extends ComponentEditPolicy {
 
 				command.add(new DeleteElementCommand(diagram, element));
 			} else {
-				// ƒrƒ…[ã‚Åƒe[ƒuƒ‹‚ğÁ‚µ‚Ä‚àÀÛ‚É‚ÍÁ‚³‚¸Aƒrƒ…[‚©‚çÁ‚·‚¾‚¯‚É‚·‚é
+				// ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½Åƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Û‚É‚Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
 				command.add(new DeleteElementCommand(diagram, virtualTable));
-				// ‚½‚¾‚µƒŠƒŒ[ƒVƒ‡ƒ“‚ÍÁ‚·
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½
 			}
 
 			return command.unwrap();

@@ -258,7 +258,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
 
 		CompoundCommand command = new CompoundCommand();
 
-		// QÆ‚µ‚Ä‚¢‚éŠO•”ƒL[‚Ì•ÏX
+		// ï¿½Qï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Lï¿½[ï¿½Ì•ÏX
 		List<Relation> relationList = oldColumn.getOutgoingRelationList();
 
 		if (!relationList.isEmpty()) {

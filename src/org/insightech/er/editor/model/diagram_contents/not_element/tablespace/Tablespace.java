@@ -52,7 +52,7 @@ public class Tablespace extends AbstractModel implements ObjectModel,
 	}
 
 	/**
-	 * propertiesMap ‚ðŽæ“¾‚µ‚Ü‚·.
+	 * propertiesMap ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return propertiesMap
 	 */

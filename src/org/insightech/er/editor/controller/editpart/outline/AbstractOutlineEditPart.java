@@ -75,7 +75,7 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart
 	}
 
 	/**
-	 * filterText‚ğæ“¾‚µ‚Ü‚·B
+	 * filterTextï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return filterText
 	 */
 	public String getFilterText() {

@@ -182,7 +182,7 @@ public abstract class AbstractStyleSupport implements StyleSupport {
 	}
 
 	/**
-	 * settings‚ğæ“¾‚µ‚Ü‚·B
+	 * settingsï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return settings
 	 */
 	public Settings getSettings() {

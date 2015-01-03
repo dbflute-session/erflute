@@ -62,7 +62,7 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
 //				Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
 //				for (Entry<NodeElement, EditPart> entry : entrySet) {
 //					if (entry.getKey().equals(newValue)) {
-//						// ƒGƒŒƒƒ“ƒg‚ÌXV
+//						// ï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ÌXï¿½V
 //						entry.getValue().refresh();
 //					}
 //				}
@@ -107,7 +107,7 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
 	}
 
 	/**
-	 * quickMode‚ğİ’è‚µ‚Ü‚·B
+	 * quickModeï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param quickMode quickMode
 	 */
 	public void setQuickMode(boolean quickMode) {

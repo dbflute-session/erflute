@@ -8,7 +8,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERMo
 import org.insightech.er.util.Format;
 
 /**
- * ƒm[ƒg‚Ìƒ‚ƒfƒ‹
+ * ï¿½mï¿½[ï¿½gï¿½Ìƒï¿½ï¿½fï¿½ï¿½
  * 
  * @author nakajima
  * 
@@ -19,7 +19,7 @@ public class Note extends NodeElement implements Comparable<Note> {
 
 	public static final String PROPERTY_CHANGE_NOTE = "note";
 
-	/** eƒ‚ƒfƒ‹ */
+	/** ï¿½eï¿½ï¿½ï¿½fï¿½ï¿½ */
 	private ERModel model;
 
 	private String text;
@@ -29,23 +29,23 @@ public class Note extends NodeElement implements Comparable<Note> {
 	}
 	
 	/**
-	 * eƒ‚ƒfƒ‹‚ğæ“¾‚µ‚Ü‚·B
-	 * @return eƒ‚ƒfƒ‹
+	 * ï¿½eï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+	 * @return ï¿½eï¿½ï¿½ï¿½fï¿½ï¿½
 	 */
 	public ERModel getModel() {
 	    return model;
 	}
 
 	/**
-	 * eƒ‚ƒfƒ‹‚ğİ’è‚µ‚Ü‚·B
-	 * @param model eƒ‚ƒfƒ‹
+	 * ï¿½eï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
+	 * @param model ï¿½eï¿½ï¿½ï¿½fï¿½ï¿½
 	 */
 	public void setModel(ERModel model) {
 	    this.model = model;
 	}
 
 	/**
-	 * ƒm[ƒg‚Ì–{•¶‚ğ•Ô‹p‚µ‚Ü‚·B
+	 * ï¿½mï¿½[ï¿½gï¿½Ì–{ï¿½ï¿½ï¿½ï¿½Ô‹pï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @return
 	 */
@@ -54,7 +54,7 @@ public class Note extends NodeElement implements Comparable<Note> {
 	}
 
 	/**
-	 * ƒm[ƒg‚Ì–{•¶‚ğİ’è‚µ‚Ü‚·B
+	 * ï¿½mï¿½[ï¿½gï¿½Ì–{ï¿½ï¿½ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @param text
 	 */

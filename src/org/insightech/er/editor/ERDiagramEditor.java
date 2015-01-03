@@ -129,8 +129,8 @@ import org.insightech.er.editor.view.tool.ERDiagramPaletteRoot;
 import org.insightech.er.extention.ExtensionLoader;
 
 /**
- * TODO ON UPDATEAON DELETE ‚Ìƒvƒ‹ƒ_ƒEƒ“‚ğİ’è‚Å‚«‚é‚à‚Ì‚¾‚¯‚É§ŒÀ‚·‚é<br>
- * TODO ƒfƒtƒHƒ‹ƒg’l‚ÉŒ^‚Ì§ŒÀ‚ğ“K—p‚·‚é<br>
+ * TODO ON UPDATEï¿½AON DELETE ï¿½Ìƒvï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½İ’ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<br>
+ * TODO ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ÉŒ^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½pï¿½ï¿½ï¿½ï¿½<br>
  *
  */
 public class ERDiagramEditor extends GraphicalEditorWithPalette {
@@ -160,7 +160,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 	private boolean isDirty;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^.
+	 * ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^.
 	 *
 	 * @param diagram
 	 *            ERDiagram
@@ -209,9 +209,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
 	/**
 	 * <pre>
-	 * •Û‘¶‚Ìˆ—
-	 * ƒtƒ@ƒCƒ‹‚Ì•Û‘¶©‘Ì‚ÍA{@link ERDiagramMultiPageEditor} ‚Ås‚¤‚½‚ß
-	 * Šeƒy[ƒW‚Ì {@link ERDiagramEditor} ‚Å‚ÍAƒRƒ}ƒ“ƒhƒXƒ^ƒbƒN‚ÌƒNƒŠƒA‚Ì‚İ‚ğs‚¤
+	 * ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
+	 * ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì•Û‘ï¿½ï¿½ï¿½ï¿½Ì‚ÍA{@link ERDiagramMultiPageEditor} ï¿½Åsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½eï¿½yï¿½[ï¿½Wï¿½ï¿½ {@link ERDiagramEditor} ï¿½Å‚ÍAï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Xï¿½^ï¿½bï¿½Nï¿½ÌƒNï¿½ï¿½ï¿½Aï¿½Ì‚İ‚ï¿½ï¿½sï¿½ï¿½
 	 * </pre>
 	 */
 	@Override
@@ -257,7 +257,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 //		if (diagram.getCurrentErmodel() == null) {
 //			viewer.setContents(diagram);
 //		} else {
-//			// ‚Æ‚è‚ ‚¦‚¸OFF‚µ‚ÄAÅ‰‚ÉƒtƒH[ƒJƒX‚ª“–‚½‚Á‚½‚Æ‚«‚ÉƒRƒ“ƒeƒ“ƒc‚ğ‹l‚ß‚é
+//			// ï¿½Æ‚è‚ ï¿½ï¿½ï¿½ï¿½OFFï¿½ï¿½ï¿½ÄAï¿½Åï¿½ï¿½Éƒtï¿½Hï¿½[ï¿½Jï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÉƒRï¿½ï¿½ï¿½eï¿½ï¿½ï¿½cï¿½ï¿½ï¿½lï¿½ß‚ï¿½
 //		}
 
 		this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(
@@ -303,7 +303,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
 	/**
 	 * <pre>
-	 * ‚±‚Ìƒy[ƒW‚ª‘I‘ğ‚³‚ê‚½Û‚Ìˆ—
+	 * ï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Û‚Ìï¿½ï¿½ï¿½
 	 * </pre>
 	 */
 	public void changeCategory() {
@@ -516,7 +516,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 	}
 
 	/**
-	 * editPartFactory‚ğæ“¾‚µ‚Ü‚·B
+	 * editPartFactoryï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return editPartFactory
 	 */
 	public ERDiagramEditPartFactory getEditPartFactory() {

@@ -59,7 +59,7 @@ public class GroupSet extends AbstractModel implements Iterable<ColumnGroup> {
 	}
 
 	/**
-	 * database ‚ğæ“¾‚µ‚Ü‚·.
+	 * database ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return database
 	 */
@@ -68,7 +68,7 @@ public class GroupSet extends AbstractModel implements Iterable<ColumnGroup> {
 	}
 
 	/**
-	 * database ‚ğİ’è‚µ‚Ü‚·.
+	 * database ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param database
 	 *            database

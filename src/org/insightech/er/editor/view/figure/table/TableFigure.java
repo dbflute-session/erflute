@@ -151,7 +151,7 @@ public class TableFigure extends RoundedRectangle {
 	}
 
 	/**
-	 * columns ‚ğæ“¾‚µ‚Ü‚·.
+	 * columns ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return columns
 	 */
@@ -168,7 +168,7 @@ public class TableFigure extends RoundedRectangle {
 	}
 
 	/**
-	 * largeFont‚ğæ“¾‚µ‚Ü‚·B
+	 * largeFontï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return largeFont
 	 */
 	public Font getLargeFont() {

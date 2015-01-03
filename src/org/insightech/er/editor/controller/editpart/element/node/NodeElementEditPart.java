@@ -74,7 +74,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart
 			this.changeFont(this.figure);
 			refreshVisuals();
 //			if (getNodeModel().needsUpdateOtherModel()) {
-//				// ‘Sƒrƒ…[‚ÌƒŠƒtƒŒƒbƒVƒ…
+//				// ï¿½Sï¿½rï¿½ï¿½ï¿½[ï¿½Ìƒï¿½ï¿½tï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½
 //				getNodeModel().getDiagram().refreshAllModel(event, getNodeModel());
 //			} else {
 //				refreshVisuals();

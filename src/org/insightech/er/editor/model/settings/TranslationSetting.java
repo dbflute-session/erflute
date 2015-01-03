@@ -20,7 +20,7 @@ public class TranslationSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * allTranslations ‚ğæ“¾‚µ‚Ü‚·.
+	 * allTranslations ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return allTranslations
 	 */
@@ -33,7 +33,7 @@ public class TranslationSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * selectedTranslations ‚ğæ“¾‚µ‚Ü‚·.
+	 * selectedTranslations ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return selectedTranslations
 	 */
@@ -42,7 +42,7 @@ public class TranslationSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * selectedTranslations ‚ğİ’è‚µ‚Ü‚·.
+	 * selectedTranslations ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param selectedTranslations
 	 *            selectedTranslations
@@ -52,7 +52,7 @@ public class TranslationSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * selectedTranslations ‚ğİ’è‚µ‚Ü‚·.
+	 * selectedTranslations ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param selectedTranslations
 	 *            selectedTranslations
@@ -63,7 +63,7 @@ public class TranslationSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * use ‚ğæ“¾‚µ‚Ü‚·.
+	 * use ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return use
 	 */
@@ -72,7 +72,7 @@ public class TranslationSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * use ‚ğİ’è‚µ‚Ü‚·.
+	 * use ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param use
 	 *            use

@@ -129,13 +129,13 @@ public class ERDiagram extends ViewableModel {
 		if (element instanceof ERTable) {
 			ERTable table = (ERTable) element;
 			if (getCurrentErmodel() != null) {
-				// ƒrƒ…[ã‚É‰¼‘zƒe[ƒuƒ‹‚ğ’Ç‰Á‚·‚é
+				// ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½É‰ï¿½ï¿½zï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
 
 				ERModel model = getCurrentErmodel();
 				ERVirtualTable virtualTable = new ERVirtualTable(model, table);
 				virtualTable.setPoint(element.getX(), element.getY());
 
-				// TODO ƒƒCƒ“ƒrƒ…[ã‚Å‚Í¶ã‚É”z’u
+				// TODO ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½Å‚Íï¿½ï¿½ï¿½É”zï¿½u
 				element.setLocation(new Location(0, 0, element.getWidth(), element.getHeight()));
 
 				model.addTable(virtualTable);
@@ -145,13 +145,13 @@ public class ERDiagram extends ViewableModel {
 		if (element instanceof ERVirtualTable) {
 			ERVirtualTable virtualTable = (ERVirtualTable) element;
 			if (getCurrentErmodel() != null) {
-				// ƒrƒ…[ã‚É‰¼‘zƒe[ƒuƒ‹‚ğ’Ç‰Á‚·‚é
+				// ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½É‰ï¿½ï¿½zï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
 
 				ERModel model = getCurrentErmodel();
 //				ERVirtualTable virtualTable = new ERVirtualTable(model, table);
 				virtualTable.setPoint(element.getX(), element.getY());
 
-				// TODO ƒƒCƒ“ƒrƒ…[ã‚Å‚Í¶ã‚É”z’u
+				// TODO ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½Å‚Íï¿½ï¿½ï¿½É”zï¿½u
 				element.setLocation(new Location(0, 0, element.getWidth(), element.getHeight()));
 
 				model.addTable(virtualTable);
@@ -163,7 +163,7 @@ public class ERDiagram extends ViewableModel {
 
 	public void removeContent(NodeElement element) {
 		if (element instanceof ERVirtualTable) {
-			// ƒƒCƒ“ƒrƒ…[‚Ìƒm[ƒh‚Íc‚µ‚Ä‰¼‘zƒe[ƒuƒ‹‚¾‚¯íœ
+			// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½Ìƒmï¿½[ï¿½hï¿½Ícï¿½ï¿½ï¿½Ä‰ï¿½ï¿½zï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœ
 			currentErmodel.remove((ERVirtualTable)element);
 		} else if (element instanceof VGroup) {
 			currentErmodel.remove((VGroup)element);
@@ -172,7 +172,7 @@ public class ERDiagram extends ViewableModel {
 		} else {
 			this.diagramContents.getContents().remove(element);
 			if (element instanceof ERTable) {
-				// ƒƒCƒ“ƒrƒ…[‚Ìƒe[ƒuƒ‹‚ğíœ‚µ‚½‚Æ‚«‚ÍAƒrƒ…[‚Ìƒm[ƒh‚àíœiTODO ü‚ªÁ‚¦‚¸‚Éc‚Á‚Ä‚µ‚Ü‚¤j
+				// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÍAï¿½rï¿½ï¿½ï¿½[ï¿½Ìƒmï¿½[ï¿½hï¿½ï¿½ï¿½íœï¿½iTODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Écï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½j
 				for (ERModel model : getDiagramContents().getModelSet()) {
 					ERVirtualTable vtable = model.findVirtualTable((TableView) element);
 					model.remove(vtable);
@@ -321,7 +321,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * currentErmodel‚ğæ“¾‚µ‚Ü‚·B
+	 * currentErmodelï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return currentErmodel
 	 */
 	public ERModel getCurrentErmodel() {
@@ -350,7 +350,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * dbSetting ‚ğæ“¾‚µ‚Ü‚·.
+	 * dbSetting ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return dbSetting
 	 */
@@ -359,7 +359,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * dbSetting ‚ğİ’è‚µ‚Ü‚·.
+	 * dbSetting ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 *
 	 * @param dbSetting
 	 *            dbSetting
@@ -369,7 +369,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * pageSetting ‚ğæ“¾‚µ‚Ü‚·.
+	 * pageSetting ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return pageSetting
 	 */
@@ -378,7 +378,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * pageSetting ‚ğİ’è‚µ‚Ü‚·.
+	 * pageSetting ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 *
 	 * @param pageSetting
 	 *            pageSetting
@@ -388,7 +388,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * editor ‚ğæ“¾‚µ‚Ü‚·.
+	 * editor ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return editor
 	 */
@@ -411,7 +411,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * showMainColumn‚ğİ’è‚µ‚Ü‚·B
+	 * showMainColumnï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param showMainColumn showMainColumn
 	 */
 	public void setShowMainColumn(boolean showMainColumn) {
@@ -419,7 +419,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * showMainColumn‚ğæ“¾‚µ‚Ü‚·B
+	 * showMainColumnï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return showMainColumn
 	 */
 	public boolean isShowMainColumn() {
@@ -427,7 +427,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * disableSelectColumn ‚ğæ“¾‚µ‚Ü‚·.
+	 * disableSelectColumn ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return disableSelectColumn
 	 */
@@ -436,7 +436,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * disableSelectColumn ‚ğİ’è‚µ‚Ü‚·.
+	 * disableSelectColumn ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 *
 	 * @param disableSelectColumn
 	 *            disableSelectColumn
@@ -454,7 +454,7 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * defaultModelName‚ğæ“¾‚µ‚Ü‚·B
+	 * defaultModelNameï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return defaultModelName
 	 */
 	public String getDefaultModelName() {
@@ -462,8 +462,8 @@ public class ERDiagram extends ViewableModel {
 	}
 
 	/**
-	 * ƒƒCƒ“ƒrƒ…[‚Åƒe[ƒuƒ‹‚ğXV‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚Ü‚·B
-	 * ƒTƒuƒrƒ…[‚Ìƒe[ƒuƒ‹‚ğXV‚µ‚Ü‚·B
+	 * ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½Åƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÉŒÄ‚Î‚ï¿½Ü‚ï¿½ï¿½B
+	 * ï¿½Tï¿½uï¿½rï¿½ï¿½ï¿½[ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @param newCopyTableView
 	 */
 	public void doChangeTable(TableView table) {
@@ -487,16 +487,16 @@ public class ERDiagram extends ViewableModel {
 	}
 
 //	/**
-//	 * ‘S‘Ìƒrƒ…[‚à‚µ‚­‚Í’Êíƒrƒ…[‚ÅXV‚³‚ê‚½“à—e‚ğA‘S‚Ä‚Ìƒrƒ…[‚É“WŠJ‚µ‚Ü‚·B
-//	 * @param event ”­¶‚µ‚½ƒCƒxƒ“ƒg
-//	 * @param nodeElement XV‚µ‚½ƒ‚ƒfƒ‹
+//	 * ï¿½Sï¿½Ìƒrï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í’Êï¿½rï¿½ï¿½ï¿½[ï¿½ÅXï¿½Vï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½Aï¿½Sï¿½Ä‚Ìƒrï¿½ï¿½ï¿½[ï¿½É“Wï¿½Jï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+//	 * @param event ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½g
+//	 * @param nodeElement ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½
 //	 */
 //	public void refreshAllModel(PropertyChangeEvent event, NodeElement nodeElement) {
 //		if (nodeElement instanceof ERVirtualTable) {
 //			ERTable table = ((ERVirtualTable)nodeElement).getRawTable();
-//			// ƒƒCƒ“ƒrƒ…[‚É“WŠJ
+//			// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½É“Wï¿½J
 //			table.getDiagram().doChangeTable(table);
-//			// ‘Sƒrƒ…[‚É“WŠJ
+//			// ï¿½Sï¿½rï¿½ï¿½ï¿½[ï¿½É“Wï¿½J
 //			for (ERModel model : getDiagramContents().getModelSet()) {
 //				ERVirtualTable vtable = model.findVirtualTable(table);
 //				if (vtable != null) {
@@ -506,9 +506,9 @@ public class ERDiagram extends ViewableModel {
 //			}
 //		} else if (nodeElement instanceof ERTable) {
 //			ERTable table = (ERTable)nodeElement;
-//			// ƒƒCƒ“ƒrƒ…[‚É“WŠJ
+//			// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½É“Wï¿½J
 //			table.getDiagram().doChangeTable(table);
-//			// ‘Sƒrƒ…[‚É“WŠJ
+//			// ï¿½Sï¿½rï¿½ï¿½ï¿½[ï¿½É“Wï¿½J
 //			for (ERModel model : getDiagramContents().getModelSet()) {
 //				ERVirtualTable vtable = model.findVirtualTable(table);
 //				if (vtable != null) {

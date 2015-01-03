@@ -43,7 +43,7 @@ public class NormalColumn extends Column {
 
 	private String collation;
 
-	/** e‚ª2‚Â‚ ‚éŠO•”ƒL[‚ÍA’Êí‚È‚¢‚ªAe‚Ì‘åŒ³‚ª“¯‚¶QÆƒL[‚Ìê‡‚Í‚ ‚è‚¦‚é. */
+	/** ï¿½eï¿½ï¿½2ï¿½Â‚ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Lï¿½[ï¿½ÍAï¿½Êï¿½È‚ï¿½ï¿½ï¿½ï¿½Aï¿½eï¿½Ì‘åŒ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Qï¿½ÆƒLï¿½[ï¿½Ìê‡ï¿½Í‚ï¿½ï¿½è‚¦ï¿½ï¿½. */
 	private List<NormalColumn> referencedColumnList = new ArrayList<NormalColumn>();
 
 	private List<Relation> relationList = new ArrayList<Relation>();
@@ -79,13 +79,13 @@ public class NormalColumn extends Column {
 	}
 
 	/**
-	 * ŠO•”ƒL[‚ğì¬‚µ‚Ü‚·
+	 * ï¿½Oï¿½ï¿½ï¿½Lï¿½[ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½Ü‚ï¿½
 	 *
 	 * @param from
 	 * @param referencedColumn
 	 * @param relation
 	 * @param primaryKey
-	 *            åƒL[‚©‚Ç‚¤‚©
+	 *            ï¿½ï¿½Lï¿½[ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
 	 */
 	public NormalColumn(NormalColumn from, NormalColumn referencedColumn,
 			Relation relation, boolean primaryKey) {

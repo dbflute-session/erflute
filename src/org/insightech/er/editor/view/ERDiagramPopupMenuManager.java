@@ -222,8 +222,8 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 		categoryMenu.add(changeShowReferredTablesAction);
 
 		this.add(categoryMenu);
-		this.add(this.getAction(ERModelAddAction.ID)); // ERModelì¬
-//		this.add(this.getAction(PlaceTableAction.ID)); // ƒe[ƒuƒ‹”z’u
+		this.add(this.getAction(ERModelAddAction.ID)); // ERModelï¿½ì¬
+//		this.add(this.getAction(PlaceTableAction.ID)); // ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½zï¿½u
 
 		this.add(this.getAction(OptionSettingAction.ID));
 

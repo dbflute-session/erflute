@@ -59,7 +59,7 @@ public class DeleteRelationCommand extends DeleteConnectionCommand {
 		
 		if (this.relation.getSource() instanceof ERTable
 				|| this.relation.getTarget() instanceof ERTable) {
-			// ƒrƒ…[“à‚ÅƒŠƒŒ[ƒVƒ‡ƒ“‚ğÁ‚µ‚½ê‡A‚±‚±‚É‚ÍERVirtualTable‚Å‚È‚­ERTable‚Å—ˆ‚é
+			// ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Åƒï¿½ï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ERVirtualTableï¿½Å‚È‚ï¿½ERTableï¿½Å—ï¿½ï¿½ï¿½
 			ERModelSet modelSet = this.relation.getSource().getDiagram().getDiagramContents().getModelSet();
 			modelSet.deleteRelation(relation);
 			
@@ -71,23 +71,23 @@ public class DeleteRelationCommand extends DeleteConnectionCommand {
 //		if (tableView instanceof ERVirtualTable) {
 //			ERVirtualTable vtable = (ERVirtualTable) tableView;
 //			
-//			// ƒƒCƒ“ƒrƒ…[‚ğXVi˜g‚ÌÄ¶¬j
+//			// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½Vï¿½iï¿½gï¿½ÌÄï¿½ï¿½ï¿½ï¿½j
 //			this.newCopyTableView.restructureData(vtable.getRawTable());
 //			// TableView.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
 //			
-//			// ƒTƒuƒrƒ…[‚àXV
+//			// ï¿½Tï¿½uï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½V
 //			vtable.doChangeTable();
 //
-//			// ƒe[ƒuƒ‹‚ÌXViü‚àŠÜ‚ß‚½Ä¶¬j
+//			// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌXï¿½Vï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ß‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½j
 //			this.tableView.getDiagram().changeTable(newCopyTableView);
 //			// ERDiagram.firePropertyChange(PROPERTY_CHANGE_TABLE)
 //			
 //		} else {
-//			// ƒƒCƒ“ƒrƒ…[‚ğXV
+//			// ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½V
 //			this.newCopyTableView.restructureData(tableView);
 //			this.tableView.getDiagram().changeTable(newCopyTableView);
 //			
-//			// ƒTƒuƒrƒ…[‚àXV
+//			// ï¿½Tï¿½uï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Xï¿½V
 //			tableView.getDiagram().doChangeTable(newCopyTableView);
 //		}
 

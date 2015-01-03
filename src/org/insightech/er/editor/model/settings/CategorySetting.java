@@ -20,7 +20,7 @@ public class CategorySetting implements Serializable, Cloneable {
 	private boolean showReferredTables;
 
 	/**
-	 * freeLayout ‚ğæ“¾‚µ‚Ü‚·.
+	 * freeLayout ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return freeLayout
 	 */
@@ -29,7 +29,7 @@ public class CategorySetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * freeLayout ‚ğİ’è‚µ‚Ü‚·.
+	 * freeLayout ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param freeLayout
 	 *            freeLayout
@@ -39,7 +39,7 @@ public class CategorySetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * showReferredTables ‚ğæ“¾‚µ‚Ü‚·.
+	 * showReferredTables ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return showReferredTables
 	 */
@@ -48,7 +48,7 @@ public class CategorySetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * showReferredTables ‚ğİ’è‚µ‚Ü‚·.
+	 * showReferredTables ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param showReferredTables
 	 *            showReferredTables

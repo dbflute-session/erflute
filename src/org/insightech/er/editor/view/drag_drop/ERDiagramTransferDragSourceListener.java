@@ -88,12 +88,12 @@ public class ERDiagramTransferDragSourceListener extends
 				EditPart editPart = (EditPart) partObj;
 				Object model = editPart.getModel();
 				if (model instanceof ERTable && editPart instanceof TableOutlineEditPart) {
-					// ƒAƒEƒgƒ‰ƒCƒ“‚©‚ç‚Ìƒe[ƒuƒ‹•¡”‘I‘ğ
+					// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 					results.add(model);
 				}
 				if (model instanceof ERVirtualTable) {
-					// ƒGƒfƒBƒ^“à‚©‚ç‚Ì‰¼‘zƒe[ƒuƒ‹•¡”‘I‘ğ
-					return null; // ‚±‚±‚Íƒhƒ‰ƒbƒO‚Í‚¹‚¸AãˆÊ‚ÌˆÚ“®‹@\iHj‚É‰ñ‚·B‚±‚ê‚Å•¡”ƒe[ƒuƒ‹‚ğƒGƒfƒBƒ^“à‚ÅˆÚ“®‰Â”\‚É‚È‚é
+					// ï¿½Gï¿½fï¿½Bï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½zï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
+					return null; // ï¿½ï¿½ï¿½ï¿½ï¿½Íƒhï¿½ï¿½ï¿½bï¿½Oï¿½Í‚ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½Ê‚ÌˆÚ“ï¿½ï¿½@ï¿½\ï¿½iï¿½Hï¿½jï¿½É‰ñ‚·Bï¿½ï¿½ï¿½ï¿½Å•ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½fï¿½Bï¿½^ï¿½ï¿½ï¿½ÅˆÚ“ï¿½ï¿½Â”\ï¿½É‚È‚ï¿½
 				}
 			}
 			return results;

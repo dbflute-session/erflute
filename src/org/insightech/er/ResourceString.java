@@ -13,11 +13,11 @@ public class ResourceString {
 			.getBundle("org.insightech.er.ERDiagram");;
 
 	/**
-	 * ERDiagram.properties ‚Ìw’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é’l‚ğ•Ô‚µ‚Ü‚·
+	 * ERDiagram.properties ï¿½Ìwï¿½è‚³ï¿½ê‚½ï¿½Lï¿½[ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½
 	 * 
 	 * @param key
-	 *            ERDiagram.properties ‚Å’è‹`‚³‚ê‚½ƒL[
-	 * @return ERDiagram.properties ‚Ìw’è‚³‚ê‚½ƒL[‚É‘Î‰‚·‚é’l
+	 *            ERDiagram.properties ï¿½Å’ï¿½`ï¿½ï¿½ï¿½ê‚½ï¿½Lï¿½[
+	 * @return ERDiagram.properties ï¿½Ìwï¿½è‚³ï¿½ê‚½ï¿½Lï¿½[ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½l
 	 */
 	public static String getResourceString(String key) {
 		try {

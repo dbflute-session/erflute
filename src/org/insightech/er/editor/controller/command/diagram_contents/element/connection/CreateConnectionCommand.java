@@ -24,7 +24,7 @@ public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
 		NodeElement sourceTable = (NodeElement) this.source.getModel();
 		NodeElement targetTable = (NodeElement) this.target.getModel();
 
-		// Table“¯m‚ÌƒŠƒŒ[ƒVƒ‡ƒ“‚ÍATable <=> Table ‚ÅŒq‚®
+		// Tableï¿½ï¿½ï¿½mï¿½Ìƒï¿½ï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÍATable <=> Table ï¿½ÅŒqï¿½ï¿½
 		
 		if (sourceTable instanceof ERVirtualTable) {
 			sourceTable = ((ERVirtualTable)sourceTable).getRawTable();

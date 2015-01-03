@@ -56,7 +56,7 @@ import org.insightech.er.editor.view.drag_drop.ERDiagramTransferDragSourceListen
 
 public class ERDiagramOutlinePage extends ContentOutlinePage {
 
-	// ƒy[ƒW‚ğƒAƒEƒgƒ‰ƒCƒ“‚ÆƒTƒ€ƒlƒCƒ‹‚É•ª—£‚·‚éƒRƒ“ƒ|ƒWƒbƒg
+	// ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ÆƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½|ï¿½Wï¿½bï¿½g
 	private SashForm sash;
 
 	private TreeViewer viewer;
@@ -78,7 +78,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 	private ERDiagramOutlineEditPartFactory editPartFactory;
 
 	public ERDiagramOutlinePage(ERDiagram diagram) {
-		// GEFƒcƒŠ[ƒrƒ…[ƒ‚ğg—p‚·‚é
+		// GEFï¿½cï¿½ï¿½ï¿½[ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
 		super(new TreeViewer());
 
 		this.viewer = (TreeViewer) this.getViewer();
@@ -95,7 +95,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 	public void createControl(Composite parent) {
 		this.sash = new SashForm(parent, SWT.VERTICAL);
 
-		// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åw’è‚µ‚½ƒrƒ…[ƒ‚Ìì¬
+		// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Åwï¿½è‚µï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìì¬
 		this.viewer.createControl(this.sash);
 
 		editPartFactory = new ERDiagramOutlineEditPartFactory();
@@ -103,12 +103,12 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 
 		this.viewer.setEditPartFactory(editPartFactory);
 
-		// ƒOƒ‰ƒtƒBƒJƒ‹EƒGƒfƒBƒ^‚Ìƒ‹[ƒgEƒ‚ƒfƒ‹‚ğƒcƒŠ[Eƒrƒ…[ƒ‚É‚àİ’è
+		// ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½Jï¿½ï¿½ï¿½Eï¿½Gï¿½fï¿½Bï¿½^ï¿½Ìƒï¿½ï¿½[ï¿½gï¿½Eï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½[ï¿½Eï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½É‚ï¿½ï¿½İ’ï¿½
 		this.viewer.setContents(this.diagram);
 
 		if (!quickMode) {
 			Canvas canvas = new Canvas(this.sash, SWT.BORDER);
-			// ƒTƒ€ƒlƒCƒ‹EƒtƒBƒMƒ…ƒA‚ğ”z’u‚·‚éˆ×‚Ì LightweightSystem
+			// ï¿½Tï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½Eï¿½tï¿½Bï¿½Mï¿½ï¿½ï¿½Aï¿½ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½×‚ï¿½ LightweightSystem
 			this.lws = new LightweightSystem(canvas);
 		}
 
@@ -124,7 +124,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 	 */
 	@Override
 	public Control getControl() {
-		// ƒAƒEƒgƒ‰ƒCƒ“Eƒrƒ…[‚ğƒAƒNƒeƒBƒu‚É‚µ‚½‚ÉƒtƒH[ƒJƒX‚ªİ’è‚³‚ê‚éƒRƒ“ƒgƒ[ƒ‹‚ğ•Ô‚·
+		// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Eï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éƒtï¿½Hï¿½[ï¿½Jï¿½Xï¿½ï¿½ï¿½İ’è‚³ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
 		return sash;
 	}
 
@@ -132,7 +132,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 		if (quickMode) {
 			return;
 		}
-		// RootEditPart‚Ìƒrƒ…[‚ğƒ\[ƒX‚Æ‚µ‚ÄƒTƒ€ƒlƒCƒ‹‚ğì¬
+		// RootEditPartï¿½Ìƒrï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½Æ‚ï¿½ï¿½ÄƒTï¿½ï¿½ï¿½lï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ì¬
 		ScalableFreeformRootEditPart editPart = (ScalableFreeformRootEditPart) this.graphicalViewer
 				.getRootEditPart();
 
@@ -162,7 +162,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 		this.graphicalViewer = graphicalViewer;
 		this.viewer.setContextMenu(outlineMenuMgr);
 
-		// ƒGƒfƒBƒbƒgEƒhƒƒCƒ“‚Ìİ’è
+		// ï¿½Gï¿½fï¿½Bï¿½bï¿½gï¿½Eï¿½hï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ìİ’ï¿½
 		this.viewer.setEditDomain(editDomain);
 		this.registry = registry;
 
@@ -172,7 +172,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 	}
 
 	private void resetAction(ActionRegistry registry) {
-		// ƒAƒEƒgƒ‰ƒCƒ“Eƒy[ƒW‚Å—LŒø‚É‚·‚éƒAƒNƒVƒ‡ƒ“
+		// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Eï¿½yï¿½[ï¿½Wï¿½Å—Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½
 		if (getSite() == null) {
 			return;
 		}
@@ -273,7 +273,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 	}
 
 	/**
-	 * quickMode‚ğİ’è‚µ‚Ü‚·B
+	 * quickModeï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param quickMode quickMode
 	 */
 	public void setQuickMode(boolean quickMode) {
@@ -298,7 +298,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 			ERTable table = (ERTable) model;
 
 			if (diagram.getCurrentErmodel() == null) {
-				// ‘S‘Ìƒrƒ…[
+				// ï¿½Sï¿½Ìƒrï¿½ï¿½ï¿½[
 				ERDiagramEditor editor = ((ERDiagramEditor) diagram.getEditor().getActiveEditor());
 				editor.reveal(table);
 				return;
@@ -311,7 +311,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 				command.setTable(table);
 				this.getViewer().getEditDomain().getCommandStack().execute(command);
 
-				// ƒAƒEƒgƒ‰ƒCƒ“ƒrƒ…[‚Ì—v‘f‚ğ‘I‘ğ
+				// ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½Ì—vï¿½fï¿½ï¿½Iï¿½ï¿½
 				ERDiagramOutlineEditPart contents = (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
 				if (contents != null) {
 					List<ERModelOutlineEditPart> parts = ((ERModelSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
@@ -324,7 +324,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 				}
 
 			} else {
-				Activator.showMessageDialog(table.getPhysicalName() + " ƒe[ƒuƒ‹‚Í‚»‚Ìƒ_ƒCƒAƒOƒ‰ƒ€‚É‚à”z’u‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
+				Activator.showMessageDialog(table.getPhysicalName() + " ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ìƒ_ï¿½Cï¿½Aï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B");
 			}
 
 		}

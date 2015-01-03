@@ -96,11 +96,11 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 				.getGraphicalViewer().getContents();
 
 		if (editPart.getModel() instanceof ERModel) {
-			// ƒrƒ…[‚Ì”wŒiF•ÏX
+			// ï¿½rï¿½ï¿½ï¿½[ï¿½Ì”wï¿½iï¿½Fï¿½ÏX
 			ERModel model = (ERModel) editPart.getModel();
 			model.setDefaultColor(this.rgb.red, this.rgb.green, this.rgb.blue);
 		} else {
-			// ‘S‘Ìƒrƒ…[‚Ì”wŒiF•ÏX
+			// ï¿½Sï¿½Ìƒrï¿½ï¿½ï¿½[ï¿½Ì”wï¿½iï¿½Fï¿½ÏX
 			ERDiagram diagram = ERModelUtil.getDiagram(editPart);
 			diagram.setDefaultColor(this.rgb.red, this.rgb.green, this.rgb.blue);
 		}
@@ -183,7 +183,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 			this.setToolTipText(ResourceString
 					.getResourceString("action.title.change.background.color"));
 
-			// ƒTƒuƒƒjƒ…[‚Ì¶¬
+			// ï¿½Tï¿½uï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½Ìï¿½ï¿½ï¿½
 			setMenuCreator(new IMenuCreator() {
 				public Menu getMenu(Control parent) {
 					Menu menu = new Menu(parent);

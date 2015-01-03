@@ -11,7 +11,7 @@ public class ValidateResult {
 	private Object object;
 
 	/**
-	 * object ‚ğæ“¾‚µ‚Ü‚·.
+	 * object ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return object
 	 */
@@ -20,7 +20,7 @@ public class ValidateResult {
 	}
 
 	/**
-	 * object ‚ğİ’è‚µ‚Ü‚·.
+	 * object ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 *
 	 * @param object object
 	 */
@@ -29,7 +29,7 @@ public class ValidateResult {
 	}
 
 	/**
-	 * message ‚ğæ“¾‚µ‚Ü‚·.
+	 * message ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return message
 	 */
@@ -38,7 +38,7 @@ public class ValidateResult {
 	}
 
 	/**
-	 * message ‚ğİ’è‚µ‚Ü‚·.
+	 * message ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 *
 	 * @param message message
 	 */
@@ -47,7 +47,7 @@ public class ValidateResult {
 	}
 
 	/**
-	 * location ‚ğæ“¾‚µ‚Ü‚·.
+	 * location ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return location
 	 */
@@ -56,7 +56,7 @@ public class ValidateResult {
 	}
 
 	/**
-	 * location ‚ğİ’è‚µ‚Ü‚·.
+	 * location ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 *
 	 * @param location location
 	 */
@@ -65,7 +65,7 @@ public class ValidateResult {
 	}
 
 	/**
-	 * severity ‚ğæ“¾‚µ‚Ü‚·.
+	 * severity ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return severity
 	 */
@@ -74,7 +74,7 @@ public class ValidateResult {
 	}
 
 	/**
-	 * severity ‚ğİ’è‚µ‚Ü‚·.
+	 * severity ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 *
 	 * @param severity severity
 	 */

@@ -123,7 +123,7 @@ public class DiagramContents {
 	}
 
 	/**
-	 * modelSet‚ğæ“¾‚µ‚Ü‚·B
+	 * modelSetï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return modelSet
 	 */
 	public ERModelSet getModelSet() {
@@ -131,7 +131,7 @@ public class DiagramContents {
 	}
 
 	/**
-	 * modelSet‚ğİ’è‚µ‚Ü‚·B
+	 * modelSetï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param modelSet modelSet
 	 */
 	public void setModelSet(ERModelSet modelSet) {

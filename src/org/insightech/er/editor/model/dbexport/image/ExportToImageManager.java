@@ -57,9 +57,9 @@ public class ExportToImageManager {
 			loader.save(saveFilePath, format);
 
 		} catch (SWTException e) {
-			// Eclipse 3.2 ‚Å‚ÍA PNG ‚ª Unsupported or unrecognized format ‚Æ‚È‚é‚½‚ßA
-			// ˆÈ‰º‚Ì‘ã‘Ö•û–@‚ğg—p‚·‚é
-			// ‚½‚¾‚µA‚±‚Ì•û–@‚Å‚Íãè‚­o—Í‚Å‚«‚È‚¢ŠÂ‹«‚ ‚è
+			// Eclipse 3.2 ï¿½Å‚ÍA PNG ï¿½ï¿½ Unsupported or unrecognized format ï¿½Æ‚È‚é‚½ï¿½ßA
+			// ï¿½È‰ï¿½ï¿½Ì‘ï¿½Ö•ï¿½ï¿½@ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ì•ï¿½ï¿½@ï¿½Å‚Íï¿½è‚­ï¿½oï¿½Í‚Å‚ï¿½ï¿½È‚ï¿½ï¿½Â‹ï¿½ï¿½ï¿½ï¿½ï¿½
 
 			e.printStackTrace();
 			BufferedImage bufferedImage = new BufferedImage(

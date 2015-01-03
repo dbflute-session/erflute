@@ -44,9 +44,9 @@ public class NormalColumnEditPart extends ColumnEditPart {
 		if (diagram.isShowMainColumn()) {
 			if (normalColumn.isAutoIncrement()
 					|| normalColumn.getWord() == null) {
-				// •\Ž¦‚·‚é
+				// ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			} else {
-				return; // •\Ž¦‚µ‚È‚¢
+				return; // ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			}
 		}
 

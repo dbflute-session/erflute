@@ -194,7 +194,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 	}
 
 	/**
-	 * titleFontEm‚ğæ“¾‚µ‚Ü‚·B
+	 * titleFontEmï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return titleFontEm
 	 */
 	public BigDecimal getTitleFontEm() {
@@ -202,7 +202,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 	}
 
 	/**
-	 * titleFontEm‚ğİ’è‚µ‚Ü‚·B
+	 * titleFontEmï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param titleFontEm titleFontEm
 	 */
 	public void setTitleFontEm(BigDecimal titleFontEm) {
@@ -273,7 +273,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 	}
 
 	/**
-	 * translationSettings ‚ğæ“¾‚µ‚Ü‚·.
+	 * translationSettings ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return translationSettings
 	 */
@@ -282,7 +282,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 	}
 
 	/**
-	 * environmentSetting ‚ğæ“¾‚µ‚Ü‚·.
+	 * environmentSetting ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 *
 	 * @return environmentSetting
 	 */
@@ -299,7 +299,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 	}
 
 	/**
-	 * masterDataBasePath‚ğæ“¾‚µ‚Ü‚·B
+	 * masterDataBasePathï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * @return masterDataBasePath
 	 */
 	public String getMasterDataBasePath() {
@@ -307,7 +307,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 	}
 
 	/**
-	 * masterDataBasePath‚ğİ’è‚µ‚Ü‚·B
+	 * masterDataBasePathï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param masterDataBasePath masterDataBasePath
 	 */
 	public void setMasterDataBasePath(String masterDataBasePath) {

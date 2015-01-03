@@ -20,7 +20,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.unique
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.CopyComplexUniqueKey;
 
 /**
- * ƒe[ƒuƒ‹‚Ìƒ‚ƒfƒ‹
+ * ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒï¿½ï¿½fï¿½ï¿½
  * 
  * @author nakajima
  * 
@@ -248,15 +248,15 @@ public class ERTable extends TableView implements TablePropertiesHolder,
 	}
 
 	/**
-	 * ƒe[ƒuƒ‹‚ğ•¡»‚µ‚Ü‚·B<br>
-	 * •¡»‚·‚éî•ñ‚ÍA–¼‘O‚ÆAƒe[ƒuƒ‹ƒvƒƒpƒeƒB‚Ì‚İB<br>
-	 * —ñ‚¨‚æ‚ÑAƒCƒ“ƒfƒbƒNƒX‚Í•¡»‘ÎÛŠO‚Æ‚µAŒã‚©‚ç•¡»‚·‚éB<br>
+	 * ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B<br>
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍAï¿½ï¿½ï¿½Oï¿½ÆAï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½Ì‚İB<br>
+	 * ï¿½ñ‚¨‚ï¿½ÑAï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Í•ï¿½ï¿½ï¿½ï¿½ÎÛŠOï¿½Æ‚ï¿½ï¿½Aï¿½ã‚©ï¿½ç•¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B<br>
 	 */
 	@Override
 	public ERTable clone() {
 		ERTable clone = (ERTable) super.clone();
 
-		// ƒe[ƒuƒ‹ƒvƒƒpƒeƒB‚ğ•¡»‚µ‚Ü‚·B
+		// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 		TableProperties cloneTableProperties = (TableProperties) this
 				.getTableViewProperties().clone();
 		clone.tableViewProperties = cloneTableProperties;
@@ -265,7 +265,7 @@ public class ERTable extends TableView implements TablePropertiesHolder,
 	}
 
 	/**
-	 * constraint ‚ğæ“¾‚µ‚Ü‚·.
+	 * constraint ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return constraint
 	 */
@@ -274,7 +274,7 @@ public class ERTable extends TableView implements TablePropertiesHolder,
 	}
 
 	/**
-	 * constraint ‚ğİ’è‚µ‚Ü‚·.
+	 * constraint ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param constraint
 	 *            constraint

@@ -21,16 +21,16 @@ import org.insightech.er.util.POIUtils.CellLocation;
 
 public class HistorySheetGenerator extends AbstractSheetGenerator {
 
-	// XV“ú
+	// ï¿½Xï¿½Vï¿½ï¿½
 	private static final String KEYWORD_DATE = "$DATE";
 
-	// •ÏX“à—e
+	// ï¿½ÏXï¿½ï¿½ï¿½e
 	private static final String KEYWORD_CONTENTS = "$CON";
 
-	// “ú•tƒtƒH[ƒ}ƒbƒg
+	// ï¿½ï¿½ï¿½tï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½g
 	private static final String KEYWORD_DATE_FORMAT = "$FMT";
 
-	// ƒV[ƒg–¼
+	// ï¿½Vï¿½[ï¿½gï¿½ï¿½
 	private static final String KEYWORD_SHEET_NAME = "$SHTN";
 
 	private static final String[] FIND_KEYWORDS_LIST = { KEYWORD_DATE,

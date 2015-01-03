@@ -23,7 +23,7 @@ public class EnvironmentSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * environments ‚ğæ“¾‚µ‚Ü‚·.
+	 * environments ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return environments
 	 */
@@ -32,7 +32,7 @@ public class EnvironmentSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * environments ‚ğİ’è‚µ‚Ü‚·.
+	 * environments ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param environments
 	 *            environments
@@ -42,7 +42,7 @@ public class EnvironmentSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * currentEnvironment ‚ğæ“¾‚µ‚Ü‚·.
+	 * currentEnvironment ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return currentEnvironment
 	 */
@@ -51,7 +51,7 @@ public class EnvironmentSetting implements Serializable, Cloneable {
 	}
 
 	/**
-	 * currentEnvironment ‚ğİ’è‚µ‚Ü‚·.
+	 * currentEnvironment ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param currentEnvironment
 	 *            currentEnvironment

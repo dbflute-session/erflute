@@ -60,7 +60,7 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
 		GridLayout innerLayout = new GridLayout();
 		innerLayout.numColumns = 3;
 		innerComp.setLayout(innerLayout);
-		CompositeFactory.createLabel(innerComp, "ƒ}ƒXƒ^ƒf[ƒ^Šî€ƒfƒBƒŒƒNƒgƒŠ");
+		CompositeFactory.createLabel(innerComp, "ï¿½}ï¿½Xï¿½^ï¿½fï¿½[ï¿½^ï¿½î€ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½");
 		this.outputFileText = new InnerDirectoryText(innerComp, SWT.BORDER);
 		GridData gridData = new GridData();
 		gridData.widthHint = 200;

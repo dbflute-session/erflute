@@ -67,7 +67,7 @@ public class CreateElementCommand extends AbstractCommand {
 				diagram.getCurrentErmodel().addGroup(group);
 			} else {
 				ErrorDialog dialog = new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						"‘S‘Ìƒrƒ…[‚ÉƒOƒ‹[ƒv‚Íİ’è‚Å‚«‚Ü‚¹‚ñB");
+						"ï¿½Sï¿½Ìƒrï¿½ï¿½ï¿½[ï¿½ÉƒOï¿½ï¿½ï¿½[ï¿½vï¿½Íİ’ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B");
 				dialog.open();
 			}
 		} else {

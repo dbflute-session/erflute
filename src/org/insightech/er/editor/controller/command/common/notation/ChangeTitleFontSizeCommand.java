@@ -35,7 +35,7 @@ public class ChangeTitleFontSizeCommand extends AbstractCommand {
 		this.settings.setTitleFontEm(this.newCapital ? new BigDecimal("1.5") : new BigDecimal("1"));
 
 		if (!ERModelUtil.refreshDiagram(diagram)) {
-			Activator.showMessageDialog("ƒe[ƒuƒ‹ƒ^ƒCƒgƒ‹‚ÌƒtƒHƒ“ƒgƒTƒCƒY‚ğ•ÏX‚µ‚Ü‚µ‚½B\nƒŠƒAƒ‹ƒ^ƒCƒ€‚Å•ÏX‚ª”½‰f‚³‚ê‚È‚¢‚Ì‚ÅAermƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚µ‚Ä‚à‚¤ˆê“xŠJ‚«’¼‚µ‚Ä‚­‚¾‚³‚¢B");
+			Activator.showMessageDialog("ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½Tï¿½Cï¿½Yï¿½ï¿½ÏXï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½^ï¿½Cï¿½ï¿½ï¿½Å•ÏXï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ÅAermï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B");
 		}
 	}
 

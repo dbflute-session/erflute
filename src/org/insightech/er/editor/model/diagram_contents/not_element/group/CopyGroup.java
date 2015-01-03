@@ -57,7 +57,7 @@ public class CopyGroup extends ColumnGroup {
 		List<NormalColumn> columns = new ArrayList<NormalColumn>();
 
 		for (NormalColumn fromColumn : this.getColumns()) {
-			// ƒOƒ‹[ƒv‚ÌXVƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½ê‡A
+			// ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ÌXï¿½Vï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½A
 			CopyColumn copyColumn = (CopyColumn) fromColumn;
 			CopyWord copyWord = copyColumn.getWord();
 

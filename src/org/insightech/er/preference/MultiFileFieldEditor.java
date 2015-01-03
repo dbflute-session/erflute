@@ -84,7 +84,7 @@ public class MultiFileFieldEditor extends FileFieldEditor {
 	}
 
 	/**
-	 * multiple ‚ğİ’è‚µ‚Ü‚·.
+	 * multiple ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param multiple
 	 *            multiple

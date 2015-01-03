@@ -33,7 +33,7 @@ public class CreateCommentConnectionCommand extends CreateConnectionCommand {
 		NodeElement source = (NodeElement) this.source.getModel();
 		NodeElement target = (NodeElement) this.target.getModel();
 
-		// Table“¯m‚ÌƒŠƒŒ[ƒVƒ‡ƒ“‚ÍATable <=> Table ‚ÅŒq‚®
+		// Tableï¿½ï¿½ï¿½mï¿½Ìƒï¿½ï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÍATable <=> Table ï¿½ÅŒqï¿½ï¿½
 		if (source instanceof ERVirtualTable) {
 			source = ((ERVirtualTable)source).getRawTable();
 		}

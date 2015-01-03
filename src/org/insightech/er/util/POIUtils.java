@@ -238,7 +238,7 @@ public class POIUtils {
 	}
 
 	/**
-	 * ƒGƒNƒZƒ‹ƒtƒ@ƒCƒ‹‚Ì“Ç‚Ýž‚Ý‚ðs‚¢‚Ü‚·B
+	 * ï¿½Gï¿½Nï¿½Zï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚Ýï¿½ï¿½Ý‚ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @param excelFile
 	 * @return
@@ -260,7 +260,7 @@ public class POIUtils {
 	}
 
 	/**
-	 * ƒGƒNƒZƒ‹ƒtƒ@ƒCƒ‹‚Ì“Ç‚Ýž‚Ý‚ðs‚¢‚Ü‚·B
+	 * ï¿½Gï¿½Nï¿½Zï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì“Ç‚Ýï¿½ï¿½Ý‚ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @param excelFile
 	 * @return
@@ -281,7 +281,7 @@ public class POIUtils {
 	}
 
 	/**
-	 * ƒGƒNƒZƒ‹ƒtƒ@ƒCƒ‹‚É‘‚«o‚µ‚ðs‚¢‚Ü‚·B
+	 * ï¿½Gï¿½Nï¿½Zï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
 	 * 
 	 * @param excelFile
 	 * @param workbook
@@ -309,7 +309,7 @@ public class POIUtils {
 	}
 
 	/**
-	 * location‚ÅŽw’è‚µ‚½s‚ÌAŽw’è‚µ‚½—ñ‚©‚çŽn‚Ü‚éŒ‹‡‚³‚ê‚½—Ìˆæ‚ðŽæ“¾‚µ‚Ü‚·
+	 * locationï¿½ÅŽwï¿½è‚µï¿½ï¿½ï¿½sï¿½ÌAï¿½wï¿½è‚µï¿½ï¿½ï¿½ñ‚©‚ï¿½nï¿½Ü‚éŒ‹ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Ìˆï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
 	 * 
 	 * @param sheet
 	 * @param location
@@ -336,7 +336,7 @@ public class POIUtils {
 	}
 
 	/**
-	 * location‚ÅŽw’è‚µ‚½s‚ÌAŒ‹‡‚³‚ê‚½—Ìˆæ‚Ìˆê——‚ðŽæ“¾‚µ‚Ü‚·
+	 * locationï¿½ÅŽwï¿½è‚µï¿½ï¿½ï¿½sï¿½ÌAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Ìˆï¿½Ìˆê——ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
 	 * 
 	 * @param sheet
 	 * @param location

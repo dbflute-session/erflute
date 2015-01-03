@@ -99,8 +99,8 @@ public abstract class PreImportFromDBManager {
 
 						} catch (SQLException e) {
 							e.printStackTrace();
-							// ƒe[ƒuƒ‹î•ñ‚ªŽæ“¾‚Å‚«‚È‚¢ê‡i‘¼‚Ìƒ†[ƒU‚ÌŠ—L•¨‚È‚Ç‚Ìê‡jA
-							// ‚±‚Ìƒe[ƒuƒ‹‚ÍŽg—p‚µ‚È‚¢B
+							// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ñ‚ªŽæ“¾ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½iï¿½ï¿½ï¿½Ìƒï¿½ï¿½[ï¿½Uï¿½Ìï¿½ï¿½Lï¿½ï¿½ï¿½È‚Ç‚Ìê‡ï¿½jï¿½A
+							// ï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ÍŽgï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½B
 							continue;
 						}
 					}

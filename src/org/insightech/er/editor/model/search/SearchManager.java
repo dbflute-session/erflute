@@ -25,7 +25,7 @@ public class SearchManager {
 
 	private ERDiagram diagram;
 
-	// ’PŒê
+	// ï¿½Pï¿½ï¿½
 	private boolean physicalWordNameCheckBox;
 
 	private boolean logicalWordNameCheckBox;
@@ -38,7 +38,7 @@ public class SearchManager {
 
 	private boolean wordDescriptionCheckBox;
 
-	// ƒe[ƒuƒ‹
+	// ï¿½eï¿½[ï¿½uï¿½ï¿½
 	private boolean physicalTableNameCheckBox;
 
 	private boolean logicalTableNameCheckBox;
@@ -57,7 +57,7 @@ public class SearchManager {
 
 	private boolean columnGroupNameCheckBox;
 
-	// ƒOƒ‹[ƒv
+	// ï¿½Oï¿½ï¿½ï¿½[ï¿½v
 	private boolean groupNameCheckBox;
 
 	private boolean physicalGroupColumnNameCheckBox;
@@ -66,7 +66,7 @@ public class SearchManager {
 
 	private boolean groupColumnDefaultValueCheckBox;
 
-	// ‚»‚Ì‘¼
+	// ï¿½ï¿½ï¿½Ì‘ï¿½
 	private boolean indexCheckBox;
 
 	private boolean noteCheckBox;
@@ -107,14 +107,14 @@ public class SearchManager {
 			boolean groupColumnDefaultValueCheckBox,
 			boolean groupColumnDescriptionCheckBox) {
 
-		// ’PŒê
+		// ï¿½Pï¿½ï¿½
 		this.physicalWordNameCheckBox = physicalWordNameCheckBox;
 		this.logicalWordNameCheckBox = logicalWordNameCheckBox;
 		this.wordTypeCheckBox = wordTypeCheckBox;
 		this.wordLengthCheckBox = wordLengthCheckBox;
 		this.wordDecimalCheckBox = wordDecimalCheckBox;
 		this.wordDescriptionCheckBox = wordDescriptionCheckBox;
-		// ƒe[ƒuƒ‹
+		// ï¿½eï¿½[ï¿½uï¿½ï¿½
 		this.physicalTableNameCheckBox = physicalTableNameCheckBox;
 		this.logicalTableNameCheckBox = logicalTableNameCheckBox;
 		this.physicalColumnNameCheckBox = physicalColumnNameCheckBox;
@@ -124,18 +124,18 @@ public class SearchManager {
 		this.columnDecimalCheckBox = columnDecimalCheckBox;
 		this.columnDefaultValueCheckBox = columnDefaultValueCheckBox;
 		this.columnGroupNameCheckBox = columnGroupNameCheckBox;
-		// ‚»‚Ì‘¼
+		// ï¿½ï¿½ï¿½Ì‘ï¿½
 		this.indexCheckBox = indexCheckBox;
 		this.noteCheckBox = noteCheckBox;
 		this.modelPropertiesCheckBox = modelPropertiesCheckBox;
 		this.relationCheckBox = relationCheckBox;
-		// ƒOƒ‹[ƒv
+		// ï¿½Oï¿½ï¿½ï¿½[ï¿½v
 		this.groupNameCheckBox = groupNameCheckBox;
 		this.physicalGroupColumnNameCheckBox = physicalGroupColumnNameCheckBox;
 		this.logicalGroupColumnNameCheckBox = logicalGroupColumnNameCheckBox;
 		this.groupColumnDefaultValueCheckBox = groupColumnDefaultValueCheckBox;
 
-		// ‚·‚×‚ÄŒŸõi’uŠ·j
+		// ï¿½ï¿½ï¿½×‚ÄŒï¿½ï¿½ï¿½ï¿½iï¿½uï¿½ï¿½ï¿½j
 		this.all = all;
 
 		if (keyword.equals("")) {
@@ -148,7 +148,7 @@ public class SearchManager {
 		SearchResult result = null;
 		List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
 
-		// Œ»İ‚ÌŒŸõŒó•â‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÍA‚»‚ÌŒŸõŒó•â‚Ü‚ÅAŒŸõ‚ğƒXƒLƒbƒv‚µ‚Ü‚·
+		// ï¿½ï¿½ï¿½İ‚ÌŒï¿½ï¿½ï¿½ï¿½ï¿½â‚ªï¿½İ’è‚³ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ÅAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½Ü‚ï¿½
 		boolean skip = false;
 		if (this.currentTarget != null) {
 			skip = true;
@@ -160,7 +160,7 @@ public class SearchManager {
 			for (Word word : this.diagram.getDiagramContents().getDictionary()
 					.getWordList()) {
 				if (skip) {
-					// ƒXƒLƒbƒv’†‚Ìê‡
+					// ï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½Ìê‡
 					if (word != this.currentTarget) {
 						continue;
 
@@ -169,9 +169,9 @@ public class SearchManager {
 						continue;
 					}
 				} else {
-					// Ÿ‚ÌŒŸõŒó•â‚ğ’T‚µ’†
+					// ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½
 					if (word == this.currentTarget) {
-						// Œ»İ‚ÌŒŸõŒó•â‚Ü‚Å–ß‚Á‚Ä‚«‚Ä‚µ‚Ü‚Á‚½ê‡
+						// ï¿½ï¿½ï¿½İ‚ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å–ß‚ï¿½ï¿½Ä‚ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 						loop = false;
 					}
 				}
@@ -180,9 +180,9 @@ public class SearchManager {
 						ResourceString.getResourceString("label.dictionary")));
 
 				if (!rows.isEmpty() && !all) {
-					// ŒŸõŒó•â‚ªŒ©‚Â‚©‚Á‚ÄA‚·‚×‚ÄŒŸõ‚Å‚Í‚È‚¢ê‡
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â‚ªï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½×‚ÄŒï¿½ï¿½ï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½ê‡
 
-					// ŒŸõŒ‹‰Ê‚ğì¬‚µ‚ÄI—¹
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ÄIï¿½ï¿½
 					result = new SearchResult(word, rows);
 					loop = false;
 				}
@@ -311,8 +311,8 @@ public class SearchManager {
 			}
 
 			if (skip || this.currentTarget == null) {
-				// ‘O‰ñ‚ÌŒŸõ‘ÎÛ‚ª‚È‚­‚È‚Á‚Ä‚µ‚Ü‚Á‚½ê‡
-				// ‚Ü‚½‚ÍAÅ‰‚ÌŒŸõ‚ª‚PŒ‚àƒqƒbƒg‚µ‚È‚©‚Á‚½ê‡
+				// ï¿½Oï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ÎÛ‚ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
+				// ï¿½Ü‚ï¿½ï¿½ÍAï¿½Åï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½qï¿½bï¿½gï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
 				loop = false;
 			}
 		}
@@ -342,7 +342,7 @@ public class SearchManager {
 			for (Word word : this.diagram.getDiagramContents().getDictionary()
 					.getWordList()) {
 				if (skip) {
-					// ƒXƒLƒbƒv’†‚Ìê‡
+					// ï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½Ìê‡
 					if (word != this.currentTarget) {
 						continue;
 
@@ -350,9 +350,9 @@ public class SearchManager {
 						skip = false;
 					}
 				} else {
-					// Ÿ‚ÌŒŸõŒó•â‚ğ’T‚µ’†
+					// ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½
 					if (word == this.currentTarget) {
-						// Œ»İ‚ÌŒŸõŒó•â‚Ü‚Å–ß‚Á‚Ä‚«‚Ä‚µ‚Ü‚Á‚½ê‡
+						// ï¿½ï¿½ï¿½İ‚ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å–ß‚ï¿½ï¿½Ä‚ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡
 						loop = false;
 						break;
 					}
@@ -362,9 +362,9 @@ public class SearchManager {
 						ResourceString.getResourceString("label.dictionary")));
 
 				if (!rows.isEmpty() && !all) {
-					// ŒŸõŒó•â‚ªŒ©‚Â‚©‚Á‚ÄA‚·‚×‚ÄŒŸõ‚Å‚Í‚È‚¢ê‡
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â‚ªï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½×‚ÄŒï¿½ï¿½ï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½ê‡
 
-					// ŒŸõŒ‹‰Ê‚ğì¬‚µ‚ÄI—¹
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ÄIï¿½ï¿½
 					result = new SearchResult(word, rows);
 					loop = false;
 				}

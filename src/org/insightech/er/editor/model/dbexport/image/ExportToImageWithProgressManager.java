@@ -20,7 +20,7 @@ public class ExportToImageWithProgressManager extends ExportToImageManager
 	}
 
 	/**
-	 * exception ‚ðŽæ“¾‚µ‚Ü‚·.
+	 * exception ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return exception
 	 */

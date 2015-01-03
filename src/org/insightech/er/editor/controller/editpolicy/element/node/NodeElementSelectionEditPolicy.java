@@ -36,7 +36,7 @@ public class NodeElementSelectionEditPolicy extends ResizableEditPolicy {
 
 				ViewableModel targetElement = currentElement;
 				if (currentElement instanceof ERVirtualTable) {
-					// ƒrƒ…[ã‚Å‚Íƒe[ƒuƒ‹À‘Ì‚ğXV‚·‚é
+					// ï¿½rï¿½ï¿½ï¿½[ï¿½ï¿½Å‚Íƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
 					targetElement = ((ERVirtualTable)currentElement).getRawTable();
 				}
 				List<NodeElement> nodeElementList = diagram

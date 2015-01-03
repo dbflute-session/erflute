@@ -4,12 +4,12 @@ import org.eclipse.jface.action.IAction;
 import org.insightech.er.editor.ERDiagramEditor;
 
 /**
- * Šg’£ƒ|ƒCƒ“ƒg‚©‚ç“Ç‚İ‚ŞƒNƒ‰ƒX‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ * ï¿½gï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ŞƒNï¿½ï¿½ï¿½Xï¿½ÌƒCï¿½ï¿½ï¿½^ï¿½[ï¿½tï¿½Fï¿½Cï¿½X
  */
 public interface IERDiagramActionFactory {
 
 	/**
-	 * IAction ‚ğÀ‘•‚µ‚½ƒNƒ‰ƒX‚ğ•Ô‚·
+	 * IAction ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½Ô‚ï¿½
 	 * 
 	 * @param editor
 	 * @return IAction

@@ -129,7 +129,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
 	}
 
 	/**
-	 * filterText‚ğİ’è‚µ‚Ü‚·B
+	 * filterTextï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param filterText filterText
 	 */
 	public void setFilterText(String filterText) {
@@ -137,7 +137,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
 	}
 
 	/**
-	 * quickMode‚ğİ’è‚µ‚Ü‚·B
+	 * quickModeï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
 	 * @param quickMode quickMode
 	 */
 	public void setQuickMode(boolean quickMode) {

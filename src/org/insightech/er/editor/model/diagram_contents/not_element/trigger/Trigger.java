@@ -20,7 +20,7 @@ public class Trigger extends WithSchemaModel implements ObjectModel {
 	}
 
 	/**
-	 * description ‚ğæ“¾‚µ‚Ü‚·.
+	 * description ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½.
 	 * 
 	 * @return description
 	 */
@@ -29,7 +29,7 @@ public class Trigger extends WithSchemaModel implements ObjectModel {
 	}
 
 	/**
-	 * description ‚ğİ’è‚µ‚Ü‚·.
+	 * description ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½.
 	 * 
 	 * @param description
 	 *            description

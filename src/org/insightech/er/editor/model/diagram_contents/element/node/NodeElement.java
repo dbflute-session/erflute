@@ -27,7 +27,7 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
 	private ERDiagram diagram;
 	
 	/**
-	 * ‚±‚Ì—v‘f‚ğ•ÏX‚µ‚½‚Æ‚«A‘¼ƒ‚ƒfƒ‹ã‚Ì—v‘f‚à•ÏX‚·‚é•K—v‚ª‚ ‚é‚©H
+	 * ï¿½ï¿½ï¿½Ì—vï¿½fï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½Ì—vï¿½fï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½H
 	 * @return
 	 */
 	abstract public boolean needsUpdateOtherModel();

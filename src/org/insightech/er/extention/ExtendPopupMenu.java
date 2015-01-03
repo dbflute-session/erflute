@@ -14,16 +14,16 @@ import org.insightech.er.editor.ERDiagramEditor;
 
 public class ExtendPopupMenu {
 
-	/** Šg’£ƒ|ƒCƒ“ƒg‚ÌID */
+	/** ï¿½gï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ID */
 	private static final String EXTENSION_POINT_ID = "org.insightech.er.popupMenus";
 
-	/** Šg’£ƒ|ƒCƒ“ƒg‚Ì element ‚Ì–¼‘O */
+	/** ï¿½gï¿½ï¿½ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ element ï¿½Ì–ï¿½ï¿½O */
 	private static final String EXTENSION_NAME = "popupMenu";
 
-	/** ƒƒjƒ…[‚ğ’Ç‰Á‚·‚éˆÊ’u‚ğw’è‚·‚é Attribute ‚Ì–¼‘O */
+	/** ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½ Attribute ï¿½Ì–ï¿½ï¿½O */
 	private static final String ATTRIBUTE_PATH = "path";
 
-	/** ’Ç‰Á‚·‚éƒƒjƒ…[‚ÌƒAƒNƒVƒ‡ƒ“ƒtƒ@ƒNƒgƒŠ[ƒNƒ‰ƒX‚ğw’è‚·‚é Attribute ‚Ì–¼‘O */
+	/** ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½éƒï¿½jï¿½ï¿½ï¿½[ï¿½ÌƒAï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½tï¿½@ï¿½Nï¿½gï¿½ï¿½ï¿½[ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½ Attribute ï¿½Ì–ï¿½ï¿½O */
 	private static final String ATTRIBUTE_CLASS = "class";
 
 	private IAction action;
@@ -63,7 +63,7 @@ public class ExtendPopupMenu {
 	}
 
 	/**
-	 * plugin.xml‚©‚çƒ^ƒO‚ğ“Ç‚İ‚Ş.
+	 * plugin.xmlï¿½ï¿½ï¿½ï¿½^ï¿½Oï¿½ï¿½Ç‚İï¿½ï¿½ï¿½.
 	 * 
 	 * @throws CoreException
 	 * 

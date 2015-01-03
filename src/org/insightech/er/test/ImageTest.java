@@ -31,23 +31,23 @@ public class ImageTest {
 	}
 
 	private static void main() throws FileNotFoundException {
-		// ƒfƒtƒHƒ‹ƒgDisplay‚ğg—p‚µ‚ÄƒVƒFƒ‹‚ğì¬
+		// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gDisplayï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ÄƒVï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ì¬
 		try {
-			shell.setSize(100, 100); // ƒVƒFƒ‹‚ÌƒTƒCƒY‚ğw’è
+			shell.setSize(100, 100); // ï¿½Vï¿½Fï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½wï¿½ï¿½
 
-			// ì¬‚µ‚½ƒVƒFƒ‹‚ğg—p‚µ‚½LightweightSystem‚Ìì¬
+			// ï¿½ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½LightweightSystemï¿½Ìì¬
 			LightweightSystem lws = new LightweightSystem(shell);
 
-			// ƒ‹[ƒgEƒtƒBƒMƒ…ƒA‚Ìì¬
+			// ï¿½ï¿½ï¿½[ï¿½gï¿½Eï¿½tï¿½Bï¿½Mï¿½ï¿½ï¿½Aï¿½Ìì¬
 			IFigure panel = new Figure();
 			panel.setLayoutManager(new ToolbarLayout());
 
 			initialize(panel);
 
-			// ƒ‹[ƒgEƒtƒBƒMƒ…ƒA‚Ì“o˜^
+			// ï¿½ï¿½ï¿½[ï¿½gï¿½Eï¿½tï¿½Bï¿½Mï¿½ï¿½ï¿½Aï¿½Ì“oï¿½^
 			lws.setContents(panel);
 
-			// ˆÈ‰º‚ÍA‚»‚Ì‘¼‚ÌSWTƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ“¯—l
+			// ï¿½È‰ï¿½ï¿½ÍAï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½SWTï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Æ“ï¿½ï¿½l
 			shell.open();
 
 			Display display = Display.getDefault();
