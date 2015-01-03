@@ -41,15 +41,23 @@ import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
+ * @author ermaster
+ * @author jflute
  */
 public class Activator extends AbstractUIPlugin {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     // The plug-in ID
     public static final String PLUGIN_ID = "org.insightech.er";
 
     // The shared instance
     private static Activator plugin;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     /**
      * The constructor
      */
@@ -57,6 +65,20 @@ public class Activator extends AbstractUIPlugin {
         plugin = this;
     }
 
+    // ===================================================================================
+    //                                                                             Default
+    //                                                                             =======
+    /**
+     * Returns the shared instance
+     * @return the shared instance
+     */
+    public static Activator getDefault() {
+        return plugin;
+    }
+
+    // ===================================================================================
+    //                                                                                Stop
+    //                                                                                ====
     @Override
     public void stop(BundleContext context) throws Exception {
         Resources.PINK.dispose();
@@ -82,21 +104,155 @@ public class Activator extends AbstractUIPlugin {
         super.stop(context);
     }
 
-    /**
-     * Returns the shared instance
-     *
-     * @return the shared instance
-     */
-    public static Activator getDefault() {
-        return plugin;
+    // ===================================================================================
+    //                                                                              Dialog
+    //                                                                              ======
+    public static void showExceptionDialog(Throwable e) {
+        IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.toString(), e);
+        Activator.log(e);
+        ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                ResourceString.getResourceString("dialog.title.error"), ResourceString.getResourceString("error.plugin.error.message"),
+                status);
     }
 
+    public static void showErrorDialog(String message) {
+        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+        messageBox.setText(ResourceString.getResourceString("dialog.title.error"));
+        messageBox.setMessage(ResourceString.getResourceString(message));
+        messageBox.open();
+    }
+
+    public static void showMessageDialog(String message) {
+        MessageBox messageBox =
+                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION | SWT.OK);
+        messageBox.setText(ResourceString.getResourceString("dialog.title.information"));
+        messageBox.setMessage(ResourceString.getResourceString(Format.null2blank(message)));
+        messageBox.open();
+    }
+
+    public static boolean showConfirmDialog(String message) {
+        return showConfirmDialog(message, SWT.OK, SWT.CANCEL);
+
+    }
+
+    public static boolean showConfirmDialog(String message, int ok, int cancel) {
+        MessageBox messageBox =
+                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION | ok | cancel);
+        messageBox.setText(ResourceString.getResourceString("dialog.title.confirm"));
+        messageBox.setMessage(ResourceString.getResourceString(message));
+        int result = messageBox.open();
+
+        if (result == ok) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static String showSaveDialog(String filePath, String[] filterExtensions) {
+        String dir = null;
+        String fileName = null;
+
+        if (filePath != null && !"".equals(filePath.trim())) {
+            File file = new File(filePath.trim());
+
+            dir = file.getParent();
+            fileName = file.getName();
+        }
+
+        FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.SAVE);
+
+        fileDialog.setFilterPath(dir);
+        fileDialog.setFileName(fileName);
+
+        fileDialog.setFilterExtensions(filterExtensions);
+
+        return fileDialog.open();
+    }
+
+    public static String showSaveDialogInternal(String filePath, String[] filterExtensions) {
+        InternalFileDialog fileDialog =
+                new InternalFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath,
+                        filterExtensions[0].substring(1));
+        if (fileDialog.open() == Window.OK) {
+            IPath path = fileDialog.getResourcePath();
+            return path.toString();
+        }
+        return null;
+    }
+
+    public static String showDirectoryDialogInternal(String filePath) {
+        InternalDirectoryDialog fileDialog =
+                new InternalDirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath);
+        if (fileDialog.open() == Window.OK) {
+            IPath path = fileDialog.getResourcePath();
+            return path.toString();
+        }
+        return null;
+    }
+
+    public static String showDirectoryDialog(String filePath) {
+        String fileName = null;
+        if (filePath != null && !"".equals(filePath.trim())) {
+            File file = new File(filePath.trim());
+            fileName = file.getPath();
+        }
+        DirectoryDialog dialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.NONE);
+        dialog.setFilterPath(fileName);
+        return dialog.open();
+    }
+
+    public static void log(Throwable e) {
+        e.printStackTrace();
+        Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.getMessage(), e));
+    }
+
+    // ===================================================================================
+    //                                                                              Viewer
+    //                                                                              ======
+    private static class GraphicalViewerCreator implements Runnable {
+
+        private Display display;
+
+        private ERDiagram diagram;
+
+        private GraphicalViewer viewer;
+
+        private GraphicalViewerCreator(Display display, ERDiagram diagram) {
+            this.display = display;
+            this.diagram = diagram;
+        }
+
+        @Override
+        public void run() {
+            Shell shell = new Shell(display);
+            shell.setLayout(new GridLayout(1, false));
+
+            ERDiagramEditPartFactory editPartFactory = new ERDiagramEditPartFactory();
+            viewer = new ScrollingGraphicalViewer();
+            viewer.setControl(new FigureCanvas(shell));
+            ScalableFreeformRootEditPart rootEditPart = new PagableFreeformRootEditPart(diagram);
+            viewer.setRootEditPart(rootEditPart);
+
+            viewer.setEditPartFactory(editPartFactory);
+            viewer.setContents(diagram);
+        }
+    }
+
+    public static GraphicalViewer createGraphicalViewer(final ERDiagram diagram) {
+        Display display = PlatformUI.getWorkbench().getDisplay();
+        GraphicalViewerCreator runnable = new GraphicalViewerCreator(display, diagram);
+        display.syncExec(runnable);
+        return runnable.viewer;
+    }
+
+    // ===================================================================================
+    //                                                                               Image
+    //                                                                               =====
     /**
      * Returns an image descriptor for the image file at the given plug-in
      * relative path
-     *
-     * @param path
-     *            the path
+     * @param path the path
      * @return the image descriptor
      */
     private static ImageDescriptor loadImageDescriptor(String path) {
@@ -178,235 +334,24 @@ public class Activator extends AbstractUIPlugin {
         reg.put(ImageKey.EDIT_EXCEL, loadImageDescriptor("icons/edit_excel.png"));
     }
 
-    /**
-     * �w�肳�ꂽ�L�[�ɑΉ����� {@link Image} ��Ԃ��܂�
-     *
-     * @param key
-     *            {@link ImageKey} �Œ�`���ꂽ�L�[
-     * @return �w�肳�ꂽ�L�[�ɑΉ����� {@link Image}
-     */
     public static Image getImage(String key) {
         return getDefault().getImageRegistry().get(key);
     }
 
-    /**
-     * �w�肳�ꂽ�L�[�ɑΉ����� {@link ImageDescriptor} ��Ԃ��܂�
-     *
-     * @param key
-     *            {@link ImageKey} �Œ�`���ꂽ�L�[
-     * @return �w�肳�ꂽ�L�[�ɑΉ����� {@link ImageDescriptor}
-     */
     public static ImageDescriptor getImageDescriptor(String key) {
         return getDefault().getImageRegistry().getDescriptor(key);
-    }
-
-    /**
-     * �w�肳�ꂽ��O�̗�O�_�C�A���O��\�����܂��B
-     *
-     * @param e
-     *            ��O
-     */
-    public static void showExceptionDialog(Throwable e) {
-        IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.toString(), e);
-
-        Activator.log(e);
-
-        ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                ResourceString.getResourceString("dialog.title.error"),
-                ResourceString.getResourceString("error.plugin.error.message"), status);
-    }
-
-    /**
-     * �w�肳�ꂽ���b�Z�[�W�̃G���[�_�C�A���O��\�����܂��B
-     *
-     * @param message
-     *            �G���[���b�Z�[�W
-     */
-    public static void showErrorDialog(String message) {
-        MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.error"));
-        messageBox.setMessage(ResourceString.getResourceString(message));
-        messageBox.open();
-    }
-
-    /**
-     * ���b�Z�[�W�_�C�A���O��\�����܂��B
-     *
-     * @param message
-     *            ���b�Z�[�W
-     */
-    public static void showMessageDialog(String message) {
-        MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION
-                        | SWT.OK);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.information"));
-        messageBox.setMessage(ResourceString.getResourceString(Format.null2blank(message)));
-        messageBox.open();
-    }
-
-    /**
-     * �m�F�_�C�A���O��\�����܂��B
-     *
-     * @param message
-     *            ���b�Z�[�W
-     */
-    public static boolean showConfirmDialog(String message) {
-        return showConfirmDialog(message, SWT.OK, SWT.CANCEL);
-
-    }
-
-    /**
-     * �m�F�_�C�A���O��\�����܂��B
-     *
-     * @param message
-     *            ���b�Z�[�W
-     */
-    public static boolean showConfirmDialog(String message, int ok, int cancel) {
-        MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION
-                        | ok | cancel);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.confirm"));
-        messageBox.setMessage(ResourceString.getResourceString(message));
-        int result = messageBox.open();
-
-        if (result == ok) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * �ۑ��_�C�A���O��\�����܂�
-     *
-     * @param filePath
-     *            �f�t�H���g�̃t�@�C���p�X
-     * @param filterExtensions
-     *            �g���q
-     * @return �ۑ��_�C�A���O�őI�����ꂽ�t�@�C���̃p�X
-     */
-    public static String showSaveDialog(String filePath, String[] filterExtensions) {
-        String dir = null;
-        String fileName = null;
-
-        if (filePath != null && !"".equals(filePath.trim())) {
-            File file = new File(filePath.trim());
-
-            dir = file.getParent();
-            fileName = file.getName();
-        }
-
-        FileDialog fileDialog =
-                new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.SAVE);
-
-        fileDialog.setFilterPath(dir);
-        fileDialog.setFileName(fileName);
-
-        fileDialog.setFilterExtensions(filterExtensions);
-
-        return fileDialog.open();
-    }
-
-    public static String showSaveDialogInternal(String filePath, String[] filterExtensions) {
-
-        InternalFileDialog fileDialog =
-                new InternalFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath,
-                        filterExtensions[0].substring(1));
-        if (fileDialog.open() == Window.OK) {
-            IPath path = fileDialog.getResourcePath();
-            return path.toString();
-        }
-        return null;
-    }
-
-    public static String showDirectoryDialogInternal(String filePath) {
-        InternalDirectoryDialog fileDialog =
-                new InternalDirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath);
-        if (fileDialog.open() == Window.OK) {
-            IPath path = fileDialog.getResourcePath();
-            return path.toString();
-        }
-        return null;
-    }
-
-    /**
-     * �f�B���N�g���I���_�C�A���O��\�����܂�
-     *
-     * @param filePath
-     *            �f�t�H���g�̃t�@�C���p�X
-     * @return �f�B���N�g���I���_�C�A���O�őI�����ꂽ�f�B���N�g���̃p�X
-     */
-    public static String showDirectoryDialog(String filePath) {
-        String fileName = null;
-
-        if (filePath != null && !"".equals(filePath.trim())) {
-            File file = new File(filePath.trim());
-            fileName = file.getPath();
-        }
-
-        DirectoryDialog dialog =
-                new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.NONE);
-
-        dialog.setFilterPath(fileName);
-
-        return dialog.open();
-    }
-
-    public static void log(Throwable e) {
-        e.printStackTrace();
-        Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.getMessage(), e));
-    }
-
-    private static class GraphicalViewerCreator implements Runnable {
-
-        private Display display;
-
-        private ERDiagram diagram;
-
-        private GraphicalViewer viewer;
-
-        private GraphicalViewerCreator(Display display, ERDiagram diagram) {
-            this.display = display;
-            this.diagram = diagram;
-        }
-
-        public void run() {
-            Shell shell = new Shell(display);
-            shell.setLayout(new GridLayout(1, false));
-
-            ERDiagramEditPartFactory editPartFactory = new ERDiagramEditPartFactory();
-            viewer = new ScrollingGraphicalViewer();
-            viewer.setControl(new FigureCanvas(shell));
-            ScalableFreeformRootEditPart rootEditPart = new PagableFreeformRootEditPart(diagram);
-            viewer.setRootEditPart(rootEditPart);
-
-            viewer.setEditPartFactory(editPartFactory);
-            viewer.setContents(diagram);
-        }
-
-    }
-
-    public static GraphicalViewer createGraphicalViewer(final ERDiagram diagram) {
-        Display display = PlatformUI.getWorkbench().getDisplay();
-
-        GraphicalViewerCreator runnable = new GraphicalViewerCreator(display, diagram);
-
-        display.syncExec(runnable);
-
-        return runnable.viewer;
     }
 
     private static class ImageCreator implements Runnable {
 
         private GraphicalViewer viewer;
-
         private Image img = null;
 
         private ImageCreator(GraphicalViewer viewer) {
             this.viewer = viewer;
         }
 
+        @Override
         public void run() {
             GC figureCanvasGC = null;
             GC imageGC = null;
@@ -421,8 +366,7 @@ public class Activator extends AbstractUIPlugin {
                 editPart.refresh();
                 ERDiagram diagram = (ERDiagram) editPart.getModel();
 
-                Rectangle rootFigureBounds =
-                        ExportToImageAction.getBounds(diagram, rootEditPart, rootFigure.getBounds());
+                Rectangle rootFigureBounds = ExportToImageAction.getBounds(diagram, rootEditPart, rootFigure.getBounds());
 
                 Control figureCanvas = viewer.getControl();
 
@@ -462,12 +406,8 @@ public class Activator extends AbstractUIPlugin {
 
     public static Image createImage(GraphicalViewer viewer) {
         Display display = PlatformUI.getWorkbench().getDisplay();
-
         ImageCreator runnable = new ImageCreator(viewer);
-
         display.syncExec(runnable);
-
         return runnable.img;
-
     }
 }
