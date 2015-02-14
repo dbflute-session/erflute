@@ -14,6 +14,11 @@ import org.insightech.er.db.sqltype.SqlType.TypeKey;
 import org.insightech.er.util.Check;
 import org.insightech.er.util.POIUtils;
 
+/**
+ * #delete
+ * @author ermaster
+ * @author jflute
+ */
 public class SqlTypeFactory {
 
     public static void load() throws IOException, ClassNotFoundException {
@@ -39,6 +44,7 @@ public class SqlTypeFactory {
                 dbSqlTypeMap.put(dbId, sqlTypeMap);
             }
 
+            // #point ここでめっちゃセットしてる (その後、さらに初期化)
             SqlType.setDBAliasMap(dbAliasMap, dbSqlTypeMap);
 
             for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {

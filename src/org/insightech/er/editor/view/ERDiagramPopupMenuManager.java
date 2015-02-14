@@ -20,13 +20,7 @@ import org.insightech.er.editor.view.action.category.CategoryManageAction;
 import org.insightech.er.editor.view.action.category.ChangeFreeLayoutAction;
 import org.insightech.er.editor.view.action.category.ChangeShowReferredTablesAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToDDLAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToDictionaryAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToExcelAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToHtmlAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToImageAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToJavaAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToTestDataAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToTranslationDictionaryAction;
 import org.insightech.er.editor.view.action.dbimport.ImportFromDBAction;
 import org.insightech.er.editor.view.action.dbimport.ImportFromFileAction;
 import org.insightech.er.editor.view.action.edit.EditAllAttributesAction;
@@ -188,14 +182,17 @@ public class ERDiagramPopupMenuManager extends MenuManager {
                 new MenuManager(ResourceString.getResourceString("action.title.export"),
                         sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"), "Export");
 
-        exportMenu.add(this.getAction(ExportToImageAction.ID));
-        exportMenu.add(this.getAction(ExportToExcelAction.ID));
-        exportMenu.add(this.getAction(ExportToHtmlAction.ID));
         exportMenu.add(this.getAction(ExportToDDLAction.ID));
-        exportMenu.add(this.getAction(ExportToDictionaryAction.ID));
-        exportMenu.add(this.getAction(ExportToTranslationDictionaryAction.ID));
-        exportMenu.add(this.getAction(ExportToTestDataAction.ID));
-        exportMenu.add(this.getAction(ExportToJavaAction.ID));
+        exportMenu.add(this.getAction(ExportToImageAction.ID));
+
+        // #deleted
+        //exportMenu.add(this.getAction(ExportToExcelAction.ID));
+        //exportMenu.add(this.getAction(ExportToHtmlAction.ID));
+        //exportMenu.add(this.getAction(ExportToDictionaryAction.ID));
+        //exportMenu.add(this.getAction(ExportToTranslationDictionaryAction.ID));
+        //exportMenu.add(this.getAction(ExportToTestDataAction.ID));
+        //exportMenu.add(this.getAction(ExportToJavaAction.ID));
+
         exportMenu.add(new GroupMarker("export"));
 
         this.add(exportMenu);

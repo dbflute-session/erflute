@@ -73,7 +73,6 @@ import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.settings.TranslationSetting;
-import org.insightech.er.editor.model.settings.export.ExportJavaSetting;
 import org.insightech.er.editor.model.settings.export.ExportTestDataSetting;
 import org.insightech.er.editor.model.testdata.DirectTestData;
 import org.insightech.er.editor.model.testdata.RepeatTestData;
@@ -1170,22 +1169,26 @@ public class XMLLoader {
                     this.getBooleanValue(element, "comment_value_logical_name_description");
             exportSetting.getDdlTarget().commentReplaceLineFeed = this.getBooleanValue(element, "comment_replace_line_feed");
             exportSetting.getDdlTarget().commentReplaceString = this.getStringValue(element, "comment_replace_string");
-            this.loadExportJavaSetting(exportSetting.getExportJavaSetting(), element, context);
+
+            // #deleted
+            //this.loadExportJavaSetting(exportSetting.getExportJavaSetting(), element, context);
+
             this.loadExportTestDataSetting(exportSetting.getExportTestDataSetting(), element, context);
         }
     }
 
-    private void loadExportJavaSetting(ExportJavaSetting exportJavaSetting, Element parent, LoadContext context) {
-        Element element = this.getElement(parent, "export_java_setting");
-
-        if (element != null) {
-            exportJavaSetting.setJavaOutput(this.getStringValue(element, "java_output"));
-            exportJavaSetting.setPackageName(Format.null2blank(this.getStringValue(element, "package_name")));
-            exportJavaSetting.setClassNameSuffix(Format.null2blank(this.getStringValue(element, "class_name_suffix")));
-            exportJavaSetting.setSrcFileEncoding(this.getStringValue(element, "src_file_encoding"));
-            exportJavaSetting.setWithHibernate(this.getBooleanValue(element, "with_hibernate"));
-        }
-    }
+    // #deleted
+    //private void loadExportJavaSetting(ExportJavaSetting exportJavaSetting, Element parent, LoadContext context) {
+    //    Element element = this.getElement(parent, "export_java_setting");
+    //
+    //    if (element != null) {
+    //        exportJavaSetting.setJavaOutput(this.getStringValue(element, "java_output"));
+    //        exportJavaSetting.setPackageName(Format.null2blank(this.getStringValue(element, "package_name")));
+    //        exportJavaSetting.setClassNameSuffix(Format.null2blank(this.getStringValue(element, "class_name_suffix")));
+    //        exportJavaSetting.setSrcFileEncoding(this.getStringValue(element, "src_file_encoding"));
+    //        exportJavaSetting.setWithHibernate(this.getBooleanValue(element, "with_hibernate"));
+    //    }
+    //}
 
     private void loadExportTestDataSetting(ExportTestDataSetting exportTestDataSetting, Element parent, LoadContext context) {
         Element element = this.getElement(parent, "export_testdata_setting");

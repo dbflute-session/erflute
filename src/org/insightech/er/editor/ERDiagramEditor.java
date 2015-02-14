@@ -64,13 +64,9 @@ import org.insightech.er.editor.view.action.category.ChangeFreeLayoutAction;
 import org.insightech.er.editor.view.action.category.ChangeShowReferredTablesAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToDBAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToDDLAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToDictionaryAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToExcelAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToHtmlAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToImageAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToJavaAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToTestDataAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToTranslationDictionaryAction;
 import org.insightech.er.editor.view.action.dbimport.ImportFromDBAction;
 import org.insightech.er.editor.view.action.dbimport.ImportFromFileAction;
 import org.insightech.er.editor.view.action.edit.ChangeBackgroundColorAction;
@@ -129,48 +125,24 @@ import org.insightech.er.editor.view.tool.ERDiagramPaletteRoot;
 import org.insightech.er.extention.ExtensionLoader;
 
 /**
- * TODO ON UPDATE�AON DELETE �̃v���_�E����ݒ�ł�����̂����ɐ�������<br>
- * TODO �f�t�H���g�l�Ɍ^�̐�����K�p����<br>
- *
+ * @author ermaster
+ * @author jflute
  */
 public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
     public static final String ACTION_OUTLINE = "_outline";
-
     protected ERDiagram diagram;
-
     protected ERDiagramEditPartFactory editPartFactory;
-
     protected ERDiagramOutlinePage outlinePage;
-
     protected IGotoMarker gotoMaker;
-
     private ERDiagramActionBarContributor actionBarContributor;
-
     private ZoomComboContributionItem zoomComboContributionItem;
-
     protected MenuManager outlineMenuMgr;
-
     private Map<IMarker, Object> markedObjectMap = new HashMap<IMarker, Object>();
-
     private PropertySheetPage propertySheetPage;
-
     protected ExtensionLoader extensionLoader;
-
     private boolean isDirty;
 
-    /**
-     * �R���X�g���N�^.
-     *
-     * @param diagram
-     *            ERDiagram
-     * @param editPartFactory
-     *            ERDiagramEditPartFactory
-     * @param zoomComboContributionItem
-     *            ZoomComboContributionItem
-     * @param outlinePage
-     *            ERDiagramOutlinePage
-     */
     public ERDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         DefaultEditDomain domain = new DefaultEditDomain(this);
@@ -189,45 +161,27 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         } catch (CoreException e) {
             Activator.showExceptionDialog(e);
         }
-
         //		setAction(ACTION_OUTLINE, new QuickOutlineAction());
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void dispose() {
         this.getSelectionSynchronizer().removeViewer(this.outlinePage.getViewer());
         super.dispose();
     }
 
-    /**
-     * <pre>
-     * �ۑ����̏���
-     * �t�@�C���̕ۑ����̂́A{@link ERDiagramMultiPageEditor} �ōs������
-     * �e�y�[�W�� {@link ERDiagramEditor} �ł́A�R�}���h�X�^�b�N�̃N���A�݂̂��s��
-     * </pre>
-     */
     @Override
     public void doSave(IProgressMonitor monitor) {
         this.getCommandStack().markSaveLocation();
         this.isDirty = false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void commandStackChanged(EventObject eventObject) {
         this.firePropertyChange(IEditorPart.PROP_DIRTY);
         super.commandStackChanged(eventObject);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initializeGraphicalViewer() {
         GraphicalViewer viewer = this.getGraphicalViewer();
@@ -260,17 +214,11 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected PaletteRoot getPaletteRoot() {
         return new ERDiagramPaletteRoot();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Object getAdapter(Class type) {
         if (type == ZoomManager.class) {
@@ -292,11 +240,6 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         return super.getAdapter(type);
     }
 
-    /**
-     * <pre>
-     * ���̃y�[�W���I�����ꂽ�ۂ̏���
-     * </pre>
-     */
     public void changeCategory() {
         this.outlinePage.setCategory(this.getEditDomain(), this.getGraphicalViewer(), this.outlineMenuMgr, this.getActionRegistry());
 
@@ -315,9 +258,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         this.getSelectionSynchronizer().removeViewer(this.outlinePage.getViewer());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    // TODO jflute ermaster: 何度も呼ばれている疑惑、増えていく増えていく
     @Override
     @SuppressWarnings("unchecked")
     protected void createActions() {
@@ -339,9 +280,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
                         new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
                         new TranslationManageAction(this), new TestDataCreateAction(this), new ImportFromDBAction(this),
                         new ImportFromFileAction(this), new ExportToImageAction(this), new ExportToExcelAction(this),
-                        new ExportToHtmlAction(this), new ExportToJavaAction(this), new ExportToDDLAction(this),
-                        new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this),
-                        new ExportToTestDataAction(this), new PageSettingAction(this), new EditAllAttributesAction(this),
+                        new ExportToHtmlAction(this), /* #deleted new ExportToJavaAction(this), */new ExportToDDLAction(this),
+                        /* new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
+                        /* new ExportToTestDataAction(this), */new PageSettingAction(this), new EditAllAttributesAction(this),
                         new DirectEditAction((IWorkbenchPart) this),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.CENTER),

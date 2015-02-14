@@ -3,7 +3,6 @@ package org.insightech.er.editor.model.settings;
 import java.io.Serializable;
 
 import org.insightech.er.editor.model.dbexport.ddl.DDLTarget;
-import org.insightech.er.editor.model.settings.export.ExportJavaSetting;
 import org.insightech.er.editor.model.settings.export.ExportTestDataSetting;
 
 public class ExportSetting implements Serializable, Cloneable {
@@ -26,19 +25,21 @@ public class ExportSetting implements Serializable, Cloneable {
 
     private String categoryNameToExport;
 
-    private ExportJavaSetting exportJavaSetting = new ExportJavaSetting();
+    // #deleted
+    //private ExportJavaSetting exportJavaSetting = new ExportJavaSetting();
 
     private ExportTestDataSetting exportTestDataSetting = new ExportTestDataSetting();
 
     private DDLTarget ddlTarget = new DDLTarget();
 
-    public ExportJavaSetting getExportJavaSetting() {
-        return exportJavaSetting;
-    }
-
-    public void setExportJavaSetting(ExportJavaSetting exportJavaSetting) {
-        this.exportJavaSetting = exportJavaSetting;
-    }
+    // #deleted
+    //public ExportJavaSetting getExportJavaSetting() {
+    //    return exportJavaSetting;
+    //}
+    //
+    //public void setExportJavaSetting(ExportJavaSetting exportJavaSetting) {
+    //    this.exportJavaSetting = exportJavaSetting;
+    //}
 
     public ExportTestDataSetting getExportTestDataSetting() {
         return exportTestDataSetting;
@@ -220,11 +221,14 @@ public class ExportSetting implements Serializable, Cloneable {
                 return false;
         } else if (!excelTemplate.equals(other.excelTemplate))
             return false;
-        if (exportJavaSetting == null) {
-            if (other.exportJavaSetting != null)
-                return false;
-        } else if (!exportJavaSetting.equals(other.exportJavaSetting))
-            return false;
+
+        // #deleted
+        //if (exportJavaSetting == null) {
+        //    if (other.exportJavaSetting != null)
+        //        return false;
+        //} else if (!exportJavaSetting.equals(other.exportJavaSetting))
+        //    return false;
+
         if (exportTestDataSetting == null) {
             if (other.exportTestDataSetting != null)
                 return false;
@@ -253,7 +257,8 @@ public class ExportSetting implements Serializable, Cloneable {
             ExportSetting setting = (ExportSetting) super.clone();
 
             setting.setDdlTarget(this.ddlTarget.clone());
-            setting.setExportJavaSetting(this.exportJavaSetting.clone());
+            // #deleted
+            //setting.setExportJavaSetting(this.exportJavaSetting.clone());
             setting.setExportTestDataSetting(this.exportTestDataSetting.clone());
             return setting;
 

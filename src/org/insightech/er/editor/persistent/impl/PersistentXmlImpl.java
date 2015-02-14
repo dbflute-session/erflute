@@ -61,7 +61,6 @@ import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.settings.TranslationSetting;
-import org.insightech.er.editor.model.settings.export.ExportJavaSetting;
 import org.insightech.er.editor.model.settings.export.ExportTestDataSetting;
 import org.insightech.er.editor.model.testdata.DirectTestData;
 import org.insightech.er.editor.model.testdata.RepeatTestData;
@@ -772,7 +771,9 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<comment_replace_string>").append(Format.null2blank(ddlTarget.commentReplaceString))
                 .append("</comment_replace_string>\n");
 
-        xml.append(tab(this.createXML(exportSetting.getExportJavaSetting(), context)));
+        // #deleted
+        //xml.append(tab(this.createXML(exportSetting.getExportJavaSetting(), context)));
+
         xml.append(tab(this.createXML(exportSetting.getExportTestDataSetting(), context)));
 
         xml.append("</export_setting>\n");
@@ -780,21 +781,22 @@ public class PersistentXmlImpl extends Persistent {
         return xml.toString();
     }
 
-    private String createXML(ExportJavaSetting exportJavaSetting, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
-
-        xml.append("<export_java_setting>\n");
-
-        xml.append("\t<java_output>").append(escape(exportJavaSetting.getJavaOutput())).append("</java_output>\n");
-        xml.append("\t<package_name>").append(escape(exportJavaSetting.getPackageName())).append("</package_name>\n");
-        xml.append("\t<class_name_suffix>").append(escape(exportJavaSetting.getClassNameSuffix())).append("</class_name_suffix>\n");
-        xml.append("\t<src_file_encoding>").append(escape(exportJavaSetting.getSrcFileEncoding())).append("</src_file_encoding>\n");
-        xml.append("\t<with_hibernate>").append(exportJavaSetting.isWithHibernate()).append("</with_hibernate>\n");
-
-        xml.append("</export_java_setting>\n");
-
-        return xml.toString();
-    }
+    // #deleted
+    //private String createXML(ExportJavaSetting exportJavaSetting, PersistentContext context) {
+    //    StringBuilder xml = new StringBuilder();
+    //
+    //    xml.append("<export_java_setting>\n");
+    //
+    //    xml.append("\t<java_output>").append(escape(exportJavaSetting.getJavaOutput())).append("</java_output>\n");
+    //    xml.append("\t<package_name>").append(escape(exportJavaSetting.getPackageName())).append("</package_name>\n");
+    //    xml.append("\t<class_name_suffix>").append(escape(exportJavaSetting.getClassNameSuffix())).append("</class_name_suffix>\n");
+    //    xml.append("\t<src_file_encoding>").append(escape(exportJavaSetting.getSrcFileEncoding())).append("</src_file_encoding>\n");
+    //    xml.append("\t<with_hibernate>").append(exportJavaSetting.isWithHibernate()).append("</with_hibernate>\n");
+    //
+    //    xml.append("</export_java_setting>\n");
+    //
+    //    return xml.toString();
+    //}
 
     private String createXML(ExportTestDataSetting exportTestDataSetting, PersistentContext context) {
         StringBuilder xml = new StringBuilder();

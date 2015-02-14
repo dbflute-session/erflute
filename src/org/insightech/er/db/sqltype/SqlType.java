@@ -20,6 +20,9 @@ import org.insightech.er.util.Format;
 
 public class SqlType implements Serializable {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     private static Logger logger = Logger.getLogger(SqlType.class.getName());
 
     private static final long serialVersionUID = -8273043043893517634L;
@@ -40,22 +43,20 @@ public class SqlType implements Serializable {
 
     private static final List<SqlType> SQL_TYPE_LIST = new ArrayList<SqlType>();
 
-    private String name;
-
-    private Class javaClass;
-
-    private boolean needArgs;
-
-    boolean fullTextIndexable;
-
     private static Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<String, Map<TypeKey, SqlType>>();
 
     private static Map<String, Map<SqlType, String>> dbAliasMap = new HashMap<String, Map<SqlType, String>>();
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    private String name;
+    private Class javaClass;
+    private boolean needArgs;
+    boolean fullTextIndexable;
     static {
         try {
             SqlTypeFactory.load();
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new ExceptionInInitializerError(e);
@@ -64,7 +65,6 @@ public class SqlType implements Serializable {
 
     public static class TypeKey {
         private String alias;
-
         private int size;
 
         public TypeKey(String alias, int size) {
@@ -88,24 +88,20 @@ public class SqlType implements Serializable {
         @Override
         public boolean equals(Object obj) {
             TypeKey other = (TypeKey) obj;
-
             if (this.alias == null) {
                 if (other.alias == null) {
                     if (this.size == other.size) {
                         return true;
                     }
                     return false;
-
                 } else {
                     return false;
                 }
-
             } else {
                 if (this.alias.equals(other.alias) && this.size == other.size) {
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -124,6 +120,9 @@ public class SqlType implements Serializable {
 
     }
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public SqlType(String name, Class javaClass, boolean needArgs, boolean fullTextIndexable) {
         this.name = name;
         this.javaClass = javaClass;
@@ -133,38 +132,12 @@ public class SqlType implements Serializable {
         SQL_TYPE_LIST.add(this);
     }
 
+    // ===================================================================================
+    //                                                                             Static
+    //                                                                            ========
     public static void setDBAliasMap(Map<String, Map<SqlType, String>> dbAliasMap, Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap) {
         SqlType.dbAliasMap = dbAliasMap;
         SqlType.dbSqlTypeMap = dbSqlTypeMap;
-    }
-
-    public void addToSqlTypeMap(String typeKeyId, String database) {
-        int size = 0;
-
-        if (!this.isUnsupported(database)) {
-            if (this.isNeedLength(database)) {
-                size = 1;
-            }
-            TypeKey typeKey = new TypeKey(typeKeyId, size);
-            Map<TypeKey, SqlType> sqlTypeMap = dbSqlTypeMap.get(database);
-            sqlTypeMap.put(typeKey, this);
-        }
-    }
-
-    public String getId() {
-        return this.name;
-    }
-
-    public Class getJavaClass() {
-        return this.javaClass;
-    }
-
-    public boolean doesNeedArgs() {
-        return this.needArgs;
-    }
-
-    public boolean isFullTextIndexable() {
-        return this.fullTextIndexable;
     }
 
     protected static List<SqlType> getAllSqlType() {
@@ -224,6 +197,54 @@ public class SqlType implements Serializable {
         return sqlType;
     }
 
+    public static List<String> getAliasList(String database) {
+        Map<SqlType, String> aliasMap = dbAliasMap.get(database);
+
+        Set<String> aliases = new LinkedHashSet<String>();
+
+        for (Entry<SqlType, String> entry : aliasMap.entrySet()) {
+            String alias = entry.getValue();
+            aliases.add(alias);
+        }
+
+        List<String> list = new ArrayList<String>(aliases);
+
+        Collections.sort(list);
+
+        return list;
+    }
+
+    // ===================================================================================
+    //                                                                            Instance
+    //                                                                            ========
+    public void addToSqlTypeMap(String typeKeyId, String database) {
+        int size = 0;
+        if (!this.isUnsupported(database)) {
+            if (this.isNeedLength(database)) {
+                size = 1;
+            }
+            TypeKey typeKey = new TypeKey(typeKeyId, size);
+            Map<TypeKey, SqlType> sqlTypeMap = dbSqlTypeMap.get(database);
+            sqlTypeMap.put(typeKey, this);
+        }
+    }
+
+    public String getId() {
+        return this.name;
+    }
+
+    public Class getJavaClass() {
+        return this.javaClass;
+    }
+
+    public boolean doesNeedArgs() {
+        return this.needArgs;
+    }
+
+    public boolean isFullTextIndexable() {
+        return this.fullTextIndexable;
+    }
+
     public boolean isNeedLength(String database) {
         String alias = this.getAlias(database);
         if (alias == null) {
@@ -276,23 +297,6 @@ public class SqlType implements Serializable {
         return false;
     }
 
-    public static List<String> getAliasList(String database) {
-        Map<SqlType, String> aliasMap = dbAliasMap.get(database);
-
-        Set<String> aliases = new LinkedHashSet<String>();
-
-        for (Entry<SqlType, String> entry : aliasMap.entrySet()) {
-            String alias = entry.getValue();
-            aliases.add(alias);
-        }
-
-        List<String> list = new ArrayList<String>(aliases);
-
-        Collections.sort(list);
-
-        return list;
-    }
-
     public String getAlias(String database) {
         Map<SqlType, String> aliasMap = dbAliasMap.get(database);
 
@@ -309,6 +313,9 @@ public class SqlType implements Serializable {
         return false;
     }
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
     /**
      * {@inheritDoc}
      */
@@ -335,6 +342,9 @@ public class SqlType implements Serializable {
         return this.getId();
     }
 
+    // ===================================================================================
+    //                                                                              Main
+    //                                                                            ========
     public static void main(String[] args) {
         int maxIdLength = 37;
 
