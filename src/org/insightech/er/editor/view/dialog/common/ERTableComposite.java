@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.KeyAdapter;
@@ -38,62 +37,46 @@ import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnG
 import org.insightech.er.editor.view.dialog.word.column.AbstractColumnDialog;
 import org.insightech.er.util.Format;
 
+/**
+ * テーブル情報のダイアログ。
+ * @author ermaster
+ * @author jflute
+ */
 public class ERTableComposite extends Composite {
 
     private static final int DEFAULT_HEIGHT = 200;
-
     private static final int KEY_WIDTH = 45;
-
     public static final int NAME_WIDTH = 150;
-
     private static final int TYPE_WIDTH = 100;
-
     private static final int NOT_NULL_WIDTH = 80;
-
     public static final int UNIQUE_KEY_WIDTH = 70;
 
     private Table table;
-
     private Button columnAddButton;
-
     private Button columnEditButton;
-
     private Button columnDeleteButton;
-
     private Button upButton;
-
     private Button downButton;
-
-    //	private Button quickAddButton;
-
     private ERDiagram diagram;
-
     private ERTable ertable;
-
     private List<Column> columnList;
-
     private AbstractColumnDialog columnDialog;
-
     private AbstractDialog parentDialog;
-
     private Map<Column, TableEditor[]> columnNotNullCheckMap = new HashMap<Column, TableEditor[]>();
-
     private boolean buttonDisplay;
-
     private boolean checkboxEnabled;
-
     private int height;
 
     private ERTableCompositeHolder holder;
 
-    private TableViewer tableViewer;
-
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable, List<Column> columnList,
             AbstractColumnDialog columnDialog, AbstractDialog parentDialog, int horizontalSpan, boolean buttonDisplay,
             boolean checkboxEnabled) {
         this(holder, parent, diagram, erTable, columnList, columnDialog, parentDialog, horizontalSpan, buttonDisplay, checkboxEnabled,
                 DEFAULT_HEIGHT);
-
     }
 
     public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable, List<Column> columnList,
@@ -178,70 +161,9 @@ public class ERTableComposite extends Composite {
             }
         });
 
-        //		tableViewer = new TableViewer(table);
-        //		tableViewer.setContentProvider(new ArrayContentProvider());
-        //
-        //		final LocalSelectionTransfer transfer = LocalSelectionTransfer
-        //				.getTransfer();
-        //		Transfer[] types = new Transfer[] { transfer };
-        //		tableViewer.addDragSupport(DND.DROP_MOVE, types,
-        //				new DragSourceAdapter() {
-        //					@Override
-        //					public void dragSetData(DragSourceEvent event) {
-        //						TableItem[] tableItems = ((Table) ((DragSource) event.widget)
-        //								.getControl()).getSelection();
-        //						currentItems = tableItems;
-        //						transfer.setSelection(tableViewer.getSelection());
-        //					}
-        //				});
-        //
-        //		tableViewer.addDropSupport(DND.DROP_MOVE, types, new ViewerDropAdapter(
-        //				tableViewer) {
-        //			@Override
-        //			public boolean validateDrop(Object target, int operation,
-        //					TransferData transferType) {
-        //				return true;
-        //			}
-        //
-        //			@Override
-        //			public boolean performDrop(Object data) {
-        //				if (data instanceof IStructuredSelection) {
-        //					IStructuredSelection ssel = (IStructuredSelection) data;
-        //
-        //					TableItem insertingItem = (TableItem) this
-        //							.getCurrentEvent().item;
-        //					if (insertingItem == null) {
-        //						return false;
-        //					}
-        //
-        //					List<TableItem> removingItems = Arrays.asList(currentItems);
-        //					Collections.reverse(removingItems);
-        //					for (TableItem item : removingItems) {
-        //						table.remove(table.indexOf(item));
-        //					}
-        //
-        //					Object[] selections = ssel.toArray();
-        //					List<Object> movedRows = Arrays.asList(selections);
-        //					Collections.reverse(movedRows);
-        //
-        //					int index = table.indexOf(insertingItem);
-        //					if (getCurrentLocation() == LOCATION_AFTER) {
-        //						index += 1;
-        //					}
-        //					for (Object row : movedRows) {
-        //						tableViewer.insert(row, index);
-        //					}
-        //				}
-        //				return true;
-        //			}
-        //		});
-
         if (this.buttonDisplay) {
             this.table.addMouseListener(new MouseAdapter() {
 
-                /**
-                 * {@inheritDoc}
-                 */
                 @Override
                 public void mouseDoubleClick(MouseEvent e) {
                     Column targetColumn = getTargetColumn();
@@ -343,47 +265,15 @@ public class ERTableComposite extends Composite {
         });
 
         this.downButton = CompositeFactory.createButton(buttonComposite, "label.down.arrow");
-
         this.downButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 downColumn();
             }
-
         });
 
         CompositeFactory.filler(buttonComposite, 1, 30);
-
-        //		this.quickAddButton = new Button(buttonComposite, SWT.NONE);
-        //		this.quickAddButton.setText(ResourceString
-        //				.getResourceString("label.button.quick.add"));
-        //
-        //		this.quickAddButton.addSelectionListener(new SelectionAdapter() {
-        //
-        //			/**
-        //			 * {@inheritDoc}
-        //			 */
-        //			@Override
-        //			public void widgetSelected(SelectionEvent e) {
-        //				QuickAddDialog dialog = new QuickAddDialog(PlatformUI
-        //						.getWorkbench().getActiveWorkbenchWindow().getShell(),
-        //						diagram);
-        //				if (dialog.open() == IDialogConstants.OK_ID) {
-        //					List<NormalColumn> columnList = dialog.getColumnList();
-        //
-        //					for (NormalColumn column : columnList) {
-        //						addTableData(column, true);
-        //					}
-        //				}
-        //			}
-        //
-        //		});
-        //
-        //		this.quickAddButton.setEnabled(true);
     }
 
     private void initComposite() {
@@ -729,7 +619,6 @@ public class ERTableComposite extends Composite {
             this.columnDeleteButton.setEnabled(false);
             this.upButton.setEnabled(false);
             this.downButton.setEnabled(false);
-            //			this.quickAddButton.setEnabled(enabled);
         }
     }
 

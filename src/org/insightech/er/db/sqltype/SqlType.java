@@ -28,32 +28,40 @@ public class SqlType implements Serializable {
     private static final long serialVersionUID = -8273043043893517634L;
 
     public static final String SQL_TYPE_ID_SERIAL = "serial";
-
     public static final String SQL_TYPE_ID_BIG_SERIAL = "bigserial";
-
     public static final String SQL_TYPE_ID_INTEGER = "integer";
-
     public static final String SQL_TYPE_ID_BIG_INT = "bigint";
-
     private static final Pattern NEED_LENGTH_PATTERN = Pattern.compile(".+\\([a-zA-Z][,\\)].*");
-
     private static final Pattern NEED_DECIMAL_PATTERN1 = Pattern.compile(".+\\([a-zA-Z],[a-zA-Z]\\)");
-
     private static final Pattern NEED_DECIMAL_PATTERN2 = Pattern.compile(".+\\([a-zA-Z]\\).*\\([a-zA-Z]\\)");
-
     private static final List<SqlType> SQL_TYPE_LIST = new ArrayList<SqlType>();
 
+    /**
+     * DBの型名で抽象型を逆引きできるようにしている。<br>
+     * DBリバースで利用されている。<br>
+     * map:{ database = map:{ alias-name (e.g. int) = SqlType (本来many) } } <br>
+     * e.g. map: {MySQL = map:{ int = int(n) or Integer } <br>
+     */
     private static Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<String, Map<TypeKey, SqlType>>();
 
+    /**
+     * こっちが大事な人。
+     * map:{ database = map:{ SqlType = alias-name (e.g. int) } } <br>
+     * e.g. map: {MySQL = map:{ int(n) or Integer = int }
+     */
     private static Map<String, Map<SqlType, String>> dbAliasMap = new HashMap<String, Map<SqlType, String>>();
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private String name;
+    private String name; // #tmpcomment エクセルの一番左っぽい
     private Class javaClass;
     private boolean needArgs;
     boolean fullTextIndexable;
+
+    // ===================================================================================
+    //                                                                  Static Load Holder
+    //                                                                  ==================
     static {
         try {
             SqlTypeFactory.load();
@@ -233,9 +241,10 @@ public class SqlType implements Serializable {
         return this.name;
     }
 
-    public Class getJavaClass() {
-        return this.javaClass;
-    }
+    // #deleted
+    //public Class getJavaClass() {
+    //    return this.javaClass;
+    //}
 
     public boolean doesNeedArgs() {
         return this.needArgs;
@@ -297,9 +306,8 @@ public class SqlType implements Serializable {
         return false;
     }
 
-    public String getAlias(String database) {
+    public String getAlias(String database) { // e.g. database=MySQL, return=int
         Map<SqlType, String> aliasMap = dbAliasMap.get(database);
-
         return aliasMap.get(this);
     }
 

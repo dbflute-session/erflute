@@ -43,6 +43,10 @@ import org.insightech.er.editor.view.dialog.common.EditableTable;
 import org.insightech.er.util.Check;
 import org.insightech.er.util.Format;
 
+/**
+ * #delete
+ * @author jflute
+ */
 public class EditAllAttributesDialog extends AbstractDialog implements EditableTable {
 
     private static final int KEY_WIDTH = 45;

@@ -150,7 +150,6 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
             if (selectedType.isTimestamp()) {
                 this.defaultText.add(ResourceString.getResourceString("label.current.date.time"));
                 this.defaultText.setText(defaultValue);
-
             } else {
                 if (!ResourceString.getResourceString("label.current.date.time").equals(defaultValue)) {
                     this.defaultText.setText(defaultValue);

@@ -30,27 +30,32 @@ import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Wo
 import org.insightech.er.editor.view.dialog.word.AbstractWordDialog;
 import org.insightech.er.util.Format;
 
+/**
+ * @author ermaster
+ * @author jflute
+ */
 public abstract class AbstractColumnDialog extends AbstractWordDialog {
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     protected Combo wordCombo;
-
-    private Text wordFilterText;
-
+    protected Text wordFilterText;
     protected CopyColumn targetColumn;
-
     protected NormalColumn returnColumn;
-
     protected Word returnWord;
-
-    private List<Word> wordList;
-
+    protected List<Word> wordList;
     protected boolean foreignKey;
-
     protected boolean isRefered;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public AbstractColumnDialog(Shell parentShell, ERDiagram diagram) {
         super(parentShell, diagram);
     }
+
+    // ...
 
     public void setTargetColumn(CopyColumn targetColumn, boolean foreignKey, boolean isRefered) {
         this.targetColumn = targetColumn;
@@ -182,9 +187,6 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void perfomeOK() {
         String text = lengthText.getText();
@@ -277,5 +279,4 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
 
         });
     }
-
 }

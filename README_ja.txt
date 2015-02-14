@@ -29,6 +29,7 @@ o ctrl+Oによるアウトライン検索
 【バグ？】
 o 全体ビューとダイアグラムビューを行き来すると、Tool Bar Visibility が増えて楽しい
 
-
+【Converter】
+o &lt;現在日時&gt; => MySQLならNOW(), ...
 
 

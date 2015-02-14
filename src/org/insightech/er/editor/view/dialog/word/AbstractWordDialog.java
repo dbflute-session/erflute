@@ -176,8 +176,9 @@ public abstract class AbstractWordDialog extends AbstractDialog {
         if (sqlType != null) {
             String database = this.diagram.getDatabase();
 
-            if (sqlType.getAlias(database) != null) {
-                this.typeCombo.setText(sqlType.getAlias(database));
+            final String sqlTypeAlias = sqlType.getAlias(database);
+            if (sqlTypeAlias != null) {
+                this.typeCombo.setText(sqlTypeAlias);
             }
 
             if (!sqlType.isNeedLength(database)) {
