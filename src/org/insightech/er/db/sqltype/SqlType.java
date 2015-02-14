@@ -37,7 +37,7 @@ public class SqlType implements Serializable {
     private static final List<SqlType> SQL_TYPE_LIST = new ArrayList<SqlType>();
 
     /**
-     * DBの型名で抽象型を逆引きできるようにしている。<br>
+     * #analyzed DBの型名で抽象型を逆引きできるようにしている。<br>
      * DBリバースで利用されている。<br>
      * map:{ database = map:{ alias-name (e.g. int) = SqlType (本来many) } } <br>
      * e.g. map: {MySQL = map:{ int = int(n) or Integer } <br>
@@ -45,7 +45,7 @@ public class SqlType implements Serializable {
     private static Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<String, Map<TypeKey, SqlType>>();
 
     /**
-     * こっちが大事な人。
+     * #analyzed こっちが大事な人。
      * map:{ database = map:{ SqlType = alias-name (e.g. int) } } <br>
      * e.g. map: {MySQL = map:{ int(n) or Integer = int }
      */
@@ -54,7 +54,7 @@ public class SqlType implements Serializable {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private String name; // #tmpcomment エクセルの一番左っぽい
+    private String name; // #analyzed エクセルの一番左っぽい
     private Class javaClass;
     private boolean needArgs;
     boolean fullTextIndexable;
