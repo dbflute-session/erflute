@@ -111,7 +111,6 @@ import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToPhy
 import org.insightech.er.editor.view.action.printer.PageSettingAction;
 import org.insightech.er.editor.view.action.printer.PrintImageAction;
 import org.insightech.er.editor.view.action.search.SearchAction;
-import org.insightech.er.editor.view.action.testdata.TestDataCreateAction;
 import org.insightech.er.editor.view.action.tracking.ChangeTrackingAction;
 import org.insightech.er.editor.view.action.translation.TranslationManageAction;
 import org.insightech.er.editor.view.action.zoom.ZoomAdjustAction;
@@ -278,7 +277,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
                         new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
                         new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this),
                         new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
-                        new TranslationManageAction(this), new TestDataCreateAction(this), new ImportFromDBAction(this),
+                        new TranslationManageAction(this), /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this),
                         new ImportFromFileAction(this), new ExportToImageAction(this), new ExportToExcelAction(this),
                         new ExportToHtmlAction(this), /* #deleted new ExportToJavaAction(this), */new ExportToDDLAction(this),
                         /* new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */

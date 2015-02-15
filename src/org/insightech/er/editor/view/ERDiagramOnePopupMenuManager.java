@@ -52,7 +52,6 @@ import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToLog
 import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToPhysicalAction;
 import org.insightech.er.editor.view.action.printer.PageSettingAction;
 import org.insightech.er.editor.view.action.search.SearchAction;
-import org.insightech.er.editor.view.action.testdata.TestDataCreateAction;
 import org.insightech.er.editor.view.action.tracking.ChangeTrackingAction;
 import org.insightech.er.editor.view.action.translation.TranslationManageAction;
 
@@ -194,7 +193,8 @@ public class ERDiagramOnePopupMenuManager extends MenuManager {
         this.add(this.getAction(PageSettingAction.ID));
         this.add(this.getAction(ChangeTrackingAction.ID));
         this.add(this.getAction(TranslationManageAction.ID));
-        this.add(this.getAction(TestDataCreateAction.ID));
+        // #deleted
+        //this.add(this.getAction(TestDataCreateAction.ID));
 
         MenuManager categoryMenu = new MenuManager(ResourceString.getResourceString("label.category"));
         categoryMenu.add(this.getAction(CategoryManageAction.ID));

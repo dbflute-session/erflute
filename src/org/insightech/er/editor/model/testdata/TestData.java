@@ -5,6 +5,11 @@ import java.util.Map;
 
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 
+/**
+ * #delete
+ * @author ermaster
+ * @author jflute
+ */
 public class TestData implements Cloneable, Comparable<TestData> {
 
     public static final int EXPORT_FORMT_SQL = 0;

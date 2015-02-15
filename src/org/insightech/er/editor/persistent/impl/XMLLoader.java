@@ -73,7 +73,6 @@ import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.settings.TranslationSetting;
-import org.insightech.er.editor.model.settings.export.ExportTestDataSetting;
 import org.insightech.er.editor.model.testdata.DirectTestData;
 import org.insightech.er.editor.model.testdata.RepeatTestData;
 import org.insightech.er.editor.model.testdata.RepeatTestDataDef;
@@ -1172,8 +1171,7 @@ public class XMLLoader {
 
             // #deleted
             //this.loadExportJavaSetting(exportSetting.getExportJavaSetting(), element, context);
-
-            this.loadExportTestDataSetting(exportSetting.getExportTestDataSetting(), element, context);
+            //this.loadExportTestDataSetting(exportSetting.getExportTestDataSetting(), element, context);
         }
     }
 
@@ -1189,16 +1187,15 @@ public class XMLLoader {
     //        exportJavaSetting.setWithHibernate(this.getBooleanValue(element, "with_hibernate"));
     //    }
     //}
-
-    private void loadExportTestDataSetting(ExportTestDataSetting exportTestDataSetting, Element parent, LoadContext context) {
-        Element element = this.getElement(parent, "export_testdata_setting");
-
-        if (element != null) {
-            exportTestDataSetting.setExportFileEncoding(this.getStringValue(element, "file_encoding"));
-            exportTestDataSetting.setExportFilePath(this.getStringValue(element, "file_path"));
-            exportTestDataSetting.setExportFormat(this.getIntValue(element, "format"));
-        }
-    }
+    //private void loadExportTestDataSetting(ExportTestDataSetting exportTestDataSetting, Element parent, LoadContext context) {
+    //    Element element = this.getElement(parent, "export_testdata_setting");
+    //
+    //    if (element != null) {
+    //        exportTestDataSetting.setExportFileEncoding(this.getStringValue(element, "file_encoding"));
+    //        exportTestDataSetting.setExportFilePath(this.getStringValue(element, "file_path"));
+    //        exportTestDataSetting.setExportFormat(this.getIntValue(element, "format"));
+    //    }
+    //}
 
     private void loadCategorySetting(CategorySetting categorySetting, Element parent, LoadContext context) {
         Element element = this.getElement(parent, "category_settings");

@@ -61,7 +61,6 @@ import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.settings.TranslationSetting;
-import org.insightech.er.editor.model.settings.export.ExportTestDataSetting;
 import org.insightech.er.editor.model.testdata.DirectTestData;
 import org.insightech.er.editor.model.testdata.RepeatTestData;
 import org.insightech.er.editor.model.testdata.RepeatTestDataDef;
@@ -73,6 +72,10 @@ import org.insightech.er.editor.persistent.Persistent;
 import org.insightech.er.util.Format;
 import org.insightech.er.util.NameValue;
 
+/**
+ * @author ermaster
+ * @author jflute
+ */
 public class PersistentXmlImpl extends Persistent {
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -773,8 +776,7 @@ public class PersistentXmlImpl extends Persistent {
 
         // #deleted
         //xml.append(tab(this.createXML(exportSetting.getExportJavaSetting(), context)));
-
-        xml.append(tab(this.createXML(exportSetting.getExportTestDataSetting(), context)));
+        //xml.append(tab(this.createXML(exportSetting.getExportTestDataSetting(), context)));
 
         xml.append("</export_setting>\n");
 
@@ -797,20 +799,19 @@ public class PersistentXmlImpl extends Persistent {
     //
     //    return xml.toString();
     //}
-
-    private String createXML(ExportTestDataSetting exportTestDataSetting, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
-
-        xml.append("<export_testdata_setting>\n");
-
-        xml.append("\t<file_encoding>").append(escape(exportTestDataSetting.getExportFileEncoding())).append("</file_encoding>\n");
-        xml.append("\t<file_path>").append(escape(exportTestDataSetting.getExportFilePath())).append("</file_path>\n");
-        xml.append("\t<format>").append(exportTestDataSetting.getExportFormat()).append("</format>\n");
-
-        xml.append("</export_testdata_setting>\n");
-
-        return xml.toString();
-    }
+    //private String createXML(ExportTestDataSetting exportTestDataSetting, PersistentContext context) {
+    //    StringBuilder xml = new StringBuilder();
+    //
+    //    xml.append("<export_testdata_setting>\n");
+    //
+    //    xml.append("\t<file_encoding>").append(escape(exportTestDataSetting.getExportFileEncoding())).append("</file_encoding>\n");
+    //    xml.append("\t<file_path>").append(escape(exportTestDataSetting.getExportFilePath())).append("</file_path>\n");
+    //    xml.append("\t<format>").append(exportTestDataSetting.getExportFormat()).append("</format>\n");
+    //
+    //    xml.append("</export_testdata_setting>\n");
+    //
+    //    return xml.toString();
+    //}
 
     private String createXML(CategorySetting categorySettings, PersistentContext context) {
         StringBuilder xml = new StringBuilder();
