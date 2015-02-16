@@ -73,11 +73,6 @@ import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.settings.TranslationSetting;
-import org.insightech.er.editor.model.testdata.DirectTestData;
-import org.insightech.er.editor.model.testdata.RepeatTestData;
-import org.insightech.er.editor.model.testdata.RepeatTestDataDef;
-import org.insightech.er.editor.model.testdata.TableTestData;
-import org.insightech.er.editor.model.testdata.TestData;
 import org.insightech.er.editor.model.tracking.ChangeTracking;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.insightech.er.util.Format;
@@ -500,7 +495,8 @@ public class XMLLoader {
         this.loadColumnGroups(columnGroups, parent, context);
         this.loadContents(diagramContents.getContents(), parent, context);
         diagramContents.getModelSet().addModels(this.loadErmodels(parent, context));
-        this.loadTestDataList(diagramContents.getTestDataList(), parent, context);
+        // #deleted test data
+        //this.loadTestDataList(diagramContents.getTestDataList(), parent, context);
         this.loadSequenceSet(diagramContents.getSequenceSet(), parent);
         this.loadTriggerSet(diagramContents.getTriggerSet(), parent);
 
@@ -829,118 +825,116 @@ public class XMLLoader {
 
     }
 
-    private void loadTestDataList(List<TestData> testDataList, Element parent, LoadContext context) {
-
-        Element element = this.getElement(parent, "test_data_list");
-
-        if (element != null) {
-            NodeList nodeList = element.getElementsByTagName("test_data");
-
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Element testDataElement = (Element) nodeList.item(i);
-
-                TestData testData = new TestData();
-                this.loadTestData(testData, testDataElement, context);
-                testDataList.add(testData);
-            }
-        }
-    }
-
-    private void loadTestData(TestData testData, Element element, LoadContext context) {
-
-        testData.setName(this.getStringValue(element, "name"));
-        testData.setExportOrder(this.getIntValue(element, "export_order"));
-
-        NodeList nodeList = element.getElementsByTagName("table_test_data");
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element tableTestDataElement = (Element) nodeList.item(i);
-
-            TableTestData tableTestData = new TableTestData();
-
-            String tableId = this.getStringValue(tableTestDataElement, "table_id");
-            ERTable table = (ERTable) context.nodeElementMap.get(tableId);
-            if (table != null) {
-                this.loadDirectTestData(tableTestData.getDirectTestData(), tableTestDataElement, context);
-                this.loadRepeatTestData(tableTestData.getRepeatTestData(), tableTestDataElement, context);
-
-                testData.putTableTestData(table, tableTestData);
-            }
-        }
-
-    }
-
-    private void loadDirectTestData(DirectTestData directTestData, Element parent, LoadContext context) {
-        Element element = this.getElement(parent, "direct_test_data");
-
-        NodeList nodeList = element.getElementsByTagName("data");
-
-        List<Map<NormalColumn, String>> dataList = directTestData.getDataList();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element dataElement = (Element) nodeList.item(i);
-
-            NodeList columnNodeList = dataElement.getElementsByTagName("column_data");
-
-            Map<NormalColumn, String> data = new HashMap<NormalColumn, String>();
-
-            for (int j = 0; j < columnNodeList.getLength(); j++) {
-                Element columnDataElement = (Element) columnNodeList.item(j);
-
-                String columnId = this.getStringValue(columnDataElement, "column_id");
-                NormalColumn column = context.columnMap.get(columnId);
-
-                String value = this.getStringValue(columnDataElement, "value");
-
-                data.put(column, value);
-            }
-
-            dataList.add(data);
-        }
-    }
-
-    private void loadRepeatTestData(RepeatTestData repeatTestData, Element parent, LoadContext context) {
-        Element element = this.getElement(parent, "repeat_test_data");
-
-        int testDataNum = this.getIntegerValue(element, "test_data_num");
-        repeatTestData.setTestDataNum(testDataNum);
-
-        Element dataDefListElement = this.getElement(element, "data_def_list");
-
-        NodeList nodeList = dataDefListElement.getElementsByTagName("data_def");
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element dataDefElement = (Element) nodeList.item(i);
-
-            String columnId = this.getStringValue(dataDefElement, "column_id");
-            NormalColumn column = context.columnMap.get(columnId);
-
-            RepeatTestDataDef dataDef = new RepeatTestDataDef();
-
-            dataDef.setType(this.getStringValue(dataDefElement, "type"));
-            dataDef.setRepeatNum(this.getIntValue(dataDefElement, "repeat_num"));
-            dataDef.setTemplate(this.getStringValue(dataDefElement, "template"));
-            dataDef.setFrom(this.getIntValue(dataDefElement, "from"));
-            dataDef.setTo(this.getIntValue(dataDefElement, "to"));
-            dataDef.setIncrement(this.getIntValue(dataDefElement, "increment"));
-            dataDef.setSelects(this.getTagValues(dataDefElement, "select"));
-
-            Element modifiedValuesElement = this.getElement(dataDefElement, "modified_values");
-            if (modifiedValuesElement != null) {
-                NodeList modifiedValueNodeList = modifiedValuesElement.getElementsByTagName("modified_value");
-
-                for (int j = 0; j < modifiedValueNodeList.getLength(); j++) {
-                    Element modifiedValueNode = (Element) modifiedValueNodeList.item(j);
-
-                    Integer row = this.getIntValue(modifiedValueNode, "row");
-                    String value = this.getStringValue(modifiedValueNode, "value");
-
-                    dataDef.setModifiedValue(row, value);
-                }
-            }
-
-            repeatTestData.setDataDef(column, dataDef);
-        }
-    }
+    // #deleted test data
+    //private void loadTestDataList(List<TestData> testDataList, Element parent, LoadContext context) {
+    //
+    //    Element element = this.getElement(parent, "test_data_list");
+    //
+    //    if (element != null) {
+    //        NodeList nodeList = element.getElementsByTagName("test_data");
+    //
+    //        for (int i = 0; i < nodeList.getLength(); i++) {
+    //            Element testDataElement = (Element) nodeList.item(i);
+    //
+    //            TestData testData = new TestData();
+    //            this.loadTestData(testData, testDataElement, context);
+    //            testDataList.add(testData);
+    //        }
+    //    }
+    //}
+    //private void loadTestData(TestData testData, Element element, LoadContext context) {
+    //
+    //    testData.setName(this.getStringValue(element, "name"));
+    //    testData.setExportOrder(this.getIntValue(element, "export_order"));
+    //
+    //    NodeList nodeList = element.getElementsByTagName("table_test_data");
+    //
+    //    for (int i = 0; i < nodeList.getLength(); i++) {
+    //        Element tableTestDataElement = (Element) nodeList.item(i);
+    //
+    //        TableTestData tableTestData = new TableTestData();
+    //
+    //        String tableId = this.getStringValue(tableTestDataElement, "table_id");
+    //        ERTable table = (ERTable) context.nodeElementMap.get(tableId);
+    //        if (table != null) {
+    //            this.loadDirectTestData(tableTestData.getDirectTestData(), tableTestDataElement, context);
+    //            this.loadRepeatTestData(tableTestData.getRepeatTestData(), tableTestDataElement, context);
+    //
+    //            testData.putTableTestData(table, tableTestData);
+    //        }
+    //    }
+    //
+    //}
+    //private void loadDirectTestData(DirectTestData directTestData, Element parent, LoadContext context) {
+    //    Element element = this.getElement(parent, "direct_test_data");
+    //
+    //    NodeList nodeList = element.getElementsByTagName("data");
+    //
+    //    List<Map<NormalColumn, String>> dataList = directTestData.getDataList();
+    //    for (int i = 0; i < nodeList.getLength(); i++) {
+    //        Element dataElement = (Element) nodeList.item(i);
+    //
+    //        NodeList columnNodeList = dataElement.getElementsByTagName("column_data");
+    //
+    //        Map<NormalColumn, String> data = new HashMap<NormalColumn, String>();
+    //
+    //        for (int j = 0; j < columnNodeList.getLength(); j++) {
+    //            Element columnDataElement = (Element) columnNodeList.item(j);
+    //
+    //            String columnId = this.getStringValue(columnDataElement, "column_id");
+    //            NormalColumn column = context.columnMap.get(columnId);
+    //
+    //            String value = this.getStringValue(columnDataElement, "value");
+    //
+    //            data.put(column, value);
+    //        }
+    //
+    //        dataList.add(data);
+    //    }
+    //}
+    //private void loadRepeatTestData(RepeatTestData repeatTestData, Element parent, LoadContext context) {
+    //    Element element = this.getElement(parent, "repeat_test_data");
+    //
+    //    int testDataNum = this.getIntegerValue(element, "test_data_num");
+    //    repeatTestData.setTestDataNum(testDataNum);
+    //
+    //    Element dataDefListElement = this.getElement(element, "data_def_list");
+    //
+    //    NodeList nodeList = dataDefListElement.getElementsByTagName("data_def");
+    //
+    //    for (int i = 0; i < nodeList.getLength(); i++) {
+    //        Element dataDefElement = (Element) nodeList.item(i);
+    //
+    //        String columnId = this.getStringValue(dataDefElement, "column_id");
+    //        NormalColumn column = context.columnMap.get(columnId);
+    //
+    //        RepeatTestDataDef dataDef = new RepeatTestDataDef();
+    //
+    //        dataDef.setType(this.getStringValue(dataDefElement, "type"));
+    //        dataDef.setRepeatNum(this.getIntValue(dataDefElement, "repeat_num"));
+    //        dataDef.setTemplate(this.getStringValue(dataDefElement, "template"));
+    //        dataDef.setFrom(this.getIntValue(dataDefElement, "from"));
+    //        dataDef.setTo(this.getIntValue(dataDefElement, "to"));
+    //        dataDef.setIncrement(this.getIntValue(dataDefElement, "increment"));
+    //        dataDef.setSelects(this.getTagValues(dataDefElement, "select"));
+    //
+    //        Element modifiedValuesElement = this.getElement(dataDefElement, "modified_values");
+    //        if (modifiedValuesElement != null) {
+    //            NodeList modifiedValueNodeList = modifiedValuesElement.getElementsByTagName("modified_value");
+    //
+    //            for (int j = 0; j < modifiedValueNodeList.getLength(); j++) {
+    //                Element modifiedValueNode = (Element) modifiedValueNodeList.item(j);
+    //
+    //                Integer row = this.getIntValue(modifiedValueNode, "row");
+    //                String value = this.getStringValue(modifiedValueNode, "value");
+    //
+    //                dataDef.setModifiedValue(row, value);
+    //            }
+    //        }
+    //
+    //        repeatTestData.setDataDef(column, dataDef);
+    //    }
+    //}
 
     private void loadDictionary(Dictionary dictionary, Element parent, LoadContext context) {
 

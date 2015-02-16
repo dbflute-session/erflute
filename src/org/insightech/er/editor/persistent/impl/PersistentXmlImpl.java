@@ -61,11 +61,6 @@ import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.settings.TranslationSetting;
-import org.insightech.er.editor.model.testdata.DirectTestData;
-import org.insightech.er.editor.model.testdata.RepeatTestData;
-import org.insightech.er.editor.model.testdata.RepeatTestDataDef;
-import org.insightech.er.editor.model.testdata.TableTestData;
-import org.insightech.er.editor.model.testdata.TestData;
 import org.insightech.er.editor.model.tracking.ChangeTracking;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.insightech.er.editor.persistent.Persistent;
@@ -307,7 +302,8 @@ public class PersistentXmlImpl extends Persistent {
         xml.append(this.createXML(diagramContents.getContents(), context));
         xml.append(this.createXMLERModel(diagramContents.getModelSet(), context));
         xml.append(this.createXML(diagramContents.getGroups(), context));
-        xml.append(this.createXML(diagramContents.getTestDataList(), context));
+        // #deleted test data
+        //xml.append(this.createXML(diagramContents.getTestDataList(), context));
 
         xml.append(this.createXML(diagramContents.getSequenceSet()));
         xml.append(this.createXML(diagramContents.getTriggerSet()));
@@ -329,19 +325,20 @@ public class PersistentXmlImpl extends Persistent {
         return xml.toString();
     }
 
-    private String createXML(List<TestData> testDataList, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
-
-        xml.append("<test_data_list>\n");
-
-        for (TestData testData : testDataList) {
-            xml.append(tab(tab(this.createXML(testData, context))));
-        }
-
-        xml.append("</test_data_list>\n");
-
-        return xml.toString();
-    }
+    // #deleted test data
+    //private String createXML(List<TestData> testDataList, PersistentContext context) {
+    //    StringBuilder xml = new StringBuilder();
+    //
+    //    xml.append("<test_data_list>\n");
+    //
+    //    for (TestData testData : testDataList) {
+    //        xml.append(tab(tab(this.createXML(testData, context))));
+    //    }
+    //
+    //    xml.append("</test_data_list>\n");
+    //
+    //    return xml.toString();
+    //}
 
     private String createXML(TriggerSet triggerSet) {
         StringBuilder xml = new StringBuilder();
@@ -589,114 +586,111 @@ public class PersistentXmlImpl extends Persistent {
         return xml.toString();
     }
 
-    private String createXML(TestData testData, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
-
-        xml.append("<test_data>\n");
-
-        xml.append("\t<name>").append(escape(testData.getName())).append("</name>\n");
-        xml.append("\t<export_order>").append(testData.getExportOrder()).append("</export_order>\n");
-
-        Map<ERTable, TableTestData> tableTestDataMap = testData.getTableTestDataMap();
-        for (Map.Entry<ERTable, TableTestData> entry : tableTestDataMap.entrySet()) {
-            ERTable table = entry.getKey();
-            TableTestData tableTestData = entry.getValue();
-
-            xml.append(tab(createXML(tableTestData, table, context)));
-        }
-
-        xml.append("</test_data>\n");
-
-        return xml.toString();
-    }
-
-    private String createXML(TableTestData tableTestData, ERTable table, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
-
-        xml.append("<table_test_data>\n");
-
-        xml.append("\t<table_id>").append(context.nodeElementMap.get(table)).append("</table_id>\n");
-
-        DirectTestData directTestData = tableTestData.getDirectTestData();
-        RepeatTestData repeatTestData = tableTestData.getRepeatTestData();
-
-        xml.append(tab(createXML(directTestData, table, context)));
-        xml.append(tab(createXML(repeatTestData, table, context)));
-
-        xml.append("</table_test_data>\n");
-
-        return xml.toString();
-    }
-
-    private String createXML(DirectTestData directTestData, ERTable table, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
-
-        xml.append("<direct_test_data>\n");
-
-        for (Map<NormalColumn, String> data : directTestData.getDataList()) {
-            xml.append("\t<data>\n");
-            for (NormalColumn normalColumn : table.getExpandedColumns()) {
-                xml.append("\t\t<column_data>\n");
-                xml.append("\t\t\t<column_id>").append(context.columnMap.get(normalColumn)).append("</column_id>\n");
-                xml.append("\t\t\t<value>").append(escape(data.get(normalColumn))).append("</value>\n");
-                xml.append("\t\t</column_data>\n");
-            }
-            xml.append("\t</data>\n");
-        }
-
-        xml.append("</direct_test_data>\n");
-
-        return xml.toString();
-    }
-
-    private String createXML(RepeatTestData repeatTestData, ERTable table, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
-
-        xml.append("<repeat_test_data>\n");
-        xml.append("\t<test_data_num>").append(repeatTestData.getTestDataNum()).append("</test_data_num>\n");
-        xml.append("\t<data_def_list>\n");
-
-        for (NormalColumn normalColumn : table.getExpandedColumns()) {
-            xml.append(tab(tab(this.createXML(repeatTestData.getDataDef(normalColumn), normalColumn, context))));
-        }
-
-        xml.append("\t</data_def_list>\n");
-        xml.append("</repeat_test_data>\n");
-
-        return xml.toString();
-    }
-
-    private String createXML(RepeatTestDataDef repeatTestDataDef, NormalColumn column, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
-
-        Integer columnId = context.columnMap.get(column);
-
-        if (columnId != null) {
-            xml.append("<data_def>\n");
-            xml.append("\t<column_id>").append(columnId).append("</column_id>\n");
-            xml.append("\t<type>").append(escape(repeatTestDataDef.getType())).append("</type>\n");
-            xml.append("\t<repeat_num>").append(Format.toString((repeatTestDataDef.getRepeatNum()))).append("</repeat_num>\n");
-            xml.append("\t<template>").append(escape(repeatTestDataDef.getTemplate())).append("</template>\n");
-            xml.append("\t<from>").append(Format.toString((repeatTestDataDef.getFrom()))).append("</from>\n");
-            xml.append("\t<to>").append(Format.toString((repeatTestDataDef.getTo()))).append("</to>\n");
-            xml.append("\t<increment>").append(Format.toString((repeatTestDataDef.getIncrement()))).append("</increment>\n");
-            for (String select : repeatTestDataDef.getSelects()) {
-                xml.append("\t<select>").append(escape(select)).append("</select>\n");
-            }
-            xml.append("\t<modified_values>\n");
-            for (Integer modifiedRow : repeatTestDataDef.getModifiedValues().keySet()) {
-                xml.append("\t\t<modified_value>\n");
-                xml.append("\t\t\t<row>").append(modifiedRow).append("</row>\n");
-                xml.append("\t\t\t<value>").append(escape(repeatTestDataDef.getModifiedValues().get(modifiedRow))).append("</value>\n");
-                xml.append("\t\t</modified_value>\n");
-            }
-            xml.append("\t</modified_values>\n");
-
-            xml.append("</data_def>\n");
-        }
-
-        return xml.toString();
-    }
+    // #deleted test data
+    //private String createXML(TestData testData, PersistentContext context) {
+    //    StringBuilder xml = new StringBuilder();
+    //
+    //    xml.append("<test_data>\n");
+    //
+    //    xml.append("\t<name>").append(escape(testData.getName())).append("</name>\n");
+    //    xml.append("\t<export_order>").append(testData.getExportOrder()).append("</export_order>\n");
+    //
+    //    Map<ERTable, TableTestData> tableTestDataMap = testData.getTableTestDataMap();
+    //    for (Map.Entry<ERTable, TableTestData> entry : tableTestDataMap.entrySet()) {
+    //        ERTable table = entry.getKey();
+    //        TableTestData tableTestData = entry.getValue();
+    //
+    //        xml.append(tab(createXML(tableTestData, table, context)));
+    //    }
+    //
+    //    xml.append("</test_data>\n");
+    //
+    //    return xml.toString();
+    //}
+    //private String createXML(TableTestData tableTestData, ERTable table, PersistentContext context) {
+    //    StringBuilder xml = new StringBuilder();
+    //
+    //    xml.append("<table_test_data>\n");
+    //
+    //    xml.append("\t<table_id>").append(context.nodeElementMap.get(table)).append("</table_id>\n");
+    //
+    //    DirectTestData directTestData = tableTestData.getDirectTestData();
+    //    RepeatTestData repeatTestData = tableTestData.getRepeatTestData();
+    //
+    //    xml.append(tab(createXML(directTestData, table, context)));
+    //    xml.append(tab(createXML(repeatTestData, table, context)));
+    //
+    //    xml.append("</table_test_data>\n");
+    //
+    //    return xml.toString();
+    //}
+    //private String createXML(DirectTestData directTestData, ERTable table, PersistentContext context) {
+    //    StringBuilder xml = new StringBuilder();
+    //
+    //    xml.append("<direct_test_data>\n");
+    //
+    //    for (Map<NormalColumn, String> data : directTestData.getDataList()) {
+    //        xml.append("\t<data>\n");
+    //        for (NormalColumn normalColumn : table.getExpandedColumns()) {
+    //            xml.append("\t\t<column_data>\n");
+    //            xml.append("\t\t\t<column_id>").append(context.columnMap.get(normalColumn)).append("</column_id>\n");
+    //            xml.append("\t\t\t<value>").append(escape(data.get(normalColumn))).append("</value>\n");
+    //            xml.append("\t\t</column_data>\n");
+    //        }
+    //        xml.append("\t</data>\n");
+    //    }
+    //
+    //    xml.append("</direct_test_data>\n");
+    //
+    //    return xml.toString();
+    //}
+    //private String createXML(RepeatTestData repeatTestData, ERTable table, PersistentContext context) {
+    //    StringBuilder xml = new StringBuilder();
+    //
+    //    xml.append("<repeat_test_data>\n");
+    //    xml.append("\t<test_data_num>").append(repeatTestData.getTestDataNum()).append("</test_data_num>\n");
+    //    xml.append("\t<data_def_list>\n");
+    //
+    //    for (NormalColumn normalColumn : table.getExpandedColumns()) {
+    //        xml.append(tab(tab(this.createXML(repeatTestData.getDataDef(normalColumn), normalColumn, context))));
+    //    }
+    //
+    //    xml.append("\t</data_def_list>\n");
+    //    xml.append("</repeat_test_data>\n");
+    //
+    //    return xml.toString();
+    //}
+    //private String createXML(RepeatTestDataDef repeatTestDataDef, NormalColumn column, PersistentContext context) {
+    //    StringBuilder xml = new StringBuilder();
+    //
+    //    Integer columnId = context.columnMap.get(column);
+    //
+    //    if (columnId != null) {
+    //        xml.append("<data_def>\n");
+    //        xml.append("\t<column_id>").append(columnId).append("</column_id>\n");
+    //        xml.append("\t<type>").append(escape(repeatTestDataDef.getType())).append("</type>\n");
+    //        xml.append("\t<repeat_num>").append(Format.toString((repeatTestDataDef.getRepeatNum()))).append("</repeat_num>\n");
+    //        xml.append("\t<template>").append(escape(repeatTestDataDef.getTemplate())).append("</template>\n");
+    //        xml.append("\t<from>").append(Format.toString((repeatTestDataDef.getFrom()))).append("</from>\n");
+    //        xml.append("\t<to>").append(Format.toString((repeatTestDataDef.getTo()))).append("</to>\n");
+    //        xml.append("\t<increment>").append(Format.toString((repeatTestDataDef.getIncrement()))).append("</increment>\n");
+    //        for (String select : repeatTestDataDef.getSelects()) {
+    //            xml.append("\t<select>").append(escape(select)).append("</select>\n");
+    //        }
+    //        xml.append("\t<modified_values>\n");
+    //        for (Integer modifiedRow : repeatTestDataDef.getModifiedValues().keySet()) {
+    //            xml.append("\t\t<modified_value>\n");
+    //            xml.append("\t\t\t<row>").append(modifiedRow).append("</row>\n");
+    //            xml.append("\t\t\t<value>").append(escape(repeatTestDataDef.getModifiedValues().get(modifiedRow))).append("</value>\n");
+    //            xml.append("\t\t</modified_value>\n");
+    //        }
+    //        xml.append("\t</modified_values>\n");
+    //
+    //        xml.append("</data_def>\n");
+    //    }
+    //
+    //    return xml.toString();
+    //}
 
     private String createXML(ChangeTrackingList changeTrackingList) {
         StringBuilder xml = new StringBuilder();

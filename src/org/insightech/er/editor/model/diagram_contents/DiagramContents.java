@@ -1,8 +1,5 @@
 package org.insightech.er.editor.model.diagram_contents;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.IndexSet;
@@ -12,30 +9,31 @@ import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequ
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceSet;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.TriggerSet;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.testdata.TestData;
 
+/**
+ * @author ermaster
+ * @author jflute
+ */
 public class DiagramContents {
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private Settings settings;
-
     private NodeSet contents;
-
     private GroupSet groups;
-
     private Dictionary dictionary;
-
     private SequenceSet sequenceSet;
-
     private TriggerSet triggerSet;
-
     private IndexSet indexSet;
-
     private TablespaceSet tablespaceSet;
-
-    private List<TestData> testDataList;
-
+    // #deleted test data
+    //private List<TestData> testDataList;
     private ERModelSet modelSet;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public DiagramContents() {
         this.settings = new Settings();
         this.contents = new NodeSet();
@@ -46,10 +44,14 @@ public class DiagramContents {
         this.indexSet = new IndexSet();
         this.tablespaceSet = new TablespaceSet();
 
-        this.testDataList = new ArrayList<TestData>();
+        // #deleted test data
+        //this.testDataList = new ArrayList<TestData>();
         this.modelSet = new ERModelSet();
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public NodeSet getContents() {
         return this.contents;
     }
@@ -114,28 +116,20 @@ public class DiagramContents {
         this.tablespaceSet = tablespaceSet;
     }
 
-    public List<TestData> getTestDataList() {
-        return testDataList;
-    }
+    // #deleted test data
+    //public List<TestData> getTestDataList() {
+    //    return testDataList;
+    //}
+    //
+    //public void setTestDataList(List<TestData> testDataList) {
+    //    this.testDataList = testDataList;
+    //}
 
-    public void setTestDataList(List<TestData> testDataList) {
-        this.testDataList = testDataList;
-    }
-
-    /**
-     * modelSet���擾���܂��B
-     * @return modelSet
-     */
     public ERModelSet getModelSet() {
         return modelSet;
     }
 
-    /**
-     * modelSet��ݒ肵�܂��B
-     * @param modelSet modelSet
-     */
     public void setModelSet(ERModelSet modelSet) {
         this.modelSet = modelSet;
     }
-
 }
