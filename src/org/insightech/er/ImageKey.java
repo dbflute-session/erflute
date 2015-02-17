@@ -1,8 +1,11 @@
 package org.insightech.er;
 
 /**
+ * #analyzed イメージのキー定義 <br>
  * {@link Activator#getImage(String)},
  * {@link Activator#getImageDescriptor(String)}
+ * @author ermaster
+ * @author jflute
  */
 public interface ImageKey {
 

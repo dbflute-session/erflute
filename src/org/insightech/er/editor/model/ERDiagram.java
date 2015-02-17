@@ -23,54 +23,48 @@ import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 
+/**
+ * #analyzed ひとつのER図を表すモデル、すべてのモデルの中心地と考えてよい
+ * @author ermaster
+ * @author jflute
+ */
 public class ERDiagram extends ViewableModel {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     private static final long serialVersionUID = 8729319470770699498L;
-
     public static final String PROPERTY_CHANGE_ALL = "all";
-
     public static final String PROPERTY_CHANGE_DATABASE = "database";
-
     public static final String PROPERTY_CHANGE_SETTINGS = "settings";
-
     public static final String PROPERTY_CHANGE_ADD = "add";
-
     public static final String PROPERTY_CHANGE_ERMODEL = "ermodel";
-
     public static final String PROPERTY_CHANGE_TABLE = "table";
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private ChangeTrackingList changeTrackingList;
-
     private DiagramContents diagramContents;
-
     private ERDiagramMultiPageEditor editor;
-
     private int[] defaultColor;
-
     private boolean tooltip;
     private boolean showMainColumn;
-
     private boolean disableSelectColumn;
-
     private Category currentCategory;
     private int currentCategoryIndex;
-
     private ERModel currentErmodel;
-
     private double zoom = 1.0d;
-
     private int x;
-
     private int y;
-
     private DBSetting dbSetting;
-
     private PageSetting pageSetting;
-
     public Point mousePoint = new Point();
-
     private String defaultModelName;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public ERDiagram(String database) {
         this.diagramContents = new DiagramContents();
         this.diagramContents.getSettings().setDatabase(database);
@@ -80,6 +74,9 @@ public class ERDiagram extends ViewableModel {
         this.setColor(255, 255, 255);
     }
 
+    // ===================================================================================
+    //                                                                          Initialize
+    //                                                                          ==========
     public void init() {
         this.diagramContents.setColumnGroups(GlobalGroupSet.load());
 
@@ -93,6 +90,9 @@ public class ERDiagram extends ViewableModel {
         settings.getModelProperties().init();
     }
 
+    // ===================================================================================
+    //                                                                    Content Handling
+    //                                                                    ================
     public void addNewContent(NodeElement element) {
         element.setColor(this.defaultColor[0], this.defaultColor[1], this.defaultColor[2]);
         element.setFontName(this.getFontName());
@@ -103,61 +103,52 @@ public class ERDiagram extends ViewableModel {
 
     public void addContent(NodeElement element) {
         element.setDiagram(this);
-
         this.diagramContents.getContents().addNodeElement(element);
-
         if (this.editor != null) {
             Category category = this.editor.getCurrentPageCategory();
             if (category != null) {
                 category.getContents().add(element);
             }
         }
-
         if (element instanceof TableView) {
             for (NormalColumn normalColumn : ((TableView) element).getNormalColumns()) {
                 this.getDiagramContents().getDictionary().add(normalColumn);
             }
-
         }
-
         if (element instanceof ERTable) {
             ERTable table = (ERTable) element;
             if (getCurrentErmodel() != null) {
-                // �r���[��ɉ��z�e�[�u����ǉ�����
-
+                // ビュー上に仮想テーブルを追加する
                 ERModel model = getCurrentErmodel();
                 ERVirtualTable virtualTable = new ERVirtualTable(model, table);
                 virtualTable.setPoint(element.getX(), element.getY());
 
-                // TODO ���C���r���[��ł͍���ɔz�u
+                // メインビュー上では左上に配置
                 element.setLocation(new Location(0, 0, element.getWidth(), element.getHeight()));
 
                 model.addTable(virtualTable);
             }
         }
-
         if (element instanceof ERVirtualTable) {
             ERVirtualTable virtualTable = (ERVirtualTable) element;
             if (getCurrentErmodel() != null) {
-                // �r���[��ɉ��z�e�[�u����ǉ�����
-
+                // ビュー上に仮想テーブルを追加する
                 ERModel model = getCurrentErmodel();
-                //				ERVirtualTable virtualTable = new ERVirtualTable(model, table);
+                //ERVirtualTable virtualTable = new ERVirtualTable(model, table);
                 virtualTable.setPoint(element.getX(), element.getY());
 
-                // TODO ���C���r���[��ł͍���ɔz�u
+                // メインビュー上では左上に配置
                 element.setLocation(new Location(0, 0, element.getWidth(), element.getHeight()));
 
                 model.addTable(virtualTable);
             }
         }
-
         this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
     public void removeContent(NodeElement element) {
         if (element instanceof ERVirtualTable) {
-            // ���C���r���[�̃m�[�h�͎c���ĉ��z�e�[�u�������폜
+            // メインビューのノードは残して仮想テーブルだけ削除
             currentErmodel.remove((ERVirtualTable) element);
         } else if (element instanceof VGroup) {
             currentErmodel.remove((VGroup) element);
@@ -166,7 +157,7 @@ public class ERDiagram extends ViewableModel {
         } else {
             this.diagramContents.getContents().remove(element);
             if (element instanceof ERTable) {
-                // ���C���r���[�̃e�[�u�����폜�����Ƃ��́A�r���[�̃m�[�h���폜�iTODO �����������Ɏc���Ă��܂��j
+                // メインビューのテーブルを削除したときは、ビューのノードも削除（線が消えずに残ってしまう）
                 for (ERModel model : getDiagramContents().getModelSet()) {
                     ERVirtualTable vtable = model.findVirtualTable((TableView) element);
                     model.remove(vtable);
@@ -190,28 +181,49 @@ public class ERDiagram extends ViewableModel {
         this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
+    // ===================================================================================
+    //                                                                   ER/Table Handling
+    //                                                                   =================
     public void addErmodel(ERModel ermodel) {
         diagramContents.getModelSet().add(ermodel);
         firePropertyChange(PROPERTY_CHANGE_ADD, null, ermodel);
-    }
-
-    public void changeAll() {
-        this.firePropertyChange(PROPERTY_CHANGE_ALL, null, null);
-    }
-
-    public void changeAll(List<NodeElement> nodeElementList) {
-        this.firePropertyChange(PROPERTY_CHANGE_ALL, null, nodeElementList);
     }
 
     public void changeTable(TableView tableView) {
         this.firePropertyChange(PROPERTY_CHANGE_TABLE, null, tableView);
     }
 
+    /**
+     * メインビューでテーブルを更新したときに呼ばれます。
+     * サブビューのテーブルを更新します。
+     * @param table テーブルビュー
+     */
+    public void doChangeTable(TableView table) {
+        for (ERModel model : getDiagramContents().getModelSet()) {
+            ERVirtualTable vtable = model.findVirtualTable(table);
+            if (vtable != null) {
+                vtable.doChangeTable();
+            }
+        }
+    }
+
+    public ERModel findModelByTable(ERTable table) {
+        for (ERModel model : diagramContents.getModelSet()) {
+            for (ERVirtualTable vtable : model.getTables()) {
+                if (vtable.getRawTable().equals(table)) {
+                    return model;
+                }
+            }
+        }
+        return null;
+    }
+
+    // ===================================================================================
+    //                                                                   Database Handling
+    //                                                                   =================
     public void setDatabase(String str) {
         String oldDatabase = getDatabase();
-
         this.getDiagramContents().getSettings().setDatabase(str);
-
         if (str != null && !str.equals(oldDatabase)) {
             this.firePropertyChange(PROPERTY_CHANGE_DATABASE, oldDatabase, getDatabase());
             this.changeAll();
@@ -226,14 +238,9 @@ public class ERDiagram extends ViewableModel {
         this.getDiagramContents().getSettings().setDatabase(str);
     }
 
-    public void setSettings(Settings settings) {
-        this.getDiagramContents().setSettings(settings);
-        this.editor.initCategoryPages();
-
-        this.firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
-    }
-
+    // ===================================================================================
+    //                                                                   Category Handling
+    //                                                                   =================
     public void setCurrentCategoryPageName() {
         this.editor.setCurrentCategoryPageName();
     }
@@ -256,10 +263,62 @@ public class ERDiagram extends ViewableModel {
         this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
+    // ===================================================================================
+    //                                                                    Various Handling
+    //                                                                    ================
     public void change() {
         this.firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
     }
 
+    public void changeAll() {
+        this.firePropertyChange(PROPERTY_CHANGE_ALL, null, null);
+    }
+
+    public void changeAll(List<NodeElement> nodeElementList) {
+        this.firePropertyChange(PROPERTY_CHANGE_ALL, null, nodeElementList);
+    }
+
+    public void setSettings(Settings settings) {
+        this.getDiagramContents().setSettings(settings);
+        this.editor.initCategoryPages();
+
+        this.firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
+        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+    }
+
+    //	/**
+    //	 * 全体ビューもしくは通常ビューで更新された内容を、全てのビューに展開します。
+    //	 * @param event 発生したイベント
+    //	 * @param nodeElement 更新したモデル
+    //	 */
+    //	public void refreshAllModel(PropertyChangeEvent event, NodeElement nodeElement) {
+    //		if (nodeElement instanceof ERVirtualTable) {
+    //			ERTable table = ((ERVirtualTable)nodeElement).getRawTable();
+    //			table.getDiagram().doChangeTable(table);
+    //			for (ERModel model : getDiagramContents().getModelSet()) {
+    //				ERVirtualTable vtable = model.findVirtualTable(table);
+    //				if (vtable != null) {
+    //					vtable.doChangeTable();
+    ////					vtable.firePropertyChange(event.getPropertyName(), event.getOldValue(), event.getNewValue());
+    //				}
+    //			}
+    //		} else if (nodeElement instanceof ERTable) {
+    //			ERTable table = (ERTable)nodeElement;
+    //			table.getDiagram().doChangeTable(table);
+    //			for (ERModel model : getDiagramContents().getModelSet()) {
+    //				ERVirtualTable vtable = model.findVirtualTable(table);
+    //				if (vtable != null) {
+    //					vtable.doChangeTable();
+    ////					vtable.firePropertyChange(event.getPropertyName(), event.getOldValue(), event.getNewValue());
+    //				}
+    //			}
+    //		}
+    //
+    //	}
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public ChangeTrackingList getChangeTrackingList() {
         if (this.changeTrackingList == null) {
             this.changeTrackingList = new ChangeTrackingList();
@@ -308,10 +367,6 @@ public class ERDiagram extends ViewableModel {
         this.tooltip = tooltip;
     }
 
-    /**
-     * currentErmodel���擾���܂��B
-     * @return currentErmodel
-     */
     public ERModel getCurrentErmodel() {
         return currentErmodel;
     }
@@ -337,49 +392,22 @@ public class ERDiagram extends ViewableModel {
         return y;
     }
 
-    /**
-     * dbSetting ���擾���܂�.
-     *
-     * @return dbSetting
-     */
     public DBSetting getDbSetting() {
         return dbSetting;
     }
 
-    /**
-     * dbSetting ��ݒ肵�܂�.
-     *
-     * @param dbSetting
-     *            dbSetting
-     */
     public void setDbSetting(DBSetting dbSetting) {
         this.dbSetting = dbSetting;
     }
 
-    /**
-     * pageSetting ���擾���܂�.
-     *
-     * @return pageSetting
-     */
     public PageSetting getPageSetting() {
         return pageSetting;
     }
 
-    /**
-     * pageSetting ��ݒ肵�܂�.
-     *
-     * @param pageSetting
-     *            pageSetting
-     */
     public void setPageSetting(PageSetting pageSetting) {
         this.pageSetting = pageSetting;
     }
 
-    /**
-     * editor ���擾���܂�.
-     *
-     * @return editor
-     */
     public ERDiagramMultiPageEditor getEditor() {
         return editor;
     }
@@ -398,37 +426,18 @@ public class ERDiagram extends ViewableModel {
         return str;
     }
 
-    /**
-     * showMainColumn��ݒ肵�܂��B
-     * @param showMainColumn showMainColumn
-     */
     public void setShowMainColumn(boolean showMainColumn) {
         this.showMainColumn = showMainColumn;
     }
 
-    /**
-     * showMainColumn���擾���܂��B
-     * @return showMainColumn
-     */
     public boolean isShowMainColumn() {
         return showMainColumn;
     }
 
-    /**
-     * disableSelectColumn ���擾���܂�.
-     *
-     * @return disableSelectColumn
-     */
     public boolean isDisableSelectColumn() {
         return disableSelectColumn;
     }
 
-    /**
-     * disableSelectColumn ��ݒ肵�܂�.
-     *
-     * @param disableSelectColumn
-     *            disableSelectColumn
-     */
     public void setDisableSelectColumn(boolean disableSelectColumn) {
         this.disableSelectColumn = disableSelectColumn;
     }
@@ -441,71 +450,7 @@ public class ERDiagram extends ViewableModel {
         }
     }
 
-    /**
-     * defaultModelName���擾���܂��B
-     * @return defaultModelName
-     */
     public String getDefaultModelName() {
         return defaultModelName;
     }
-
-    /**
-     * ���C���r���[�Ńe�[�u�����X�V�����Ƃ��ɌĂ΂�܂��B
-     * �T�u�r���[�̃e�[�u�����X�V���܂��B
-     * @param newCopyTableView
-     */
-    public void doChangeTable(TableView table) {
-        for (ERModel model : getDiagramContents().getModelSet()) {
-            ERVirtualTable vtable = model.findVirtualTable(table);
-            if (vtable != null) {
-                vtable.doChangeTable();
-            }
-        }
-    }
-
-    public ERModel findModelByTable(ERTable table) {
-        for (ERModel model : diagramContents.getModelSet()) {
-            for (ERVirtualTable vtable : model.getTables()) {
-                if (vtable.getRawTable().equals(table)) {
-                    return model;
-                }
-            }
-        }
-        return null;
-    }
-
-    //	/**
-    //	 * �S�̃r���[�������͒ʏ�r���[�ōX�V���ꂽ���e���A�S�Ẵr���[�ɓW�J���܂��B
-    //	 * @param event ���������C�x���g
-    //	 * @param nodeElement �X�V�������f��
-    //	 */
-    //	public void refreshAllModel(PropertyChangeEvent event, NodeElement nodeElement) {
-    //		if (nodeElement instanceof ERVirtualTable) {
-    //			ERTable table = ((ERVirtualTable)nodeElement).getRawTable();
-    //			// ���C���r���[�ɓW�J
-    //			table.getDiagram().doChangeTable(table);
-    //			// �S�r���[�ɓW�J
-    //			for (ERModel model : getDiagramContents().getModelSet()) {
-    //				ERVirtualTable vtable = model.findVirtualTable(table);
-    //				if (vtable != null) {
-    //					vtable.doChangeTable();
-    ////					vtable.firePropertyChange(event.getPropertyName(), event.getOldValue(), event.getNewValue());
-    //				}
-    //			}
-    //		} else if (nodeElement instanceof ERTable) {
-    //			ERTable table = (ERTable)nodeElement;
-    //			// ���C���r���[�ɓW�J
-    //			table.getDiagram().doChangeTable(table);
-    //			// �S�r���[�ɓW�J
-    //			for (ERModel model : getDiagramContents().getModelSet()) {
-    //				ERVirtualTable vtable = model.findVirtualTable(table);
-    //				if (vtable != null) {
-    //					vtable.doChangeTable();
-    ////					vtable.firePropertyChange(event.getPropertyName(), event.getOldValue(), event.getNewValue());
-    //				}
-    //			}
-    //		}
-    //
-    //	}
-
 }

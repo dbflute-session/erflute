@@ -10,6 +10,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.insightech.er.Activator;
 
+/**
+ * #analyzed ファイルシステム全体としてのディレクトリ入力テキスト、誰からも呼ばれていない？
+ * @author ermaster
+ * @author jflute
+ */
 public class DirectoryText {
 
     private Text text;

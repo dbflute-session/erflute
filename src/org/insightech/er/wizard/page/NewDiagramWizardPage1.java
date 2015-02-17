@@ -16,31 +16,27 @@ import org.insightech.er.ResourceString;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.persistent.Persistent;
 
+/**
+ * #analyzed 新規ER図の作成のファイル名入力の画面
+ * @author ermaster
+ * @author jflute
+ */
 public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
 
-    private ERDiagram diagram;
-
     private static final String EXTENSION = ".erm";
+    private ERDiagram diagram;
 
     public NewDiagramWizardPage1(IStructuredSelection selection) {
         super(ResourceString.getResourceString("wizard.new.diagram.title"), selection);
-
         this.setTitle(ResourceString.getResourceString("wizard.new.diagram.title"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void createControl(Composite parent) {
         super.createControl(parent);
-
         this.setFileName("newfile");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean validatePage() {
         boolean valid = super.validatePage();
@@ -67,11 +63,9 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
                 valid = false;
             }
         }
-
         if (valid) {
             this.setMessage(ResourceString.getResourceString("wizard.new.diagram.message"));
         }
-
         return valid;
     }
 
@@ -80,35 +74,24 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
         this.diagram.init();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected InputStream getInitialContents() {
         Persistent persistent = Persistent.getInstance();
-
         try {
             InputStream in = persistent.createInputStream(this.diagram);
             return in;
-
         } catch (IOException e) {
             Activator.showExceptionDialog(e);
         }
-
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IFile createNewFile() {
         String fileName = this.getFileName();
         if (fileName.indexOf(".") == -1) {
             this.setFileName(fileName + EXTENSION);
         }
-
         return super.createNewFile();
     }
-
 }

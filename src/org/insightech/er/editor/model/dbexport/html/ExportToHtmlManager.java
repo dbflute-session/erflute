@@ -28,9 +28,13 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.TableV
 import org.insightech.er.util.io.FileUtils;
 import org.insightech.er.util.io.IOUtils;
 
+/**
+ * @author ermaster
+ * @author jflute
+ */
 public class ExportToHtmlManager {
 
-    private static final Map PROPERTIES = ResourceString.getResources("html.report.");
+    private static final Map<String, String> PROPERTIES = ResourceString.getResources("html.report.");
 
     private static final String[] FIX_FILES = { "help-doc.html", "index.html", "stylesheet.css" };
 
@@ -182,8 +186,8 @@ public class ExportToHtmlManager {
     }
 
     private static String replaceProperties(String content) {
-        for (Object key : PROPERTIES.keySet()) {
-            content = content.replaceAll(String.valueOf(key), String.valueOf(PROPERTIES.get(key)));
+        for (String key : PROPERTIES.keySet()) {
+            content = content.replaceAll(key, String.valueOf(PROPERTIES.get(key)));
         }
 
         return content;

@@ -11,40 +11,32 @@ import org.insightech.er.Activator;
 import org.insightech.er.wizard.page.NewDiagramWizardPage1;
 import org.insightech.er.wizard.page.NewDiagramWizardPage2;
 
+/**
+ * #analyzed 新規ER図の作成の入り口画面 (New - ERMaster)
+ * @author ermaster
+ * @author jflute
+ */
 public class NewDiagramWizard extends Wizard implements INewWizard {
 
     private NewDiagramWizardPage1 page1;
-
     private NewDiagramWizardPage2 page2;
-
     private IStructuredSelection selection;
-
     private IWorkbench workbench;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean performFinish() {
         try {
             String database = this.page2.getDatabase();
-
             this.page1.createERDiagram(database);
-
             IFile file = this.page1.createNewFile();
-
             if (file == null) {
                 return false;
             }
-
             IWorkbenchPage page = this.workbench.getActiveWorkbenchWindow().getActivePage();
-
             IDE.openEditor(page, file, true);
-
         } catch (Exception e) {
             Activator.showExceptionDialog(e);
         }
-
         return true;
     }
 
@@ -53,9 +45,6 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
         this.workbench = workbench;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void addPages() {
         this.page1 = new NewDiagramWizardPage1(this.selection);

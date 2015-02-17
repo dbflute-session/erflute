@@ -7,17 +7,15 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
+/**
+ * #analyzed メッセージやラベルのproperties
+ * @author ermaster
+ * @author jflute
+ */
 public class ResourceString {
 
-    private static ResourceBundle resource = ResourceBundle.getBundle("org.insightech.er.ERDiagram");;
+    private static final ResourceBundle resource = ResourceBundle.getBundle("org.insightech.er.ERDiagram");;
 
-    /**
-     * ERDiagram.properties �̎w�肳�ꂽ�L�[�ɑΉ�����l��Ԃ��܂�
-     * 
-     * @param key
-     *            ERDiagram.properties �Œ�`���ꂽ�L�[
-     * @return ERDiagram.properties �̎w�肳�ꂽ�L�[�ɑΉ�����l
-     */
     public static String getResourceString(String key) {
         try {
             return resource.getString(key);
@@ -26,17 +24,15 @@ public class ResourceString {
         }
     }
 
-    public static Map getResources(String prefix) {
-        Map<String, String> props = new TreeMap<String, String>(Collections.reverseOrder());
-        Enumeration keys = resource.getKeys();
-
+    public static Map<String, String> getResources(String prefix) {
+        final Map<String, String> props = new TreeMap<String, String>(Collections.reverseOrder());
+        final Enumeration<String> keys = resource.getKeys();
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
             if (key.startsWith(prefix)) {
                 props.put(key, resource.getString(key));
             }
         }
-
         return props;
     }
 }

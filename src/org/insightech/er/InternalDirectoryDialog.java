@@ -13,12 +13,17 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.internal.ide.misc.ResourceAndContainerGroup;
 
+/**
+ * #analyzed workspace内部領域としてのディレクトリ保存ダイアログ
+ * @author ermaster
+ * @author jflute
+ */
 @SuppressWarnings("restriction")
 public class InternalDirectoryDialog extends TitleAreaDialog implements Listener {
 
+    private final String initialFolder;
     private ResourceAndContainerGroup resourceGroup;
     private IPath fullPath;
-    private String initialFolder;
 
     protected InternalDirectoryDialog(Shell parentShell, String initialFolder) {
         super(parentShell);
@@ -32,7 +37,6 @@ public class InternalDirectoryDialog extends TitleAreaDialog implements Listener
 
     @Override
     protected Control createDialogArea(Composite parent) {
-
         Composite topLevel = new Composite(parent, SWT.NONE);
         topLevel.setLayout(new GridLayout());
         topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
@@ -40,10 +44,6 @@ public class InternalDirectoryDialog extends TitleAreaDialog implements Listener
 
         resourceGroup = new ResourceAndContainerGroup(topLevel, this, "Directory name:", "folder", false, 250);
         resourceGroup.setContainerFullPath(new Path(initialFolder));
-
-        //		if (new Path(initialFolder).lastSegment() != null) {
-        //			resourceGroup.setResource(new Path(initialFolder).lastSegment());
-        //		}
 
         setTitle("Directory");
 
@@ -57,7 +57,7 @@ public class InternalDirectoryDialog extends TitleAreaDialog implements Listener
     @Override
     protected void okPressed() {
         if (resourceGroup.getContainerFullPath() == null) {
-            setErrorMessage("�o�͐��I�����Ă��������B");
+            setErrorMessage("出力先を選択してください。");
         } else {
             fullPath = resourceGroup.getContainerFullPath().append(resourceGroup.getResource());
             super.okPressed();
@@ -67,5 +67,4 @@ public class InternalDirectoryDialog extends TitleAreaDialog implements Listener
     public IPath getResourcePath() {
         return fullPath;
     }
-
 }

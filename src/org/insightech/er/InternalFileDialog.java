@@ -14,6 +14,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 import org.eclipse.ui.internal.ide.misc.ResourceAndContainerGroup;
 
+/**
+ * #analyzed workspace内部領域としてのファイル保存ダイアログ
+ * @author ermaster
+ * @author jflute
+ */
 @SuppressWarnings("restriction")
 public class InternalFileDialog extends TitleAreaDialog implements Listener {
 
@@ -30,13 +35,11 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
 
     @Override
     protected Control createContents(Composite parent) {
-        // TODO Auto-generated method stub
         return super.createContents(parent);
     }
 
     @Override
     protected Control createDialogArea(Composite parent) {
-
         Composite topLevel = new Composite(parent, SWT.NONE);
         topLevel.setLayout(new GridLayout());
         topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
@@ -54,9 +57,6 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
 
         setTitle("File");
 
-        //		Text text = new Text(parent, SWT.NONE);
-        //		text.setText("abc");
-        // TODO Auto-generated method stub
         return super.createDialogArea(parent);
     }
 
@@ -68,7 +68,7 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
     @Override
     protected void okPressed() {
         if (resourceGroup.getContainerFullPath() == null) {
-            setErrorMessage("�o�͐��I�����Ă��������B");
+            setErrorMessage("出力先を選択してください。");
         } else {
             fullPath = resourceGroup.getContainerFullPath().append(resourceGroup.getResource());
             super.okPressed();
@@ -78,5 +78,4 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
     public IPath getResourcePath() {
         return fullPath;
     }
-
 }

@@ -170,6 +170,12 @@ public class Activator extends AbstractUIPlugin {
         return fileDialog.open();
     }
 
+    /**
+     * #analyzed ファイルの保存ダイアログを、workspace内部領域として表示する。e.g. DDLの出力先ファイルなど <br>
+     * @param filePath デフォルトのファイルパス (NotNull)
+     * @param filterExtensions ファイルの拡張子の配列 (NotNull)
+     * @return ファイルパスの文字列表現 (NullAllowed: OK状態でなければ)
+     */
     public static String showSaveDialogInternal(String filePath, String[] filterExtensions) {
         InternalFileDialog fileDialog =
                 new InternalFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath,
@@ -181,6 +187,11 @@ public class Activator extends AbstractUIPlugin {
         return null;
     }
 
+    /**
+     * #analyzed ファイルの保存ダイアログを、workspace内部領域として表示する。e.g. DDLの出力先ファイルなど <br>
+     * @param filePath デフォルトのディレクトリパス (NotNull)
+     * @return ファイルパスの文字列表現 (NullAllowed: OK状態でなければ)
+     */
     public static String showDirectoryDialogInternal(String filePath) {
         InternalDirectoryDialog fileDialog =
                 new InternalDirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath);

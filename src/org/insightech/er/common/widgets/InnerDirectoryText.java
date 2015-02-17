@@ -10,12 +10,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.insightech.er.Activator;
 
+/**
+ * #analyzed workspace内部領域としてのディレクトリ入力テキスト
+ * @author ermaster
+ * @author jflute
+ */
 public class InnerDirectoryText {
 
-    private Text text;
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    private final Text text;
+    private final Button openBrowseButton;
 
-    private Button openBrowseButton;
-
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public InnerDirectoryText(Composite parent, int style) {
         this.text = new Text(parent, style);
 
@@ -23,10 +33,6 @@ public class InnerDirectoryText {
         this.openBrowseButton.setText(JFaceResources.getString("openBrowse"));
 
         this.openBrowseButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 String saveFilePath = Activator.showDirectoryDialogInternal(text.getText());
@@ -35,6 +41,9 @@ public class InnerDirectoryText {
         });
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public void setLayoutData(Object layoutData) {
         this.text.setLayoutData(layoutData);
     }
@@ -48,7 +57,6 @@ public class InnerDirectoryText {
         if (this.text.getText().trim().length() == 0) {
             return true;
         }
-
         return false;
     }
 
@@ -59,5 +67,4 @@ public class InnerDirectoryText {
     public void addModifyListener(ModifyListener listener) {
         this.text.addModifyListener(listener);
     }
-
 }
