@@ -54,22 +54,16 @@ import org.insightech.er.editor.view.outline.ERDiagramOutlinePage;
 import org.insightech.er.util.Format;
 
 /**
- * <pre>
- * �G�f�B�^�[�N���X
- * �J�e�S���[���Ƀ^�u�i�y�[�W�j���쐬����
- * �e�^�u�i�y�[�W�j�ɂ́A{@link ERDiagramEditor} �����蓖�Ă�
- * </pre>
+ * #analyze plugins.xmlにて定義されている
+ * @author ermaster
+ * @author jflute
  */
 public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 
     private ERDiagram diagram;
-
     private ERDiagramEditPartFactory editPartFactory;
-
     private ZoomComboContributionItem zoomComboContributionItem;
-
     private ERDiagramOutlinePage outlinePage;
-
     private ERDiagramElementStateListener fElementStateListener;
 
     private boolean dirty;
@@ -82,9 +76,6 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         return super.isDirty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createPages() {
         try {
@@ -136,10 +127,10 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         }
 
         System.out.println(new Date() + " : E");
-        this.initCategoryPages(); // ���ꂪ5�b�|����
+        this.initCategoryPages(); // 5秒
 
         System.out.println(new Date() + " : F");
-        this.initStartPage(); // ���ꂪ9�b�|����
+        this.initStartPage(); // 9秒
 
         System.out.println(new Date() + " : G");
         this.addMouseListenerToTabFolder();
@@ -223,7 +214,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 
         }
 
-        // �J�e�S���\���͖�����
+        // カテゴリ表示は無くす
         //		CategorySetting categorySettings = this.diagram.getDiagramContents()
         //				.getSettings().getCategorySetting();
         //		System.out.println(new Date() + " : E1");
@@ -584,29 +575,14 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         return super.getAdapter(type);
     }
 
-    /**
-     * editPartFactory���擾���܂��B
-     * 
-     * @return editPartFactory
-     */
     public ERDiagramEditPartFactory getEditPartFactory() {
         return editPartFactory;
     }
 
-    /**
-     * zoomComboContributionItem���擾���܂��B
-     * 
-     * @return zoomComboContributionItem
-     */
     public ZoomComboContributionItem getZoomComboContributionItem() {
         return zoomComboContributionItem;
     }
 
-    /**
-     * outlinePage���擾���܂��B
-     * 
-     * @return outlinePage
-     */
     public ERDiagramOutlinePage getOutlinePage() {
         return outlinePage;
     }
@@ -622,17 +598,16 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     }
 
     public void setCurrentErmodel(ERModel model) {
-        // �Ƃ肠�����̓G�f�B�^��2�^�u�Œ�ŁApageNo=0 ���S�́A=1���r���[�iERModel�j�Ƃ���
+        // とりあえずはエディタは2タブ固定で、pageNo=0 が全体、=1がビュー（ERModel）とする
 
         if (getPageCount() == 1) {
-            // 1�����̏ꍇ�́A�V�����G�f�B�^���쐬����
+            // 1つだけの場合は、新しくエディタを作成する
             EROneDiagramEditor diagramEditor =
                     new EROneDiagramEditor(this.diagram, model, getEditPartFactory(), getZoomComboContributionItem(), getOutlinePage());
 
             try {
                 addPage(diagramEditor, getEditorInput(), model.getName());
                 setActiveEditor(diagramEditor);
-
             } catch (PartInitException e) {
                 Activator.showExceptionDialog(e);
             }
@@ -643,12 +618,8 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
             model.getDiagram().setCurrentErmodel(model, model.getName());
             setActiveEditor(diagramEditor);
         }
-
     }
 
     public void initGroupPages() {
-        // TODO Auto-generated method stub
-
     }
-
 }

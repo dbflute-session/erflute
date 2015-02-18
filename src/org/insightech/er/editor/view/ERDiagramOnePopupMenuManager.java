@@ -323,7 +323,7 @@ public class ERDiagramOnePopupMenuManager extends MenuManager {
         exportMenu.add(this.getAction(ExportToDDLAction.ID));
         exportMenu.add(this.getAction(ExportToImageAction.ID));
 
-        // #delete
+        // #deleted
         //exportMenu.add(this.getAction(ExportToExcelAction.ID));
         //exportMenu.add(this.getAction(ExportToHtmlAction.ID));
         //exportMenu.add(this.getAction(ExportToDictionaryAction.ID));

@@ -64,8 +64,6 @@ import org.insightech.er.editor.view.action.category.ChangeFreeLayoutAction;
 import org.insightech.er.editor.view.action.category.ChangeShowReferredTablesAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToDBAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToDDLAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToExcelAction;
-import org.insightech.er.editor.view.action.dbexport.ExportToHtmlAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToImageAction;
 import org.insightech.er.editor.view.action.dbimport.ImportFromDBAction;
 import org.insightech.er.editor.view.action.dbimport.ImportFromFileAction;
@@ -124,12 +122,20 @@ import org.insightech.er.editor.view.tool.ERDiagramPaletteRoot;
 import org.insightech.er.extention.ExtensionLoader;
 
 /**
+ * #analyze 恐らくこれが、ビューダイアグラム？ ERDiagramMultiPageEditor から new される
  * @author ermaster
  * @author jflute
  */
 public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     public static final String ACTION_OUTLINE = "_outline";
+
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     protected ERDiagram diagram;
     protected ERDiagramEditPartFactory editPartFactory;
     protected ERDiagramOutlinePage outlinePage;
@@ -142,6 +148,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     protected ExtensionLoader extensionLoader;
     private boolean isDirty;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public ERDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         DefaultEditDomain domain = new DefaultEditDomain(this);
@@ -163,6 +172,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         //		setAction(ACTION_OUTLINE, new QuickOutlineAction());
     }
 
+    // ===================================================================================
+    //                                                                               ???
+    //                                                                            ========
     @Override
     public void dispose() {
         this.getSelectionSynchronizer().removeViewer(this.outlinePage.getViewer());
@@ -200,12 +212,6 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
         viewer.setContextMenu(menuMgr);
 
-        //		if (diagram.getCurrentErmodel() == null) {
-        //			viewer.setContents(diagram);
-        //		} else {
-        //			// �Ƃ肠����OFF���āA�ŏ��Ƀt�H�[�J�X�����������Ƃ��ɃR���e���c���l�߂�
-        //		}
-
         this.outlineMenuMgr =
                 new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
                         this.outlinePage.getViewer());
@@ -219,29 +225,24 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     }
 
     @Override
-    public Object getAdapter(Class type) {
+    public Object getAdapter(@SuppressWarnings("rawtypes") Class type) {
         if (type == ZoomManager.class) {
             return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
         }
-
         if (type == IContentOutlinePage.class) {
             return this.outlinePage;
         }
-
         if (type == IGotoMarker.class) {
             return this.gotoMaker;
         }
-
         if (type == IPropertySheetPage.class) {
             return this.propertySheetPage;
         }
-
         return super.getAdapter(type);
     }
 
     public void changeCategory() {
         this.outlinePage.setCategory(this.getEditDomain(), this.getGraphicalViewer(), this.outlineMenuMgr, this.getActionRegistry());
-
         this.getSelectionSynchronizer().addViewer(this.outlinePage.getViewer());
     }
 
@@ -278,10 +279,10 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
                         new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this),
                         new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
                         new TranslationManageAction(this), /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this),
-                        new ImportFromFileAction(this), new ExportToImageAction(this), new ExportToExcelAction(this),
-                        new ExportToHtmlAction(this), /* #deleted new ExportToJavaAction(this), */new ExportToDDLAction(this),
-                        /* new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
-                        /* new ExportToTestDataAction(this), */new PageSettingAction(this), new EditAllAttributesAction(this),
+                        new ImportFromFileAction(this), new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
+                        /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
+                        /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
+                        /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this), new EditAllAttributesAction(this),
                         new DirectEditAction((IWorkbenchPart) this),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT),
                         new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.CENTER),
@@ -302,17 +303,13 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         for (IAction action : actionList) {
             if (action instanceof SelectionAction) {
                 IAction originalAction = registry.getAction(action.getId());
-
                 if (originalAction != null) {
                     selectionActionList.remove(originalAction);
                 }
                 selectionActionList.add(action.getId());
             }
-
             registry.registerAction(action);
-
         }
-
         this.addKeyHandler(registry.getAction(SearchAction.ID));
         this.addKeyHandler(registry.getAction(ERModelQuickOutlineAction.ID));
     }
@@ -483,9 +480,8 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     }
 
     public void reveal(ERTable table) {
-        ERDiagramEditPart editPart = (ERDiagramEditPart) getGraphicalViewer().getContents();
-        List tableParts = editPart.getChildren();
-
+        final ERDiagramEditPart editPart = (ERDiagramEditPart) getGraphicalViewer().getContents();
+        final List<?> tableParts = editPart.getChildren();
         for (Object tableEditPart : tableParts) {
             if (tableEditPart instanceof ERTableEditPart) {
                 ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
@@ -496,5 +492,4 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
             }
         }
     }
-
 }
