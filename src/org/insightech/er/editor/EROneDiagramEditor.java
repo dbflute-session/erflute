@@ -31,9 +31,7 @@ import org.insightech.er.editor.view.outline.ERDiagramOutlinePage;
 import org.insightech.er.editor.view.outline.ERDiagramOutlinePopupMenuManager;
 
 /**
- * TODO ON UPDATE�AON DELETE �̃v���_�E����ݒ�ł�����̂����ɐ�������<br>
- * TODO �f�t�H���g�l�Ɍ^�̐�����K�p����<br>
- *
+ * @author modified by jflute (originated in ermaster)
  */
 public class EROneDiagramEditor extends ERDiagramEditor {
 
@@ -45,10 +43,12 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         this.model = model;
     }
 
+    @Override
     public DefaultEditDomain getDefaultEditDomain() {
         return getEditDomain();
     }
 
+    @Override
     public ActionRegistry getDefaultActionRegistry() {
         return getActionRegistry();
     }
@@ -57,20 +57,20 @@ public class EROneDiagramEditor extends ERDiagramEditor {
     protected void createActions() {
         super.createActions();
 
-        ActionRegistry registry = this.getActionRegistry();
+        final ActionRegistry registry = this.getActionRegistry();
         //		List<String> selectionActionList = this.getSelectionActions();
 
-        List<IAction> actionList =
+        final List<IAction> actionList =
                 new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new VGroupManageAction(this), }));
 
-        for (IAction action : actionList) {
+        for (final IAction action : actionList) {
             registry.registerAction(action);
         }
     }
 
     @Override
     protected void initializeGraphicalViewer() {
-        GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = this.getGraphicalViewer();
         viewer.setEditPartFactory(editPartFactory);
 
         this.initViewerAction(viewer);
@@ -81,7 +81,7 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
 
-        MenuManager menuMgr = new ERDiagramOnePopupMenuManager(this.getActionRegistry(), this.model);
+        final MenuManager menuMgr = new ERDiagramOnePopupMenuManager(this.getActionRegistry(), this.model);
 
         this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
 
@@ -90,17 +90,12 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         viewer.setContents(model);
         //		viewer.getRootEditPart().setContents(editPartFactory.);
 
-        this.outlineMenuMgr =
-                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
-                        this.outlinePage.getViewer());
+        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(),
+                this.outlinePage.getOutlineActionRegistory(), this.outlinePage.getViewer());
 
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
-    /**
-     * model���擾���܂��B
-     * @return model
-     */
     public ERModel getModel() {
         return model;
     }
@@ -115,13 +110,13 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         model.changeAll();
     }
 
+    @Override
     public void reveal(ERTable table) {
-        ERModelEditPart editPart = (ERModelEditPart) getGraphicalViewer().getContents();
-        List tableParts = editPart.getChildren();
-
-        for (Object tableEditPart : tableParts) {
+        final ERModelEditPart editPart = (ERModelEditPart) getGraphicalViewer().getContents();
+        final List<?> tableParts = editPart.getChildren();
+        for (final Object tableEditPart : tableParts) {
             if (tableEditPart instanceof ERVirtualTableEditPart) {
-                ERVirtualTableEditPart vtableEditPart = (ERVirtualTableEditPart) tableEditPart;
+                final ERVirtualTableEditPart vtableEditPart = (ERVirtualTableEditPart) tableEditPart;
                 if (((ERVirtualTable) vtableEditPart.getModel()).getRawTable().equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
                     return;
@@ -135,5 +130,4 @@ public class EROneDiagramEditor extends ERDiagramEditor {
             }
         }
     }
-
 }

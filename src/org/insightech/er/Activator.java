@@ -5,7 +5,6 @@ import java.io.File;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
@@ -15,7 +14,6 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
-import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -23,17 +21,13 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPartFactory;
-import org.insightech.er.editor.controller.editpart.element.PagableFreeformRootEditPart;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.dbexport.ExportToImageAction;
 import org.insightech.er.util.Format;
@@ -41,8 +35,7 @@ import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class Activator extends AbstractUIPlugin {
 
@@ -108,7 +101,7 @@ public class Activator extends AbstractUIPlugin {
     //                                                                              Dialog
     //                                                                              ======
     public static void showExceptionDialog(Throwable e) {
-        IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.toString(), e);
+        final IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.toString(), e);
         Activator.log(e);
         ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                 ResourceString.getResourceString("dialog.title.error"), ResourceString.getResourceString("error.plugin.error.message"),
@@ -116,14 +109,15 @@ public class Activator extends AbstractUIPlugin {
     }
 
     public static void showErrorDialog(String message) {
-        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+        final MessageBox messageBox =
+                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
         messageBox.setText(ResourceString.getResourceString("dialog.title.error"));
         messageBox.setMessage(ResourceString.getResourceString(message));
         messageBox.open();
     }
 
     public static void showMessageDialog(String message) {
-        MessageBox messageBox =
+        final MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION | SWT.OK);
         messageBox.setText(ResourceString.getResourceString("dialog.title.information"));
         messageBox.setMessage(ResourceString.getResourceString(Format.null2blank(message)));
@@ -132,15 +126,14 @@ public class Activator extends AbstractUIPlugin {
 
     public static boolean showConfirmDialog(String message) {
         return showConfirmDialog(message, SWT.OK, SWT.CANCEL);
-
     }
 
     public static boolean showConfirmDialog(String message, int ok, int cancel) {
-        MessageBox messageBox =
+        final MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION | ok | cancel);
         messageBox.setText(ResourceString.getResourceString("dialog.title.confirm"));
         messageBox.setMessage(ResourceString.getResourceString(message));
-        int result = messageBox.open();
+        final int result = messageBox.open();
 
         if (result == ok) {
             return true;
@@ -154,13 +147,13 @@ public class Activator extends AbstractUIPlugin {
         String fileName = null;
 
         if (filePath != null && !"".equals(filePath.trim())) {
-            File file = new File(filePath.trim());
+            final File file = new File(filePath.trim());
 
             dir = file.getParent();
             fileName = file.getName();
         }
 
-        FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.SAVE);
+        final FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.SAVE);
 
         fileDialog.setFilterPath(dir);
         fileDialog.setFileName(fileName);
@@ -177,26 +170,25 @@ public class Activator extends AbstractUIPlugin {
      * @return ファイルパスの文字列表現 (NullAllowed: OK状態でなければ)
      */
     public static String showSaveDialogInternal(String filePath, String[] filterExtensions) {
-        InternalFileDialog fileDialog =
-                new InternalFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath,
-                        filterExtensions[0].substring(1));
+        final InternalFileDialog fileDialog = new InternalFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                filePath, filterExtensions[0].substring(1));
         if (fileDialog.open() == Window.OK) {
-            IPath path = fileDialog.getResourcePath();
+            final IPath path = fileDialog.getResourcePath();
             return path.toString();
         }
         return null;
     }
 
     /**
-     * #analyzed ファイルの保存ダイアログを、workspace内部領域として表示する。e.g. DDLの出力先ファイルなど <br>
+     * #analyzed ディレクトリ指定ダイアログを、workspace内部領域として表示する <br>
      * @param filePath デフォルトのディレクトリパス (NotNull)
      * @return ファイルパスの文字列表現 (NullAllowed: OK状態でなければ)
      */
     public static String showDirectoryDialogInternal(String filePath) {
-        InternalDirectoryDialog fileDialog =
+        final InternalDirectoryDialog fileDialog =
                 new InternalDirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath);
         if (fileDialog.open() == Window.OK) {
-            IPath path = fileDialog.getResourcePath();
+            final IPath path = fileDialog.getResourcePath();
             return path.toString();
         }
         return null;
@@ -205,10 +197,10 @@ public class Activator extends AbstractUIPlugin {
     public static String showDirectoryDialog(String filePath) {
         String fileName = null;
         if (filePath != null && !"".equals(filePath.trim())) {
-            File file = new File(filePath.trim());
+            final File file = new File(filePath.trim());
             fileName = file.getPath();
         }
-        DirectoryDialog dialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.NONE);
+        final DirectoryDialog dialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.NONE);
         dialog.setFilterPath(fileName);
         return dialog.open();
     }
@@ -221,55 +213,43 @@ public class Activator extends AbstractUIPlugin {
     // ===================================================================================
     //                                                                              Viewer
     //                                                                              ======
-    private static class GraphicalViewerCreator implements Runnable {
-
-        private Display display;
-
-        private ERDiagram diagram;
-
-        private GraphicalViewer viewer;
-
-        private GraphicalViewerCreator(Display display, ERDiagram diagram) {
-            this.display = display;
-            this.diagram = diagram;
-        }
-
-        @Override
-        public void run() {
-            Shell shell = new Shell(display);
-            shell.setLayout(new GridLayout(1, false));
-
-            ERDiagramEditPartFactory editPartFactory = new ERDiagramEditPartFactory();
-            viewer = new ScrollingGraphicalViewer();
-            viewer.setControl(new FigureCanvas(shell));
-            ScalableFreeformRootEditPart rootEditPart = new PagableFreeformRootEditPart(diagram);
-            viewer.setRootEditPart(rootEditPart);
-
-            viewer.setEditPartFactory(editPartFactory);
-            viewer.setContents(diagram);
-        }
-    }
-
-    public static GraphicalViewer createGraphicalViewer(final ERDiagram diagram) {
-        Display display = PlatformUI.getWorkbench().getDisplay();
-        GraphicalViewerCreator runnable = new GraphicalViewerCreator(display, diagram);
-        display.syncExec(runnable);
-        return runnable.viewer;
-    }
+    // nobody calls
+    //public static GraphicalViewer createGraphicalViewer(final ERDiagram diagram) {
+    //    Display display = PlatformUI.getWorkbench().getDisplay();
+    //    GraphicalViewerCreator runnable = new GraphicalViewerCreator(display, diagram);
+    //    display.syncExec(runnable);
+    //    return runnable.viewer;
+    //}
+    //private static class GraphicalViewerCreator implements Runnable {
+    //
+    //    private final Display display;
+    //    private final ERDiagram diagram;
+    //    private GraphicalViewer viewer;
+    //
+    //    private GraphicalViewerCreator(Display display, ERDiagram diagram) {
+    //        this.display = display;
+    //        this.diagram = diagram;
+    //    }
+    //
+    //    @Override
+    //    public void run() {
+    //        final Shell shell = new Shell(display);
+    //        shell.setLayout(new GridLayout(1, false));
+    //
+    //        final ERDiagramEditPartFactory editPartFactory = new ERDiagramEditPartFactory();
+    //        viewer = new ScrollingGraphicalViewer();
+    //        viewer.setControl(new FigureCanvas(shell));
+    //        final ScalableFreeformRootEditPart rootEditPart = new PagableFreeformRootEditPart(diagram);
+    //        viewer.setRootEditPart(rootEditPart);
+    //
+    //        viewer.setEditPartFactory(editPartFactory);
+    //        viewer.setContents(diagram);
+    //    }
+    //}
 
     // ===================================================================================
     //                                                                               Image
     //                                                                               =====
-    /**
-     * Returns an image descriptor for the image file at the given plug-in
-     * relative path
-     * @param path the path
-     * @return the image descriptor
-     */
-    private static ImageDescriptor loadImageDescriptor(String path) {
-        return imageDescriptorFromPlugin(PLUGIN_ID, path);
-    }
-
     @Override
     protected void initializeImageRegistry(ImageRegistry reg) {
         super.initializeImageRegistry(reg);
@@ -345,6 +325,15 @@ public class Activator extends AbstractUIPlugin {
         reg.put(ImageKey.EDIT_EXCEL, loadImageDescriptor("icons/edit_excel.png"));
     }
 
+    /**
+     * Returns an image descriptor for the image file at the given plug-in relative path
+     * @param path the path
+     * @return the image descriptor
+     */
+    private static ImageDescriptor loadImageDescriptor(String path) {
+        return imageDescriptorFromPlugin(PLUGIN_ID, path);
+    }
+
     public static Image getImage(String key) {
         return getDefault().getImageRegistry().get(key);
     }
@@ -355,7 +344,7 @@ public class Activator extends AbstractUIPlugin {
 
     private static class ImageCreator implements Runnable {
 
-        private GraphicalViewer viewer;
+        private final GraphicalViewer viewer;
         private Image img = null;
 
         private ImageCreator(GraphicalViewer viewer) {
@@ -368,19 +357,14 @@ public class Activator extends AbstractUIPlugin {
             GC imageGC = null;
 
             try {
-                ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) viewer.getRootEditPart();
+                final ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) viewer.getRootEditPart();
                 rootEditPart.refresh();
-                IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
-
-                EditPart editPart = viewer.getContents();
-
+                final IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
+                final EditPart editPart = viewer.getContents();
                 editPart.refresh();
-                ERDiagram diagram = (ERDiagram) editPart.getModel();
-
-                Rectangle rootFigureBounds = ExportToImageAction.getBounds(diagram, rootEditPart, rootFigure.getBounds());
-
-                Control figureCanvas = viewer.getControl();
-
+                final ERDiagram diagram = (ERDiagram) editPart.getModel();
+                final Rectangle rootFigureBounds = ExportToImageAction.getBounds(diagram, rootEditPart, rootFigure.getBounds());
+                final Control figureCanvas = viewer.getControl();
                 figureCanvasGC = new GC(figureCanvas);
 
                 img = new Image(Display.getCurrent(), rootFigureBounds.width + 20, rootFigureBounds.height + 20);
@@ -394,7 +378,7 @@ public class Activator extends AbstractUIPlugin {
                 imageGC.setAntialias(SWT.OFF);
                 // imageGC.setInterpolation(SWT.HIGH);
 
-                Graphics imgGraphics = new SWTGraphics(imageGC);
+                final Graphics imgGraphics = new SWTGraphics(imageGC);
                 imgGraphics.setBackgroundColor(figureCanvas.getBackground());
                 imgGraphics.fillRectangle(0, 0, rootFigureBounds.width + 20, rootFigureBounds.height + 20);
 
@@ -416,8 +400,8 @@ public class Activator extends AbstractUIPlugin {
     }
 
     public static Image createImage(GraphicalViewer viewer) {
-        Display display = PlatformUI.getWorkbench().getDisplay();
-        ImageCreator runnable = new ImageCreator(viewer);
+        final Display display = PlatformUI.getWorkbench().getDisplay();
+        final ImageCreator runnable = new ImageCreator(viewer);
         display.syncExec(runnable);
         return runnable.img;
     }

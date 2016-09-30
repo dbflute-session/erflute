@@ -87,6 +87,7 @@
 			headless="true"
 			eclipseRuntime="true" />
 
+		<!-- #deleted unneeded
 		<antTask name="ermaster.image"
 			class="org.insightech.er.ant_task.ImageAntTask"
 			library="lib/ermaster_ant.jar"
@@ -110,7 +111,7 @@
 			library="lib/ermaster_ant.jar"
 			headless="true"
 			eclipseRuntime="true" />
-
+		-->
 	</extension>
 
 	<extension point="org.eclipse.ui.bindings">
@@ -118,8 +119,5 @@
 			sequence="Ctrl+O"
 			commandId="org.insightech.er.quickOutline"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
-
 	</extension>
-
-
 </plugin>

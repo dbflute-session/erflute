@@ -29,7 +29,7 @@ Bundle-ClassPath: .,
  template/,
  icons/,
  lib/poi-3.10-beta1.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-LazyStart: true
 Bundle-Vendor: Insightech.org
 Export-Package: org.insightech.er,

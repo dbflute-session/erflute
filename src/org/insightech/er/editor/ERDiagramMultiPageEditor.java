@@ -54,9 +54,8 @@ import org.insightech.er.editor.view.outline.ERDiagramOutlinePage;
 import org.insightech.er.util.Format;
 
 /**
- * #analyze plugins.xmlにて定義されている
- * @author ermaster
- * @author jflute
+ * #analyze defined at plugins.xml
+ * @author modified by jflute (originated in ermaster)
  */
 public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 
@@ -79,22 +78,22 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     @Override
     protected void createPages() {
         try {
-            IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+            final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
             this.setPartName(file.getName());
 
-            Persistent persistent = Persistent.getInstance();
+            final Persistent persistent = Persistent.getInstance();
 
             if (!file.isSynchronized(IResource.DEPTH_ONE)) {
                 file.refreshLocal(IResource.DEPTH_ONE, new NullProgressMonitor());
             }
 
-            InputStream in = file.getContents();
+            final InputStream in = file.getContents();
 
             System.out.println(new Date() + " : load start");
             this.diagram = persistent.load(in);
             System.out.println(new Date() + " : load end");
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
 
@@ -117,12 +116,12 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         try {
             this.zoomComboContributionItem = new ZoomComboContributionItem(this.getSite().getPage());
 
-            ERDiagramEditor editor = new ERDiagramEditor(diagram, this.editPartFactory, zoomComboContributionItem, this.outlinePage);
+            final ERDiagramEditor editor = new ERDiagramEditor(diagram, this.editPartFactory, zoomComboContributionItem, this.outlinePage);
 
-            int index = this.addPage(editor, this.getEditorInput());
+            final int index = this.addPage(editor, this.getEditorInput());
             this.setPageText(index, ResourceString.getResourceString("label.all"));
 
-        } catch (PartInitException e) {
+        } catch (final PartInitException e) {
             Activator.showExceptionDialog(e);
         }
 
@@ -139,7 +138,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         this.validate();
 
         if (diagram.getCurrentErmodel() == null) {
-            ERDiagramEditor diagramEditor = (ERDiagramEditor) this.getActiveEditor();
+            final ERDiagramEditor diagramEditor = (ERDiagramEditor) this.getActiveEditor();
             diagramEditor.getGraphicalViewer().setContents(diagram);
         }
     }
@@ -155,7 +154,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         //			this.pageChange(categoryIndex);
         //		}
 
-        ERModel model = diagram.getCurrentErmodel();
+        final ERModel model = diagram.getCurrentErmodel();
         if (model != null) {
             setActivePage(1);
         } else {
@@ -164,8 +163,8 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
             //			diagramEditor.getGraphicalViewer().setContents(diagram);
         }
 
-        ERDiagramEditor activeEditor = (ERDiagramEditor) this.getActiveEditor();
-        ZoomManager zoomManager = (ZoomManager) activeEditor.getAdapter(ZoomManager.class);
+        final ERDiagramEditor activeEditor = (ERDiagramEditor) this.getActiveEditor();
+        final ZoomManager zoomManager = (ZoomManager) activeEditor.getAdapter(ZoomManager.class);
         zoomManager.setZoom(this.diagram.getZoom());
 
         activeEditor.setLocation(this.diagram.getX(), this.diagram.getY());
@@ -177,13 +176,13 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     @Override
     protected Composite createPageContainer(Composite parent) {
         try {
-            IWorkbenchPage page = this.getSite().getWorkbenchWindow().getActivePage();
+            final IWorkbenchPage page = this.getSite().getWorkbenchWindow().getActivePage();
 
             if (page != null) {
                 page.showView(IPageLayout.ID_OUTLINE);
             }
 
-        } catch (PartInitException e) {
+        } catch (final PartInitException e) {
             Activator.showExceptionDialog(e);
         }
 
@@ -192,15 +191,15 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 
     public void initCategoryPages() {
 
-        String modelName = diagram.getDefaultModelName();
+        final String modelName = diagram.getDefaultModelName();
         if (modelName != null) {
             try {
-                ERModel model = diagram.getDiagramContents().getModelSet().getModel(modelName);
+                final ERModel model = diagram.getDiagramContents().getModelSet().getModel(modelName);
                 diagram.setCurrentErmodel(model, model.getName());
-                EROneDiagramEditor modelEditor =
+                final EROneDiagramEditor modelEditor =
                         new EROneDiagramEditor(this.diagram, model, this.editPartFactory, this.zoomComboContributionItem, this.outlinePage);
 
-                int pageNo = this.addPage(modelEditor, this.getEditorInput());
+                final int pageNo = this.addPage(modelEditor, this.getEditorInput());
                 this.setPageText(pageNo, Format.null2blank(model.getName()));
 
                 //				IServiceLocator pageSite = getPageSite(pageNo);
@@ -208,7 +207,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
                 //				MultiPageEditorSite site = ((IMultiPageEditorSiteHolder)pageSite.getService(IMultiPageEditorSiteHolder.class)).getSite();
                 //				MenuManager menuManager = new MenuManager();
 
-            } catch (PartInitException e) {
+            } catch (final PartInitException e) {
                 Activator.showExceptionDialog(e);
             }
 
@@ -263,38 +262,30 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     @Override
     public void doSave(IProgressMonitor monitor) {
         monitor.setTaskName("save initialize...");
-        ZoomManager zoomManager = (ZoomManager) this.getActiveEditor().getAdapter(ZoomManager.class);
-        double zoom = zoomManager.getZoom();
+        final ZoomManager zoomManager = this.getActiveEditor().getAdapter(ZoomManager.class);
+        final double zoom = zoomManager.getZoom();
         this.diagram.setZoom(zoom);
 
-        ERDiagramEditor activeEditor = (ERDiagramEditor) this.getActiveEditor();
-        Point location = activeEditor.getLocation();
+        final ERDiagramEditor activeEditor = (ERDiagramEditor) this.getActiveEditor();
+        final Point location = activeEditor.getLocation();
         this.diagram.setLocation(location.x, location.y);
-
-        Persistent persistent = Persistent.getInstance();
-
-        IFile file = ((IFileEditorInput) this.getEditorInput()).getFile();
-
+        final Persistent persistent = Persistent.getInstance();
+        final IFile file = ((IFileEditorInput) this.getEditorInput()).getFile();
         try {
             monitor.setTaskName("create stream...");
             diagram.getDiagramContents().getSettings().getModelProperties().setUpdatedDate(new Date());
-
-            InputStream source = persistent.createInputStream(this.diagram);
-
+            final InputStream source = persistent.createInputStream(this.diagram);
             if (!file.exists()) {
                 file.create(source, true, monitor);
-
             } else {
                 file.setContents(source, true, false, monitor);
             }
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
-
         monitor.beginTask("saving...", this.getPageCount());
         for (int i = 0; i < this.getPageCount(); i++) {
-            IEditorPart editor = this.getEditor(i);
+            final IEditorPart editor = this.getEditor(i);
             editor.doSave(monitor);
             monitor.worked(i + 1);
         }
@@ -305,38 +296,29 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         monitor.done();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void doSaveAs() {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isSaveAsAllowed() {
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void pageChange(int newPageIndex) {
         super.pageChange(newPageIndex);
 
         for (int i = 0; i < this.getPageCount(); i++) {
-            ERDiagramEditor editor = (ERDiagramEditor) this.getEditor(i);
+            final ERDiagramEditor editor = (ERDiagramEditor) this.getEditor(i);
             editor.removeSelection();
         }
 
-        ERDiagramEditor selectedEditor = (ERDiagramEditor) this.getActiveEditor();
+        final ERDiagramEditor selectedEditor = (ERDiagramEditor) this.getActiveEditor();
         selectedEditor.changeCategory();
 
         if (selectedEditor instanceof EROneDiagramEditor) {
-            EROneDiagramEditor editor = (EROneDiagramEditor) selectedEditor;
+            final EROneDiagramEditor editor = (EROneDiagramEditor) selectedEditor;
             this.diagram.setCurrentErmodel(editor.getModel(), editor.getModel().getName());
         } else {
             this.diagram.setCurrentErmodel(null, null);
@@ -347,9 +329,6 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IEditorPart getActiveEditor() {
         return super.getActiveEditor();
@@ -358,8 +337,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     public Category getCurrentPageCategory() {
         //		List<Category> categories = diagram.getDiagramContents().getSettings()
         //				.getCategorySetting().getSelectedCategories();
-
-        return null; // �J�e�S���̊T�O�͖�����
+        return null;
         //		int page = this.getActivePage();
         //
         //		if (page == 0) {
@@ -369,27 +347,18 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         //		return categories.get(page - 1);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
         super.init(site, input);
         this.fElementStateListener = new ERDiagramElementStateListener(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void dispose() {
         this.fElementStateListener.disposeDocumentProvider();
         super.dispose();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void setInputWithNotify(IEditorInput input) {
         super.setInputWithNotify(input);
@@ -401,36 +370,30 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         if (this.diagram.getDiagramContents().getSettings().isSuspendValidator()) {
             try {
                 file.deleteMarkers(null, true, IResource.DEPTH_INFINITE);
-            } catch (CoreException e) {
+            } catch (final CoreException e) {
                 Activator.showExceptionDialog(e);
             }
 
         } else {
-            IWorkspaceRunnable editorMarker = new IWorkspaceRunnable() {
+            final IWorkspaceRunnable editorMarker = new IWorkspaceRunnable() {
+                @Override
                 public void run(IProgressMonitor monitor) throws CoreException {
-                    ERDiagramEditor editor = (ERDiagramEditor) getActiveEditor();
-
+                    final ERDiagramEditor editor = (ERDiagramEditor) getActiveEditor();
                     file.deleteMarkers(null, true, IResource.DEPTH_INFINITE);
                     editor.clearMarkedObject();
-
-                    Validator validator = new Validator();
-                    List<ValidateResult> errorList = validator.validate(diagram);
-
-                    for (ValidateResult error : errorList) {
-                        IMarker marker = file.createMarker(IMarker.PROBLEM);
-
+                    final Validator validator = new Validator();
+                    final List<ValidateResult> errorList = validator.validate(diagram);
+                    for (final ValidateResult error : errorList) {
+                        final IMarker marker = file.createMarker(IMarker.PROBLEM);
                         marker.setAttribute(IMarker.MESSAGE, error.getMessage());
                         marker.setAttribute(IMarker.TRANSIENT, true);
                         marker.setAttribute(IMarker.LOCATION, error.getLocation());
                         marker.setAttribute(IMarker.SEVERITY, error.getSeverity());
                         editor.setMarkedObject(marker, error.getObject());
                     }
-
-                    List<ValidateResult> todoList = validateTodo();
-
-                    for (ValidateResult todo : todoList) {
-                        IMarker marker = file.createMarker(IMarker.TASK);
-
+                    final List<ValidateResult> todoList = validateTodo();
+                    for (final ValidateResult todo : todoList) {
+                        final IMarker marker = file.createMarker(IMarker.TASK);
                         marker.setAttribute(IMarker.MESSAGE, todo.getMessage());
                         marker.setAttribute(IMarker.TRANSIENT, true);
                         marker.setAttribute(IMarker.LOCATION, todo.getLocation());
@@ -441,51 +404,47 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
             };
             try {
                 ResourcesPlugin.getWorkspace().run(editorMarker, null);
-            } catch (CoreException e) {
+            } catch (final CoreException e) {
                 Activator.showExceptionDialog(e);
             }
         }
     }
 
     private List<ValidateResult> validateTodo() {
-        List<ValidateResult> resultList = new ArrayList<ValidateResult>();
+        final List<ValidateResult> resultList = new ArrayList<ValidateResult>();
 
-        for (ERTable table : this.diagram.getDiagramContents().getContents().getTableSet()) {
+        for (final ERTable table : this.diagram.getDiagramContents().getContents().getTableSet()) {
 
             String description = table.getDescription();
             resultList.addAll(this.createTodo(description, table.getLogicalName(), table));
 
-            for (NormalColumn column : table.getNormalColumns()) {
+            for (final NormalColumn column : table.getNormalColumns()) {
                 description = column.getDescription();
                 resultList.addAll(this.createTodo(description, table.getLogicalName(), table));
             }
 
-            for (Index index : table.getIndexes()) {
+            for (final Index index : table.getIndexes()) {
                 description = index.getDescription();
                 resultList.addAll(this.createTodo(description, index.getName(), index));
             }
         }
 
-        for (View view : this.diagram.getDiagramContents().getContents().getViewSet().getList()) {
-
+        for (final View view : this.diagram.getDiagramContents().getContents().getViewSet().getList()) {
             String description = view.getDescription();
             resultList.addAll(this.createTodo(description, view.getName(), view));
-
-            for (NormalColumn column : view.getNormalColumns()) {
+            for (final NormalColumn column : view.getNormalColumns()) {
                 description = column.getDescription();
                 resultList.addAll(this.createTodo(description, view.getLogicalName(), view));
             }
         }
 
-        for (Trigger trigger : this.diagram.getDiagramContents().getTriggerSet().getTriggerList()) {
-
-            String description = trigger.getDescription();
+        for (final Trigger trigger : this.diagram.getDiagramContents().getTriggerSet().getTriggerList()) {
+            final String description = trigger.getDescription();
             resultList.addAll(this.createTodo(description, trigger.getName(), trigger));
         }
 
-        for (Sequence sequence : this.diagram.getDiagramContents().getSequenceSet().getSequenceList()) {
-
-            String description = sequence.getDescription();
+        for (final Sequence sequence : this.diagram.getDiagramContents().getSequenceSet().getSequenceList()) {
+            final String description = sequence.getDescription();
             resultList.addAll(this.createTodo(description, sequence.getName(), sequence));
         }
 
@@ -493,24 +452,21 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     }
 
     private List<ValidateResult> createTodo(String description, String location, Object object) {
-        List<ValidateResult> resultList = new ArrayList<ValidateResult>();
+        final List<ValidateResult> resultList = new ArrayList<ValidateResult>();
 
         if (description != null) {
-            StringTokenizer tokenizer = new StringTokenizer(description, "\n\r");
+            final StringTokenizer tokenizer = new StringTokenizer(description, "\n\r");
 
             while (tokenizer.hasMoreElements()) {
-                String token = tokenizer.nextToken();
-                int startIndex = token.indexOf("// TODO");
+                final String token = tokenizer.nextToken();
+                final int startIndex = token.indexOf("// TODO");
 
                 if (startIndex != -1) {
-                    String message = token.substring(startIndex + "// TODO".length()).trim();
-
-                    ValidateResult result = new ValidateResult();
-
+                    final String message = token.substring(startIndex + "// TODO".length()).trim();
+                    final ValidateResult result = new ValidateResult();
                     result.setLocation(location);
                     result.setMessage(message);
                     result.setObject(object);
-
                     resultList.add(result);
                 }
             }
@@ -522,56 +478,46 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     //	@Override
     //	protected void setActivePage(int pageIndex) {
     //		System.out.println("setActivePage : " + pageIndex);
-    //		viewer.setContents(diagram); // �Ƃ肠����OFF���Ă݂�
-    //
-    //		// TODO Auto-generated method stub
+    //		viewer.setContents(diagram);
     //		super.setActivePage(pageIndex);
     //	}
 
     public void setCurrentCategoryPageName() {
-        Category category = this.getCurrentPageCategory();
+        final Category category = this.getCurrentPageCategory();
         this.setPageText(this.getActivePage(), Format.null2blank(category.getName()));
     }
 
     private void addMouseListenerToTabFolder() {
-        CTabFolder tabFolder = (CTabFolder) this.getContainer();
-
+        final CTabFolder tabFolder = (CTabFolder) this.getContainer();
         tabFolder.addMouseListener(new MouseAdapter() {
-
             @Override
             public void mouseDoubleClick(MouseEvent mouseevent) {
-                Category category = getCurrentPageCategory();
-
+                final Category category = getCurrentPageCategory();
                 if (category != null) {
-                    CategoryNameChangeDialog dialog =
+                    final CategoryNameChangeDialog dialog =
                             new CategoryNameChangeDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), category);
-
                     if (dialog.open() == IDialogConstants.OK_ID) {
-                        ChangeCategoryNameCommand command = new ChangeCategoryNameCommand(diagram, category, dialog.getCategoryName());
+                        final ChangeCategoryNameCommand command =
+                                new ChangeCategoryNameCommand(diagram, category, dialog.getCategoryName());
                         execute(command);
                     }
                 }
-
                 super.mouseDoubleClick(mouseevent);
             }
         });
     }
 
     private void execute(Command command) {
-        ERDiagramEditor selectedEditor = (ERDiagramEditor) this.getActiveEditor();
-
+        final ERDiagramEditor selectedEditor = (ERDiagramEditor) this.getActiveEditor();
         selectedEditor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @SuppressWarnings("unchecked")
     @Override
-    public Object getAdapter(Class type) {
+    public <T> T getAdapter(Class<T> type) {
         if (type == ERDiagram.class) {
-            return this.diagram;
+            return (T) this.diagram;
         }
-
         return super.getAdapter(type);
     }
 
@@ -588,7 +534,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     }
 
     public int addPage(IEditorPart editor, IEditorInput input, String name) throws PartInitException {
-        int pageNo = super.addPage(editor, input);
+        final int pageNo = super.addPage(editor, input);
         setPageText(pageNo, Format.null2blank(name));
         return pageNo;
     }
@@ -602,17 +548,17 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 
         if (getPageCount() == 1) {
             // 1つだけの場合は、新しくエディタを作成する
-            EROneDiagramEditor diagramEditor =
+            final EROneDiagramEditor diagramEditor =
                     new EROneDiagramEditor(this.diagram, model, getEditPartFactory(), getZoomComboContributionItem(), getOutlinePage());
 
             try {
                 addPage(diagramEditor, getEditorInput(), model.getName());
                 setActiveEditor(diagramEditor);
-            } catch (PartInitException e) {
+            } catch (final PartInitException e) {
                 Activator.showExceptionDialog(e);
             }
         } else {
-            EROneDiagramEditor diagramEditor = (EROneDiagramEditor) getEditor(1);
+            final EROneDiagramEditor diagramEditor = (EROneDiagramEditor) getEditor(1);
             setPageText(1, Format.null2blank(model.getName()));
             diagramEditor.setContents(model);
             model.getDiagram().setCurrentErmodel(model, model.getName());
