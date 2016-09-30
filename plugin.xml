@@ -22,8 +22,8 @@
 			name="%plugin.name"/>
 		<page category="org.dbflute.erflute.page"
 			class="org.insightech.er.preference.jdbc.JDBCPreferencePage"
-			id="org.dbflute.erflute.page.page2"
-			name="%preference.page1">
+			id="org.dbflute.erflute.page.jdbc"
+			name="%preference.page.jdbc">
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.editors">
