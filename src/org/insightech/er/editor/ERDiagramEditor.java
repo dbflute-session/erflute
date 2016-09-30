@@ -55,6 +55,7 @@ import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.insightech.er.editor.controller.editpart.element.PagableFreeformRootEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
+import org.insightech.er.editor.extention.ExtensionLoader;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.view.ERDiagramGotoMarker;
@@ -119,7 +120,6 @@ import org.insightech.er.editor.view.outline.ERDiagramOutlinePage;
 import org.insightech.er.editor.view.outline.ERDiagramOutlinePopupMenuManager;
 import org.insightech.er.editor.view.property_source.ERDiagramPropertySourceProvider;
 import org.insightech.er.editor.view.tool.ERDiagramPaletteRoot;
-import org.insightech.er.extention.ExtensionLoader;
 
 /**
  * #analyze 恐らくこれが、ビューダイアグラム？ ERDiagramMultiPageEditor から new される

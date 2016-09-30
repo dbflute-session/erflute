@@ -1,4 +1,4 @@
-package org.insightech.er.extention;
+package org.insightech.er.editor.extention;
 
 import org.eclipse.jface.action.IAction;
 import org.insightech.er.editor.ERDiagramEditor;
