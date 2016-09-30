@@ -11,16 +11,12 @@ import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
-import org.insightech.er.editor.model.dbexport.html.page_generator.HtmlReportPageGenerator;
 
 public class ExportToImageManager {
 
     protected Image img;
-
-    private int format;
-
-    private String saveFilePath;
-
+    private final int format;
+    private final String saveFilePath;
     private String formatName;
 
     public ExportToImageManager(Image img, int format, String saveFilePath) {
@@ -39,58 +35,43 @@ public class ExportToImageManager {
     }
 
     private void writeJPGorBMP(Image image, String saveFilePath, int format) throws IOException {
-        ImageData[] imgData = new ImageData[1];
+        final ImageData[] imgData = new ImageData[1];
         imgData[0] = image.getImageData();
 
-        ImageLoader imgLoader = new ImageLoader();
+        final ImageLoader imgLoader = new ImageLoader();
         imgLoader.data = imgData;
         imgLoader.save(saveFilePath, format);
     }
 
     private void writePNGorGIF(Image image, String saveFilePath, String formatName) throws IOException, InterruptedException {
-
         try {
-            ImageLoader loader = new ImageLoader();
+            final ImageLoader loader = new ImageLoader();
             loader.data = new ImageData[] { image.getImageData() };
             loader.save(saveFilePath, format);
-
-        } catch (SWTException e) {
-            // Eclipse 3.2 �ł́A PNG �� Unsupported or unrecognized format �ƂȂ邽�߁A
-            // �ȉ��̑�֕��@���g�p����
-            // �������A���̕��@�ł͏�肭�o�͂ł��Ȃ�������
-
+        } catch (final SWTException e) {
             e.printStackTrace();
-            BufferedImage bufferedImage = new BufferedImage(image.getBounds().width, image.getBounds().height, BufferedImage.TYPE_INT_RGB);
-
+            final BufferedImage bufferedImage =
+                    new BufferedImage(image.getBounds().width, image.getBounds().height, BufferedImage.TYPE_INT_RGB);
             drawAtBufferedImage(bufferedImage, image, 0, 0);
-
             ImageIO.write(bufferedImage, formatName, new File(saveFilePath));
         }
     }
 
     private void drawAtBufferedImage(BufferedImage bimg, Image image, int x, int y) throws InterruptedException {
-
-        ImageData data = image.getImageData();
-
+        final ImageData data = image.getImageData();
         for (int i = 0; i < image.getBounds().width; i++) {
-
             for (int j = 0; j < image.getBounds().height; j++) {
-                int tmp = 4 * (j * image.getBounds().width + i);
-
+                final int tmp = 4 * (j * image.getBounds().width + i);
                 if (data.data.length > tmp + 2) {
-                    int r = 0xff & data.data[tmp + 2];
-                    int g = 0xff & data.data[tmp + 1];
-                    int b = 0xff & data.data[tmp];
+                    final int r = 0xff & data.data[tmp + 2];
+                    final int g = 0xff & data.data[tmp + 1];
+                    final int b = 0xff & data.data[tmp];
 
                     bimg.setRGB(i + x, j + y, 0xFF << 24 | r << 16 | g << 8 | b << 0);
                 }
-
                 this.doPostTask();
             }
         }
-    }
-
-    protected void doPreTask(HtmlReportPageGenerator pageGenerator, Object object) {
     }
 
     protected void doPostTask() throws InterruptedException {

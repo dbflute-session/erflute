@@ -6,10 +6,9 @@ import org.insightech.er.editor.view.dialog.outline.tablespace.TablespaceDialog;
 
 public interface EclipseDBManager {
 
-    public String getId();
+    String getId();
 
-    public AdvancedComposite createAdvancedComposite(Composite composite);
+    AdvancedComposite createAdvancedComposite(Composite composite);
 
-    public TablespaceDialog createTablespaceDialog();
-
+    TablespaceDialog createTablespaceDialog();
 }

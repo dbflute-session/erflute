@@ -21,19 +21,14 @@
 			id="org.dbflute.erflute.page"
 			name="%plugin.name"/>
 		<page category="org.dbflute.erflute.page"
-			class="org.insightech.er.preference.template.TemplatePreferencePage"
-			id="org.dbflute.erflute.page.page1"
-			name="%preference.page1">
-		</page>
-		<page category="org.dbflute.erflute.page"
 			class="org.insightech.er.preference.jdbc.JDBCPreferencePage"
 			id="org.dbflute.erflute.page.page2"
-			name="%preference.page2">
+			name="%preference.page1">
 		</page>
 		<page category="org.dbflute.erflute.page"
 			class="org.insightech.er.preference.translation.TranslationPreferencePage"
 			id="org.dbflute.erflute.page.page3"
-			name="%preference.page3">
+			name="%preference.page2">
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.editors">
