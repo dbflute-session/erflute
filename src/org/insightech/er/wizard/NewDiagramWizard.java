@@ -12,9 +12,7 @@ import org.insightech.er.wizard.page.NewDiagramWizardPage1;
 import org.insightech.er.wizard.page.NewDiagramWizardPage2;
 
 /**
- * #analyzed 新規ER図の作成の入り口画面 (New - ERMaster)
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class NewDiagramWizard extends Wizard implements INewWizard {
 
@@ -26,20 +24,21 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
     @Override
     public boolean performFinish() {
         try {
-            String database = this.page2.getDatabase();
+            final String database = this.page2.getDatabase();
             this.page1.createERDiagram(database);
-            IFile file = this.page1.createNewFile();
+            final IFile file = this.page1.createNewFile();
             if (file == null) {
                 return false;
             }
-            IWorkbenchPage page = this.workbench.getActiveWorkbenchWindow().getActivePage();
+            final IWorkbenchPage page = this.workbench.getActiveWorkbenchWindow().getActivePage();
             IDE.openEditor(page, file, true);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
         return true;
     }
 
+    @Override
     public void init(IWorkbench workbench, IStructuredSelection selection) {
         this.selection = selection;
         this.workbench = workbench;

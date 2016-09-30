@@ -25,11 +25,6 @@
 			id="org.dbflute.erflute.page.page2"
 			name="%preference.page1">
 		</page>
-		<page category="org.dbflute.erflute.page"
-			class="org.insightech.er.preference.translation.TranslationPreferencePage"
-			id="org.dbflute.erflute.page.page3"
-			name="%preference.page2">
-		</page>
 	</extension>
 	<extension point="org.eclipse.ui.editors">
 		<editor class="org.insightech.er.editor.ERDiagramMultiPageEditor"

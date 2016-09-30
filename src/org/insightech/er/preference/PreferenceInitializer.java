@@ -1,17 +1,11 @@
 package org.insightech.er.preference;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.insightech.er.db.DBManager;
@@ -25,11 +19,6 @@ import org.insightech.er.editor.model.settings.JDBCDriverSetting;
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
-    public static final String TEMPLATE_FILE_LIST = "template_file_list";
-    public static final String TRANSLATION_FILE_LIST = "translation_file_list";
-
-    private static final String TEMPLATE_DIR = "template";
-    private static final String TRANSLATION_DIR = "translation";
     private static final String JDBC_DRIVER_DB_NAME_PREFIX = "jdbc.driver.db.name.";
     private static final String JDBC_DRIVER_PATH_PREFIX = "jdbc.driver.path.";
     private static final String JDBC_DRIVER_CLASS_NAME_PREFIX = "jdbc.driver.class.name.";
@@ -50,16 +39,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
     @Override
     public void initializeDefaultPreferences() {
-    }
-
-    public static String getTemplatePath(String fileName) {
-        final IPath dataLocation = Activator.getDefault().getStateLocation();
-        return dataLocation.append(PreferenceInitializer.TEMPLATE_DIR).append(fileName).toOSString();
-    }
-
-    public static String getTranslationPath(String fileName) {
-        final IPath dataLocation = Activator.getDefault().getStateLocation();
-        return dataLocation.append(PreferenceInitializer.TRANSLATION_DIR).append(fileName).toOSString();
     }
 
     public static void saveJDBCDriverSettingList(List<JDBCDriverSetting> driverSettingList) {
@@ -198,33 +177,5 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         num++;
         store.setValue(PreferenceInitializer.DB_SETTING_LIST_NUM, num);
         saveSetting(num, dbSetting);
-    }
-
-    public static List<String> getAllUserTranslations() {
-        final String str = Activator.getDefault().getPreferenceStore().getString(PreferenceInitializer.TRANSLATION_FILE_LIST);
-        final StringTokenizer st = new StringTokenizer(str, "/");
-        final List<String> list = new ArrayList<String>();
-        final Set<String> names = new HashSet<String>();
-        while (st.hasMoreElements()) {
-            final String fileName = st.nextToken();
-
-            final File file = new File(PreferenceInitializer.getTranslationPath(fileName));
-            if (file.exists() && !names.contains(fileName)) {
-                list.add(fileName);
-                names.add(fileName);
-            }
-        }
-        return list;
-    }
-
-    public static void addPreferenceValue(String value) {
-        final IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-        String values = preferenceStore.getString(PreferenceInitializer.TRANSLATION_FILE_LIST);
-        if (Check.isEmpty(values)) {
-            values = value;
-        } else {
-            values = values + FileListEditor.VALUE_SEPARATOR + value;
-        }
-        preferenceStore.setValue(PreferenceInitializer.TRANSLATION_FILE_LIST, values);
     }
 }

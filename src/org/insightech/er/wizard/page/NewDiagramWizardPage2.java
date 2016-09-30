@@ -14,9 +14,7 @@ import org.eclipse.swt.widgets.Label;
 import org.insightech.er.db.DBManagerFactory;
 
 /**
- * #analyzed 新規ER図の作成のデータベース選択の画面
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class NewDiagramWizardPage2 extends WizardPage {
 
@@ -27,25 +25,27 @@ public class NewDiagramWizardPage2 extends WizardPage {
         this.setTitle(DisplayMessages.getMessage("wizard.new.diagram.title"));
     }
 
+    @Override
     public void createControl(Composite parent) {
-        Composite composite = new Composite(parent, SWT.NULL);
+        final Composite composite = new Composite(parent, SWT.NULL);
 
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 2;
         composite.setLayout(layout);
 
-        Label label = new Label(composite, SWT.NULL);
+        final Label label = new Label(composite, SWT.NULL);
         label.setText(DisplayMessages.getMessage("label.database"));
 
         this.databaseCombo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
-        GridData dbData = new GridData(GridData.FILL_HORIZONTAL);
+        final GridData dbData = new GridData(GridData.FILL_HORIZONTAL);
         dbData.widthHint = 200;
         this.databaseCombo.setLayoutData(dbData);
         this.databaseCombo.setVisibleItemCount(10);
-        for (String db : DBManagerFactory.getAllDBList()) {
+        for (final String db : DBManagerFactory.getAllDBList()) {
             this.databaseCombo.add(db);
         }
         this.databaseCombo.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validatePage();
             }

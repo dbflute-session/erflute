@@ -30,24 +30,25 @@ import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.settings.JDBCDriverSetting;
 import org.insightech.er.preference.PreferenceInitializer;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 
     private Table table;
-
     private Button addButton;
-
     private Button editButton;
-
     private Button deleteButton;
 
+    @Override
     public void init(IWorkbench workbench) {
     }
 
     @Override
     protected Control createContents(Composite parent) {
-        Composite composite = new Composite(parent, SWT.NONE);
+        final Composite composite = new Composite(parent, SWT.NONE);
 
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
 
         composite.setLayout(gridLayout);
@@ -62,26 +63,25 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
     private void initTable(Composite parent) {
         this.table = new Table(parent, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
         gridData.heightHint = 200;
         gridData.horizontalSpan = 3;
 
         this.table.setLayoutData(gridData);
-
         this.table.setLinesVisible(true);
         this.table.setHeaderVisible(true);
 
-        TableColumn nameColumn = new TableColumn(table, SWT.NONE);
+        final TableColumn nameColumn = new TableColumn(table, SWT.NONE);
         nameColumn.setText(DisplayMessages.getMessage("label.database"));
         nameColumn.setWidth(200);
 
-        TableColumn driverClassNameColumn = new TableColumn(table, SWT.NONE);
+        final TableColumn driverClassNameColumn = new TableColumn(table, SWT.NONE);
         driverClassNameColumn.setText(DisplayMessages.getMessage("label.driver.class.name"));
         driverClassNameColumn.setWidth(200);
 
-        TableColumn pathColumn = new TableColumn(table, SWT.NONE);
+        final TableColumn pathColumn = new TableColumn(table, SWT.NONE);
         pathColumn.setText(DisplayMessages.getMessage("label.path"));
         pathColumn.setWidth(200);
 
@@ -89,7 +89,7 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
     }
 
     private void createButton(Composite parent) {
-        GridData buttonGridData = new GridData();
+        final GridData buttonGridData = new GridData();
         buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.addButton = new Button(parent, SWT.NONE);
@@ -108,9 +108,8 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
 
     private void setData() {
         this.table.removeAll();
-
-        for (JDBCDriverSetting setting : PreferenceInitializer.getJDBCDriverSettingList()) {
-            TableItem tableItem = new TableItem(this.table, SWT.NONE);
+        for (final JDBCDriverSetting setting : PreferenceInitializer.getJDBCDriverSettingList()) {
+            final TableItem tableItem = new TableItem(this.table, SWT.NONE);
             tableItem.setBackground(ColorConstants.white);
             tableItem.setText(0, Format.null2blank(setting.getDb()));
             tableItem.setText(1, Format.null2blank(setting.getClassName()));
@@ -121,61 +120,45 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
     @Override
     protected void performDefaults() {
         PreferenceInitializer.clearJDBCDriverInfo();
-
         setData();
-
         super.performDefaults();
     }
 
     @Override
     public boolean performOk() {
         PreferenceInitializer.clearJDBCDriverInfo();
-
         for (int i = 0; i < this.table.getItemCount(); i++) {
-            TableItem tableItem = this.table.getItem(i);
-
-            String db = tableItem.getText(0);
-            String driverClassName = tableItem.getText(1);
-            String path = tableItem.getText(2);
-
+            final TableItem tableItem = this.table.getItem(i);
+            final String db = tableItem.getText(0);
+            final String driverClassName = tableItem.getText(1);
+            final String path = tableItem.getText(2);
             PreferenceInitializer.addJDBCDriver(db, driverClassName, path);
         }
-
         return super.performOk();
     }
 
     private void addListener() {
         this.table.addSelectionListener(new SelectionAdapter() {
-
             @Override
             public void widgetSelected(SelectionEvent selectionevent) {
-                int index = table.getSelectionIndex();
+                final int index = table.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
-
-                TableItem item = table.getItem(index);
-
-                String db = item.getText(0);
-                String driverClassName = item.getText(1);
-
-                DBManager dbManager = DBManagerFactory.getDBManager(db);
+                final TableItem item = table.getItem(index);
+                final String db = item.getText(0);
+                final String driverClassName = item.getText(1);
+                final DBManager dbManager = DBManagerFactory.getDBManager(db);
 
                 if (!dbManager.getDriverClassName().equals(driverClassName)) {
                     deleteButton.setEnabled(true);
-
                 } else {
                     deleteButton.setEnabled(false);
                 }
             }
-
         });
 
         this.table.addMouseListener(new MouseAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void mouseDoubleClick(MouseEvent e) {
                 edit();
@@ -183,66 +166,43 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
         });
 
         this.addButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(-1);
-
-                JDBCPathDialog dialog =
+                final List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(-1);
+                final JDBCPathDialog dialog =
                         new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, null, null,
                                 otherDriverSettingList, true);
-
                 if (dialog.open() == IDialogConstants.OK_ID) {
                     PreferenceInitializer.addJDBCDriver(dialog.getDatabase(), Format.null2blank(dialog.getDriverClassName()),
                             Format.null2blank(dialog.getPath()));
-
                     setData();
                 }
             }
-
         });
 
         this.editButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 edit();
             }
-
         });
 
         this.deleteButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent event) {
                 try {
-                    int index = table.getSelectionIndex();
-
+                    final int index = table.getSelectionIndex();
                     if (index == -1) {
                         return;
                     }
-
-                    TableItem item = table.getItem(index);
-
-                    String db = item.getText(0);
-                    String driverClassName = item.getText(1);
-
-                    DBManager dbManager = DBManagerFactory.getDBManager(db);
-
+                    final TableItem item = table.getItem(index);
+                    final String db = item.getText(0);
+                    final String driverClassName = item.getText(1);
+                    final DBManager dbManager = DBManagerFactory.getDBManager(db);
                     if (!dbManager.getDriverClassName().equals(driverClassName)) {
                         table.remove(index);
                     }
-
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     Activator.showExceptionDialog(e);
                 }
             }
@@ -250,45 +210,36 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
     }
 
     private List<JDBCDriverSetting> getOtherDriverSettingList(int index) {
-        List<JDBCDriverSetting> list = new ArrayList<JDBCDriverSetting>();
-
+        final List<JDBCDriverSetting> list = new ArrayList<JDBCDriverSetting>();
         for (int i = 0; i < this.table.getItemCount(); i++) {
             if (i != index) {
-                TableItem tableItem = this.table.getItem(i);
-
-                String db = tableItem.getText(0);
-                String driverClassName = tableItem.getText(1);
-                String path = tableItem.getText(2);
-
-                JDBCDriverSetting driverSetting = new JDBCDriverSetting(db, driverClassName, path);
+                final TableItem tableItem = this.table.getItem(i);
+                final String db = tableItem.getText(0);
+                final String driverClassName = tableItem.getText(1);
+                final String path = tableItem.getText(2);
+                final JDBCDriverSetting driverSetting = new JDBCDriverSetting(db, driverClassName, path);
                 list.add(driverSetting);
             }
         }
-
         return list;
     }
 
     private void edit() {
         try {
-            int index = table.getSelectionIndex();
+            final int index = table.getSelectionIndex();
             if (index == -1) {
                 return;
             }
-
-            TableItem item = table.getItem(index);
-
-            List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(index);
-
-            JDBCPathDialog dialog =
+            final TableItem item = table.getItem(index);
+            final List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(index);
+            final JDBCPathDialog dialog =
                     new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), item.getText(0), item.getText(1),
                             item.getText(2), otherDriverSettingList, true);
-
             if (dialog.open() == IDialogConstants.OK_ID) {
                 item.setText(1, dialog.getDriverClassName());
                 item.setText(2, dialog.getPath());
             }
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }

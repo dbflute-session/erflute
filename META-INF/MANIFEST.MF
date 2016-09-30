@@ -214,6 +214,5 @@ Export-Package: org.dbflute.erflute.core.dialog,
  org.insightech.er.editor.view.tool,
  org.insightech.er.preference,
  org.insightech.er.preference.jdbc,
- org.insightech.er.preference.translation,
  org.insightech.er.wizard,
  org.insightech.er.wizard.page

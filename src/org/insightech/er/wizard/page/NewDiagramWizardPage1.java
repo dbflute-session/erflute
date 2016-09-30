@@ -17,9 +17,7 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.persistent.Persistent;
 
 /**
- * #analyzed 新規ER図の作成のファイル名入力の画面
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
 
@@ -41,7 +39,7 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
     protected boolean validatePage() {
         boolean valid = super.validatePage();
         if (valid) {
-            String fileName = this.getFileName();
+            final String fileName = this.getFileName();
             if (fileName.indexOf(".") != -1 && !fileName.endsWith(EXTENSION)) {
                 this.setErrorMessage(DisplayMessages.getMessage("error.erm.extension"));
                 valid = false;
@@ -52,12 +50,10 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
             if (fileName.indexOf(".") == -1) {
                 fileName = fileName + EXTENSION;
             }
-            IWorkspace workspace = ResourcesPlugin.getWorkspace();
-            IWorkspaceRoot root = workspace.getRoot();
-
-            IPath containerPath = this.getContainerFullPath();
-            IPath newFilePath = containerPath.append(fileName);
-
+            final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            final IWorkspaceRoot root = workspace.getRoot();
+            final IPath containerPath = this.getContainerFullPath();
+            final IPath newFilePath = containerPath.append(fileName);
             if (root.getFile(newFilePath).exists()) {
                 this.setErrorMessage("'" + fileName + "' " + DisplayMessages.getMessage("error.file.already.exists"));
                 valid = false;
@@ -76,11 +72,10 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
 
     @Override
     protected InputStream getInitialContents() {
-        Persistent persistent = Persistent.getInstance();
+        final Persistent persistent = Persistent.getInstance();
         try {
-            InputStream in = persistent.createInputStream(this.diagram);
-            return in;
-        } catch (IOException e) {
+            return persistent.createInputStream(this.diagram);
+        } catch (final IOException e) {
             Activator.showExceptionDialog(e);
         }
         return null;
@@ -88,7 +83,7 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
 
     @Override
     public IFile createNewFile() {
-        String fileName = this.getFileName();
+        final String fileName = this.getFileName();
         if (fileName.indexOf(".") == -1) {
             this.setFileName(fileName + EXTENSION);
         }

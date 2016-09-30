@@ -8,10 +8,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class MultiFileFieldEditor extends FileFieldEditor {
 
     private String[] extensions = null;
-
     private boolean multiple = false;
 
     public MultiFileFieldEditor(String name, String labelText, Composite parent) {
@@ -20,41 +22,34 @@ public class MultiFileFieldEditor extends FileFieldEditor {
 
     @Override
     protected String changePressed() {
-        StringTokenizer tokenizer = new StringTokenizer(getTextControl().getText(), ";");
-
+        final StringTokenizer tokenizer = new StringTokenizer(getTextControl().getText(), ";");
         File f;
         if (tokenizer.countTokens() == 0) {
             f = null;
-
         } else {
             f = new File(tokenizer.nextToken());
             if (!f.exists()) {
                 f = null;
             }
         }
-
-        File[] d = getFile(f);
+        final File[] d = getFile(f);
         if (d == null || d.length == 0) {
             return null;
         }
-
-        StringBuilder ret = new StringBuilder();
+        final StringBuilder ret = new StringBuilder();
         for (int i = 0; i < d.length; i++) {
             ret.append(d[i].getAbsolutePath());
             ret.append(";");
         }
-
         return ret.toString();
     }
 
     private File[] getFile(File startingDirectory) {
-
         int style = SWT.OPEN;
         if (multiple) {
             style |= SWT.MULTI;
         }
-
-        FileDialog dialog = new FileDialog(getShell(), style);
+        final FileDialog dialog = new FileDialog(getShell(), style);
         if (startingDirectory != null) {
             dialog.setFileName(startingDirectory.getPath());
         }
@@ -62,18 +57,14 @@ public class MultiFileFieldEditor extends FileFieldEditor {
             dialog.setFilterExtensions(extensions);
         }
         dialog.open();
-        String[] fileNames = dialog.getFileNames();
-
+        final String[] fileNames = dialog.getFileNames();
         if (fileNames.length > 0) {
-            File[] files = new File[fileNames.length];
-
+            final File[] files = new File[fileNames.length];
             for (int i = 0; i < fileNames.length; i++) {
                 files[i] = new File(dialog.getFilterPath(), fileNames[i]);
             }
-
             return files;
         }
-
         return null;
     }
 
@@ -82,14 +73,7 @@ public class MultiFileFieldEditor extends FileFieldEditor {
         this.extensions = extensions;
     }
 
-    /**
-     * multiple ��ݒ肵�܂�.
-     * 
-     * @param multiple
-     *            multiple
-     */
     public void setMultiple(boolean multiple) {
         this.multiple = multiple;
     }
-
 }

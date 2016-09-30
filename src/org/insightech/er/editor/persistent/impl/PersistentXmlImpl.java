@@ -62,7 +62,6 @@ import org.insightech.er.editor.model.settings.EnvironmentSetting;
 import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.settings.TranslationSetting;
 import org.insightech.er.editor.model.tracking.ChangeTracking;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.insightech.er.editor.persistent.Persistent;
@@ -790,154 +789,60 @@ public class PersistentXmlImpl extends Persistent {
         return xml.toString();
     }
 
-    //	private String createXML(VGroupSetting groupSettings, PersistentContext context) {
-    //		StringBuilder xml = new StringBuilder();
-    //
-    //		xml.append("<group_settings>\n");
-    //		xml.append("\t<free_layout>").append(groupSettings.isFreeLayout()).append("</free_layout>\n");
-    //		xml.append("\t<show_referred_tables>").append(groupSettings.isShowReferredTables()).append("</show_referred_tables>\n");
-    //
-    //		xml.append("\t<groups>\n");
-    //		for (VGroup group : groupSettings.getAllGroups()) {
-    //			xml.append(tab(tab(this.createXML(group, groupSettings.isSelected(group), context))));
-    //		}
-    //		xml.append("\t</groups>\n");
-    //
-    //		xml.append("</group_settings>\n");
-    //
-    //		return xml.toString();
-    //	}
-
-    private String createXML(TranslationSetting translationSettings, PersistentContext context) {
-        final StringBuilder xml = new StringBuilder();
-
-        xml.append("<translation_settings>\n");
-        xml.append("\t<use>").append(translationSettings.isUse()).append("</use>\n");
-
-        xml.append("\t<translations>\n");
-
-        for (final String translation : translationSettings.getSelectedTranslations()) {
-            xml.append(tab(tab(this.createTranslationXML(translation, context))));
-        }
-
-        xml.append("\t</translations>\n");
-
-        xml.append("</translation_settings>\n");
-
-        return xml.toString();
-    }
-
     private String createXML(Category category, boolean isSelected, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<category>\n");
-
         xml.append(tab(this.createXMLNodeElement(category, context)));
-
         xml.append("\t<name>").append(escape(category.getName())).append("</name>\n");
         xml.append("\t<selected>").append(isSelected).append("</selected>\n");
-
         for (final NodeElement nodeElement : category.getContents()) {
             xml.append("\t<node_element>").append(context.nodeElementMap.get(nodeElement)).append("</node_element>\n");
         }
-
         xml.append("</category>\n");
-
         return xml.toString();
     }
 
     private String createXML(VGroup group, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<group>\n");
-
         xml.append(tab(this.createXMLNodeElement(group, context)));
-
         xml.append("\t<name>").append(escape(group.getName())).append("</name>\n");
         //		xml.append("\t<selected>").append(isSelected).append("</selected>\n");
-
         for (final NodeElement nodeElement : group.getContents()) {
             xml.append("\t<node_element>")
                     .append(context.nodeElementMap.get(((ERVirtualTable) nodeElement).getRawTable()))
                     .append("</node_element>\n");
         }
-
         xml.append("</group>\n");
-
-        return xml.toString();
-    }
-
-    //	private String createXML(VGroup group, boolean isSelected,
-    //			PersistentContext context) {
-    //		StringBuilder xml = new StringBuilder();
-    //
-    //		xml.append("<group>\n");
-    //
-    //		xml.append(tab(this.createXMLNodeElement(group, context)));
-    //
-    //		xml.append("\t<name>").append(escape(group.getName()))
-    //				.append("</name>\n");
-    //		xml.append("\t<selected>").append(isSelected).append("</selected>\n");
-    //
-    //		for (NodeElement nodeElement : group.getContents()) {
-    //			xml.append("\t<node_element>")
-    //					.append(context.nodeElementMap.get(nodeElement))
-    //					.append("</node_element>\n");
-    //		}
-    //
-    //		xml.append("</group>\n");
-    //
-    //		return xml.toString();
-    //	}
-
-    private String createTranslationXML(String translation, PersistentContext context) {
-        final StringBuilder xml = new StringBuilder();
-
-        xml.append("<translation>\n");
-        xml.append("\t<name>").append(escape(translation)).append("</name>\n");
-        xml.append("</translation>\n");
-
         return xml.toString();
     }
 
     private String createXML(NodeSet contents, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<contents>\n");
-
         for (final NodeElement content : contents) {
             String subxml = null;
-
             if (content instanceof ERTable) {
                 subxml = this.createXML((ERTable) content, context);
-
             } else if (content instanceof ERModel) {
                 // do nothing
                 //				subxml = this.createXMLERModel((ERModel) content, context);
-
             } else if (content instanceof Note) {
                 //				subxml = this.createXML((Note) content, context);
-
             } else if (content instanceof View) {
                 subxml = this.createXML((View) content, context);
-
             } else if (content instanceof InsertedImage) {
                 subxml = this.createXML((InsertedImage) content, context);
-
             } else if (content instanceof VGroup) {
                 // do nothing
                 //				subxml = this.createXML((VGroup) content, context);
-
             } else {
                 throw new RuntimeException("not support " + content);
             }
-
             if (subxml != null)
                 xml.append(tab(subxml));
         }
-
         xml.append("</contents>\n");
-
         return xml.toString();
     }
 

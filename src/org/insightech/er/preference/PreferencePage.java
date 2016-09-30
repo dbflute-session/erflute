@@ -20,54 +20,46 @@ import org.insightech.er.editor.model.diagram_contents.not_element.group.GlobalG
 import org.insightech.er.editor.model.diagram_contents.not_element.group.GroupSet;
 import org.insightech.er.editor.view.dialog.group.GroupManageDialog;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class PreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 
     @Override
     protected Control createContents(Composite parent) {
         this.noDefaultAndApplyButton();
-
-        Composite composite = new Composite(parent, SWT.NONE);
-
+        final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout());
-
         initialize(composite);
-
         return composite;
     }
 
     private void initialize(Composite parent) {
-        Button button = new Button(parent, SWT.NONE);
+        final Button button = new Button(parent, SWT.NONE);
         button.setText(DisplayMessages.getMessage("action.title.manage.global.group"));
         button.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                GroupSet columnGroups = GlobalGroupSet.load();
-                ERDiagram diagram = new ERDiagram(columnGroups.getDatabase());
+                final GroupSet columnGroups = GlobalGroupSet.load();
+                final ERDiagram diagram = new ERDiagram(columnGroups.getDatabase());
 
-                GroupManageDialog dialog =
+                final GroupManageDialog dialog =
                         new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), columnGroups, diagram, true,
                                 -1);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
-                    List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
-
+                    final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
                     columnGroups.clear();
-
-                    for (CopyGroup copyColumnGroup : newColumnGroups) {
+                    for (final CopyGroup copyColumnGroup : newColumnGroups) {
                         columnGroups.add(copyColumnGroup.restructure(null));
                     }
-
                     GlobalGroupSet.save(columnGroups);
                 }
             }
         });
     }
 
+    @Override
     public void init(IWorkbench workbench) {
     }
-
 }
