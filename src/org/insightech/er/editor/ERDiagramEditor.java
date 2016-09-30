@@ -111,7 +111,6 @@ import org.insightech.er.editor.view.action.printer.PageSettingAction;
 import org.insightech.er.editor.view.action.printer.PrintImageAction;
 import org.insightech.er.editor.view.action.search.SearchAction;
 import org.insightech.er.editor.view.action.tracking.ChangeTrackingAction;
-import org.insightech.er.editor.view.action.translation.TranslationManageAction;
 import org.insightech.er.editor.view.action.zoom.ZoomAdjustAction;
 import org.insightech.er.editor.view.contributor.ERDiagramActionBarContributor;
 import org.insightech.er.editor.view.drag_drop.ERDiagramTransferDragSourceListener;
@@ -266,7 +265,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
                         new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
                         new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this),
                         new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
-                        new TranslationManageAction(this),
+                        /* #deleted new TranslationManageAction(this), */
                         /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
                         new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
                         /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
@@ -282,9 +281,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
                         new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
                         new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
                         new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new ERModelAddAction(this),
-                        new ERModelQuickOutlineAction(this),
-                //						new ChangeNameAction(this),
-                }));
+                        new ERModelQuickOutlineAction(this), }));
 
         actionList.addAll(this.extensionLoader.createExtendedActions());
         for (final IAction action : actionList) {

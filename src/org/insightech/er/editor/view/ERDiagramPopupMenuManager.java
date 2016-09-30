@@ -51,7 +51,6 @@ import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToPhy
 import org.insightech.er.editor.view.action.printer.PageSettingAction;
 import org.insightech.er.editor.view.action.search.SearchAction;
 import org.insightech.er.editor.view.action.tracking.ChangeTrackingAction;
-import org.insightech.er.editor.view.action.translation.TranslationManageAction;
 
 /**
  * @author ermaster
@@ -59,10 +58,10 @@ import org.insightech.er.editor.view.action.translation.TranslationManageAction;
  */
 public class ERDiagramPopupMenuManager extends MenuManager {
 
-    private ActionRegistry actionRegistry;
+    private final ActionRegistry actionRegistry;
 
     public ERDiagramPopupMenuManager(ActionRegistry actionRegistry, final ERDiagram diagram) {
-        ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+        final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
 
         this.actionRegistry = actionRegistry;
 
@@ -127,22 +126,22 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
         this.add(new Separator());
 
-        MenuManager displayMenu = new MenuManager(DisplayMessages.getMessage("label.display"));
+        final MenuManager displayMenu = new MenuManager(DisplayMessages.getMessage("label.display"));
 
-        MenuManager viewModeMenu = new MenuManager(DisplayMessages.getMessage("label.view.mode"));
+        final MenuManager viewModeMenu = new MenuManager(DisplayMessages.getMessage("label.view.mode"));
         viewModeMenu.add(changeViewToPhysicalAction);
         viewModeMenu.add(changeViewToLogicalAction);
         viewModeMenu.add(changeViewToBothAction);
 
         displayMenu.add(viewModeMenu);
 
-        MenuManager notationMenu = new MenuManager(DisplayMessages.getMessage("label.notation"));
+        final MenuManager notationMenu = new MenuManager(DisplayMessages.getMessage("label.notation"));
         notationMenu.add(changeToIENotationAction);
         notationMenu.add(changeToIDEF1XNotationAction);
 
         displayMenu.add(notationMenu);
 
-        MenuManager notationLevelMenu = new MenuManager(DisplayMessages.getMessage("label.notation.level"));
+        final MenuManager notationLevelMenu = new MenuManager(DisplayMessages.getMessage("label.notation.level"));
         notationLevelMenu.add(changeNotationLevelToOnlyTitleAction);
         notationLevelMenu.add(changeNotationLevelToOnlyKeyAction);
         notationLevelMenu.add(changeNotationLevelToColumnAction);
@@ -156,7 +155,7 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
         displayMenu.add(notationLevelMenu);
 
-        MenuManager designMenu = new MenuManager(DisplayMessages.getMessage("label.design"));
+        final MenuManager designMenu = new MenuManager(DisplayMessages.getMessage("label.design"));
 
         designMenu.add(changeDesignToFunnyAction);
         designMenu.add(changeDesignToFrameAction);
@@ -172,18 +171,18 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
         this.add(new Separator());
 
-        MenuManager importMenu =
-                new MenuManager(DisplayMessages.getMessage("action.title.import"),
-                        sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"), "Import");
+        final MenuManager importMenu =
+                new MenuManager(DisplayMessages.getMessage("action.title.import"), sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"),
+                        "Import");
 
         importMenu.add(this.getAction(ImportFromDBAction.ID));
         importMenu.add(this.getAction(ImportFromFileAction.ID));
 
         this.add(importMenu);
 
-        MenuManager exportMenu =
-                new MenuManager(DisplayMessages.getMessage("action.title.export"),
-                        sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"), "Export");
+        final MenuManager exportMenu =
+                new MenuManager(DisplayMessages.getMessage("action.title.export"), sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"),
+                        "Export");
 
         exportMenu.add(this.getAction(ExportToDDLAction.ID));
         exportMenu.add(this.getAction(ExportToImageAction.ID));
@@ -199,33 +198,26 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         exportMenu.add(new GroupMarker("export"));
 
         this.add(exportMenu);
-
         this.add(new Separator());
-
         this.add(this.getAction(PageSettingAction.ID));
         this.add(this.getAction(ChangeTrackingAction.ID));
-        this.add(this.getAction(TranslationManageAction.ID));
-        // #deleted
-        //this.add(this.getAction(TestDataCreateAction.ID));
 
-        MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
+        final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
         categoryMenu.add(this.getAction(CategoryManageAction.ID));
-        // categoryMenu.add(changeFreeLayoutAction);
         categoryMenu.add(changeShowReferredTablesAction);
 
         this.add(categoryMenu);
-        this.add(this.getAction(ERModelAddAction.ID)); // ERModel�쐬
-        //		this.add(this.getAction(PlaceTableAction.ID)); // �e�[�u���z�u
-
+        this.add(this.getAction(ERModelAddAction.ID));
         this.add(this.getAction(OptionSettingAction.ID));
 
         this.addMenuListener(new IMenuListener() {
 
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 undoAction.setText(DisplayMessages.getMessage("action.title.undo"));
                 redoAction.setText(DisplayMessages.getMessage("action.title.redo"));
 
-                Settings settings = diagram.getDiagramContents().getSettings();
+                final Settings settings = diagram.getDiagramContents().getSettings();
 
                 changeViewToPhysicalAction.setChecked(false);
                 changeViewToLogicalAction.setChecked(false);
@@ -306,7 +298,7 @@ public class ERDiagramPopupMenuManager extends MenuManager {
                     changeStampAction.setChecked(true);
                 }
 
-                CategorySetting categorySettings = settings.getCategorySetting();
+                final CategorySetting categorySettings = settings.getCategorySetting();
                 if (categorySettings.isFreeLayout()) {
                     changeFreeLayoutAction.setChecked(true);
                 }

@@ -74,7 +74,6 @@ import org.insightech.er.editor.model.settings.EnvironmentSetting;
 import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.settings.TranslationSetting;
 import org.insightech.er.editor.model.tracking.ChangeTracking;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.w3c.dom.Document;
@@ -412,8 +411,6 @@ public class XMLLoader {
         this.diagram.setLocation(x, y);
 
         this.loadChangeTrackingList(this.diagram.getChangeTrackingList(), root);
-
-        this.diagram.getDiagramContents().getSettings().getTranslationSetting().load();
     }
 
     private String loadDatabase(Element settingsElement) {
@@ -905,13 +902,15 @@ public class XMLLoader {
 
         final String type = this.getStringValue(element, "type");
 
-        final TypeData typeData = new TypeData(this.getIntegerValue(element, "length"), this.getIntegerValue(element, "decimal"),
-                this.getBooleanValue(element, "array"), this.getIntegerValue(element, "array_dimension"),
-                this.getBooleanValue(element, "unsigned"), this.getStringValue(element, "args"));
+        final TypeData typeData =
+                new TypeData(this.getIntegerValue(element, "length"), this.getIntegerValue(element, "decimal"), this.getBooleanValue(
+                        element, "array"), this.getIntegerValue(element, "array_dimension"), this.getBooleanValue(element, "unsigned"),
+                        this.getStringValue(element, "args"));
 
-        final Word word = new Word(Format.null2blank(this.getStringValue(element, "physical_name")),
-                Format.null2blank(this.getStringValue(element, "logical_name")), SqlType.valueOfId(type), typeData,
-                Format.null2blank(this.getStringValue(element, "description")), this.database);
+        final Word word =
+                new Word(Format.null2blank(this.getStringValue(element, "physical_name")), Format.null2blank(this.getStringValue(element,
+                        "logical_name")), SqlType.valueOfId(type), typeData,
+                        Format.null2blank(this.getStringValue(element, "description")), this.database);
 
         context.wordMap.put(id, word);
 
@@ -964,9 +963,10 @@ public class XMLLoader {
         NormalColumn normalColumn = null;
 
         if (word == null) {
-            word = new Word(this.getStringValue(element, "physical_name"), this.getStringValue(element, "logical_name"),
-                    SqlType.valueOfId(type), new TypeData(null, null, false, null, false, null),
-                    this.getStringValue(element, "description"), database);
+            word =
+                    new Word(this.getStringValue(element, "physical_name"), this.getStringValue(element, "logical_name"),
+                            SqlType.valueOfId(type), new TypeData(null, null, false, null, false, null), this.getStringValue(element,
+                                    "description"), database);
 
             final UniqueWord uniqueWord = new UniqueWord(word);
 
@@ -977,11 +977,12 @@ public class XMLLoader {
             }
         }
 
-        normalColumn = new NormalColumn(word, this.getBooleanValue(element, "not_null"), this.getBooleanValue(element, "primary_key"),
-                this.getBooleanValue(element, "unique_key"), this.getBooleanValue(element, "auto_increment"),
-                this.getStringValue(element, "default_value"), this.getStringValue(element, "constraint"),
-                this.getStringValue(element, "unique_key_name"), this.getStringValue(element, "character_set"),
-                this.getStringValue(element, "collation"));
+        normalColumn =
+                new NormalColumn(word, this.getBooleanValue(element, "not_null"), this.getBooleanValue(element, "primary_key"),
+                        this.getBooleanValue(element, "unique_key"), this.getBooleanValue(element, "auto_increment"), this.getStringValue(
+                                element, "default_value"), this.getStringValue(element, "constraint"), this.getStringValue(element,
+                                "unique_key_name"), this.getStringValue(element, "character_set"),
+                        this.getStringValue(element, "collation"));
 
         final Element autoIncrementSettingElement = this.getElement(element, "sequence");
         if (autoIncrementSettingElement != null) {
@@ -1057,14 +1058,10 @@ public class XMLLoader {
             final CategorySetting categorySetting = settings.getCategorySetting();
             this.loadCategorySetting(categorySetting, element, context);
 
-            final TranslationSetting translationSetting = settings.getTranslationSetting();
-            this.loadTranslationSetting(translationSetting, element, context);
-
             final ModelProperties modelProperties = settings.getModelProperties();
             this.loadModelProperties(modelProperties, element);
 
             this.loadTableProperties((TableProperties) settings.getTableViewProperties(), element, context);
-
         }
     }
 
@@ -1203,31 +1200,6 @@ public class XMLLoader {
         group.setContents(nodeElementList);
 
         return group;
-    }
-
-    private void loadTranslationSetting(TranslationSetting translationSetting, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "translation_settings");
-        if (element != null) {
-            translationSetting.setUse(this.getBooleanValue(element, "use"));
-
-            final Element translationsElement = this.getElement(element, "translations");
-
-            final NodeList nodeList = translationsElement.getChildNodes();
-
-            final List<String> selectedTranslations = new ArrayList<String>();
-
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
-                    continue;
-                }
-
-                final Element translationElement = (Element) nodeList.item(i);
-
-                selectedTranslations.add(this.getStringValue(translationElement, "name"));
-            }
-
-            translationSetting.setSelectedTranslations(selectedTranslations);
-        }
     }
 
     private void loadEnvironmentSetting(EnvironmentSetting environmentSetting, Element parent, LoadContext context) {
@@ -1423,8 +1395,9 @@ public class XMLLoader {
                 type = null;
             }
 
-            final Index index = new Index(table, this.getStringValue(indexElement, "name"),
-                    this.getBooleanValue(indexElement, "non_unique"), type, this.getStringValue(indexElement, "description"));
+            final Index index =
+                    new Index(table, this.getStringValue(indexElement, "name"), this.getBooleanValue(indexElement, "non_unique"), type,
+                            this.getStringValue(indexElement, "description"));
 
             index.setFullText(this.getBooleanValue(indexElement, "full_text"));
 

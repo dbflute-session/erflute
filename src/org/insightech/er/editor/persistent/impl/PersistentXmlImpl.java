@@ -514,8 +514,6 @@ public class PersistentXmlImpl extends Persistent {
 
         xml.append(tab(this.createXML(settings.getExportSetting(), context)));
         xml.append(tab(this.createXML(settings.getCategorySetting(), context)));
-        //		xml.append(tab(this.createXML(settings.getGroupSetting(), context)));
-        xml.append(tab(this.createXML(settings.getTranslationSetting(), context)));
         xml.append(tab(this.createXML(settings.getModelProperties(), context)));
         xml.append(tab(this.createXML((TableProperties) settings.getTableViewProperties(), context)));
         xml.append(tab(this.createXML(settings.getEnvironmentSetting(), context)));

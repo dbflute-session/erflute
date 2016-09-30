@@ -1,7 +1,6 @@
 package org.insightech.er.editor.model;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.insightech.er.editor.ERDiagramMultiPageEditor;
@@ -77,14 +76,8 @@ public class ERDiagram extends ViewableModel {
     //                                                                          Initialize
     //                                                                          ==========
     public void init() {
-        this.diagramContents.setColumnGroups(GlobalGroupSet.load());
+        diagramContents.setColumnGroups(GlobalGroupSet.load());
         final Settings settings = this.getDiagramContents().getSettings();
-
-        // #willdelete
-        if (Locale.JAPANESE.getLanguage().equals(Locale.getDefault().getLanguage())) {
-            settings.getTranslationSetting().setUse(true);
-            settings.getTranslationSetting().selectDefault();
-        }
         settings.getModelProperties().init();
     }
 

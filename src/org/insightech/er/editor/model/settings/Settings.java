@@ -46,8 +46,6 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     private CategorySetting categorySetting;
     //	private VGroupSetting groupSetting;
 
-    private TranslationSetting translationSetting;
-
     private EnvironmentSetting environmentSetting;
 
     private TableProperties tableProperties;
@@ -98,7 +96,6 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.modelProperties = new ModelProperties();
         this.categorySetting = new CategorySetting();
         //		this.groupSetting = new VGroupSetting();
-        this.translationSetting = new TranslationSetting();
         this.environmentSetting = new EnvironmentSetting();
         this.exportSetting = new ExportSetting();
 
@@ -154,6 +151,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.database = database;
     }
 
+    @Override
     public TableViewProperties getTableViewProperties() {
         this.tableProperties = DBManagerFactory.getDBManager(database).createTableProperties(this.tableProperties);
 
@@ -240,26 +238,20 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.suspendValidator = suspendValidator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Object clone() {
         Settings clone = null;
         try {
             clone = (Settings) super.clone();
-            clone.modelProperties = (ModelProperties) modelProperties.clone();
+            clone.modelProperties = modelProperties.clone();
             clone.categorySetting = (CategorySetting) categorySetting.clone();
-            clone.translationSetting = (TranslationSetting) translationSetting.clone();
             clone.environmentSetting = (EnvironmentSetting) environmentSetting.clone();
             clone.exportSetting = exportSetting.clone();
 
             if (this.database != null) {
                 clone.tableProperties = (TableProperties) this.getTableViewProperties().clone();
             }
-
-        } catch (CloneNotSupportedException e) {}
-
+        } catch (final CloneNotSupportedException e) {}
         return clone;
     }
 
@@ -267,20 +259,6 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.modelProperties = modelProperties;
     }
 
-    /**
-     * translationSettings ���擾���܂�.
-     *
-     * @return translationSettings
-     */
-    public TranslationSetting getTranslationSetting() {
-        return translationSetting;
-    }
-
-    /**
-     * environmentSetting ���擾���܂�.
-     *
-     * @return environmentSetting
-     */
     public EnvironmentSetting getEnvironmentSetting() {
         return environmentSetting;
     }

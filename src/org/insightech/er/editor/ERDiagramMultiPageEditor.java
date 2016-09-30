@@ -112,7 +112,6 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
             this.diagram = new ERDiagram(DBManagerFactory.getAllDBList().get(0));
             this.diagram.init();
         }
-        this.diagram.getDiagramContents().getSettings().getTranslationSetting().load();
         this.diagram.setEditor(this);
     }
 
