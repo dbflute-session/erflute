@@ -285,7 +285,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     @Override
     public void doSave(IProgressMonitor monitor) {
         monitor.setTaskName("save initialize...");
-        final ZoomManager zoomManager = this.getActiveEditor().getAdapter(ZoomManager.class);
+        final ZoomManager zoomManager = (ZoomManager) this.getActiveEditor().getAdapter(ZoomManager.class);
         final double zoom = zoomManager.getZoom();
         this.diagram.setZoom(zoom);
 
@@ -392,11 +392,10 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         selectedEditor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> T getAdapter(Class<T> type) {
+    public Object getAdapter(@SuppressWarnings("rawtypes") Class type) {
         if (type == ERDiagram.class) {
-            return (T) this.diagram;
+            return this.diagram;
         }
         return super.getAdapter(type);
     }

@@ -151,8 +151,8 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ERDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory, ZoomComboContributionItem zoomComboContributionItem,
-            ERDiagramOutlinePage outlinePage) {
+    public ERDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
+            ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         this.setEditDomain(new DefaultEditDomain(this));
         this.diagram = diagram;
         this.editPartFactory = editPartFactory;
@@ -201,8 +201,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         final MenuManager menuMgr = new ERDiagramPopupMenuManager(this.getActionRegistry(), this.diagram);
         this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
         viewer.setContextMenu(menuMgr);
-        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(),
-                this.outlinePage.getOutlineActionRegistory(), this.outlinePage.getViewer());
+        this.outlineMenuMgr =
+                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
+                        this.outlinePage.getViewer());
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
@@ -254,31 +255,36 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         final ActionRegistry registry = this.getActionRegistry();
         final List<String> selectionActionList = this.getSelectionActions();
 
-        final List<IAction> actionList = new ArrayList<IAction>(Arrays.asList(new IAction[] { new ChangeViewToLogicalAction(this),
-                new ChangeViewToPhysicalAction(this), new ChangeViewToBothAction(this), new ChangeToIENotationAction(this),
-                new ChangeToIDEF1XNotationAction(this), new ChangeNotationLevelToColumnAction(this),
-                new ChangeNotationLevelToExcludeTypeAction(this), new ChangeNotationLevelToDetailAction(this),
-                new ChangeNotationLevelToOnlyTitleAction(this), new ChangeNotationLevelToOnlyKeyAction(this),
-                new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
-                new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
-                new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
-                new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this), new CategoryManageAction(this),
-                new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this), new TranslationManageAction(this),
-                /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
-                new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
-                /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
-                /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
-                /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this), new EditAllAttributesAction(this),
-                new DirectEditAction((IWorkbenchPart) this), new ERDiagramAlignmentAction(this, PositionConstants.LEFT),
-                new ERDiagramAlignmentAction(this, PositionConstants.CENTER), new ERDiagramAlignmentAction(this, PositionConstants.RIGHT),
-                new ERDiagramAlignmentAction(this, PositionConstants.TOP), new ERDiagramAlignmentAction(this, PositionConstants.MIDDLE),
-                new ERDiagramAlignmentAction(this, PositionConstants.BOTTOM), new ERDiagramMatchWidthAction(this),
-                new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
-                new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
-                new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this), new DeleteWithoutUpdateAction(this),
-                new SelectAllContentsAction(this), new ERModelAddAction(this), new ERModelQuickOutlineAction(this),
+        final List<IAction> actionList =
+                new ArrayList<IAction>(Arrays.asList(new IAction[] { new ChangeViewToLogicalAction(this),
+                        new ChangeViewToPhysicalAction(this), new ChangeViewToBothAction(this), new ChangeToIENotationAction(this),
+                        new ChangeToIDEF1XNotationAction(this), new ChangeNotationLevelToColumnAction(this),
+                        new ChangeNotationLevelToExcludeTypeAction(this), new ChangeNotationLevelToDetailAction(this),
+                        new ChangeNotationLevelToOnlyTitleAction(this), new ChangeNotationLevelToOnlyKeyAction(this),
+                        new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
+                        new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
+                        new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
+                        new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this),
+                        new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
+                        new TranslationManageAction(this),
+                        /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
+                        new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
+                        /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
+                        /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
+                        /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this), new EditAllAttributesAction(this),
+                        new DirectEditAction((IWorkbenchPart) this), new ERDiagramAlignmentAction(this, PositionConstants.LEFT),
+                        new ERDiagramAlignmentAction(this, PositionConstants.CENTER),
+                        new ERDiagramAlignmentAction(this, PositionConstants.RIGHT),
+                        new ERDiagramAlignmentAction(this, PositionConstants.TOP),
+                        new ERDiagramAlignmentAction(this, PositionConstants.MIDDLE),
+                        new ERDiagramAlignmentAction(this, PositionConstants.BOTTOM), new ERDiagramMatchWidthAction(this),
+                        new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
+                        new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
+                        new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
+                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new ERModelAddAction(this),
+                        new ERModelQuickOutlineAction(this),
                 //						new ChangeNameAction(this),
-        }));
+                }));
 
         actionList.addAll(this.extensionLoader.createExtendedActions());
         for (final IAction action : actionList) {
@@ -358,7 +364,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     }
 
     private void addKeyHandler(IAction action) {
-        final IHandlerService service = this.getSite().getService(IHandlerService.class);
+        final IHandlerService service = (IHandlerService) this.getSite().getService(IHandlerService.class);
         service.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
     }
 
