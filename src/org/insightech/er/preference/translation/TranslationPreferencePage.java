@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.preference.PreferenceInitializer;
 
@@ -33,17 +33,17 @@ public class TranslationPreferencePage extends PreferencePage implements IWorkbe
 
         this.fileListEditor =
                 new TranslationFileListEditor(PreferenceInitializer.TRANSLATION_FILE_LIST,
-                        ResourceString.getResourceString("label.custom.dictionary.for.translation"), composite);
+                        DisplayMessages.getMessage("label.custom.dictionary.for.translation"), composite);
         this.fileListEditor.load();
 
         CompositeFactory.filler(composite, 2);
 
         Label label = new Label(composite, SWT.NONE);
-        label.setText(ResourceString.getResourceString("dialog.message.translation.file.store"));
+        label.setText(DisplayMessages.getMessage("dialog.message.translation.file.store"));
         new Label(composite, SWT.NONE);
 
         label = new Label(composite, SWT.NONE);
-        label.setText(ResourceString.getResourceString("dialog.message.translation.file.encode"));
+        label.setText(DisplayMessages.getMessage("dialog.message.translation.file.encode"));
         new Label(composite, SWT.NONE);
 
         return composite;

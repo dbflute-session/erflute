@@ -3,7 +3,7 @@ package org.insightech.er.editor.view.action.translation;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.ChangeSettingsCommand;
 import org.insightech.er.editor.model.ERDiagram;
@@ -16,7 +16,7 @@ public class TranslationManageAction extends AbstractBaseAction {
     public static final String ID = TranslationManageAction.class.getName();
 
     public TranslationManageAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.manage.translation"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.manage.translation"), editor);
     }
 
     /**

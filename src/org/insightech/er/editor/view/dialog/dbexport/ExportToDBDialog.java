@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
@@ -45,7 +45,7 @@ public class ExportToDBDialog extends AbstractDialog {
      */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        this.createButton(parent, IDialogConstants.OK_ID, ResourceString.getResourceString("label.button.execute"), true);
+        this.createButton(parent, IDialogConstants.OK_ID, DisplayMessages.getMessage("label.button.execute"), true);
     }
 
     @Override

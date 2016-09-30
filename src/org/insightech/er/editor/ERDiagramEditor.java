@@ -50,12 +50,12 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.insightech.er.Activator;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.insightech.er.editor.controller.editpart.element.PagableFreeformRootEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
-import org.insightech.er.editor.extention.ExtensionLoader;
+import org.insightech.er.editor.extension.ExtensionLoader;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.view.ERDiagramGotoMarker;
@@ -122,9 +122,8 @@ import org.insightech.er.editor.view.property_source.ERDiagramPropertySourceProv
 import org.insightech.er.editor.view.tool.ERDiagramPaletteRoot;
 
 /**
- * #analyze 恐らくこれが、ビューダイアグラム？ ERDiagramMultiPageEditor から new される
- * @author ermaster
- * @author jflute
+ * #analyze may be view diagram, created by ERDiagramMultiPageEditor
+ * @author modified by jflute (originated in ermaster)
  */
 public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
@@ -136,40 +135,36 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected ERDiagram diagram;
-    protected ERDiagramEditPartFactory editPartFactory;
-    protected ERDiagramOutlinePage outlinePage;
+    protected final ERDiagram diagram;
+    protected final ERDiagramEditPartFactory editPartFactory;
+    protected final ZoomComboContributionItem zoomComboContributionItem;
+    protected final ERDiagramOutlinePage outlinePage;
+    protected final PropertySheetPage propertySheetPage;
+
+    protected ERDiagramActionBarContributor actionBarContributor;
     protected IGotoMarker gotoMaker;
-    private ERDiagramActionBarContributor actionBarContributor;
-    private ZoomComboContributionItem zoomComboContributionItem;
     protected MenuManager outlineMenuMgr;
-    private Map<IMarker, Object> markedObjectMap = new HashMap<IMarker, Object>();
-    private PropertySheetPage propertySheetPage;
     protected ExtensionLoader extensionLoader;
-    private boolean isDirty;
+    protected boolean isDirty;
+    protected final Map<IMarker, Object> markedObjectMap = new HashMap<IMarker, Object>();
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ERDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
-            ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
-        DefaultEditDomain domain = new DefaultEditDomain(this);
-        this.setEditDomain(domain);
-
+    public ERDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory, ZoomComboContributionItem zoomComboContributionItem,
+            ERDiagramOutlinePage outlinePage) {
+        this.setEditDomain(new DefaultEditDomain(this));
         this.diagram = diagram;
         this.editPartFactory = editPartFactory;
         this.zoomComboContributionItem = zoomComboContributionItem;
         this.outlinePage = outlinePage;
-
         this.propertySheetPage = new PropertySheetPage();
         this.propertySheetPage.setPropertySourceProvider(new ERDiagramPropertySourceProvider());
-
         try {
             this.extensionLoader = new ExtensionLoader(this);
-        } catch (CoreException e) {
+        } catch (final CoreException e) {
             Activator.showExceptionDialog(e);
         }
-        //		setAction(ACTION_OUTLINE, new QuickOutlineAction());
     }
 
     // ===================================================================================
@@ -195,27 +190,19 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
     @Override
     protected void initializeGraphicalViewer() {
-        GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = this.getGraphicalViewer();
         viewer.setEditPartFactory(editPartFactory);
-
         this.initViewerAction(viewer);
         this.initDragAndDrop(viewer);
-
         viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, true);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
-
-        MenuManager menuMgr = new ERDiagramPopupMenuManager(this.getActionRegistry(), this.diagram);
-
+        final MenuManager menuMgr = new ERDiagramPopupMenuManager(this.getActionRegistry(), this.diagram);
         this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
-
         viewer.setContextMenu(menuMgr);
-
-        this.outlineMenuMgr =
-                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
-                        this.outlinePage.getViewer());
-
+        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(),
+                this.outlinePage.getOutlineActionRegistory(), this.outlinePage.getViewer());
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
@@ -264,45 +251,39 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     protected void createActions() {
         super.createActions();
 
-        ActionRegistry registry = this.getActionRegistry();
-        List<String> selectionActionList = this.getSelectionActions();
+        final ActionRegistry registry = this.getActionRegistry();
+        final List<String> selectionActionList = this.getSelectionActions();
 
-        List<IAction> actionList =
-                new ArrayList<IAction>(Arrays.asList(new IAction[] { new ChangeViewToLogicalAction(this),
-                        new ChangeViewToPhysicalAction(this), new ChangeViewToBothAction(this), new ChangeToIENotationAction(this),
-                        new ChangeToIDEF1XNotationAction(this), new ChangeNotationLevelToColumnAction(this),
-                        new ChangeNotationLevelToExcludeTypeAction(this), new ChangeNotationLevelToDetailAction(this),
-                        new ChangeNotationLevelToOnlyTitleAction(this), new ChangeNotationLevelToOnlyKeyAction(this),
-                        new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
-                        new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
-                        new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
-                        new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this),
-                        new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
-                        new TranslationManageAction(this), /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this),
-                        new ImportFromFileAction(this), new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
-                        /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
-                        /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
-                        /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this), new EditAllAttributesAction(this),
-                        new DirectEditAction((IWorkbenchPart) this),
-                        new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT),
-                        new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.CENTER),
-                        new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.RIGHT),
-                        new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.TOP),
-                        new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.MIDDLE),
-                        new ERDiagramAlignmentAction((IWorkbenchPart) this, PositionConstants.BOTTOM), new ERDiagramMatchWidthAction(this),
-                        new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
-                        new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
-                        new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
-                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new ERModelAddAction(this),
-                        new ERModelQuickOutlineAction(this),
+        final List<IAction> actionList = new ArrayList<IAction>(Arrays.asList(new IAction[] { new ChangeViewToLogicalAction(this),
+                new ChangeViewToPhysicalAction(this), new ChangeViewToBothAction(this), new ChangeToIENotationAction(this),
+                new ChangeToIDEF1XNotationAction(this), new ChangeNotationLevelToColumnAction(this),
+                new ChangeNotationLevelToExcludeTypeAction(this), new ChangeNotationLevelToDetailAction(this),
+                new ChangeNotationLevelToOnlyTitleAction(this), new ChangeNotationLevelToOnlyKeyAction(this),
+                new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
+                new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
+                new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
+                new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this), new CategoryManageAction(this),
+                new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this), new TranslationManageAction(this),
+                /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
+                new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
+                /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
+                /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
+                /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this), new EditAllAttributesAction(this),
+                new DirectEditAction((IWorkbenchPart) this), new ERDiagramAlignmentAction(this, PositionConstants.LEFT),
+                new ERDiagramAlignmentAction(this, PositionConstants.CENTER), new ERDiagramAlignmentAction(this, PositionConstants.RIGHT),
+                new ERDiagramAlignmentAction(this, PositionConstants.TOP), new ERDiagramAlignmentAction(this, PositionConstants.MIDDLE),
+                new ERDiagramAlignmentAction(this, PositionConstants.BOTTOM), new ERDiagramMatchWidthAction(this),
+                new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
+                new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
+                new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this), new DeleteWithoutUpdateAction(this),
+                new SelectAllContentsAction(this), new ERModelAddAction(this), new ERModelQuickOutlineAction(this),
                 //						new ChangeNameAction(this),
-                        }));
+        }));
 
         actionList.addAll(this.extensionLoader.createExtendedActions());
-
-        for (IAction action : actionList) {
+        for (final IAction action : actionList) {
             if (action instanceof SelectionAction) {
-                IAction originalAction = registry.getAction(action.getId());
+                final IAction originalAction = registry.getAction(action.getId());
                 if (originalAction != null) {
                     selectionActionList.remove(originalAction);
                 }
@@ -316,23 +297,23 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
 
     @SuppressWarnings("unchecked")
     protected void initViewerAction(GraphicalViewer viewer) {
-        ScalableFreeformRootEditPart rootEditPart = new PagableFreeformRootEditPart(this.diagram);
+        final ScalableFreeformRootEditPart rootEditPart = new PagableFreeformRootEditPart(this.diagram);
         viewer.setRootEditPart(rootEditPart);
 
-        ZoomManager manager = rootEditPart.getZoomManager();
+        final ZoomManager manager = rootEditPart.getZoomManager();
 
-        double[] zoomLevels = new double[] { 0.1, 0.25, 0.5, 0.75, 0.8, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 10.0, 20.0 };
+        final double[] zoomLevels = new double[] { 0.1, 0.25, 0.5, 0.75, 0.8, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 10.0, 20.0 };
         manager.setZoomLevels(zoomLevels);
 
-        List<String> zoomContributions = new ArrayList<String>();
+        final List<String> zoomContributions = new ArrayList<String>();
         zoomContributions.add(ZoomManager.FIT_ALL);
         zoomContributions.add(ZoomManager.FIT_HEIGHT);
         zoomContributions.add(ZoomManager.FIT_WIDTH);
         manager.setZoomLevelContributions(zoomContributions);
 
-        ZoomInAction zoomInAction = new ZoomInAction(manager);
-        ZoomOutAction zoomOutAction = new ZoomOutAction(manager);
-        ZoomAdjustAction zoomAdjustAction = new ZoomAdjustAction(manager);
+        final ZoomInAction zoomInAction = new ZoomInAction(manager);
+        final ZoomOutAction zoomOutAction = new ZoomOutAction(manager);
+        final ZoomAdjustAction zoomAdjustAction = new ZoomAdjustAction(manager);
 
         this.getActionRegistry().registerAction(zoomInAction);
         this.getActionRegistry().registerAction(zoomOutAction);
@@ -341,8 +322,8 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         this.addKeyHandler(zoomInAction);
         this.addKeyHandler(zoomOutAction);
 
-        IFigure gridLayer = rootEditPart.getLayer(LayerConstants.GRID_LAYER);
-        gridLayer.setForegroundColor(Resources.GRID_COLOR);
+        final IFigure gridLayer = rootEditPart.getLayer(LayerConstants.GRID_LAYER);
+        gridLayer.setForegroundColor(DesignResources.GRID_COLOR);
 
         IAction action = new ToggleGridAction(viewer);
         this.getActionRegistry().registerAction(action);
@@ -365,59 +346,28 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         this.getActionRegistry().registerAction(action);
 
         this.actionBarContributor = new ERDiagramActionBarContributor(this.zoomComboContributionItem);
-
-        // action = new ToggleRulerVisibilityAction(viewer);
-        // this.getActionRegistry().registerAction(action);
-        //
-        // action = new ToggleSnapToGeometryAction(viewer);
-        // this.getActionRegistry().registerAction(action);
     }
 
     protected void initDragAndDrop(GraphicalViewer viewer) {
-        AbstractTransferDragSourceListener dragSourceListener =
+        final AbstractTransferDragSourceListener dragSourceListener =
                 new ERDiagramTransferDragSourceListener(viewer, TemplateTransfer.getInstance());
         viewer.addDragSourceListener(dragSourceListener);
-
-        AbstractTransferDropTargetListener dropTargetListener =
+        final AbstractTransferDropTargetListener dropTargetListener =
                 new ERDiagramTransferDropTargetListener(viewer, TemplateTransfer.getInstance());
-
         viewer.addDropTargetListener(dropTargetListener);
     }
 
     private void addKeyHandler(IAction action) {
-        IHandlerService service = (IHandlerService) this.getSite().getService(IHandlerService.class);
+        final IHandlerService service = this.getSite().getService(IHandlerService.class);
         service.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GraphicalViewer getGraphicalViewer() {
-        return super.getGraphicalViewer();
-    }
-
-    /**
-     * editPartFactory���擾���܂��B
-     * @return editPartFactory
-     */
-    public ERDiagramEditPartFactory getEditPartFactory() {
-        return editPartFactory;
-    }
-
-    public ERDiagramActionBarContributor getActionBarContributor() {
-        return actionBarContributor;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-        IEditorPart editorPart = getSite().getPage().getActiveEditor();
+        final IEditorPart editorPart = getSite().getPage().getActiveEditor();
 
         if (editorPart instanceof ERDiagramMultiPageEditor) {
-            ERDiagramMultiPageEditor multiPageEditorPart = (ERDiagramMultiPageEditor) editorPart;
+            final ERDiagramMultiPageEditor multiPageEditorPart = (ERDiagramMultiPageEditor) editorPart;
 
             if (this.equals(multiPageEditorPart.getActiveEditor())) {
                 updateActions(this.getSelectionActions());
@@ -429,12 +379,12 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     }
 
     public Point getLocation() {
-        FigureCanvas canvas = (FigureCanvas) this.getGraphicalViewer().getControl();
+        final FigureCanvas canvas = (FigureCanvas) this.getGraphicalViewer().getControl();
         return canvas.getViewport().getViewLocation();
     }
 
     public void setLocation(int x, int y) {
-        FigureCanvas canvas = (FigureCanvas) this.getGraphicalViewer().getControl();
+        final FigureCanvas canvas = (FigureCanvas) this.getGraphicalViewer().getControl();
         canvas.scrollTo(x, y);
     }
 
@@ -450,25 +400,10 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
         this.markedObjectMap.clear();
     }
 
-    public void setDirty(boolean isDirty) {
-        this.isDirty = isDirty;
-    }
-
-    @Override
-    public boolean isDirty() {
-        if (this.isDirty) {
-            return true;
-        }
-
-        return super.isDirty();
-    }
-
     public String getProjectFilePath(String extention) {
-        IFile file = ((IFileEditorInput) this.getEditorInput()).getFile();
-        String filePath = file.getLocation().toOSString();
-        filePath = filePath.substring(0, filePath.lastIndexOf(".")) + extention;
-
-        return filePath;
+        final IFile file = ((IFileEditorInput) this.getEditorInput()).getFile();
+        final String filePath = file.getLocation().toOSString();
+        return filePath.substring(0, filePath.lastIndexOf(".")) + extention;
     }
 
     public DefaultEditDomain getDefaultEditDomain() {
@@ -482,14 +417,39 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     public void reveal(ERTable table) {
         final ERDiagramEditPart editPart = (ERDiagramEditPart) getGraphicalViewer().getContents();
         final List<?> tableParts = editPart.getChildren();
-        for (Object tableEditPart : tableParts) {
+        for (final Object tableEditPart : tableParts) {
             if (tableEditPart instanceof ERTableEditPart) {
-                ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
+                final ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
                 if (((ERTable) vtableEditPart.getModel()).equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
                     return;
                 }
             }
         }
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    @Override
+    public GraphicalViewer getGraphicalViewer() {
+        return super.getGraphicalViewer();
+    }
+
+    public ERDiagramEditPartFactory getEditPartFactory() {
+        return editPartFactory;
+    }
+
+    public ERDiagramActionBarContributor getActionBarContributor() {
+        return actionBarContributor;
+    }
+
+    @Override
+    public boolean isDirty() {
+        return this.isDirty || super.isDirty();
+    }
+
+    public void setDirty(boolean isDirty) {
+        this.isDirty = isDirty;
     }
 }

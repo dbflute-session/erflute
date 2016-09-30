@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
@@ -50,7 +50,7 @@ public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(ResourceString.getResourceString("label.ermodel") + " (" + this.getModelChildren().size() + ")");
+        this.setWidgetText(DisplayMessages.getMessage("label.ermodel") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 

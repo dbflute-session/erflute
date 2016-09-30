@@ -35,14 +35,23 @@ import org.insightech.er.editor.view.outline.ERDiagramOutlinePopupMenuManager;
  */
 public class EROneDiagramEditor extends ERDiagramEditor {
 
-    private ERModel model;
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    private ERModel model; // may be changed
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public EROneDiagramEditor(ERDiagram diagram, ERModel model, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         super(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
         this.model = model;
     }
 
+    // ===================================================================================
+    //                                                                    Default Override
+    //                                                                    ================
     @Override
     public DefaultEditDomain getDefaultEditDomain() {
         return getEditDomain();
@@ -53,21 +62,23 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         return getActionRegistry();
     }
 
+    // ===================================================================================
+    //                                                                       Create Action
+    //                                                                       =============
     @Override
     protected void createActions() {
         super.createActions();
-
         final ActionRegistry registry = this.getActionRegistry();
-        //		List<String> selectionActionList = this.getSelectionActions();
-
         final List<IAction> actionList =
                 new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new VGroupManageAction(this), }));
-
         for (final IAction action : actionList) {
             registry.registerAction(action);
         }
     }
 
+    // ===================================================================================
+    //                                                                     GraphicalViewer
+    //                                                                     ===============
     @Override
     protected void initializeGraphicalViewer() {
         final GraphicalViewer viewer = this.getGraphicalViewer();
@@ -82,24 +93,17 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
 
         final MenuManager menuMgr = new ERDiagramOnePopupMenuManager(this.getActionRegistry(), this.model);
-
         this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
-
         viewer.setContextMenu(menuMgr);
-
         viewer.setContents(model);
-        //		viewer.getRootEditPart().setContents(editPartFactory.);
-
         this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(),
                 this.outlinePage.getOutlineActionRegistory(), this.outlinePage.getViewer());
-
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
-    public ERModel getModel() {
-        return model;
-    }
-
+    // ===================================================================================
+    //                                                                        Change Model
+    //                                                                        ============
     public void setContents(ERModel newModel) {
         model = newModel;
         getGraphicalViewer().setContents(newModel);
@@ -110,6 +114,9 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         model.changeAll();
     }
 
+    // ===================================================================================
+    //                                                                              Reveal
+    //                                                                              ======
     @Override
     public void reveal(ERTable table) {
         final ERModelEditPart editPart = (ERModelEditPart) getGraphicalViewer().getContents();
@@ -124,10 +131,17 @@ public class EROneDiagramEditor extends ERDiagramEditor {
             }
             if (tableEditPart instanceof VGroupEditPart) {
                 // do nothing
-                //				VGroupEditPart groupEditPart = (VGroupEditPart) tableEditPart;
-                //				List children = groupEditPart.getChildren();
-                //				System.out.println(children);
+                //VGroupEditPart groupEditPart = (VGroupEditPart) tableEditPart;
+                //List children = groupEditPart.getChildren();
+                //System.out.println(children);
             }
         }
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public ERModel getModel() {
+        return model;
     }
 }

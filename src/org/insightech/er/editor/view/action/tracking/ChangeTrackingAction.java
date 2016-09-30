@@ -2,7 +2,7 @@ package org.insightech.er.editor.view.action.tracking;
 
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
@@ -13,7 +13,7 @@ public class ChangeTrackingAction extends AbstractBaseAction {
     public static final String ID = ChangeTrackingAction.class.getName();
 
     public ChangeTrackingAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.change.tracking"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.change.tracking"), editor);
     }
 
     /**

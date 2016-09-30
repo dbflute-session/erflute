@@ -8,7 +8,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.RetargetAction;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
@@ -26,7 +26,7 @@ public class ExportToDBAction extends AbstractBaseAction {
     private Validator validator;
 
     public ExportToDBAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.export.db"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.export.db"), editor);
 
         this.validator = new Validator();
     }
@@ -60,7 +60,7 @@ public class ExportToDBAction extends AbstractBaseAction {
     public static class ExportToDBRetargetAction extends RetargetAction {
 
         public ExportToDBRetargetAction() {
-            super(ID, ResourceString.getResourceString("action.title.export.db"));
+            super(ID, DisplayMessages.getMessage("action.title.export.db"));
 
             this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_DB));
             this.setToolTipText(this.getText());

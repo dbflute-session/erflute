@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.preference.PreferenceInitializer;
 
 public class TranslationSetting implements Serializable, Cloneable {
@@ -27,7 +27,7 @@ public class TranslationSetting implements Serializable, Cloneable {
     public List<String> getAllTranslations() {
         List<String> list = PreferenceInitializer.getAllUserTranslations();
 
-        list.add(ResourceString.getResourceString("label.translation.default"));
+        list.add(DisplayMessages.getMessage("label.translation.default"));
 
         return list;
     }
@@ -58,7 +58,7 @@ public class TranslationSetting implements Serializable, Cloneable {
      *            selectedTranslations
      */
     public void selectDefault() {
-        this.selectedTranslations.add(ResourceString.getResourceString("label.translation.default"));
+        this.selectedTranslations.add(DisplayMessages.getMessage("label.translation.default"));
     }
 
     /**

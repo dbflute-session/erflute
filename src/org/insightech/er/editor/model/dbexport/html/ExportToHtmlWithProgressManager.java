@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.page_generator.HtmlReportPageGenerator;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
@@ -34,7 +34,7 @@ public class ExportToHtmlWithProgressManager extends ExportToHtmlManager impleme
 
         int count = overviewPageGenerator.countAllClasses(diagram, htmlReportPageGeneratorList);
 
-        monitor.beginTask(ResourceString.getResourceString("dialog.message.export.html"), count);
+        monitor.beginTask(DisplayMessages.getMessage("dialog.message.export.html"), count);
 
         try {
             this.monitor = monitor;

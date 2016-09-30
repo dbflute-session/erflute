@@ -25,7 +25,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ERDiagram;
@@ -61,7 +61,7 @@ public class ImportFromFileAction extends AbstractImportAction {
     private ERDiagram loadedDiagram;
 
     public ImportFromFileAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.import.file"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.import.file"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.TABLE));
     }
 

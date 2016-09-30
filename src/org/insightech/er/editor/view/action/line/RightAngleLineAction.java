@@ -12,7 +12,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.RightAngleLineCommand;
 import org.insightech.er.editor.controller.editpart.element.connection.RelationEditPart;
@@ -26,7 +26,7 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
     public static final String ID = RightAngleLineAction.class.getName();
 
     public RightAngleLineAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.right.angle.line"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.right.angle.line"), editor);
     }
 
     /**

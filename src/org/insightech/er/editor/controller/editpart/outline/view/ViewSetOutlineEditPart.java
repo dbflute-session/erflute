@@ -7,7 +7,7 @@ import java.util.List;
 import org.eclipse.gef.EditPart;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
@@ -47,7 +47,7 @@ public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(ResourceString.getResourceString("label.view") + " (" + this.getModelChildren().size() + ")");
+        this.setWidgetText(DisplayMessages.getMessage("label.view") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 

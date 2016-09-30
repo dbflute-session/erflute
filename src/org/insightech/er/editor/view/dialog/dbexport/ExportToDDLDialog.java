@@ -36,7 +36,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
@@ -158,12 +158,12 @@ public class ExportToDDLDialog extends AbstractDialog {
         optionCheckGridData.horizontalSpan = 3;
 
         this.openAfterSavedButton = new Button(parent, SWT.CHECK);
-        this.openAfterSavedButton.setText(ResourceString.getResourceString("label.open.after.saved"));
+        this.openAfterSavedButton.setText(DisplayMessages.getMessage("label.open.after.saved"));
         this.openAfterSavedButton.setLayoutData(optionCheckGridData);
     }
 
     private void initCategoryCombo() {
-        this.categoryCombo.add(ResourceString.getResourceString("label.all"));
+        this.categoryCombo.add(DisplayMessages.getMessage("label.all"));
 
         for (Category category : this.diagram.getDiagramContents().getSettings().getCategorySetting().getAllCategories()) {
             this.categoryCombo.add(category.getName());
@@ -249,7 +249,7 @@ public class ExportToDDLDialog extends AbstractDialog {
 
         Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gridData);
-        group.setText(ResourceString.getResourceString("label.comment"));
+        group.setText(DisplayMessages.getMessage("label.comment"));
 
         GridLayout layout = new GridLayout();
         layout.numColumns = 3;
@@ -262,7 +262,7 @@ public class ExportToDDLDialog extends AbstractDialog {
 
         Group commentValueGroup = new Group(group, SWT.NONE);
         commentValueGroup.setLayoutData(commentValueGridData);
-        commentValueGroup.setText(ResourceString.getResourceString("label.comment.value"));
+        commentValueGroup.setText(DisplayMessages.getMessage("label.comment.value"));
 
         GridLayout commentValueLayout = new GridLayout();
         commentValueLayout.numColumns = 1;

@@ -1,7 +1,7 @@
 package org.insightech.er.editor.model.dbexport.ddl.validator.rule.all;
 
 import org.eclipse.core.resources.IMarker;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
@@ -25,7 +25,7 @@ public class ReservedNameRule extends BaseRule {
 
                 if (dbManager.isReservedWord(indexName)) {
                     ValidateResult validateResult = new ValidateResult();
-                    validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [INDEX] " + indexName
+                    validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.name") + " [INDEX] " + indexName
                             + " (" + table.getLogicalName() + ")");
                     validateResult.setLocation(indexName);
                     validateResult.setSeverity(IMarker.SEVERITY_WARNING);
@@ -41,7 +41,7 @@ public class ReservedNameRule extends BaseRule {
 
             if (dbManager.isReservedWord(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [SEQUENCE] " + name);
+                validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.name") + " [SEQUENCE] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(sequence);
@@ -55,7 +55,7 @@ public class ReservedNameRule extends BaseRule {
 
             if (dbManager.isReservedWord(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [VIEW] " + name);
+                validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.name") + " [VIEW] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(view);
@@ -69,7 +69,7 @@ public class ReservedNameRule extends BaseRule {
 
             if (dbManager.isReservedWord(name)) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.name") + " [TRIGGER] " + name);
+                validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.name") + " [TRIGGER] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(trigger);

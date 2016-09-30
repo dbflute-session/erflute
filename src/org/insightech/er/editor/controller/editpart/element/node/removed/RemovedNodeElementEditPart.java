@@ -16,7 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 import org.insightech.er.editor.controller.editpart.DeleteableEditPart;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.model.ViewableModel;
@@ -113,7 +113,7 @@ public abstract class RemovedNodeElementEditPart extends AbstractModelEditPart i
 
         IFigure figure = this.getFigure();
 
-        figure.setBackgroundColor(Resources.REMOVED_COLOR);
+        figure.setBackgroundColor(DesignResources.REMOVED_COLOR);
 
         parent.setLayoutConstraint(this, figure, rectangle);
     }

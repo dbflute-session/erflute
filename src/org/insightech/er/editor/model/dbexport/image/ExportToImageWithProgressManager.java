@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.graphics.Image;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 
 public class ExportToImageWithProgressManager extends ExportToImageManager implements IRunnableWithProgress {
 
@@ -28,7 +28,7 @@ public class ExportToImageWithProgressManager extends ExportToImageManager imple
 
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-        monitor.beginTask(ResourceString.getResourceString("dialog.message.export.image"), img.getBounds().width * img.getBounds().height);
+        monitor.beginTask(DisplayMessages.getMessage("dialog.message.export.image"), img.getBounds().width * img.getBounds().height);
 
         try {
             this.monitor = monitor;

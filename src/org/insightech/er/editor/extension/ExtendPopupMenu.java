@@ -1,4 +1,4 @@
-package org.insightech.er.editor.extention;
+package org.insightech.er.editor.extension;
 
 import java.util.ArrayList;
 import java.util.List;

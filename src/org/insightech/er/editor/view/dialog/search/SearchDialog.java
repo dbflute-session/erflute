@@ -36,7 +36,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.IContributedContentsView;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.ReplaceCommand;
 import org.insightech.er.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
@@ -162,7 +162,7 @@ public class SearchDialog extends Dialog {
      */
     @Override
     protected Control createDialogArea(Composite parent) {
-        this.getShell().setText(ResourceString.getResourceString("dialog.title.search"));
+        this.getShell().setText(DisplayMessages.getMessage("dialog.title.search"));
 
         Composite composite = null;
         composite = (Composite) super.createDialogArea(parent);
@@ -200,7 +200,7 @@ public class SearchDialog extends Dialog {
 
     private void createRegionGroup(TabFolder tabFolder) {
         TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
-        tabItem.setText(ResourceString.getResourceString("label.search.range"));
+        tabItem.setText(DisplayMessages.getMessage("label.search.range"));
 
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
@@ -209,7 +209,7 @@ public class SearchDialog extends Dialog {
         group.setLayout(gridLayout);
 
         allCheckBox = new Button(group, SWT.CHECK);
-        allCheckBox.setText(ResourceString.getResourceString("label.search.range.all"));
+        allCheckBox.setText(DisplayMessages.getMessage("label.search.range.all"));
 
         GridData allCheckBoxGridData = new GridData();
         allCheckBoxGridData.horizontalAlignment = GridData.FILL;
@@ -230,7 +230,7 @@ public class SearchDialog extends Dialog {
         });
 
         wordCheckBox = new Button(group, SWT.CHECK);
-        wordCheckBox.setText(ResourceString.getResourceString("label.search.range.word"));
+        wordCheckBox.setText(DisplayMessages.getMessage("label.search.range.word"));
         this.wordCheckBox.addSelectionListener(new SelectionAdapter() {
 
             /**
@@ -245,7 +245,7 @@ public class SearchDialog extends Dialog {
         this.createWordCheckboxGroup(group);
 
         tableCheckBox = new Button(group, SWT.CHECK);
-        tableCheckBox.setText(ResourceString.getResourceString("label.search.range.table"));
+        tableCheckBox.setText(DisplayMessages.getMessage("label.search.range.table"));
         this.tableCheckBox.addSelectionListener(new SelectionAdapter() {
 
             /**
@@ -260,7 +260,7 @@ public class SearchDialog extends Dialog {
         this.createTableCheckboxGroup(group);
 
         groupCheckBox = new Button(group, SWT.CHECK);
-        groupCheckBox.setText(ResourceString.getResourceString("label.search.range.group"));
+        groupCheckBox.setText(DisplayMessages.getMessage("label.search.range.group"));
         this.groupCheckBox.addSelectionListener(new SelectionAdapter() {
 
             /**
@@ -275,13 +275,13 @@ public class SearchDialog extends Dialog {
         this.createGroupCheckboxGroup(group);
 
         modelPropertiesCheckBox = new Button(group, SWT.CHECK);
-        modelPropertiesCheckBox.setText(ResourceString.getResourceString("label.search.range.model.property"));
+        modelPropertiesCheckBox.setText(DisplayMessages.getMessage("label.search.range.model.property"));
         indexCheckBox = new Button(group, SWT.CHECK);
-        indexCheckBox.setText(ResourceString.getResourceString("label.search.range.index"));
+        indexCheckBox.setText(DisplayMessages.getMessage("label.search.range.index"));
         relationCheckBox = new Button(group, SWT.CHECK);
-        relationCheckBox.setText(ResourceString.getResourceString("label.search.range.relation"));
+        relationCheckBox.setText(DisplayMessages.getMessage("label.search.range.relation"));
         noteCheckBox = new Button(group, SWT.CHECK);
-        noteCheckBox.setText(ResourceString.getResourceString("label.search.range.note"));
+        noteCheckBox.setText(DisplayMessages.getMessage("label.search.range.note"));
 
         tabItem.setControl(group);
     }
@@ -297,22 +297,22 @@ public class SearchDialog extends Dialog {
         group.setLayoutData(gridData);
 
         physicalWordNameCheckBox = new Button(group, SWT.CHECK);
-        physicalWordNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.28"));
+        physicalWordNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.28"));
 
         logicalWordNameCheckBox = new Button(group, SWT.CHECK);
-        logicalWordNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.29"));
+        logicalWordNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.29"));
 
         wordTypeCheckBox = new Button(group, SWT.CHECK);
-        wordTypeCheckBox.setText(ResourceString.getResourceString("search.result.row.name.30"));
+        wordTypeCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.30"));
 
         wordLengthCheckBox = new Button(group, SWT.CHECK);
-        wordLengthCheckBox.setText(ResourceString.getResourceString("search.result.row.name.31"));
+        wordLengthCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.31"));
 
         wordDecimalCheckBox = new Button(group, SWT.CHECK);
-        wordDecimalCheckBox.setText(ResourceString.getResourceString("search.result.row.name.32"));
+        wordDecimalCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.32"));
 
         wordDescriptionCheckBox = new Button(group, SWT.CHECK);
-        wordDescriptionCheckBox.setText(ResourceString.getResourceString("search.result.row.name.33"));
+        wordDescriptionCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.33"));
     }
 
     private void createTableCheckboxGroup(Composite parent) {
@@ -326,36 +326,36 @@ public class SearchDialog extends Dialog {
         group.setLayoutData(gridData);
 
         physicalTableNameCheckBox = new Button(group, SWT.CHECK);
-        physicalTableNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.11"));
+        physicalTableNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.11"));
 
         logicalTableNameCheckBox = new Button(group, SWT.CHECK);
-        logicalTableNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.12"));
+        logicalTableNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.12"));
 
         columnGroupNameCheckBox = new Button(group, SWT.CHECK);
-        columnGroupNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.20"));
+        columnGroupNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.20"));
 
         new Label(group, SWT.NONE);
 
         physicalColumnNameCheckBox = new Button(group, SWT.CHECK);
-        physicalColumnNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.13"));
+        physicalColumnNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.13"));
 
         logicalColumnNameCheckBox = new Button(group, SWT.CHECK);
-        logicalColumnNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.14"));
+        logicalColumnNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.14"));
 
         columnTypeCheckBox = new Button(group, SWT.CHECK);
-        columnTypeCheckBox.setText(ResourceString.getResourceString("search.result.row.name.15"));
+        columnTypeCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.15"));
 
         columnLengthCheckBox = new Button(group, SWT.CHECK);
-        columnLengthCheckBox.setText(ResourceString.getResourceString("search.result.row.name.16"));
+        columnLengthCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.16"));
 
         columnDecimalCheckBox = new Button(group, SWT.CHECK);
-        columnDecimalCheckBox.setText(ResourceString.getResourceString("search.result.row.name.17"));
+        columnDecimalCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.17"));
 
         columnDefaultValueCheckBox = new Button(group, SWT.CHECK);
-        columnDefaultValueCheckBox.setText(ResourceString.getResourceString("search.result.row.name.18"));
+        columnDefaultValueCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.18"));
 
         columnDescriptionCheckBox = new Button(group, SWT.CHECK);
-        columnDescriptionCheckBox.setText(ResourceString.getResourceString("search.result.row.name.19"));
+        columnDescriptionCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.19"));
     }
 
     private void createGroupCheckboxGroup(Composite parent) {
@@ -369,32 +369,32 @@ public class SearchDialog extends Dialog {
         group.setLayout(gridLayout);
 
         groupNameCheckBox = new Button(group, SWT.CHECK);
-        groupNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.20"));
+        groupNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.20"));
 
         new Label(group, SWT.NONE);
         new Label(group, SWT.NONE);
         new Label(group, SWT.NONE);
 
         physicalGroupColumnNameCheckBox = new Button(group, SWT.CHECK);
-        physicalGroupColumnNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.13"));
+        physicalGroupColumnNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.13"));
 
         logicalGroupColumnNameCheckBox = new Button(group, SWT.CHECK);
-        logicalGroupColumnNameCheckBox.setText(ResourceString.getResourceString("search.result.row.name.14"));
+        logicalGroupColumnNameCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.14"));
 
         groupColumnTypeCheckBox = new Button(group, SWT.CHECK);
-        groupColumnTypeCheckBox.setText(ResourceString.getResourceString("search.result.row.name.15"));
+        groupColumnTypeCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.15"));
 
         groupColumnLengthCheckBox = new Button(group, SWT.CHECK);
-        groupColumnLengthCheckBox.setText(ResourceString.getResourceString("search.result.row.name.16"));
+        groupColumnLengthCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.16"));
 
         groupColumnDecimalCheckBox = new Button(group, SWT.CHECK);
-        groupColumnDecimalCheckBox.setText(ResourceString.getResourceString("search.result.row.name.17"));
+        groupColumnDecimalCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.17"));
 
         groupColumnDefaultValueCheckBox = new Button(group, SWT.CHECK);
-        groupColumnDefaultValueCheckBox.setText(ResourceString.getResourceString("search.result.row.name.18"));
+        groupColumnDefaultValueCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.18"));
 
         groupColumnDescriptionCheckBox = new Button(group, SWT.CHECK);
-        groupColumnDescriptionCheckBox.setText(ResourceString.getResourceString("search.result.row.name.19"));
+        groupColumnDescriptionCheckBox.setText(DisplayMessages.getMessage("search.result.row.name.19"));
     }
 
     private void selectAllCheckBox(boolean checked) {
@@ -484,7 +484,7 @@ public class SearchDialog extends Dialog {
 
     private void createKeywordCombo(Composite parent) {
         Label label = new Label(parent, SWT.NONE);
-        label.setText(ResourceString.getResourceString("label.search.keyword"));
+        label.setText(DisplayMessages.getMessage("label.search.keyword"));
 
         GridData fillerGridData = new GridData();
         fillerGridData.widthHint = 10;
@@ -505,7 +505,7 @@ public class SearchDialog extends Dialog {
 
     private void createReplaceCombo(Composite parent) {
         Label label = new Label(parent, SWT.NONE);
-        label.setText(ResourceString.getResourceString("label.search.replace.word"));
+        label.setText(DisplayMessages.getMessage("label.search.replace.word"));
 
         GridData fillerGridData = new GridData();
         fillerGridData.widthHint = 10;
@@ -546,7 +546,7 @@ public class SearchDialog extends Dialog {
 
     private void createResultGroup(TabFolder tabFolder) {
         TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
-        tabItem.setText(ResourceString.getResourceString("label.search.result"));
+        tabItem.setText(DisplayMessages.getMessage("label.search.result"));
 
         GridLayout layout = new GridLayout();
         layout.numColumns = 4;
@@ -639,22 +639,22 @@ public class SearchDialog extends Dialog {
 
         TableColumn tableColumn0 = new TableColumn(resultTable, SWT.LEFT);
         tableColumn0.setWidth(250);
-        tableColumn0.setText(ResourceString.getResourceString("label.search.result.table.path"));
+        tableColumn0.setText(DisplayMessages.getMessage("label.search.result.table.path"));
         tableColumn0.addSelectionListener(new SearchResultSortListener(SearchResult.SORT_TYPE_PATH));
 
         TableColumn tableColumn1 = new TableColumn(resultTable, SWT.LEFT);
         tableColumn1.setWidth(100);
-        tableColumn1.setText(ResourceString.getResourceString("label.search.result.table.type"));
+        tableColumn1.setText(DisplayMessages.getMessage("label.search.result.table.type"));
         tableColumn1.addSelectionListener(new SearchResultSortListener(SearchResult.SORT_TYPE_TYPE));
 
         TableColumn tableColumn2 = new TableColumn(resultTable, SWT.LEFT);
         tableColumn2.setWidth(100);
-        tableColumn2.setText(ResourceString.getResourceString("label.search.result.table.name"));
+        tableColumn2.setText(DisplayMessages.getMessage("label.search.result.table.name"));
         tableColumn2.addSelectionListener(new SearchResultSortListener(SearchResult.SORT_TYPE_NAME));
 
         TableColumn tableColumn3 = new TableColumn(resultTable, SWT.LEFT);
         tableColumn3.setWidth(200);
-        tableColumn3.setText(ResourceString.getResourceString("label.search.result.table.value"));
+        tableColumn3.setText(DisplayMessages.getMessage("label.search.result.table.value"));
         tableColumn3.addSelectionListener(new SearchResultSortListener(SearchResult.SORT_TYPE_VALUE));
 
         tabItem.setControl(resultGroup);
@@ -665,11 +665,11 @@ public class SearchDialog extends Dialog {
      */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        createButton(parent, REPLACE_ID, ResourceString.getResourceString("label.search.replace.button"), false);
+        createButton(parent, REPLACE_ID, DisplayMessages.getMessage("label.search.replace.button"), false);
 
-        createButton(parent, SEARCH_ALL_ID, ResourceString.getResourceString("label.search.all.button"), false);
+        createButton(parent, SEARCH_ALL_ID, DisplayMessages.getMessage("label.search.all.button"), false);
 
-        createButton(parent, SEARCH_NEXT_ID, ResourceString.getResourceString("label.search.next.button"), true);
+        createButton(parent, SEARCH_NEXT_ID, DisplayMessages.getMessage("label.search.next.button"), true);
 
         createButton(parent, IDialogConstants.CLOSE_ID, IDialogConstants.CLOSE_LABEL, false);
     }
@@ -780,8 +780,8 @@ public class SearchDialog extends Dialog {
         this.resultTable.removeAll();
 
         for (SearchResultRow row : rows) {
-            String type = ResourceString.getResourceString("search.result.row.type." + row.getType());
-            String name = ResourceString.getResourceString("search.result.row.name." + row.getType());
+            String type = DisplayMessages.getMessage("search.result.row.type." + row.getType());
+            String name = DisplayMessages.getMessage("search.result.row.name." + row.getType());
 
             TableItem tableItem = new TableItem(this.resultTable, SWT.NONE);
 

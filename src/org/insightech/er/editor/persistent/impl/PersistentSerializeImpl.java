@@ -10,22 +10,19 @@ import java.io.ObjectOutputStream;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.persistent.Persistent;
 
-public class PersistentSerializeImpl extends Persistent {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public class PersistentSerializeImpl extends Persistent { // unused
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InputStream createInputStream(ERDiagram diagram) throws IOException {
         InputStream inputStream = null;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        ObjectOutputStream oos = new ObjectOutputStream(out);
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ObjectOutputStream oos = new ObjectOutputStream(out);
         oos.writeObject(diagram);
         oos.close();
-
         inputStream = new ByteArrayInputStream(out.toByteArray());
-
         return inputStream;
     }
 
@@ -33,5 +30,4 @@ public class PersistentSerializeImpl extends Persistent {
     public ERDiagram load(InputStream in) throws Exception {
         return (ERDiagram) ((ObjectInputStream) in).readObject();
     }
-
 }

@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.util.Check;
@@ -45,7 +45,7 @@ public abstract class AbstractDialog extends Dialog {
      */
     @Override
     protected Control createDialogArea(Composite parent) {
-        this.getShell().setText(ResourceString.getResourceString(this.getTitle()));
+        this.getShell().setText(DisplayMessages.getMessage(this.getTitle()));
 
         Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -136,7 +136,7 @@ public abstract class AbstractDialog extends Dialog {
         String errorMessage = this.getErrorMessage();
 
         if (errorMessage != null) {
-            this.setMessage(ResourceString.getResourceString(errorMessage));
+            this.setMessage(DisplayMessages.getMessage(errorMessage));
             return false;
         }
 
@@ -220,7 +220,7 @@ public abstract class AbstractDialog extends Dialog {
                 close();
 
             } catch (InputException e) {
-                this.setMessage(ResourceString.getResourceString(e.getMessage()));
+                this.setMessage(DisplayMessages.getMessage(e.getMessage()));
                 return;
 
             } catch (Exception e) {

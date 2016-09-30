@@ -1,4 +1,4 @@
-package org.insightech.er.editor;
+package org.insightech.er.editor.view.information;
 
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.Dialog;
@@ -23,17 +23,20 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorPart;
+import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.ERDiagramMultiPageEditor;
+import org.insightech.er.editor.EROneDiagramEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ERModelUtil;
 import org.insightech.er.editor.view.outline.ERDiagramOutlinePage;
 
-public class ErDiagramInformationControl extends AbstractInformationControl {
+public class ERDiagramInformationControl extends AbstractInformationControl {
 
     private ERDiagramOutlinePage outline;
     private Text search;
     private ERDiagram diagram;
 
-    public ErDiagramInformationControl(ERDiagram diagram, Shell shell, Control composite) {
+    public ERDiagramInformationControl(ERDiagram diagram, Shell shell, Control composite) {
         super(shell, true);
         this.diagram = diagram;
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ERModelUtil;
@@ -55,7 +55,7 @@ public class CreateElementCommand extends AbstractCommand {
     protected void doExecute() {
         if (element instanceof VGroup) {
             VGroup group = (VGroup) this.element;
-            group.setName(ResourceString.getResourceString("label.vgroup"));
+            group.setName(DisplayMessages.getMessage("label.vgroup"));
             group.setContents(this.enclosedElementList);
             if (diagram.getCurrentErmodel() != null) {
                 diagram.getCurrentErmodel().addGroup(group);

@@ -7,7 +7,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.ui.IWorkbenchPart;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.WithoutUpdateCommandWrapper;
 import org.insightech.er.editor.model.ERDiagram;
@@ -20,8 +20,8 @@ public class DeleteWithoutUpdateAction extends DeleteAction {
     public DeleteWithoutUpdateAction(ERDiagramEditor part) {
         super((IWorkbenchPart) part);
         this.part = part;
-        this.setText(ResourceString.getResourceString("action.title.delete"));
-        this.setToolTipText(ResourceString.getResourceString("action.title.delete"));
+        this.setText(DisplayMessages.getMessage("action.title.delete"));
+        this.setToolTipText(DisplayMessages.getMessage("action.title.delete"));
 
         this.setActionDefinitionId("org.eclipse.ui.edit.delete");
     }

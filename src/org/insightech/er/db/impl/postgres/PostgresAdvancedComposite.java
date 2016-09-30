@@ -4,7 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.editor.view.dialog.element.table.tab.AdvancedComposite;
 
@@ -24,7 +24,7 @@ public class PostgresAdvancedComposite extends AdvancedComposite {
         gridData.horizontalSpan = 2;
 
         this.withoutOIDs = new Button(this, SWT.CHECK);
-        this.withoutOIDs.setText(ResourceString.getResourceString("label.without.oids"));
+        this.withoutOIDs.setText(DisplayMessages.getMessage("label.without.oids"));
         this.withoutOIDs.setLayoutData(gridData);
     }
 

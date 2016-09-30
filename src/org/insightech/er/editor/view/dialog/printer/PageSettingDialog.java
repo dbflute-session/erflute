@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.editor.model.ERDiagram;
@@ -78,7 +78,7 @@ public class PageSettingDialog extends AbstractDialog {
         Group directionGroup = new Group(parent, SWT.NONE);
         directionGroup.setLayoutData(gridData);
         directionGroup.setBackground(ColorConstants.white);
-        directionGroup.setText(ResourceString.getResourceString("label.page.direction"));
+        directionGroup.setText(DisplayMessages.getMessage("label.page.direction"));
 
         GridLayout directionGroupLayout = new GridLayout();
         directionGroupLayout.marginWidth = 20;
@@ -92,14 +92,14 @@ public class PageSettingDialog extends AbstractDialog {
 
         vButton = new Button(directionGroup, SWT.RADIO);
         vButton.setBackground(ColorConstants.white);
-        vButton.setText(ResourceString.getResourceString("label.page.direction.v"));
+        vButton.setText(DisplayMessages.getMessage("label.page.direction.v"));
 
         Label hImage = new Label(directionGroup, SWT.NONE);
         hImage.setImage(Activator.getImage(ImageKey.PAGE_SETTING_H));
 
         hButton = new Button(directionGroup, SWT.RADIO);
         hButton.setBackground(ColorConstants.white);
-        hButton.setText(ResourceString.getResourceString("label.page.direction.h"));
+        hButton.setText(DisplayMessages.getMessage("label.page.direction.h"));
     }
 
     private void initScaleGroup(Composite parent) {
@@ -110,7 +110,7 @@ public class PageSettingDialog extends AbstractDialog {
         Group scaleGroup = new Group(parent, SWT.NONE);
         scaleGroup.setLayoutData(gridData);
         scaleGroup.setBackground(ColorConstants.white);
-        scaleGroup.setText(ResourceString.getResourceString("label.page.scale.printing"));
+        scaleGroup.setText(DisplayMessages.getMessage("label.page.scale.printing"));
 
         GridLayout scaleGroupLayout = new GridLayout();
         scaleGroupLayout.marginWidth = 20;
@@ -120,7 +120,7 @@ public class PageSettingDialog extends AbstractDialog {
 
         Label label = new Label(scaleGroup, SWT.NONE);
         label.setBackground(ColorConstants.white);
-        label.setText(ResourceString.getResourceString("label.page.scale"));
+        label.setText(DisplayMessages.getMessage("label.page.scale"));
 
         scaleSpinner = new Spinner(scaleGroup, SWT.BORDER);
         scaleSpinner.setIncrement(5);
@@ -151,7 +151,7 @@ public class PageSettingDialog extends AbstractDialog {
 
         Label label = new Label(sizeGroup, SWT.NONE);
         label.setBackground(ColorConstants.white);
-        label.setText(ResourceString.getResourceString("label.page.size"));
+        label.setText(DisplayMessages.getMessage("label.page.size"));
 
         sizeCombo = new Combo(sizeGroup, SWT.READ_ONLY | SWT.BORDER);
         sizeCombo.setBackground(ColorConstants.white);
@@ -159,7 +159,7 @@ public class PageSettingDialog extends AbstractDialog {
 
         label = new Label(sizeGroup, SWT.NONE);
         label.setBackground(ColorConstants.white);
-        label.setText(ResourceString.getResourceString("label.page.margin"));
+        label.setText(DisplayMessages.getMessage("label.page.margin"));
 
         Composite marginComposite = new Composite(sizeGroup, SWT.NONE);
         marginComposite.setBackground(ColorConstants.white);
@@ -175,7 +175,7 @@ public class PageSettingDialog extends AbstractDialog {
 
         label = new Label(marginComposite, SWT.NONE);
         label.setBackground(ColorConstants.white);
-        label.setText(ResourceString.getResourceString("label.page.margin.top"));
+        label.setText(DisplayMessages.getMessage("label.page.margin.top"));
 
         topMarginSpinner = new Spinner(marginComposite, SWT.BORDER);
         this.setMarginSpinner(topMarginSpinner);
@@ -185,7 +185,7 @@ public class PageSettingDialog extends AbstractDialog {
 
         label = new Label(marginComposite, SWT.NONE);
         label.setBackground(ColorConstants.white);
-        label.setText(ResourceString.getResourceString("label.page.margin.left"));
+        label.setText(DisplayMessages.getMessage("label.page.margin.left"));
 
         leftMarginSpinner = new Spinner(marginComposite, SWT.BORDER);
         this.setMarginSpinner(leftMarginSpinner);
@@ -195,7 +195,7 @@ public class PageSettingDialog extends AbstractDialog {
 
         label = new Label(marginComposite, SWT.NONE);
         label.setBackground(ColorConstants.white);
-        label.setText(ResourceString.getResourceString("label.page.margin.right"));
+        label.setText(DisplayMessages.getMessage("label.page.margin.right"));
 
         rightMarginSpinner = new Spinner(marginComposite, SWT.BORDER);
         this.setMarginSpinner(rightMarginSpinner);
@@ -205,7 +205,7 @@ public class PageSettingDialog extends AbstractDialog {
 
         label = new Label(marginComposite, SWT.NONE);
         label.setBackground(ColorConstants.white);
-        label.setText(ResourceString.getResourceString("label.page.margin.bottom"));
+        label.setText(DisplayMessages.getMessage("label.page.margin.bottom"));
 
         bottomMarginSpinner = new Spinner(marginComposite, SWT.BORDER);
         this.setMarginSpinner(bottomMarginSpinner);

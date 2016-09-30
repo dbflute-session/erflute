@@ -12,7 +12,7 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
@@ -131,21 +131,21 @@ public abstract class AbstractStyleSupport implements StyleSupport {
     protected void setColumnFigureColor(IFigure figure, boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded,
             boolean isUpdated, boolean isRemoved) {
         if (isAdded) {
-            figure.setBackgroundColor(Resources.ADDED_COLOR);
+            figure.setBackgroundColor(DesignResources.ADDED_COLOR);
         } else if (isUpdated) {
-            figure.setBackgroundColor(Resources.UPDATED_COLOR);
+            figure.setBackgroundColor(DesignResources.UPDATED_COLOR);
         } else if (isRemoved) {
-            figure.setBackgroundColor(Resources.REMOVED_COLOR);
+            figure.setBackgroundColor(DesignResources.REMOVED_COLOR);
         }
 
         if (isSelectedReferenced && isSelectedForeignKey) {
-            figure.setBackgroundColor(Resources.SELECTED_REFERENCED_AND_FOREIGNKEY_COLUMN);
+            figure.setBackgroundColor(DesignResources.SELECTED_REFERENCED_AND_FOREIGNKEY_COLUMN);
 
         } else if (isSelectedReferenced) {
-            figure.setBackgroundColor(Resources.SELECTED_REFERENCED_COLUMN);
+            figure.setBackgroundColor(DesignResources.SELECTED_REFERENCED_COLUMN);
 
         } else if (isSelectedForeignKey) {
-            figure.setBackgroundColor(Resources.SELECTED_FOREIGNKEY_COLUMN);
+            figure.setBackgroundColor(DesignResources.SELECTED_FOREIGNKEY_COLUMN);
 
         }
 

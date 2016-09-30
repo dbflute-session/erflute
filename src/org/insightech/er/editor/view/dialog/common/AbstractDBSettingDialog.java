@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.common.widgets.ListenerAppender;
@@ -120,9 +120,9 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         this.createButton(parent, 0, IDialogConstants.NEXT_LABEL, true);
         this.createButton(parent, 1, IDialogConstants.CANCEL_LABEL, false);
         this.settingListButton =
-                createButton(parent, IDialogConstants.OPEN_ID, ResourceString.getResourceString("label.load.database.setting"), false);
+                createButton(parent, IDialogConstants.OPEN_ID, DisplayMessages.getMessage("label.load.database.setting"), false);
         this.settingAddButton =
-                createButton(parent, IDialogConstants.YES_ID, ResourceString.getResourceString("label.load.database.setting.add"), false);
+                createButton(parent, IDialogConstants.YES_ID, DisplayMessages.getMessage("label.load.database.setting.add"), false);
     }
 
     public String getDBSName() {

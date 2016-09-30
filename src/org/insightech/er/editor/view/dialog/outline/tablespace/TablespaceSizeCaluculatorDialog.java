@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.common.widgets.ListenerAppender;
@@ -135,7 +135,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
         CompositeFactory.createLabel(composite, "label.tablespace.size.calculate.1", 3);
 
         this.restoreDefaultButton1 = new Button(composite, SWT.NONE);
-        this.restoreDefaultButton1.setText(ResourceString.getResourceString("label.restore.default"));
+        this.restoreDefaultButton1.setText(DisplayMessages.getMessage("label.restore.default"));
 
         CompositeFactory.filler(composite, 1, INDENT);
         this.kcbhText = CompositeFactory.createNumText(this, composite, "KCBH", 1, NUM_WIDTH);
@@ -173,7 +173,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
 
         CompositeFactory.createLabel(composite, "label.tablespace.size.calculate.2", 3);
         this.restoreDefaultButton2 = new Button(composite, SWT.NONE);
-        this.restoreDefaultButton2.setText(ResourceString.getResourceString("label.restore.default"));
+        this.restoreDefaultButton2.setText(DisplayMessages.getMessage("label.restore.default"));
 
         CompositeFactory.filler(composite, 1, INDENT);
         this.dbBlockSizeText = CompositeFactory.createNumText(this, composite, "DB_BLOCK_SIZE", 1, NUM_WIDTH);
@@ -198,11 +198,11 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
 
         TableColumn tableLogicalName = new TableColumn(this.tableTable, SWT.NONE);
         tableLogicalName.setWidth(NAME_WIDTH);
-        tableLogicalName.setText(ResourceString.getResourceString("label.table.logical.name"));
+        tableLogicalName.setText(DisplayMessages.getMessage("label.table.logical.name"));
 
         TableColumn num = new TableColumn(this.tableTable, SWT.RIGHT);
         num.setWidth(TABLE_NUM_WIDTH);
-        num.setText(ResourceString.getResourceString("label.record.num"));
+        num.setText(DisplayMessages.getMessage("label.record.num"));
 
         this.tableEditor = new TableEditor(this.tableTable);
         this.tableEditor.grabHorizontal = true;

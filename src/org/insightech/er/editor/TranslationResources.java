@@ -14,23 +14,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.settings.TranslationSetting;
 import org.insightech.er.preference.PreferenceInitializer;
 
-public class TranslationResources {
+public class TranslationResources { // #willdelete
 
-    private Map<String, String> translationMap;
+    private final Map<String, String> translationMap;
 
     public TranslationResources(TranslationSetting translationSettings) {
         this.translationMap = new TreeMap<String, String>(new TranslationResourcesComparator());
 
-        String defaultFileName = ResourceString.getResourceString("label.translation.default");
+        final String defaultFileName = DisplayMessages.getMessage("label.translation.default");
 
         if (translationSettings.isUse()) {
-            for (String translation : PreferenceInitializer.getAllUserTranslations()) {
+            for (final String translation : PreferenceInitializer.getAllUserTranslations()) {
                 if (translationSettings.isSelected(translation)) {
-                    File file = new File(PreferenceInitializer.getTranslationPath(translation));
+                    final File file = new File(PreferenceInitializer.getTranslationPath(translation));
 
                     if (file.exists()) {
                         FileInputStream in = null;
@@ -39,14 +39,14 @@ public class TranslationResources {
                             in = new FileInputStream(file);
                             load(in);
 
-                        } catch (IOException e) {
+                        } catch (final IOException e) {
                             Activator.showExceptionDialog(e);
 
                         } finally {
                             if (in != null) {
                                 try {
                                     in.close();
-                                } catch (IOException e) {
+                                } catch (final IOException e) {
                                     Activator.showExceptionDialog(e);
                                 }
                             }
@@ -57,17 +57,17 @@ public class TranslationResources {
             }
 
             if (translationSettings.isSelected(defaultFileName)) {
-                InputStream in = this.getClass().getResourceAsStream("/translation.txt");
+                final InputStream in = this.getClass().getResourceAsStream("/translation.txt");
                 try {
                     load(in);
 
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     Activator.showExceptionDialog(e);
 
                 } finally {
                     try {
                         in.close();
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         Activator.showExceptionDialog(e);
                     }
                 }
@@ -77,12 +77,12 @@ public class TranslationResources {
     }
 
     private void load(InputStream in) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 
         String line = null;
 
         while ((line = reader.readLine()) != null) {
-            int index = line.indexOf(",");
+            final int index = line.indexOf(",");
             if (index == -1 || index == line.length() - 1) {
                 continue;
             }
@@ -92,7 +92,7 @@ public class TranslationResources {
                 continue;
             }
 
-            String value = line.substring(index + 1).trim();
+            final String value = line.substring(index + 1).trim();
             this.translationMap.put(key, value);
 
             key = key.replaceAll("[aiueo]", "");
@@ -110,12 +110,12 @@ public class TranslationResources {
      * @return ERDiagram.properties �̎w�肳�ꂽ�L�[�ɑΉ�����l
      */
     public String translate(String str) {
-        for (Entry<String, String> entry : translationMap.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
+        for (final Entry<String, String> entry : translationMap.entrySet()) {
+            final String key = entry.getKey();
+            final String value = entry.getValue();
 
-            Pattern p = Pattern.compile("_*" + Pattern.quote(key) + "_*", Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(str);
+            final Pattern p = Pattern.compile("_*" + Pattern.quote(key) + "_*", Pattern.CASE_INSENSITIVE);
+            final Matcher m = p.matcher(str);
             str = m.replaceAll(value);
         }
 
@@ -131,8 +131,9 @@ public class TranslationResources {
      */
     private class TranslationResourcesComparator implements Comparator<String> {
 
+        @Override
         public int compare(String o1, String o2) {
-            int diff = o2.length() - o1.length();
+            final int diff = o2.length() - o1.length();
             if (diff != 0) {
                 return diff;
             } else {

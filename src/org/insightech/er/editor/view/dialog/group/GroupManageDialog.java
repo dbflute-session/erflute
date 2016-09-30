@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.ERDiagram;
@@ -110,16 +110,16 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
         createGroup(composite);
 
         groupAddButton = new Button(composite, SWT.NONE);
-        groupAddButton.setText(ResourceString.getResourceString("label.button.group.add"));
+        groupAddButton.setText(DisplayMessages.getMessage("label.button.group.add"));
 
         groupEditButton = new Button(composite, SWT.NONE);
-        groupEditButton.setText(ResourceString.getResourceString("label.button.group.edit"));
+        groupEditButton.setText(DisplayMessages.getMessage("label.button.group.edit"));
 
         this.groupDeleteButton = new Button(composite, SWT.NONE);
-        this.groupDeleteButton.setText(ResourceString.getResourceString("label.button.group.delete"));
+        this.groupDeleteButton.setText(DisplayMessages.getMessage("label.button.group.delete"));
 
         this.addToGlobalGroupButton = new Button(composite, SWT.NONE);
-        this.addToGlobalGroupButton.setText(ResourceString.getResourceString("label.button.add.to.global.group"));
+        this.addToGlobalGroupButton.setText(DisplayMessages.getMessage("label.button.add.to.global.group"));
 
         GridData gridData3 = new GridData();
         gridData3.horizontalSpan = 3;
@@ -173,7 +173,7 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
         gridData2.heightHint = GROUP_LIST_HEIGHT;
 
         Group group = new Group(parent, SWT.NONE);
-        group.setText(ResourceString.getResourceString("label.group.list"));
+        group.setText(DisplayMessages.getMessage("label.group.list"));
         group.setLayoutData(gridData1);
         group.setLayout(gridLayout);
 
@@ -246,11 +246,11 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
         gridData1.widthHint = 80;
 
         this.groupUpdateButton = new Button(composite, SWT.NONE);
-        this.groupUpdateButton.setText(ResourceString.getResourceString("label.button.update"));
+        this.groupUpdateButton.setText(DisplayMessages.getMessage("label.button.update"));
         this.groupUpdateButton.setLayoutData(gridData1);
 
         this.groupCancelButton = new Button(composite, SWT.NONE);
-        this.groupCancelButton.setText(ResourceString.getResourceString("label.button.cancel"));
+        this.groupCancelButton.setText(DisplayMessages.getMessage("label.button.cancel"));
         this.groupCancelButton.setLayoutData(gridData1);
     }
 
@@ -401,8 +401,8 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
                 MessageBox messageBox =
                         new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK
                                 | SWT.CANCEL);
-                messageBox.setText(ResourceString.getResourceString("label.button.add.to.global.group"));
-                messageBox.setMessage(ResourceString.getResourceString("dialog.message.add.to.global.group"));
+                messageBox.setText(DisplayMessages.getMessage("label.button.add.to.global.group"));
+                messageBox.setMessage(DisplayMessages.getMessage("dialog.message.add.to.global.group"));
 
                 if (messageBox.open() == SWT.OK) {
                     CopyGroup columnGroup = copyGroups.get(editTargetIndex);

@@ -15,7 +15,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.controller.editpart.outline.ermodel.ERModelOutlineEditPart;
@@ -70,13 +70,13 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
 
             this.add(new Separator());
 
-            MenuManager viewModeMenu = new MenuManager(ResourceString.getResourceString("label.outline.view.mode"));
+            MenuManager viewModeMenu = new MenuManager(DisplayMessages.getMessage("label.outline.view.mode"));
             viewModeMenu.add(this.getAction(ChangeOutlineViewToPhysicalAction.ID));
             viewModeMenu.add(this.getAction(ChangeOutlineViewToLogicalAction.ID));
             viewModeMenu.add(this.getAction(ChangeOutlineViewToBothAction.ID));
             this.add(viewModeMenu);
 
-            MenuManager orderByMenu = new MenuManager(ResourceString.getResourceString("label.order.by"));
+            MenuManager orderByMenu = new MenuManager(DisplayMessages.getMessage("label.order.by"));
             orderByMenu.add(this.getAction(ChangeOutlineViewOrderByPhysicalNameAction.ID));
             orderByMenu.add(this.getAction(ChangeOutlineViewOrderByLogicalNameAction.ID));
             this.add(orderByMenu);

@@ -9,7 +9,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.swt.widgets.TreeItem;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;
@@ -51,7 +51,7 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
 
         }
 
-        this.setWidgetText(ResourceString.getResourceString("label.sequence") + " (" + this.getModelChildren().size() + ")");
+        this.setWidgetText(DisplayMessages.getMessage("label.sequence") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 

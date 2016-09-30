@@ -9,7 +9,7 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 
 public class ERDiagramConnection extends PolylineConnection {
 
@@ -51,7 +51,7 @@ public class ERDiagramConnection extends PolylineConnection {
                 g.drawPolyline(points);
             }
 
-            g.setForegroundColor(Resources.LINE_COLOR);
+            g.setForegroundColor(DesignResources.LINE_COLOR);
             g.setLineWidth(7);
         }
 

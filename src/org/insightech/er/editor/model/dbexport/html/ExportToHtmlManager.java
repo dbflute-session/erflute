@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.page_generator.HtmlReportPageGenerator;
 import org.insightech.er.editor.model.dbexport.html.page_generator.OverviewHtmlReportPageGenerator;
@@ -34,7 +34,7 @@ import org.insightech.er.util.io.IOUtils;
  */
 public class ExportToHtmlManager {
 
-    private static final Map<String, String> PROPERTIES = ResourceString.getResources("html.report.");
+    private static final Map<String, String> PROPERTIES = DisplayMessages.getMessageMap("html.report.");
 
     private static final String[] FIX_FILES = { "help-doc.html", "index.html", "stylesheet.css" };
 

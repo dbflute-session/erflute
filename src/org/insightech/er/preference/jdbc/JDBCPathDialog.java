@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
@@ -69,7 +69,7 @@ public class JDBCPathDialog extends AbstractDialog {
 
         Label label = new Label(composite, SWT.NONE);
         label.setLayoutData(gridData);
-        label.setText(ResourceString.getResourceString("label.jdbc.driver.message"));
+        label.setText(DisplayMessages.getMessage("label.jdbc.driver.message"));
 
         if (this.database != null) {
             DBManager dbManager = DBManagerFactory.getDBManager(this.database);
@@ -93,7 +93,7 @@ public class JDBCPathDialog extends AbstractDialog {
 
         this.driverClassNameText.setEditable(editable);
 
-        this.fileFieldEditor = new MultiFileFieldEditor("", ResourceString.getResourceString("label.path"), composite);
+        this.fileFieldEditor = new MultiFileFieldEditor("", DisplayMessages.getMessage("label.path"), composite);
         this.fileFieldEditor.setMultiple(true);
 
         this.fileFieldEditor.setFocus();

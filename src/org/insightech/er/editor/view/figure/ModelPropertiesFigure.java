@@ -13,7 +13,7 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.view.figure.layout.TableLayout;
 import org.insightech.er.util.NameValue;
 
@@ -49,8 +49,8 @@ public class ModelPropertiesFigure extends RectangleFigure {
 
         this.add(nameLabel);
 
-        if (!ResourceString.getResourceString("action.title.change.design.simple").equals(tableStyle)
-                && !ResourceString.getResourceString("action.title.change.design.frame").equals(tableStyle)) {
+        if (!DisplayMessages.getMessage("action.title.change.design.simple").equals(tableStyle)
+                && !DisplayMessages.getMessage("action.title.change.design.frame").equals(tableStyle)) {
             valueLabel.setBackgroundColor(ColorConstants.white);
             valueLabel.setOpaque(true);
             valueLabel.setForegroundColor(ColorConstants.black);
@@ -76,8 +76,8 @@ public class ModelPropertiesFigure extends RectangleFigure {
             this.addRow(property.getName(), property.getValue(), tableStyle);
         }
 
-        this.addRow(ResourceString.getResourceString("label.creation.date"), DATE_FORMAT.format(creationDate), tableStyle);
-        this.addRow(ResourceString.getResourceString("label.updated.date"), DATE_FORMAT.format(updatedDate), tableStyle);
+        this.addRow(DisplayMessages.getMessage("label.creation.date"), DATE_FORMAT.format(creationDate), tableStyle);
+        this.addRow(DisplayMessages.getMessage("label.updated.date"), DATE_FORMAT.format(updatedDate), tableStyle);
     }
 
     private void decideColor(int[] color) {

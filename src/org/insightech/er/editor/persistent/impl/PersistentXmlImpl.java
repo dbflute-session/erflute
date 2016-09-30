@@ -68,43 +68,33 @@ import org.insightech.er.util.Format;
 import org.insightech.er.util.NameValue;
 
 /**
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class PersistentXmlImpl extends Persistent {
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private class PersistentContext {
-        private Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
-
-        private Map<ConnectionElement, Integer> connectionMap = new HashMap<ConnectionElement, Integer>();
-
-        private Map<Column, Integer> columnMap = new HashMap<Column, Integer>();
-
-        private Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
-
-        private Map<NodeElement, Integer> nodeElementMap = new HashMap<NodeElement, Integer>();
-
-        private Map<ERModel, Integer> ermodelMap = new HashMap<ERModel, Integer>();
-
-        private Map<Word, Integer> wordMap = new HashMap<Word, Integer>();
-
-        private Map<Tablespace, Integer> tablespaceMap = new HashMap<Tablespace, Integer>();
-
-        private Map<Environment, Integer> environmentMap = new HashMap<Environment, Integer>();
+        private final Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
+        private final Map<ConnectionElement, Integer> connectionMap = new HashMap<ConnectionElement, Integer>();
+        private final Map<Column, Integer> columnMap = new HashMap<Column, Integer>();
+        private final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
+        private final Map<NodeElement, Integer> nodeElementMap = new HashMap<NodeElement, Integer>();
+        private final Map<ERModel, Integer> ermodelMap = new HashMap<ERModel, Integer>();
+        private final Map<Word, Integer> wordMap = new HashMap<Word, Integer>();
+        private final Map<Tablespace, Integer> tablespaceMap = new HashMap<Tablespace, Integer>();
+        private final Map<Environment, Integer> environmentMap = new HashMap<Environment, Integer>();
     }
 
     private PersistentContext getContext(DiagramContents diagramContents) {
-        PersistentContext context = new PersistentContext();
-
+        final PersistentContext context = new PersistentContext();
         int columnGroupCount = 0;
         int columnCount = 0;
-        for (ColumnGroup columnGroup : diagramContents.getGroups()) {
+        for (final ColumnGroup columnGroup : diagramContents.getGroups()) {
             context.columnGroupMap.put(columnGroup, new Integer(columnGroupCount));
             columnGroupCount++;
 
-            for (NormalColumn normalColumn : columnGroup.getColumns()) {
+            for (final NormalColumn normalColumn : columnGroup.getColumns()) {
                 context.columnMap.put(normalColumn, new Integer(columnCount));
                 columnCount++;
             }
@@ -113,61 +103,51 @@ public class PersistentXmlImpl extends Persistent {
         int nodeElementCount = 0;
         int connectionCount = 0;
         int complexUniqueKeyCount = 0;
-
-        for (NodeElement content : diagramContents.getContents()) {
+        for (final NodeElement content : diagramContents.getContents()) {
             context.nodeElementMap.put(content, new Integer(nodeElementCount));
             nodeElementCount++;
-
-            List<ConnectionElement> connections = content.getIncomings();
-
-            for (ConnectionElement connection : connections) {
+            final List<ConnectionElement> connections = content.getIncomings();
+            for (final ConnectionElement connection : connections) {
                 context.connectionMap.put(connection, new Integer(connectionCount));
                 connectionCount++;
             }
 
             if (content instanceof ERTable) {
-
-                ERTable table = (ERTable) content;
-
-                List<Column> columns = table.getColumns();
-
-                for (Column column : columns) {
+                final ERTable table = (ERTable) content;
+                final List<Column> columns = table.getColumns();
+                for (final Column column : columns) {
                     if (column instanceof NormalColumn) {
                         context.columnMap.put(column, new Integer(columnCount));
-
                         columnCount++;
                     }
                 }
-
-                for (ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
+                for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
                     context.complexUniqueKeyMap.put(complexUniqueKey, new Integer(complexUniqueKeyCount));
-
                     complexUniqueKeyCount++;
                 }
-
             }
         }
 
         int wordCount = 0;
-        for (Word word : diagramContents.getDictionary().getWordList()) {
+        for (final Word word : diagramContents.getDictionary().getWordList()) {
             context.wordMap.put(word, new Integer(wordCount));
             wordCount++;
         }
 
         int tablespaceCount = 0;
-        for (Tablespace tablespace : diagramContents.getTablespaceSet()) {
+        for (final Tablespace tablespace : diagramContents.getTablespaceSet()) {
             context.tablespaceMap.put(tablespace, new Integer(tablespaceCount));
             tablespaceCount++;
         }
 
         int environmentCount = 0;
-        for (Environment environment : diagramContents.getSettings().getEnvironmentSetting().getEnvironments()) {
+        for (final Environment environment : diagramContents.getSettings().getEnvironmentSetting().getEnvironments()) {
             context.environmentMap.put(environment, new Integer(environmentCount));
             environmentCount++;
         }
 
         int virtualModelCount = 0;
-        for (ERModel model : diagramContents.getModelSet()) {
+        for (final ERModel model : diagramContents.getModelSet()) {
             context.ermodelMap.put(model, new Integer(virtualModelCount));
             virtualModelCount++;
         }
@@ -184,38 +164,23 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     @Override
-    public ERDiagram load(InputStream in) throws Exception {
-        XMLLoader loader = new XMLLoader();
-        return loader.load(in);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public InputStream createInputStream(ERDiagram diagram) throws IOException {
         InputStream inputStream = null;
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        String xml = this.createXML(diagram);
-
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final String xml = this.createXML(diagram);
         out.write(xml.getBytes("UTF-8"));
-
         inputStream = new ByteArrayInputStream(out.toByteArray());
-
         return inputStream;
     }
 
     private static String tab(String str) {
         str = str.replaceAll("\n\t", "\n\t\t");
         str = str.replaceAll("\n<", "\n\t<");
-
         return "\t" + str;
     }
 
     private String createXML(ERDiagram diagram) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<diagram>\n");
@@ -242,7 +207,7 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<font_name>").append(escape(diagram.getFontName())).append("</font_name>\n");
         xml.append("\t<font_size>").append(diagram.getFontSize()).append("</font_size>\n");
 
-        PersistentContext context = this.getCurrentContext(diagram);
+        final PersistentContext context = this.getCurrentContext(diagram);
 
         xml.append(tab(this.createXML(diagram.getDiagramContents(), context)));
         xml.append(tab(this.createXML(diagram.getChangeTrackingList())));
@@ -264,7 +229,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(DBSetting dbSetting) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<dbsystem>").append(escape(dbSetting.getDbsystem())).append("</dbsystem>\n");
         xml.append("<server>").append(escape(dbSetting.getServer())).append("</server>\n");
@@ -280,7 +245,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(PageSetting pageSetting) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<direction_horizontal>").append(pageSetting.isDirectionHorizontal()).append("</direction_horizontal>\n");
         xml.append("<scale>").append(pageSetting.getScale()).append("</scale>\n");
@@ -294,7 +259,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(DiagramContents diagramContents, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append(this.createXML(diagramContents.getSettings(), context));
         xml.append(this.createXML(diagramContents.getDictionary(), context));
@@ -312,11 +277,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(GroupSet columnGroups, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<column_groups>\n");
 
-        for (ColumnGroup columnGroup : columnGroups) {
+        for (final ColumnGroup columnGroup : columnGroups) {
             xml.append(tab(tab(this.createXML(columnGroup, context))));
         }
 
@@ -341,11 +306,11 @@ public class PersistentXmlImpl extends Persistent {
     //}
 
     private String createXML(TriggerSet triggerSet) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<trigger_set>\n");
 
-        for (Trigger trigger : triggerSet) {
+        for (final Trigger trigger : triggerSet) {
             xml.append(tab(this.createXML(trigger)));
         }
 
@@ -355,7 +320,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Trigger trigger) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<trigger>\n");
 
@@ -370,11 +335,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(SequenceSet sequenceSet) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<sequence_set>\n");
 
-        for (Sequence sequence : sequenceSet) {
+        for (final Sequence sequence : sequenceSet) {
             xml.append(tab(this.createXML(sequence)));
         }
 
@@ -384,7 +349,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Sequence sequence) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<sequence>\n");
 
@@ -407,11 +372,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(TablespaceSet tablespaceSet, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<tablespace_set>\n");
 
-        for (Tablespace tablespace : tablespaceSet) {
+        for (final Tablespace tablespace : tablespaceSet) {
             xml.append(tab(this.createXML(tablespace, context)));
         }
 
@@ -421,7 +386,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Tablespace tablespace, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<tablespace>\n");
 
@@ -430,23 +395,18 @@ public class PersistentXmlImpl extends Persistent {
         }
         xml.append("\t<name>").append(escape(tablespace.getName())).append("</name>\n");
 
-        for (Map.Entry<Environment, TablespaceProperties> entry : tablespace.getPropertiesMap().entrySet()) {
-            Environment environment = entry.getKey();
-            TablespaceProperties tablespaceProperties = entry.getValue();
+        for (final Map.Entry<Environment, TablespaceProperties> entry : tablespace.getPropertiesMap().entrySet()) {
+            final Environment environment = entry.getKey();
+            final TablespaceProperties tablespaceProperties = entry.getValue();
 
             xml.append("\t<properties>\n");
-
             xml.append("\t\t<environment_id>").append(context.environmentMap.get(environment)).append("</environment_id>\n");
-
             if (tablespaceProperties instanceof DB2TablespaceProperties) {
                 xml.append(tab(tab(this.createXML((DB2TablespaceProperties) tablespaceProperties))));
-
             } else if (tablespaceProperties instanceof MySQLTablespaceProperties) {
                 xml.append(tab(tab(this.createXML((MySQLTablespaceProperties) tablespaceProperties))));
-
             } else if (tablespaceProperties instanceof OracleTablespaceProperties) {
                 xml.append(tab(tab(this.createXML((OracleTablespaceProperties) tablespaceProperties))));
-
             } else if (tablespaceProperties instanceof PostgresTablespaceProperties) {
                 xml.append(tab(tab(this.createXML((PostgresTablespaceProperties) tablespaceProperties))));
             }
@@ -460,7 +420,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(DB2TablespaceProperties tablespace) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<buffer_pool_name>").append(escape(tablespace.getBufferPoolName())).append("</buffer_pool_name>\n");
         xml.append("<container>").append(escape(tablespace.getContainer())).append("</container>\n");
@@ -486,7 +446,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(MySQLTablespaceProperties tablespace) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<data_file>").append(escape(tablespace.getDataFile())).append("</data_file>\n");
         xml.append("<engine>").append(escape(tablespace.getEngine())).append("</engine>\n");
@@ -498,10 +458,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(OracleTablespaceProperties tablespace) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<auto_extend>").append(tablespace.isAutoExtend()).append("</auto_extend>\n");
-        xml.append("<auto_segment_space_management>").append(tablespace.isAutoSegmentSpaceManagement())
+        xml.append("<auto_segment_space_management>")
+                .append(tablespace.isAutoSegmentSpaceManagement())
                 .append("</auto_segment_space_management>\n");
         xml.append("<logging>").append(tablespace.isLogging()).append("</logging>\n");
         xml.append("<offline>").append(tablespace.isOffline()).append("</offline>\n");
@@ -521,7 +482,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(PostgresTablespaceProperties tablespace) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<location>").append(escape(tablespace.getLocation())).append("</location>\n");
         xml.append("<owner>").append(escape(tablespace.getOwner())).append("</owner>\n");
@@ -530,7 +491,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Settings settings, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<settings>\n");
 
@@ -565,7 +526,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(ColumnGroup columnGroup, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<column_group>\n");
 
@@ -575,7 +536,7 @@ public class PersistentXmlImpl extends Persistent {
 
         xml.append("\t<columns>\n");
 
-        for (NormalColumn normalColumn : columnGroup.getColumns()) {
+        for (final NormalColumn normalColumn : columnGroup.getColumns()) {
             xml.append(tab(tab(this.createXML(normalColumn, context))));
         }
 
@@ -693,11 +654,11 @@ public class PersistentXmlImpl extends Persistent {
     //}
 
     private String createXML(ChangeTrackingList changeTrackingList) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<change_tracking_list>\n");
 
-        for (ChangeTracking changeTracking : changeTrackingList.getList()) {
+        for (final ChangeTracking changeTracking : changeTrackingList.getList()) {
             xml.append(tab(this.createXML(changeTracking)));
         }
 
@@ -707,14 +668,14 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(ChangeTracking changeTracking) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<change_tracking>\n");
 
         xml.append("\t<updated_date>").append(DATE_FORMAT.format(changeTracking.getUpdatedDate())).append("</updated_date>\n");
         xml.append("\t<comment>").append(escape(changeTracking.getComment())).append("</comment>\n");
 
-        PersistentContext context = this.getChangeTrackingContext(changeTracking);
+        final PersistentContext context = this.getChangeTrackingContext(changeTracking);
 
         xml.append(tab(this.createXML(changeTracking.getDiagramContents(), context)));
 
@@ -724,22 +685,24 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(ExportSetting exportSetting, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<export_setting>\n");
 
-        xml.append("\t<category_name_to_export>").append(escape(exportSetting.getCategoryNameToExport()))
+        xml.append("\t<category_name_to_export>")
+                .append(escape(exportSetting.getCategoryNameToExport()))
                 .append("</category_name_to_export>\n");
         xml.append("\t<ddl_output>").append(escape(exportSetting.getDdlOutput())).append("</ddl_output>\n");
         xml.append("\t<excel_output>").append(escape(exportSetting.getExcelOutput())).append("</excel_output>\n");
         xml.append("\t<excel_template>").append(escape(exportSetting.getExcelTemplate())).append("</excel_template>\n");
         xml.append("\t<image_output>").append(escape(exportSetting.getImageOutput())).append("</image_output>\n");
         xml.append("\t<put_diagram_on_excel>").append(exportSetting.isPutERDiagramOnExcel()).append("</put_diagram_on_excel>\n");
-        xml.append("\t<use_logical_name_as_sheet>").append(exportSetting.isUseLogicalNameAsSheet())
+        xml.append("\t<use_logical_name_as_sheet>")
+                .append(exportSetting.isUseLogicalNameAsSheet())
                 .append("</use_logical_name_as_sheet>\n");
         xml.append("\t<open_after_saved>").append(exportSetting.isOpenAfterSaved()).append("</open_after_saved>\n");
 
-        DDLTarget ddlTarget = exportSetting.getDdlTarget();
+        final DDLTarget ddlTarget = exportSetting.getDdlTarget();
 
         xml.append("\t<create_comment>").append(ddlTarget.createComment).append("</create_comment>\n");
         xml.append("\t<create_foreignKey>").append(ddlTarget.createForeignKey).append("</create_foreignKey>\n");
@@ -762,10 +725,12 @@ public class PersistentXmlImpl extends Persistent {
 
         xml.append("\t<comment_value_description>").append(ddlTarget.commentValueDescription).append("</comment_value_description>\n");
         xml.append("\t<comment_value_logical_name>").append(ddlTarget.commentValueLogicalName).append("</comment_value_logical_name>\n");
-        xml.append("\t<comment_value_logical_name_description>").append(ddlTarget.commentValueLogicalNameDescription)
+        xml.append("\t<comment_value_logical_name_description>")
+                .append(ddlTarget.commentValueLogicalNameDescription)
                 .append("</comment_value_logical_name_description>\n");
         xml.append("\t<comment_replace_line_feed>").append(ddlTarget.commentReplaceLineFeed).append("</comment_replace_line_feed>\n");
-        xml.append("\t<comment_replace_string>").append(Format.null2blank(ddlTarget.commentReplaceString))
+        xml.append("\t<comment_replace_string>")
+                .append(Format.null2blank(ddlTarget.commentReplaceString))
                 .append("</comment_replace_string>\n");
 
         // #deleted
@@ -808,7 +773,7 @@ public class PersistentXmlImpl extends Persistent {
     //}
 
     private String createXML(CategorySetting categorySettings, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<category_settings>\n");
         xml.append("\t<free_layout>").append(categorySettings.isFreeLayout()).append("</free_layout>\n");
@@ -816,7 +781,7 @@ public class PersistentXmlImpl extends Persistent {
 
         xml.append("\t<categories>\n");
 
-        for (Category category : categorySettings.getAllCategories()) {
+        for (final Category category : categorySettings.getAllCategories()) {
             xml.append(tab(tab(this.createXML(category, categorySettings.isSelected(category), context))));
         }
 
@@ -846,14 +811,14 @@ public class PersistentXmlImpl extends Persistent {
     //	}
 
     private String createXML(TranslationSetting translationSettings, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<translation_settings>\n");
         xml.append("\t<use>").append(translationSettings.isUse()).append("</use>\n");
 
         xml.append("\t<translations>\n");
 
-        for (String translation : translationSettings.getSelectedTranslations()) {
+        for (final String translation : translationSettings.getSelectedTranslations()) {
             xml.append(tab(tab(this.createTranslationXML(translation, context))));
         }
 
@@ -865,7 +830,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Category category, boolean isSelected, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<category>\n");
 
@@ -874,7 +839,7 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<name>").append(escape(category.getName())).append("</name>\n");
         xml.append("\t<selected>").append(isSelected).append("</selected>\n");
 
-        for (NodeElement nodeElement : category.getContents()) {
+        for (final NodeElement nodeElement : category.getContents()) {
             xml.append("\t<node_element>").append(context.nodeElementMap.get(nodeElement)).append("</node_element>\n");
         }
 
@@ -884,7 +849,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(VGroup group, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<group>\n");
 
@@ -893,8 +858,9 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<name>").append(escape(group.getName())).append("</name>\n");
         //		xml.append("\t<selected>").append(isSelected).append("</selected>\n");
 
-        for (NodeElement nodeElement : group.getContents()) {
-            xml.append("\t<node_element>").append(context.nodeElementMap.get(((ERVirtualTable) nodeElement).getRawTable()))
+        for (final NodeElement nodeElement : group.getContents()) {
+            xml.append("\t<node_element>")
+                    .append(context.nodeElementMap.get(((ERVirtualTable) nodeElement).getRawTable()))
                     .append("</node_element>\n");
         }
 
@@ -927,7 +893,7 @@ public class PersistentXmlImpl extends Persistent {
     //	}
 
     private String createTranslationXML(String translation, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<translation>\n");
         xml.append("\t<name>").append(escape(translation)).append("</name>\n");
@@ -937,11 +903,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(NodeSet contents, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<contents>\n");
 
-        for (NodeElement content : contents) {
+        for (final NodeElement content : contents) {
             String subxml = null;
 
             if (content instanceof ERTable) {
@@ -978,17 +944,17 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXMLERModel(ERModelSet modelSet, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
         xml.append("<ermodels>\n");
 
-        for (ERModel erModel : modelSet) {
+        for (final ERModel erModel : modelSet) {
             xml.append("\t<ermodel>\n");
             xml.append("\t\t<id>").append(context.ermodelMap.get(erModel)).append("</id>\n");
             xml.append("\t\t<name>").append(erModel.getName()).append("</name>\n");
             appendColor(xml, "color", erModel.getColor());
 
             xml.append("\t\t<vtables>\n");
-            for (ERVirtualTable table : erModel.getTables()) {
+            for (final ERVirtualTable table : erModel.getTables()) {
                 xml.append("\t\t\t<vtable>\n");
                 xml.append("\t\t\t\t<id>").append(context.nodeElementMap.get(table.getRawTable())).append("</id>\n");
                 xml.append("\t\t\t\t<x>").append(table.getX()).append("</x>\n");
@@ -999,13 +965,13 @@ public class PersistentXmlImpl extends Persistent {
             xml.append("\t\t</vtables>\n");
 
             xml.append("\t\t<groups>\n");
-            for (VGroup group : erModel.getGroups()) {
+            for (final VGroup group : erModel.getGroups()) {
                 xml.append(createXML(group, context));
             }
             xml.append("\t\t</groups>\n");
 
             xml.append("\t\t<notes>\n");
-            for (Note note : erModel.getNotes()) {
+            for (final Note note : erModel.getNotes()) {
                 xml.append(createXML(note, context));
             }
             xml.append("\t\t</notes>\n");
@@ -1047,7 +1013,7 @@ public class PersistentXmlImpl extends Persistent {
     //	}
 
     private String createXMLNodeElement(NodeElement nodeElement, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<id>").append(Format.toString(context.nodeElementMap.get(nodeElement))).append("</id>\n");
         xml.append("<height>").append(nodeElement.getHeight()).append("</height>\n");
@@ -1058,14 +1024,14 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("<y>").append(nodeElement.getY()).append("</y>\n");
         xml.append(this.createXMLColor(nodeElement.getColor()));
 
-        List<ConnectionElement> incomings = nodeElement.getIncomings();
+        final List<ConnectionElement> incomings = nodeElement.getIncomings();
         xml.append(this.createXMLConnections(incomings, context));
 
         return xml.toString();
     }
 
     private String createXMLColor(int[] colors) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         if (colors != null) {
             xml.append("<color>\n");
@@ -1079,7 +1045,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(ERTable table, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<table>\n");
 
@@ -1092,16 +1058,16 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<primary_key_name>").append(escape(table.getPrimaryKeyName())).append("</primary_key_name>\n");
         xml.append("\t<option>").append(escape(table.getOption())).append("</option>\n");
 
-        List<Column> columns = table.getColumns();
+        final List<Column> columns = table.getColumns();
         xml.append(tab(this.createXMLColumns(columns, context)));
 
-        List<Index> indexes = table.getIndexes();
+        final List<Index> indexes = table.getIndexes();
         xml.append(tab(this.createXMLIndexes(indexes, context)));
 
-        List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
+        final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
         xml.append(tab(this.createXMLComplexUniqueKeyList(complexUniqueKeyList, context)));
 
-        TableProperties tableProperties = (TableProperties) table.getTableViewProperties();
+        final TableProperties tableProperties = (TableProperties) table.getTableViewProperties();
         xml.append(tab(this.createXML(tableProperties, context)));
 
         xml.append("</table>\n");
@@ -1110,7 +1076,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(View view, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<view>\n");
 
@@ -1121,10 +1087,10 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<description>").append(escape(view.getDescription())).append("</description>\n");
         xml.append("\t<sql>").append(escape(view.getSql())).append("</sql>\n");
 
-        List<Column> columns = view.getColumns();
+        final List<Column> columns = view.getColumns();
         xml.append(tab(this.createXMLColumns(columns, context)));
 
-        ViewProperties viewProperties = (ViewProperties) view.getTableViewProperties();
+        final ViewProperties viewProperties = (ViewProperties) view.getTableViewProperties();
         xml.append(tab(this.createXML(viewProperties, context)));
 
         xml.append("</view>\n");
@@ -1133,7 +1099,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(ModelProperties modelProperties, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<model_properties>\n");
 
@@ -1143,7 +1109,7 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<creation_date>").append(DATE_FORMAT.format(modelProperties.getCreationDate())).append("</creation_date>\n");
         xml.append("\t<updated_date>").append(DATE_FORMAT.format(modelProperties.getUpdatedDate())).append("</updated_date>\n");
 
-        for (NameValue property : modelProperties.getProperties()) {
+        for (final NameValue property : modelProperties.getProperties()) {
             xml.append(tab(this.createXML(property, context)));
         }
 
@@ -1153,7 +1119,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(NameValue property, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<model_property>\n");
 
@@ -1166,7 +1132,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Note note, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<note>\n");
 
@@ -1179,7 +1145,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(InsertedImage insertedImage, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<image>\n");
 
@@ -1197,11 +1163,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXMLColumns(List<Column> columns, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<columns>\n");
 
-        for (Column column : columns) {
+        for (final Column column : columns) {
 
             if (column instanceof ColumnGroup) {
                 xml.append(tab(this.createXMLId((ColumnGroup) column, context)));
@@ -1218,7 +1184,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXMLId(ColumnGroup columnGroup, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<column_group>").append(context.columnGroupMap.get(columnGroup)).append("</column_group>\n");
 
@@ -1226,7 +1192,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(NormalColumn normalColumn, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<normal_column>\n");
 
@@ -1239,19 +1205,20 @@ public class PersistentXmlImpl extends Persistent {
             }
 
             xml.append("\t<id>").append(context.columnMap.get(normalColumn)).append("</id>\n");
-            for (NormalColumn referencedColumn : normalColumn.getReferencedColumnList()) {
-                xml.append("\t<referenced_column>").append(Format.toString(context.columnMap.get(referencedColumn)))
+            for (final NormalColumn referencedColumn : normalColumn.getReferencedColumnList()) {
+                xml.append("\t<referenced_column>")
+                        .append(Format.toString(context.columnMap.get(referencedColumn)))
                         .append("</referenced_column>\n");
             }
-            for (Relation relation : normalColumn.getRelationList()) {
+            for (final Relation relation : normalColumn.getRelationList()) {
                 xml.append("\t<relation>").append(context.connectionMap.get(relation)).append("</relation>\n");
             }
         }
 
-        String description = normalColumn.getForeignKeyDescription();
-        String logicalName = normalColumn.getForeignKeyLogicalName();
-        String physicalName = normalColumn.getForeignKeyPhysicalName();
-        SqlType sqlType = normalColumn.getType();
+        final String description = normalColumn.getForeignKeyDescription();
+        final String logicalName = normalColumn.getForeignKeyLogicalName();
+        final String physicalName = normalColumn.getForeignKeyPhysicalName();
+        final SqlType sqlType = normalColumn.getType();
 
         xml.append("\t<description>").append(escape(description)).append("</description>\n");
         xml.append("\t<unique_key_name>").append(escape(normalColumn.getUniqueKeyName())).append("</unique_key_name>\n");
@@ -1283,11 +1250,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXMLConnections(List<ConnectionElement> incomings, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<connections>\n");
 
-        for (ConnectionElement connection : incomings) {
+        for (final ConnectionElement connection : incomings) {
 
             if (connection instanceof CommentConnection) {
                 xml.append(tab(this.createXML((CommentConnection) connection, context)));
@@ -1304,13 +1271,13 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXMLConnectionElement(ConnectionElement connection, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
         xml.append("<source>").append(context.nodeElementMap.get(connection.getSource())).append("</source>\n");
         xml.append("<target>").append(context.nodeElementMap.get(connection.getTarget())).append("</target>\n");
 
-        for (Bendpoint bendpoint : connection.getBendpoints()) {
+        for (final Bendpoint bendpoint : connection.getBendpoints()) {
             xml.append(tab(this.createXML(bendpoint)));
         }
 
@@ -1318,7 +1285,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Bendpoint bendpoint) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<bendpoint>\n");
 
@@ -1332,7 +1299,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(CommentConnection connection, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<comment_connection>\n");
 
@@ -1344,7 +1311,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Relation relation, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<relation>\n");
 
@@ -1361,7 +1328,8 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<target_xp>").append(relation.getTargetXp()).append("</target_xp>\n");
         xml.append("\t<target_yp>").append(relation.getTargetYp()).append("</target_yp>\n");
         xml.append("\t<referenced_column>").append(context.columnMap.get(relation.getReferencedColumn())).append("</referenced_column>\n");
-        xml.append("\t<referenced_complex_unique_key>").append(context.complexUniqueKeyMap.get(relation.getReferencedComplexUniqueKey()))
+        xml.append("\t<referenced_complex_unique_key>")
+                .append(context.complexUniqueKeyMap.get(relation.getReferencedComplexUniqueKey()))
                 .append("</referenced_complex_unique_key>\n");
 
         xml.append("</relation>\n");
@@ -1370,11 +1338,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXMLIndexes(List<Index> indexes, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<indexes>\n");
 
-        for (Index index : indexes) {
+        for (final Index index : indexes) {
             xml.append(tab(this.createXML(index, context)));
         }
 
@@ -1384,11 +1352,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXMLComplexUniqueKeyList(List<ComplexUniqueKey> complexUniqueKeyList, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<complex_unique_key_list>\n");
 
-        for (ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
+        for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
             xml.append(tab(this.createXML(complexUniqueKey, context)));
         }
 
@@ -1398,14 +1366,14 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(EnvironmentSetting environmentSetting, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<environment_setting>\n");
 
-        for (Environment environment : environmentSetting.getEnvironments()) {
+        for (final Environment environment : environmentSetting.getEnvironments()) {
             xml.append("\t<environment>\n");
 
-            Integer environmentId = context.environmentMap.get(environment);
+            final Integer environmentId = context.environmentMap.get(environment);
             xml.append("\t\t<id>").append(environmentId).append("</id>\n");
             xml.append("\t\t<name>").append(environment.getName()).append("</name>\n");
 
@@ -1418,11 +1386,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(TableProperties tableProperties, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<table_properties>\n");
 
-        Integer tablespaceId = context.tablespaceMap.get(tableProperties.getTableSpace());
+        final Integer tablespaceId = context.tablespaceMap.get(tableProperties.getTableSpace());
         if (tablespaceId != null) {
             xml.append("\t<tablespace_id>").append(tablespaceId).append("</tablespace_id>\n");
         }
@@ -1442,19 +1410,20 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(MySQLTableProperties tableProperties) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<character_set>").append(escape(tableProperties.getCharacterSet())).append("</character_set>\n");
         xml.append("<collation>").append(escape(tableProperties.getCollation())).append("</collation>\n");
         xml.append("<storage_engine>").append(escape(tableProperties.getStorageEngine())).append("</storage_engine>\n");
-        xml.append("<primary_key_length_of_text>").append(tableProperties.getPrimaryKeyLengthOfText())
+        xml.append("<primary_key_length_of_text>")
+                .append(tableProperties.getPrimaryKeyLengthOfText())
                 .append("</primary_key_length_of_text>\n");
 
         return xml.toString();
     }
 
     private String createXML(PostgresTableProperties tableProperties) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<without_oids>").append(tableProperties.isWithoutOIDs()).append("</without_oids>\n");
 
@@ -1462,11 +1431,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(ViewProperties viewProperties, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<view_properties>\n");
 
-        Integer tablespaceId = context.tablespaceMap.get(viewProperties.getTableSpace());
+        final Integer tablespaceId = context.tablespaceMap.get(viewProperties.getTableSpace());
         if (tablespaceId != null) {
             xml.append("\t<tablespace_id>").append(tablespaceId).append("</tablespace_id>\n");
         }
@@ -1479,7 +1448,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Index index, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<inidex>\n");
 
@@ -1491,11 +1460,11 @@ public class PersistentXmlImpl extends Persistent {
 
         xml.append("\t<columns>\n");
 
-        List<Boolean> descs = index.getDescs();
+        final List<Boolean> descs = index.getDescs();
 
         int count = 0;
 
-        for (Column column : index.getColumns()) {
+        for (final Column column : index.getColumns()) {
             xml.append("\t\t<column>\n");
             xml.append("\t\t\t<id>").append(context.columnMap.get(column)).append("</id>\n");
 
@@ -1518,7 +1487,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(ComplexUniqueKey complexUniqueKey, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<complex_unique_key>\n");
 
@@ -1526,7 +1495,7 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<name>").append(Format.null2blank(complexUniqueKey.getUniqueKeyName())).append("</name>\n");
         xml.append("\t<columns>\n");
 
-        for (NormalColumn column : complexUniqueKey.getColumnList()) {
+        for (final NormalColumn column : complexUniqueKey.getColumnList()) {
             xml.append("\t\t<column>\n");
             xml.append("\t\t\t<id>").append(context.columnMap.get(column)).append("</id>\n");
             xml.append("\t\t</column>\n");
@@ -1540,11 +1509,11 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Dictionary dictionary, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<dictionary>\n");
 
-        for (Word word : dictionary.getWordList()) {
+        for (final Word word : dictionary.getWordList()) {
             xml.append(tab(this.createXML(word, context)));
         }
 
@@ -1554,7 +1523,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private String createXML(Word word, PersistentContext context) {
-        StringBuilder xml = new StringBuilder();
+        final StringBuilder xml = new StringBuilder();
 
         xml.append("<word>\n");
 
@@ -1565,7 +1534,7 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("\t<length>").append(word.getTypeData().getLength()).append("</length>\n");
         xml.append("\t<decimal>").append(word.getTypeData().getDecimal()).append("</decimal>\n");
 
-        Integer arrayDimension = word.getTypeData().getArrayDimension();
+        final Integer arrayDimension = word.getTypeData().getArrayDimension();
         xml.append("\t<array>").append(word.getTypeData().isArray()).append("</array>\n");
         xml.append("\t<array_dimension>").append(arrayDimension).append("</array_dimension>\n");
 
@@ -1592,7 +1561,7 @@ public class PersistentXmlImpl extends Persistent {
             return "";
         }
 
-        StringBuilder result = new StringBuilder(s.length() + 10);
+        final StringBuilder result = new StringBuilder(s.length() + 10);
         for (int i = 0; i < s.length(); ++i) {
             appendEscapedChar(result, s.charAt(i));
         }
@@ -1600,7 +1569,7 @@ public class PersistentXmlImpl extends Persistent {
     }
 
     private static void appendEscapedChar(StringBuilder buffer, char c) {
-        String replacement = getReplacement(c);
+        final String replacement = getReplacement(c);
         if (replacement != null) {
             buffer.append('&');
             buffer.append(replacement);
@@ -1637,4 +1606,12 @@ public class PersistentXmlImpl extends Persistent {
         return null;
     }
 
+    // ===================================================================================
+    //                                                                               Load
+    //                                                                              ======
+    @Override
+    public ERDiagram load(InputStream in) throws Exception {
+        final XMLLoader loader = new XMLLoader();
+        return loader.load(in);
+    }
 }

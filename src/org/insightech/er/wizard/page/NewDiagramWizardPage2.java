@@ -10,7 +10,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManagerFactory;
 
 /**
@@ -23,8 +23,8 @@ public class NewDiagramWizardPage2 extends WizardPage {
     private Combo databaseCombo;
 
     public NewDiagramWizardPage2(IStructuredSelection selection) {
-        super(ResourceString.getResourceString("wizard.new.diagram.title"));
-        this.setTitle(ResourceString.getResourceString("wizard.new.diagram.title"));
+        super(DisplayMessages.getMessage("wizard.new.diagram.title"));
+        this.setTitle(DisplayMessages.getMessage("wizard.new.diagram.title"));
     }
 
     public void createControl(Composite parent) {
@@ -35,7 +35,7 @@ public class NewDiagramWizardPage2 extends WizardPage {
         composite.setLayout(layout);
 
         Label label = new Label(composite, SWT.NULL);
-        label.setText(ResourceString.getResourceString("label.database"));
+        label.setText(DisplayMessages.getMessage("label.database"));
 
         this.databaseCombo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
         GridData dbData = new GridData(GridData.FILL_HORIZONTAL);
@@ -58,13 +58,13 @@ public class NewDiagramWizardPage2 extends WizardPage {
     protected boolean validatePage() {
         boolean valid = true;
         if (this.databaseCombo.getText().length() == 0) {
-            setMessage(ResourceString.getResourceString("select.database.message"));
+            setMessage(DisplayMessages.getMessage("select.database.message"));
             valid = false;
             this.setPageComplete(false);
         }
         if (valid) {
             this.setPageComplete(true);
-            setMessage(ResourceString.getResourceString("wizard.new.diagram.message"));
+            setMessage(DisplayMessages.getMessage("wizard.new.diagram.message"));
         }
         return valid;
     }

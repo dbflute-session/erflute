@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.sqltype.SqlType;
@@ -471,11 +471,11 @@ public class ERTableComposite extends Composite {
                 NormalColumn normalColumn = (NormalColumn) column;
 
                 if (normalColumn.isForeignKey()) {
-                    this.setMessage(ResourceString.getResourceString("error.foreign.key.not.deleteable"));
+                    this.setMessage(DisplayMessages.getMessage("error.foreign.key.not.deleteable"));
 
                 } else {
                     if (this.ertable != null && normalColumn.isRefered()) {
-                        this.setMessage(ResourceString.getResourceString("error.reference.key.not.deleteable"));
+                        this.setMessage(DisplayMessages.getMessage("error.reference.key.not.deleteable"));
 
                     } else {
                         removeColumn(index);
@@ -525,7 +525,7 @@ public class ERTableComposite extends Composite {
 
     private void setMessage(String message) {
         MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.error"));
+        messageBox.setText(DisplayMessages.getMessage("dialog.title.error"));
         messageBox.setMessage(message);
         messageBox.open();
     }

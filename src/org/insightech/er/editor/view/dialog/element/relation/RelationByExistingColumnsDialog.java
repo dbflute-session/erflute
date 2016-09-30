@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
@@ -98,7 +98,7 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
 
         Label label = new Label(composite, SWT.NONE);
         label.setLayoutData(gridData);
-        label.setText(ResourceString.getResourceString("dialog.message.create.relation.by.existing.columns"));
+        label.setText(DisplayMessages.getMessage("dialog.message.create.relation.by.existing.columns"));
 
         this.createColumnCombo(composite);
 
@@ -111,7 +111,7 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
      */
     private void createColumnCombo(Composite composite) {
         Label label = new Label(composite, SWT.NONE);
-        label.setText(ResourceString.getResourceString("label.reference.column"));
+        label.setText(DisplayMessages.getMessage("label.reference.column"));
 
         GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
@@ -137,11 +137,11 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
 
         TableColumn referencedColumn = new TableColumn(this.comparisonTable, SWT.NONE);
         referencedColumn.setWidth(COLUMN_WIDTH);
-        referencedColumn.setText(ResourceString.getResourceString("label.reference.column"));
+        referencedColumn.setText(DisplayMessages.getMessage("label.reference.column"));
 
         TableColumn foreignKeyColumn = new TableColumn(this.comparisonTable, SWT.NONE);
         foreignKeyColumn.setWidth(COLUMN_WIDTH);
-        foreignKeyColumn.setText(ResourceString.getResourceString("label.foreign.key"));
+        foreignKeyColumn.setText(DisplayMessages.getMessage("label.foreign.key"));
     }
 
     /**

@@ -56,7 +56,7 @@ import javax.swing.table.TableColumnModel;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.widgets.table.CellEditWorker;
 import org.insightech.er.common.widgets.table.CustomCellEditor;
 import org.insightech.er.common.widgets.table.HeaderClickListener;
@@ -681,7 +681,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
             if (clipbordOn) {
                 if (editable) {
-                    cutMenu = new JMenuItem(ResourceString.getResourceString("action.title.cut"));
+                    cutMenu = new JMenuItem(DisplayMessages.getMessage("action.title.cut"));
                     cutMenu.setFont(font);
                     this.add(cutMenu);
 
@@ -700,7 +700,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                     });
                 }
 
-                JMenuItem copyMenu = new JMenuItem(ResourceString.getResourceString("action.title.copy"));
+                JMenuItem copyMenu = new JMenuItem(DisplayMessages.getMessage("action.title.copy"));
                 copyMenu.setFont(font);
                 this.add(copyMenu);
 
@@ -719,7 +719,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 });
 
                 if (editable) {
-                    JMenuItem pasteMenu = new JMenuItem(ResourceString.getResourceString("action.title.paste"));
+                    JMenuItem pasteMenu = new JMenuItem(DisplayMessages.getMessage("action.title.paste"));
                     pasteMenu.setFont(font);
                     this.add(pasteMenu);
 
@@ -742,7 +742,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
             }
 
             if (editable) {
-                JMenuItem insertMenu = new JMenuItem(ResourceString.getResourceString("action.title.insert"));
+                JMenuItem insertMenu = new JMenuItem(DisplayMessages.getMessage("action.title.insert"));
                 insertMenu.setFont(font);
                 this.add(insertMenu);
 
@@ -761,7 +761,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 });
 
                 if (clipbordOn) {
-                    JMenuItem insertPasteMenu = new JMenuItem(ResourceString.getResourceString("action.title.insert.and.paste"));
+                    JMenuItem insertPasteMenu = new JMenuItem(DisplayMessages.getMessage("action.title.insert.and.paste"));
                     insertPasteMenu.setFont(font);
                     this.add(insertPasteMenu);
 
@@ -780,7 +780,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                     });
                 }
 
-                this.deleteMenu = new JMenuItem(ResourceString.getResourceString("label.delete"));
+                this.deleteMenu = new JMenuItem(DisplayMessages.getMessage("label.delete"));
                 deleteMenu.setFont(font);
                 this.add(deleteMenu);
 

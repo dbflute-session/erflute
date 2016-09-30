@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceProperties;
 import org.insightech.er.editor.view.dialog.outline.tablespace.TablespaceDialog;
@@ -61,7 +61,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         this.dataFile = CompositeFactory.createText(this, composite, "label.tablespace.data.file", 1, 200, false);
         this.fileSize = CompositeFactory.createText(this, composite, "label.size", 1, NUM_TEXT_WIDTH, false);
         this.calculatorButton = new Button(composite, SWT.NONE);
-        this.calculatorButton.setText(ResourceString.getResourceString("label.calculate"));
+        this.calculatorButton.setText(DisplayMessages.getMessage("label.calculate"));
 
         CompositeFactory.filler(composite, 1);
 
@@ -75,7 +75,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         GridLayout autoExtendGroupLayout = new GridLayout();
         autoExtendGroupLayout.numColumns = 5;
         autoExtendGroup.setLayout(autoExtendGroupLayout);
-        autoExtendGroup.setText(ResourceString.getResourceString("label.tablespace.auto.extend"));
+        autoExtendGroup.setText(DisplayMessages.getMessage("label.tablespace.auto.extend"));
 
         GridData autoExtendGroupGridData = new GridData();
         autoExtendGroupGridData.horizontalSpan = this.getNumColumns();

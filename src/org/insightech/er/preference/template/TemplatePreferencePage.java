@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.preference.PreferenceInitializer;
 import org.insightech.er.util.io.IOUtils;
 
@@ -48,14 +48,14 @@ public class TemplatePreferencePage extends org.eclipse.jface.preference.Prefere
 
         this.fileListEditor =
                 new TemplateFileListEditor(PreferenceInitializer.TEMPLATE_FILE_LIST,
-                        ResourceString.getResourceString("label.custom.tempplate"), composite);
+                        DisplayMessages.getMessage("label.custom.tempplate"), composite);
         this.fileListEditor.load();
 
         new Label(composite, SWT.NONE);
         new Label(composite, SWT.NONE);
 
         Label label = new Label(composite, SWT.NONE);
-        label.setText(ResourceString.getResourceString("dialog.message.template.file.store"));
+        label.setText(DisplayMessages.getMessage("dialog.message.template.file.store"));
 
         return composite;
     }
@@ -66,7 +66,7 @@ public class TemplatePreferencePage extends org.eclipse.jface.preference.Prefere
         composite.setLayout(layout);
 
         Button buttonEn = new Button(composite, SWT.NONE);
-        buttonEn.setText(ResourceString.getResourceString("label.button.download.template.en"));
+        buttonEn.setText(DisplayMessages.getMessage("label.button.download.template.en"));
         buttonEn.addSelectionListener(new SelectionAdapter() {
 
             /**
@@ -79,7 +79,7 @@ public class TemplatePreferencePage extends org.eclipse.jface.preference.Prefere
         });
 
         Button buttonJa = new Button(composite, SWT.NONE);
-        buttonJa.setText(ResourceString.getResourceString("label.button.download.template.ja"));
+        buttonJa.setText(DisplayMessages.getMessage("label.button.download.template.ja"));
         buttonJa.addSelectionListener(new SelectionAdapter() {
 
             /**

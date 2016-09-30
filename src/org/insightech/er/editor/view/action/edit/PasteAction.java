@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.PasteCommand;
 import org.insightech.er.editor.model.ERDiagram;
@@ -35,7 +35,7 @@ public class PasteAction extends SelectionAction {
     public PasteAction(IWorkbenchPart part) {
         super(part);
 
-        this.setText(ResourceString.getResourceString("action.title.paste"));
+        this.setText(DisplayMessages.getMessage("action.title.paste"));
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
         setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));

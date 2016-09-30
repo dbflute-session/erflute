@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.ExportToHtmlManager;
 import org.insightech.er.editor.model.dbexport.html.page_generator.AbstractHtmlReportPageGenerator;
@@ -109,7 +109,7 @@ public class TablespaceHtmlReportPageGenerator extends AbstractHtmlReportPageGen
         String template = ExportToHtmlManager.getTemplate("types/value_row_template.html");
 
         for (Map.Entry<String, String> entry : properties.getPropertiesMap().entrySet()) {
-            Object[] args = { ResourceString.getResourceString(entry.getKey()), Format.null2blank(entry.getValue()) };
+            Object[] args = { DisplayMessages.getMessage(entry.getKey()), Format.null2blank(entry.getValue()) };
             String row = MessageFormat.format(template, args);
 
             sb.append(row);

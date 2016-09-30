@@ -17,22 +17,14 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.proper
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 
 /**
- * �_�C�A�O�����iERModel�j���ɒ�`���ꂽ���z�e�[�u���ł��B
- * @author iwami
+ * @author modified by jflute (originated in ermaster)
  */
 public class ERVirtualTable extends ERTable {
 
-    /** �e���f�� */
-    private ERModel model;
+    private static final long serialVersionUID = 1L;
 
-    /** �e�[�u������ */
+    private final ERModel model;
     private ERTable rawTable;
-
-    @Override
-    public void setLocation(Location location) {
-        // TODO Auto-generated method stub
-        super.setLocation(location);
-    }
 
     public ERVirtualTable(ERModel model, ERTable rawTable) {
         super();
@@ -174,17 +166,17 @@ public class ERVirtualTable extends ERTable {
     @Override
     public List<ConnectionElement> getIncomings() {
         System.out.println("ERVirtualTable::getIncomings");
-        List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
-        List<ERVirtualTable> modelTables = model.getTables();
-        for (ConnectionElement el : rawTable.getIncomings()) {
-            NodeElement findEl = el.getSource();
+        final List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
+        final List<ERVirtualTable> modelTables = model.getTables();
+        for (final ConnectionElement el : rawTable.getIncomings()) {
+            final NodeElement findEl = el.getSource();
             if (findEl instanceof Note) {
                 if (((Note) findEl).getModel().equals(model)) {
                     elements.add(el);
                 }
                 //				elements.add(el);
             } else {
-                for (ERVirtualTable vtable : modelTables) {
+                for (final ERVirtualTable vtable : modelTables) {
                     if (vtable.getRawTable().equals(findEl)) {
                         elements.add(el);
                         break;
@@ -197,17 +189,17 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<ConnectionElement> getOutgoings() {
-        List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
-        List<ERVirtualTable> modelTables = model.getTables();
-        for (ConnectionElement el : rawTable.getOutgoings()) {
-            NodeElement findEl = el.getTarget();
+        final List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
+        final List<ERVirtualTable> modelTables = model.getTables();
+        for (final ConnectionElement el : rawTable.getOutgoings()) {
+            final NodeElement findEl = el.getTarget();
             if (findEl instanceof Note) {
                 if (((Note) findEl).getModel().equals(model)) {
                     elements.add(el);
                 }
                 elements.add(el);
             } else {
-                for (ERVirtualTable vtable : modelTables) {
+                for (final ERVirtualTable vtable : modelTables) {
                     if (vtable.getRawTable().equals(findEl)) {
                         elements.add(el);
                         break;
@@ -275,11 +267,11 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relation> getIncomingRelations() {
-        List<Relation> elements = new ArrayList<Relation>();
-        List<ERVirtualTable> modelTables = model.getTables();
-        for (Relation el : rawTable.getIncomingRelations()) {
-            NodeElement findEl = el.getSource();
-            for (ERVirtualTable vtable : modelTables) {
+        final List<Relation> elements = new ArrayList<Relation>();
+        final List<ERVirtualTable> modelTables = model.getTables();
+        for (final Relation el : rawTable.getIncomingRelations()) {
+            final NodeElement findEl = el.getSource();
+            for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
                     elements.add(el);
                     break;
@@ -292,11 +284,11 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relation> getOutgoingRelations() {
-        List<Relation> elements = new ArrayList<Relation>();
-        List<ERVirtualTable> modelTables = model.getTables();
-        for (Relation el : rawTable.getOutgoingRelations()) {
-            NodeElement findEl = el.getSource();
-            for (ERVirtualTable vtable : modelTables) {
+        final List<Relation> elements = new ArrayList<Relation>();
+        final List<ERVirtualTable> modelTables = model.getTables();
+        for (final Relation el : rawTable.getOutgoingRelations()) {
+            final NodeElement findEl = el.getSource();
+            for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
                     elements.add(el);
                     break;
@@ -362,18 +354,10 @@ public class ERVirtualTable extends ERTable {
         return rawTable.getNameWithSchema(database);
     }
 
-    /**
-     * �e�[�u�����̂��擾���܂��B
-     * @return �e�[�u������
-     */
     public ERTable getRawTable() {
         return rawTable;
     }
 
-    /**
-     * �e�[�u�����̂�ݒ肵�܂��B
-     * @param rawTable �e�[�u������
-     */
     public void setRawTable(ERTable rawTable) {
         this.rawTable = rawTable;
     }
@@ -383,11 +367,12 @@ public class ERVirtualTable extends ERTable {
         return "vtable";
     }
 
-    /**
-     * �e�[�u�����̂��X�V�����Ƃ��ɌĂ΂�܂��B
-     */
     public void doChangeTable() {
         firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
+    @Override
+    public void setLocation(Location location) {
+        super.setLocation(location);
+    }
 }

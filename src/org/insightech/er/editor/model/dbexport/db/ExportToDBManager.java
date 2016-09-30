@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 
 public class ExportToDBManager implements IRunnableWithProgress {
 
@@ -37,7 +37,7 @@ public class ExportToDBManager implements IRunnableWithProgress {
         try {
             String[] ddls = ddl.split(";[\r\n]+");
 
-            monitor.beginTask(ResourceString.getResourceString("dialog.message.drop.table"), ddls.length);
+            monitor.beginTask(DisplayMessages.getMessage("dialog.message.drop.table"), ddls.length);
 
             for (int i = 0; i < ddls.length; i++) {
                 String message = ddls[i];

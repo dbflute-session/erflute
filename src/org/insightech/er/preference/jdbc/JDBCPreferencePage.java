@@ -22,8 +22,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
-import org.insightech.er.Resources;
+import org.insightech.er.DisplayMessages;
+import org.insightech.er.DesignResources;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.settings.JDBCDriverSetting;
@@ -74,15 +74,15 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
         this.table.setHeaderVisible(true);
 
         TableColumn nameColumn = new TableColumn(table, SWT.NONE);
-        nameColumn.setText(ResourceString.getResourceString("label.database"));
+        nameColumn.setText(DisplayMessages.getMessage("label.database"));
         nameColumn.setWidth(200);
 
         TableColumn driverClassNameColumn = new TableColumn(table, SWT.NONE);
-        driverClassNameColumn.setText(ResourceString.getResourceString("label.driver.class.name"));
+        driverClassNameColumn.setText(DisplayMessages.getMessage("label.driver.class.name"));
         driverClassNameColumn.setWidth(200);
 
         TableColumn pathColumn = new TableColumn(table, SWT.NONE);
-        pathColumn.setText(ResourceString.getResourceString("label.path"));
+        pathColumn.setText(DisplayMessages.getMessage("label.path"));
         pathColumn.setWidth(200);
 
         this.setData();
@@ -90,19 +90,19 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
 
     private void createButton(Composite parent) {
         GridData buttonGridData = new GridData();
-        buttonGridData.widthHint = Resources.BUTTON_WIDTH;
+        buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.addButton = new Button(parent, SWT.NONE);
         this.addButton.setLayoutData(buttonGridData);
-        this.addButton.setText(ResourceString.getResourceString("label.button.add"));
+        this.addButton.setText(DisplayMessages.getMessage("label.button.add"));
 
         this.editButton = new Button(parent, SWT.NONE);
         this.editButton.setLayoutData(buttonGridData);
-        this.editButton.setText(ResourceString.getResourceString("label.button.edit"));
+        this.editButton.setText(DisplayMessages.getMessage("label.button.edit"));
 
         this.deleteButton = new Button(parent, SWT.NONE);
         this.deleteButton.setLayoutData(buttonGridData);
-        this.deleteButton.setText(ResourceString.getResourceString("label.button.delete"));
+        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
         this.deleteButton.setEnabled(false);
     }
 

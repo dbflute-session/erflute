@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.util.NameValue;
@@ -33,11 +33,11 @@ public class ModelProperties extends NodeElement implements Cloneable {
     }
 
     public void init() {
-        properties.add(new NameValue(ResourceString.getResourceString("label.project.name"), ""));
-        properties.add(new NameValue(ResourceString.getResourceString("label.model.name"), ""));
-        properties.add(new NameValue(ResourceString.getResourceString("label.version"), ""));
-        properties.add(new NameValue(ResourceString.getResourceString("label.company.name"), ""));
-        properties.add(new NameValue(ResourceString.getResourceString("label.author"), ""));
+        properties.add(new NameValue(DisplayMessages.getMessage("label.project.name"), ""));
+        properties.add(new NameValue(DisplayMessages.getMessage("label.model.name"), ""));
+        properties.add(new NameValue(DisplayMessages.getMessage("label.version"), ""));
+        properties.add(new NameValue(DisplayMessages.getMessage("label.company.name"), ""));
+        properties.add(new NameValue(DisplayMessages.getMessage("label.author"), ""));
     }
 
     public void clear() {

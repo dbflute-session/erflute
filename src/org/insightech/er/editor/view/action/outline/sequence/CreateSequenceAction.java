@@ -4,7 +4,7 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.sequence.CreateSequenceCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.outline.AbstractOutlineBaseAction;
@@ -15,7 +15,7 @@ public class CreateSequenceAction extends AbstractOutlineBaseAction {
     public static final String ID = CreateSequenceAction.class.getName();
 
     public CreateSequenceAction(TreeViewer treeViewer) {
-        super(ID, ResourceString.getResourceString("action.title.create.sequence"), treeViewer);
+        super(ID, DisplayMessages.getMessage("action.title.create.sequence"), treeViewer);
     }
 
     /**

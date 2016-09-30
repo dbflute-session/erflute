@@ -7,7 +7,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectAllAction;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;
 
 public class SelectAllContentsAction extends SelectAllAction {
@@ -17,7 +17,7 @@ public class SelectAllContentsAction extends SelectAllAction {
     public SelectAllContentsAction(IWorkbenchPart part) {
         super(part);
         this.part = part;
-        this.setText(ResourceString.getResourceString("action.title.select.all"));
+        this.setText(DisplayMessages.getMessage("action.title.select.all"));
 
         this.setActionDefinitionId("org.eclipse.ui.edit.selectAll");
     }

@@ -2,7 +2,7 @@ package org.insightech.er.editor.view.action.option.notation.type;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.notation.ChangeViewModeCommand;
 import org.insightech.er.editor.model.ERDiagram;
@@ -12,7 +12,7 @@ public abstract class AbstractChangeViewAction extends AbstractBaseAction {
 
     public AbstractChangeViewAction(String id, String type, ERDiagramEditor editor) {
         super(id, null, IAction.AS_RADIO_BUTTON, editor);
-        this.setText(ResourceString.getResourceString("action.title.change.mode.to." + type));
+        this.setText(DisplayMessages.getMessage("action.title.change.mode.to." + type));
     }
 
     /**

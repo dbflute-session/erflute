@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IMarker;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.table.TableRule;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
@@ -31,8 +31,8 @@ public class DuplicatedColumnNameRule extends TableRule {
 
                     if (columnNameSet.contains(columnName)) {
                         ValidateResult result = new ValidateResult();
-                        result.setMessage(ResourceString.getResourceString("error.validate.duplicated.column.name1")
-                                + table.getPhysicalName() + ResourceString.getResourceString("error.validate.duplicated.column.name2")
+                        result.setMessage(DisplayMessages.getMessage("error.validate.duplicated.column.name1")
+                                + table.getPhysicalName() + DisplayMessages.getMessage("error.validate.duplicated.column.name2")
                                 + columnName);
                         result.setLocation(table.getLogicalName());
                         result.setSeverity(IMarker.SEVERITY_WARNING);
@@ -50,8 +50,8 @@ public class DuplicatedColumnNameRule extends TableRule {
 
                 if (columnNameSet.contains(columnName)) {
                     ValidateResult result = new ValidateResult();
-                    result.setMessage(ResourceString.getResourceString("error.validate.duplicated.column.name1") + table.getPhysicalName()
-                            + ResourceString.getResourceString("error.validate.duplicated.column.name2") + columnName);
+                    result.setMessage(DisplayMessages.getMessage("error.validate.duplicated.column.name1") + table.getPhysicalName()
+                            + DisplayMessages.getMessage("error.validate.duplicated.column.name2") + columnName);
                     result.setLocation(table.getLogicalName());
                     result.setSeverity(IMarker.SEVERITY_WARNING);
                     result.setObject(table);

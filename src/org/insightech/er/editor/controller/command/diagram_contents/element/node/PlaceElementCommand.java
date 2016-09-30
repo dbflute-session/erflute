@@ -3,7 +3,7 @@ package org.insightech.er.editor.controller.command.diagram_contents.element.nod
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.model.ERDiagram;
@@ -60,7 +60,7 @@ public class PlaceElementCommand extends AbstractCommand {
 
         } else {
             Category category = (Category) this.element;
-            category.setName(ResourceString.getResourceString("label.category"));
+            category.setName(DisplayMessages.getMessage("label.category"));
             category.setContents(this.enclosedElementList);
             this.diagram.addCategory(category);
         }

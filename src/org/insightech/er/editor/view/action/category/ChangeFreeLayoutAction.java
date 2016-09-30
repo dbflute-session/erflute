@@ -2,7 +2,7 @@ package org.insightech.er.editor.view.action.category;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.category.ChangeFreeLayoutCommand;
 import org.insightech.er.editor.model.ERDiagram;
@@ -14,7 +14,7 @@ public class ChangeFreeLayoutAction extends AbstractBaseAction {
 
     public ChangeFreeLayoutAction(ERDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(ResourceString.getResourceString("action.title.category.free.layout"));
+        this.setText(DisplayMessages.getMessage("action.title.category.free.layout"));
     }
 
     /**

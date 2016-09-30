@@ -9,7 +9,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.DefaultLineCommand;
 import org.insightech.er.editor.controller.editpart.element.node.IResizable;
@@ -22,7 +22,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
     public static final String ID = DefaultLineAction.class.getName();
 
     public DefaultLineAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.default"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.default"), editor);
     }
 
     /**

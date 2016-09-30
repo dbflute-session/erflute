@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
@@ -45,7 +45,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
         // DB
         Label label = new Label(group, SWT.NONE);
         label.setLayoutData(labelLayoutData);
-        label.setText(ResourceString.getResourceString("label.tablespace.environment"));
+        label.setText(DisplayMessages.getMessage("label.tablespace.environment"));
         label.setEnabled(true);
 
         this.environmentCombo = new Combo(group, SWT.BORDER | SWT.READ_ONLY);

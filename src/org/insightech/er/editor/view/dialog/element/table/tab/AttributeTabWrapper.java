@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.common.widgets.ValidatableTabWrapper;
@@ -165,7 +165,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
         this.createGroupCombo(footer);
 
         this.groupAddButton = new Button(footer, SWT.NONE);
-        this.groupAddButton.setText(ResourceString.getResourceString("label.button.add.group.to.table"));
+        this.groupAddButton.setText(DisplayMessages.getMessage("label.button.add.group.to.table"));
 
         this.groupAddButton.addSelectionListener(new SelectionAdapter() {
 
@@ -281,7 +281,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
                 new ERTableComposite(this, group, this.copyData.getDiagram(), null, null, null, null, 2, false, false, GROUP_TABLE_HEIGHT);
 
         this.groupManageButton = new Button(group, SWT.NONE);
-        this.groupManageButton.setText(ResourceString.getResourceString("label.button.group.manage"));
+        this.groupManageButton.setText(DisplayMessages.getMessage("label.button.group.manage"));
 
         this.groupManageButton.addSelectionListener(new SelectionAdapter() {
 

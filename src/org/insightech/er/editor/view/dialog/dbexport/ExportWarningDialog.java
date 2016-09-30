@@ -5,7 +5,7 @@ import java.util.List;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 
 public class ExportWarningDialog extends ExportErrorDialog {
@@ -19,7 +19,7 @@ public class ExportWarningDialog extends ExportErrorDialog {
      */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        this.createButton(parent, IDialogConstants.OK_ID, ResourceString.getResourceString("label.button.continue"), true);
+        this.createButton(parent, IDialogConstants.OK_ID, DisplayMessages.getMessage("label.button.continue"), true);
         this.createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, true);
     }
 

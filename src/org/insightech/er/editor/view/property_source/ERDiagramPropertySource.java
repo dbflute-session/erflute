@@ -5,7 +5,7 @@ import java.util.List;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
 
@@ -26,7 +26,7 @@ public class ERDiagramPropertySource implements IPropertySource {
     public IPropertyDescriptor[] getPropertyDescriptors() {
         List<String> dbList = DBManagerFactory.getAllDBList();
 
-        return new IPropertyDescriptor[] { new ComboBoxPropertyDescriptor("database", ResourceString.getResourceString("label.database"),
+        return new IPropertyDescriptor[] { new ComboBoxPropertyDescriptor("database", DisplayMessages.getMessage("label.database"),
                 dbList.toArray(new String[dbList.size()])) };
     }
 

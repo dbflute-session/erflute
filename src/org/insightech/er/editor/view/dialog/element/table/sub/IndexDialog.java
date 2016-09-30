@@ -23,8 +23,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
-import org.insightech.er.Resources;
+import org.insightech.er.DisplayMessages;
+import org.insightech.er.DesignResources;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.DBManager;
@@ -158,13 +158,13 @@ public class IndexDialog extends AbstractDialog {
         checkComposite.setLayout(gridLayout);
 
         this.uniqueCheckBox = new Button(checkComposite, SWT.CHECK);
-        this.uniqueCheckBox.setText(ResourceString.getResourceString("label.index.unique"));
+        this.uniqueCheckBox.setText(DisplayMessages.getMessage("label.index.unique"));
 
         DBManager dbManager = DBManagerFactory.getDBManager(this.table.getDiagram());
 
         if (dbManager.isSupported(DBManager.SUPPORT_FULLTEXT_INDEX)) {
             this.fullTextCheckBox = new Button(checkComposite, SWT.CHECK);
-            this.fullTextCheckBox.setText(ResourceString.getResourceString("label.index.fulltext"));
+            this.fullTextCheckBox.setText(DisplayMessages.getMessage("label.index.fulltext"));
         }
     }
 
@@ -209,7 +209,7 @@ public class IndexDialog extends AbstractDialog {
         Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gridData3);
         group.setLayout(gridLayout4);
-        group.setText(ResourceString.getResourceString("label.all.column.list"));
+        group.setText(DisplayMessages.getMessage("label.all.column.list"));
         allColumnList = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.V_SCROLL);
         allColumnList.setLayoutData(gridData6);
     }
@@ -228,18 +228,18 @@ public class IndexDialog extends AbstractDialog {
         upButtonGridData.grabExcessHorizontalSpace = false;
         upButtonGridData.verticalAlignment = GridData.END;
         upButtonGridData.grabExcessVerticalSpace = true;
-        upButtonGridData.widthHint = Resources.BUTTON_WIDTH;
+        upButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         GridData downButtonGridData = new GridData();
         downButtonGridData.grabExcessVerticalSpace = true;
         downButtonGridData.verticalAlignment = GridData.BEGINNING;
-        downButtonGridData.widthHint = Resources.BUTTON_WIDTH;
+        downButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         GridData gridData4 = new GridData();
         gridData4.verticalSpan = 2;
 
         Group group = new Group(composite, SWT.NONE);
-        group.setText(ResourceString.getResourceString("label.index.column.list"));
+        group.setText(DisplayMessages.getMessage("label.index.column.list"));
         group.setLayout(gridLayout);
         group.setLayoutData(gridData4);
 
@@ -249,11 +249,11 @@ public class IndexDialog extends AbstractDialog {
         // indexColumnList.setLayoutData(gridData5);
 
         this.upButton = new Button(group, SWT.NONE);
-        this.upButton.setText(ResourceString.getResourceString("label.up.arrow"));
+        this.upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
         this.upButton.setLayoutData(upButtonGridData);
 
         this.downButton = new Button(group, SWT.NONE);
-        this.downButton.setText(ResourceString.getResourceString("label.down.arrow"));
+        this.downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
         this.downButton.setLayoutData(downButtonGridData);
     }
 
@@ -275,12 +275,12 @@ public class IndexDialog extends AbstractDialog {
 
         TableColumn tableColumn = new TableColumn(indexColumnList, SWT.CENTER);
         tableColumn.setWidth(150);
-        tableColumn.setText(ResourceString.getResourceString("label.column.name"));
+        tableColumn.setText(DisplayMessages.getMessage("label.column.name"));
 
         if (DBManagerFactory.getDBManager(this.table.getDiagram()).isSupported(DBManager.SUPPORT_DESC_INDEX)) {
             TableColumn tableColumn1 = new TableColumn(indexColumnList, SWT.CENTER);
             tableColumn1.setWidth(50);
-            tableColumn1.setText(ResourceString.getResourceString("label.order.desc"));
+            tableColumn1.setText(DisplayMessages.getMessage("label.order.desc"));
         }
     }
 

@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.LabelRetargetAction;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.ChangeBackgroundColorCommand;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;
@@ -53,8 +53,8 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
         this.setId(ID);
 
-        this.setText(ResourceString.getResourceString("action.title.change.background.color"));
-        this.setToolTipText(ResourceString.getResourceString("action.title.change.background.color"));
+        this.setText(DisplayMessages.getMessage("action.title.change.background.color"));
+        this.setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
 
         int[] defaultColor = diagram.getDefaultColor();
 
@@ -163,11 +163,11 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
     public static class ChangeBackgroundColorRetargetAction extends LabelRetargetAction {
         public ChangeBackgroundColorRetargetAction() {
-            super(ID, ResourceString.getResourceString("action.title.change.background.color"), Action.AS_DROP_DOWN_MENU);
+            super(ID, DisplayMessages.getMessage("action.title.change.background.color"), Action.AS_DROP_DOWN_MENU);
 
             this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR));
             this.setDisabledImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR_DISABLED));
-            this.setToolTipText(ResourceString.getResourceString("action.title.change.background.color"));
+            this.setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
 
             // �T�u���j���[�̐���
             setMenuCreator(new IMenuCreator() {
@@ -176,7 +176,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
                     try {
                         MenuItem item1 = new MenuItem(menu, SWT.NONE);
-                        item1.setText(ResourceString.getResourceString("action.title.select.color"));
+                        item1.setText(DisplayMessages.getMessage("action.title.select.color"));
                         item1.setImage(Activator.getImage(ImageKey.PALETTE));
 
                         item1.addSelectionListener(new SelectionAdapter() {
@@ -189,7 +189,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
                                 ColorDialog colorDialog =
                                         new ColorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.NULL);
 
-                                colorDialog.setText(ResourceString.getResourceString("dialog.title.change.background.color"));
+                                colorDialog.setText(DisplayMessages.getMessage("dialog.title.change.background.color"));
 
                                 ChangeBackgroundColorAction action = (ChangeBackgroundColorAction) getActionHandler();
 

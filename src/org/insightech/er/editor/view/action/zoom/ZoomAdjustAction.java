@@ -6,7 +6,7 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.action.Action;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 
 public class ZoomAdjustAction extends Action implements ZoomListener, Disposable {
 
@@ -15,11 +15,11 @@ public class ZoomAdjustAction extends Action implements ZoomListener, Disposable
     protected ZoomManager zoomManager;
 
     public ZoomAdjustAction(ZoomManager zoomManager) {
-        super(ResourceString.getResourceString("action.title.zoom.adjust"), Activator.getImageDescriptor(ImageKey.ZOOM_ADJUST));
+        super(DisplayMessages.getMessage("action.title.zoom.adjust"), Activator.getImageDescriptor(ImageKey.ZOOM_ADJUST));
         this.zoomManager = zoomManager;
         zoomManager.addZoomListener(this);
 
-        setToolTipText(ResourceString.getResourceString("action.title.zoom.adjust"));
+        setToolTipText(DisplayMessages.getMessage("action.title.zoom.adjust"));
         setId(ID);
     }
 

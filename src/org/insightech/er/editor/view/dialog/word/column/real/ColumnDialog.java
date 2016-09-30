@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
@@ -67,7 +67,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
             CompositeFactory.filler(composite, 2);
 
             this.autoIncrementSettingButton = new Button(composite, SWT.NONE);
-            this.autoIncrementSettingButton.setText(ResourceString.getResourceString("label.auto.increment.setting"));
+            this.autoIncrementSettingButton.setText(DisplayMessages.getMessage("label.auto.increment.setting"));
             this.autoIncrementSettingButton.setEnabled(false);
 
             GridData gridData = new GridData();

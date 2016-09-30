@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.ExportToHtmlManager;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
@@ -36,7 +36,7 @@ public abstract class AbstractHtmlReportPageGenerator implements HtmlReportPageG
     }
 
     public String getPageTitle() {
-        return ResourceString.getResourceString("html.report.page.title." + this.getType());
+        return DisplayMessages.getMessage("html.report.page.title." + this.getType());
     }
 
     public String generatePackageFrame(ERDiagram diagram) throws IOException {
@@ -71,13 +71,13 @@ public abstract class AbstractHtmlReportPageGenerator implements HtmlReportPageG
             ERDiagram diagram) throws IOException {
         String template = ExportToHtmlManager.getTemplate("types/package-summary/package-summary_template.html");
 
-        String prevPage = "<b>" + ResourceString.getResourceString("html.report.prev.object.type") + "</b>";
+        String prevPage = "<b>" + DisplayMessages.getMessage("html.report.prev.object.type") + "</b>";
 
         if (prevPageGenerator != null) {
             prevPage = "<a HREF=\"../" + prevPageGenerator.getType() + "/package-summary.html\" >" + prevPage + "</a>";
         }
 
-        String nextPage = "<b>" + ResourceString.getResourceString("html.report.next.object.type") + "</b>";
+        String nextPage = "<b>" + DisplayMessages.getMessage("html.report.next.object.type") + "</b>";
 
         if (nextPageGenerator != null) {
             nextPage = "<a HREF=\"../" + nextPageGenerator.getType() + "/package-summary.html\" >" + nextPage + "</a>";
@@ -113,13 +113,13 @@ public abstract class AbstractHtmlReportPageGenerator implements HtmlReportPageG
 
         String pageTitle = this.getPageTitle();
 
-        String prevPage = "<b>" + ResourceString.getResourceString("html.report.prev.of") + pageTitle + "</b>";
+        String prevPage = "<b>" + DisplayMessages.getMessage("html.report.prev.of") + pageTitle + "</b>";
 
         if (prevObject != null) {
             prevPage = "<a HREF=\"" + this.getObjectId(prevObject) + ".html\" >" + prevPage + "</a>";
         }
 
-        String nextPage = "<b>" + ResourceString.getResourceString("html.report.next.of") + pageTitle + "</b>";
+        String nextPage = "<b>" + DisplayMessages.getMessage("html.report.next.of") + pageTitle + "</b>";
 
         if (nextObject != null) {
             nextPage = "<a HREF=\"" + this.getObjectId(nextObject) + ".html\" >" + nextPage + "</a>";

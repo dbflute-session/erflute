@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.editor.TranslationResources;
@@ -61,14 +61,14 @@ public class ExportToTranslationDictionaryDialog extends AbstractDialog {
         gridData.widthHint = 200;
 
         Label label = new Label(parent, SWT.NONE);
-        label.setText(ResourceString.getResourceString("dialog.message.export.translation.dictionary"));
+        label.setText(DisplayMessages.getMessage("dialog.message.export.translation.dictionary"));
         label.setLayoutData(gridData2);
 
         label = new Label(parent, SWT.NONE);
         label = new Label(parent, SWT.NONE);
 
         label = new Label(parent, SWT.NONE);
-        label.setText(ResourceString.getResourceString("label.translation.dictionary.name"));
+        label.setText(DisplayMessages.getMessage("label.translation.dictionary.name"));
 
         this.dictionaryNameText = new Text(parent, SWT.BORDER);
         this.dictionaryNameText.setLayoutData(gridData);
@@ -96,11 +96,11 @@ public class ExportToTranslationDictionaryDialog extends AbstractDialog {
 
         TableColumn tableColumn = new TableColumn(this.dictionaryTable, SWT.LEFT);
         tableColumn.setWidth(250);
-        tableColumn.setText(ResourceString.getResourceString("label.physical.name"));
+        tableColumn.setText(DisplayMessages.getMessage("label.physical.name"));
 
         TableColumn tableColumn1 = new TableColumn(this.dictionaryTable, SWT.LEFT);
         tableColumn1.setWidth(250);
-        tableColumn1.setText(ResourceString.getResourceString("label.logical.name"));
+        tableColumn1.setText(DisplayMessages.getMessage("label.logical.name"));
 
     }
 

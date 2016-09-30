@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
@@ -112,7 +112,7 @@ public class SequenceDialog extends AbstractDialog {
         }
 
         this.descriptionText =
-                CompositeFactory.createTextArea(this, composite, "label.description", Resources.DESCRIPTION_WIDTH, 100, 4, true);
+                CompositeFactory.createTextArea(this, composite, "label.description", DesignResources.DESCRIPTION_WIDTH, 100, 4, true);
     }
 
     @Override

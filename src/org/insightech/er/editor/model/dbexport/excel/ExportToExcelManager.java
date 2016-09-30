@@ -14,7 +14,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.StringObjectModel;
@@ -152,7 +152,7 @@ public class ExportToExcelManager implements IRunnableWithProgress {
         POIUtils.writeExcelFile(excelFile, workbook);
 
         int count = this.countSheetFromTemplate(workbook, this.diagram);
-        monitor.beginTask(ResourceString.getResourceString("dialog.message.export.excel"), count);
+        monitor.beginTask(DisplayMessages.getMessage("dialog.message.export.excel"), count);
 
         this.pictureSheetGenerator = new PictureSheetGenerator(workbook, imageBuffer, excelPictureType);
 
@@ -176,19 +176,19 @@ public class ExportToExcelManager implements IRunnableWithProgress {
         HSSFWorkbook workbook = POIUtils.readExcelBook(template);
 
         if (workbook == null) {
-            throw new IOException(ResourceString.getResourceString("error.read.file"));
+            throw new IOException(DisplayMessages.getMessage("error.read.file"));
         }
 
         HSSFSheet wordsSheet = workbook.getSheet(WORDS_SHEET_NAME);
 
         if (wordsSheet == null) {
-            throw new IOException(ResourceString.getResourceString("error.not.found.words.sheet"));
+            throw new IOException(DisplayMessages.getMessage("error.not.found.words.sheet"));
         }
 
         HSSFSheet loopsSheet = workbook.getSheet(LOOPS_SHEET_NAME);
 
         if (loopsSheet == null) {
-            throw new IOException(ResourceString.getResourceString("error.not.found.loops.sheet"));
+            throw new IOException(DisplayMessages.getMessage("error.not.found.loops.sheet"));
         }
 
         this.initLoopDefinitionMap(loopsSheet);
@@ -329,7 +329,7 @@ public class ExportToExcelManager implements IRunnableWithProgress {
             FileUtils.copyFile(file, backupFile);
 
         } catch (IOException e) {
-            throw new IOException(ResourceString.getResourceString("error.backup.excel.file"));
+            throw new IOException(DisplayMessages.getMessage("error.backup.excel.file"));
         }
 
         return true;

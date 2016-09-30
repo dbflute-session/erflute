@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
@@ -37,7 +37,7 @@ public class PreferencePage extends org.eclipse.jface.preference.PreferencePage 
 
     private void initialize(Composite parent) {
         Button button = new Button(parent, SWT.NONE);
-        button.setText(ResourceString.getResourceString("action.title.manage.global.group"));
+        button.setText(DisplayMessages.getMessage("action.title.manage.global.group"));
         button.addSelectionListener(new SelectionAdapter() {
 
             /**

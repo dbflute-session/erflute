@@ -29,7 +29,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ViewableModel;
 import org.insightech.er.editor.view.action.dbexport.ExportToDBAction;
 import org.insightech.er.editor.view.action.dbexport.ExportToDBAction.ExportToDBRetargetAction;
@@ -78,35 +78,35 @@ public class ERDiagramActionBarContributor extends ActionBarContributor {
         this.addRetargetAction(new ZoomAdjustRetargetAction());
 
         RetargetAction gridAction =
-                new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, ResourceString.getResourceString("action.title.grid"),
+                new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, DisplayMessages.getMessage("action.title.grid"),
                         IAction.AS_CHECK_BOX);
         gridAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.GRID));
         this.addRetargetAction(gridAction);
 
         RetargetAction tooltipAction =
-                new RetargetAction(ToggleMainColumnAction.ID, ResourceString.getResourceString("action.title.tooltip"),
+                new RetargetAction(ToggleMainColumnAction.ID, DisplayMessages.getMessage("action.title.tooltip"),
                         IAction.AS_CHECK_BOX);
         tooltipAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.TOOLTIP));
         this.addRetargetAction(tooltipAction);
 
         RetargetAction toggleMainColumnAction =
-                new RetargetAction(ToggleMainColumnAction.ID, ResourceString.getResourceString("action.title.mainColumn"),
+                new RetargetAction(ToggleMainColumnAction.ID, DisplayMessages.getMessage("action.title.mainColumn"),
                         IAction.AS_CHECK_BOX);
         toggleMainColumnAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.MAIN_COLUMN));
         this.addRetargetAction(toggleMainColumnAction);
 
         RetargetAction exportDdlAction =
-                new RetargetAction(ExportToDDLAction.ID, ResourceString.getResourceString("dialog.title.export.ddl"), IAction.AS_CHECK_BOX);
+                new RetargetAction(ExportToDDLAction.ID, DisplayMessages.getMessage("dialog.title.export.ddl"), IAction.AS_CHECK_BOX);
         exportDdlAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_DDL));
         this.addRetargetAction(exportDdlAction);
 
         RetargetAction editExcelAction =
-                new RetargetAction(EditExcelAction.ID, ResourceString.getResourceString("dialog.title.edit.excel"), IAction.AS_CHECK_BOX);
+                new RetargetAction(EditExcelAction.ID, DisplayMessages.getMessage("dialog.title.edit.excel"), IAction.AS_CHECK_BOX);
         editExcelAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EDIT_EXCEL));
         this.addRetargetAction(editExcelAction);
 
         RetargetAction lockEditAction =
-                new RetargetAction(LockEditAction.ID, ResourceString.getResourceString("action.title.lock.edit"), IAction.AS_CHECK_BOX);
+                new RetargetAction(LockEditAction.ID, DisplayMessages.getMessage("action.title.lock.edit"), IAction.AS_CHECK_BOX);
         lockEditAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.LOCK_EDIT));
         this.addRetargetAction(lockEditAction);
 

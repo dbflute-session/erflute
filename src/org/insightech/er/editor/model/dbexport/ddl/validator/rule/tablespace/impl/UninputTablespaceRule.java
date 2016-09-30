@@ -1,7 +1,7 @@
 package org.insightech.er.editor.model.dbexport.ddl.validator.rule.tablespace.impl;
 
 import org.eclipse.core.resources.IMarker;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.tablespace.TablespaceRule;
@@ -17,7 +17,7 @@ public class UninputTablespaceRule extends TablespaceRule {
 
         for (String errorMessage : tablespaceProperties.validate()) {
             ValidateResult validateResult = new ValidateResult();
-            validateResult.setMessage(ResourceString.getResourceString(errorMessage) + this.getMessageSuffix(tablespace, environment));
+            validateResult.setMessage(DisplayMessages.getMessage(errorMessage) + this.getMessageSuffix(tablespace, environment));
             validateResult.setLocation(tablespace.getName());
             validateResult.setSeverity(IMarker.SEVERITY_WARNING);
             validateResult.setObject(tablespace);
@@ -31,9 +31,9 @@ public class UninputTablespaceRule extends TablespaceRule {
     protected String getMessageSuffix(Tablespace tablespace, Environment environment) {
         StringBuilder suffix = new StringBuilder();
         suffix.append(" ");
-        suffix.append(ResourceString.getResourceString("error.tablespace.suffix.1"));
+        suffix.append(DisplayMessages.getMessage("error.tablespace.suffix.1"));
         suffix.append(tablespace.getName());
-        suffix.append(ResourceString.getResourceString("error.tablespace.suffix.2"));
+        suffix.append(DisplayMessages.getMessage("error.tablespace.suffix.2"));
         suffix.append(environment.getName());
 
         return suffix.toString();

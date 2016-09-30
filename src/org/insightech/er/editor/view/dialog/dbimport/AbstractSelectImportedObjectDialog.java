@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.ContainerCheckedTreeViewer;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
@@ -88,7 +88,7 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
         groupLayout.marginHeight = 15;
 
         Group group = new Group(composite, SWT.NONE);
-        group.setText(ResourceString.getResourceString("label.option"));
+        group.setText(DisplayMessages.getMessage("label.option"));
         group.setLayoutData(groupGridData);
         group.setLayout(groupLayout);
 
@@ -189,7 +189,7 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
     protected List<TreeNode> createTreeNodeList() {
         List<TreeNode> treeNodeList = new ArrayList<TreeNode>();
 
-        TreeNode topNode = new TreeNode(new StringObjectModel(ResourceString.getResourceString("label.schema")));
+        TreeNode topNode = new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.schema")));
         treeNodeList.add(topNode);
 
         List<TreeNode> schemaNodeList = new ArrayList<TreeNode>();
@@ -197,7 +197,7 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
         for (Map.Entry<String, List<DBObject>> entry : dbObjectSet.getSchemaDbObjectListMap().entrySet()) {
             String schemaName = entry.getKey();
             if ("".equals(schemaName)) {
-                schemaName = ResourceString.getResourceString("label.none");
+                schemaName = DisplayMessages.getMessage("label.none");
             }
             TreeNode schemaNode = new TreeNode(new StringObjectModel(schemaName));
             schemaNode.setParent(topNode);
@@ -209,7 +209,7 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
 
             for (int i = 0; i < DBObject.ALL_TYPES.length; i++) {
                 objectTypeNodes[i] =
-                        new TreeNode(new StringObjectModel(ResourceString.getResourceString("label.object.type." + DBObject.ALL_TYPES[i])));
+                        new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.object.type." + DBObject.ALL_TYPES[i])));
 
                 List<TreeNode> objectNodeList = new ArrayList<TreeNode>();
 
@@ -237,7 +237,7 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
     }
 
     protected TreeNode createTopNode(String objectType, List<DBObject> dbObjectList) {
-        TreeNode treeNode = new TreeNode(new StringObjectModel(ResourceString.getResourceString("label.object.type." + objectType)));
+        TreeNode treeNode = new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.object.type." + objectType)));
         List<TreeNode> objectNodeList = new ArrayList<TreeNode>();
 
         for (DBObject dbObject : dbObjectList) {

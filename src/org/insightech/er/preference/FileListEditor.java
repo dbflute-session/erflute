@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.util.io.FileUtils;
 
 public abstract class FileListEditor extends ListEditor {
@@ -70,8 +70,8 @@ public abstract class FileListEditor extends ListEditor {
                 MessageBox messageBox =
                         new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK
                                 | SWT.CANCEL);
-                messageBox.setText(ResourceString.getResourceString("dialog.title.warning"));
-                messageBox.setMessage(ResourceString.getResourceString("dialog.message.update.file"));
+                messageBox.setText(DisplayMessages.getMessage("dialog.title.warning"));
+                messageBox.setMessage(DisplayMessages.getMessage("dialog.message.update.file"));
 
                 if (messageBox.open() == SWT.CANCEL) {
                     return null;
@@ -139,7 +139,7 @@ public abstract class FileListEditor extends ListEditor {
             }
 
         } catch (IOException e) {
-            Activator.showErrorDialog(ResourceString.getResourceString("error.read.file"));
+            Activator.showErrorDialog(DisplayMessages.getMessage("error.read.file"));
         }
 
         super.doStore();

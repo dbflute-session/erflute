@@ -11,38 +11,42 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.IElementStateListener;
 import org.insightech.er.Activator;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramElementStateListener implements IElementStateListener {
 
-    private IDocumentProvider documentProvider;
-
-    private ERDiagramMultiPageEditor editorPart;
+    private final ERDiagramMultiPageEditor editorPart;
+    private IDocumentProvider documentProvider; // may be disposed
 
     public ERDiagramElementStateListener(ERDiagramMultiPageEditor editorPart) {
         this.editorPart = editorPart;
-
         documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorPart.getEditorInput());
-
         documentProvider.addElementStateListener(this);
-
         try {
             documentProvider.connect(editorPart.getEditorInput());
-        } catch (CoreException e) {
+        } catch (final CoreException e) {
             Activator.showExceptionDialog(e);
         }
     }
 
+    @Override
     public void elementDirtyStateChanged(Object element, boolean isDirty) {
     }
 
+    @Override
     public void elementContentAboutToBeReplaced(Object element) {
     }
 
+    @Override
     public void elementContentReplaced(Object element) {
     }
 
+    @Override
     public void elementDeleted(Object deletedElement) {
         if (deletedElement != null && deletedElement.equals(editorPart.getEditorInput())) {
-            Runnable r = new Runnable() {
+            final Runnable r = new Runnable() {
+                @Override
                 public void run() {
                     close(false);
                 }
@@ -51,36 +55,38 @@ public class ERDiagramElementStateListener implements IElementStateListener {
         }
     }
 
+    @Override
     public void elementMoved(final Object originalElement, final Object movedElement) {
         if (originalElement != null && originalElement.equals(editorPart.getEditorInput())) {
             final boolean doValidationAsync = Display.getCurrent() != null;
-            Runnable r = new Runnable() {
+            final Runnable r = new Runnable() {
+                @Override
                 public void run() {
                     if (movedElement == null || movedElement instanceof IEditorInput) {
-
                         final String previousContent;
                         IDocumentUndoManager previousUndoManager = null;
                         IDocument changed = null;
-                        boolean wasDirty = editorPart.isDirty();
+                        final boolean wasDirty = editorPart.isDirty();
                         changed = documentProvider.getDocument(editorPart.getEditorInput());
                         if (changed != null) {
-                            if (wasDirty)
+                            if (wasDirty) {
                                 previousContent = changed.get();
-                            else
+                            } else {
                                 previousContent = null;
-
+                            }
                             previousUndoManager = DocumentUndoManagerRegistry.getDocumentUndoManager(changed);
-                            if (previousUndoManager != null)
+                            if (previousUndoManager != null) {
                                 previousUndoManager.connect(this);
-                        } else
+                            }
+                        } else {
                             previousContent = null;
-
+                        }
                         editorPart.setInputWithNotify((IEditorInput) movedElement);
 
                         if (previousUndoManager != null) {
-                            IDocument newDocument = documentProvider.getDocument(movedElement);
+                            final IDocument newDocument = documentProvider.getDocument(movedElement);
                             if (newDocument != null) {
-                                IDocumentUndoManager newUndoManager = DocumentUndoManagerRegistry.getDocumentUndoManager(newDocument);
+                                final IDocumentUndoManager newUndoManager = DocumentUndoManagerRegistry.getDocumentUndoManager(newDocument);
                                 if (newUndoManager != null)
                                     newUndoManager.transferUndoHistory(previousUndoManager);
                             }
@@ -88,7 +94,8 @@ public class ERDiagramElementStateListener implements IElementStateListener {
                         }
 
                         if (wasDirty && changed != null) {
-                            Runnable r2 = new Runnable() {
+                            final Runnable r2 = new Runnable() {
+                                @Override
                                 public void run() {
                                     documentProvider.getDocument(editorPart.getEditorInput()).set(previousContent);
 
@@ -113,8 +120,9 @@ public class ERDiagramElementStateListener implements IElementStateListener {
     }
 
     public void close(final boolean save) {
-        Display display = this.editorPart.getSite().getShell().getDisplay();
+        final Display display = this.editorPart.getSite().getShell().getDisplay();
         display.asyncExec(new Runnable() {
+            @Override
             public void run() {
                 editorPart.getSite().getPage().closeEditor(editorPart, save);
             }
@@ -123,15 +131,12 @@ public class ERDiagramElementStateListener implements IElementStateListener {
 
     protected void disposeDocumentProvider() {
         if (this.documentProvider != null) {
-
-            IEditorInput input = editorPart.getEditorInput();
+            final IEditorInput input = editorPart.getEditorInput();
             if (input != null) {
                 this.documentProvider.disconnect(input);
             }
-
             this.documentProvider.removeElementStateListener(this);
         }
         this.documentProvider = null;
     }
-
 }

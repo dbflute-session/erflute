@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IWorkbenchPart;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.common.EditExcelCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ViewableModel;
@@ -24,8 +24,8 @@ public class EditExcelAction extends SelectionAction {
         super(part, Action.AS_UNSPECIFIED);
         this.setId(ID);
 
-        this.setText(ResourceString.getResourceString("action.title.change.background.color"));
-        this.setToolTipText(ResourceString.getResourceString("action.title.change.background.color"));
+        this.setText(DisplayMessages.getMessage("action.title.change.background.color"));
+        this.setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
 
         //		super(ID, ResourceString.getResourceString("dialog.title.edit.excel"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EDIT_EXCEL));

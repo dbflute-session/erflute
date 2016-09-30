@@ -8,7 +8,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.EROneDiagramEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
@@ -22,7 +22,7 @@ public class PlaceTableAction extends AbstractBaseAction {
     private EROneDiagramEditor oneEditor;
 
     public PlaceTableAction(EROneDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.ermodel.place.table"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.ermodel.place.table"), editor);
         this.oneEditor = editor;
     }
 

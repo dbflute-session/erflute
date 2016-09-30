@@ -1,4 +1,4 @@
-package org.insightech.er;
+package org.insightech.er.common.dialog;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -16,18 +16,17 @@ import org.eclipse.ui.internal.ide.misc.ResourceAndContainerGroup;
 
 /**
  * #analyzed workspace内部領域としてのファイル保存ダイアログ
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 @SuppressWarnings("restriction")
 public class InternalFileDialog extends TitleAreaDialog implements Listener {
 
     private ResourceAndContainerGroup resourceGroup;
     private IPath fullPath;
-    private String initialFolder;
-    private String fileExtension;
+    private final String initialFolder;
+    private final String fileExtension;
 
-    protected InternalFileDialog(Shell parentShell, String initialFolder, String fileExtension) {
+    public InternalFileDialog(Shell parentShell, String initialFolder, String fileExtension) {
         super(parentShell);
         this.initialFolder = initialFolder;
         this.fileExtension = fileExtension;
@@ -40,13 +39,13 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        Composite topLevel = new Composite(parent, SWT.NONE);
+        final Composite topLevel = new Composite(parent, SWT.NONE);
         topLevel.setLayout(new GridLayout());
         topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
         topLevel.setFont(parent.getFont());
 
-        resourceGroup =
-                new ResourceAndContainerGroup(topLevel, this, "File name:", IDEWorkbenchMessages.WizardNewFileCreationPage_file, false, 250);
+        resourceGroup = new ResourceAndContainerGroup(topLevel, this, "File name:", IDEWorkbenchMessages.WizardNewFileCreationPage_file,
+                false, 250);
         resourceGroup.setResourceExtension(fileExtension);
         resourceGroup.setContainerFullPath(new Path(initialFolder).removeLastSegments(1));
 

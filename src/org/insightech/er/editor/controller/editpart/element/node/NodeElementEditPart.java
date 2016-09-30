@@ -23,7 +23,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 import org.insightech.er.Activator;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 import org.insightech.er.editor.controller.editpart.DeleteableEditPart;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.controller.editpart.element.connection.ERDiagramConnectionEditPart;
@@ -169,17 +169,17 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
 
             if (changeTrackingList.isCalculated() && (element instanceof Note || element instanceof ERTable)) {
                 if (changeTrackingList.isAdded(element)) {
-                    figure.setBackgroundColor(Resources.ADDED_COLOR);
+                    figure.setBackgroundColor(DesignResources.ADDED_COLOR);
 
                 } else if (changeTrackingList.getUpdatedNodeElement(element) != null) {
-                    figure.setBackgroundColor(Resources.UPDATED_COLOR);
+                    figure.setBackgroundColor(DesignResources.UPDATED_COLOR);
 
                 } else {
                     figure.setBackgroundColor(ColorConstants.white);
                 }
 
             } else {
-                Color bgColor = Resources.getColor(color);
+                Color bgColor = DesignResources.getColor(color);
                 figure.setBackgroundColor(bgColor);
             }
 

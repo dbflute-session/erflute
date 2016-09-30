@@ -1,7 +1,7 @@
 package org.insightech.er.editor.model.dbexport.ddl.validator.rule.column.impl;
 
 import org.eclipse.core.resources.IMarker;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.column.ColumnRule;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
@@ -17,8 +17,8 @@ public class ReservedWordColumnNameRule extends ColumnRule {
         if (column.getPhysicalName() != null) {
             if (this.getDBManager().isReservedWord(column.getPhysicalName())) {
                 ValidateResult validateResult = new ValidateResult();
-                validateResult.setMessage(ResourceString.getResourceString("error.validate.reserved.column.name1")
-                        + table.getPhysicalName() + ResourceString.getResourceString("error.validate.reserved.column.name2")
+                validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.column.name1")
+                        + table.getPhysicalName() + DisplayMessages.getMessage("error.validate.reserved.column.name2")
                         + column.getPhysicalName());
                 validateResult.setLocation(table.getLogicalName());
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);

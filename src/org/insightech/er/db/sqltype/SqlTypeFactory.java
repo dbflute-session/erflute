@@ -15,32 +15,27 @@ import org.insightech.er.util.Check;
 import org.insightech.er.util.POIUtils;
 
 /**
- * #delete
+ * #willdelete
  * @author ermaster
  * @author jflute
  */
 public class SqlTypeFactory {
 
     public static void load() throws IOException, ClassNotFoundException {
-        InputStream in = SqlTypeFactory.class.getResourceAsStream("/SqlType.xls");
-
+        final InputStream in = SqlTypeFactory.class.getResourceAsStream("/SqlType.xls");
         try {
-            HSSFWorkbook workBook = POIUtils.readExcelBook(in);
-
-            HSSFSheet sheet = workBook.getSheetAt(0);
-
-            Map<String, Map<SqlType, String>> dbAliasMap = new HashMap<String, Map<SqlType, String>>();
-            Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<String, Map<TypeKey, SqlType>>();
-
-            HSSFRow headerRow = sheet.getRow(0);
-
+            final HSSFWorkbook workBook = POIUtils.readExcelBook(in);
+            final HSSFSheet sheet = workBook.getSheetAt(0);
+            final Map<String, Map<SqlType, String>> dbAliasMap = new HashMap<String, Map<SqlType, String>>();
+            final Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<String, Map<TypeKey, SqlType>>();
+            final HSSFRow headerRow = sheet.getRow(0);
             for (int colNum = 4; colNum < headerRow.getLastCellNum(); colNum++) {
-                String dbId = POIUtils.getCellValue(sheet, 0, colNum);
+                final String dbId = POIUtils.getCellValue(sheet, 0, colNum);
 
-                Map<SqlType, String> aliasMap = new LinkedHashMap<SqlType, String>();
+                final Map<SqlType, String> aliasMap = new LinkedHashMap<SqlType, String>();
                 dbAliasMap.put(dbId, aliasMap);
 
-                Map<TypeKey, SqlType> sqlTypeMap = new LinkedHashMap<TypeKey, SqlType>();
+                final Map<TypeKey, SqlType> sqlTypeMap = new LinkedHashMap<TypeKey, SqlType>();
                 dbSqlTypeMap.put(dbId, sqlTypeMap);
             }
 
@@ -48,17 +43,17 @@ public class SqlTypeFactory {
             SqlType.setDBAliasMap(dbAliasMap, dbSqlTypeMap);
 
             for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
-                HSSFRow row = sheet.getRow(rowNum);
+                final HSSFRow row = sheet.getRow(rowNum);
 
-                String sqlTypeId = POIUtils.getCellValue(sheet, rowNum, 0);
+                final String sqlTypeId = POIUtils.getCellValue(sheet, rowNum, 0);
                 if (Check.isEmpty(sqlTypeId)) {
                     break;
                 }
-                Class javaClass = Class.forName(POIUtils.getCellValue(sheet, rowNum, 1));
-                boolean needArgs = POIUtils.getBooleanCellValue(sheet, rowNum, 2);
-                boolean fullTextIndexable = POIUtils.getBooleanCellValue(sheet, rowNum, 3);
+                final Class javaClass = Class.forName(POIUtils.getCellValue(sheet, rowNum, 1));
+                final boolean needArgs = POIUtils.getBooleanCellValue(sheet, rowNum, 2);
+                final boolean fullTextIndexable = POIUtils.getBooleanCellValue(sheet, rowNum, 3);
 
-                SqlType sqlType = new SqlType(sqlTypeId, javaClass, needArgs, fullTextIndexable);
+                final SqlType sqlType = new SqlType(sqlTypeId, javaClass, needArgs, fullTextIndexable);
 
                 for (int colNum = 4; colNum < row.getLastCellNum(); colNum++) {
 
@@ -66,13 +61,13 @@ public class SqlTypeFactory {
 
                     if (Check.isEmpty(dbId)) {
                         dbId = POIUtils.getCellValue(sheet, 0, colNum - 1);
-                        String key = POIUtils.getCellValue(sheet, rowNum, colNum);
+                        final String key = POIUtils.getCellValue(sheet, rowNum, colNum);
                         if (!Check.isEmpty(key)) {
                             sqlType.addToSqlTypeMap(key, dbId);
                         }
 
                     } else {
-                        Map<SqlType, String> aliasMap = dbAliasMap.get(dbId);
+                        final Map<SqlType, String> aliasMap = dbAliasMap.get(dbId);
 
                         if (POIUtils.getCellColor(sheet, rowNum, colNum) != HSSFColor.RED.index) {
                             String alias = POIUtils.getCellValue(sheet, rowNum, colNum);

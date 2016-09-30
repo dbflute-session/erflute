@@ -14,8 +14,7 @@ public abstract class Persistent {
         return persistent;
     }
 
-    abstract public InputStream createInputStream(ERDiagram diagram) throws IOException;
+    public abstract InputStream createInputStream(ERDiagram diagram) throws IOException;
 
-    abstract public ERDiagram load(InputStream in) throws Exception;
-
+    public abstract ERDiagram load(InputStream in) throws Exception;
 }

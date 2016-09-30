@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.insightech.er.util.Check;
@@ -88,10 +88,10 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
         TableColumn tableColumn0 = new TableColumn(table, SWT.NONE);
         tableColumn0.setWidth(200);
-        tableColumn0.setText(ResourceString.getResourceString("label.property.name"));
+        tableColumn0.setText(DisplayMessages.getMessage("label.property.name"));
         TableColumn tableColumn1 = new TableColumn(table, SWT.NONE);
         tableColumn1.setWidth(200);
-        tableColumn1.setText(ResourceString.getResourceString("label.property.value"));
+        tableColumn1.setText(DisplayMessages.getMessage("label.property.value"));
 
         this.tableEditor = new TableEditor(table);
         this.tableEditor.grabHorizontal = true;
@@ -175,7 +175,7 @@ public class ModelPropertiesDialog extends AbstractDialog {
         buttonGridData.widthHint = BUTTON_WIDTH;
 
         this.addButton = new Button(composite, SWT.NONE);
-        this.addButton.setText(ResourceString.getResourceString("label.button.add"));
+        this.addButton.setText(DisplayMessages.getMessage("label.button.add"));
         this.addButton.setLayoutData(buttonGridData);
 
         this.addButton.addSelectionListener(new SelectionAdapter() {
@@ -191,7 +191,7 @@ public class ModelPropertiesDialog extends AbstractDialog {
         });
 
         this.deleteButton = new Button(composite, SWT.NONE);
-        this.deleteButton.setText(ResourceString.getResourceString("label.button.delete"));
+        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
         this.deleteButton.setLayoutData(buttonGridData);
 
         this.deleteButton.addSelectionListener(new SelectionAdapter() {
@@ -212,7 +212,7 @@ public class ModelPropertiesDialog extends AbstractDialog {
         filler.setLayoutData(fillerGridData);
 
         this.upButton = new Button(composite, SWT.NONE);
-        this.upButton.setText(ResourceString.getResourceString("label.up.arrow"));
+        this.upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
         this.upButton.setLayoutData(buttonGridData);
 
         this.upButton.addSelectionListener(new SelectionAdapter() {
@@ -228,7 +228,7 @@ public class ModelPropertiesDialog extends AbstractDialog {
         });
 
         this.downButton = new Button(composite, SWT.NONE);
-        this.downButton.setText(ResourceString.getResourceString("label.down.arrow"));
+        this.downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
         this.downButton.setLayoutData(buttonGridData);
 
         this.downButton.addSelectionListener(new SelectionAdapter() {

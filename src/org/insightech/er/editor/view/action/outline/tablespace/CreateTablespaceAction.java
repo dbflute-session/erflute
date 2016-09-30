@@ -4,7 +4,7 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.EclipseDBManagerFactory;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.tablespace.CreateTablespaceCommand;
 import org.insightech.er.editor.model.ERDiagram;
@@ -16,7 +16,7 @@ public class CreateTablespaceAction extends AbstractOutlineBaseAction {
     public static final String ID = CreateTablespaceAction.class.getName();
 
     public CreateTablespaceAction(TreeViewer treeViewer) {
-        super(ID, ResourceString.getResourceString("action.title.create.tablespace"), treeViewer);
+        super(ID, DisplayMessages.getMessage("action.title.create.tablespace"), treeViewer);
     }
 
     /**

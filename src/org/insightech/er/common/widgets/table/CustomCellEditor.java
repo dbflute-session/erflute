@@ -18,7 +18,7 @@ import javax.swing.text.TextAction;
 
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 
 public class CustomCellEditor extends DefaultCellEditor implements TableCellEditor {
 
@@ -100,7 +100,7 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
         private static final long serialVersionUID = 9018455792592465382L;
 
         public CutAction() {
-            super(ResourceString.getResourceString("action.title.cut"));
+            super(DisplayMessages.getMessage("action.title.cut"));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -116,7 +116,7 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
         private static final long serialVersionUID = 9018455792592465382L;
 
         public CopyAction() {
-            super(ResourceString.getResourceString("action.title.copy"));
+            super(DisplayMessages.getMessage("action.title.copy"));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -132,7 +132,7 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
         private static final long serialVersionUID = 9018455792592465382L;
 
         public PasteAction() {
-            super(ResourceString.getResourceString("action.title.paste"));
+            super(DisplayMessages.getMessage("action.title.paste"));
         }
 
         public void actionPerformed(ActionEvent e) {

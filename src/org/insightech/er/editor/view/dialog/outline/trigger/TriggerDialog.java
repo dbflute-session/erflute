@@ -4,7 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
@@ -37,7 +37,7 @@ public class TriggerDialog extends AbstractDialog {
     protected void initialize(Composite composite) {
         this.nameText = CompositeFactory.createText(this, composite, "label.trigger.name", false);
         this.schemaText = CompositeFactory.createText(this, composite, "label.schema", false);
-        this.sqlText = CompositeFactory.createTextArea(this, composite, "label.sql", Resources.DESCRIPTION_WIDTH, 300, 1, false);
+        this.sqlText = CompositeFactory.createTextArea(this, composite, "label.sql", DesignResources.DESCRIPTION_WIDTH, 300, 1, false);
         this.descriptionText = CompositeFactory.createTextArea(this, composite, "label.description", -1, 100, 1, true);
     }
 

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
@@ -628,7 +628,7 @@ public abstract class DDLCreator {
 
         if (!Check.isEmpty(normalColumn.getDefaultValue())) {
             String defaultValue = normalColumn.getDefaultValue();
-            if (ResourceString.getResourceString("label.current.date.time").equals(defaultValue)) {
+            if (DisplayMessages.getMessage("label.current.date.time").equals(defaultValue)) {
                 defaultValue = this.getDBManager().getCurrentTimeValue()[0];
             }
 

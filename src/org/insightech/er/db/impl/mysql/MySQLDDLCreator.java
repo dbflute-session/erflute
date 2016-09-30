@@ -2,7 +2,7 @@ package org.insightech.er.db.impl.mysql;
 
 import java.util.List;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.impl.mysql.tablespace.MySQLTablespaceProperties;
 import org.insightech.er.db.sqltype.SqlType;
@@ -108,7 +108,7 @@ public class MySQLDDLCreator extends DDLCreator {
 
         if (!Check.isEmpty(normalColumn.getDefaultValue())) {
             String defaultValue = normalColumn.getDefaultValue();
-            if (ResourceString.getResourceString("label.current.date.time").equals(defaultValue)) {
+            if (DisplayMessages.getMessage("label.current.date.time").equals(defaultValue)) {
                 defaultValue = this.getDBManager().getCurrentTimeValue()[0];
             }
 

@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.editor.model.ERDiagram;
@@ -55,14 +55,14 @@ public class TranslationManageDialog extends AbstractDialog {
         gridLayout.numColumns = 4;
 
         Group group = new Group(composite, SWT.NONE);
-        group.setText(ResourceString.getResourceString("label.translation.message"));
+        group.setText(DisplayMessages.getMessage("label.translation.message"));
         group.setLayout(gridLayout);
 
         GridData gridData = new GridData();
         gridData.horizontalSpan = 4;
 
         this.useButton = new Button(group, SWT.CHECK);
-        this.useButton.setText(ResourceString.getResourceString("label.translation.use"));
+        this.useButton.setText(DisplayMessages.getMessage("label.translation.use"));
         this.useButton.setLayoutData(gridData);
 
         GridData tableGridData = new GridData();
@@ -95,7 +95,7 @@ public class TranslationManageDialog extends AbstractDialog {
         TableColumn tableColumn1 = new TableColumn(dictionaryTable, SWT.NONE);
         tableColumn1.setWidth(230);
         tableColumn1.setResizable(false);
-        tableColumn1.setText(ResourceString.getResourceString("label.translation.file.name"));
+        tableColumn1.setText(DisplayMessages.getMessage("label.translation.file.name"));
     }
 
     private void setUse(boolean use) {

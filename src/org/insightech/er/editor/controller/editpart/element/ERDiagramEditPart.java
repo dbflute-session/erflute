@@ -18,8 +18,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
-import org.insightech.er.Resources;
+import org.insightech.er.DisplayMessages;
+import org.insightech.er.DesignResources;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;
 import org.insightech.er.editor.controller.editpolicy.ERDiagramLayoutEditPolicy;
@@ -232,7 +232,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         int[] color = element.getColor();
 
         if (color != null) {
-            Color bgColor = Resources.getColor(color);
+            Color bgColor = DesignResources.getColor(color);
             this.getViewer().getControl().setBackground(bgColor);
         }
 
@@ -260,8 +260,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 
         MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.change.database"));
-        messageBox.setMessage(ResourceString.getResourceString("dialog.message.change.database"));
+        messageBox.setText(DisplayMessages.getMessage("dialog.title.change.database"));
+        messageBox.setMessage(DisplayMessages.getMessage("dialog.message.change.database"));
 
         if (messageBox.open() == SWT.OK) {
             event.setPropagationId("consumed");

@@ -20,8 +20,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
-import org.insightech.er.Resources;
+import org.insightech.er.DisplayMessages;
+import org.insightech.er.DesignResources;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
@@ -81,7 +81,7 @@ public class VGroupManageDialog extends AbstractDialog {
         gridLayout.numColumns = 4;
 
         Group group = new Group(composite, SWT.NONE);
-        group.setText(ResourceString.getResourceString("label.category.message"));
+        group.setText(DisplayMessages.getMessage("label.category.message"));
         group.setLayout(gridLayout);
 
         CompositeFactory.filler(group, 4);
@@ -100,19 +100,19 @@ public class VGroupManageDialog extends AbstractDialog {
         upButtonGridData.grabExcessHorizontalSpace = false;
         upButtonGridData.verticalAlignment = GridData.END;
         upButtonGridData.grabExcessVerticalSpace = true;
-        upButtonGridData.widthHint = Resources.BUTTON_WIDTH;
+        upButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         GridData downButtonGridData = new GridData();
         downButtonGridData.grabExcessVerticalSpace = true;
         downButtonGridData.verticalAlignment = GridData.BEGINNING;
-        downButtonGridData.widthHint = Resources.BUTTON_WIDTH;
+        downButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.upButton = new Button(group, SWT.NONE);
-        this.upButton.setText(ResourceString.getResourceString("label.up.arrow"));
+        this.upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
         this.upButton.setLayoutData(upButtonGridData);
 
         this.downButton = new Button(group, SWT.NONE);
-        this.downButton.setText(ResourceString.getResourceString("label.down.arrow"));
+        this.downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
         this.downButton.setLayoutData(downButtonGridData);
 
         GridData textGridData = new GridData();
@@ -122,19 +122,19 @@ public class VGroupManageDialog extends AbstractDialog {
         this.categoryNameText.setLayoutData(textGridData);
 
         GridData buttonGridData = new GridData();
-        buttonGridData.widthHint = Resources.BUTTON_WIDTH;
+        buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.addCategoryButton = new Button(group, SWT.NONE);
         this.addCategoryButton.setLayoutData(buttonGridData);
-        this.addCategoryButton.setText(ResourceString.getResourceString("label.button.add"));
+        this.addCategoryButton.setText(DisplayMessages.getMessage("label.button.add"));
 
         this.updateCategoryButton = new Button(group, SWT.NONE);
         this.updateCategoryButton.setLayoutData(buttonGridData);
-        this.updateCategoryButton.setText(ResourceString.getResourceString("label.button.update"));
+        this.updateCategoryButton.setText(DisplayMessages.getMessage("label.button.update"));
 
         this.deleteCategoryButton = new Button(group, SWT.NONE);
         this.deleteCategoryButton.setLayoutData(buttonGridData);
-        this.deleteCategoryButton.setText(ResourceString.getResourceString("label.button.delete"));
+        this.deleteCategoryButton.setText(DisplayMessages.getMessage("label.button.delete"));
 
         TableColumn tableColumn = new TableColumn(categoryTable, SWT.NONE);
         tableColumn.setWidth(30);
@@ -142,13 +142,13 @@ public class VGroupManageDialog extends AbstractDialog {
         TableColumn tableColumn1 = new TableColumn(categoryTable, SWT.NONE);
         tableColumn1.setWidth(230);
         tableColumn1.setResizable(false);
-        tableColumn1.setText(ResourceString.getResourceString("label.category.name"));
+        tableColumn1.setText(DisplayMessages.getMessage("label.category.name"));
     }
 
     private void createNodeGroup(Composite composite) {
         Group group = new Group(composite, SWT.NONE);
         group.setLayout(new GridLayout());
-        group.setText(ResourceString.getResourceString("label.category.object.message"));
+        group.setText(DisplayMessages.getMessage("label.category.object.message"));
 
         GridData gridData1 = new GridData();
         gridData1.heightHint = 15;
@@ -179,11 +179,11 @@ public class VGroupManageDialog extends AbstractDialog {
         TableColumn tableColumn3 = new TableColumn(this.nodeTable, SWT.NONE);
         tableColumn3.setWidth(80);
         tableColumn3.setResizable(false);
-        tableColumn3.setText(ResourceString.getResourceString("label.object.type"));
+        tableColumn3.setText(DisplayMessages.getMessage("label.object.type"));
         TableColumn tableColumn4 = new TableColumn(this.nodeTable, SWT.NONE);
         tableColumn4.setWidth(200);
         tableColumn4.setResizable(false);
-        tableColumn4.setText(ResourceString.getResourceString("label.object.name"));
+        tableColumn4.setText(DisplayMessages.getMessage("label.object.name"));
     }
 
     private void initCategoryTable() {
@@ -251,7 +251,7 @@ public class VGroupManageDialog extends AbstractDialog {
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(selectCheckButton, tableItem, 0);
 
-            tableItem.setText(1, ResourceString.getResourceString("label.object.type." + nodeElement.getObjectType()));
+            tableItem.setText(1, DisplayMessages.getMessage("label.object.type." + nodeElement.getObjectType()));
             tableItem.setText(2, nodeElement.getName());
 
             this.nodeCheckMap.put(nodeElement, editor);

@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
@@ -74,7 +74,7 @@ public class RelationDialog extends AbstractDialog {
         Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gridData);
         group.setLayout(gridLayout);
-        group.setText(ResourceString.getResourceString("label.reference.operation"));
+        group.setText(DisplayMessages.getMessage("label.reference.operation"));
 
         Label label1 = new Label(group, SWT.NONE);
         label1.setText("ON UPDATE");
@@ -127,19 +127,19 @@ public class RelationDialog extends AbstractDialog {
         Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gridData);
         group.setLayout(gridLayout);
-        group.setText(ResourceString.getResourceString("label.parent"));
+        group.setText(DisplayMessages.getMessage("label.parent"));
 
         Composite upperComposite = new Composite(group, SWT.NONE);
         upperComposite.setLayoutData(gridData);
         upperComposite.setLayout(gridLayout);
 
         Label label1 = new Label(upperComposite, SWT.NONE);
-        label1.setText(ResourceString.getResourceString("label.reference.table"));
+        label1.setText(DisplayMessages.getMessage("label.reference.table"));
         parentTableNameText = new Text(upperComposite, SWT.BORDER | SWT.READ_ONLY);
         parentTableNameText.setLayoutData(gridData);
 
         Label label2 = new Label(upperComposite, SWT.NONE);
-        label2.setText(ResourceString.getResourceString("label.reference.column"));
+        label2.setText(DisplayMessages.getMessage("label.reference.column"));
         this.createColumnCombo(upperComposite);
 
         this.createParentMandatoryGroup(group);
@@ -166,7 +166,7 @@ public class RelationDialog extends AbstractDialog {
         group.setLayoutData(gridData);
         group.setLayout(gridLayout);
 
-        group.setText(ResourceString.getResourceString("label.child"));
+        group.setText(DisplayMessages.getMessage("label.child"));
 
         Label filler = new Label(group, SWT.NONE);
         filler.setText("");
@@ -232,7 +232,7 @@ public class RelationDialog extends AbstractDialog {
         Group group = new Group(parent, SWT.NONE);
         group.setLayout(gridLayout);
         group.setLayoutData(gridData);
-        group.setText(ResourceString.getResourceString("label.mandatory"));
+        group.setText(DisplayMessages.getMessage("label.mandatory"));
 
         parentCardinalityCombo = new Combo(group, SWT.NONE);
         parentCardinalityCombo.setLayoutData(gridData);
@@ -254,7 +254,7 @@ public class RelationDialog extends AbstractDialog {
         Group group = new Group(parent, SWT.NONE);
         group.setLayout(gridLayout);
         group.setLayoutData(gridData);
-        group.setText(ResourceString.getResourceString("label.mandatory"));
+        group.setText(DisplayMessages.getMessage("label.mandatory"));
 
         childCardinalityCombo = new Combo(group, SWT.NONE);
         childCardinalityCombo.setLayoutData(gridData);

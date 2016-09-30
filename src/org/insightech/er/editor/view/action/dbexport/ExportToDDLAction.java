@@ -4,7 +4,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.ChangeSettingsCommand;
 import org.insightech.er.editor.model.ERDiagram;
@@ -17,7 +17,7 @@ public class ExportToDDLAction extends AbstractBaseAction {
     public static final String ID = ExportToDDLAction.class.getName();
 
     public ExportToDDLAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.export.ddl"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.export.ddl"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_DDL));
     }
 

@@ -24,9 +24,8 @@ import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 
 /**
- * #analyzed ひとつのER図を表すモデル、すべてのモデルの中心地と考えてよい
- * @author ermaster
- * @author jflute
+ * #analyzed is one ERD
+ * @author modified by jflute (originated in ermaster)
  */
 public class ERDiagram extends ViewableModel {
 
@@ -44,9 +43,9 @@ public class ERDiagram extends ViewableModel {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private ChangeTrackingList changeTrackingList;
-    private DiagramContents diagramContents;
+    private DiagramContents diagramContents; // may be replaced, not null
     private ERDiagramMultiPageEditor editor;
+    private ChangeTrackingList changeTrackingList;
     private int[] defaultColor;
     private boolean tooltip;
     private boolean showMainColumn;
@@ -79,14 +78,13 @@ public class ERDiagram extends ViewableModel {
     //                                                                          ==========
     public void init() {
         this.diagramContents.setColumnGroups(GlobalGroupSet.load());
+        final Settings settings = this.getDiagramContents().getSettings();
 
-        Settings settings = this.getDiagramContents().getSettings();
-
+        // #willdelete
         if (Locale.JAPANESE.getLanguage().equals(Locale.getDefault().getLanguage())) {
             settings.getTranslationSetting().setUse(true);
             settings.getTranslationSetting().selectDefault();
         }
-
         settings.getModelProperties().init();
     }
 
@@ -97,30 +95,29 @@ public class ERDiagram extends ViewableModel {
         element.setColor(this.defaultColor[0], this.defaultColor[1], this.defaultColor[2]);
         element.setFontName(this.getFontName());
         element.setFontSize(this.getFontSize());
-
-        this.addContent(element);
+        addContent(element);
     }
 
     public void addContent(NodeElement element) {
         element.setDiagram(this);
         this.diagramContents.getContents().addNodeElement(element);
         if (this.editor != null) {
-            Category category = this.editor.getCurrentPageCategory();
+            final Category category = this.editor.getCurrentPageCategory();
             if (category != null) {
                 category.getContents().add(element);
             }
         }
         if (element instanceof TableView) {
-            for (NormalColumn normalColumn : ((TableView) element).getNormalColumns()) {
+            for (final NormalColumn normalColumn : ((TableView) element).getNormalColumns()) {
                 this.getDiagramContents().getDictionary().add(normalColumn);
             }
         }
         if (element instanceof ERTable) {
-            ERTable table = (ERTable) element;
+            final ERTable table = (ERTable) element;
             if (getCurrentErmodel() != null) {
                 // ビュー上に仮想テーブルを追加する
-                ERModel model = getCurrentErmodel();
-                ERVirtualTable virtualTable = new ERVirtualTable(model, table);
+                final ERModel model = getCurrentErmodel();
+                final ERVirtualTable virtualTable = new ERVirtualTable(model, table);
                 virtualTable.setPoint(element.getX(), element.getY());
 
                 // メインビュー上では左上に配置
@@ -130,10 +127,10 @@ public class ERDiagram extends ViewableModel {
             }
         }
         if (element instanceof ERVirtualTable) {
-            ERVirtualTable virtualTable = (ERVirtualTable) element;
+            final ERVirtualTable virtualTable = (ERVirtualTable) element;
             if (getCurrentErmodel() != null) {
                 // ビュー上に仮想テーブルを追加する
-                ERModel model = getCurrentErmodel();
+                final ERModel model = getCurrentErmodel();
                 //ERVirtualTable virtualTable = new ERVirtualTable(model, table);
                 virtualTable.setPoint(element.getX(), element.getY());
 
@@ -158,8 +155,8 @@ public class ERDiagram extends ViewableModel {
             this.diagramContents.getContents().remove(element);
             if (element instanceof ERTable) {
                 // メインビューのテーブルを削除したときは、ビューのノードも削除（線が消えずに残ってしまう）
-                for (ERModel model : getDiagramContents().getModelSet()) {
-                    ERVirtualTable vtable = model.findVirtualTable((TableView) element);
+                for (final ERModel model : getDiagramContents().getModelSet()) {
+                    final ERVirtualTable vtable = model.findVirtualTable((TableView) element);
                     model.remove(vtable);
                 }
             }
@@ -169,7 +166,7 @@ public class ERDiagram extends ViewableModel {
             this.diagramContents.getDictionary().remove((TableView) element);
         }
 
-        for (Category category : this.diagramContents.getSettings().getCategorySetting().getAllCategories()) {
+        for (final Category category : this.diagramContents.getSettings().getCategorySetting().getAllCategories()) {
             category.getContents().remove(element);
         }
 
@@ -199,8 +196,8 @@ public class ERDiagram extends ViewableModel {
      * @param table テーブルビュー
      */
     public void doChangeTable(TableView table) {
-        for (ERModel model : getDiagramContents().getModelSet()) {
-            ERVirtualTable vtable = model.findVirtualTable(table);
+        for (final ERModel model : getDiagramContents().getModelSet()) {
+            final ERVirtualTable vtable = model.findVirtualTable(table);
             if (vtable != null) {
                 vtable.doChangeTable();
             }
@@ -208,8 +205,8 @@ public class ERDiagram extends ViewableModel {
     }
 
     public ERModel findModelByTable(ERTable table) {
-        for (ERModel model : diagramContents.getModelSet()) {
-            for (ERVirtualTable vtable : model.getTables()) {
+        for (final ERModel model : diagramContents.getModelSet()) {
+            for (final ERVirtualTable vtable : model.getTables()) {
                 if (vtable.getRawTable().equals(table)) {
                     return model;
                 }
@@ -222,7 +219,7 @@ public class ERDiagram extends ViewableModel {
     //                                                                   Database Handling
     //                                                                   =================
     public void setDatabase(String str) {
-        String oldDatabase = getDatabase();
+        final String oldDatabase = getDatabase();
         this.getDiagramContents().getSettings().setDatabase(str);
         if (str != null && !str.equals(oldDatabase)) {
             this.firePropertyChange(PROPERTY_CHANGE_DATABASE, oldDatabase, getDatabase());
@@ -371,6 +368,14 @@ public class ERDiagram extends ViewableModel {
         return currentErmodel;
     }
 
+    public void setCurrentErmodel(ERModel model, String defaultModelName) {
+        this.currentErmodel = model;
+        this.defaultModelName = defaultModelName;
+        if (model != null) {
+            model.changeAll();
+        }
+    }
+
     public double getZoom() {
         return zoom;
     }
@@ -417,7 +422,7 @@ public class ERDiagram extends ViewableModel {
             return str;
         }
 
-        Settings settings = this.getDiagramContents().getSettings();
+        final Settings settings = this.getDiagramContents().getSettings();
 
         if (settings.isCapital()) {
             return str.toUpperCase();
@@ -440,14 +445,6 @@ public class ERDiagram extends ViewableModel {
 
     public void setDisableSelectColumn(boolean disableSelectColumn) {
         this.disableSelectColumn = disableSelectColumn;
-    }
-
-    public void setCurrentErmodel(ERModel model, String defaultModelName) {
-        this.currentErmodel = model;
-        this.defaultModelName = defaultModelName;
-        if (model != null) {
-            model.changeAll();
-        }
     }
 
     public String getDefaultModelName() {

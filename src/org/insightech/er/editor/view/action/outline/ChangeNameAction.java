@@ -8,7 +8,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 
@@ -17,7 +17,7 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
     public static final String ID = ChangeNameAction.class.getName();
 
     public ChangeNameAction(TreeViewer treeViewer) {
-        super(ID, ResourceString.getResourceString("action.title.change.name"), treeViewer);
+        super(ID, DisplayMessages.getMessage("action.title.change.name"), treeViewer);
     }
 
     /**

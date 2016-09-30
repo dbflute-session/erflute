@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
@@ -40,13 +40,13 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
         this.tabFolder = new TabFolder(parent, SWT.NONE);
 
         this.tabItem = new TabItem(this.tabFolder, SWT.NONE);
-        this.tabItem.setText(ResourceString.getResourceString("label.basic"));
+        this.tabItem.setText(DisplayMessages.getMessage("label.basic"));
 
         Composite composite = super.createRootComposite(this.tabFolder);
         this.tabItem.setControl(composite);
 
         this.tabItem = new TabItem(this.tabFolder, SWT.NONE);
-        this.tabItem.setText(ResourceString.getResourceString("label.detail"));
+        this.tabItem.setText(DisplayMessages.getMessage("label.detail"));
 
         Composite detailComposite = this.createDetailTab(this.tabFolder);
         this.initializeDetailTab(detailComposite);
@@ -148,10 +148,10 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
             this.defaultText.removeAll();
 
             if (selectedType.isTimestamp()) {
-                this.defaultText.add(ResourceString.getResourceString("label.current.date.time"));
+                this.defaultText.add(DisplayMessages.getMessage("label.current.date.time"));
                 this.defaultText.setText(defaultValue);
             } else {
-                if (!ResourceString.getResourceString("label.current.date.time").equals(defaultValue)) {
+                if (!DisplayMessages.getMessage("label.current.date.time").equals(defaultValue)) {
                     this.defaultText.setText(defaultValue);
                 }
             }

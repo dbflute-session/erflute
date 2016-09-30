@@ -13,7 +13,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 import org.insightech.er.editor.controller.editpolicy.ERDiagramLayoutEditPolicy;
 import org.insightech.er.editor.model.ViewableModel;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
@@ -91,7 +91,7 @@ public class ERModelEditPart extends NodeElementEditPart {
         int[] color = element.getColor();
 
         if (color != null) {
-            Color bgColor = Resources.getColor(color);
+            Color bgColor = DesignResources.getColor(color);
             this.getViewer().getControl().setBackground(bgColor);
         }
 

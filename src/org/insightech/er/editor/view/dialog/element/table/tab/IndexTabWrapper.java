@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
@@ -115,15 +115,15 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
         gridData.widthHint = BUTTON_WIDTH;
 
         this.addButton = new Button(parent, SWT.NONE);
-        this.addButton.setText(ResourceString.getResourceString("label.button.add"));
+        this.addButton.setText(DisplayMessages.getMessage("label.button.add"));
         this.addButton.setLayoutData(gridData);
 
         this.editButton = new Button(parent, SWT.NONE);
-        this.editButton.setText(ResourceString.getResourceString("label.button.edit"));
+        this.editButton.setText(DisplayMessages.getMessage("label.button.edit"));
         this.editButton.setLayoutData(gridData);
 
         this.deleteButton = new Button(parent, SWT.NONE);
-        this.deleteButton.setText(ResourceString.getResourceString("label.button.delete"));
+        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
         this.deleteButton.setLayoutData(gridData);
     }
 

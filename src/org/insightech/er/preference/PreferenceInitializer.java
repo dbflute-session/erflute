@@ -54,14 +54,12 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
     public static String getTemplatePath(String fileName) {
         final IPath dataLocation = Activator.getDefault().getStateLocation();
-        final String path = dataLocation.append(PreferenceInitializer.TEMPLATE_DIR).append(fileName).toOSString();
-        return path;
+        return dataLocation.append(PreferenceInitializer.TEMPLATE_DIR).append(fileName).toOSString();
     }
 
     public static String getTranslationPath(String fileName) {
         final IPath dataLocation = Activator.getDefault().getStateLocation();
-        final String path = dataLocation.append(PreferenceInitializer.TRANSLATION_DIR).append(fileName).toOSString();
-        return path;
+        return dataLocation.append(PreferenceInitializer.TRANSLATION_DIR).append(fileName).toOSString();
     }
 
     public static void saveJDBCDriverSettingList(List<JDBCDriverSetting> driverSettingList) {

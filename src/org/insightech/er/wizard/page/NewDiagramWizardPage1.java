@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.persistent.Persistent;
 
@@ -27,8 +27,8 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
     private ERDiagram diagram;
 
     public NewDiagramWizardPage1(IStructuredSelection selection) {
-        super(ResourceString.getResourceString("wizard.new.diagram.title"), selection);
-        this.setTitle(ResourceString.getResourceString("wizard.new.diagram.title"));
+        super(DisplayMessages.getMessage("wizard.new.diagram.title"), selection);
+        this.setTitle(DisplayMessages.getMessage("wizard.new.diagram.title"));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
         if (valid) {
             String fileName = this.getFileName();
             if (fileName.indexOf(".") != -1 && !fileName.endsWith(EXTENSION)) {
-                this.setErrorMessage(ResourceString.getResourceString("error.erm.extension"));
+                this.setErrorMessage(DisplayMessages.getMessage("error.erm.extension"));
                 valid = false;
             }
         }
@@ -59,12 +59,12 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
             IPath newFilePath = containerPath.append(fileName);
 
             if (root.getFile(newFilePath).exists()) {
-                this.setErrorMessage("'" + fileName + "' " + ResourceString.getResourceString("error.file.already.exists"));
+                this.setErrorMessage("'" + fileName + "' " + DisplayMessages.getMessage("error.file.already.exists"));
                 valid = false;
             }
         }
         if (valid) {
-            this.setMessage(ResourceString.getResourceString("wizard.new.diagram.message"));
+            this.setMessage(DisplayMessages.getMessage("wizard.new.diagram.message"));
         }
         return valid;
     }

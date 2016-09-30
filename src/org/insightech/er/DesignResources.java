@@ -8,10 +8,9 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * #analyzed 主に表示カラーの定義
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
-public class Resources {
+public class DesignResources {
 
     public static final int BUTTON_WIDTH = 60;
     public static final int DESCRIPTION_WIDTH = 400;
@@ -34,7 +33,7 @@ public class Resources {
     private static Map<Integer, Color> colorMap = new HashMap<Integer, Color>();
 
     public static Color getColor(int[] rgb) {
-        int key = rgb[0] * 1000000 + rgb[1] * 1000 + rgb[2];
+        final int key = rgb[0] * 1000000 + rgb[1] * 1000 + rgb[2];
         Color color = colorMap.get(key);
         if (color != null) {
             return color;
@@ -45,7 +44,7 @@ public class Resources {
     }
 
     public static void disposeColorMap() {
-        for (Color color : colorMap.values()) {
+        for (final Color color : colorMap.values()) {
             if (!color.isDisposed()) {
                 color.dispose();
             }

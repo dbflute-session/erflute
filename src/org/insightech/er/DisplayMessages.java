@@ -9,26 +9,25 @@ import java.util.TreeMap;
 
 /**
  * #analyzed メッセージやラベルのproperties
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
-public class ResourceString {
+public class DisplayMessages {
 
-    private static final ResourceBundle resource = ResourceBundle.getBundle("org.insightech.er.ERDiagram");;
+    private static final ResourceBundle resource = ResourceBundle.getBundle("org.insightech.er.ERDiagram");
 
-    public static String getResourceString(String key) {
+    public static String getMessage(String key) {
         try {
             return resource.getString(key);
-        } catch (MissingResourceException e) {
+        } catch (final MissingResourceException e) {
             return key;
         }
     }
 
-    public static Map<String, String> getResources(String prefix) {
+    public static Map<String, String> getMessageMap(String prefix) {
         final Map<String, String> props = new TreeMap<String, String>(Collections.reverseOrder());
         final Enumeration<String> keys = resource.getKeys();
         while (keys.hasMoreElements()) {
-            String key = (String) keys.nextElement();
+            final String key = keys.nextElement();
             if (key.startsWith(prefix)) {
                 props.put(key, resource.getString(key));
             }

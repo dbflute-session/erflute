@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CenteredContentCellPaint;
@@ -154,35 +154,35 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
 
         TableColumn columnLogicalName = new TableColumn(this.attributeTable, SWT.NONE);
         columnLogicalName.setWidth(NAME_WIDTH);
-        columnLogicalName.setText(ResourceString.getResourceString("label.column.logical.name"));
+        columnLogicalName.setText(DisplayMessages.getMessage("label.column.logical.name"));
 
         TableColumn columnPhysicalName = new TableColumn(this.attributeTable, SWT.NONE);
         columnPhysicalName.setWidth(NAME_WIDTH);
-        columnPhysicalName.setText(ResourceString.getResourceString("label.column.physical.name"));
+        columnPhysicalName.setText(DisplayMessages.getMessage("label.column.physical.name"));
 
         TableColumn tableLogicalName = new TableColumn(this.attributeTable, SWT.NONE);
         tableLogicalName.setWidth(NAME_WIDTH);
-        tableLogicalName.setText(ResourceString.getResourceString("label.table.logical.name"));
+        tableLogicalName.setText(DisplayMessages.getMessage("label.table.logical.name"));
 
         TableColumn tablePhysicalName = new TableColumn(this.attributeTable, SWT.NONE);
         tablePhysicalName.setWidth(NAME_WIDTH);
-        tablePhysicalName.setText(ResourceString.getResourceString("label.table.physical.name"));
+        tablePhysicalName.setText(DisplayMessages.getMessage("label.table.physical.name"));
 
         TableColumn tableWord = new TableColumn(this.attributeTable, SWT.NONE);
         tableWord.setWidth(NAME_WIDTH);
-        tableWord.setText(ResourceString.getResourceString("label.word"));
+        tableWord.setText(DisplayMessages.getMessage("label.word"));
 
         TableColumn columnType = new TableColumn(this.attributeTable, SWT.NONE);
         columnType.setWidth(TYPE_WIDTH);
-        columnType.setText(ResourceString.getResourceString("label.column.type"));
+        columnType.setText(DisplayMessages.getMessage("label.column.type"));
 
         TableColumn columnLength = new TableColumn(this.attributeTable, SWT.RIGHT);
         columnLength.setWidth(TYPE_WIDTH);
-        columnLength.setText(ResourceString.getResourceString("label.column.length"));
+        columnLength.setText(DisplayMessages.getMessage("label.column.length"));
 
         TableColumn columnDecimal = new TableColumn(this.attributeTable, SWT.RIGHT);
         columnDecimal.setWidth(TYPE_WIDTH);
-        columnDecimal.setText(ResourceString.getResourceString("label.column.decimal"));
+        columnDecimal.setText(DisplayMessages.getMessage("label.column.decimal"));
 
         TableColumn columnKey = new TableColumn(this.attributeTable, SWT.CENTER);
         columnKey.setText("PK");
@@ -196,12 +196,12 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
 
         TableColumn columnNotNull = new TableColumn(this.attributeTable, SWT.CENTER);
         columnNotNull.setWidth(NOT_NULL_WIDTH);
-        columnNotNull.setText(ResourceString.getResourceString("label.not.null"));
+        columnNotNull.setText(DisplayMessages.getMessage("label.not.null"));
         new CenteredContentCellPaint(this.attributeTable, 10);
 
         TableColumn columnUnique = new TableColumn(this.attributeTable, SWT.CENTER);
         columnUnique.setWidth(UNIQUE_KEY_WIDTH);
-        columnUnique.setText(ResourceString.getResourceString("label.unique.key"));
+        columnUnique.setText(DisplayMessages.getMessage("label.unique.key"));
         new CenteredContentCellPaint(this.attributeTable, 11);
 
         this.tableEditor = new TableEditor(this.attributeTable);

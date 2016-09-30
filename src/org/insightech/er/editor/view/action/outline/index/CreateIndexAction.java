@@ -7,7 +7,7 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.index.CreateIndexCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
@@ -19,7 +19,7 @@ public class CreateIndexAction extends AbstractOutlineBaseAction {
     public static final String ID = CreateIndexAction.class.getName();
 
     public CreateIndexAction(TreeViewer treeViewer) {
-        super(ID, ResourceString.getResourceString("action.title.create.index"), treeViewer);
+        super(ID, DisplayMessages.getMessage("action.title.create.index"), treeViewer);
     }
 
     /**

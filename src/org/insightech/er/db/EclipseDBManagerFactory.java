@@ -3,7 +3,7 @@ package org.insightech.er.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.impl.access.AccessEclipseDBManager;
 import org.insightech.er.db.impl.db2.DB2EclipseDBManager;
 import org.insightech.er.db.impl.hsqldb.HSQLDBEclipseDBManager;
@@ -44,7 +44,7 @@ public class EclipseDBManagerFactory {
             }
         }
 
-        throw new IllegalArgumentException(ResourceString.getResourceString("error.database.is.not.supported") + database);
+        throw new IllegalArgumentException(DisplayMessages.getMessage("error.database.is.not.supported") + database);
     }
 
     public static EclipseDBManager getEclipseDBManager(ERDiagram diagram) {

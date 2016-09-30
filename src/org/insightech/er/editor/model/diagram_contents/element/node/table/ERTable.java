@@ -3,7 +3,7 @@ package org.insightech.er.editor.model.diagram_contents.element.node.table;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
@@ -29,9 +29,9 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
     private static final long serialVersionUID = 11185865758118654L;
 
-    public static final String NEW_PHYSICAL_NAME = ResourceString.getResourceString("new.table.physical.name");
+    public static final String NEW_PHYSICAL_NAME = DisplayMessages.getMessage("new.table.physical.name");
 
-    public static final String NEW_LOGICAL_NAME = ResourceString.getResourceString("new.table.logical.name");
+    public static final String NEW_LOGICAL_NAME = DisplayMessages.getMessage("new.table.logical.name");
 
     private String constraint;
 

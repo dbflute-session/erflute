@@ -1,4 +1,4 @@
-package org.insightech.er;
+package org.insightech.er.common.dialog;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -15,8 +15,7 @@ import org.eclipse.ui.internal.ide.misc.ResourceAndContainerGroup;
 
 /**
  * #analyzed workspace内部領域としてのディレクトリ保存ダイアログ
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 @SuppressWarnings("restriction")
 public class InternalDirectoryDialog extends TitleAreaDialog implements Listener {
@@ -25,7 +24,7 @@ public class InternalDirectoryDialog extends TitleAreaDialog implements Listener
     private ResourceAndContainerGroup resourceGroup;
     private IPath fullPath;
 
-    protected InternalDirectoryDialog(Shell parentShell, String initialFolder) {
+    public InternalDirectoryDialog(Shell parentShell, String initialFolder) {
         super(parentShell);
         this.initialFolder = initialFolder;
     }
@@ -37,7 +36,7 @@ public class InternalDirectoryDialog extends TitleAreaDialog implements Listener
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        Composite topLevel = new Composite(parent, SWT.NONE);
+        final Composite topLevel = new Composite(parent, SWT.NONE);
         topLevel.setLayout(new GridLayout());
         topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
         topLevel.setFont(parent.getFont());

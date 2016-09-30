@@ -3,7 +3,7 @@ package org.insightech.er.editor.view.action.printer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
@@ -14,7 +14,7 @@ public class PageSettingAction extends AbstractBaseAction {
     public static final String ID = PageSettingAction.class.getName();
 
     public PageSettingAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.page.setting"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.page.setting"), editor);
     }
 
     /**

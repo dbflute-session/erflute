@@ -5,7 +5,7 @@ import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 
 public class DropShadowRectangle extends RoundedRectangle {
 
@@ -60,7 +60,7 @@ public class DropShadowRectangle extends RoundedRectangle {
 
         for (int i = 0; i < SHADOW_INSET - 1; i++) {
             rgb -= delta;
-            Color color = Resources.getColor(new int[] { rgb, rgb, rgb });
+            Color color = DesignResources.getColor(new int[] { rgb, rgb, rgb });
             this.drawShadowLayer(rectangle, graphics, SHADOW_INSET - 1 - i, color);
         }
     }

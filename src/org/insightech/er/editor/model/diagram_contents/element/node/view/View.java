@@ -1,6 +1,6 @@
 package org.insightech.er.editor.model.diagram_contents.element.node.view;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
@@ -13,9 +13,9 @@ public class View extends TableView implements ObjectModel, ColumnHolder {
 
     private static final long serialVersionUID = -4492787972500741281L;
 
-    public static final String NEW_PHYSICAL_NAME = ResourceString.getResourceString("new.view.physical.name");
+    public static final String NEW_PHYSICAL_NAME = DisplayMessages.getMessage("new.view.physical.name");
 
-    public static final String NEW_LOGICAL_NAME = ResourceString.getResourceString("new.view.logical.name");
+    public static final String NEW_LOGICAL_NAME = DisplayMessages.getMessage("new.view.logical.name");
 
     private String sql;
 

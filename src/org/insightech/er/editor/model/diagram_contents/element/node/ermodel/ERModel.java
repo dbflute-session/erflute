@@ -11,17 +11,16 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERModel extends NodeElement {
 
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_VTABLES = "vtables";
 
-    //	/** �e�_�C�A�O���� */
-    //	private ERDiagram diagram;
-
     private int[] defaultColor;
-
     private String name;
-    private String description;
 
     private List<ERVirtualTable> tables;
     private List<Note> notes;
@@ -34,86 +33,13 @@ public class ERModel extends NodeElement {
         groups = new ArrayList<VGroup>();
     }
 
-    //	@Override
-    //	public int getWidth() {
-    //		System.out.println("getWidth =  " + super.getWidth());
-    //		return super.getWidth();
-    //	}
-
-    /**
-     * objectType���擾���܂��B
-     * @return objectType
-     */
+    @Override
     public String getObjectType() {
         return "ermodel";
     }
 
-    //	/**
-    //	 * �e�_�C�A�O�������擾���܂��B
-    //	 * @return �e�_�C�A�O����
-    //	 */
-    //	public ERDiagram getDiagram() {
-    //	    return diagram;
-    //	}
-    //
-    //	/**
-    //	 * �e�_�C�A�O������ݒ肵�܂��B
-    //	 * @param diagram �e�_�C�A�O����
-    //	 */
-    //	public void setDiagram(ERDiagram diagram) {
-    //	    this.diagram = diagram;
-    //	}
-
-    /**
-     * name���擾���܂��B
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * name��ݒ肵�܂��B
-     * @param name name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * description���擾���܂��B
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * description��ݒ肵�܂��B
-     * @param description description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * tables���擾���܂��B
-     * @return tables
-     */
-    public List<ERVirtualTable> getTables() {
-        return tables;
-    }
-
-    /**
-     * tables��ݒ肵�܂��B
-     * @param tables tables
-     */
-    public void setTables(List<ERVirtualTable> tables) {
-        this.tables = tables;
-    }
-
     public boolean containsTable(ERTable table) {
-        for (ERVirtualTable vtable : tables) {
+        for (final ERVirtualTable vtable : tables) {
             if (vtable.getRawTable().equals(table)) {
                 return true;
             }
@@ -123,17 +49,11 @@ public class ERModel extends NodeElement {
 
     public void remove(ERVirtualTable element) {
         tables.remove(element);
-        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-
-        //		for (ERVirtualTable table : tables) {
-        //			if (table.equals(element)) {
-        //
-        //			}
-        //		}
+        firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
     public void changeAll() {
-        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+        firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
     public void addTable(ERVirtualTable virtualTable) {
@@ -152,7 +72,7 @@ public class ERModel extends NodeElement {
     }
 
     public ERVirtualTable findVirtualTable(TableView table) {
-        for (ERVirtualTable vtable : tables) {
+        for (final ERVirtualTable vtable : tables) {
             if (vtable.getRawTable().getPhysicalName().equals(table.getPhysicalName())) {
                 return vtable;
             }
@@ -161,7 +81,7 @@ public class ERModel extends NodeElement {
     }
 
     public void deleteRelation(Relation relation) {
-        for (ERVirtualTable vtable : tables) {
+        for (final ERVirtualTable vtable : tables) {
             vtable.removeOutgoing(relation);
             vtable.removeIncoming(relation);
         }
@@ -169,7 +89,7 @@ public class ERModel extends NodeElement {
 
     public void createRelation(Relation relation) {
         boolean dirty = false;
-        for (ERVirtualTable vtable : tables) {
+        for (final ERVirtualTable vtable : tables) {
             if (relation.getSourceTableView().equals(vtable.getRawTable())) {
                 dirty = true;
             } else if (relation.getTargetTableView().equals(vtable.getRawTable())) {
@@ -211,43 +131,10 @@ public class ERModel extends NodeElement {
         }
 
         if (element instanceof Note) {
-            Note note = (Note) element;
+            final Note note = (Note) element;
             notes.add(note);
             this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
         }
-    }
-
-    /**
-     * notes���擾���܂��B
-     * @return notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * notes��ݒ肵�܂��B
-     * @param notes notes
-     */
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
-    }
-
-    /**
-     * groups���擾���܂��B
-     * @return groups
-     */
-    public List<VGroup> getGroups() {
-        return groups;
-    }
-
-    /**
-     * groups��ݒ肵�܂��B
-     * @param groups groups
-     */
-    public void setGroups(List<VGroup> groups) {
-        this.groups = groups;
-        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
     public void addGroup(VGroup group) {
@@ -265,4 +152,45 @@ public class ERModel extends NodeElement {
         this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getDescription() {
+        return null; // unsupported here
+    }
+
+    public List<ERVirtualTable> getTables() {
+        return tables;
+    }
+
+    public void setTables(List<ERVirtualTable> tables) { // when e.g. loading XML
+        this.tables = tables;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) { // when e.g. loading XML
+        this.notes = notes;
+    }
+
+    public List<VGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<VGroup> groups) {
+        this.groups = groups;
+        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
 }

@@ -45,15 +45,15 @@
       </page>
       <page
             category="org.insightech.er.page"
-            class="org.insightech.er.preference.translation.TranslationPreferencePage"
-            id="org.insightech.er.page.page3"
-            name="%preference.page3">
-      </page>
-      <page
-            category="org.insightech.er.page"
             class="org.insightech.er.preference.jdbc.JDBCPreferencePage"
             id="org.insightech.er.page.page2"
             name="%preference.page2">
+      </page>
+      <page
+            category="org.insightech.er.page"
+            class="org.insightech.er.preference.translation.TranslationPreferencePage"
+            id="org.insightech.er.page.page3"
+            name="%preference.page3">
       </page>
    </extension>
    <extension

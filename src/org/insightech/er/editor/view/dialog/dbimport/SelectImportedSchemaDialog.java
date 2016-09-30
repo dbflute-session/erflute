@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.ContainerCheckedTreeViewer;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.db.DBManagerFactory;
@@ -175,7 +175,7 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
 
         List<TreeNode> treeNodeList = new ArrayList<TreeNode>();
 
-        TreeNode topNode = new TreeNode(new StringObjectModel(ResourceString.getResourceString("label.schema")));
+        TreeNode topNode = new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.schema")));
         treeNodeList.add(topNode);
 
         List<TreeNode> schemaNodeList = new ArrayList<TreeNode>();

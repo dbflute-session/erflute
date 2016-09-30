@@ -11,7 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.dbexport.excel.ExportToExcelManager.LoopDefinition;
@@ -77,7 +77,7 @@ public class SheetIndexSheetGenerator extends AbstractSheetGenerator {
 
                     } else {
                         if (KEYWORD_SHEET_TYPE.equals(template)) {
-                            value = ResourceString.getResourceString("label.object.type." + objectModel.getObjectType());
+                            value = DisplayMessages.getMessage("label.object.type." + objectModel.getObjectType());
 
                         } else if (KEYWORD_NAME.equals(template)) {
                             value = sheetName;

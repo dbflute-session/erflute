@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.common.widgets.ValidatableTabWrapper;
@@ -82,8 +82,8 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
     private void changeDatabase() {
         MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.change.database"));
-        messageBox.setMessage(ResourceString.getResourceString("dialog.message.change.database"));
+        messageBox.setText(DisplayMessages.getMessage("dialog.title.change.database"));
+        messageBox.setMessage(DisplayMessages.getMessage("dialog.message.change.database"));
 
         if (messageBox.open() == SWT.OK) {
             String database = this.databaseCombo.getText();

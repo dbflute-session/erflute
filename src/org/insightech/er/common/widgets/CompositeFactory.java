@@ -27,8 +27,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.insightech.er.ResourceString;
-import org.insightech.er.Resources;
+import org.insightech.er.DisplayMessages;
+import org.insightech.er.DesignResources;
 import org.insightech.er.common.dialog.AbstractDialog;
 
 public class CompositeFactory {
@@ -41,7 +41,7 @@ public class CompositeFactory {
             int minimum, int maximum) {
         if (title != null) {
             Label label = new Label(composite, SWT.RIGHT);
-            label.setText(ResourceString.getResourceString(title));
+            label.setText(DisplayMessages.getMessage(title));
         }
 
         GridData scaleGridData = new GridData();
@@ -86,7 +86,7 @@ public class CompositeFactory {
     public static Combo createReadOnlyCombo(AbstractDialog dialog, Composite composite, String title, int span, int width) {
         if (title != null) {
             Label label = new Label(composite, SWT.RIGHT);
-            label.setText(ResourceString.getResourceString(title));
+            label.setText(DisplayMessages.getMessage(title));
         }
 
         GridData gridData = new GridData();
@@ -111,7 +111,7 @@ public class CompositeFactory {
     public static Combo createCombo(AbstractDialog dialog, Composite composite, String title, int span) {
         if (title != null) {
             Label label = new Label(composite, SWT.RIGHT);
-            label.setText(ResourceString.getResourceString(title));
+            label.setText(DisplayMessages.getMessage(title));
         }
 
         GridData gridData = new GridData();
@@ -173,7 +173,7 @@ public class CompositeFactory {
     public static Text createText(AbstractDialog dialog, Composite composite, String title, int span, int width, int style, boolean imeOn) {
         if (title != null) {
             Label label = new Label(composite, SWT.NONE);
-            label.setText(ResourceString.getResourceString(title));
+            label.setText(DisplayMessages.getMessage(title));
         }
 
         GridData textGridData = new GridData();
@@ -200,7 +200,7 @@ public class CompositeFactory {
 
     public static Label createExampleLabel(Composite composite, String title, int span) {
         Label label = new Label(composite, SWT.NONE);
-        label.setText(ResourceString.getResourceString(title));
+        label.setText(DisplayMessages.getMessage(title));
 
         if (span > 0) {
             GridData gridData = new GridData();
@@ -240,7 +240,7 @@ public class CompositeFactory {
 
     public static Label createLabel(Composite composite, String title, int span, int width) {
         Label label = new Label(composite, SWT.NONE);
-        label.setText(ResourceString.getResourceString(title));
+        label.setText(DisplayMessages.getMessage(title));
 
         if (span > 0 || width > 0) {
             GridData gridData = new GridData();
@@ -263,7 +263,7 @@ public class CompositeFactory {
 
     public static Button createCheckbox(AbstractDialog dialog, Composite composite, String title, int span) {
         Button checkbox = new Button(composite, SWT.CHECK);
-        checkbox.setText(ResourceString.getResourceString(title));
+        checkbox.setText(DisplayMessages.getMessage(title));
         if (span != -1) {
             GridData gridData = new GridData();
             gridData.horizontalSpan = span;
@@ -280,7 +280,7 @@ public class CompositeFactory {
 
     public static Button createRadio(AbstractDialog dialog, Composite composite, String title, int span) {
         Button radio = new Button(composite, SWT.RADIO);
-        radio.setText(ResourceString.getResourceString(title));
+        radio.setText(DisplayMessages.getMessage(title));
         if (span != -1) {
             GridData gridData = new GridData();
             gridData.horizontalSpan = span;
@@ -295,7 +295,7 @@ public class CompositeFactory {
             boolean selectAll, boolean imeOn) {
         if (title != null) {
             Label label = new Label(composite, SWT.NONE);
-            label.setText(ResourceString.getResourceString(title));
+            label.setText(DisplayMessages.getMessage(title));
         }
 
         GridData textAreaGridData = new GridData();
@@ -334,7 +334,7 @@ public class CompositeFactory {
 
     public static TableColumn createTableColumn(Table table, String text, int width, int style) {
         TableColumn tableColumn = new TableColumn(table, style);
-        tableColumn.setText(ResourceString.getResourceString(text));
+        tableColumn.setText(DisplayMessages.getMessage(text));
         tableColumn.setWidth(width);
         tableColumn.setAlignment(style);
 
@@ -352,11 +352,11 @@ public class CompositeFactory {
             gridData.horizontalSpan = span;
 
         } else {
-            gridData.widthHint = Resources.BUTTON_WIDTH;
+            gridData.widthHint = DesignResources.BUTTON_WIDTH;
         }
 
         Button button = new Button(composite, SWT.NONE);
-        button.setText(ResourceString.getResourceString(text));
+        button.setText(DisplayMessages.getMessage(text));
         button.setLayoutData(gridData);
 
         return button;
@@ -366,10 +366,10 @@ public class CompositeFactory {
         GridData gridData = new GridData();
         gridData.grabExcessVerticalSpace = true;
         gridData.verticalAlignment = GridData.END;
-        gridData.widthHint = Resources.BUTTON_WIDTH;
+        gridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         Button button = new Button(composite, SWT.NONE);
-        button.setText(ResourceString.getResourceString("label.right.arrow"));
+        button.setText(DisplayMessages.getMessage("label.right.arrow"));
         button.setLayoutData(gridData);
 
         return button;
@@ -379,10 +379,10 @@ public class CompositeFactory {
         GridData gridData = new GridData();
         gridData.grabExcessVerticalSpace = true;
         gridData.verticalAlignment = GridData.BEGINNING;
-        gridData.widthHint = Resources.BUTTON_WIDTH;
+        gridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         Button button = new Button(composite, SWT.NONE);
-        button.setText(ResourceString.getResourceString("label.left.arrow"));
+        button.setText(DisplayMessages.getMessage("label.left.arrow"));
         button.setLayoutData(gridData);
 
         return button;

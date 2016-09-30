@@ -2,7 +2,7 @@ package org.insightech.er.editor.view.action.option.notation.level;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.notation.ChangeNotationLevelCommand;
 import org.insightech.er.editor.model.ERDiagram;
@@ -12,7 +12,7 @@ public abstract class AbstractChangeNotationLevelAction extends AbstractBaseActi
 
     public AbstractChangeNotationLevelAction(String id, ERDiagramEditor editor) {
         super(id, null, IAction.AS_RADIO_BUTTON, editor);
-        this.setText(ResourceString.getResourceString("action.title.change.notation.level." + this.getLevel()));
+        this.setText(DisplayMessages.getMessage("action.title.change.notation.level." + this.getLevel()));
     }
 
     /**

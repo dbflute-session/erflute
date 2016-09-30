@@ -9,7 +9,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;
@@ -33,7 +33,7 @@ public class CopyAction extends SelectionAction {
     public CopyAction(IWorkbenchPart part) {
         super(part);
 
-        this.setText(ResourceString.getResourceString("action.title.copy"));
+        this.setText(DisplayMessages.getMessage("action.title.copy"));
 
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));

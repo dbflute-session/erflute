@@ -12,7 +12,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.settings.CategorySetting;
 import org.insightech.er.editor.model.settings.Settings;
@@ -127,22 +127,22 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
         this.add(new Separator());
 
-        MenuManager displayMenu = new MenuManager(ResourceString.getResourceString("label.display"));
+        MenuManager displayMenu = new MenuManager(DisplayMessages.getMessage("label.display"));
 
-        MenuManager viewModeMenu = new MenuManager(ResourceString.getResourceString("label.view.mode"));
+        MenuManager viewModeMenu = new MenuManager(DisplayMessages.getMessage("label.view.mode"));
         viewModeMenu.add(changeViewToPhysicalAction);
         viewModeMenu.add(changeViewToLogicalAction);
         viewModeMenu.add(changeViewToBothAction);
 
         displayMenu.add(viewModeMenu);
 
-        MenuManager notationMenu = new MenuManager(ResourceString.getResourceString("label.notation"));
+        MenuManager notationMenu = new MenuManager(DisplayMessages.getMessage("label.notation"));
         notationMenu.add(changeToIENotationAction);
         notationMenu.add(changeToIDEF1XNotationAction);
 
         displayMenu.add(notationMenu);
 
-        MenuManager notationLevelMenu = new MenuManager(ResourceString.getResourceString("label.notation.level"));
+        MenuManager notationLevelMenu = new MenuManager(DisplayMessages.getMessage("label.notation.level"));
         notationLevelMenu.add(changeNotationLevelToOnlyTitleAction);
         notationLevelMenu.add(changeNotationLevelToOnlyKeyAction);
         notationLevelMenu.add(changeNotationLevelToColumnAction);
@@ -156,7 +156,7 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
         displayMenu.add(notationLevelMenu);
 
-        MenuManager designMenu = new MenuManager(ResourceString.getResourceString("label.design"));
+        MenuManager designMenu = new MenuManager(DisplayMessages.getMessage("label.design"));
 
         designMenu.add(changeDesignToFunnyAction);
         designMenu.add(changeDesignToFrameAction);
@@ -173,7 +173,7 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         this.add(new Separator());
 
         MenuManager importMenu =
-                new MenuManager(ResourceString.getResourceString("action.title.import"),
+                new MenuManager(DisplayMessages.getMessage("action.title.import"),
                         sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"), "Import");
 
         importMenu.add(this.getAction(ImportFromDBAction.ID));
@@ -182,7 +182,7 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         this.add(importMenu);
 
         MenuManager exportMenu =
-                new MenuManager(ResourceString.getResourceString("action.title.export"),
+                new MenuManager(DisplayMessages.getMessage("action.title.export"),
                         sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"), "Export");
 
         exportMenu.add(this.getAction(ExportToDDLAction.ID));
@@ -208,7 +208,7 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         // #deleted
         //this.add(this.getAction(TestDataCreateAction.ID));
 
-        MenuManager categoryMenu = new MenuManager(ResourceString.getResourceString("label.category"));
+        MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
         categoryMenu.add(this.getAction(CategoryManageAction.ID));
         // categoryMenu.add(changeFreeLayoutAction);
         categoryMenu.add(changeShowReferredTablesAction);
@@ -222,8 +222,8 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         this.addMenuListener(new IMenuListener() {
 
             public void menuAboutToShow(IMenuManager manager) {
-                undoAction.setText(ResourceString.getResourceString("action.title.undo"));
-                redoAction.setText(ResourceString.getResourceString("action.title.redo"));
+                undoAction.setText(DisplayMessages.getMessage("action.title.undo"));
+                redoAction.setText(DisplayMessages.getMessage("action.title.redo"));
 
                 Settings settings = diagram.getDiagramContents().getSettings();
 

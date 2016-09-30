@@ -6,7 +6,7 @@ import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.Resources;
+import org.insightech.er.DesignResources;
 
 public class ERDiagramLineBorder extends LineBorder {
 
@@ -33,7 +33,7 @@ public class ERDiagramLineBorder extends LineBorder {
         int b = 9 * DELTA;
 
         for (int i = 0; i <= 5; i++) {
-            Color color = Resources.getColor(new int[] { b, g, 255 });
+            Color color = DesignResources.getColor(new int[] { b, g, 255 });
             this.paint1(i, color, tempRect, graphics);
 
             g -= DELTA;

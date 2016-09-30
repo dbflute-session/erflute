@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
 
@@ -42,8 +42,8 @@ public abstract class AbstractExportAction extends AbstractBaseAction {
         if (file.exists()) {
             MessageBox messageBox =
                     new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
-            messageBox.setText(ResourceString.getResourceString("dialog.title.warning"));
-            messageBox.setMessage(ResourceString.getResourceString(this.getConfirmOverrideMessage()));
+            messageBox.setText(DisplayMessages.getMessage("dialog.title.warning"));
+            messageBox.setMessage(DisplayMessages.getMessage(this.getConfirmOverrideMessage()));
 
             if (messageBox.open() == SWT.CANCEL) {
                 return;

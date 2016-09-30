@@ -3,7 +3,7 @@ package org.insightech.er.editor.model.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
@@ -165,7 +165,7 @@ public class SearchManager {
                     }
                 }
 
-                rows.addAll(this.search(word, this.currentKeyword, ResourceString.getResourceString("label.dictionary")));
+                rows.addAll(this.search(word, this.currentKeyword, DisplayMessages.getMessage("label.dictionary")));
 
                 if (!rows.isEmpty() && !all) {
                     // ������₪�������āA���ׂČ����ł͂Ȃ��ꍇ
@@ -339,7 +339,7 @@ public class SearchManager {
                     }
                 }
 
-                rows.addAll(this.search(word, this.currentKeyword, ResourceString.getResourceString("label.dictionary")));
+                rows.addAll(this.search(word, this.currentKeyword, DisplayMessages.getMessage("label.dictionary")));
 
                 if (!rows.isEmpty() && !all) {
                     // ������₪�������āA���ׂČ����ł͂Ȃ��ꍇ

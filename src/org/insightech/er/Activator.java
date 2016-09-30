@@ -28,6 +28,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.insightech.er.common.dialog.InternalDirectoryDialog;
+import org.insightech.er.common.dialog.InternalFileDialog;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.dbexport.ExportToImageAction;
 import org.insightech.er.util.Format;
@@ -74,24 +76,24 @@ public class Activator extends AbstractUIPlugin {
     //                                                                                ====
     @Override
     public void stop(BundleContext context) throws Exception {
-        Resources.PINK.dispose();
-        Resources.ADDED_COLOR.dispose();
-        Resources.UPDATED_COLOR.dispose();
-        Resources.REMOVED_COLOR.dispose();
-        Resources.GRID_COLOR.dispose();
-        Resources.DEFAULT_TABLE_COLOR.dispose();
-        Resources.SELECTED_REFERENCED_COLUMN.dispose();
-        Resources.SELECTED_FOREIGNKEY_COLUMN.dispose();
-        Resources.SELECTED_REFERENCED_AND_FOREIGNKEY_COLUMN.dispose();
-        Resources.VERY_LIGHT_GRAY.dispose();
-        Resources.LINE_COLOR.dispose();
+        DesignResources.PINK.dispose();
+        DesignResources.ADDED_COLOR.dispose();
+        DesignResources.UPDATED_COLOR.dispose();
+        DesignResources.REMOVED_COLOR.dispose();
+        DesignResources.GRID_COLOR.dispose();
+        DesignResources.DEFAULT_TABLE_COLOR.dispose();
+        DesignResources.SELECTED_REFERENCED_COLUMN.dispose();
+        DesignResources.SELECTED_FOREIGNKEY_COLUMN.dispose();
+        DesignResources.SELECTED_REFERENCED_AND_FOREIGNKEY_COLUMN.dispose();
+        DesignResources.VERY_LIGHT_GRAY.dispose();
+        DesignResources.LINE_COLOR.dispose();
 
-        Resources.TEST_COLOR.dispose();
-        Resources.NOT_NULL_COLOR.dispose();
-        Resources.PRIMARY_COLOR.dispose();
-        Resources.FOREIGN_COLOR.dispose();
+        DesignResources.TEST_COLOR.dispose();
+        DesignResources.NOT_NULL_COLOR.dispose();
+        DesignResources.PRIMARY_COLOR.dispose();
+        DesignResources.FOREIGN_COLOR.dispose();
 
-        Resources.disposeColorMap();
+        DesignResources.disposeColorMap();
 
         plugin = null;
         super.stop(context);
@@ -104,23 +106,23 @@ public class Activator extends AbstractUIPlugin {
         final IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.toString(), e);
         Activator.log(e);
         ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                ResourceString.getResourceString("dialog.title.error"), ResourceString.getResourceString("error.plugin.error.message"),
+                DisplayMessages.getMessage("dialog.title.error"), DisplayMessages.getMessage("error.plugin.error.message"),
                 status);
     }
 
     public static void showErrorDialog(String message) {
         final MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.error"));
-        messageBox.setMessage(ResourceString.getResourceString(message));
+        messageBox.setText(DisplayMessages.getMessage("dialog.title.error"));
+        messageBox.setMessage(DisplayMessages.getMessage(message));
         messageBox.open();
     }
 
     public static void showMessageDialog(String message) {
         final MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION | SWT.OK);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.information"));
-        messageBox.setMessage(ResourceString.getResourceString(Format.null2blank(message)));
+        messageBox.setText(DisplayMessages.getMessage("dialog.title.information"));
+        messageBox.setMessage(DisplayMessages.getMessage(Format.null2blank(message)));
         messageBox.open();
     }
 
@@ -131,8 +133,8 @@ public class Activator extends AbstractUIPlugin {
     public static boolean showConfirmDialog(String message, int ok, int cancel) {
         final MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION | ok | cancel);
-        messageBox.setText(ResourceString.getResourceString("dialog.title.confirm"));
-        messageBox.setMessage(ResourceString.getResourceString(message));
+        messageBox.setText(DisplayMessages.getMessage("dialog.title.confirm"));
+        messageBox.setMessage(DisplayMessages.getMessage(message));
         final int result = messageBox.open();
 
         if (result == ok) {

@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.actions.LabelRetargetAction;
 import org.insightech.er.Activator;
 import org.insightech.er.ImageKey;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
@@ -27,12 +27,12 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
     public static final String ID = VerticalLineAction.class.getName();
 
     public VerticalLineAction(ERDiagramEditor editor) {
-        super(ID, ResourceString.getResourceString("action.title.vertical.line"), editor);
+        super(ID, DisplayMessages.getMessage("action.title.vertical.line"), editor);
 
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));
         //		this.setDisabledImageDescriptor(Activator
         //				.getImageDescriptor(ImageKey.VERTICAL_LINE_DISABLED));
-        this.setToolTipText(ResourceString.getResourceString("action.title.vertical.line"));
+        this.setToolTipText(DisplayMessages.getMessage("action.title.vertical.line"));
     }
 
     /**
@@ -189,12 +189,12 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
 
     public static class VerticalLineRetargetAction extends LabelRetargetAction {
         public VerticalLineRetargetAction() {
-            super(ID, ResourceString.getResourceString("action.title.vertical.line"));
+            super(ID, DisplayMessages.getMessage("action.title.vertical.line"));
 
             this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));
             //			this.setDisabledImageDescriptor(Activator
             //					.getImageDescriptor(ImageKey.VERTICAL_LINE_DISABLED));
-            this.setToolTipText(ResourceString.getResourceString("action.title.vertical.line"));
+            this.setToolTipText(DisplayMessages.getMessage("action.title.vertical.line"));
         }
     }
 

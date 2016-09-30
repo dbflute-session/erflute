@@ -4,10 +4,13 @@ import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class AddERModelCommand extends AbstractCommand {
 
-    private String name;
-    private ERDiagram diagram;
+    private final String name;
+    private final ERDiagram diagram;
 
     public AddERModelCommand(ERDiagram diagram, String name) {
         super();
@@ -17,16 +20,13 @@ public class AddERModelCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        ERModel ermodel = new ERModel(diagram);
+        final ERModel ermodel = new ERModel(diagram);
         ermodel.setName(name);
-        //		diagram.addContent(ermodel);
         diagram.addErmodel(ermodel);
     }
 
     @Override
     protected void doUndo() {
-        // TODO Auto-generated method stub
-
+        // ??? by jflute
     }
-
 }

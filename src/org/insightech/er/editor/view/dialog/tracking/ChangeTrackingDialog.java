@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.controller.command.tracking.AddChangeTrackingCommand;
 import org.insightech.er.editor.controller.command.tracking.CalculateChangeTrackingCommand;
@@ -71,7 +71,7 @@ public class ChangeTrackingDialog extends Dialog {
      */
     @Override
     protected Control createDialogArea(Composite parent) {
-        this.getShell().setText(ResourceString.getResourceString("dialog.title.change.tracking"));
+        this.getShell().setText(DisplayMessages.getMessage("dialog.title.change.tracking"));
 
         Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -103,30 +103,30 @@ public class ChangeTrackingDialog extends Dialog {
         this.textArea = CompositeFactory.createTextArea(null, composite, null, -1, 100, 6, true);
 
         this.registerButton = new Button(composite, SWT.NONE);
-        this.registerButton.setText(ResourceString.getResourceString("label.button.register"));
+        this.registerButton.setText(DisplayMessages.getMessage("label.button.register"));
 
         this.updateButton = new Button(composite, SWT.NONE);
-        this.updateButton.setText(ResourceString.getResourceString("label.button.update"));
+        this.updateButton.setText(DisplayMessages.getMessage("label.button.update"));
 
         this.deleteButton = new Button(composite, SWT.NONE);
-        this.deleteButton.setText(ResourceString.getResourceString("label.button.delete"));
+        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
 
         this.replaceButton = new Button(composite, SWT.NONE);
-        this.replaceButton.setText(ResourceString.getResourceString("label.button.change.tracking"));
+        this.replaceButton.setText(DisplayMessages.getMessage("label.button.change.tracking"));
 
         this.comparisonDisplayButton = new Button(composite, SWT.NONE);
-        this.comparisonDisplayButton.setText(ResourceString.getResourceString("label.button.comparison.display"));
+        this.comparisonDisplayButton.setText(DisplayMessages.getMessage("label.button.comparison.display"));
 
         this.comparisonResetButton = new Button(composite, SWT.NONE);
-        this.comparisonResetButton.setText(ResourceString.getResourceString("label.button.comparison.reset"));
+        this.comparisonResetButton.setText(DisplayMessages.getMessage("label.button.comparison.reset"));
 
         TableColumn tableColumn0 = new TableColumn(this.changeTrackingTable, SWT.LEFT);
         tableColumn0.setWidth(150);
-        tableColumn0.setText(ResourceString.getResourceString("label.date"));
+        tableColumn0.setText(DisplayMessages.getMessage("label.date"));
 
         TableColumn tableColumn1 = new TableColumn(this.changeTrackingTable, SWT.LEFT);
         tableColumn1.setWidth(400);
-        tableColumn1.setText(ResourceString.getResourceString("label.contents.of.change"));
+        tableColumn1.setText(DisplayMessages.getMessage("label.contents.of.change"));
 
         this.changeTrackingTable.addSelectionListener(new SelectionAdapter() {
 
@@ -230,8 +230,8 @@ public class ChangeTrackingDialog extends Dialog {
                 MessageBox messageBox =
                         new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.YES
                                 | SWT.NO);
-                messageBox.setText(ResourceString.getResourceString("dialog.title.change.tracking"));
-                messageBox.setMessage(ResourceString.getResourceString("dialog.message.change.tracking"));
+                messageBox.setText(DisplayMessages.getMessage("dialog.title.change.tracking"));
+                messageBox.setMessage(DisplayMessages.getMessage("dialog.message.change.tracking"));
 
                 if (messageBox.open() == SWT.YES) {
                     ChangeTracking changeTracking = new ChangeTracking(diagram.getDiagramContents());

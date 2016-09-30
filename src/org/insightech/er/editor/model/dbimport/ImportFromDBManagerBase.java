@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.insightech.er.Activator;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.TranslationResources;
@@ -176,7 +176,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
         try {
-            monitor.beginTask(ResourceString.getResourceString("dialog.message.import.table"), this.dbObjectList.size());
+            monitor.beginTask(DisplayMessages.getMessage("dialog.message.import.table"), this.dbObjectList.size());
 
             this.importedSequences = this.importSequences(this.dbObjectList);
             this.importedTriggers = this.importTriggers(this.dbObjectList);

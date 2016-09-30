@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
-import org.insightech.er.Resources;
+import org.insightech.er.DisplayMessages;
+import org.insightech.er.DesignResources;
 import org.insightech.er.common.exception.InputException;
 import org.insightech.er.common.widgets.ValidatableTabWrapper;
 import org.insightech.er.editor.model.settings.Environment;
@@ -61,19 +61,19 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
         this.nameText.setLayoutData(gridData);
 
         GridData buttonGridData = new GridData();
-        buttonGridData.widthHint = Resources.BUTTON_WIDTH;
+        buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.addButton = new Button(this, SWT.NONE);
         this.addButton.setLayoutData(buttonGridData);
-        this.addButton.setText(ResourceString.getResourceString("label.button.add"));
+        this.addButton.setText(DisplayMessages.getMessage("label.button.add"));
 
         this.editButton = new Button(this, SWT.NONE);
         this.editButton.setLayoutData(buttonGridData);
-        this.editButton.setText(ResourceString.getResourceString("label.button.edit"));
+        this.editButton.setText(DisplayMessages.getMessage("label.button.edit"));
 
         this.deleteButton = new Button(this, SWT.NONE);
         this.deleteButton.setLayoutData(buttonGridData);
-        this.deleteButton.setText(ResourceString.getResourceString("label.button.delete"));
+        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
 
         this.buttonEnabled(false);
         this.addButton.setEnabled(false);

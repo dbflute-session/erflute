@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
@@ -88,7 +88,7 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
         Font font = new Font(Display.getCurrent(), fontData.getName(), 7, SWT.NORMAL);
 
         Label label = new Label(filterComposite, SWT.NONE);
-        label.setText(ResourceString.getResourceString("label.filter"));
+        label.setText(DisplayMessages.getMessage("label.filter"));
         label.setFont(font);
 
         GridData textGridData = new GridData();

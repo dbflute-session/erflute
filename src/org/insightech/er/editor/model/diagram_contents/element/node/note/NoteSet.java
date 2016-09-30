@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.insightech.er.ResourceString;
+import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ObjectListModel;
 
@@ -64,7 +64,7 @@ public class NoteSet extends AbstractModel implements ObjectListModel, Iterable<
     }
 
     public String getName() {
-        return ResourceString.getResourceString("label.object.type.note_list");
+        return DisplayMessages.getMessage("label.object.type.note_list");
     }
 
     public String getObjectType() {
