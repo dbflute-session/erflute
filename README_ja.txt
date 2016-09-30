@@ -41,7 +41,7 @@ mission_slim にて、ひたすらスリムにしていく
 
 【ハッシュタグ】
 o #willdelete :: 削除するぞ (いずれ抹消する)
-o #deleted :: 削除したぞ (いずれ抹消する)
+o #deleted :: 削除したぞ
 o #willanalyze :: 分析するぞ
 o #analyzed :: 分析したぞ
 
