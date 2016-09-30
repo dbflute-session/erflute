@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ERMaster
+Bundle-Name: ERFlute
 Bundle-SymbolicName: org.insightech.er; singleton:=true
 Bundle-Version: 1.5.0.2
 Bundle-Activator: org.insightech.er.Activator
@@ -31,7 +31,7 @@ Bundle-ClassPath: .,
  lib/poi-3.10-beta1.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Eclipse-LazyStart: true
-Bundle-Vendor: Insightech.org
+Bundle-Vendor: dbflute.org
 Export-Package: org.insightech.er,
  org.insightech.er.common.dialog,
  org.insightech.er.common.exception,
