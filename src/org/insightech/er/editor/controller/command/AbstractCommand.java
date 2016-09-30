@@ -1,7 +1,7 @@
 package org.insightech.er.editor.controller.command;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.gef.commands.Command;
-import org.insightech.er.Activator;
 
 public abstract class AbstractCommand extends Command {
 

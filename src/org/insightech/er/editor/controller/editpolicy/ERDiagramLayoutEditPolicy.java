@@ -3,6 +3,7 @@ package org.insightech.er.editor.controller.editpolicy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -19,7 +20,6 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.common.NothingToDoCommand;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation.bendpoint.MoveBendpointCommand;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.CreateElementCommand;

@@ -1,8 +1,8 @@
 package org.insightech.er.editor.view.action.tracking;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.AbstractBaseAction;

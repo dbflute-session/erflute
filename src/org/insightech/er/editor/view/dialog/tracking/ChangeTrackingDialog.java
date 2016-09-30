@@ -3,6 +3,9 @@ package org.insightech.er.editor.view.dialog.tracking;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
@@ -22,8 +25,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.controller.command.tracking.AddChangeTrackingCommand;
 import org.insightech.er.editor.controller.command.tracking.CalculateChangeTrackingCommand;
 import org.insightech.er.editor.controller.command.tracking.ChangeTrackingCommand;
@@ -33,7 +34,6 @@ import org.insightech.er.editor.controller.command.tracking.UpdateChangeTracking
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.tracking.ChangeTracking;
-import org.insightech.er.util.Check;
 
 public class ChangeTrackingDialog extends Dialog {
 

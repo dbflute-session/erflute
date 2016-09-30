@@ -1,10 +1,10 @@
 package org.insightech.er.db.impl.hsqldb;
 
+import org.dbflute.erflute.core.util.Check;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.DDLCreator;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
-import org.insightech.er.util.Check;
 
 public class HSQLDBDDLCreator extends DDLCreator {
 

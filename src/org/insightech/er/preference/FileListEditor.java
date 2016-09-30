@@ -10,15 +10,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.io.FileUtils;
 import org.eclipse.jface.preference.ListEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.util.io.FileUtils;
 
 public abstract class FileListEditor extends ListEditor {
 

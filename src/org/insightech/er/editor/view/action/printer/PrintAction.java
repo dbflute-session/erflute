@@ -1,9 +1,9 @@
 package org.insightech.er.editor.view.action.printer;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.swt.printing.PrintDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
 

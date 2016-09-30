@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.ExportToHtmlManager;
 import org.insightech.er.editor.model.dbexport.html.page_generator.AbstractHtmlReportPageGenerator;
@@ -15,7 +16,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.TableV
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceProperties;
 import org.insightech.er.editor.model.settings.Environment;
-import org.insightech.er.util.Format;
 
 public class TablespaceHtmlReportPageGenerator extends AbstractHtmlReportPageGenerator {
 

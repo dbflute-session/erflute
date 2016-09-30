@@ -1,8 +1,8 @@
 package org.insightech.er.editor.view.action.option.notation.system;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.notation.ChangeNotationCommand;
 import org.insightech.er.editor.model.ERDiagram;

@@ -2,6 +2,8 @@ package org.insightech.er.editor.view.figure.table.style.funny;
 
 import java.math.BigDecimal;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -14,8 +16,6 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.swt.graphics.Font;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.settings.Settings;

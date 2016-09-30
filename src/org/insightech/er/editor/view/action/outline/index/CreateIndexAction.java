@@ -2,12 +2,12 @@ package org.insightech.er.editor.view.action.outline.index;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.index.CreateIndexCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;

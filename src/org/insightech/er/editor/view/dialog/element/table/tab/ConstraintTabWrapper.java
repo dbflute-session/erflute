@@ -1,15 +1,15 @@
 package org.insightech.er.editor.view.dialog.element.table.tab;
 
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
+import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CompositeFactory;
-import org.insightech.er.common.widgets.ValidatableTabWrapper;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.view.dialog.element.table.TableDialog;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public class ConstraintTabWrapper extends ValidatableTabWrapper {
 

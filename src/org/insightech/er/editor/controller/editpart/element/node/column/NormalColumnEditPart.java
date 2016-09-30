@@ -3,6 +3,7 @@ package org.insightech.er.editor.controller.editpart.element.node.column;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Format;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.ConnectionEditPart;
@@ -20,7 +21,6 @@ import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.UpdatedNodeElement;
 import org.insightech.er.editor.view.figure.table.TableFigure;
 import org.insightech.er.editor.view.figure.table.column.NormalColumnFigure;
-import org.insightech.er.util.Format;
 
 public class NormalColumnEditPart extends ColumnEditPart {
 

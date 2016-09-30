@@ -2,6 +2,7 @@ package org.insightech.er.editor.controller.editpolicy.element.node.table_view;
 
 import java.util.Map;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
@@ -9,7 +10,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.table_view.AddColumnGroupCommand;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.table_view.AddWordCommand;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;

@@ -2,6 +2,7 @@ package org.insightech.er.editor;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.core.commands.operations.IOperationApprover;
 import org.eclipse.core.commands.operations.IOperationHistory;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
@@ -49,7 +50,6 @@ import org.eclipse.ui.texteditor.IDocumentProviderExtension2;
 import org.eclipse.ui.texteditor.IDocumentProviderExtension3;
 import org.eclipse.ui.texteditor.IElementStateListener;
 import org.eclipse.ui.texteditor.IElementStateListenerExtension;
-import org.insightech.er.Activator;
 import org.osgi.framework.Bundle;
 
 public class TestEditor extends EditorPart {

@@ -1,5 +1,6 @@
 package org.insightech.er.editor.view.figure.connection;
 
+import org.dbflute.erflute.core.DesignResources;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolylineConnection;
@@ -9,7 +10,6 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
-import org.insightech.er.DesignResources;
 
 public class ERDiagramConnection extends PolylineConnection {
 

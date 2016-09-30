@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import org.insightech.er.Activator;
+import org.dbflute.erflute.Activator;
 
 public class ReservedWord {
 

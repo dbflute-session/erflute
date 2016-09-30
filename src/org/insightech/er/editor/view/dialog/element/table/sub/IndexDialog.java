@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dbflute.erflute.core.DesignResources;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -23,18 +29,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.DesignResources;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public class IndexDialog extends AbstractDialog {
 

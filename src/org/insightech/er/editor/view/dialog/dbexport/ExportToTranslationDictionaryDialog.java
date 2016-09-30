@@ -8,6 +8,11 @@ import java.io.OutputStreamWriter;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Check;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -23,17 +28,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.exception.InputException;
 import org.insightech.er.editor.TranslationResources;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.DiagramContents;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.preference.PreferenceInitializer;
-import org.insightech.er.util.Check;
 
 public class ExportToTranslationDictionaryDialog extends AbstractDialog {
 

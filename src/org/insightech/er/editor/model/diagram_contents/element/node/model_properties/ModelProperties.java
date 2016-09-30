@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.NameValue;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
-import org.insightech.er.util.NameValue;
 
 public class ModelProperties extends NodeElement implements Cloneable {
 

@@ -2,6 +2,7 @@ package org.insightech.er.editor.view.action.dbexport;
 
 import java.io.File;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.gef.GraphicalViewer;
@@ -13,7 +14,6 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
 

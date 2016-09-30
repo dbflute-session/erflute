@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.insightech.er.util.Format;
+import org.dbflute.erflute.core.util.Format;
 
 public class DBObjectSet implements Serializable {
 

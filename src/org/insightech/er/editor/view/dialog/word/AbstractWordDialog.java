@@ -1,5 +1,9 @@
 package org.insightech.er.editor.view.dialog.word;
 
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -13,15 +17,11 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.impl.mysql.MySQLDBManager;
 import org.insightech.er.db.impl.postgres.PostgresDBManager;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 /**
  * @author who?

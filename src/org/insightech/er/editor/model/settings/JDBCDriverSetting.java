@@ -2,7 +2,7 @@ package org.insightech.er.editor.model.settings;
 
 import java.io.Serializable;
 
-import org.insightech.er.util.Format;
+import org.dbflute.erflute.core.util.Format;
 
 public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSetting> {
 

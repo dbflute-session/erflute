@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Check;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceProperties;
-import org.insightech.er.util.Check;
 
 public class MySQLTablespaceProperties implements TablespaceProperties {
 

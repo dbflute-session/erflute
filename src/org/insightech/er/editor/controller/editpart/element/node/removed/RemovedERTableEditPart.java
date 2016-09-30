@@ -1,11 +1,11 @@
 package org.insightech.er.editor.controller.editpart.element.node.removed;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.editpart.element.node.IResizable;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;
 import org.insightech.er.editor.model.ERDiagram;

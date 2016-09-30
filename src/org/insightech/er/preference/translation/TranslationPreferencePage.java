@@ -1,5 +1,7 @@
 package org.insightech.er.preference.translation;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -8,8 +10,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.preference.PreferenceInitializer;
 
 public class TranslationPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {

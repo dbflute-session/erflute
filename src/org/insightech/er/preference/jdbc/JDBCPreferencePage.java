@@ -3,6 +3,10 @@ package org.insightech.er.preference.jdbc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DesignResources;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Format;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -21,14 +25,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.DesignResources;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.settings.JDBCDriverSetting;
 import org.insightech.er.preference.PreferenceInitializer;
-import org.insightech.er.util.Format;
 
 public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 

@@ -1,11 +1,11 @@
 package org.insightech.er.editor.view.dialog.category;
 
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.VGroup;
 
 public class VGroupNameChangeDialog extends AbstractDialog {

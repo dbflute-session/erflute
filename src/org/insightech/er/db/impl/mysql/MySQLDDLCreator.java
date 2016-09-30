@@ -2,7 +2,9 @@ package org.insightech.er.db.impl.mysql;
 
 import java.util.List;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.impl.mysql.tablespace.MySQLTablespaceProperties;
 import org.insightech.er.db.sqltype.SqlType;
@@ -12,8 +14,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public class MySQLDDLCreator extends DDLCreator {
 

@@ -22,11 +22,13 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.exception.InputException;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.TranslationResources;
 import org.insightech.er.editor.model.ERDiagram;
@@ -45,8 +47,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequ
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigger;
 import org.insightech.er.editor.model.settings.DBSetting;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IRunnableWithProgress {
 

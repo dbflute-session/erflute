@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ObjectModel;
@@ -22,7 +23,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Co
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.insightech.er.util.Format;
 
 public abstract class TableView extends NodeElement implements ObjectModel, ColumnHolder, Comparable<TableView> {
 

@@ -1,11 +1,11 @@
 package org.insightech.er.db.impl.postgres;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.exception.InputException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.exception.InputException;
 import org.insightech.er.editor.view.dialog.element.table.tab.AdvancedComposite;
 
 public class PostgresAdvancedComposite extends AdvancedComposite {

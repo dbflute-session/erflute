@@ -1,13 +1,13 @@
 package org.insightech.er.editor.view.dialog.element.table.tab;
 
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableProperties;

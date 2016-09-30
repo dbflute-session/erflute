@@ -1,13 +1,13 @@
 package org.insightech.er.db.impl.mysql.tablespace;
 
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.impl.mysql.MySQLAdvancedComposite;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceProperties;
 import org.insightech.er.editor.view.dialog.outline.tablespace.TablespaceDialog;
-import org.insightech.er.util.Format;
 
 public class MySQLTablespaceDialog extends TablespaceDialog {
 

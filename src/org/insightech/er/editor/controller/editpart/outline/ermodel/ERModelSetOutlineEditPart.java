@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.ImageKey;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModelSet;

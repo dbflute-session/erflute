@@ -1,9 +1,9 @@
 package org.insightech.er.editor.view.action.ermodel;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.EROneDiagramEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.ChangeVGroupCommand;
 import org.insightech.er.editor.model.ERDiagram;

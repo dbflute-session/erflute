@@ -1,9 +1,9 @@
 package org.insightech.er.editor.view.dialog.dbimport;
 
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbimport.DBObjectSet;
 

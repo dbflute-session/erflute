@@ -3,13 +3,13 @@ package org.insightech.er.editor.view.action.edit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;

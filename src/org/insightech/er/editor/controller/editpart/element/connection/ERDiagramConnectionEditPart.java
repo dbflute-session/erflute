@@ -5,9 +5,9 @@ import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ERModelUtil;

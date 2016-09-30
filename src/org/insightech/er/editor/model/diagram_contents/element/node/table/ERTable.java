@@ -3,7 +3,7 @@ package org.insightech.er.editor.model.diagram_contents.element.node.table;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;

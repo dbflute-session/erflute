@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ObjectListModel;

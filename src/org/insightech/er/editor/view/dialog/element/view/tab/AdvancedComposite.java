@@ -1,11 +1,11 @@
 package org.insightech.er.editor.view.dialog.element.view.tab;
 
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.properties.ViewProperties;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;

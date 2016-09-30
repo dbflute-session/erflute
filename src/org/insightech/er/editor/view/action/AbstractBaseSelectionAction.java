@@ -3,6 +3,7 @@ package org.insightech.er.editor.view.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
@@ -11,7 +12,6 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ERModelUtil;

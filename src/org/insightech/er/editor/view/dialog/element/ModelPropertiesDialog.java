@@ -1,5 +1,10 @@
 package org.insightech.er.editor.view.dialog.element;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.util.NameValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.FocusAdapter;
@@ -20,12 +25,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.dialog.AbstractDialog;
 import org.insightech.er.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
-import org.insightech.er.util.NameValue;
 
 public class ModelPropertiesDialog extends AbstractDialog {
 

@@ -3,6 +3,7 @@ package org.insightech.er.editor.view.action.line;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
@@ -12,7 +13,6 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.RightAngleLineCommand;
 import org.insightech.er.editor.controller.editpart.element.connection.RelationEditPart;

@@ -1,12 +1,12 @@
 package org.insightech.er.editor.view.figure.border;
 
+import org.dbflute.erflute.core.DesignResources;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.DesignResources;
 
 public class ERDiagramLineBorder extends LineBorder {
 

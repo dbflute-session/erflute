@@ -2,8 +2,8 @@ package org.insightech.er.editor.controller.command.diagram_contents.element.nod
 
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.model.ERDiagram;

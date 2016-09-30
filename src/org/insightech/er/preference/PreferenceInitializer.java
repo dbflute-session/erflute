@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.insightech.er.Activator;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.db.impl.standard_sql.StandardSQLDBManager;
 import org.insightech.er.editor.model.settings.DBSetting;
 import org.insightech.er.editor.model.settings.JDBCDriverSetting;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 /**
  * @author modified by jflute (originated in ermaster)

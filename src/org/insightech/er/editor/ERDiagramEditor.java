@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DesignResources;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -49,8 +51,6 @@ import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-import org.insightech.er.Activator;
-import org.insightech.er.DesignResources;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.insightech.er.editor.controller.editpart.element.PagableFreeformRootEditPart;

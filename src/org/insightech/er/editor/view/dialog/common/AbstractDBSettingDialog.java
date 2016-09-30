@@ -1,5 +1,12 @@
 package org.insightech.er.editor.view.dialog.common;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
+import org.dbflute.erflute.core.widgets.ListenerAppender;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -14,19 +21,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.widgets.CompositeFactory;
-import org.insightech.er.common.widgets.ListenerAppender;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.db.impl.standard_sql.StandardSQLDBManager;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.settings.DBSetting;
 import org.insightech.er.preference.PreferenceInitializer;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public abstract class AbstractDBSettingDialog extends AbstractDialog {
 

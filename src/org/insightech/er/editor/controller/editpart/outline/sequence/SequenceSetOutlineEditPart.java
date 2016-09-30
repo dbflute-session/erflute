@@ -4,12 +4,12 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collections;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.widgets.TreeItem;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;

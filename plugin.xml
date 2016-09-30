@@ -1,86 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension-point id="popupMenus" name="PopupMenu" schema="schema/PopupMenu.exsd"/>
+	<extension-point id="popupMenus" name="PopupMenu" schema="schema/PopupMenu.exsd"/>
 
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            id="org.insightech.er"
-            name="%plugin.name"/>
-      <wizard
-            category="org.insightech.er"
-            class="org.insightech.er.wizard.NewDiagramWizard"
-            icon="icons/table.gif"
-            id="org.insightech.er.wizard.NewDiagramWizard"
-            name="%wizard.title"/>
-   </extension>
-
-	<extension
-			point="org.eclipse.ui.commands">
-		<command
-				name="Quick Outline"
-				description="Quick Outline"
-				categoryId="org.eclipse.gef.category.view"
-				id="org.insightech.er.quickOutline">
-		</command>
-
+	<extension point="org.eclipse.ui.newWizards">
+		<category id="org.dbflute.erflute" name="%plugin.name"/>
+		<wizard category="org.insightech.er"
+			class="org.insightech.er.wizard.NewDiagramWizard"
+			icon="icons/table.gif"
+			id="org.insightech.er.wizard.NewDiagramWizard"
+			name="%wizard.title"/>
 	</extension>
 
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer class="org.insightech.er.preference.PreferenceInitializer"/>
-   </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            class="org.insightech.er.preference.PreferencePage"
-            id="org.insightech.er.page"
-            name="%plugin.name"/>
-      <page
-            category="org.insightech.er.page"
-            class="org.insightech.er.preference.template.TemplatePreferencePage"
-            id="org.insightech.er.page.page1"
-            name="%preference.page1">
-      </page>
-      <page
-            category="org.insightech.er.page"
-            class="org.insightech.er.preference.jdbc.JDBCPreferencePage"
-            id="org.insightech.er.page.page2"
-            name="%preference.page2">
-      </page>
-      <page
-            category="org.insightech.er.page"
-            class="org.insightech.er.preference.translation.TranslationPreferencePage"
-            id="org.insightech.er.page.page3"
-            name="%preference.page3">
-      </page>
-   </extension>
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="org.insightech.er.editor.ERDiagramMultiPageEditor"
-            extensions="erm"
-            contributorClass="org.insightech.er.editor.view.contributor.ERDiagramMultiPageEditorActionBarContributor"
-            icon="icons/table.gif"
-            id="org.insightech.er.editors.ERDiagramMultiPageEditor"
-            name="%plugin.name">
-      </editor>
-   </extension>
+	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer class="org.insightech.er.preference.PreferenceInitializer"/>
+	</extension>
 
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="org.insightech.er.editor.TestEditor"
-            extensions="erm2"
-            icon="icons/table.gif"
-            id="org.insightech.er.editors.TestEditor"
-            name="%plugin.name">
-      </editor>
-   </extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page class="org.insightech.er.preference.PreferencePage"
+			id="org.dbflute.erflute.page"
+			name="%plugin.name"/>
+		<page category="org.dbflute.erflute.page"
+			class="org.insightech.er.preference.template.TemplatePreferencePage"
+			id="org.dbflute.erflute.page.page1"
+			name="%preference.page1">
+		</page>
+		<page category="org.dbflute.erflute.page"
+			class="org.insightech.er.preference.jdbc.JDBCPreferencePage"
+			id="org.dbflute.erflute.page.page2"
+			name="%preference.page2">
+		</page>
+		<page category="org.dbflute.erflute.page"
+			class="org.insightech.er.preference.translation.TranslationPreferencePage"
+			id="org.dbflute.erflute.page.page3"
+			name="%preference.page3">
+		</page>
+	</extension>
+	<extension point="org.eclipse.ui.editors">
+		<editor class="org.insightech.er.editor.ERDiagramMultiPageEditor"
+			extensions="erm"
+			contributorClass="org.insightech.er.editor.view.contributor.ERDiagramMultiPageEditorActionBarContributor"
+			icon="icons/table.gif"
+			id="org.insightech.er.editors.ERDiagramMultiPageEditor"
+			name="%plugin.name">
+		</editor>
+	</extension>
+
+	<extension point="org.eclipse.ui.editors"> <!-- to show XML plainly -->
+		<editor class="org.insightech.er.editor.TestEditor"
+			extensions="erm2"
+			icon="icons/table.gif"
+			id="org.insightech.er.editors.TestEditor"
+			name="%plugin.name">
+		</editor>
+	</extension>
 
 	<extension point="org.eclipse.ant.core.antTasks">
-
 		<antTask name="ermaster.ddl"
 			class="org.insightech.er.ant_task.DDLAntTask"
 			library="lib/ermaster_ant.jar"
@@ -114,10 +89,17 @@
 		-->
 	</extension>
 
+	<extension point="org.eclipse.ui.commands">
+		<command name="Quick Outline"
+			description="Quick Outline"
+			categoryId="org.eclipse.gef.category.view"
+			id="org.dbflute.erflute.quickOutline">
+		</command>
+	</extension>
+
 	<extension point="org.eclipse.ui.bindings">
-		<key
-			sequence="Ctrl+O"
-			commandId="org.insightech.er.quickOutline"
+		<key sequence="Ctrl+O"
+			commandId="org.dbflute.erflute.quickOutline"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
 	</extension>
 </plugin>

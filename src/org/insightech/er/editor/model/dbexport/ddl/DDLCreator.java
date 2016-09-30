@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
@@ -25,8 +27,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigger;
 import org.insightech.er.editor.model.settings.Environment;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public abstract class DDLCreator {
 

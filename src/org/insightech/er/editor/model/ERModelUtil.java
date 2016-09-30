@@ -3,6 +3,7 @@ package org.insightech.er.editor.model;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IEditorPart;
@@ -10,7 +11,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.EROneDiagramEditor;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;

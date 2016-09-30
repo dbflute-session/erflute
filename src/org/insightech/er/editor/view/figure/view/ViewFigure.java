@@ -1,6 +1,6 @@
 package org.insightech.er.editor.view.figure.view;
 
-import org.insightech.er.ImageKey;
+import org.dbflute.erflute.core.ImageKey;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.figure.table.TableFigure;
 

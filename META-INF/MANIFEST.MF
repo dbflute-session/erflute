@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ERFlute
-Bundle-SymbolicName: org.insightech.er; singleton:=true
-Bundle-Version: 1.5.0.2
-Bundle-Activator: org.insightech.er.Activator
+Bundle-SymbolicName: org.dbflute.erflute;singleton:=true
+Bundle-Version: 0.6.0
+Bundle-Activator: org.dbflute.erflute.Activator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;bundle-version="3.106.1",
  org.eclipse.core.runtime;bundle-version="3.10.0",
@@ -32,11 +32,12 @@ Bundle-ClassPath: .,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Eclipse-LazyStart: true
 Bundle-Vendor: dbflute.org
-Export-Package: org.insightech.er,
- org.insightech.er.common.dialog,
- org.insightech.er.common.exception,
- org.insightech.er.common.widgets,
- org.insightech.er.common.widgets.table,
+Export-Package: org.dbflute.erflute.core.dialog,
+ org.dbflute.erflute.core.exception,
+ org.dbflute.erflute.core.util,
+ org.dbflute.erflute.core.util.io,
+ org.dbflute.erflute.core.widgets,
+ org.dbflute.erflute.core.widgets.table,
  org.insightech.er.db,
  org.insightech.er.db.impl.db2,
  org.insightech.er.db.impl.db2.tablespace,
@@ -222,7 +223,5 @@ Export-Package: org.insightech.er,
  org.insightech.er.preference.jdbc,
  org.insightech.er.preference.template,
  org.insightech.er.preference.translation,
- org.insightech.er.util,
- org.insightech.er.util.io,
  org.insightech.er.wizard,
  org.insightech.er.wizard.page

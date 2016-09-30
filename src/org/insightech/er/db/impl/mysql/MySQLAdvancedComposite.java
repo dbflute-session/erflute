@@ -1,18 +1,18 @@
 package org.insightech.er.db.impl.mysql;
 
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.view.dialog.element.table.tab.AdvancedComposite;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public class MySQLAdvancedComposite extends AdvancedComposite {
 

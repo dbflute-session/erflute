@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.NameValue;
 import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Label;
@@ -13,9 +15,7 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.view.figure.layout.TableLayout;
-import org.insightech.er.util.NameValue;
 
 public class ModelPropertiesFigure extends RectangleFigure {
 

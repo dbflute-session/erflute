@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.ImageKey;
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CenteredContentCellPaint;
+import org.dbflute.erflute.core.widgets.ListenerAppender;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -20,13 +29,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CenteredContentCellPaint;
-import org.insightech.er.common.widgets.ListenerAppender;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.DiagramContents;
@@ -40,8 +42,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Ty
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.edit.CopyManager;
 import org.insightech.er.editor.view.dialog.common.EditableTable;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 /**
  * #delete

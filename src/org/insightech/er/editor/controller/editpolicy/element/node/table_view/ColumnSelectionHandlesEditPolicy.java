@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
@@ -19,7 +20,6 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation.CreateRelationCommand;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation.DeleteRelationCommand;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.table_view.AddColumnGroupCommand;

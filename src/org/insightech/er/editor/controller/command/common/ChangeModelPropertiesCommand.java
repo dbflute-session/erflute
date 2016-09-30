@@ -2,10 +2,10 @@ package org.insightech.er.editor.controller.command.common;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.util.NameValue;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
-import org.insightech.er.util.NameValue;
 
 public class ChangeModelPropertiesCommand extends AbstractCommand {
 

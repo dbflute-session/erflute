@@ -2,11 +2,12 @@ package org.insightech.er.editor.controller.editpart.element.node;
 
 import java.beans.PropertyChangeEvent;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.util.Check;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
 import org.insightech.er.db.impl.oracle.OracleDBManager;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.table_view.ChangeTableViewPropertyCommand;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.sequence.CreateSequenceCommand;
@@ -24,7 +25,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigg
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.dialog.element.table.TableDialog;
 import org.insightech.er.editor.view.figure.table.TableFigure;
-import org.insightech.er.util.Check;
 
 public class ERTableEditPart extends TableViewEditPart implements IResizable {
 

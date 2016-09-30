@@ -3,11 +3,11 @@ package org.insightech.er.editor.view.action.edit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectAllAction;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;
 
 public class SelectAllContentsAction extends SelectAllAction {

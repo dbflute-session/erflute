@@ -1,5 +1,6 @@
 package org.insightech.er.editor.view.figure.table;
 
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -8,7 +9,6 @@ import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.insightech.er.ImageKey;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.settings.Settings;

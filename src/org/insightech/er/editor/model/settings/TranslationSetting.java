@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.insightech.er.preference.PreferenceInitializer;
 
 public class TranslationSetting implements Serializable, Cloneable {

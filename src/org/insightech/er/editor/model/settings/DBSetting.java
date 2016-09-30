@@ -6,10 +6,10 @@ import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.insightech.er.common.exception.InputException;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
-import org.insightech.er.util.Format;
 
 public class DBSetting implements Serializable, Comparable<DBSetting> {
 

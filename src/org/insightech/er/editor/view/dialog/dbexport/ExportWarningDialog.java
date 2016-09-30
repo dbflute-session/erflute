@@ -2,10 +2,10 @@ package org.insightech.er.editor.view.dialog.dbexport;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 
 public class ExportWarningDialog extends ExportErrorDialog {

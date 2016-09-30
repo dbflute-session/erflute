@@ -2,11 +2,11 @@ package org.insightech.er.editor.view.action.group;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
 import org.insightech.er.editor.model.ERDiagram;

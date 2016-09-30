@@ -1,5 +1,8 @@
 package org.insightech.er.editor.view.dialog.dbexport;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.layout.GridLayout;
@@ -7,9 +10,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.widgets.CompositeFactory;
-import org.insightech.er.util.Format;
 
 public abstract class AbstractErrorDialog extends Dialog {
 

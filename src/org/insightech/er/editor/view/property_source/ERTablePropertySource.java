@@ -1,9 +1,9 @@
 package org.insightech.er.editor.view.property_source;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 
 public class ERTablePropertySource implements IPropertySource {

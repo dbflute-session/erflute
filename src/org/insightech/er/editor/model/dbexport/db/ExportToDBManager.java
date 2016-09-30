@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
 
 public class ExportToDBManager implements IRunnableWithProgress {
 

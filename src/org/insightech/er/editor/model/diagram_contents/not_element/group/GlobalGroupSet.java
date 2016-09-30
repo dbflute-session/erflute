@@ -3,10 +3,10 @@ package org.insightech.er.editor.model.diagram_contents.not_element.group;
 import java.io.File;
 import java.io.IOException;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.DialogSettings;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.insightech.er.Activator;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;

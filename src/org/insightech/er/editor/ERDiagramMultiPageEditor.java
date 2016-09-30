@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Format;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -32,8 +35,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.MultiPageEditorPart;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.controller.command.category.ChangeCategoryNameCommand;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPartFactory;
@@ -51,7 +52,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigg
 import org.insightech.er.editor.persistent.Persistent;
 import org.insightech.er.editor.view.dialog.category.CategoryNameChangeDialog;
 import org.insightech.er.editor.view.outline.ERDiagramOutlinePage;
-import org.insightech.er.util.Format;
 
 /**
  * #analyze defined at plugins.xml

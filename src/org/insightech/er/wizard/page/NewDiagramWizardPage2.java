@@ -1,5 +1,6 @@
 package org.insightech.er.wizard.page;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -10,7 +11,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManagerFactory;
 
 /**

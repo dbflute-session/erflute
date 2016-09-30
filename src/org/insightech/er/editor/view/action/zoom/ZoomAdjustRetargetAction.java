@@ -1,9 +1,9 @@
 package org.insightech.er.editor.view.action.zoom;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.ui.actions.RetargetAction;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
-import org.insightech.er.DisplayMessages;
 
 public class ZoomAdjustRetargetAction extends RetargetAction {
 

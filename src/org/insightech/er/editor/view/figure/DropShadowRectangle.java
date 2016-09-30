@@ -1,11 +1,11 @@
 package org.insightech.er.editor.view.figure;
 
+import org.dbflute.erflute.core.DesignResources;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.DesignResources;
 
 public class DropShadowRectangle extends RoundedRectangle {
 

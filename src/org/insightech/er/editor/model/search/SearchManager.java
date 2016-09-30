@@ -3,7 +3,8 @@ package org.insightech.er.editor.model.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.NameValue;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
@@ -15,7 +16,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.column
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.insightech.er.util.NameValue;
 
 public class SearchManager {
 

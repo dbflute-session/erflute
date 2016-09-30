@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
 import org.insightech.er.db.impl.mysql.MySQLDBManager;
 import org.insightech.er.editor.model.ERModelUtil;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;

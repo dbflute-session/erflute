@@ -10,14 +10,14 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.dbflute.erflute.core.util.POIUtils;
+import org.dbflute.erflute.core.util.POIUtils.CellLocation;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.StringObjectModel;
 import org.insightech.er.editor.model.dbexport.excel.ExportToExcelManager.LoopDefinition;
 import org.insightech.er.editor.model.tracking.ChangeTracking;
-import org.insightech.er.util.POIUtils;
-import org.insightech.er.util.POIUtils.CellLocation;
 
 public class HistorySheetGenerator extends AbstractSheetGenerator {
 

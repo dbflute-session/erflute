@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.page_generator.AbstractHtmlReportPageGenerator;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
-import org.insightech.er.util.Format;
 
 public class TableHtmlReportPageGenerator extends AbstractHtmlReportPageGenerator {
 

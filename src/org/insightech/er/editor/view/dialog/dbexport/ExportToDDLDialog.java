@@ -7,6 +7,14 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
+import org.dbflute.erflute.core.widgets.FileText;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -35,12 +43,6 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CompositeFactory;
-import org.insightech.er.common.widgets.FileText;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.DDLCreator;
@@ -51,8 +53,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.category.Cat
 import org.insightech.er.editor.model.settings.Environment;
 import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public class ExportToDDLDialog extends AbstractDialog {
 

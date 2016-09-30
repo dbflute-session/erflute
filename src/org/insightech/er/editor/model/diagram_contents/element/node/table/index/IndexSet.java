@@ -1,6 +1,6 @@
 package org.insightech.er.editor.model.diagram_contents.element.node.table.index;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ObjectListModel;
 

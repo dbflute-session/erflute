@@ -2,6 +2,9 @@ package org.insightech.er.editor.controller.editpart.outline.table;
 
 import java.beans.PropertyChangeEvent;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.ImageKey;
+import org.dbflute.erflute.core.util.Format;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -9,8 +12,6 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation.ChangeRelationPropertyCommand;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.insightech.er.editor.controller.editpolicy.element.connection.RelationEditPolicy;
@@ -21,7 +22,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.dialog.element.relation.RelationDialog;
-import org.insightech.er.util.Format;
 
 public class RelationOutlineEditPart extends AbstractOutlineEditPart {
 

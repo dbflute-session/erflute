@@ -3,6 +3,8 @@ package org.insightech.er.wizard.page;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -11,8 +13,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.persistent.Persistent;
 

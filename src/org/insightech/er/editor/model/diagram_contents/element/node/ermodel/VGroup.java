@@ -3,6 +3,7 @@ package org.insightech.er.editor.model.diagram_contents.element.node.ermodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.editor.controller.editpart.element.node.IResizable;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
@@ -10,7 +11,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
-import org.insightech.er.util.Format;
 
 public class VGroup extends NodeElement implements IResizable, Comparable<VGroup> {
 

@@ -13,8 +13,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.insightech.er.editor.model.settings.TranslationSetting;
 import org.insightech.er.preference.PreferenceInitializer;
 

@@ -1,8 +1,8 @@
 package org.insightech.er.editor.view.tool;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.gef.tools.ConnectionCreationTool;
 import org.eclipse.swt.SWT;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation.CreateSelfRelationCommand;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 

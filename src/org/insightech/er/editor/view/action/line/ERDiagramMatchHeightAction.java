@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.MatchHeightAction;
 import org.eclipse.ui.IWorkbenchPart;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
 import org.insightech.er.editor.controller.editpart.element.node.column.NormalColumnEditPart;
 
 public class ERDiagramMatchHeightAction extends MatchHeightAction {

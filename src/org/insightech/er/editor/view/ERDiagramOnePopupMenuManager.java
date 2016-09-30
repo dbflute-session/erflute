@@ -2,6 +2,7 @@ package org.insightech.er.editor.view;
 
 import java.math.BigDecimal;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
@@ -12,7 +13,6 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.settings.CategorySetting;
 import org.insightech.er.editor.model.settings.Settings;

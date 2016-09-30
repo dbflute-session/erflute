@@ -3,12 +3,12 @@ package org.insightech.er.editor.view.dialog.group;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.CopyGroup;

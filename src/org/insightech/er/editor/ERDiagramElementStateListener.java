@@ -1,5 +1,6 @@
 package org.insightech.er.editor;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.widgets.Display;
@@ -9,7 +10,6 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.texteditor.DocumentProviderRegistry;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.IElementStateListener;
-import org.insightech.er.Activator;
 
 /**
  * @author modified by jflute (originated in ermaster)

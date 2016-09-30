@@ -2,7 +2,7 @@ package org.insightech.er.editor.controller.command.common.notation;
 
 import java.math.BigDecimal;
 
-import org.insightech.er.Activator;
+import org.dbflute.erflute.Activator;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ERModelUtil;

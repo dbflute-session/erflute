@@ -1,5 +1,8 @@
 package org.insightech.er.db.impl.oracle.tablespace;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -9,12 +12,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceProperties;
 import org.insightech.er.editor.view.dialog.outline.tablespace.TablespaceDialog;
 import org.insightech.er.editor.view.dialog.outline.tablespace.TablespaceSizeCaluculatorDialog;
-import org.insightech.er.util.Format;
 
 public class OracleTablespaceDialog extends TablespaceDialog {
 

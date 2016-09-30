@@ -1,5 +1,6 @@
 package org.insightech.er.wizard;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -7,7 +8,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.ide.IDE;
-import org.insightech.er.Activator;
 import org.insightech.er.wizard.page.NewDiagramWizardPage1;
 import org.insightech.er.wizard.page.NewDiagramWizardPage2;
 

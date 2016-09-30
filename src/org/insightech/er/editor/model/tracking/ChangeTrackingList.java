@@ -7,13 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.dbflute.erflute.core.util.Check;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.util.Check;
 
 public class ChangeTrackingList implements Serializable {
 

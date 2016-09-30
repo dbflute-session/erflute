@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
-import org.insightech.er.util.Format;
 
 public class SqlType implements Serializable {
 

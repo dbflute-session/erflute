@@ -2,12 +2,12 @@ package org.insightech.er.editor.view.action.edit;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.ui.IWorkbenchPart;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.WithoutUpdateCommandWrapper;
 import org.insightech.er.editor.model.ERDiagram;

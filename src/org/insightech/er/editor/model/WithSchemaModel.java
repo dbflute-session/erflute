@@ -1,8 +1,8 @@
 package org.insightech.er.editor.model;
 
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
-import org.insightech.er.util.Format;
 
 public abstract class WithSchemaModel extends AbstractModel implements Comparable<WithSchemaModel> {
 

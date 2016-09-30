@@ -3,6 +3,7 @@ package org.insightech.er.editor.view.dialog.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -36,7 +37,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.IContributedContentsView;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.common.ReplaceCommand;
 import org.insightech.er.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;

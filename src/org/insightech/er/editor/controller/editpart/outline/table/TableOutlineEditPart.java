@@ -4,6 +4,8 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -13,8 +15,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
 import org.insightech.er.editor.controller.editpart.DeleteableEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;

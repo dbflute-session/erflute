@@ -2,6 +2,12 @@ package org.insightech.er.editor.view.dialog.element.view.tab;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
+import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -16,10 +22,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CompositeFactory;
-import org.insightech.er.common.widgets.ValidatableTabWrapper;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
@@ -31,8 +33,6 @@ import org.insightech.er.editor.view.dialog.common.ERTableCompositeHolder;
 import org.insightech.er.editor.view.dialog.element.view.ViewDialog;
 import org.insightech.er.editor.view.dialog.group.GroupManageDialog;
 import org.insightech.er.editor.view.dialog.word.column.ViewColumnDialog;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.Format;
 
 public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTableCompositeHolder {
 

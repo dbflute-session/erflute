@@ -1,13 +1,13 @@
 package org.insightech.er.editor.view.figure.table.style.frame;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.TitleBarBorder;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Image;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
 
 public class ImageTitleBarBorder extends TitleBarBorder {
 

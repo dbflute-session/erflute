@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.dbflute.erflute.core.DesignResources;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
@@ -18,8 +20,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.DesignResources;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;
 import org.insightech.er.editor.controller.editpolicy.ERDiagramLayoutEditPolicy;

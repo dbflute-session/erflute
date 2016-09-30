@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dbflute.erflute.core.DesignResources;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
@@ -13,7 +14,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.swt.graphics.Color;
-import org.insightech.er.DesignResources;
 import org.insightech.er.editor.controller.editpolicy.ERDiagramLayoutEditPolicy;
 import org.insightech.er.editor.model.ViewableModel;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;

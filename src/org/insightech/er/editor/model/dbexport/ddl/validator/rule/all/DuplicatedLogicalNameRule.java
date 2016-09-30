@@ -3,8 +3,8 @@ package org.insightech.er.editor.model.dbexport.ddl.validator.rule.all;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.core.resources.IMarker;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.BaseRule;

@@ -1,10 +1,10 @@
 package org.insightech.er.editor.view.action.outline.tablespace;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.EclipseDBManagerFactory;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.tablespace.CreateTablespaceCommand;
 import org.insightech.er.editor.model.ERDiagram;

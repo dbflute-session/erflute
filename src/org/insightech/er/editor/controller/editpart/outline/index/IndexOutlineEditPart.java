@@ -2,6 +2,8 @@ package org.insightech.er.editor.controller.editpart.outline.index;
 
 import java.beans.PropertyChangeEvent;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -9,8 +11,6 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.index.ChangeIndexCommand;
 import org.insightech.er.editor.controller.editpart.DeleteableEditPart;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;

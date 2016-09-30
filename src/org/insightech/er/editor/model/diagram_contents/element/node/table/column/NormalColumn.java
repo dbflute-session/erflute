@@ -3,13 +3,13 @@ package org.insightech.er.editor.model.diagram_contents.element.node.table.colum
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Check;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
-import org.insightech.er.util.Check;
 
 public class NormalColumn extends Column {
 

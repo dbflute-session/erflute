@@ -1,15 +1,15 @@
 package org.insightech.er.editor.view.dialog.option.tab;
 
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
+import org.dbflute.erflute.core.widgets.InnerDirectoryText;
+import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.CompositeFactory;
-import org.insightech.er.common.widgets.InnerDirectoryText;
-import org.insightech.er.common.widgets.ValidatableTabWrapper;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.dialog.option.OptionSettingDialog;
 

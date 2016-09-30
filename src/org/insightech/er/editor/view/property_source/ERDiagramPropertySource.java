@@ -2,10 +2,10 @@ package org.insightech.er.editor.view.property_source;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
 

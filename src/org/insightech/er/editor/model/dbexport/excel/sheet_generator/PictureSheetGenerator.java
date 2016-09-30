@@ -8,8 +8,8 @@ import org.apache.poi.hssf.usermodel.HSSFPicture;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.insightech.er.util.POIUtils;
-import org.insightech.er.util.POIUtils.CellLocation;
+import org.dbflute.erflute.core.util.POIUtils;
+import org.dbflute.erflute.core.util.POIUtils.CellLocation;
 
 public class PictureSheetGenerator {
 

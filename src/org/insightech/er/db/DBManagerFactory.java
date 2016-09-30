@@ -3,7 +3,7 @@ package org.insightech.er.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
 import org.insightech.er.db.impl.access.AccessDBManager;
 import org.insightech.er.db.impl.db2.DB2DBManager;
 import org.insightech.er.db.impl.hsqldb.HSQLDBDBManager;

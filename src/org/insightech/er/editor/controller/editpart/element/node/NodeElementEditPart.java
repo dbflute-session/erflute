@@ -4,6 +4,9 @@ import java.beans.PropertyChangeEvent;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DesignResources;
+import org.dbflute.erflute.core.util.Check;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -22,8 +25,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
-import org.insightech.er.Activator;
-import org.insightech.er.DesignResources;
 import org.insightech.er.editor.controller.editpart.DeleteableEditPart;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.controller.editpart.element.connection.ERDiagramConnectionEditPart;
@@ -39,7 +40,6 @@ import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.insightech.er.editor.view.figure.connection.ERDiagramConnection;
 import org.insightech.er.editor.view.figure.table.TableFigure;
-import org.insightech.er.util.Check;
 
 public abstract class NodeElementEditPart extends AbstractModelEditPart implements NodeEditPart, DeleteableEditPart {
 

@@ -3,6 +3,8 @@ package org.insightech.er.editor.model.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.NameValue;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
@@ -11,8 +13,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.index.
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.insightech.er.util.Check;
-import org.insightech.er.util.NameValue;
 
 public class ReplaceManager {
 

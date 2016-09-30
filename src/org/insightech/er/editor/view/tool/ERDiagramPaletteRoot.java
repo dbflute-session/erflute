@@ -1,5 +1,8 @@
 package org.insightech.er.editor.view.tool;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.PaletteGroup;
@@ -7,9 +10,6 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.insightech.er.editor.model.diagram_contents.element.connection.RelatedTable;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;

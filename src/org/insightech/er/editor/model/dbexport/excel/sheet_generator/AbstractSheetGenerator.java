@@ -11,6 +11,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.dbflute.erflute.core.util.POIUtils;
+import org.dbflute.erflute.core.util.POIUtils.CellLocation;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ObjectModel;
@@ -18,8 +20,6 @@ import org.insightech.er.editor.model.dbexport.excel.ExportToExcelManager.LoopDe
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.util.POIUtils;
-import org.insightech.er.util.POIUtils.CellLocation;
 
 public abstract class AbstractSheetGenerator {
 

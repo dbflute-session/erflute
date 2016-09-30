@@ -3,12 +3,12 @@ package org.insightech.er.editor.controller.editpolicy.element.node;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.DeleteConnectionCommand;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation.DeleteRelationCommand;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.DeleteElementCommand;

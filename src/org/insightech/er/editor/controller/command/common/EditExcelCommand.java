@@ -1,6 +1,8 @@
 package org.insightech.er.editor.controller.command.common;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.util.POIUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -11,13 +13,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERModelUtil;
 import org.insightech.er.editor.model.ViewableModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.util.POIUtils;
 
 public class EditExcelCommand extends AbstractCommand {
 

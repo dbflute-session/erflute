@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.util.NameValue;
 import org.insightech.er.db.impl.db2.tablespace.DB2TablespaceProperties;
 import org.insightech.er.db.impl.mysql.MySQLTableProperties;
 import org.insightech.er.db.impl.mysql.tablespace.MySQLTablespaceProperties;
@@ -64,8 +66,6 @@ import org.insightech.er.editor.model.settings.TranslationSetting;
 import org.insightech.er.editor.model.tracking.ChangeTracking;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.insightech.er.editor.persistent.Persistent;
-import org.insightech.er.util.Format;
-import org.insightech.er.util.NameValue;
 
 /**
  * @author modified by jflute (originated in ermaster)

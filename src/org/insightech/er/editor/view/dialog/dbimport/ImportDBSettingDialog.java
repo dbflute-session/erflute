@@ -4,10 +4,10 @@ import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.exception.InputException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.insightech.er.Activator;
-import org.insightech.er.common.exception.InputException;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.dialog.common.AbstractDBSettingDialog;
 import org.insightech.er.preference.PreferenceInitializer;

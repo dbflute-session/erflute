@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.swt.SWT;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.DeleteConnectionCommand;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModelSet;

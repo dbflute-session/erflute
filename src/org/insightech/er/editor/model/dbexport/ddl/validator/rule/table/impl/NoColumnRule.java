@@ -1,7 +1,7 @@
 package org.insightech.er.editor.model.dbexport.ddl.validator.rule.table.impl;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.core.resources.IMarker;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.table.TableRule;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;

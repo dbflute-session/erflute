@@ -2,10 +2,10 @@ package org.insightech.er.editor.model.dbexport.image;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.graphics.Image;
-import org.insightech.er.DisplayMessages;
 
 public class ExportToImageWithProgressManager extends ExportToImageManager implements IRunnableWithProgress {
 

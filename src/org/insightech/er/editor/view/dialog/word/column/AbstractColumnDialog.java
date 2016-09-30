@@ -3,6 +3,9 @@ package org.insightech.er.editor.view.dialog.word.column;
 import java.util.Iterator;
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -18,8 +21,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.CopyColumn;
@@ -28,7 +29,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Co
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.view.dialog.word.AbstractWordDialog;
-import org.insightech.er.util.Format;
 
 /**
  * @author ermaster

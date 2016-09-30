@@ -2,6 +2,7 @@ package org.insightech.er.editor.controller.editpart.element.node.removed;
 
 import java.beans.PropertyChangeEvent;
 
+import org.dbflute.erflute.core.DesignResources;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -16,7 +17,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
-import org.insightech.er.DesignResources;
 import org.insightech.er.editor.controller.editpart.DeleteableEditPart;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.model.ViewableModel;

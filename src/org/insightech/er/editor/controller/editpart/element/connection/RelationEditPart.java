@@ -3,6 +3,8 @@ package org.insightech.er.editor.controller.editpart.element.connection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.util.Format;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -20,7 +22,6 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation.ChangeRelationPropertyCommand;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;
@@ -34,7 +35,6 @@ import org.insightech.er.editor.view.figure.anchor.XYChopboxAnchor;
 import org.insightech.er.editor.view.figure.connection.ERDiagramConnection;
 import org.insightech.er.editor.view.figure.connection.decoration.DecorationFactory;
 import org.insightech.er.editor.view.figure.connection.decoration.DecorationFactory.Decoration;
-import org.insightech.er.util.Format;
 
 public class RelationEditPart extends ERDiagramConnectionEditPart {
 

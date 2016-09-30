@@ -1,10 +1,10 @@
 package org.insightech.er.editor.view.action.outline.sequence;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.sequence.CreateSequenceCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.outline.AbstractOutlineBaseAction;

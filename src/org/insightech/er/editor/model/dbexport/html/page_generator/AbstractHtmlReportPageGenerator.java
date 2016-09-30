@@ -5,7 +5,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.ExportToHtmlManager;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
@@ -14,7 +15,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.TableV
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.insightech.er.util.Format;
 
 public abstract class AbstractHtmlReportPageGenerator implements HtmlReportPageGenerator {
 

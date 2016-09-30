@@ -2,20 +2,20 @@ package org.insightech.er.editor.view.dialog.outline.tablespace;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.DesignResources;
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.DesignResources;
-import org.insightech.er.common.dialog.AbstractDialog;
-import org.insightech.er.common.widgets.CompositeFactory;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceProperties;
 import org.insightech.er.editor.model.settings.Environment;
-import org.insightech.er.util.Check;
 
 public abstract class TablespaceDialog extends AbstractDialog {
 

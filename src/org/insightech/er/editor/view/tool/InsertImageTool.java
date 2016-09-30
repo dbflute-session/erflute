@@ -1,5 +1,8 @@
 package org.insightech.er.editor.view.tool;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
@@ -7,9 +10,6 @@ import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.diagram_contents.element.node.image.InsertedImage;
 
 public class InsertImageTool extends CreationToolEntry {

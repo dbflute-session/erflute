@@ -3,10 +3,10 @@ package org.insightech.er.editor.model.dbexport.html.page_generator.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.page_generator.AbstractHtmlReportPageGenerator;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigger;
-import org.insightech.er.util.Format;
 
 public class TriggerHtmlReportPageGenerator extends AbstractHtmlReportPageGenerator {
 

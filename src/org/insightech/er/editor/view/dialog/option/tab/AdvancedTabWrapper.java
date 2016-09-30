@@ -1,9 +1,9 @@
 package org.insightech.er.editor.view.dialog.option.tab;
 
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.ValidatableTabWrapper;
 import org.insightech.er.db.EclipseDBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableProperties;

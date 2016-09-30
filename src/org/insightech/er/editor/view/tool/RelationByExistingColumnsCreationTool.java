@@ -1,7 +1,7 @@
 package org.insightech.er.editor.view.tool;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.gef.tools.ConnectionCreationTool;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation.CreateRelationByExistingColumnsCommand;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;

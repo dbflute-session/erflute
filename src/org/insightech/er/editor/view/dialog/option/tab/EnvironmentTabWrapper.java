@@ -1,5 +1,10 @@
 package org.insightech.er.editor.view.dialog.option.tab;
 
+import org.dbflute.erflute.core.DesignResources;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.exception.InputException;
+import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -12,14 +17,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.DisplayMessages;
-import org.insightech.er.DesignResources;
-import org.insightech.er.common.exception.InputException;
-import org.insightech.er.common.widgets.ValidatableTabWrapper;
 import org.insightech.er.editor.model.settings.Environment;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.dialog.option.OptionSettingDialog;
-import org.insightech.er.util.Check;
 
 public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 

@@ -1,12 +1,12 @@
 package org.insightech.er.db.impl.sqlserver;
 
+import org.dbflute.erflute.core.util.Check;
 import org.insightech.er.db.impl.db2.tablespace.DB2TablespaceProperties;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.DDLCreator;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
-import org.insightech.er.util.Check;
 
 public class SqlServerDDLCreator extends DDLCreator {
 

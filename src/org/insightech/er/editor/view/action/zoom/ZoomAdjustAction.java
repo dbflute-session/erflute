@@ -1,12 +1,12 @@
 package org.insightech.er.editor.view.action.zoom;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.gef.Disposable;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.action.Action;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
-import org.insightech.er.DisplayMessages;
 
 public class ZoomAdjustAction extends Action implements ZoomListener, Disposable {
 

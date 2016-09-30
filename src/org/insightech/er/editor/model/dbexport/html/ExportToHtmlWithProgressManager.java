@@ -3,9 +3,9 @@ package org.insightech.er.editor.model.dbexport.html;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.page_generator.HtmlReportPageGenerator;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;

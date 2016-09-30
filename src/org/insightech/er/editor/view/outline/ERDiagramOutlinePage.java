@@ -2,6 +2,7 @@ package org.insightech.er.editor.view.outline;
 
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
@@ -30,7 +31,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionFactory;
-import org.insightech.er.Activator;
 import org.insightech.er.editor.ERDiagramEditor;
 import org.insightech.er.editor.controller.command.ermodel.OpenERModelCommand;
 import org.insightech.er.editor.controller.editpart.outline.ERDiagramOutlineEditPart;

@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.insightech.er.DisplayMessages;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.io.FileUtils;
+import org.dbflute.erflute.core.util.io.IOUtils;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.html.page_generator.HtmlReportPageGenerator;
 import org.insightech.er.editor.model.dbexport.html.page_generator.OverviewHtmlReportPageGenerator;
@@ -25,8 +27,6 @@ import org.insightech.er.editor.model.dbexport.html.page_generator.impl.ViewHtml
 import org.insightech.er.editor.model.dbexport.html.page_generator.impl.WordHtmlReportPageGenerator;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.util.io.FileUtils;
-import org.insightech.er.util.io.IOUtils;
 
 /**
  * @author ermaster

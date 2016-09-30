@@ -2,6 +2,9 @@ package org.insightech.er.editor.view.action.edit;
 
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -9,9 +12,6 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IWorkbenchPart;
-import org.insightech.er.Activator;
-import org.insightech.er.ImageKey;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.editor.controller.command.common.EditExcelCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ViewableModel;

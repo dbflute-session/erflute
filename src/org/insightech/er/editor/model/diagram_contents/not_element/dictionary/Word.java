@@ -2,10 +2,10 @@ package org.insightech.er.editor.model.diagram_contents.not_element.dictionary;
 
 import java.util.Comparator;
 
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ObjectModel;
-import org.insightech.er.util.Format;
 
 public class Word extends AbstractModel implements ObjectModel, Comparable<Word> {
 

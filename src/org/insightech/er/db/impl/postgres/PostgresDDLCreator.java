@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.dbflute.erflute.core.util.Check;
 import org.insightech.er.db.impl.postgres.tablespace.PostgresTablespaceProperties;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
@@ -16,7 +17,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnG
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigger;
-import org.insightech.er.util.Check;
 
 public class PostgresDDLCreator extends DDLCreator {
 

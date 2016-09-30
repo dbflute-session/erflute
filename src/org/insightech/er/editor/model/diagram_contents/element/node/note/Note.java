@@ -2,10 +2,10 @@ package org.insightech.er.editor.model.diagram_contents.element.node.note;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
-import org.insightech.er.util.Format;
 
 /**
  * �m�[�g�̃��f��

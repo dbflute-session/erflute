@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.util.io.IOUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -15,10 +18,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.insightech.er.Activator;
-import org.insightech.er.DisplayMessages;
 import org.insightech.er.preference.PreferenceInitializer;
-import org.insightech.er.util.io.IOUtils;
 
 public class TemplatePreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 
