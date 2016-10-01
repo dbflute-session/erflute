@@ -18,7 +18,7 @@ import org.insightech.er.editor.controller.editpart.element.node.ViewEditPart;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.insightech.er.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.dialog.element.view.ViewDialog;
 
@@ -45,11 +45,11 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
      */
     @Override
     public void performRequest(Request request) {
-        View view = (View) this.getModel();
+        ERView view = (ERView) this.getModel();
         ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            View copyView = view.copyData();
+            ERView copyView = view.copyData();
 
             ViewDialog dialog =
                     new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyView, diagram
@@ -86,7 +86,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
     }
 
     protected void refreshName() {
-        View model = (View) this.getModel();
+        ERView model = (ERView) this.getModel();
 
         ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
 

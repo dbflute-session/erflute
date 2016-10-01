@@ -3,13 +3,13 @@ package org.insightech.er.editor.model.diagram_contents.element.node.view;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ColumnHolder;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.properties.ViewProperties;
 
-public class View extends TableView implements ObjectModel, ColumnHolder {
+public class ERView extends TableView implements ObjectModel, ColumnHolder {
 
     private static final long serialVersionUID = -4492787972500741281L;
 
@@ -19,7 +19,7 @@ public class View extends TableView implements ObjectModel, ColumnHolder {
 
     private String sql;
 
-    public View() {
+    public ERView() {
         this.tableViewProperties = new ViewProperties();
     }
 
@@ -32,7 +32,7 @@ public class View extends TableView implements ObjectModel, ColumnHolder {
     }
 
     @Override
-    public void addColumn(Column column) {
+    public void addColumn(ERColumn column) {
         if (column instanceof NormalColumn) {
             NormalColumn normalColumn = (NormalColumn) column;
             normalColumn.setAutoIncrement(false);
@@ -48,8 +48,8 @@ public class View extends TableView implements ObjectModel, ColumnHolder {
     }
 
     @Override
-    public View copyData() {
-        View to = new View();
+    public ERView copyData() {
+        ERView to = new ERView();
         to.setSql(this.getSql());
 
         super.copyTableViewData(to);
@@ -61,7 +61,7 @@ public class View extends TableView implements ObjectModel, ColumnHolder {
 
     @Override
     public void restructureData(TableView to) {
-        View view = (View) to;
+        ERView view = (ERView) to;
 
         view.setSql(this.getSql());
 
@@ -77,8 +77,8 @@ public class View extends TableView implements ObjectModel, ColumnHolder {
      * ��͕����ΏۊO�Ƃ��A�ォ�畡������B<br>
      */
     @Override
-    public View clone() {
-        View clone = (View) super.clone();
+    public ERView clone() {
+        ERView clone = (ERView) super.clone();
 
         // �v���p�e�B�𕡐����܂��B
         TableViewProperties cloneViewProperties = this.tableViewProperties.clone();

@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.GroupSet;
 import org.insightech.er.editor.view.dialog.element.view.tab.AdvancedTabWrapper;
 import org.insightech.er.editor.view.dialog.element.view.tab.AttributeTabWrapper;
@@ -24,7 +24,7 @@ import org.insightech.er.editor.view.dialog.element.view.tab.SqlTabWrapper;
 
 public class ViewDialog extends AbstractDialog {
 
-    private View copyData;
+    private ERView copyData;
 
     private TabFolder tabFolder;
 
@@ -32,7 +32,7 @@ public class ViewDialog extends AbstractDialog {
 
     private List<ValidatableTabWrapper> tabWrapperList;
 
-    public ViewDialog(Shell parentShell, EditPartViewer viewer, View copyData, GroupSet columnGroups) {
+    public ViewDialog(Shell parentShell, EditPartViewer viewer, ERView copyData, GroupSet columnGroups) {
         super(parentShell);
 
         this.viewer = viewer;

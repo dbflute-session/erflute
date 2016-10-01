@@ -33,7 +33,7 @@ import org.insightech.er.editor.view.outline.ERDiagramOutlinePopupMenuManager;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class EROneDiagramEditor extends ERDiagramEditor {
+public class SubModelEditor extends MainModelEditor {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -43,7 +43,7 @@ public class EROneDiagramEditor extends ERDiagramEditor {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public EROneDiagramEditor(ERDiagram diagram, ERModel model, ERDiagramEditPartFactory editPartFactory,
+    public SubModelEditor(ERDiagram diagram, ERModel model, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         super(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
         this.model = model;
@@ -96,8 +96,9 @@ public class EROneDiagramEditor extends ERDiagramEditor {
         this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
         viewer.setContextMenu(menuMgr);
         viewer.setContents(model);
-        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(),
-                this.outlinePage.getOutlineActionRegistory(), this.outlinePage.getViewer());
+        this.outlineMenuMgr =
+                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
+                        this.outlinePage.getViewer());
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 

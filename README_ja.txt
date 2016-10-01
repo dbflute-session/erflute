@@ -103,7 +103,7 @@ src/org.insightech.er
  |  |-ERDiagramEditor
  |  |-ERDiagramElementStateListener
  |  |-ErDiagramInformationControl
- |  |-ERDiagramMultiPageEditor
+ |  |-ERFluteMultiPageEditor
  |  |-EROneDiagramEditor
  |  |-TestEditor
  |  |-TranslationResources

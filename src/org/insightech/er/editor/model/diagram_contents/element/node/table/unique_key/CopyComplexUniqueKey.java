@@ -3,7 +3,7 @@ package org.insightech.er.editor.model.diagram_contents.element.node.table.uniqu
 import java.util.ArrayList;
 import java.util.List;
 
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
@@ -13,13 +13,13 @@ public class CopyComplexUniqueKey extends ComplexUniqueKey {
 
     private ComplexUniqueKey originalComplexUniqueKey;
 
-    public CopyComplexUniqueKey(ComplexUniqueKey original, List<Column> copyColumns) {
+    public CopyComplexUniqueKey(ComplexUniqueKey original, List<ERColumn> copyColumns) {
         super(original.getUniqueKeyName());
 
         this.originalComplexUniqueKey = original;
 
         for (NormalColumn originalColumn : original.getColumnList()) {
-            for (Column column : copyColumns) {
+            for (ERColumn column : copyColumns) {
                 if (column instanceof CopyColumn) {
                     CopyColumn copyColumn = (CopyColumn) column;
 

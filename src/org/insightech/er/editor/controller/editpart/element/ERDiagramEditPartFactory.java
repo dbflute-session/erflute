@@ -20,7 +20,7 @@ import org.insightech.er.editor.controller.editpart.element.node.removed.Removed
 import org.insightech.er.editor.controller.editpart.element.node.removed.RemovedNoteEditPart;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.CommentConnection;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.VGroup;
@@ -30,8 +30,8 @@ import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.tracking.RemovedERTable;
 import org.insightech.er.editor.model.tracking.RemovedNote;
@@ -53,15 +53,15 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
             editPart = new ERVirtualTableEditPart();
         } else if (model instanceof ERTable) {
             editPart = new ERTableEditPart();
-        } else if (model instanceof View) {
+        } else if (model instanceof ERView) {
             editPart = new ViewEditPart();
         } else if (model instanceof ERDiagram) {
             editPart = new ERDiagramEditPart();
-        } else if (model instanceof Relation) {
+        } else if (model instanceof Relationship) {
             editPart = new RelationEditPart();
         } else if (model instanceof Note) {
             editPart = new NoteEditPart();
-        } else if (model instanceof Index) {
+        } else if (model instanceof ERIndex) {
             editPart = new IndexEditPart();
         } else if (model instanceof ModelProperties) {
             editPart = new ModelPropertiesEditPart();

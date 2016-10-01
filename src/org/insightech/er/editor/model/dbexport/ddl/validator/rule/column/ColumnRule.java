@@ -6,7 +6,7 @@ import java.util.List;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.table.TableRule;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 
@@ -47,7 +47,7 @@ public abstract class ColumnRule extends TableRule {
      */
     @Override
     public boolean validate(ERTable table) {
-        for (Column column : table.getColumns()) {
+        for (ERColumn column : table.getColumns()) {
             if (column instanceof NormalColumn) {
                 NormalColumn normalColumn = (NormalColumn) column;
 

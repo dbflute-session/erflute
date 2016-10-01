@@ -12,7 +12,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.db.impl.mysql.MySQLDBManager;
 import org.insightech.er.editor.model.ERModelUtil;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -27,7 +27,7 @@ import org.insightech.er.editor.view.dialog.element.relation.RelationByExistingC
  */
 public class CreateRelationByExistingColumnsCommand extends AbstractCreateRelationCommand {
 
-    private Relation relation;
+    private Relationship relation;
 
     private List<NormalColumn> referencedColumnList;
 
@@ -110,7 +110,7 @@ public class CreateRelationByExistingColumnsCommand extends AbstractCreateRelati
         TableView targetTable = (TableView) this.target.getModel();
 
         Map<NormalColumn, List<NormalColumn>> referencedMap = new HashMap<NormalColumn, List<NormalColumn>>();
-        Map<Relation, Set<NormalColumn>> foreignKeySetMap = new HashMap<Relation, Set<NormalColumn>>();
+        Map<Relationship, Set<NormalColumn>> foreignKeySetMap = new HashMap<Relationship, Set<NormalColumn>>();
 
         for (NormalColumn normalColumn : targetTable.getNormalColumns()) {
             NormalColumn rootReferencedColumn = normalColumn.getRootReferencedColumn();
@@ -124,7 +124,7 @@ public class CreateRelationByExistingColumnsCommand extends AbstractCreateRelati
 
                 foreignKeyList.add(normalColumn);
 
-                for (Relation relation : normalColumn.getRelationList()) {
+                for (Relationship relation : normalColumn.getRelationshipList()) {
                     Set<NormalColumn> foreignKeySet = foreignKeySetMap.get(relation);
                     if (foreignKeySet == null) {
                         foreignKeySet = new HashSet<NormalColumn>();
@@ -154,7 +154,7 @@ public class CreateRelationByExistingColumnsCommand extends AbstractCreateRelati
                         candidateForeignKeyColumns, referencedMap, foreignKeySetMap);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
-            this.relation = new Relation(dialog.isReferenceForPK(), dialog.getReferencedComplexUniqueKey(), dialog.getReferencedColumn());
+            this.relation = new Relationship(dialog.isReferenceForPK(), dialog.getReferencedComplexUniqueKey(), dialog.getReferencedColumn());
             final String defaultName = prepareDefaultFKConstraintName(sourceTable, targetTable);
             if (defaultName != null) {
                 this.relation.setName(defaultName);

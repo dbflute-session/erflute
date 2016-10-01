@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
@@ -80,14 +80,14 @@ public class ERModel extends NodeElement {
         return null;
     }
 
-    public void deleteRelation(Relation relation) {
+    public void deleteRelation(Relationship relation) {
         for (final ERVirtualTable vtable : tables) {
             vtable.removeOutgoing(relation);
             vtable.removeIncoming(relation);
         }
     }
 
-    public void createRelation(Relation relation) {
+    public void createRelation(Relationship relation) {
         boolean dirty = false;
         for (final ERVirtualTable vtable : tables) {
             if (relation.getSourceTableView().equals(vtable.getRawTable())) {

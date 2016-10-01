@@ -14,12 +14,12 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public abstract class AbstractExportAction extends AbstractBaseAction {
 
-    public AbstractExportAction(String id, String label, ERDiagramEditor editor) {
+    public AbstractExportAction(String id, String label, MainModelEditor editor) {
         super(id, label, editor);
     }
 

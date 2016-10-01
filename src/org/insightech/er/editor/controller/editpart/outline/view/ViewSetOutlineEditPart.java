@@ -10,7 +10,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.gef.EditPart;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.ViewSet;
 import org.insightech.er.editor.model.settings.Settings;
 
@@ -29,7 +29,7 @@ public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
     protected List getModelChildren() {
         ViewSet viewSet = (ViewSet) this.getModel();
 
-        List<View> list = viewSet.getList();
+        List<ERView> list = viewSet.getList();
 
         if (this.getDiagram().getDiagramContents().getSettings().getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
             Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);

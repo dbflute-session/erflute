@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IAction;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 
 public class ExtendPopupMenu {
 
@@ -38,7 +38,7 @@ public class ExtendPopupMenu {
         return path;
     }
 
-    public static ExtendPopupMenu createExtendPopupMenu(IConfigurationElement configurationElement, ERDiagramEditor editor)
+    public static ExtendPopupMenu createExtendPopupMenu(IConfigurationElement configurationElement, MainModelEditor editor)
             throws CoreException {
         ExtendPopupMenu menu = null;
 
@@ -66,7 +66,7 @@ public class ExtendPopupMenu {
      * 
      * @throws CoreException
      */
-    public static List<ExtendPopupMenu> loadExtensions(ERDiagramEditor editor) throws CoreException {
+    public static List<ExtendPopupMenu> loadExtensions(MainModelEditor editor) throws CoreException {
         List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<ExtendPopupMenu>();
 
         IExtensionRegistry registry = Platform.getExtensionRegistry();

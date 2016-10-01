@@ -4,7 +4,7 @@ import org.eclipse.gef.commands.Command;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.index.DeleteIndexCommand;
 import org.insightech.er.editor.controller.editpolicy.not_element.NotElementComponentEditPolicy;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 
 public class IndexComponentEditPolicy extends NotElementComponentEditPolicy {
 
@@ -13,7 +13,7 @@ public class IndexComponentEditPolicy extends NotElementComponentEditPolicy {
      */
     @Override
     protected Command createDeleteCommand(ERDiagram diagram, Object model) {
-        return new DeleteIndexCommand(diagram, (Index) model);
+        return new DeleteIndexCommand(diagram, (ERIndex) model);
     }
 
 }

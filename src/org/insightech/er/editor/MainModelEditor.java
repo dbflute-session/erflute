@@ -121,10 +121,10 @@ import org.insightech.er.editor.view.property_source.ERDiagramPropertySourceProv
 import org.insightech.er.editor.view.tool.ERDiagramPaletteRoot;
 
 /**
- * #analyze may be view diagram, created by ERDiagramMultiPageEditor
+ * #analyze may be view diagram, created by ERFluteMultiPageEditor
  * @author modified by jflute (originated in ermaster)
  */
-public class ERDiagramEditor extends GraphicalEditorWithPalette {
+public class MainModelEditor extends GraphicalEditorWithPalette {
 
     // ===================================================================================
     //                                                                          Definition
@@ -150,7 +150,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ERDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
+    public MainModelEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         this.setEditDomain(new DefaultEditDomain(this));
         this.diagram = diagram;
@@ -369,8 +369,8 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette {
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
         final IEditorPart editorPart = getSite().getPage().getActiveEditor();
 
-        if (editorPart instanceof ERDiagramMultiPageEditor) {
-            final ERDiagramMultiPageEditor multiPageEditorPart = (ERDiagramMultiPageEditor) editorPart;
+        if (editorPart instanceof ERFluteMultiPageEditor) {
+            final ERFluteMultiPageEditor multiPageEditorPart = (ERFluteMultiPageEditor) editorPart;
 
             if (this.equals(multiPageEditorPart.getActiveEditor())) {
                 updateActions(this.getSelectionActions());

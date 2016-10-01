@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.NameValue;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -47,7 +47,7 @@ public class ReplaceManager {
         checkDegit(type, replaceWord);
 
         if (type == SearchResultRow.TYPE_RELATION_NAME) {
-            Relation relation = (Relation) object;
+            Relationship relation = (Relationship) object;
             String original = relation.getName();
 
             String str = replace(original, keyword, replaceWord);
@@ -61,7 +61,7 @@ public class ReplaceManager {
             return new ReplaceResult(original);
 
         } else if (type == SearchResultRow.TYPE_INDEX_NAME) {
-            Index index = (Index) object;
+            ERIndex index = (ERIndex) object;
             String original = index.getName();
 
             String str = replace(original, keyword, replaceWord);
@@ -373,12 +373,12 @@ public class ReplaceManager {
     public static void undo(int type, Object object, String str) {
 
         if (type == SearchResultRow.TYPE_RELATION_NAME) {
-            Relation relation = (Relation) object;
+            Relationship relation = (Relationship) object;
 
             relation.setName(str);
 
         } else if (type == SearchResultRow.TYPE_INDEX_NAME) {
-            Index index = (Index) object;
+            ERIndex index = (ERIndex) object;
 
             index.setName(str);
 

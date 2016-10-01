@@ -3,7 +3,7 @@ package org.insightech.er.editor.controller.command.diagram_contents.element.con
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.controller.editpart.element.connection.RelationEditPart;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 
 public class MoveRelationBendpointCommand extends AbstractCommand {
 
@@ -26,7 +26,7 @@ public class MoveRelationBendpointCommand extends AbstractCommand {
      */
     @Override
     protected void doExecute() {
-        Relation relation = (Relation) editPart.getModel();
+        Relationship relation = (Relationship) editPart.getModel();
         boolean relative = relation.getBendpoints().get(0).isRelative();
 
         if (relative) {
@@ -55,7 +55,7 @@ public class MoveRelationBendpointCommand extends AbstractCommand {
      */
     @Override
     protected void doUndo() {
-        Relation relation = (Relation) editPart.getModel();
+        Relationship relation = (Relationship) editPart.getModel();
         boolean relative = relation.getBendpoints().get(0).isRelative();
 
         if (relative) {

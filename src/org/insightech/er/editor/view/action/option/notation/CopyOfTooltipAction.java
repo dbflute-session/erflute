@@ -3,7 +3,7 @@ package org.insightech.er.editor.view.action.option.notation;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
 
@@ -11,7 +11,7 @@ public class CopyOfTooltipAction extends AbstractBaseAction {
 
     public static final String ID = CopyOfTooltipAction.class.getName();
 
-    public CopyOfTooltipAction(ERDiagramEditor editor) {
+    public CopyOfTooltipAction(MainModelEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
         this.setText(DisplayMessages.getMessage("action.title.display.tooltip"));
     }

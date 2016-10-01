@@ -13,7 +13,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.view.dialog.dbexport.ErrorDialog;
 
 public class CreateElementCommand extends AbstractCommand {
@@ -39,10 +39,10 @@ public class CreateElementCommand extends AbstractCommand {
             table.setLogicalName(ERTable.NEW_LOGICAL_NAME);
             table.setPhysicalName(ERTable.NEW_PHYSICAL_NAME);
 
-        } else if (element instanceof View) {
-            View view = (View) element;
-            view.setLogicalName(View.NEW_LOGICAL_NAME);
-            view.setPhysicalName(View.NEW_PHYSICAL_NAME);
+        } else if (element instanceof ERView) {
+            ERView view = (ERView) element;
+            view.setLogicalName(ERView.NEW_LOGICAL_NAME);
+            view.setPhysicalName(ERView.NEW_PHYSICAL_NAME);
         }
 
         this.enclosedElementList = enclosedElementList;

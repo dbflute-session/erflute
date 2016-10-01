@@ -31,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -59,10 +59,10 @@ public class ERTableComposite extends Composite {
     private Button downButton;
     private ERDiagram diagram;
     private ERTable ertable;
-    private List<Column> columnList;
+    private List<ERColumn> columnList;
     private AbstractColumnDialog columnDialog;
     private AbstractDialog parentDialog;
-    private Map<Column, TableEditor[]> columnNotNullCheckMap = new HashMap<Column, TableEditor[]>();
+    private Map<ERColumn, TableEditor[]> columnNotNullCheckMap = new HashMap<ERColumn, TableEditor[]>();
     private boolean buttonDisplay;
     private boolean checkboxEnabled;
     private int height;
@@ -72,14 +72,14 @@ public class ERTableComposite extends Composite {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable, List<Column> columnList,
+    public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable, List<ERColumn> columnList,
             AbstractColumnDialog columnDialog, AbstractDialog parentDialog, int horizontalSpan, boolean buttonDisplay,
             boolean checkboxEnabled) {
         this(holder, parent, diagram, erTable, columnList, columnDialog, parentDialog, horizontalSpan, buttonDisplay, checkboxEnabled,
                 DEFAULT_HEIGHT);
     }
 
-    public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable, List<Column> columnList,
+    public ERTableComposite(ERTableCompositeHolder holder, Composite parent, ERDiagram diagram, ERTable erTable, List<ERColumn> columnList,
             AbstractColumnDialog columnDialog, AbstractDialog parentDialog, int horizontalSpan, boolean buttonDisplay,
             boolean checkboxEnabled, int height) {
         super(parent, SWT.NONE);
@@ -141,7 +141,7 @@ public class ERTableComposite extends Composite {
                 int index = table.getSelectionIndex();
                 selectTable(index);
 
-                Column selectedColumn = columnList.get(index);
+                ERColumn selectedColumn = columnList.get(index);
                 if (selectedColumn instanceof ColumnGroup) {
                     holder.selectGroup((ColumnGroup) selectedColumn);
                 }
@@ -152,7 +152,7 @@ public class ERTableComposite extends Composite {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.keyCode == SWT.SPACE) {
-                    Column targetColumn = getTargetColumn();
+                    ERColumn targetColumn = getTargetColumn();
                     if (targetColumn == null || !(targetColumn instanceof CopyColumn)) {
                         return;
                     }
@@ -166,7 +166,7 @@ public class ERTableComposite extends Composite {
 
                 @Override
                 public void mouseDoubleClick(MouseEvent e) {
-                    Column targetColumn = getTargetColumn();
+                    ERColumn targetColumn = getTargetColumn();
 
                     if (targetColumn == null || !(targetColumn instanceof CopyColumn)) {
                         return;
@@ -215,7 +215,7 @@ public class ERTableComposite extends Composite {
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                Column targetColumn = getTargetColumn();
+                ERColumn targetColumn = getTargetColumn();
 
                 if (targetColumn == null || !(targetColumn instanceof CopyColumn)) {
                     return;
@@ -278,14 +278,14 @@ public class ERTableComposite extends Composite {
 
     private void initComposite() {
         if (this.columnList != null) {
-            for (Column column : this.columnList) {
+            for (ERColumn column : this.columnList) {
                 TableItem tableItem = new TableItem(this.table, SWT.NONE);
                 this.column2TableItem(column, tableItem);
             }
         }
     }
 
-    private void disposeCheckBox(Column column) {
+    private void disposeCheckBox(ERColumn column) {
         TableEditor[] oldEditors = this.columnNotNullCheckMap.get(column);
 
         if (oldEditors != null) {
@@ -300,7 +300,7 @@ public class ERTableComposite extends Composite {
         }
     }
 
-    private void column2TableItem(Column column, TableItem tableItem) {
+    private void column2TableItem(ERColumn column, TableItem tableItem) {
         this.disposeCheckBox(column);
 
         if (column instanceof NormalColumn) {
@@ -465,7 +465,7 @@ public class ERTableComposite extends Composite {
         int index = this.table.getSelectionIndex();
 
         if (index != -1) {
-            Column column = this.columnList.get(index);
+            ERColumn column = this.columnList.get(index);
 
             if (column instanceof NormalColumn) {
                 NormalColumn normalColumn = (NormalColumn) column;
@@ -491,7 +491,7 @@ public class ERTableComposite extends Composite {
     }
 
     public void removeColumn(int index) {
-        Column column = this.columnList.get(index);
+        ERColumn column = this.columnList.get(index);
 
         this.table.remove(index);
 
@@ -549,8 +549,8 @@ public class ERTableComposite extends Composite {
     }
 
     private void changeColumn(int index1, int index2) {
-        Column column1 = this.columnList.remove(index1);
-        Column column2 = null;
+        ERColumn column1 = this.columnList.remove(index1);
+        ERColumn column2 = null;
 
         if (index1 < index2) {
             column2 = this.columnList.remove(index2 - 1);
@@ -595,11 +595,11 @@ public class ERTableComposite extends Composite {
         return table;
     }
 
-    public void setColumnList(List<Column> columnList) {
+    public void setColumnList(List<ERColumn> columnList) {
         this.table.removeAll();
 
         if (this.columnList != null) {
-            for (Column column : this.columnList) {
+            for (ERColumn column : this.columnList) {
                 this.disposeCheckBox(column);
             }
         }

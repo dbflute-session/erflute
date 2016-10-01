@@ -3,14 +3,14 @@ package org.insightech.er.editor.view.action.option.notation.level;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.common.notation.ChangeNotationLevelCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public abstract class AbstractChangeNotationLevelAction extends AbstractBaseAction {
 
-    public AbstractChangeNotationLevelAction(String id, ERDiagramEditor editor) {
+    public AbstractChangeNotationLevelAction(String id, MainModelEditor editor) {
         super(id, null, IAction.AS_RADIO_BUTTON, editor);
         this.setText(DisplayMessages.getMessage("action.title.change.notation.level." + this.getLevel()));
     }

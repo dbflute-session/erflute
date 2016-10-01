@@ -4,7 +4,7 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.EROneDiagramEditor;
+import org.insightech.er.editor.SubModelEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.ChangeVGroupCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
@@ -15,7 +15,7 @@ public class VGroupManageAction extends AbstractBaseAction {
 
     public static final String ID = VGroupManageAction.class.getName();
 
-    public VGroupManageAction(EROneDiagramEditor editor) {
+    public VGroupManageAction(SubModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.vgroup.manage"), editor);
     }
 
@@ -26,7 +26,7 @@ public class VGroupManageAction extends AbstractBaseAction {
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
 
-        ERModel model = ((EROneDiagramEditor) getEditorPart()).getModel();
+        ERModel model = ((SubModelEditor) getEditorPart()).getModel();
         ERModel newModel = (ERModel) model.clone();
 
         VGroupManageDialog dialog = new VGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), newModel);

@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.common.ChangeSettingsCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.settings.Settings;
@@ -17,7 +17,7 @@ public class OptionSettingAction extends AbstractBaseAction {
 
     public static final String ID = OptionSettingAction.class.getName();
 
-    public OptionSettingAction(ERDiagramEditor editor) {
+    public OptionSettingAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.option"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.OPTION));
     }

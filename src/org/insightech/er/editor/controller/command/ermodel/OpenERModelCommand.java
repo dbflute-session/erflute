@@ -1,7 +1,7 @@
 package org.insightech.er.editor.controller.command.ermodel;
 
-import org.insightech.er.editor.ERDiagramMultiPageEditor;
-import org.insightech.er.editor.EROneDiagramEditor;
+import org.insightech.er.editor.ERFluteMultiPageEditor;
+import org.insightech.er.editor.SubModelEditor;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
@@ -21,11 +21,11 @@ public class OpenERModelCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        ERDiagramMultiPageEditor editor = diagram.getEditor();
+        ERFluteMultiPageEditor editor = diagram.getEditor();
 
         editor.setCurrentErmodel(model);
 
-        ((EROneDiagramEditor) editor.getActiveEditor()).reveal(table);
+        ((SubModelEditor) editor.getActiveEditor()).reveal(table);
         //		IEditorInput editorInput = editor2.getEditorInput();
         //
         //

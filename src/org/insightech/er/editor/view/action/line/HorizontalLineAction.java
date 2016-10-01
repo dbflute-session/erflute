@@ -14,7 +14,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.actions.LabelRetargetAction;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
@@ -28,7 +28,7 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = HorizontalLineAction.class.getName();
 
-    public HorizontalLineAction(ERDiagramEditor editor) {
+    public HorizontalLineAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.horizontal.line"), editor);
 
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.HORIZONTAL_LINE));

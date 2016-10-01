@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 
@@ -98,13 +98,11 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public void setFontSize(int fontSize) {
-        // TODO Auto-generated method stub
         super.setFontSize(fontSize);
     }
 
     @Override
     public int getFontSize() {
-        // TODO Auto-generated method stub
         return super.getFontSize();
     }
 
@@ -165,7 +163,6 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<ConnectionElement> getIncomings() {
-        System.out.println("ERVirtualTable::getIncomings");
         final List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
         final List<ERVirtualTable> modelTables = model.getTables();
         for (final ConnectionElement el : rawTable.getIncomings()) {
@@ -256,7 +253,7 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<Column> getColumns() {
+    public List<ERColumn> getColumns() {
         return rawTable.getColumns();
     }
 
@@ -266,10 +263,10 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<Relation> getIncomingRelations() {
-        final List<Relation> elements = new ArrayList<Relation>();
+    public List<Relationship> getIncomingRelations() {
+        final List<Relationship> elements = new ArrayList<Relationship>();
         final List<ERVirtualTable> modelTables = model.getTables();
-        for (final Relation el : rawTable.getIncomingRelations()) {
+        for (final Relationship el : rawTable.getIncomingRelations()) {
             final NodeElement findEl = el.getSource();
             for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
@@ -283,10 +280,10 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<Relation> getOutgoingRelations() {
-        final List<Relation> elements = new ArrayList<Relation>();
+    public List<Relationship> getOutgoingRelations() {
+        final List<Relationship> elements = new ArrayList<Relationship>();
         final List<ERVirtualTable> modelTables = model.getTables();
-        for (final Relation el : rawTable.getOutgoingRelations()) {
+        for (final Relationship el : rawTable.getOutgoingRelations()) {
             final NodeElement findEl = el.getSource();
             for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
@@ -310,7 +307,7 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public Column getColumn(int index) {
+    public ERColumn getColumn(int index) {
         return rawTable.getColumn(index);
     }
 
@@ -320,12 +317,12 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public Index getIndex(int index) {
+    public ERIndex getIndex(int index) {
         return rawTable.getIndex(index);
     }
 
     @Override
-    public List<Index> getIndexes() {
+    public List<ERIndex> getIndexes() {
         return rawTable.getIndexes();
     }
 

@@ -31,11 +31,11 @@ import org.insightech.er.editor.controller.editpart.element.node.index.IndexEdit
 import org.insightech.er.editor.controller.editpolicy.element.node.table_view.TableViewComponentEditPolicy;
 import org.insightech.er.editor.controller.editpolicy.element.node.table_view.TableViewGraphicalNodeEditPolicy;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.settings.Settings;
@@ -49,16 +49,13 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
 
     private Font titleFont;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List getModelChildren() {
-        List<Object> modelChildren = new ArrayList<Object>();
+        final List<Object> modelChildren = new ArrayList<Object>();
 
-        TableView tableView = (TableView) this.getModel();
+        final TableView tableView = (TableView) this.getModel();
 
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = this.getDiagram();
         if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {
             modelChildren.addAll(tableView.getExpandedColumns());
         } else {
@@ -72,9 +69,6 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
         return modelChildren;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void doPropertyChange(PropertyChangeEvent event) {
         if (event.getPropertyName().equals(TableView.PROPERTY_CHANGE_PHYSICAL_NAME)) {
@@ -91,32 +85,19 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
         this.refreshConnections();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void refresh() {
         super.refresh();
         this.refreshConnections();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void refreshVisuals() {
         try {
-            TableFigure tableFigure = (TableFigure) this.getFigure();
-            TableView tableView = (TableView) this.getModel();
-
-            if (getModel() instanceof ERTable || getModel() instanceof ERVirtualTable) {
-                //				if (((ERTable)getModel()).getName().equals("BIZ_COMPANY_BLOCK")) {
-                System.out.println("TableViewEditPart::refreshVisuals " + ((ERTable) getModel()).getName());
-                //				}
-            }
+            final TableFigure tableFigure = (TableFigure) this.getFigure();
+            final TableView tableView = (TableView) this.getModel();
             tableFigure.create(tableView.getColor());
-
-            ERDiagram diagram = this.getDiagram();
+            final ERDiagram diagram = this.getDiagram();
             tableFigure.setName(getTableViewName(tableView, diagram));
 
             UpdatedNodeElement updated = null;
@@ -124,13 +105,13 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
                 updated = diagram.getChangeTrackingList().getUpdatedNodeElement(tableView);
             }
 
-            for (Object child : this.getChildren()) {
+            for (final Object child : this.getChildren()) {
                 if (child instanceof ColumnEditPart) {
-                    ColumnEditPart part = (ColumnEditPart) child;
+                    final ColumnEditPart part = (ColumnEditPart) child;
                     part.refreshTableColumns(updated);
                 }
                 if (child instanceof IndexEditPart) {
-                    IndexEditPart part = (IndexEditPart) child;
+                    final IndexEditPart part = (IndexEditPart) child;
                     part.refreshTableColumns(updated);
                 }
                 //				if (diagram.isShowMainColumn()) {
@@ -157,77 +138,60 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
                 this.getFigure().getUpdateManager().performValidation();
             }
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
 
     }
 
-    public static void showRemovedColumns(ERDiagram diagram, ERTable table, TableFigure tableFigure, Collection<Column> removedColumns,
+    public static void showRemovedColumns(ERDiagram diagram, ERTable table, TableFigure tableFigure, Collection<ERColumn> removedColumns,
             boolean isRemoved) {
 
-        int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
+        final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
-        for (Column removedColumn : removedColumns) {
-
+        for (final ERColumn removedColumn : removedColumns) {
             if (removedColumn instanceof ColumnGroup) {
                 if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {
-                    ColumnGroup columnGroup = (ColumnGroup) removedColumn;
-
-                    for (NormalColumn normalColumn : columnGroup.getColumns()) {
+                    final ColumnGroup columnGroup = (ColumnGroup) removedColumn;
+                    for (final NormalColumn normalColumn : columnGroup.getColumns()) {
                         if (notationLevel == Settings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
                                 && !normalColumn.isReferedStrictly()) {
                             continue;
                         }
-
-                        NormalColumnFigure columnFigure = new NormalColumnFigure();
+                        final NormalColumnFigure columnFigure = new NormalColumnFigure();
                         tableFigure.getColumns().add(columnFigure);
-
                         NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, false, false, false,
                                 false, isRemoved);
                     }
-
                 } else {
                     if ((notationLevel == Settings.NOTATION_LEVLE_KEY)) {
                         continue;
                     }
-
-                    GroupColumnFigure columnFigure = new GroupColumnFigure();
+                    final GroupColumnFigure columnFigure = new GroupColumnFigure();
                     tableFigure.getColumns().add(columnFigure);
-
                     GroupColumnEditPart.addGroupColumnFigure(diagram, tableFigure, columnFigure, removedColumn, false, false, isRemoved);
                 }
-
             } else {
-                NormalColumn normalColumn = (NormalColumn) removedColumn;
+                final NormalColumn normalColumn = (NormalColumn) removedColumn;
                 if (notationLevel == Settings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
                         && !normalColumn.isReferedStrictly()) {
                     continue;
                 }
-
-                NormalColumnFigure columnFigure = new NormalColumnFigure();
+                final NormalColumnFigure columnFigure = new NormalColumnFigure();
                 tableFigure.getColumns().add(columnFigure);
-
                 NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, false, false, false, false,
                         isRemoved);
             }
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void changeSettings(Settings settings) {
-        TableFigure figure = (TableFigure) this.getFigure();
+        final TableFigure figure = (TableFigure) this.getFigure();
         figure.setSettings(settings);
-
         super.changeSettings(settings);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void disposeFont() {
         if (this.titleFont != null) {
@@ -237,9 +201,9 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
     }
 
     protected Font changeFont(TableFigure tableFigure) {
-        Font font = super.changeFont(tableFigure);
+        final Font font = super.changeFont(tableFigure);
 
-        FontData fonData = font.getFontData()[0];
+        final FontData fonData = font.getFontData()[0];
 
         this.titleFont = new Font(Display.getCurrent(), fonData.getName(), fonData.getHeight(), SWT.BOLD);
 
@@ -251,7 +215,7 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
     public static String getTableViewName(TableView tableView, ERDiagram diagram) {
         String name = null;
 
-        int viewMode = diagram.getDiagramContents().getSettings().getViewMode();
+        final int viewMode = diagram.getDiagramContents().getSettings().getViewMode();
 
         if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
             name = diagram.filter(tableView.getPhysicalName());
@@ -275,11 +239,11 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             return super.getSourceConnectionAnchor(editPart);
         }
 
-        Relation relation = (Relation) editPart.getModel();
+        final Relationship relation = (Relationship) editPart.getModel();
 
-        Rectangle bounds = this.getFigure().getBounds();
+        final Rectangle bounds = this.getFigure().getBounds();
 
-        XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
+        final XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
 
         if (relation.getSourceXp() != -1 && relation.getSourceYp() != -1) {
             anchor.setLocation(new Point(bounds.x + (bounds.width * relation.getSourceXp() / 100), bounds.y
@@ -295,47 +259,47 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
         if (request instanceof ReconnectRequest) {
-            ReconnectRequest reconnectRequest = (ReconnectRequest) request;
+            final ReconnectRequest reconnectRequest = (ReconnectRequest) request;
 
-            ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();
+            final ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();
 
             if (!(connectionEditPart instanceof RelationEditPart)) {
                 return super.getSourceConnectionAnchor(request);
             }
 
-            Relation relation = (Relation) connectionEditPart.getModel();
+            final Relationship relation = (Relationship) connectionEditPart.getModel();
             if (relation.getSource() == relation.getTarget()) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
-            EditPart editPart = reconnectRequest.getTarget();
+            final EditPart editPart = reconnectRequest.getTarget();
 
             if (editPart == null || !editPart.getModel().equals(relation.getSource())) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
-            Point location = new Point(reconnectRequest.getLocation());
+            final Point location = new Point(reconnectRequest.getLocation());
             this.getFigure().translateToRelative(location);
-            IFigure sourceFigure = ((TableViewEditPart) connectionEditPart.getSource()).getFigure();
+            final IFigure sourceFigure = ((TableViewEditPart) connectionEditPart.getSource()).getFigure();
 
-            XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
+            final XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
 
-            Rectangle bounds = sourceFigure.getBounds();
+            final Rectangle bounds = sourceFigure.getBounds();
 
-            Rectangle centerRectangle =
+            final Rectangle centerRectangle =
                     new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
             if (!centerRectangle.contains(location)) {
-                Point point = getIntersectionPoint(location, sourceFigure);
+                final Point point = getIntersectionPoint(location, sourceFigure);
                 anchor.setLocation(point);
             }
 
             return anchor;
 
         } else if (request instanceof CreateConnectionRequest) {
-            CreateConnectionRequest connectionRequest = (CreateConnectionRequest) request;
+            final CreateConnectionRequest connectionRequest = (CreateConnectionRequest) request;
 
-            Command command = connectionRequest.getStartCommand();
+            final Command command = connectionRequest.getStartCommand();
 
             if (command instanceof CreateCommentConnectionCommand) {
                 return super.getTargetConnectionAnchor(request);
@@ -354,11 +318,11 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             return super.getTargetConnectionAnchor(editPart);
         }
 
-        Relation relation = (Relation) editPart.getModel();
+        final Relationship relation = (Relationship) editPart.getModel();
 
-        XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
+        final XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
 
-        Rectangle bounds = this.getFigure().getBounds();
+        final Rectangle bounds = this.getFigure().getBounds();
 
         if (relation.getTargetXp() != -1 && relation.getTargetYp() != -1) {
             anchor.setLocation(new Point(bounds.x + (bounds.width * relation.getTargetXp() / 100), bounds.y
@@ -374,47 +338,47 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
         if (request instanceof ReconnectRequest) {
-            ReconnectRequest reconnectRequest = (ReconnectRequest) request;
+            final ReconnectRequest reconnectRequest = (ReconnectRequest) request;
 
-            ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();
+            final ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();
 
             if (!(connectionEditPart instanceof RelationEditPart)) {
                 return super.getTargetConnectionAnchor(request);
             }
 
-            Relation relation = (Relation) connectionEditPart.getModel();
+            final Relationship relation = (Relationship) connectionEditPart.getModel();
             if (relation.getSource() == relation.getTarget()) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
-            EditPart editPart = reconnectRequest.getTarget();
+            final EditPart editPart = reconnectRequest.getTarget();
 
             if (editPart == null || !editPart.getModel().equals(relation.getTarget())) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
-            Point location = new Point(reconnectRequest.getLocation());
+            final Point location = new Point(reconnectRequest.getLocation());
             this.getFigure().translateToRelative(location);
-            IFigure targetFigure = ((TableViewEditPart) connectionEditPart.getTarget()).getFigure();
+            final IFigure targetFigure = ((TableViewEditPart) connectionEditPart.getTarget()).getFigure();
 
-            XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
+            final XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
 
-            Rectangle bounds = targetFigure.getBounds();
+            final Rectangle bounds = targetFigure.getBounds();
 
-            Rectangle centerRectangle =
+            final Rectangle centerRectangle =
                     new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
             if (!centerRectangle.contains(location)) {
-                Point point = getIntersectionPoint(location, targetFigure);
+                final Point point = getIntersectionPoint(location, targetFigure);
                 anchor.setLocation(point);
             }
 
             return anchor;
 
         } else if (request instanceof CreateConnectionRequest) {
-            CreateConnectionRequest connectionRequest = (CreateConnectionRequest) request;
+            final CreateConnectionRequest connectionRequest = (CreateConnectionRequest) request;
 
-            Command command = connectionRequest.getStartCommand();
+            final Command command = connectionRequest.getStartCommand();
 
             if (command instanceof CreateCommentConnectionCommand) {
                 return super.getTargetConnectionAnchor(request);
@@ -426,12 +390,12 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
 
     public static Point getIntersectionPoint(Point s, IFigure figure) {
 
-        Rectangle r = figure.getBounds();
+        final Rectangle r = figure.getBounds();
 
-        int x1 = s.x - r.x;
-        int x2 = r.x + r.width - s.x;
-        int y1 = s.y - r.y;
-        int y2 = r.y + r.height - s.y;
+        final int x1 = s.x - r.x;
+        final int x2 = r.x + r.width - s.x;
+        final int y1 = s.y - r.y;
+        final int y2 = r.y + r.height - s.y;
 
         int x = 0;
         int dx = 0;
@@ -470,7 +434,7 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
      */
     @Override
     public IFigure getContentPane() {
-        TableFigure figure = (TableFigure) super.getContentPane();
+        final TableFigure figure = (TableFigure) super.getContentPane();
 
         return figure.getColumns();
     }

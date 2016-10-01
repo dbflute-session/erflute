@@ -4,11 +4,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 
 public class ViewColumnDialog extends AbstractColumnDialog {
 
-    public ViewColumnDialog(Shell parentShell, View view) {
+    public ViewColumnDialog(Shell parentShell, ERView view) {
         super(parentShell, view.getDiagram());
     }
 

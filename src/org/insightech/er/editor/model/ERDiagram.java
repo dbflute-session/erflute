@@ -3,7 +3,7 @@ package org.insightech.er.editor.model;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.insightech.er.editor.ERDiagramMultiPageEditor;
+import org.insightech.er.editor.ERFluteMultiPageEditor;
 import org.insightech.er.editor.model.diagram_contents.DiagramContents;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
@@ -43,7 +43,7 @@ public class ERDiagram extends ViewableModel {
     //                                                                           Attribute
     //                                                                           =========
     private DiagramContents diagramContents; // may be replaced, not null
-    private ERDiagramMultiPageEditor editor;
+    private ERFluteMultiPageEditor editor;
     private ChangeTrackingList changeTrackingList;
     private int[] defaultColor;
     private boolean tooltip;
@@ -67,7 +67,6 @@ public class ERDiagram extends ViewableModel {
         this.diagramContents = new DiagramContents();
         this.diagramContents.getSettings().setDatabase(database);
         this.pageSetting = new PageSetting();
-
         this.setDefaultColor(128, 128, 192);
         this.setColor(255, 255, 255);
     }
@@ -307,6 +306,14 @@ public class ERDiagram extends ViewableModel {
     //	}
 
     // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + diagramContents + "}";
+    }
+
+    // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     public ChangeTrackingList getChangeTrackingList() {
@@ -320,7 +327,7 @@ public class ERDiagram extends ViewableModel {
         return this.diagramContents;
     }
 
-    public void setEditor(ERDiagramMultiPageEditor editor) {
+    public void setEditor(ERFluteMultiPageEditor editor) {
         this.editor = editor;
     }
 
@@ -406,7 +413,7 @@ public class ERDiagram extends ViewableModel {
         this.pageSetting = pageSetting;
     }
 
-    public ERDiagramMultiPageEditor getEditor() {
+    public ERFluteMultiPageEditor getEditor() {
         return editor;
     }
 

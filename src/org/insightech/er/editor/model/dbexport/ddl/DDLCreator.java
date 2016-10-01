@@ -11,16 +11,16 @@ import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -122,7 +122,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (View view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
             if (first) {
                 ddl.append("\r\n/* Drop Views */\r\n\r\n");
                 first = false;
@@ -172,7 +172,7 @@ public abstract class DDLCreator {
                 continue;
             }
 
-            for (Index index : table.getIndexes()) {
+            for (ERIndex index : table.getIndexes()) {
                 if (first) {
                     ddl.append("\r\n/* Drop Indexes */\r\n\r\n");
                     first = false;
@@ -323,7 +323,7 @@ public abstract class DDLCreator {
                 continue;
             }
 
-            for (Relation relation : table.getOutgoingRelations()) {
+            for (Relationship relation : table.getOutgoingRelations()) {
                 if (first) {
                     ddl.append("\r\n/* Create Foreign Keys */\r\n\r\n");
                     first = false;
@@ -349,7 +349,7 @@ public abstract class DDLCreator {
                 continue;
             }
 
-            for (Index index : table.getIndexes()) {
+            for (ERIndex index : table.getIndexes()) {
                 if (first) {
                     ddl.append("\r\n/* Create Indexes */\r\n\r\n");
                     first = false;
@@ -372,7 +372,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (View view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
 
             if (first) {
                 ddl.append("\r\n/* Create Views */\r\n\r\n");
@@ -491,7 +491,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (Column column : table.getColumns()) {
+        for (ERColumn column : table.getColumns()) {
             if (column instanceof NormalColumn) {
                 NormalColumn normalColumn = (NormalColumn) column;
 
@@ -706,7 +706,7 @@ public abstract class DDLCreator {
         return postDDL.toString();
     }
 
-    public String getDDL(Index index, ERTable table) {
+    public String getDDL(ERIndex index, ERTable table) {
         StringBuilder ddl = new StringBuilder();
 
         String description = index.getDescription();
@@ -768,7 +768,7 @@ public abstract class DDLCreator {
         return ddl.toString();
     }
 
-    public String getDDL(Relation relation) {
+    public String getDDL(Relationship relation) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("ALTER TABLE ");
@@ -825,7 +825,7 @@ public abstract class DDLCreator {
         return ddl.toString();
     }
 
-    public String getDDL(View view) {
+    public String getDDL(ERView view) {
         StringBuilder ddl = new StringBuilder();
 
         String description = view.getDescription();
@@ -916,7 +916,7 @@ public abstract class DDLCreator {
         return ddl.toString();
     }
 
-    public String getDropDDL(Index index, ERTable table) {
+    public String getDropDDL(ERIndex index, ERTable table) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP INDEX ");
@@ -934,7 +934,7 @@ public abstract class DDLCreator {
 
         doneTables.add(table);
 
-        for (Relation relation : table.getOutgoingRelations()) {
+        for (Relationship relation : table.getOutgoingRelations()) {
             TableView targetTableView = relation.getTargetTableView();
             if (!doneTables.contains(targetTableView)) {
                 doneTables.add(targetTableView);
@@ -956,7 +956,7 @@ public abstract class DDLCreator {
         return ddl.toString();
     }
 
-    public String getDropDDL(View view) {
+    public String getDropDDL(ERView view) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP VIEW ");

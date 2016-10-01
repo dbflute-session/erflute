@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.image.ExportToImageWithProgressManager;
@@ -38,7 +38,7 @@ public class ExportToImageAction extends AbstractExportAction {
 
     public static final String ID = ExportToImageAction.class.getName();
 
-    public ExportToImageAction(ERDiagramEditor editor) {
+    public ExportToImageAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.image"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_IMAGE));
     }

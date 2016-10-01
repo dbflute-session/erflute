@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbimport.DBObjectSet;
 import org.insightech.er.editor.model.dbimport.ImportFromDBManagerBase;
@@ -33,7 +33,7 @@ public class ImportFromDBAction extends AbstractImportAction {
 
     private DBSetting dbSetting;
 
-    public ImportFromDBAction(ERDiagramEditor editor) {
+    public ImportFromDBAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.db"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.DATABASE));
     }

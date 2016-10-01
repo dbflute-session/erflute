@@ -10,7 +10,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.settings.CategorySetting;
 
 public class Category extends NodeElement implements IResizable, Comparable<Category> {
@@ -122,12 +122,12 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
         return tableList;
     }
 
-    public List<View> getViewContents() {
-        List<View> viewList = new ArrayList<View>();
+    public List<ERView> getViewContents() {
+        List<ERView> viewList = new ArrayList<ERView>();
 
         for (NodeElement nodeElement : this.nodeElementList) {
-            if (nodeElement instanceof View) {
-                viewList.add((View) nodeElement);
+            if (nodeElement instanceof ERView) {
+                viewList.add((ERView) nodeElement);
             }
         }
 

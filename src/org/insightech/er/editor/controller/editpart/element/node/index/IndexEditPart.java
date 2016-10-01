@@ -15,7 +15,7 @@ import org.eclipse.gef.internal.ui.rulers.GuideEditPart;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.UpdatedNodeElement;
 import org.insightech.er.editor.view.figure.table.IndexFigure;
@@ -67,7 +67,7 @@ public class IndexEditPart extends AbstractModelEditPart {
 
         IndexFigure indexFigure = (IndexFigure) this.getFigure();
 
-        Index index = (Index) this.getModel();
+        ERIndex index = (ERIndex) this.getModel();
 
         if (diagram.isShowMainColumn()) {
             // �C���f�b�N�X�͏�ɕ\��
@@ -136,7 +136,7 @@ public class IndexEditPart extends AbstractModelEditPart {
         }
     }
 
-    public static void addColumnFigure(ERDiagram diagram, TableFigure tableFigure, IndexFigure indexFigure, Index index,
+    public static void addColumnFigure(ERDiagram diagram, TableFigure tableFigure, IndexFigure indexFigure, ERIndex index,
     /*boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated, */
     boolean isFirst, boolean isRemoved) {
         //		int notationLevel = diagram.getDiagramContents().getSettings()

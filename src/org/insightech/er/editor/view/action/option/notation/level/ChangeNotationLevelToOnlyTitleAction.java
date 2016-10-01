@@ -1,13 +1,13 @@
 package org.insightech.er.editor.view.action.option.notation.level;
 
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.settings.Settings;
 
 public class ChangeNotationLevelToOnlyTitleAction extends AbstractChangeNotationLevelAction {
 
     public static final String ID = ChangeNotationLevelToOnlyTitleAction.class.getName();
 
-    public ChangeNotationLevelToOnlyTitleAction(ERDiagramEditor editor) {
+    public ChangeNotationLevelToOnlyTitleAction(MainModelEditor editor) {
         super(ID, editor);
     }
 

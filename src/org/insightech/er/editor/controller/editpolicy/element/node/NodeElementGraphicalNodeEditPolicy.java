@@ -25,7 +25,7 @@ import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPa
 import org.insightech.er.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.insightech.er.editor.model.diagram_contents.element.connection.RelatedTable;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.connection.RelationByExistingColumns;
 import org.insightech.er.editor.model.diagram_contents.element.connection.SelfRelation;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
@@ -95,8 +95,8 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
     }
 
     private Command getRelationCreateCommand(CreateConnectionRequest request, Object object) {
-        if (object instanceof Relation) {
-            Relation relation = (Relation) object;
+        if (object instanceof Relationship) {
+            Relationship relation = (Relationship) object;
             CreateRelationCommand command = new CreateRelationCommand(relation);
 
             EditPart source = request.getTargetEditPart();
@@ -104,7 +104,7 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
 
             ERTable sourceTable = (ERTable) source.getModel();
 
-            Relation temp = sourceTable.createRelation();
+            Relationship temp = sourceTable.createRelation();
             relation.setReferenceForPK(temp.isReferenceForPK());
             relation.setReferencedComplexUniqueKey(temp.getReferencedComplexUniqueKey());
             relation.setReferencedColumn(temp.getReferencedColumn());
@@ -162,11 +162,11 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
     protected Command getReconnectSourceCommand(ReconnectRequest reconnectrequest) {
         ConnectionElement connection = (ConnectionElement) reconnectrequest.getConnectionEditPart().getModel();
 
-        if (!(connection instanceof Relation)) {
+        if (!(connection instanceof Relationship)) {
             return null;
         }
 
-        Relation relation = (Relation) connection;
+        Relationship relation = (Relationship) connection;
 
         if (relation.getSource() == relation.getTarget()) {
             return null;
@@ -210,11 +210,11 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
     protected Command getReconnectTargetCommand(ReconnectRequest reconnectrequest) {
         ConnectionElement connection = (ConnectionElement) reconnectrequest.getConnectionEditPart().getModel();
 
-        if (!(connection instanceof Relation)) {
+        if (!(connection instanceof Relationship)) {
             return null;
         }
 
-        Relation relation = (Relation) connection;
+        Relationship relation = (Relationship) connection;
 
         if (relation.getSource() == relation.getTarget()) {
             return null;

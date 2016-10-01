@@ -25,9 +25,9 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.GroupSet;
@@ -141,7 +141,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
 
         boolean needPrimaryKey = false;
 
-        for (Relation relation : this.copyData.getOutgoingRelations()) {
+        for (Relationship relation : this.copyData.getOutgoingRelations()) {
             if (relation.isReferenceForPK()) {
                 needPrimaryKey = true;
                 break;
@@ -235,7 +235,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
         this.initGroupCombo();
 
         int index = 0;
-        for (Column column : this.copyData.getColumns()) {
+        for (ERColumn column : this.copyData.getColumns()) {
             if (column instanceof ColumnGroup) {
                 if (!this.getColumnGroups().contains((ColumnGroup) column)) {
                     this.tableComposite.removeColumn(index);

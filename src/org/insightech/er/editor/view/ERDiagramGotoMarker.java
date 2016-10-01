@@ -3,13 +3,13 @@ package org.insightech.er.editor.view;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.ide.IGotoMarker;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 
 public class ERDiagramGotoMarker implements IGotoMarker {
 
-    private ERDiagramEditor editor;
+    private MainModelEditor editor;
 
-    public ERDiagramGotoMarker(ERDiagramEditor editor) {
+    public ERDiagramGotoMarker(MainModelEditor editor) {
         this.editor = editor;
     }
 

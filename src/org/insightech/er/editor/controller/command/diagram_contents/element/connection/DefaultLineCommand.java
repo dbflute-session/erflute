@@ -7,7 +7,7 @@ import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 
 public class DefaultLineCommand extends AbstractCommand {
 
@@ -24,8 +24,8 @@ public class DefaultLineCommand extends AbstractCommand {
     private List<Bendpoint> oldBendpointList;
 
     public DefaultLineCommand(ERDiagram diagram, ConnectionElement connection) {
-        if (connection instanceof Relation) {
-            Relation relation = (Relation) connection;
+        if (connection instanceof Relationship) {
+            Relationship relation = (Relationship) connection;
 
             this.sourceXp = relation.getSourceXp();
             this.sourceYp = relation.getSourceYp();
@@ -43,8 +43,8 @@ public class DefaultLineCommand extends AbstractCommand {
     @Override
     protected void doExecute() {
         this.connection.setBendpoints(new ArrayList<Bendpoint>());
-        if (connection instanceof Relation) {
-            Relation relation = (Relation) connection;
+        if (connection instanceof Relationship) {
+            Relationship relation = (Relationship) connection;
 
             relation.setSourceLocationp(-1, -1);
             relation.setTargetLocationp(-1, -1);
@@ -58,8 +58,8 @@ public class DefaultLineCommand extends AbstractCommand {
     @Override
     protected void doUndo() {
         this.connection.setBendpoints(this.oldBendpointList);
-        if (connection instanceof Relation) {
-            Relation relation = (Relation) connection;
+        if (connection instanceof Relationship) {
+            Relationship relation = (Relationship) connection;
 
             relation.setSourceLocationp(this.sourceXp, this.sourceYp);
             relation.setTargetLocationp(this.targetXp, this.targetYp);

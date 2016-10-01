@@ -13,7 +13,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.note.NoteSet
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.ViewSet;
 
 public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
@@ -22,19 +22,19 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
 
     public static final String PROPERTY_CHANGE_CONTENTS = "contents";
 
-    private NoteSet noteSet;
+    private final NoteSet noteSet;
 
-    private TableSet tableSet;
+    private final TableSet tableSet;
 
     //	private VGroupSet groupSet;
 
     //	private ERModelSet ermodelSet;
 
-    private ViewSet viewSet;
+    private final ViewSet viewSet;
 
-    private List<NodeElement> nodeElementList;
+    private final List<NodeElement> nodeElementList;
 
-    private InsertedImageSet insertedImageSet;
+    private final InsertedImageSet insertedImageSet;
 
     public NodeSet() {
         this.tableSet = new TableSet();
@@ -51,8 +51,8 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         if (nodeElement instanceof ERTable) {
             this.tableSet.add((ERTable) nodeElement);
 
-        } else if (nodeElement instanceof View) {
-            this.viewSet.add((View) nodeElement);
+        } else if (nodeElement instanceof ERView) {
+            this.viewSet.add((ERView) nodeElement);
 
         } else if (nodeElement instanceof Note) {
             this.noteSet.add((Note) nodeElement);
@@ -84,8 +84,8 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         if (nodeElement instanceof ERTable) {
             this.tableSet.remove((ERTable) nodeElement);
 
-        } else if (nodeElement instanceof View) {
-            this.viewSet.remove((View) nodeElement);
+        } else if (nodeElement instanceof ERView) {
+            this.viewSet.remove((ERView) nodeElement);
 
         } else if (nodeElement instanceof Note) {
             this.noteSet.remove((Note) nodeElement);
@@ -131,7 +131,7 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
     }
 
     public List<TableView> getTableViewList() {
-        List<TableView> nodeElementList = new ArrayList<TableView>();
+        final List<TableView> nodeElementList = new ArrayList<TableView>();
 
         nodeElementList.addAll(this.tableSet.getList());
         nodeElementList.addAll(this.viewSet.getList());
@@ -139,10 +139,22 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         return nodeElementList;
     }
 
+    @Override
     public Iterator<NodeElement> iterator() {
         return this.getNodeElementList().iterator();
     }
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + tableSet + "}";
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public ViewSet getViewSet() {
         return viewSet;
     }

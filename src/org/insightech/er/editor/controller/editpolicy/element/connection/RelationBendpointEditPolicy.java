@@ -21,7 +21,7 @@ import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.controller.editpart.element.connection.RelationEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 
 public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
 
@@ -30,7 +30,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
      */
     @Override
     protected void showMoveBendpointFeedback(BendpointRequest bendpointrequest) {
-        Relation relation = (Relation) getHost().getModel();
+        Relationship relation = (Relationship) getHost().getModel();
         RelationEditPart editPart = (RelationEditPart) this.getHost();
 
         if (relation.getSource() == relation.getTarget()) {
@@ -93,7 +93,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
      */
     @Override
     protected void showCreateBendpointFeedback(BendpointRequest bendpointrequest) {
-        Relation relation = (Relation) getHost().getModel();
+        Relationship relation = (Relationship) getHost().getModel();
 
         if (relation.getSource() == relation.getTarget()) {
             return;
@@ -115,7 +115,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
      */
     @Override
     protected Command getMoveBendpointCommand(BendpointRequest bendpointrequest) {
-        Relation relation = (Relation) getHost().getModel();
+        Relationship relation = (Relationship) getHost().getModel();
         RelationEditPart editPart = (RelationEditPart) this.getHost();
 
         if (relation.getSource() == relation.getTarget()) {
@@ -171,7 +171,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
 
     @Override
     protected List createSelectionHandles() {
-        Relation relation = (Relation) getHost().getModel();
+        Relationship relation = (Relationship) getHost().getModel();
 
         if (relation.getSource() == relation.getTarget()) {
             List<BendpointMoveHandle> list = new ArrayList<BendpointMoveHandle>();

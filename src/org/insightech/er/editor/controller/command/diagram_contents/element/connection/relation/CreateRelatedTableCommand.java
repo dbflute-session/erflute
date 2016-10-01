@@ -5,15 +5,15 @@ import org.eclipse.gef.EditPart;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 
 public class CreateRelatedTableCommand extends AbstractCreateRelationCommand {
 
-    private Relation relation1;
+    private Relationship relation1;
 
-    private Relation relation2;
+    private Relationship relation2;
 
     private ERTable relatedTable;
 

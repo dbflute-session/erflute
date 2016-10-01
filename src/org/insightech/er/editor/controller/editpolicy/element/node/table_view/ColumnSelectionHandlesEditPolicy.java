@@ -28,10 +28,10 @@ import org.insightech.er.editor.controller.command.diagram_contents.element.node
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.table_view.ChangeTableViewPropertyCommand;
 import org.insightech.er.editor.controller.editpart.element.node.column.ColumnEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.column.NormalColumnEditPart;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.CopyWord;
@@ -232,14 +232,14 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
         CompoundCommand command = new CompoundCommand();
 
         // �Q�Ƃ��Ă���O���L�[�̕ύX
-        List<Relation> relationList = oldColumn.getOutgoingRelationList();
+        List<Relationship> relationList = oldColumn.getOutgoingRelationList();
 
         if (!relationList.isEmpty()) {
             Activator.showErrorDialog("error.reference.key.not.moveable");
             return null;
 
         } else if (oldColumn.isForeignKey()) {
-            Relation oldRelation = oldColumn.getRelationList().get(0);
+            Relationship oldRelation = oldColumn.getRelationshipList().get(0);
             TableView referencedTableView = oldRelation.getSourceTableView();
 
             if (ERTable.isRecursive(referencedTableView, newTableView)) {
@@ -250,8 +250,8 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
             DeleteRelationCommand deleteOldRelationCommand = new DeleteRelationCommand(oldRelation, true);
             command.add(deleteOldRelationCommand);
 
-            Relation newRelation =
-                    new Relation(oldRelation.isReferenceForPK(), oldRelation.getReferencedComplexUniqueKey(),
+            Relationship newRelation =
+                    new Relationship(oldRelation.isReferenceForPK(), oldRelation.getReferencedComplexUniqueKey(),
                             oldRelation.getReferencedColumn());
 
             List<NormalColumn> oldForeignKeyColumnList = new ArrayList<NormalColumn>();
@@ -289,7 +289,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
             }
 
             for (NormalColumn oldForeignKey : oldForeignKeyColumnList) {
-                List<Relation> oldRelationList = oldForeignKey.getOutgoingRelationList();
+                List<Relationship> oldRelationList = oldForeignKey.getOutgoingRelationList();
 
                 if (!oldRelationList.isEmpty()) {
                     Activator.showErrorDialog("error.reference.key.not.moveable");
@@ -347,7 +347,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
         CompoundCommand command = new CompoundCommand();
 
         TableView copyOldTableView = oldTableView.copyData();
-        for (Column column : copyOldTableView.getColumns()) {
+        for (ERColumn column : copyOldTableView.getColumns()) {
             if (column == columnGroup) {
                 copyOldTableView.removeColumn(column);
                 break;
@@ -370,10 +370,10 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
 
         ColumnEditPart columnEditPart = (ColumnEditPart) this.getHost();
 
-        Column column = (Column) columnEditPart.getModel();
+        ERColumn column = (ERColumn) columnEditPart.getModel();
         TableView newTableView = (TableView) this.getHost().getParent().getModel();
 
-        List<Column> columns = newTableView.getColumns();
+        List<ERColumn> columns = newTableView.getColumns();
 
         if (column.getColumnHolder() instanceof ColumnGroup) {
             column = (ColumnGroup) column.getColumnHolder();

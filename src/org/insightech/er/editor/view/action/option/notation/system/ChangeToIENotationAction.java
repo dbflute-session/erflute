@@ -1,13 +1,13 @@
 package org.insightech.er.editor.view.action.option.notation.system;
 
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.settings.Settings;
 
 public class ChangeToIENotationAction extends AbstractChangeNotationAction {
 
     public static final String ID = ChangeToIENotationAction.class.getName();
 
-    public ChangeToIENotationAction(ERDiagramEditor editor) {
+    public ChangeToIENotationAction(MainModelEditor editor) {
         super(ID, "ie", editor);
     }
 

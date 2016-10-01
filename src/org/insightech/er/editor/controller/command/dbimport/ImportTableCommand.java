@@ -15,7 +15,7 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.DiagramContents;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
@@ -161,7 +161,7 @@ public class ImportTableCommand extends AbstractCommand {
             if (nodeElement instanceof TableView) {
                 for (NormalColumn normalColumn : ((TableView) nodeElement).getNormalColumns()) {
                     if (normalColumn.isForeignKey()) {
-                        for (Relation relation : normalColumn.getRelationList()) {
+                        for (Relationship relation : normalColumn.getRelationshipList()) {
                             if (relation.getSourceTableView() == nodeElement) {
                                 this.setSelfRelation(relation);
                             }
@@ -188,11 +188,11 @@ public class ImportTableCommand extends AbstractCommand {
         this.diagram.changeAll(this.nodeElementList);
     }
 
-    private void setSelfRelation(Relation relation) {
+    private void setSelfRelation(Relationship relation) {
         boolean anotherSelfRelation = false;
 
         TableView sourceTable = relation.getSourceTableView();
-        for (Relation otherRelation : sourceTable.getOutgoingRelations()) {
+        for (Relationship otherRelation : sourceTable.getOutgoingRelations()) {
             if (otherRelation == relation) {
                 continue;
             }

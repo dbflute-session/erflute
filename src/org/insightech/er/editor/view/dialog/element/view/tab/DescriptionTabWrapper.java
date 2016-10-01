@@ -8,15 +8,15 @@ import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 
 public class DescriptionTabWrapper extends ValidatableTabWrapper {
 
-    private View copyData;
+    private ERView copyData;
 
     private Text descriptionText;
 
-    public DescriptionTabWrapper(AbstractDialog dialog, TabFolder parent, int style, View copyData) {
+    public DescriptionTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERView copyData) {
         super(dialog, parent, style, "label.table.description");
 
         this.copyData = copyData;

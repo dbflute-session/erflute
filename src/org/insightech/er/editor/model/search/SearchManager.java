@@ -6,14 +6,14 @@ import java.util.List;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.NameValue;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 
@@ -228,7 +228,7 @@ public class SearchManager {
                     if (nodeElement instanceof ERTable) {
                         ERTable table = (ERTable) nodeElement;
 
-                        for (Relation relation : table.getIncomingRelations()) {
+                        for (Relationship relation : table.getIncomingRelations()) {
                             if (skip) {
                                 if (relation != this.currentTarget) {
                                     continue;
@@ -402,7 +402,7 @@ public class SearchManager {
                     if (nodeElement instanceof ERTable) {
                         ERTable table = (ERTable) nodeElement;
 
-                        for (Relation relation : table.getIncomingRelations()) {
+                        for (Relationship relation : table.getIncomingRelations()) {
                             if (skip) {
                                 if (relation != this.currentTarget) {
                                     continue;
@@ -501,7 +501,7 @@ public class SearchManager {
         if (this.physicalColumnNameCheckBox || this.logicalColumnNameCheckBox || this.columnTypeCheckBox || this.columnLengthCheckBox
                 || this.columnDecimalCheckBox || this.columnDefaultValueCheckBox || this.columnGroupNameCheckBox) {
 
-            for (Column column : table.getColumns()) {
+            for (ERColumn column : table.getColumns()) {
                 if (column instanceof NormalColumn) {
                     NormalColumn normalColumn = (NormalColumn) column;
 
@@ -520,7 +520,7 @@ public class SearchManager {
         }
 
         if (this.indexCheckBox) {
-            for (Index index : table.getIndexes()) {
+            for (ERIndex index : table.getIndexes()) {
                 rows.addAll(search(table, index, keyword, path));
             }
         }
@@ -656,7 +656,7 @@ public class SearchManager {
         return rows;
     }
 
-    private List<SearchResultRow> search(ERTable table, Index index, String keyword, String parentPath) {
+    private List<SearchResultRow> search(ERTable table, ERIndex index, String keyword, String parentPath) {
         List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
 
         String path = parentPath + "/" + index.getName();
@@ -674,7 +674,7 @@ public class SearchManager {
         return rows;
     }
 
-    private List<SearchResultRow> search(Relation relation, String keyword) {
+    private List<SearchResultRow> search(Relationship relation, String keyword) {
         List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
 
         if (this.search(relation.getName(), keyword)) {

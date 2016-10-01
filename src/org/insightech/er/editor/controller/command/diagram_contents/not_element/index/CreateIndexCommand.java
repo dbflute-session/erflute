@@ -6,21 +6,21 @@ import java.util.List;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 
 public class CreateIndexCommand extends AbstractCommand {
 
     private ERTable table;
 
-    private List<Index> oldIndexList;
+    private List<ERIndex> oldIndexList;
 
-    private List<Index> newIndexList;
+    private List<ERIndex> newIndexList;
 
-    public CreateIndexCommand(ERDiagram diagram, Index newIndex) {
+    public CreateIndexCommand(ERDiagram diagram, ERIndex newIndex) {
         this.table = newIndex.getTable();
 
         this.oldIndexList = newIndex.getTable().getIndexes();
-        this.newIndexList = new ArrayList<Index>(oldIndexList);
+        this.newIndexList = new ArrayList<ERIndex>(oldIndexList);
 
         this.newIndexList.add(newIndex);
     }

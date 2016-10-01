@@ -1,13 +1,13 @@
 package org.insightech.er.editor.view.action.option.notation.level;
 
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.settings.Settings;
 
 public class ChangeNotationLevelToNameAndKeyAction extends AbstractChangeNotationLevelAction {
 
     public static final String ID = ChangeNotationLevelToNameAndKeyAction.class.getName();
 
-    public ChangeNotationLevelToNameAndKeyAction(ERDiagramEditor editor) {
+    public ChangeNotationLevelToNameAndKeyAction(MainModelEditor editor) {
         super(ID, editor);
     }
 

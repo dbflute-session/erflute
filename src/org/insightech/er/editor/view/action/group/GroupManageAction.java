@@ -7,7 +7,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.CopyGroup;
@@ -19,7 +19,7 @@ public class GroupManageAction extends AbstractBaseAction {
 
     public static final String ID = GroupManageAction.class.getName();
 
-    public GroupManageAction(ERDiagramEditor editor) {
+    public GroupManageAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.manage.group"), editor);
     }
 

@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.LabelRetargetAction;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.common.ChangeBackgroundColorCommand;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.column.NormalColumnEditPart;
@@ -88,7 +88,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
     private void setRGB(RGB rgb) {
         this.rgb = rgb;
 
-        EditPart editPart = ((ERDiagramEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
+        EditPart editPart = ((MainModelEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
 
         if (editPart.getModel() instanceof ERModel) {
             // �r���[�̔w�i�F�ύX

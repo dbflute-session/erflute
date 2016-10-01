@@ -36,7 +36,7 @@ import org.insightech.er.editor.model.diagram_contents.DiagramContents;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.insightech.er.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
@@ -48,12 +48,12 @@ import org.insightech.er.editor.model.diagram_contents.element.node.model_proper
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.properties.ViewProperties;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
@@ -101,8 +101,8 @@ public class ErmXmlReader {
         private final Map<NormalColumn, String[]> columnReferencedColumnMap;
         private final Map<String, ColumnGroup> columnGroupMap;
         private final Map<String, ERModel> ermodelMap;
-        private final Map<Relation, String> referencedColumnMap;
-        private final Map<Relation, String> referencedComplexUniqueKeyMap;
+        private final Map<Relationship, String> referencedColumnMap;
+        private final Map<Relationship, String> referencedComplexUniqueKeyMap;
         private final Map<ConnectionElement, String> connectionSourceMap;
         private final Map<ConnectionElement, String> connectionTargetMap;
         private final Map<String, ConnectionElement> connectionMap;
@@ -120,8 +120,8 @@ public class ErmXmlReader {
             this.columnReferencedColumnMap = new HashMap<NormalColumn, String[]>();
             this.ermodelMap = new HashMap<String, ERModel>();
             this.columnGroupMap = new HashMap<String, ColumnGroup>();
-            this.referencedColumnMap = new HashMap<Relation, String>();
-            this.referencedComplexUniqueKeyMap = new HashMap<Relation, String>();
+            this.referencedColumnMap = new HashMap<Relationship, String>();
+            this.referencedComplexUniqueKeyMap = new HashMap<Relationship, String>();
             this.connectionMap = new HashMap<String, ConnectionElement>();
             this.connectionSourceMap = new HashMap<ConnectionElement, String>();
             this.connectionTargetMap = new HashMap<ConnectionElement, String>();
@@ -153,7 +153,7 @@ public class ErmXmlReader {
                 connection.setTarget(nodeElement);
             }
 
-            for (final Relation relation : this.referencedColumnMap.keySet()) {
+            for (final Relationship relation : this.referencedColumnMap.keySet()) {
                 final String id = this.referencedColumnMap.get(relation);
                 final NormalColumn column = this.columnMap.get(id);
                 if (column == null) {
@@ -162,7 +162,7 @@ public class ErmXmlReader {
                 relation.setReferencedColumn(column);
             }
 
-            for (final Relation relation : this.referencedComplexUniqueKeyMap.keySet()) {
+            for (final Relationship relation : this.referencedComplexUniqueKeyMap.keySet()) {
                 final String id = this.referencedComplexUniqueKeyMap.get(relation);
                 final ComplexUniqueKey complexUniqueKey = this.complexUniqueKeyMap.get(id);
                 relation.setReferencedComplexUniqueKey(complexUniqueKey);
@@ -196,7 +196,7 @@ public class ErmXmlReader {
                 for (final String relationId : relationIds) {
                     try {
                         Integer.parseInt(relationId);
-                        final Relation relation = (Relation) this.connectionMap.get(relationId);
+                        final Relationship relation = (Relationship) this.connectionMap.get(relationId);
                         for (final NormalColumn referencedColumn : referencedColumnList) {
                             if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
                                 foreignKeyColumn.addReference(referencedColumn, relation);
@@ -754,8 +754,8 @@ public class ErmXmlReader {
 
             columnGroup.setGroupName(this.getStringValue(columnGroupElement, "group_name"));
 
-            final List<Column> columns = this.loadColumns(columnGroupElement, context);
-            for (final Column column : columns) {
+            final List<ERColumn> columns = this.loadColumns(columnGroupElement, context);
+            for (final ERColumn column : columns) {
                 columnGroup.addColumn((NormalColumn) column);
             }
 
@@ -914,8 +914,8 @@ public class ErmXmlReader {
         return word;
     }
 
-    private List<Column> loadColumns(Element parent, LoadContext context) {
-        final List<Column> columns = new ArrayList<Column>();
+    private List<ERColumn> loadColumns(Element parent, LoadContext context) {
+        final List<ERColumn> columns = new ArrayList<ERColumn>();
 
         final Element element = this.getElement(parent, "columns");
 
@@ -1293,7 +1293,7 @@ public class ErmXmlReader {
                 contents.addNodeElement(table);
 
             } else if ("view".equals(node.getNodeName())) {
-                final View view = this.loadView((Element) node, context);
+                final ERView view = this.loadView((Element) node, context);
                 contents.addNodeElement(view);
 
                 //			} else if ("note".equals(node.getNodeName())) {
@@ -1331,10 +1331,10 @@ public class ErmXmlReader {
         table.setPrimaryKeyName(this.getStringValue(element, "primary_key_name"));
         table.setOption(this.getStringValue(element, "option"));
 
-        final List<Column> columns = this.loadColumns(element, context);
+        final List<ERColumn> columns = this.loadColumns(element, context);
         table.setColumns(columns);
 
-        final List<Index> indexes = this.loadIndexes(element, table, context);
+        final List<ERIndex> indexes = this.loadIndexes(element, table, context);
         table.setIndexes(indexes);
 
         final List<ComplexUniqueKey> complexUniqueKeyList = this.loadComplexUniqueKeyList(element, table, context);
@@ -1354,8 +1354,8 @@ public class ErmXmlReader {
         return vtable;
     }
 
-    private View loadView(Element element, LoadContext context) {
-        final View view = new View();
+    private ERView loadView(Element element, LoadContext context) {
+        final ERView view = new ERView();
 
         view.setDiagram(this.diagram);
 
@@ -1365,7 +1365,7 @@ public class ErmXmlReader {
         view.setDescription(this.getStringValue(element, "description"));
         view.setSql(this.getStringValue(element, "sql"));
 
-        final List<Column> columns = this.loadColumns(element, context);
+        final List<ERColumn> columns = this.loadColumns(element, context);
         view.setColumns(columns);
 
         this.loadViewProperties((ViewProperties) view.getTableViewProperties(), element, context);
@@ -1373,8 +1373,8 @@ public class ErmXmlReader {
         return view;
     }
 
-    private List<Index> loadIndexes(Element parent, ERTable table, LoadContext context) {
-        final List<Index> indexes = new ArrayList<Index>();
+    private List<ERIndex> loadIndexes(Element parent, ERTable table, LoadContext context) {
+        final List<ERIndex> indexes = new ArrayList<ERIndex>();
 
         final Element element = this.getElement(parent, "indexes");
 
@@ -1392,8 +1392,8 @@ public class ErmXmlReader {
                 type = null;
             }
 
-            final Index index =
-                    new Index(table, this.getStringValue(indexElement, "name"), this.getBooleanValue(indexElement, "non_unique"), type,
+            final ERIndex index =
+                    new ERIndex(table, this.getStringValue(indexElement, "name"), this.getBooleanValue(indexElement, "non_unique"), type,
                             this.getStringValue(indexElement, "description"));
 
             index.setFullText(this.getBooleanValue(indexElement, "full_text"));
@@ -1406,7 +1406,7 @@ public class ErmXmlReader {
         return indexes;
     }
 
-    private void loadIndexColumns(Index index, Element parent, LoadContext context) {
+    private void loadIndexColumns(ERIndex index, Element parent, LoadContext context) {
         final Element element = this.getElement(parent, "columns");
         final NodeList nodeList = element.getChildNodes();
 
@@ -1585,7 +1585,7 @@ public class ErmXmlReader {
 
     private void loadRelation(Element element, LoadContext context) {
         final boolean referenceForPK = this.getBooleanValue(element, "reference_for_pk");
-        final Relation connection = new Relation(referenceForPK, null, null);
+        final Relationship connection = new Relationship(referenceForPK, null, null);
 
         this.load(connection, element, context);
 

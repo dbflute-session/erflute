@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.DDLCreator;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -38,7 +38,7 @@ public class SQLiteDDLCreator extends DDLCreator {
     protected String getPrimaryKeyDDL(ERTable table) {
         StringBuilder ddl = new StringBuilder();
 
-        for (Relation relation : table.getIncomingRelations()) {
+        for (Relationship relation : table.getIncomingRelations()) {
             ddl.append(",\r\n\tFOREIGN KEY (");
 
             boolean first = true;

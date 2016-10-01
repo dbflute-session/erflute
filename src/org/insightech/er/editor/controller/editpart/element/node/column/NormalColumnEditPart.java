@@ -12,7 +12,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -143,8 +143,8 @@ public class NormalColumnEditPart extends ColumnEditPart {
             if (selected == EditPart.SELECTED || selected == EditPart.SELECTED_PRIMARY) {
                 ConnectionElement connectionElement = (ConnectionElement) connectionEditPart.getModel();
 
-                if (connectionElement instanceof Relation) {
-                    Relation relation = (Relation) connectionElement;
+                if (connectionElement instanceof Relationship) {
+                    Relationship relation = (Relationship) connectionElement;
 
                     if (relation.isReferenceForPK()) {
                         referencedColulmnList.addAll(((ERTable) tableView).getPrimaryKeys());
@@ -175,8 +175,8 @@ public class NormalColumnEditPart extends ColumnEditPart {
             if (selected == EditPart.SELECTED || selected == EditPart.SELECTED_PRIMARY) {
                 ConnectionElement connectionElement = (ConnectionElement) connectionEditPart.getModel();
 
-                if (connectionElement instanceof Relation) {
-                    Relation relation = (Relation) connectionElement;
+                if (connectionElement instanceof Relationship) {
+                    Relationship relation = (Relationship) connectionElement;
 
                     foreignKeyColulmnList.addAll(relation.getForeignKeyColumns());
                 }

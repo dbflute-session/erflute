@@ -27,11 +27,11 @@
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.editors">
-		<editor class="org.insightech.er.editor.ERDiagramMultiPageEditor"
+		<editor class="org.insightech.er.editor.ERFluteMultiPageEditor"
 			extensions="erm"
-			contributorClass="org.insightech.er.editor.view.contributor.ERDiagramMultiPageEditorActionBarContributor"
+			contributorClass="org.insightech.er.editor.view.contributor.ERFluteMultiPageEditorActionBarContributor"
 			icon="icons/table.gif"
-			id="org.insightech.er.editors.ERDiagramMultiPageEditor"
+			id="org.insightech.er.editors.ERFluteMultiPageEditor"
 			name="%plugin.name">
 		</editor>
 	</extension>

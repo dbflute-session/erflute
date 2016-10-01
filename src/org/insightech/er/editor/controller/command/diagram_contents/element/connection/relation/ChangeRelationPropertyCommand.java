@@ -1,20 +1,20 @@
 package org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation;
 
 import org.insightech.er.editor.controller.command.AbstractCommand;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 
 public class ChangeRelationPropertyCommand extends AbstractCommand {
 
-    private Relation oldCopyRelation;
+    private Relationship oldCopyRelation;
 
-    private Relation newCopyRelation;
+    private Relationship newCopyRelation;
 
-    private Relation relation;
+    private Relationship relation;
 
     private TableView oldTargetTable;
 
-    public ChangeRelationPropertyCommand(Relation relation, Relation newCopyRelation) {
+    public ChangeRelationPropertyCommand(Relationship relation, Relationship newCopyRelation) {
         this.relation = relation;
         this.oldCopyRelation = relation.copy();
         this.newCopyRelation = newCopyRelation;

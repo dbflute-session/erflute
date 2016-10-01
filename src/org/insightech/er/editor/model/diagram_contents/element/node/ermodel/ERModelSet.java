@@ -7,18 +7,23 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.insightech.er.editor.model.AbstractModel;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERModelSet extends AbstractModel implements Iterable<ERModel> {
 
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_MODEL_SET = "ModelSet";
 
-    private List<ERModel> ermodels;
+    private final List<ERModel> ermodels;
 
     public ERModelSet() {
         ermodels = new ArrayList<ERModel>();
     }
 
+    @Override
     public Iterator<ERModel> iterator() {
         Collections.sort(ermodels, new Comparator<ERModel>() {
             @Override
@@ -45,7 +50,7 @@ public class ERModelSet extends AbstractModel implements Iterable<ERModel> {
     }
 
     public int remove(ERModel ermodel) {
-        int index = this.ermodels.indexOf(ermodel);
+        final int index = this.ermodels.indexOf(ermodel);
         this.ermodels.remove(index);
         this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
 
@@ -57,7 +62,7 @@ public class ERModelSet extends AbstractModel implements Iterable<ERModel> {
     }
 
     public ERModel getModel(String modelName) {
-        for (ERModel model : ermodels) {
+        for (final ERModel model : ermodels) {
             if (model.getName().equals(modelName)) {
                 return model;
             }
@@ -65,24 +70,15 @@ public class ERModelSet extends AbstractModel implements Iterable<ERModel> {
         return null;
     }
 
-    /**
-     * �S�r���[���烊���[�V�������폜
-     * @param relation
-     */
-    public void deleteRelation(Relation relation) {
-        for (ERModel model : ermodels) {
+    public void deleteRelation(Relationship relation) {
+        for (final ERModel model : ermodels) {
             model.deleteRelation(relation);
         }
     }
 
-    public void createRelation(Relation relation) {
-        for (ERModel model : ermodels) {
+    public void createRelation(Relationship relation) {
+        for (final ERModel model : ermodels) {
             model.createRelation(relation);
         }
     }
-
-    //	public Object getModels() {
-    //		return ermodels;
-    //	}
-
 }

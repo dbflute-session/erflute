@@ -13,19 +13,19 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.RightAngleLineCommand;
 import org.insightech.er.editor.controller.editpart.element.connection.RelationEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.IResizable;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.view.action.AbstractBaseSelectionAction;
 
 public class RightAngleLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = RightAngleLineAction.class.getName();
 
-    public RightAngleLineAction(ERDiagramEditor editor) {
+    public RightAngleLineAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.right.angle.line"), editor);
     }
 
@@ -67,7 +67,7 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
         if (connectionEditPart instanceof RelationEditPart) {
             RelationEditPart relationEditPart = (RelationEditPart) connectionEditPart;
 
-            Relation relation = (Relation) relationEditPart.getModel();
+            Relationship relation = (Relationship) relationEditPart.getModel();
 
             if (relation.getSourceXp() != -1) {
                 NodeEditPart editPart = (NodeEditPart) relationEditPart.getSource();

@@ -9,7 +9,7 @@ import java.util.Map;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -24,7 +24,7 @@ public class ChangeGroupCommand extends AbstractCommand {
 
     private List<CopyGroup> newGroups;
 
-    private Map<TableView, List<Column>> oldColumnListMap;
+    private Map<TableView, List<ERColumn>> oldColumnListMap;
 
     private ERDiagram diagram;
 
@@ -36,7 +36,7 @@ public class ChangeGroupCommand extends AbstractCommand {
         this.newGroups = newGroups;
 
         this.oldCopyGroups = new ArrayList<CopyGroup>();
-        this.oldColumnListMap = new HashMap<TableView, List<Column>>();
+        this.oldColumnListMap = new HashMap<TableView, List<ERColumn>>();
 
         for (ColumnGroup columnGroup : groupSet) {
             CopyGroup oldCopyGroup = new CopyGroup(columnGroup);
@@ -66,13 +66,13 @@ public class ChangeGroupCommand extends AbstractCommand {
         }
 
         for (TableView tableView : this.diagram.getDiagramContents().getContents().getTableViewList()) {
-            List<Column> columns = tableView.getColumns();
-            List<Column> oldColumns = new ArrayList<Column>(columns);
+            List<ERColumn> columns = tableView.getColumns();
+            List<ERColumn> oldColumns = new ArrayList<ERColumn>(columns);
 
             this.oldColumnListMap.put(tableView, oldColumns);
 
-            for (Iterator<Column> iter = columns.iterator(); iter.hasNext();) {
-                Column column = iter.next();
+            for (Iterator<ERColumn> iter = columns.iterator(); iter.hasNext();) {
+                ERColumn column = iter.next();
 
                 if (column instanceof ColumnGroup) {
                     if (!this.groupSet.contains((ColumnGroup) column)) {
@@ -106,7 +106,7 @@ public class ChangeGroupCommand extends AbstractCommand {
         }
 
         for (TableView tableView : this.oldColumnListMap.keySet()) {
-            List<Column> oldColumns = this.oldColumnListMap.get(tableView);
+            List<ERColumn> oldColumns = this.oldColumnListMap.get(tableView);
             tableView.setColumns(oldColumns);
         }
     }

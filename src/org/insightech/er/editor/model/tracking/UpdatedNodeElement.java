@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
 public class UpdatedNodeElement implements Serializable {
@@ -15,18 +15,18 @@ public class UpdatedNodeElement implements Serializable {
 
     private NodeElement nodeElement;
 
-    private Set<Column> addedColumns;
+    private Set<ERColumn> addedColumns;
 
-    private Set<Column> updatedColumns;
+    private Set<ERColumn> updatedColumns;
 
-    private Set<Column> removedColumns;
+    private Set<ERColumn> removedColumns;
 
     public UpdatedNodeElement(NodeElement nodeElement) {
         this.nodeElement = nodeElement;
 
-        this.addedColumns = new HashSet<Column>();
-        this.updatedColumns = new HashSet<Column>();
-        this.removedColumns = new HashSet<Column>();
+        this.addedColumns = new HashSet<ERColumn>();
+        this.updatedColumns = new HashSet<ERColumn>();
+        this.removedColumns = new HashSet<ERColumn>();
     }
 
     public NodeElement getNodeElement() {
@@ -48,7 +48,7 @@ public class UpdatedNodeElement implements Serializable {
         this.removedColumns.addAll(columns);
     }
 
-    public boolean isAdded(Column column) {
+    public boolean isAdded(ERColumn column) {
         if (this.addedColumns.contains(column)) {
             return true;
         }
@@ -56,7 +56,7 @@ public class UpdatedNodeElement implements Serializable {
         return false;
     }
 
-    public boolean isUpdated(Column column) {
+    public boolean isUpdated(ERColumn column) {
         if (this.updatedColumns.contains(column)) {
             return true;
         }
@@ -64,7 +64,7 @@ public class UpdatedNodeElement implements Serializable {
         return false;
     }
 
-    public Set<Column> getRemovedColumns() {
+    public Set<ERColumn> getRemovedColumns() {
         return removedColumns;
     }
 

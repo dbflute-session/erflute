@@ -12,7 +12,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IFileEditorInput;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.common.ChangeSettingsCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
@@ -20,13 +20,13 @@ import org.insightech.er.editor.model.settings.Settings;
 
 public abstract class AbstractBaseAction extends Action {
 
-    private ERDiagramEditor editor;
+    private MainModelEditor editor;
 
-    public AbstractBaseAction(String id, String text, ERDiagramEditor editor) {
+    public AbstractBaseAction(String id, String text, MainModelEditor editor) {
         this(id, text, SWT.NONE, editor);
     }
 
-    public AbstractBaseAction(String id, String text, int style, ERDiagramEditor editor) {
+    public AbstractBaseAction(String id, String text, int style, MainModelEditor editor) {
         super(text, style);
         this.setId(id);
 
@@ -90,7 +90,7 @@ public abstract class AbstractBaseAction extends Action {
         return null;
     }
 
-    protected ERDiagramEditor getEditorPart() {
+    protected MainModelEditor getEditorPart() {
         return this.editor;
     }
 }

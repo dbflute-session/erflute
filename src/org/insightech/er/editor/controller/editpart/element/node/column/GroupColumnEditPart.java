@@ -6,7 +6,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPart;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.UpdatedNodeElement;
@@ -34,7 +34,7 @@ public class GroupColumnEditPart extends ColumnEditPart {
 
         int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
-        Column column = (Column) this.getModel();
+        ERColumn column = (ERColumn) this.getModel();
 
         if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
             TableFigure tableFigure = (TableFigure) parent.getFigure();
@@ -64,7 +64,7 @@ public class GroupColumnEditPart extends ColumnEditPart {
         }
     }
 
-    public static void addGroupColumnFigure(ERDiagram diagram, TableFigure tableFigure, GroupColumnFigure columnFigure, Column column,
+    public static void addGroupColumnFigure(ERDiagram diagram, TableFigure tableFigure, GroupColumnFigure columnFigure, ERColumn column,
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
 
         ColumnGroup groupColumn = (ColumnGroup) column;

@@ -3,14 +3,14 @@ package org.insightech.er.editor.view.action.option.notation.system;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.common.notation.ChangeNotationCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
 
 public abstract class AbstractChangeNotationAction extends AbstractBaseAction {
 
-    public AbstractChangeNotationAction(String id, String type, ERDiagramEditor editor) {
+    public AbstractChangeNotationAction(String id, String type, MainModelEditor editor) {
         super(id, null, IAction.AS_RADIO_BUTTON, editor);
         this.setText(DisplayMessages.getMessage("action.title.change.notation." + type));
     }

@@ -17,7 +17,7 @@ import org.insightech.er.editor.controller.editpart.DeleteableEditPart;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ERModelUtil;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -73,8 +73,8 @@ public class NodeElementComponentEditPolicy extends ComponentEditPolicy {
 
             if (virtualTable == null) {
                 for (ConnectionElement connection : element.getIncomings()) {
-                    if (connection instanceof Relation) {
-                        command.add(new DeleteRelationCommand((Relation) connection, true));
+                    if (connection instanceof Relationship) {
+                        command.add(new DeleteRelationCommand((Relationship) connection, true));
 
                     } else {
                         command.add(new DeleteConnectionCommand(connection));
@@ -86,8 +86,8 @@ public class NodeElementComponentEditPolicy extends ComponentEditPolicy {
                     NodeElement target = connection.getTarget();
 
                     if (!targets.contains(target)) {
-                        if (connection instanceof Relation) {
-                            command.add(new DeleteRelationCommand((Relation) connection, true));
+                        if (connection instanceof Relationship) {
+                            command.add(new DeleteRelationCommand((Relationship) connection, true));
                         } else {
                             command.add(new DeleteConnectionCommand(connection));
                         }

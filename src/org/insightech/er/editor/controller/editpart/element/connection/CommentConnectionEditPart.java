@@ -19,7 +19,7 @@ import org.insightech.er.editor.controller.editpolicy.element.connection.Comment
 import org.insightech.er.editor.controller.editpolicy.element.connection.ERDiagramBendpointEditPolicy;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.view.dialog.element.relation.RelationDialog;
 import org.insightech.er.editor.view.figure.connection.ERDiagramConnection;
 
@@ -72,10 +72,10 @@ public class CommentConnectionEditPart extends ERDiagramConnectionEditPart {
      */
     @Override
     public void performRequest(Request request) {
-        Relation relation = (Relation) this.getModel();
+        Relationship relation = (Relationship) this.getModel();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            Relation copy = relation.copy();
+            Relationship copy = relation.copy();
 
             RelationDialog dialog = new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 

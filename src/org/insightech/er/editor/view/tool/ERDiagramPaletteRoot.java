@@ -12,13 +12,13 @@ import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.insightech.er.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.insightech.er.editor.model.diagram_contents.element.connection.RelatedTable;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.connection.RelationByExistingColumns;
 import org.insightech.er.editor.model.diagram_contents.element.connection.SelfRelation;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 
 public class ERDiagramPaletteRoot extends PaletteRoot {
 
@@ -38,12 +38,12 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
                 .getImageDescriptor(ImageKey.TABLE_NEW), Activator.getImageDescriptor(ImageKey.TABLE_NEW)));
 
         group.add(new CreationToolEntry(DisplayMessages.getMessage("label.view"), DisplayMessages
-                .getMessage("label.create.view"), new SimpleFactory(View.class), Activator.getImageDescriptor(ImageKey.VIEW),
+                .getMessage("label.create.view"), new SimpleFactory(ERView.class), Activator.getImageDescriptor(ImageKey.VIEW),
                 Activator.getImageDescriptor(ImageKey.VIEW)));
 
         ConnectionCreationToolEntry toolEntry1 =
                 new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.one.to.many"),
-                        DisplayMessages.getMessage("label.create.relation.one.to.many"), new SimpleFactory(Relation.class),
+                        DisplayMessages.getMessage("label.create.relation.one.to.many"), new SimpleFactory(Relationship.class),
                         Activator.getImageDescriptor(ImageKey.RELATION_1_N), Activator.getImageDescriptor(ImageKey.RELATION_1_N));
         toolEntry1.setToolClass(RelationCreationTool.class);
         group.add(toolEntry1);

@@ -13,7 +13,7 @@ import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditP
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.IndexSet;
 
 public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
@@ -29,7 +29,7 @@ public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     protected List getModelChildren() {
-        List<Index> children = new ArrayList<Index>();
+        List<ERIndex> children = new ArrayList<ERIndex>();
 
         ERDiagram diagram = this.getDiagram();
         Category category = this.getCurrentCategory();

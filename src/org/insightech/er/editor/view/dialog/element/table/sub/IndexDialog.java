@@ -32,9 +32,9 @@ import org.eclipse.swt.widgets.Text;
 import org.insightech.er.db.DBManager;
 import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 
 public class IndexDialog extends AbstractDialog {
 
@@ -70,15 +70,15 @@ public class IndexDialog extends AbstractDialog {
 
     private boolean add;
 
-    private Index targetIndex;
+    private ERIndex targetIndex;
 
-    private Index resultIndex;
+    private ERIndex resultIndex;
 
-    private Map<Column, Button> descCheckBoxMap = new HashMap<Column, Button>();
+    private Map<ERColumn, Button> descCheckBoxMap = new HashMap<ERColumn, Button>();
 
-    private Map<Column, TableEditor> columnCheckMap = new HashMap<Column, TableEditor>();
+    private Map<ERColumn, TableEditor> columnCheckMap = new HashMap<ERColumn, TableEditor>();
 
-    public IndexDialog(Shell parentShell, Index targetIndex, ERTable table) {
+    public IndexDialog(Shell parentShell, ERIndex targetIndex, ERTable table) {
         super(parentShell);
 
         this.targetIndex = targetIndex;
@@ -520,7 +520,7 @@ public class IndexDialog extends AbstractDialog {
     protected void perfomeOK() {
         String text = nameText.getText();
 
-        this.resultIndex = new Index(table, text, !this.uniqueCheckBox.getSelection(), this.typeCombo.getText(), null);
+        this.resultIndex = new ERIndex(table, text, !this.uniqueCheckBox.getSelection(), this.typeCombo.getText(), null);
         this.resultIndex.setDescription(this.descriptionText.getText().trim());
 
         int i = 0;
@@ -537,7 +537,7 @@ public class IndexDialog extends AbstractDialog {
         }
     }
 
-    public Index getResultIndex() {
+    public ERIndex getResultIndex() {
         return this.resultIndex;
     }
 
@@ -580,7 +580,7 @@ public class IndexDialog extends AbstractDialog {
         return "dialog.title.index";
     }
 
-    private void disposeCheckBox(Column column) {
+    private void disposeCheckBox(ERColumn column) {
         TableEditor oldEditor = this.columnCheckMap.get(column);
 
         if (oldEditor != null) {

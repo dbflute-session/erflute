@@ -27,7 +27,7 @@ import org.eclipse.ui.PlatformUI;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.CopyIndex;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.view.dialog.common.ERTableComposite;
 import org.insightech.er.editor.view.dialog.element.table.sub.IndexDialog;
 
@@ -151,7 +151,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
              */
             @Override
             public void widgetSelected(SelectionEvent event) {
-                Index targetIndex = getTargetIndex();
+                ERIndex targetIndex = getTargetIndex();
                 if (targetIndex == null) {
                     return;
                 }
@@ -178,7 +178,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
     }
 
     private void setTableData() {
-        List<Index> indexes = this.copyData.getIndexes();
+        List<ERIndex> indexes = this.copyData.getIndexes();
 
         TableItem radioTableItem = new TableItem(this.indexTable, SWT.NONE);
 
@@ -217,7 +217,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
             tableItem.setText(0, Format.null2blank(normalColumn.getName()));
 
             for (int i = 0; i < indexes.size(); i++) {
-                Index index = indexes.get(i);
+                ERIndex index = indexes.get(i);
 
                 List<NormalColumn> indexColumns = index.getColumns();
                 for (int j = 0; j < indexColumns.size(); j++) {
@@ -234,7 +234,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
         setButtonEnabled(false);
     }
 
-    public void addIndexData(Index index, boolean add) {
+    public void addIndexData(ERIndex index, boolean add) {
         int selectedIndex = -1;
 
         for (int i = 0; i < this.checkButtonList.size(); i++) {
@@ -245,7 +245,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
             }
         }
 
-        Index copyIndex = null;
+        ERIndex copyIndex = null;
 
         if (add || selectedIndex == -1) {
             copyIndex = new CopyIndex(copyData, index, null);
@@ -296,7 +296,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
     }
 
     private void resutuctIndexData() {
-        for (Index index : this.copyData.getIndexes()) {
+        for (ERIndex index : this.copyData.getIndexes()) {
             List<NormalColumn> indexColumns = index.getColumns();
 
             Iterator<NormalColumn> columnIterator = indexColumns.iterator();
@@ -328,7 +328,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
         this.editorList.clear();
     }
 
-    public Index getTargetIndex() {
+    public ERIndex getTargetIndex() {
         int selectedIndex = -1;
 
         for (int i = 0; i < this.checkButtonList.size(); i++) {

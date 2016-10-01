@@ -1,13 +1,13 @@
 package org.insightech.er.editor.view.action.option.notation.level;
 
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.settings.Settings;
 
 public class ChangeNotationLevelToColumnAction extends AbstractChangeNotationLevelAction {
 
     public static final String ID = ChangeNotationLevelToColumnAction.class.getName();
 
-    public ChangeNotationLevelToColumnAction(ERDiagramEditor editor) {
+    public ChangeNotationLevelToColumnAction(MainModelEditor editor) {
         super(ID, editor);
     }
 

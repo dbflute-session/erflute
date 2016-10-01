@@ -14,7 +14,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.actions.LabelRetargetAction;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.NodeElementEditPart;
@@ -26,7 +26,7 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = VerticalLineAction.class.getName();
 
-    public VerticalLineAction(ERDiagramEditor editor) {
+    public VerticalLineAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.vertical.line"), editor);
 
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));

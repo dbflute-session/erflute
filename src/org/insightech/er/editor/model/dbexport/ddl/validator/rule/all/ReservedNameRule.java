@@ -8,8 +8,8 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.BaseRule;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigger;
 
@@ -20,7 +20,7 @@ public class ReservedNameRule extends BaseRule {
 
         for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
 
-            for (Index index : table.getIndexes()) {
+            for (ERIndex index : table.getIndexes()) {
                 String indexName = index.getName().toLowerCase();
 
                 if (dbManager.isReservedWord(indexName)) {
@@ -50,7 +50,7 @@ public class ReservedNameRule extends BaseRule {
             }
         }
 
-        for (View view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
             String name = view.getName().toLowerCase();
 
             if (dbManager.isReservedWord(name)) {

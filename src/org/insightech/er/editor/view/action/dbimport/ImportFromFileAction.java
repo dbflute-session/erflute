@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbimport.DBObject;
@@ -36,9 +36,9 @@ import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -60,7 +60,7 @@ public class ImportFromFileAction extends AbstractImportAction {
 
     private ERDiagram loadedDiagram;
 
-    public ImportFromFileAction(ERDiagramEditor editor) {
+    public ImportFromFileAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.file"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.TABLE));
     }
@@ -141,7 +141,7 @@ public class ImportFromFileAction extends AbstractImportAction {
             dbObjects.add(dbObject);
         }
 
-        for (View view : loadedDiagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : loadedDiagram.getDiagramContents().getContents().getViewSet()) {
             DBObject dbObject = new DBObject(view.getTableViewProperties().getSchema(), view.getName(), DBObject.TYPE_VIEW);
             dbObject.setModel(view);
             dbObjects.add(dbObject);
@@ -286,8 +286,8 @@ public class ImportFromFileAction extends AbstractImportAction {
             if (nodeElement instanceof TableView) {
                 TableView tableView = (TableView) nodeElement;
 
-                for (Iterator<Column> iter = tableView.getColumns().iterator(); iter.hasNext();) {
-                    Column column = iter.next();
+                for (Iterator<ERColumn> iter = tableView.getColumns().iterator(); iter.hasNext();) {
+                    ERColumn column = iter.next();
 
                     if (column instanceof ColumnGroup) {
                         if (!this.importedColumnGroups.contains(column)) {

@@ -17,14 +17,14 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 
 public class RelationDialog extends AbstractDialog {
 
-    private Relation relation;
+    private Relationship relation;
 
     private Text nameText;
 
@@ -42,7 +42,7 @@ public class RelationDialog extends AbstractDialog {
 
     private ColumnComboInfo columnComboInfo;
 
-    public RelationDialog(Shell parentShell, Relation relation) {
+    public RelationDialog(Shell parentShell, Relationship relation) {
         super(parentShell, 2);
 
         this.relation = relation;

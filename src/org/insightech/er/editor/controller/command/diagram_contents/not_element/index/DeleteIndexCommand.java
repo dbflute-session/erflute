@@ -6,21 +6,21 @@ import java.util.List;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 
 public class DeleteIndexCommand extends AbstractCommand {
 
     private ERTable table;
 
-    private List<Index> oldIndexList;
+    private List<ERIndex> oldIndexList;
 
-    private List<Index> newIndexList;
+    private List<ERIndex> newIndexList;
 
-    public DeleteIndexCommand(ERDiagram diagram, Index index) {
+    public DeleteIndexCommand(ERDiagram diagram, ERIndex index) {
         this.table = index.getTable();
 
         this.oldIndexList = index.getTable().getIndexes();
-        this.newIndexList = new ArrayList<Index>(oldIndexList);
+        this.newIndexList = new ArrayList<ERIndex>(oldIndexList);
         this.newIndexList.remove(index);
     }
 

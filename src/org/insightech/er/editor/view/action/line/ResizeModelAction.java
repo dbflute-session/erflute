@@ -10,7 +10,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.insightech.er.editor.controller.editpart.element.node.ERTableEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.IResizable;
@@ -23,7 +23,7 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
 
     public static final String ID = ResizeModelAction.class.getName();
 
-    public ResizeModelAction(ERDiagramEditor editor) {
+    public ResizeModelAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.auto.resize"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.RESIZE));
     }

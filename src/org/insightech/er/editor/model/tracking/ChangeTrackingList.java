@@ -12,7 +12,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
 public class ChangeTrackingList implements Serializable {
@@ -150,7 +150,7 @@ public class ChangeTrackingList implements Serializable {
                     List<NormalColumn> oldColumns = new ArrayList<NormalColumn>(oldTable.getExpandedColumns());
 
                     for (NormalColumn newColumn : newTable.getExpandedColumns()) {
-                        Column originalColumn = null;
+                        ERColumn originalColumn = null;
 
                         for (NormalColumn oldColumn : oldColumns) {
                             if (newColumn.getName().equals(oldColumn.getName())) {

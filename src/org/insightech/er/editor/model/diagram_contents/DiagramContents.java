@@ -11,8 +11,7 @@ import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigg
 import org.insightech.er.editor.model.settings.Settings;
 
 /**
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class DiagramContents {
 
@@ -27,8 +26,6 @@ public class DiagramContents {
     private TriggerSet triggerSet;
     private IndexSet indexSet;
     private TablespaceSet tablespaceSet;
-    // #deleted test data
-    //private List<TestData> testDataList;
     private ERModelSet modelSet;
 
     // ===================================================================================
@@ -43,10 +40,15 @@ public class DiagramContents {
         this.triggerSet = new TriggerSet();
         this.indexSet = new IndexSet();
         this.tablespaceSet = new TablespaceSet();
-
-        // #deleted test data
-        //this.testDataList = new ArrayList<TestData>();
         this.modelSet = new ERModelSet();
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + settings + ", " + contents + "}";
     }
 
     // ===================================================================================
@@ -115,15 +117,6 @@ public class DiagramContents {
     public void setTablespaceSet(TablespaceSet tablespaceSet) {
         this.tablespaceSet = tablespaceSet;
     }
-
-    // #deleted test data
-    //public List<TestData> getTestDataList() {
-    //    return testDataList;
-    //}
-    //
-    //public void setTestDataList(List<TestData> testDataList) {
-    //    this.testDataList = testDataList;
-    //}
 
     public ERModelSet getModelSet() {
         return modelSet;

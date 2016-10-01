@@ -5,7 +5,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.ermodel.AddERModelCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.settings.Settings;
@@ -15,7 +15,7 @@ public class ERModelAddAction extends AbstractBaseAction {
 
     public static final String ID = ERModelAddAction.class.getName();
 
-    public ERModelAddAction(ERDiagramEditor editor) {
+    public ERModelAddAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.ermodel.add"), editor);
     }
 

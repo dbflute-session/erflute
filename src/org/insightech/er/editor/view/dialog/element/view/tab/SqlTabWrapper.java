@@ -7,18 +7,18 @@ import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.view.dialog.element.view.ViewDialog;
 
 public class SqlTabWrapper extends ValidatableTabWrapper {
 
-    private View copyData;
+    private ERView copyData;
 
     private Text sqlText;
 
     private ViewDialog viewDialog;
 
-    public SqlTabWrapper(ViewDialog viewDialog, TabFolder parent, int style, View copyData) {
+    public SqlTabWrapper(ViewDialog viewDialog, TabFolder parent, int style, ERView copyData) {
         super(viewDialog, parent, style, "label.sql");
 
         this.viewDialog = viewDialog;

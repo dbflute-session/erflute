@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dbflute.erflute.core.util.Format;
 import org.insightech.er.editor.model.AbstractModel;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
@@ -79,7 +79,7 @@ public class ComplexUniqueKey extends AbstractModel {
             target = ((CopyComplexUniqueKey) target).getOriginal();
         }
 
-        for (Relation relation : table.getOutgoingRelations()) {
+        for (Relationship relation : table.getOutgoingRelations()) {
             if (relation.getReferencedComplexUniqueKey() == target) {
                 isReferenced = true;
                 break;

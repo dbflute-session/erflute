@@ -6,7 +6,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.table_view.ChangeTableViewPropertyCommand;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.view.dialog.element.view.ViewDialog;
 import org.insightech.er.editor.view.figure.view.ViewFigure;
@@ -33,10 +33,10 @@ public class ViewEditPart extends TableViewEditPart {
      */
     @Override
     public void performRequestOpen() {
-        View view = (View) this.getModel();
+        ERView view = (ERView) this.getModel();
         ERDiagram diagram = this.getDiagram();
 
-        View copyView = view.copyData();
+        ERView copyView = view.copyData();
 
         ViewDialog dialog =
                 new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyView, diagram
@@ -49,7 +49,7 @@ public class ViewEditPart extends TableViewEditPart {
         }
     }
 
-    public static CompoundCommand createChangeViewPropertyCommand(ERDiagram diagram, View view, View copyView) {
+    public static CompoundCommand createChangeViewPropertyCommand(ERDiagram diagram, ERView view, ERView copyView) {
         CompoundCommand command = new CompoundCommand();
 
         ChangeTableViewPropertyCommand changeViewPropertyCommand = new ChangeTableViewPropertyCommand(view, copyView);

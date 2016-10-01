@@ -7,13 +7,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 
 public class ExtensionLoader {
 
     private List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<ExtendPopupMenu>();;
 
-    public ExtensionLoader(ERDiagramEditor editor) throws CoreException {
+    public ExtensionLoader(MainModelEditor editor) throws CoreException {
         this.extendPopupMenuList = ExtendPopupMenu.loadExtensions(editor);
     }
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.model.ERDiagram;
@@ -15,7 +15,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.GroupSet;
@@ -40,7 +40,7 @@ public class PasteCommand extends AbstractCommand {
      * @param x
      * @param y
      */
-    public PasteCommand(ERDiagramEditor editor, NodeSet nodeElements, int x, int y) {
+    public PasteCommand(MainModelEditor editor, NodeSet nodeElements, int x, int y) {
         this.viewer = editor.getGraphicalViewer();
         Object model = viewer.getContents().getModel();
         if (model instanceof ERDiagram) {
@@ -68,7 +68,7 @@ public class PasteCommand extends AbstractCommand {
                     ERTable rawTable = ((ERVirtualTable) table).getRawTable();
                     rawTable.setIncoming(new ArrayList<ConnectionElement>());
                     rawTable.setOutgoing(new ArrayList<ConnectionElement>());
-                    for (Column column : rawTable.getColumns()) {
+                    for (ERColumn column : rawTable.getColumns()) {
                         if (column instanceof NormalColumn) {
                             ((NormalColumn) column).clearRelations();
                         }
@@ -76,7 +76,7 @@ public class PasteCommand extends AbstractCommand {
                 }
 
                 // 列に対して処理を繰り返します
-                for (Column column : table.getColumns()) {
+                for (ERColumn column : table.getColumns()) {
 
                     // 列がグループ列の場合
                     if (column instanceof ColumnGroup) {

@@ -4,7 +4,7 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.common.ChangeSettingsCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.settings.Settings;
@@ -15,7 +15,7 @@ public class ERModelManageAction extends AbstractBaseAction {
 
     public static final String ID = ERModelManageAction.class.getName();
 
-    public ERModelManageAction(ERDiagramEditor editor) {
+    public ERModelManageAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.ermodel.manage"), editor);
     }
 

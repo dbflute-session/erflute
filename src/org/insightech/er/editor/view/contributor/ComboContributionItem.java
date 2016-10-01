@@ -18,8 +18,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IWorkbenchPage;
-import org.insightech.er.editor.ERDiagramEditor;
-import org.insightech.er.editor.ERDiagramMultiPageEditor;
+import org.insightech.er.editor.MainModelEditor;
+import org.insightech.er.editor.ERFluteMultiPageEditor;
 import org.insightech.er.editor.model.ViewableModel;
 
 public abstract class ComboContributionItem extends ContributionItem {
@@ -109,8 +109,8 @@ public abstract class ComboContributionItem extends ContributionItem {
     abstract protected void setData(Combo combo);
 
     private void executeCommand(Command command) {
-        ERDiagramMultiPageEditor multiPageEditor = (ERDiagramMultiPageEditor) this.workbenchPage.getActiveEditor();
-        ERDiagramEditor editor = (ERDiagramEditor) multiPageEditor.getActiveEditor();
+        ERFluteMultiPageEditor multiPageEditor = (ERFluteMultiPageEditor) this.workbenchPage.getActiveEditor();
+        MainModelEditor editor = (MainModelEditor) multiPageEditor.getActiveEditor();
         editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 

@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.insightech.er.editor.model.dbimport.DBObject;
 import org.insightech.er.editor.model.dbimport.ImportFromDBManagerBase;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigger;
 
@@ -215,10 +215,10 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
      * {@inheritDoc}
      */
     @Override
-    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
+    protected List<ERIndex> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
         if (!isValidObjectName(table.getPhysicalName())) {
             logger.info("is not valid object name : " + table.getPhysicalName());
-            return new ArrayList<Index>();
+            return new ArrayList<ERIndex>();
         }
 
         try {
@@ -227,7 +227,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
         } catch (SQLException e) {
             if (e.getErrorCode() == 38029) {
                 logger.info(table.getPhysicalName() + " : " + e.getMessage());
-                return new ArrayList<Index>();
+                return new ArrayList<ERIndex>();
             }
 
             throw e;

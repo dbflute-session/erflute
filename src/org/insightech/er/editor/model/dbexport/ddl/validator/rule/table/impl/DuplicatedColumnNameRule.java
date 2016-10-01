@@ -9,7 +9,7 @@ import org.eclipse.core.resources.IMarker;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.table.TableRule;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 
@@ -22,7 +22,7 @@ public class DuplicatedColumnNameRule extends TableRule {
     public boolean validate(ERTable table) {
         Set<String> columnNameSet = new HashSet<String>();
 
-        for (Column column : table.getColumns()) {
+        for (ERColumn column : table.getColumns()) {
             if (column instanceof ColumnGroup) {
                 ColumnGroup columnGroup = (ColumnGroup) column;
 

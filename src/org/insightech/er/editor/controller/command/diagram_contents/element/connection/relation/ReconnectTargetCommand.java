@@ -1,11 +1,11 @@
 package org.insightech.er.editor.controller.command.diagram_contents.element.connection.relation;
 
 import org.insightech.er.editor.controller.command.AbstractCommand;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 
 public class ReconnectTargetCommand extends AbstractCommand {
 
-    private Relation relation;
+    private Relationship relation;
 
     int xp;
 
@@ -15,7 +15,7 @@ public class ReconnectTargetCommand extends AbstractCommand {
 
     int oldYp;
 
-    public ReconnectTargetCommand(Relation relation, int xp, int yp) {
+    public ReconnectTargetCommand(Relationship relation, int xp, int yp) {
         this.relation = relation;
 
         this.xp = xp;

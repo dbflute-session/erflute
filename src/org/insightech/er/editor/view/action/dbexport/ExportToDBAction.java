@@ -9,7 +9,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.RetargetAction;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.Validator;
@@ -25,7 +25,7 @@ public class ExportToDBAction extends AbstractBaseAction {
 
     private Validator validator;
 
-    public ExportToDBAction(ERDiagramEditor editor) {
+    public ExportToDBAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.db"), editor);
 
         this.validator = new Validator();

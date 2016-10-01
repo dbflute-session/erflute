@@ -7,9 +7,9 @@ import org.dbflute.erflute.core.util.Check;
 import org.insightech.er.db.impl.oracle.tablespace.OracleTablespaceProperties;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.DDLCreator;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
@@ -45,7 +45,7 @@ public class OracleDDLCreator extends DDLCreator {
             ddlList.add(ddl.toString());
         }
 
-        for (Column column : table.getColumns()) {
+        for (ERColumn column : table.getColumns()) {
             if (column instanceof NormalColumn) {
                 NormalColumn normalColumn = (NormalColumn) column;
 
@@ -101,7 +101,7 @@ public class OracleDDLCreator extends DDLCreator {
      * {@inheritDoc}
      */
     @Override
-    public String getDDL(Relation relation) {
+    public String getDDL(Relationship relation) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("ALTER TABLE ");

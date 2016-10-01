@@ -45,8 +45,8 @@ import org.insightech.er.editor.model.diagram_contents.element.node.category.Cat
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigger;
 import org.insightech.er.editor.persistent.Persistent;
@@ -57,7 +57,7 @@ import org.insightech.er.editor.view.outline.ERDiagramOutlinePage;
  * #analyze defined at plugins.xml
  * @author modified by jflute (originated in ermaster)
  */
-public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
+public class ERFluteMultiPageEditor extends MultiPageEditorPart {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -66,7 +66,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     private ERDiagramEditPartFactory editPartFactory;
     private ERDiagramOutlinePage outlinePage;
     private ZoomComboContributionItem zoomComboContributionItem;
-    private ERDiagramElementStateListener elementStateListener;
+    private ErfluteElementStateListener elementStateListener;
     private boolean dirty;
 
     // ===================================================================================
@@ -79,7 +79,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         outlinePage = new ERDiagramOutlinePage(this.diagram);
         try {
             this.zoomComboContributionItem = new ZoomComboContributionItem(this.getSite().getPage());
-            final ERDiagramEditor editor = new ERDiagramEditor(diagram, this.editPartFactory, zoomComboContributionItem, this.outlinePage);
+            final MainModelEditor editor = new MainModelEditor(diagram, this.editPartFactory, zoomComboContributionItem, this.outlinePage);
             final int index = addPage(editor, this.getEditorInput()); // as main
             this.setPageText(index, DisplayMessages.getMessage("label.all"));
         } catch (final PartInitException e) {
@@ -90,7 +90,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         addMouseListenerToTabFolder();
         validate();
         if (diagram.getCurrentErmodel() == null) {
-            final ERDiagramEditor diagramEditor = (ERDiagramEditor) getActiveEditor();
+            final MainModelEditor diagramEditor = (MainModelEditor) getActiveEditor();
             diagramEditor.getGraphicalViewer().setContents(diagram);
         }
     }
@@ -121,8 +121,8 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
             try {
                 final ERModel model = diagram.getDiagramContents().getModelSet().getModel(modelName);
                 diagram.setCurrentErmodel(model, model.getName());
-                final EROneDiagramEditor modelEditor =
-                        new EROneDiagramEditor(diagram, model, editPartFactory, zoomComboContributionItem, outlinePage);
+                final SubModelEditor modelEditor =
+                        new SubModelEditor(diagram, model, editPartFactory, zoomComboContributionItem, outlinePage);
                 final int pageNo = addPage(modelEditor, this.getEditorInput()); // as view
                 this.setPageText(pageNo, Format.null2blank(model.getName()));
             } catch (final PartInitException e) {
@@ -138,7 +138,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         } else {
             setActivePage(0);
         }
-        final ERDiagramEditor activeEditor = (ERDiagramEditor) this.getActiveEditor();
+        final MainModelEditor activeEditor = (MainModelEditor) this.getActiveEditor();
         final ZoomManager zoomManager = (ZoomManager) activeEditor.getAdapter(ZoomManager.class);
         zoomManager.setZoom(this.diagram.getZoom());
         activeEditor.setLocation(this.diagram.getX(), this.diagram.getY());
@@ -177,7 +177,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
             final IWorkspaceRunnable editorMarker = new IWorkspaceRunnable() {
                 @Override
                 public void run(IProgressMonitor monitor) throws CoreException {
-                    final ERDiagramEditor editor = (ERDiagramEditor) getActiveEditor();
+                    final MainModelEditor editor = (MainModelEditor) getActiveEditor();
                     file.deleteMarkers(null, true, IResource.DEPTH_INFINITE);
                     editor.clearMarkedObject();
                     final Validator validator = new Validator();
@@ -218,12 +218,12 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
                 description = column.getDescription();
                 resultList.addAll(this.createTodo(description, table.getLogicalName(), table));
             }
-            for (final Index index : table.getIndexes()) {
+            for (final ERIndex index : table.getIndexes()) {
                 description = index.getDescription();
                 resultList.addAll(this.createTodo(description, index.getName(), index));
             }
         }
-        for (final View view : this.diagram.getDiagramContents().getContents().getViewSet().getList()) {
+        for (final ERView view : this.diagram.getDiagramContents().getContents().getViewSet().getList()) {
             String description = view.getDescription();
             resultList.addAll(this.createTodo(description, view.getName(), view));
             for (final NormalColumn column : view.getNormalColumns()) {
@@ -288,7 +288,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         final double zoom = zoomManager.getZoom();
         this.diagram.setZoom(zoom);
 
-        final ERDiagramEditor activeEditor = (ERDiagramEditor) this.getActiveEditor();
+        final MainModelEditor activeEditor = (MainModelEditor) this.getActiveEditor();
         final Point location = activeEditor.getLocation();
         this.diagram.setLocation(location.x, location.y);
         final Persistent persistent = Persistent.getInstance();
@@ -333,17 +333,16 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     @Override
     protected void pageChange(int newPageIndex) {
         super.pageChange(newPageIndex);
-
         for (int i = 0; i < getPageCount(); i++) {
-            final ERDiagramEditor editor = (ERDiagramEditor) getEditor(i);
+            final MainModelEditor editor = (MainModelEditor) getEditor(i);
             editor.removeSelection();
         }
-        final ERDiagramEditor selectedEditor = (ERDiagramEditor) getActiveEditor();
+        final MainModelEditor selectedEditor = (MainModelEditor) getActiveEditor();
         selectedEditor.changeCategory();
-        if (selectedEditor instanceof EROneDiagramEditor) {
-            final EROneDiagramEditor editor = (EROneDiagramEditor) selectedEditor;
+        if (selectedEditor instanceof SubModelEditor) { // sub editor
+            final SubModelEditor editor = (SubModelEditor) selectedEditor;
             this.diagram.setCurrentErmodel(editor.getModel(), editor.getModel().getName());
-        } else {
+        } else { // main editor
             this.diagram.setCurrentErmodel(null, null);
             this.diagram.changeAll();
         }
@@ -367,7 +366,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     @Override
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
         super.init(site, input);
-        this.elementStateListener = new ERDiagramElementStateListener(this);
+        this.elementStateListener = new ErfluteElementStateListener(this);
     }
 
     @Override
@@ -387,7 +386,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
     }
 
     private void execute(Command command) {
-        final ERDiagramEditor selectedEditor = (ERDiagramEditor) this.getActiveEditor();
+        final MainModelEditor selectedEditor = (MainModelEditor) this.getActiveEditor();
         selectedEditor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 
@@ -407,8 +406,8 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
 
     public void setCurrentErmodel(ERModel model) {
         if (getPageCount() == 1) {
-            final EROneDiagramEditor diagramEditor =
-                    new EROneDiagramEditor(this.diagram, model, getEditPartFactory(), getZoomComboContributionItem(), getOutlinePage());
+            final SubModelEditor diagramEditor =
+                    new SubModelEditor(this.diagram, model, getEditPartFactory(), getZoomComboContributionItem(), getOutlinePage());
             try {
                 addPage(diagramEditor, getEditorInput(), model.getName());
                 setActiveEditor(diagramEditor);
@@ -416,7 +415,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
                 Activator.showExceptionDialog(e);
             }
         } else {
-            final EROneDiagramEditor diagramEditor = (EROneDiagramEditor) getEditor(1);
+            final SubModelEditor diagramEditor = (SubModelEditor) getEditor(1);
             setPageText(1, Format.null2blank(model.getName()));
             diagramEditor.setContents(model);
             model.getDiagram().setCurrentErmodel(model, model.getName());

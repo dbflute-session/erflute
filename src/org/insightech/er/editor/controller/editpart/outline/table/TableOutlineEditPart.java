@@ -21,7 +21,7 @@ import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditP
 import org.insightech.er.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.IndexSet;
@@ -48,7 +48,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         Category category = this.getCurrentCategory();
 
         if (!quickMode) {
-            for (Relation relation : table.getIncomingRelations()) {
+            for (Relationship relation : table.getIncomingRelations()) {
                 if (category == null || category.contains(relation.getSource())) {
                     children.add(relation);
                 }

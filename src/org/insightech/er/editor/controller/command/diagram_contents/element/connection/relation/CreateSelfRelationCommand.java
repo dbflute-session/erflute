@@ -3,14 +3,14 @@ package org.insightech.er.editor.controller.command.diagram_contents.element.con
 import org.eclipse.gef.EditPart;
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 
 public class CreateSelfRelationCommand extends AbstractCreateRelationCommand {
 
-    private Relation relation;
+    private Relationship relation;
 
-    public CreateSelfRelationCommand(Relation relation) {
+    public CreateSelfRelationCommand(Relationship relation) {
         super();
         this.relation = relation;
     }
@@ -36,7 +36,7 @@ public class CreateSelfRelationCommand extends AbstractCreateRelationCommand {
 
         ERTable sourceTable = (ERTable) this.source.getModel();
 
-        for (Relation otherRelation : sourceTable.getOutgoingRelations()) {
+        for (Relationship otherRelation : sourceTable.getOutgoingRelations()) {
             if (otherRelation.getSource() == otherRelation.getTarget()) {
                 anotherSelfRelation = true;
                 break;

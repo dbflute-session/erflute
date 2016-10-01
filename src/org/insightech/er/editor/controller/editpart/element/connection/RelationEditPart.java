@@ -29,7 +29,7 @@ import org.insightech.er.editor.controller.editpolicy.element.connection.Relatio
 import org.insightech.er.editor.controller.editpolicy.element.connection.RelationEditPolicy;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.view.dialog.element.relation.RelationDialog;
 import org.insightech.er.editor.view.figure.anchor.XYChopboxAnchor;
 import org.insightech.er.editor.view.figure.connection.ERDiagramConnection;
@@ -73,7 +73,7 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
     protected void refreshBendpoints() {
         try {
             // ベンド・ポイントの位置情報の取得
-            Relation relation = (Relation) this.getModel();
+            Relationship relation = (Relationship) this.getModel();
 
             // 実際のベンド・ポイントのリスト
             List<org.eclipse.draw2d.Bendpoint> constraint = new ArrayList<org.eclipse.draw2d.Bendpoint>();
@@ -154,7 +154,7 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
         ERDiagram diagram = this.getDiagram();
 
         if (diagram != null) {
-            Relation relation = (Relation) this.getModel();
+            Relationship relation = (Relationship) this.getModel();
 
             PolylineConnection connection = (PolylineConnection) this.getConnectionFigure();
 
@@ -178,10 +178,10 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
      */
     @Override
     public void performRequest(Request request) {
-        Relation relation = (Relation) this.getModel();
+        Relationship relation = (Relationship) this.getModel();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            Relation copy = relation.copy();
+            Relationship copy = relation.copy();
 
             RelationDialog dialog = new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
@@ -195,7 +195,7 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
     }
 
     private void calculateAnchorLocation() {
-        Relation relation = (Relation) this.getModel();
+        Relationship relation = (Relationship) this.getModel();
 
         TableViewEditPart sourceEditPart = (TableViewEditPart) this.getSource();
 

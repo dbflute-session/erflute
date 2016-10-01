@@ -8,7 +8,7 @@ import java.util.Set;
 import org.dbflute.erflute.Activator;
 import org.eclipse.swt.SWT;
 import org.insightech.er.editor.controller.command.diagram_contents.element.connection.DeleteConnectionCommand;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
@@ -21,13 +21,13 @@ public class DeleteRelationCommand extends DeleteConnectionCommand {
 
     private TableView oldTargetTable;
 
-    private Relation relation;
+    private Relationship relation;
 
     private Boolean removeForeignKey;
 
     private Map<NormalColumn, NormalColumn> referencedColumnMap;
 
-    public DeleteRelationCommand(Relation relation, Boolean removeForeignKey) {
+    public DeleteRelationCommand(Relationship relation, Boolean removeForeignKey) {
         super(relation);
 
         this.relation = relation;
@@ -153,10 +153,10 @@ public class DeleteRelationCommand extends DeleteConnectionCommand {
     private boolean isReferencedByMultiRelations() {
         for (NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
             for (NormalColumn childForeignKeyColumn : foreignKeyColumn.getForeignKeyList()) {
-                if (childForeignKeyColumn.getRelationList().size() >= 2) {
+                if (childForeignKeyColumn.getRelationshipList().size() >= 2) {
                     Set<TableView> referencedTables = new HashSet<TableView>();
 
-                    for (Relation relation : childForeignKeyColumn.getRelationList()) {
+                    for (Relationship relation : childForeignKeyColumn.getRelationshipList()) {
                         referencedTables.add(relation.getSourceTableView());
                     }
 

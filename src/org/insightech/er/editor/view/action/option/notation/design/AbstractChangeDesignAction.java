@@ -3,7 +3,7 @@ package org.insightech.er.editor.view.action.option.notation.design;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Event;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.common.notation.ChangeDesignCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.view.action.AbstractBaseAction;
@@ -12,7 +12,7 @@ public class AbstractChangeDesignAction extends AbstractBaseAction {
 
     private String type;
 
-    public AbstractChangeDesignAction(String ID, String type, ERDiagramEditor editor) {
+    public AbstractChangeDesignAction(String ID, String type, MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.change.design." + type), IAction.AS_RADIO_BUTTON, editor);
 
         this.type = type;

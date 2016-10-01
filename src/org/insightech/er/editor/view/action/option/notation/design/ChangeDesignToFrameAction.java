@@ -1,6 +1,6 @@
 package org.insightech.er.editor.view.action.option.notation.design;
 
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 
 public class ChangeDesignToFrameAction extends AbstractChangeDesignAction {
 
@@ -8,7 +8,7 @@ public class ChangeDesignToFrameAction extends AbstractChangeDesignAction {
 
     public static final String TYPE = "frame";
 
-    public ChangeDesignToFrameAction(ERDiagramEditor editor) {
+    public ChangeDesignToFrameAction(MainModelEditor editor) {
         super(ID, TYPE, editor);
     }
 

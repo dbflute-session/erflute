@@ -14,66 +14,37 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     private static final long serialVersionUID = -3921093777077765516L;
 
     public static final int VIEW_MODE_LOGICAL = 0;
-
     public static final int VIEW_MODE_PHYSICAL = 1;
-
     public static final int VIEW_MODE_BOTH = 2;
-
     public static final int NOTATION_LEVLE_DETAIL = 0;
-
     public static final int NOTATION_LEVLE_TITLE = 1;
-
     public static final int NOTATION_LEVLE_COLUMN = 2;
-
     public static final int NOTATION_LEVLE_KEY = 3;
-
     public static final int NOTATION_LEVLE_EXCLUDE_TYPE = 4;
-
     public static final int NOTATION_LEVLE_NAME_AND_KEY = 5;
-
     public static final String NOTATION_IE = "IE";
-
     public static final String NOTATION_IDEF1X = "IDEF1X";
 
     private boolean capital;
-
     private boolean notationExpandGroup;
-
     private String tableStyle;
-
     private ModelProperties modelProperties;
-
     private CategorySetting categorySetting;
     //	private VGroupSetting groupSetting;
-
     private EnvironmentSetting environmentSetting;
-
     private TableProperties tableProperties;
-
     private ExportSetting exportSetting;
-
     private String database;
-
     private String notation;
-
     private int notationLevel;
-
     private int viewMode;
-
     private int viewOrderBy;
-
     private int outlineViewMode;
-
     private BigDecimal titleFontEm;
-
     private boolean autoImeChange;
-
     private boolean validatePhysicalName;
-
     private boolean useBezierCurve;
-
     private boolean suspendValidator;
-
     private String masterDataBasePath;
 
     public int getNotationLevel() {
@@ -107,6 +78,17 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.masterDataBasePath = "";
     }
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + database + "}";
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public boolean isCapital() {
         return capital;
     }
@@ -190,18 +172,10 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.viewOrderBy = viewOrderBy;
     }
 
-    /**
-     * titleFontEm���擾���܂��B
-     * @return titleFontEm
-     */
     public BigDecimal getTitleFontEm() {
         return titleFontEm;
     }
 
-    /**
-     * titleFontEm��ݒ肵�܂��B
-     * @param titleFontEm titleFontEm
-     */
     public void setTitleFontEm(BigDecimal titleFontEm) {
         this.titleFontEm = titleFontEm;
     }
@@ -271,20 +245,11 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.exportSetting = exportSetting;
     }
 
-    /**
-     * masterDataBasePath���擾���܂��B
-     * @return masterDataBasePath
-     */
     public String getMasterDataBasePath() {
         return masterDataBasePath;
     }
 
-    /**
-     * masterDataBasePath��ݒ肵�܂��B
-     * @param masterDataBasePath masterDataBasePath
-     */
     public void setMasterDataBasePath(String masterDataBasePath) {
         this.masterDataBasePath = masterDataBasePath;
     }
-
 }

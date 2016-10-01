@@ -9,29 +9,29 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.insightech.er.editor.model.AbstractModel;
 import org.insightech.er.editor.model.ObjectListModel;
 
-public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<View> {
+public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<ERView> {
 
     private static final long serialVersionUID = -120487815554383179L;
 
     public static final String PROPERTY_CHANGE_VIEW_SET = "ViewSet";
 
-    private List<View> viewList;
+    private List<ERView> viewList;
 
     public ViewSet() {
-        this.viewList = new ArrayList<View>();
+        this.viewList = new ArrayList<ERView>();
     }
 
-    public void add(View view) {
+    public void add(ERView view) {
         this.viewList.add(view);
         this.firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
     }
 
-    public void add(int index, View view) {
+    public void add(int index, ERView view) {
         this.viewList.add(index, view);
         this.firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
     }
 
-    public int remove(View view) {
+    public int remove(ERView view) {
         int index = this.viewList.indexOf(view);
         this.viewList.remove(index);
         this.firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
@@ -39,13 +39,13 @@ public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<
         return index;
     }
 
-    public List<View> getList() {
+    public List<ERView> getList() {
         Collections.sort(this.viewList);
 
         return this.viewList;
     }
 
-    public Iterator<View> iterator() {
+    public Iterator<ERView> iterator() {
         Collections.sort(this.viewList);
 
         return this.viewList.iterator();
@@ -57,10 +57,10 @@ public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<
     @Override
     public ViewSet clone() {
         ViewSet viewSet = (ViewSet) super.clone();
-        List<View> newViewList = new ArrayList<View>();
+        List<ERView> newViewList = new ArrayList<ERView>();
 
-        for (View view : viewList) {
-            View newView = (View) view.clone();
+        for (ERView view : viewList) {
+            ERView newView = (ERView) view.clone();
             newViewList.add(newView);
         }
 

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.insightech.er.editor.model.dbimport.ImportFromDBManagerBase;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 
 public class SQLiteTableImportManager extends ImportFromDBManagerBase {
 
@@ -24,8 +24,8 @@ public class SQLiteTableImportManager extends ImportFromDBManagerBase {
      * {@inheritDoc}
      */
     @Override
-    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
-        return new ArrayList<Index>();
+    protected List<ERIndex> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
+        return new ArrayList<ERIndex>();
     }
 
     /**

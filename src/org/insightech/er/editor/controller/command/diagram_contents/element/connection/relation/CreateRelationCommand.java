@@ -3,7 +3,7 @@ package org.insightech.er.editor.controller.command.diagram_contents.element.con
 import java.util.List;
 
 import org.insightech.er.editor.controller.editpart.element.ERDiagramEditPart;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
@@ -11,15 +11,15 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.column
 
 public class CreateRelationCommand extends AbstractCreateRelationCommand {
 
-    private Relation relation;
+    private Relationship relation;
 
     private List<NormalColumn> foreignKeyColumnList;
 
-    public CreateRelationCommand(Relation relation) {
+    public CreateRelationCommand(Relationship relation) {
         this(relation, null);
     }
 
-    public CreateRelationCommand(Relation relation, List<NormalColumn> foreignKeyColumnList) {
+    public CreateRelationCommand(Relationship relation, List<NormalColumn> foreignKeyColumnList) {
         super();
         this.relation = relation;
         this.foreignKeyColumnList = foreignKeyColumnList;

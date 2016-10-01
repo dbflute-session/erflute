@@ -2,13 +2,16 @@ package org.insightech.er.editor.model.diagram_contents.element.node.table.colum
 
 import org.insightech.er.editor.model.AbstractModel;
 
-public abstract class Column extends AbstractModel {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public abstract class ERColumn extends AbstractModel {
 
     private static final long serialVersionUID = -7808147996469841719L;
 
     private ColumnHolder columnHolder;
 
-    abstract public String getName();
+    public abstract String getName();
 
     public void setColumnHolder(ColumnHolder columnHolder) {
         this.columnHolder = columnHolder;

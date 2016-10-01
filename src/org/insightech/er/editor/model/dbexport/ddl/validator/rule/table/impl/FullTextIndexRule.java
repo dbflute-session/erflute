@@ -6,7 +6,7 @@ import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.table.TableRule;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 
 public class FullTextIndexRule extends TableRule {
 
@@ -15,7 +15,7 @@ public class FullTextIndexRule extends TableRule {
      */
     @Override
     public boolean validate(ERTable table) {
-        for (Index index : table.getIndexes()) {
+        for (ERIndex index : table.getIndexes()) {
             if (index.isFullText()) {
                 for (NormalColumn indexColumn : index.getColumns()) {
                     if (!indexColumn.isFullTextIndexable()) {

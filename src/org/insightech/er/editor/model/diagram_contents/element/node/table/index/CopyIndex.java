@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
-public class CopyIndex extends Index {
+public class CopyIndex extends ERIndex {
 
     private static final long serialVersionUID = -7896024413398953097L;
 
-    private Index originalIndex;
+    private ERIndex originalIndex;
 
-    public CopyIndex(ERTable copyTable, Index originalIndex, List<Column> copyColumns) {
+    public CopyIndex(ERTable copyTable, ERIndex originalIndex, List<ERColumn> copyColumns) {
         super(copyTable, originalIndex.getName(), originalIndex.isNonUnique(), originalIndex.getType(), originalIndex.getDescription());
 
         this.originalIndex = originalIndex;
@@ -34,7 +34,7 @@ public class CopyIndex extends Index {
 
                 boolean isGroupColumn = true;
 
-                for (Column column : copyColumns) {
+                for (ERColumn column : copyColumns) {
                     if (column instanceof CopyColumn) {
                         CopyColumn copyColumn = (CopyColumn) column;
 
@@ -58,9 +58,9 @@ public class CopyIndex extends Index {
         }
     }
 
-    public Index getRestructuredIndex(ERTable originalTable) {
+    public ERIndex getRestructuredIndex(ERTable originalTable) {
         if (this.originalIndex == null) {
-            this.originalIndex = new Index(originalTable, this.getName(), this.isNonUnique(), this.getType(), this.getDescription());
+            this.originalIndex = new ERIndex(originalTable, this.getName(), this.isNonUnique(), this.getType(), this.getDescription());
         }
 
         copyData(this, this.originalIndex);
@@ -81,7 +81,7 @@ public class CopyIndex extends Index {
         return this.originalIndex;
     }
 
-    public static void copyData(Index from, Index to) {
+    public static void copyData(ERIndex from, ERIndex to) {
         to.setName(from.getName());
         to.setNonUnique(from.isNonUnique());
         to.setFullText(from.isFullText());

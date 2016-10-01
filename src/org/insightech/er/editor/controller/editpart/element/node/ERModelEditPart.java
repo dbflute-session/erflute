@@ -54,8 +54,8 @@ public class ERModelEditPart extends NodeElementEditPart {
 
     @Override
     protected List getModelChildren() {
-        List<Object> modelChildren = new ArrayList<Object>();
-        ERModel model = (ERModel) this.getModel();
+        final List<Object> modelChildren = new ArrayList<Object>();
+        final ERModel model = (ERModel) this.getModel();
         modelChildren.addAll(model.getGroups());
         modelChildren.addAll(model.getTables());
         modelChildren.addAll(model.getNotes());
@@ -74,7 +74,7 @@ public class ERModelEditPart extends NodeElementEditPart {
         //		ERModelFigure figure = new ERModelFigure(ermodel.getName());
         //		return figure;
 
-        FreeformLayer layer = new FreeformLayer();
+        final FreeformLayer layer = new FreeformLayer();
         layer.setLayoutManager(new FreeformLayout());
         return layer;
     }
@@ -86,18 +86,18 @@ public class ERModelEditPart extends NodeElementEditPart {
 
     @Override
     public void refreshVisuals() {
-        ERModel element = (ERModel) this.getModel();
+        final ERModel element = (ERModel) this.getModel();
 
-        int[] color = element.getColor();
+        final int[] color = element.getColor();
 
         if (color != null) {
-            Color bgColor = DesignResources.getColor(color);
+            final Color bgColor = DesignResources.getColor(color);
             this.getViewer().getControl().setBackground(bgColor);
         }
 
-        for (Object child : this.getChildren()) {
+        for (final Object child : this.getChildren()) {
             if (child instanceof NodeElementEditPart) {
-                NodeElementEditPart part = (NodeElementEditPart) child;
+                final NodeElementEditPart part = (NodeElementEditPart) child;
                 part.refreshVisuals();
             }
         }
@@ -115,20 +115,20 @@ public class ERModelEditPart extends NodeElementEditPart {
     //	}
 
     public void refreshRelations() {
-        for (Object child : this.getChildren()) {
+        for (final Object child : this.getChildren()) {
             if (child instanceof NodeElementEditPart) {
-                NodeElementEditPart part = (NodeElementEditPart) child;
+                final NodeElementEditPart part = (NodeElementEditPart) child;
                 part.refreshConnections();
             }
         }
     }
 
     private Map<NodeElement, EditPart> getModelToEditPart() {
-        Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
-        List children = getChildren();
+        final Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
+        final List children = getChildren();
 
         for (int i = 0; i < children.size(); i++) {
-            EditPart editPart = (EditPart) children.get(i);
+            final EditPart editPart = (EditPart) children.get(i);
             modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
         }
 
@@ -143,7 +143,6 @@ public class ERModelEditPart extends NodeElementEditPart {
 
     @Override
     public EditPart getTargetEditPart(Request request) {
-        System.out.println("ss");
         if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_PLACE_TABLE.equals(request.getType())) {
             return this;
         }

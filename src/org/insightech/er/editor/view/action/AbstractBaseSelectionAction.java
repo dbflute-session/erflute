@@ -12,19 +12,19 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ERModelUtil;
 
 public abstract class AbstractBaseSelectionAction extends SelectionAction {
 
-    private ERDiagramEditor editor;
+    private MainModelEditor editor;
 
-    public AbstractBaseSelectionAction(String id, String text, ERDiagramEditor editor) {
+    public AbstractBaseSelectionAction(String id, String text, MainModelEditor editor) {
         this(id, text, SWT.NONE, editor);
     }
 
-    public AbstractBaseSelectionAction(String id, String text, int style, ERDiagramEditor editor) {
+    public AbstractBaseSelectionAction(String id, String text, int style, MainModelEditor editor) {
         super(editor, style);
         this.setId(id);
         this.setText(text);

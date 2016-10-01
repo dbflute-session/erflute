@@ -31,14 +31,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
@@ -67,7 +67,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     private List<Sequence> importedSequences;
     private List<Trigger> importedTriggers;
     private List<Tablespace> importedTablespaces;
-    private List<View> importedViews;
+    private List<ERView> importedViews;
     private Exception exception;
     private boolean useCommentAsLogicalName;
     private boolean mergeWord;
@@ -397,16 +397,16 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             table.setPrimaryKeyName(getConstraintName(primaryKeys.get(0)));
         }
 
-        final List<Index> indexes = this.getIndexes(table, this.metaData, primaryKeys);
+        final List<ERIndex> indexes = this.getIndexes(table, this.metaData, primaryKeys);
 
-        final List<Column> columns = this.getColumns(tableNameWithSchema, tableName, schema, indexes, primaryKeys, autoIncrementColumnName);
+        final List<ERColumn> columns = this.getColumns(tableNameWithSchema, tableName, schema, indexes, primaryKeys, autoIncrementColumnName);
 
         table.setColumns(columns);
         table.setIndexes(indexes);
 
         this.tableMap.put(tableNameWithSchema, table);
 
-        for (final Index index : indexes) {
+        for (final ERIndex index : indexes) {
             this.setIndexColumn(table, index);
         }
 
@@ -456,11 +456,11 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return autoIncrementColumnName;
     }
 
-    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
+    protected List<ERIndex> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
 
-        final List<Index> indexes = new ArrayList<Index>();
+        final List<ERIndex> indexes = new ArrayList<ERIndex>();
 
-        final Map<String, Index> indexMap = new HashMap<String, Index>();
+        final Map<String, ERIndex> indexMap = new HashMap<String, ERIndex>();
 
         ResultSet indexSet = null;
 
@@ -477,7 +477,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                     continue;
                 }
 
-                Index index = indexMap.get(name);
+                ERIndex index = indexMap.get(name);
 
                 if (index == null) {
                     final boolean nonUnique = indexSet.getBoolean("NON_UNIQUE");
@@ -491,7 +491,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                     // DatabaseMetaData.tableIndexOther
                     // DatabaseMetaData.tableIndexStatistic
 
-                    index = new Index(table, name, nonUnique, type, null);
+                    index = new ERIndex(table, name, nonUnique, type, null);
 
                     indexMap.put(name, index);
                     indexes.add(index);
@@ -521,8 +521,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             this.close(indexSet);
         }
 
-        for (final Iterator<Index> iter = indexes.iterator(); iter.hasNext();) {
-            final Index index = iter.next();
+        for (final Iterator<ERIndex> iter = indexes.iterator(); iter.hasNext();) {
+            final ERIndex index = iter.next();
             final List<String> indexColumns = index.getColumnNames();
 
             if (indexColumns.size() == primaryKeys.size()) {
@@ -544,9 +544,9 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return indexes;
     }
 
-    private void setIndexColumn(ERTable erTable, Index index) {
+    private void setIndexColumn(ERTable erTable, ERIndex index) {
         for (final String columnName : index.getColumnNames()) {
-            for (final Column column : erTable.getColumns()) {
+            for (final ERColumn column : erTable.getColumns()) {
                 if (column instanceof NormalColumn) {
                     final NormalColumn normalColumn = (NormalColumn) column;
 
@@ -592,13 +592,13 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return this.columnDataCash.get(tableNameWithSchema);
     }
 
-    private List<Column> getColumns(String tableNameWithSchema, String tableName, String schema, List<Index> indexes,
+    private List<ERColumn> getColumns(String tableNameWithSchema, String tableName, String schema, List<ERIndex> indexes,
             List<PrimaryKeyData> primaryKeys, String autoIncrementColumnName) throws SQLException, InterruptedException {
-        final List<Column> columns = new ArrayList<Column>();
+        final List<ERColumn> columns = new ArrayList<ERColumn>();
 
         final Map<String, ColumnData> columnDataMap = this.getColumnDataMap(tableNameWithSchema, tableName, schema);
         if (columnDataMap == null) {
-            return new ArrayList<Column>();
+            return new ArrayList<ERColumn>();
         }
 
         final Collection<ColumnData> columnSet = columnDataMap.values();
@@ -697,7 +697,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return columns;
     }
 
-    private boolean isUniqueKey(String columnName, List<Index> indexes, List<PrimaryKeyData> primaryKeys) {
+    private boolean isUniqueKey(String columnName, List<ERIndex> indexes, List<PrimaryKeyData> primaryKeys) {
         String primaryKey = null;
 
         if (primaryKeys.size() == 1) {
@@ -708,7 +708,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             return false;
         }
 
-        for (final Index index : indexes) {
+        for (final ERIndex index : indexes) {
             final List<String> columnNames = index.getColumnNames();
             if (columnNames.size() == 1) {
                 final String indexColumnName = columnNames.get(0);
@@ -868,7 +868,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return map;
     }
 
-    private Relation createRelation(ERTable target, List<ForeignKeyData> foreignKeyDataList) {
+    private Relationship createRelation(ERTable target, List<ForeignKeyData> foreignKeyDataList) {
         final ForeignKeyData representativeData = foreignKeyDataList.get(0);
 
         String sourceTableName = representativeData.sourceTableName;
@@ -943,7 +943,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             }
         }
 
-        final Relation relation = new Relation(referenceForPK, referencedComplexUniqueKey, referencedColumn);
+        final Relationship relation = new Relationship(referenceForPK, referencedComplexUniqueKey, referencedColumn);
         relation.setName(representativeData.name);
         relation.setSource(source);
         relation.setTargetWithoutForeignKey(target);
@@ -997,19 +997,19 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return importedSequences;
     }
 
-    public List<View> getImportedViews() {
+    public List<ERView> getImportedViews() {
         return importedViews;
     }
 
-    private List<View> importViews(List<DBObject> dbObjectList) throws SQLException {
-        final List<View> list = new ArrayList<View>();
+    private List<ERView> importViews(List<DBObject> dbObjectList) throws SQLException {
+        final List<ERView> list = new ArrayList<ERView>();
 
         for (final DBObject dbObject : dbObjectList) {
             if (DBObject.TYPE_VIEW.equals(dbObject.getType())) {
                 final String schema = dbObject.getSchema();
                 final String name = dbObject.getName();
 
-                final View view = this.importView(schema, name);
+                final ERView view = this.importView(schema, name);
 
                 if (view != null) {
                     list.add(view);
@@ -1020,7 +1020,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return list;
     }
 
-    protected View importView(String schema, String viewName) throws SQLException {
+    protected ERView importView(String schema, String viewName) throws SQLException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -1040,13 +1040,13 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                final View view = new View();
+                final ERView view = new ERView();
                 view.setPhysicalName(viewName);
                 view.setLogicalName(viewName);
                 final String definitionSQL = rs.getString(1);
                 view.setSql(definitionSQL);
                 view.getTableViewProperties().setSchema(schema);
-                final List<Column> columnList = this.getViewColumnList(definitionSQL);
+                final List<ERColumn> columnList = this.getViewColumnList(definitionSQL);
                 view.setColumns(columnList);
                 return view;
             }
@@ -1061,8 +1061,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     protected abstract String getViewDefinitionSQL(String schema);
 
-    private List<Column> getViewColumnList(String sql) {
-        final List<Column> columnList = new ArrayList<Column>();
+    private List<ERColumn> getViewColumnList(String sql) {
+        final List<ERColumn> columnList = new ArrayList<ERColumn>();
 
         final String upperSql = sql.toUpperCase();
         final int selectIndex = upperSql.indexOf("SELECT ");
@@ -1227,7 +1227,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return columnList;
     }
 
-    private void addColumnToView(List<Column> columnList, NormalColumn targetColumn, String columnAlias) {
+    private void addColumnToView(List<ERColumn> columnList, NormalColumn targetColumn, String columnAlias) {
         Word word = null;
 
         if (targetColumn != null) {

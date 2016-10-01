@@ -20,7 +20,7 @@ import org.insightech.er.editor.model.diagram_contents.element.node.category.Cat
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ColumnHolder;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -43,7 +43,7 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
         List<ColumnHolder> wordHolderList = new ArrayList<ColumnHolder>();
 
         List<ERTable> wordHolderList1 = new ArrayList<ERTable>();
-        List<View> wordHolderList2 = new ArrayList<View>();
+        List<ERView> wordHolderList2 = new ArrayList<ERView>();
         List<ColumnGroup> wordHolderList3 = new ArrayList<ColumnGroup>();
 
         ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
@@ -68,8 +68,8 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
 
                 wordHolderList1.add(table);
 
-            } else if (columnHolder instanceof View) {
-                View view = (View) columnHolder;
+            } else if (columnHolder instanceof ERView) {
+                ERView view = (ERView) columnHolder;
                 if (wordHolderList2.contains(view)) {
                     continue;
                 }

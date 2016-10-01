@@ -12,7 +12,7 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.DDLCreator;
 import org.insightech.er.editor.model.dbexport.ddl.DDLTarget;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.insightech.er.editor.model.settings.DBSetting;
 import org.insightech.er.editor.model.settings.Environment;
@@ -66,7 +66,7 @@ public abstract class PreTableExportManager {
 
         this.newViewNames = new HashSet<String>();
 
-        for (View view : this.diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : this.diagram.getDiagramContents().getContents().getViewSet()) {
             this.newViewNames.add(this.dbSetting.getTableNameWithSchema(view.getPhysicalName(), view.getTableViewProperties().getSchema()));
         }
 

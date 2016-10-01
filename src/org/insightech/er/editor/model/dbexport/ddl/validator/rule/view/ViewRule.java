@@ -8,7 +8,7 @@ import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.insightech.er.editor.model.dbexport.ddl.validator.rule.BaseRule;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 
 public abstract class ViewRule extends BaseRule {
 
@@ -47,7 +47,7 @@ public abstract class ViewRule extends BaseRule {
     public boolean validate(ERDiagram diagram) {
         this.database = diagram.getDatabase();
 
-        for (View view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
             if (!this.validate(view)) {
                 return false;
             }
@@ -60,5 +60,5 @@ public abstract class ViewRule extends BaseRule {
         return DBManagerFactory.getDBManager(this.database);
     }
 
-    abstract public boolean validate(View view);
+    abstract public boolean validate(ERView view);
 }

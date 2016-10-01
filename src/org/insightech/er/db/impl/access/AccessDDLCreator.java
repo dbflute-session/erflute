@@ -3,7 +3,7 @@ package org.insightech.er.db.impl.access;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.DDLCreator;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 
 public class AccessDDLCreator extends DDLCreator {
@@ -13,7 +13,7 @@ public class AccessDDLCreator extends DDLCreator {
     }
 
     @Override
-    public String getDropDDL(Index index, ERTable table) {
+    public String getDropDDL(ERIndex index, ERTable table) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP INDEX ");

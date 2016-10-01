@@ -16,7 +16,7 @@ import org.insightech.er.editor.controller.editpart.DeleteableEditPart;
 import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.insightech.er.editor.controller.editpolicy.not_element.index.IndexComponentEditPolicy;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.view.dialog.element.table.sub.IndexDialog;
 
 public class IndexOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
@@ -29,7 +29,7 @@ public class IndexOutlineEditPart extends AbstractOutlineEditPart implements Del
      */
     @Override
     protected void refreshOutlineVisuals() {
-        Index index = (Index) this.getModel();
+        ERIndex index = (ERIndex) this.getModel();
 
         this.setWidgetText(this.getDiagram().filter(index.getName()));
         this.setWidgetImage(Activator.getImage(ImageKey.INDEX));
@@ -60,7 +60,7 @@ public class IndexOutlineEditPart extends AbstractOutlineEditPart implements Del
      */
     @Override
     public void performRequest(Request request) {
-        Index index = (Index) this.getModel();
+        ERIndex index = (ERIndex) this.getModel();
         ERDiagram diagram = this.getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {

@@ -8,11 +8,11 @@ import org.eclipse.swt.printing.PrintDialog;
 import org.eclipse.swt.printing.Printer;
 import org.eclipse.swt.printing.PrinterData;
 import org.eclipse.ui.IWorkbenchPart;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 
 public class PrintImageAction extends PrintAction {
 
-    public PrintImageAction(ERDiagramEditor part) {
+    public PrintImageAction(MainModelEditor part) {
         super((IWorkbenchPart) part);
     }
 

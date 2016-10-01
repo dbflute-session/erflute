@@ -7,19 +7,19 @@ import java.util.Map;
 
 import org.insightech.er.editor.model.diagram_contents.DiagramContents;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 import org.insightech.er.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -71,7 +71,7 @@ public class CopyManager {
         NodeSet copyList = new NodeSet();
 
         this.nodeElementMap = new HashMap<NodeElement, NodeElement>();
-        Map<Column, Column> columnMap = new HashMap<Column, Column>();
+        Map<ERColumn, ERColumn> columnMap = new HashMap<ERColumn, ERColumn>();
         Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, ComplexUniqueKey>();
 
         // �I������Ă���m�[�h��EditPart�ɑ΂��ď������J��Ԃ��܂�
@@ -93,10 +93,10 @@ public class CopyManager {
                 // ��ƃC���f�b�N�X�ƕ�����ӃL�[�𕡐����܂��B
                 copyColumnAndIndex((ERTable) nodeElement, (ERTable) cloneNodeElement, columnMap, complexUniqueKeyMap);
 
-            } else if (nodeElement instanceof View) {
+            } else if (nodeElement instanceof ERView) {
                 // �m�[�h���r���[�̏ꍇ
                 // ��𕡐����܂��B
-                copyColumn((View) nodeElement, (View) cloneNodeElement, columnMap);
+                copyColumn((ERView) nodeElement, (ERView) cloneNodeElement, columnMap);
             }
         }
 
@@ -118,7 +118,7 @@ public class CopyManager {
                 ERTable table = (ERTable) nodeElement;
 
                 // �������e�[�u���̗�ɑ΂��ď������J��Ԃ��܂�
-                for (Column column : table.getColumns()) {
+                for (ERColumn column : table.getColumns()) {
                     if (column instanceof NormalColumn) {
                         NormalColumn oldColumn = (NormalColumn) column;
 
@@ -127,10 +127,10 @@ public class CopyManager {
                             NormalColumn newColumn = (NormalColumn) columnMap.get(oldColumn);
                             newColumn.renewRelationList();
 
-                            for (Relation oldRelation : oldColumn.getRelationList()) {
+                            for (Relationship oldRelation : oldColumn.getRelationshipList()) {
 
                                 // �������ꂽ�֘A�̎擾
-                                Relation newRelation = (Relation) connectionElementMap.get(oldRelation);
+                                Relationship newRelation = (Relationship) connectionElementMap.get(oldRelation);
 
                                 if (newRelation != null) {
                                     // �֘A����������Ă���ꍇ
@@ -227,21 +227,21 @@ public class CopyManager {
      * @param columnMap
      *            �L�[�F���̗�A�l�F������̗�
      */
-    private static void copyColumnAndIndex(ERTable from, ERTable to, Map<Column, Column> columnMap,
+    private static void copyColumnAndIndex(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap,
             Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap) {
         copyColumn(from, to, columnMap);
         copyIndex(from, to, columnMap);
         copyComplexUniqueKey(from, to, columnMap, complexUniqueKeyMap);
     }
 
-    private static void copyColumn(TableView from, TableView to, Map<Column, Column> columnMap) {
+    private static void copyColumn(TableView from, TableView to, Map<ERColumn, ERColumn> columnMap) {
         // ������̗�̈ꗗ
-        List<Column> cloneColumns = new ArrayList<Column>();
+        List<ERColumn> cloneColumns = new ArrayList<ERColumn>();
 
         // ���̃e�[�u���̗�ɑ΂��āA�������J��Ԃ��܂��B
-        for (Column column : from.getColumns()) {
+        for (ERColumn column : from.getColumns()) {
 
-            Column cloneColumn = null;
+            ERColumn cloneColumn = null;
 
             if (column instanceof ColumnGroup) {
                 // �O���[�v��̏ꍇ
@@ -263,7 +263,7 @@ public class CopyManager {
         to.setColumns(cloneColumns);
     }
 
-    private static void copyComplexUniqueKey(ERTable from, ERTable to, Map<Column, Column> columnMap,
+    private static void copyComplexUniqueKey(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap,
             Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap) {
         List<ComplexUniqueKey> cloneComplexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
 
@@ -292,14 +292,14 @@ public class CopyManager {
         to.setComplexUniqueKeyList(cloneComplexUniqueKeyList);
     }
 
-    private static void copyIndex(ERTable from, ERTable to, Map<Column, Column> columnMap) {
-        List<Index> cloneIndexes = new ArrayList<Index>();
+    private static void copyIndex(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap) {
+        List<ERIndex> cloneIndexes = new ArrayList<ERIndex>();
 
         // ���̃e�[�u���̃C���f�b�N�X�ɑ΂��āA�������J��Ԃ��܂��B
-        for (Index index : from.getIndexes()) {
+        for (ERIndex index : from.getIndexes()) {
 
             // �C���f�b�N�X�𕡐����܂��B
-            Index cloneIndex = (Index) index.clone();
+            ERIndex cloneIndex = (ERIndex) index.clone();
 
             List<NormalColumn> cloneIndexColumns = new ArrayList<NormalColumn>();
 
@@ -363,9 +363,9 @@ public class CopyManager {
         }
 
         for (TableView tableView : copyDiagramContents.getContents().getTableViewList()) {
-            List<Column> newColumns = new ArrayList<Column>();
+            List<ERColumn> newColumns = new ArrayList<ERColumn>();
 
-            for (Column column : tableView.getColumns()) {
+            for (ERColumn column : tableView.getColumns()) {
                 if (column instanceof ColumnGroup) {
                     newColumns.add(columnGroupMap.get((ColumnGroup) column));
 

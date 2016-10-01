@@ -23,7 +23,7 @@ import org.insightech.er.editor.model.diagram_contents.DiagramContents;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.insightech.er.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
@@ -35,12 +35,12 @@ import org.insightech.er.editor.model.diagram_contents.element.node.model_proper
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.properties.ViewProperties;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
@@ -763,8 +763,8 @@ public class ErmXmlWriter {
                 //				subxml = this.createXMLERModel((ERModel) content, context);
             } else if (content instanceof Note) {
                 //				subxml = this.createXML((Note) content, context);
-            } else if (content instanceof View) {
-                subxml = this.createXML((View) content, context);
+            } else if (content instanceof ERView) {
+                subxml = this.createXML((ERView) content, context);
             } else if (content instanceof InsertedImage) {
                 subxml = this.createXML((InsertedImage) content, context);
             } else if (content instanceof VGroup) {
@@ -895,10 +895,10 @@ public class ErmXmlWriter {
         xml.append("\t<primary_key_name>").append(escape(table.getPrimaryKeyName())).append("</primary_key_name>\n");
         xml.append("\t<option>").append(escape(table.getOption())).append("</option>\n");
 
-        final List<Column> columns = table.getColumns();
+        final List<ERColumn> columns = table.getColumns();
         xml.append(tab(this.createXMLColumns(columns, context)));
 
-        final List<Index> indexes = table.getIndexes();
+        final List<ERIndex> indexes = table.getIndexes();
         xml.append(tab(this.createXMLIndexes(indexes, context)));
 
         final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
@@ -912,7 +912,7 @@ public class ErmXmlWriter {
         return xml.toString();
     }
 
-    private String createXML(View view, PersistentContext context) {
+    private String createXML(ERView view, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
 
         xml.append("<view>\n");
@@ -924,7 +924,7 @@ public class ErmXmlWriter {
         xml.append("\t<description>").append(escape(view.getDescription())).append("</description>\n");
         xml.append("\t<sql>").append(escape(view.getSql())).append("</sql>\n");
 
-        final List<Column> columns = view.getColumns();
+        final List<ERColumn> columns = view.getColumns();
         xml.append(tab(this.createXMLColumns(columns, context)));
 
         final ViewProperties viewProperties = (ViewProperties) view.getTableViewProperties();
@@ -999,12 +999,12 @@ public class ErmXmlWriter {
         return xml.toString();
     }
 
-    private String createXMLColumns(List<Column> columns, PersistentContext context) {
+    private String createXMLColumns(List<ERColumn> columns, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
 
         xml.append("<columns>\n");
 
-        for (final Column column : columns) {
+        for (final ERColumn column : columns) {
 
             if (column instanceof ColumnGroup) {
                 xml.append(tab(this.createXMLId((ColumnGroup) column, context)));
@@ -1047,7 +1047,7 @@ public class ErmXmlWriter {
                         .append(Format.toString(context.columnMap.get(referencedColumn)))
                         .append("</referenced_column>\n");
             }
-            for (final Relation relation : normalColumn.getRelationList()) {
+            for (final Relationship relation : normalColumn.getRelationshipList()) {
                 xml.append("\t<relation>").append(context.connectionMap.get(relation)).append("</relation>\n");
             }
         }
@@ -1096,8 +1096,8 @@ public class ErmXmlWriter {
             if (connection instanceof CommentConnection) {
                 xml.append(tab(this.createXML((CommentConnection) connection, context)));
 
-            } else if (connection instanceof Relation) {
-                xml.append(tab(this.createXML((Relation) connection, context)));
+            } else if (connection instanceof Relationship) {
+                xml.append(tab(this.createXML((Relationship) connection, context)));
             }
 
         }
@@ -1147,7 +1147,7 @@ public class ErmXmlWriter {
         return xml.toString();
     }
 
-    private String createXML(Relation relation, PersistentContext context) {
+    private String createXML(Relationship relation, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
 
         xml.append("<relation>\n");
@@ -1174,12 +1174,12 @@ public class ErmXmlWriter {
         return xml.toString();
     }
 
-    private String createXMLIndexes(List<Index> indexes, PersistentContext context) {
+    private String createXMLIndexes(List<ERIndex> indexes, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
 
         xml.append("<indexes>\n");
 
-        for (final Index index : indexes) {
+        for (final ERIndex index : indexes) {
             xml.append(tab(this.createXML(index, context)));
         }
 
@@ -1284,7 +1284,7 @@ public class ErmXmlWriter {
         return xml.toString();
     }
 
-    private String createXML(Index index, PersistentContext context) {
+    private String createXML(ERIndex index, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
 
         xml.append("<inidex>\n");
@@ -1301,7 +1301,7 @@ public class ErmXmlWriter {
 
         int count = 0;
 
-        for (final Column column : index.getColumns()) {
+        for (final ERColumn column : index.getColumns()) {
             xml.append("\t\t<column>\n");
             xml.append("\t\t\t<id>").append(context.columnMap.get(column)).append("</id>\n");
 

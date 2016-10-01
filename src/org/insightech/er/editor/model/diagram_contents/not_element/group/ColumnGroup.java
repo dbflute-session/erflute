@@ -6,11 +6,11 @@ import java.util.List;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ColumnHolder;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
-public class ColumnGroup extends Column implements ObjectModel, Comparable<ColumnGroup>, ColumnHolder {
+public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<ColumnGroup>, ColumnHolder {
 
     private static final long serialVersionUID = -5923128797828160786L;
 
@@ -45,7 +45,7 @@ public class ColumnGroup extends Column implements ObjectModel, Comparable<Colum
 
     public void setColumns(List<NormalColumn> columns) {
         this.columns = columns;
-        for (Column column : columns) {
+        for (ERColumn column : columns) {
             column.setColumnHolder(this);
         }
     }
@@ -58,7 +58,7 @@ public class ColumnGroup extends Column implements ObjectModel, Comparable<Colum
         List<TableView> usedTableList = new ArrayList<TableView>();
 
         for (TableView table : diagram.getDiagramContents().getContents().getTableViewList()) {
-            for (Column tableColumn : table.getColumns()) {
+            for (ERColumn tableColumn : table.getColumns()) {
                 if (tableColumn == this) {
                     usedTableList.add(table);
                     break;

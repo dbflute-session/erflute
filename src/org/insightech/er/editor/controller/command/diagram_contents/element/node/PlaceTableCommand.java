@@ -7,7 +7,7 @@ import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.EROneDiagramEditor;
+import org.insightech.er.editor.SubModelEditor;
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
@@ -35,7 +35,7 @@ public class PlaceTableCommand extends AbstractCommand {
 
         if (orgTables != null) {
             // �����z�u
-            EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            SubModelEditor modelEditor = (SubModelEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
 
             Point cursorLocation = Display.getCurrent().getCursorLocation();
             Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
@@ -69,7 +69,7 @@ public class PlaceTableCommand extends AbstractCommand {
         } else {
             ERTable curTable = orgTable;
 
-            EROneDiagramEditor modelEditor = (EROneDiagramEditor) curTable.getDiagram().getEditor().getActiveEditor();
+            SubModelEditor modelEditor = (SubModelEditor) curTable.getDiagram().getEditor().getActiveEditor();
 
             // ���Ƀr���[��ɓ���e�[�u������������u���Ȃ�
             for (ERVirtualTable vtable : modelEditor.getModel().getTables()) {
@@ -107,13 +107,13 @@ public class PlaceTableCommand extends AbstractCommand {
                 model.remove(vtable);
             }
 
-            EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            SubModelEditor modelEditor = (SubModelEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         } else {
             ERModel model = orgTable.getDiagram().getCurrentErmodel();
             model.remove(virtualTable);
 
-            EROneDiagramEditor modelEditor = (EROneDiagramEditor) orgTable.getDiagram().getEditor().getActiveEditor();
+            SubModelEditor modelEditor = (SubModelEditor) orgTable.getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         }
     }

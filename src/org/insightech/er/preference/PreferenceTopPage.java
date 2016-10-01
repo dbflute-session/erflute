@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -23,7 +24,7 @@ import org.insightech.er.editor.view.dialog.group.GroupManageDialog;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class PreferenceTopPage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
+public class PreferenceTopPage extends PreferencePage implements IWorkbenchPreferencePage {
 
     @Override
     protected Control createContents(Composite parent) {

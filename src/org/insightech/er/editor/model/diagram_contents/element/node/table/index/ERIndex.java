@@ -8,7 +8,7 @@ import org.insightech.er.editor.model.ObjectModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
-public class Index extends AbstractModel implements ObjectModel, Comparable<Index> {
+public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ERIndex> {
 
     private static final long serialVersionUID = -6734284409681329690L;
 
@@ -30,7 +30,7 @@ public class Index extends AbstractModel implements ObjectModel, Comparable<Inde
 
     private ERTable table;
 
-    public Index(ERTable table, String name, boolean nonUnique, String type, String description) {
+    public ERIndex(ERTable table, String name, boolean nonUnique, String type, String description) {
         this.table = table;
 
         this.nonUnique = nonUnique;
@@ -115,8 +115,8 @@ public class Index extends AbstractModel implements ObjectModel, Comparable<Inde
      * {@inheritDoc}
      */
     @Override
-    public Index clone() {
-        Index clone = (Index) super.clone();
+    public ERIndex clone() {
+        ERIndex clone = (ERIndex) super.clone();
 
         List<Boolean> cloneDescs = new ArrayList<Boolean>();
         for (Boolean desc : this.descs) {
@@ -135,7 +135,7 @@ public class Index extends AbstractModel implements ObjectModel, Comparable<Inde
         return clone;
     }
 
-    public int compareTo(Index other) {
+    public int compareTo(ERIndex other) {
         return this.name.toUpperCase().compareTo(other.name.toUpperCase());
     }
 

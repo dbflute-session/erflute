@@ -2,7 +2,7 @@ package org.insightech.er.editor.view.action.dbimport;
 
 import java.util.List;
 
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.dbimport.ImportTableCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
@@ -24,7 +24,7 @@ public abstract class AbstractImportAction extends AbstractBaseAction {
 
     protected List<ColumnGroup> importedColumnGroups;
 
-    public AbstractImportAction(String id, String text, ERDiagramEditor editor) {
+    public AbstractImportAction(String id, String text, MainModelEditor editor) {
         super(id, text, editor);
     }
 

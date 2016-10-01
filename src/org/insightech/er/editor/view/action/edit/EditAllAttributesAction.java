@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.edit.EditAllAttributesCommand;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.DiagramContents;
@@ -17,7 +17,7 @@ public class EditAllAttributesAction extends AbstractBaseAction {
 
     public static final String ID = EditAllAttributesAction.class.getName();
 
-    public EditAllAttributesAction(ERDiagramEditor editor) {
+    public EditAllAttributesAction(MainModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.edit.all.attributes"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EDIT));
     }

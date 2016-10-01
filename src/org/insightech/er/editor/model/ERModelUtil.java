@@ -11,7 +11,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.insightech.er.editor.EROneDiagramEditor;
+import org.insightech.er.editor.SubModelEditor;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
@@ -40,8 +40,8 @@ public class ERModelUtil {
             return false;
         }
         IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
-        if (activeEditor instanceof EROneDiagramEditor) {
-            EROneDiagramEditor editor = (EROneDiagramEditor) activeEditor;
+        if (activeEditor instanceof SubModelEditor) {
+            SubModelEditor editor = (SubModelEditor) activeEditor;
             editor.setContents(diagram.getCurrentErmodel());
             diagram.changeAll();
             return true;
@@ -53,8 +53,8 @@ public class ERModelUtil {
         if (refreshDiagram(diagram)) {
             if (element instanceof ERTable) {
                 IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
-                if (activeEditor instanceof EROneDiagramEditor) {
-                    EROneDiagramEditor editor = (EROneDiagramEditor) activeEditor;
+                if (activeEditor instanceof SubModelEditor) {
+                    SubModelEditor editor = (SubModelEditor) activeEditor;
                     editor.reveal((ERTable) element);
                 }
             }

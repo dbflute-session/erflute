@@ -2,19 +2,19 @@ package org.insightech.er.editor.controller.command.diagram_contents.element.nod
 
 import org.insightech.er.editor.controller.command.AbstractCommand;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 
 public class ChangeColumnOrderCommand extends AbstractCommand {
 
     private TableView tableView;
 
-    private Column column;
+    private ERColumn column;
 
     private int newIndex;
 
     private int oldIndex;
 
-    public ChangeColumnOrderCommand(TableView tableView, Column column, int index) {
+    public ChangeColumnOrderCommand(TableView tableView, ERColumn column, int index) {
         this.tableView = tableView;
         this.column = column;
         this.newIndex = index;

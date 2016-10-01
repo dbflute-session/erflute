@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.dbimport.ImportFromDBManagerBase;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 
 public class MySQLTableImportManager extends ImportFromDBManagerBase {
 
@@ -31,12 +31,12 @@ public class MySQLTableImportManager extends ImportFromDBManagerBase {
     }
 
     @Override
-    protected List<Index> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
+    protected List<ERIndex> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
 
-        List<Index> indexes = super.getIndexes(table, metaData, primaryKeys);
+        List<ERIndex> indexes = super.getIndexes(table, metaData, primaryKeys);
 
-        for (Iterator<Index> iter = indexes.iterator(); iter.hasNext();) {
-            Index index = iter.next();
+        for (Iterator<ERIndex> iter = indexes.iterator(); iter.hasNext();) {
+            ERIndex index = iter.next();
 
             if ("PRIMARY".equalsIgnoreCase(index.getName())) {
                 iter.remove();

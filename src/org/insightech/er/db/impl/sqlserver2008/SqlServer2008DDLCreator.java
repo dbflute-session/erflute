@@ -3,7 +3,7 @@ package org.insightech.er.db.impl.sqlserver2008;
 import org.insightech.er.db.impl.sqlserver.SqlServerDDLCreator;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 
 public class SqlServer2008DDLCreator extends SqlServerDDLCreator {
 
@@ -12,7 +12,7 @@ public class SqlServer2008DDLCreator extends SqlServerDDLCreator {
     }
 
     @Override
-    public String getDropDDL(Index index, ERTable table) {
+    public String getDropDDL(ERIndex index, ERTable table) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP INDEX ");

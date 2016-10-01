@@ -6,7 +6,7 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.insightech.er.editor.controller.command.diagram_contents.element.node.table_view.ChangeTableViewPropertyCommand;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -50,7 +50,7 @@ public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
 
                         TableView newCopyTable = table.copyData();
 
-                        for (Column copyColumn : newCopyTable.getColumns()) {
+                        for (ERColumn copyColumn : newCopyTable.getColumns()) {
                             if (copyColumn == columnGroup) {
                                 newCopyTable.removeColumn(copyColumn);
                                 break;
@@ -70,7 +70,7 @@ public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
 
                     TableView newCopyTable = table.copyData();
 
-                    for (Column copyColumn : newCopyTable.getColumns()) {
+                    for (ERColumn copyColumn : newCopyTable.getColumns()) {
                         if (copyColumn == columnGroup) {
                             newCopyTable.removeColumn(copyColumn);
                             break;

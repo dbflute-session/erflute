@@ -6,44 +6,36 @@ import java.util.List;
 
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 
-public class Relation extends ConnectionElement implements Comparable<Relation> {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public class Relationship extends ConnectionElement implements Comparable<Relationship> {
 
     private static final long serialVersionUID = 4456694342537711599L;
 
     private String name;
-
     private String onUpdateAction;
-
     private String onDeleteAction;
-
     private String parentCardinality;
-
     private String childCardinality;
-
     private boolean referenceForPK;
-
     private ComplexUniqueKey referencedComplexUniqueKey;
-
     private NormalColumn referencedColumn;
-
     private int sourceXp;
-
     private int sourceYp;
-
     private int targetXp;
-
     private int targetYp;
 
-    public Relation() {
+    public Relationship() {
         this(false, null, null);
     }
 
-    public Relation(boolean referenceForPK, ComplexUniqueKey referencedComplexUniqueKey, NormalColumn referencedColumn) {
+    public Relationship(boolean referenceForPK, ComplexUniqueKey referencedComplexUniqueKey, NormalColumn referencedColumn) {
         this.onUpdateAction = "RESTRICT";
         this.onDeleteAction = "RESTRICT";
 
@@ -81,28 +73,28 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
         super.setTarget(target);
 
         if (target != null) {
-            TableView sourceTable = (TableView) this.getSource();
+            final TableView sourceTable = (TableView) this.getSource();
 
             int i = 0;
 
             if (this.isReferenceForPK()) {
-                for (NormalColumn sourceColumn : ((ERTable) sourceTable).getPrimaryKeys()) {
-                    NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
+                for (final NormalColumn sourceColumn : ((ERTable) sourceTable).getPrimaryKeys()) {
+                    final NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
 
                     target.addColumn(foreignKeyColumn);
                 }
 
             } else if (this.referencedComplexUniqueKey != null) {
-                for (NormalColumn sourceColumn : referencedComplexUniqueKey.getColumnList()) {
-                    NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
+                for (final NormalColumn sourceColumn : referencedComplexUniqueKey.getColumnList()) {
+                    final NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
 
                     target.addColumn(foreignKeyColumn);
                 }
 
             } else {
-                for (NormalColumn sourceColumn : sourceTable.getNormalColumns()) {
+                for (final NormalColumn sourceColumn : sourceTable.getNormalColumns()) {
                     if (sourceColumn == this.referencedColumn) {
-                        NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
+                        final NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
 
                         target.addColumn(foreignKeyColumn);
                         break;
@@ -115,10 +107,10 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
     }
 
     private NormalColumn createForeiKeyColumn(NormalColumn referencedColumn, List<NormalColumn> foreignKeyColumnList, int index) {
-        NormalColumn foreignKeyColumn = new NormalColumn(referencedColumn, referencedColumn, this, false);
+        final NormalColumn foreignKeyColumn = new NormalColumn(referencedColumn, referencedColumn, this, false);
 
         if (foreignKeyColumnList != null) {
-            NormalColumn data = foreignKeyColumnList.get(index);
+            final NormalColumn data = foreignKeyColumnList.get(index);
             data.copyForeikeyData(foreignKeyColumn);
         }
 
@@ -140,11 +132,11 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
     public void delete(boolean removeForeignKey, Dictionary dictionary) {
         super.delete();
 
-        for (NormalColumn foreignKeyColumn : this.getForeignKeyColumns()) {
+        for (final NormalColumn foreignKeyColumn : this.getForeignKeyColumns()) {
             foreignKeyColumn.removeReference(this);
 
             if (removeForeignKey) {
-                if (foreignKeyColumn.getRelationList().isEmpty()) {
+                if (foreignKeyColumn.getRelationshipList().isEmpty()) {
                     this.getTargetTableView().removeColumn(foreignKeyColumn);
                 }
 
@@ -155,13 +147,13 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
     }
 
     public List<NormalColumn> getForeignKeyColumns() {
-        List<NormalColumn> list = new ArrayList<NormalColumn>();
+        final List<NormalColumn> list = new ArrayList<NormalColumn>();
 
         if (this.getTargetTableView() != null) {
-            for (NormalColumn column : this.getTargetTableView().getNormalColumns()) {
+            for (final NormalColumn column : this.getTargetTableView().getNormalColumns()) {
                 if (column.isForeignKey()) {
-                    NormalColumn foreignKeyColumn = (NormalColumn) column;
-                    for (Relation relation : foreignKeyColumn.getRelationList()) {
+                    final NormalColumn foreignKeyColumn = column;
+                    for (final Relationship relation : foreignKeyColumn.getRelationshipList()) {
                         if (relation == this) {
                             list.add(column);
                             break;
@@ -216,8 +208,8 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
         this.name = name;
     }
 
-    public Relation copy() {
-        Relation to = new Relation(this.isReferenceForPK(), this.getReferencedComplexUniqueKey(), this.getReferencedColumn());
+    public Relationship copy() {
+        final Relationship to = new Relationship(this.isReferenceForPK(), this.getReferencedComplexUniqueKey(), this.getReferencedColumn());
 
         to.setName(this.getName());
         to.setOnDeleteAction(this.getOnDeleteAction());
@@ -231,7 +223,7 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
         return to;
     }
 
-    public Relation restructureRelationData(Relation to) {
+    public Relationship restructureRelationData(Relationship to) {
         to.setName(this.getName());
         to.setOnDeleteAction(this.getOnDeleteAction());
         to.setOnUpdateAction(this.getOnUpdateAction());
@@ -256,7 +248,7 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
 
         this.removeAllForeignKey();
 
-        NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
+        final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
 
         this.getTargetTableView().addColumn(foreignKeyColumn);
 
@@ -272,8 +264,8 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
 
         this.removeAllForeignKey();
 
-        for (NormalColumn sourceColumn : complexUniqueKey.getColumnList()) {
-            NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
+        for (final NormalColumn sourceColumn : complexUniqueKey.getColumnList()) {
+            final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
 
             this.getTargetTableView().addColumn(foreignKeyColumn);
         }
@@ -290,8 +282,8 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
 
         this.removeAllForeignKey();
 
-        for (NormalColumn sourceColumn : ((ERTable) this.getSourceTableView()).getPrimaryKeys()) {
-            NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
+        for (final NormalColumn sourceColumn : ((ERTable) this.getSourceTableView()).getPrimaryKeys()) {
+            final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
 
             this.getTargetTableView().addColumn(foreignKeyColumn);
         }
@@ -302,14 +294,14 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
     }
 
     private void removeAllForeignKey() {
-        for (Iterator iter = this.getTargetTableView().getColumns().iterator(); iter.hasNext();) {
-            Column column = (Column) iter.next();
+        for (final Iterator iter = this.getTargetTableView().getColumns().iterator(); iter.hasNext();) {
+            final ERColumn column = (ERColumn) iter.next();
 
             if (column instanceof NormalColumn) {
-                NormalColumn normalColumn = (NormalColumn) column;
+                final NormalColumn normalColumn = (NormalColumn) column;
 
                 if (normalColumn.isForeignKey()) {
-                    if (normalColumn.getRelationList().size() == 1 && normalColumn.getRelationList().get(0) == this) {
+                    if (normalColumn.getRelationshipList().size() == 1 && normalColumn.getRelationshipList().get(0) == this) {
                         iter.remove();
                     }
                 }
@@ -362,7 +354,7 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
     }
 
     public boolean isReferedStrictly() {
-        for (NormalColumn column : this.getForeignKeyColumns()) {
+        for (final NormalColumn column : this.getForeignKeyColumns()) {
             if (column.isReferedStrictly()) {
                 return true;
             }
@@ -375,13 +367,14 @@ public class Relation extends ConnectionElement implements Comparable<Relation> 
      * {@inheritDoc}
      */
     @Override
-    public Relation clone() {
-        Relation clone = (Relation) super.clone();
+    public Relationship clone() {
+        final Relationship clone = (Relationship) super.clone();
 
         return clone;
     }
 
-    public int compareTo(Relation otherRelation) {
+    @Override
+    public int compareTo(Relationship otherRelation) {
         return this.getTargetTableView().compareTo(otherRelation.getTargetTableView());
     }
 }

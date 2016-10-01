@@ -37,7 +37,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.IContributedContentsView;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.common.ReplaceCommand;
 import org.insightech.er.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
 import org.insightech.er.editor.model.ERDiagram;
@@ -143,7 +143,7 @@ public class SearchDialog extends Dialog {
 
     private TabFolder tabFolder;
 
-    public SearchDialog(Shell parentShell, GraphicalViewer viewer, ERDiagramEditor erDiagramEditor, ERDiagram diagram) {
+    public SearchDialog(Shell parentShell, GraphicalViewer viewer, MainModelEditor erDiagramEditor, ERDiagram diagram) {
         super(parentShell);
 
         this.setShellStyle(SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);

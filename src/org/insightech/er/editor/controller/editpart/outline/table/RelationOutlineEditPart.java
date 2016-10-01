@@ -17,7 +17,7 @@ import org.insightech.er.editor.controller.editpart.outline.AbstractOutlineEditP
 import org.insightech.er.editor.controller.editpolicy.element.connection.RelationEditPolicy;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.settings.Settings;
@@ -41,7 +41,7 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     protected void refreshOutlineVisuals() {
-        Relation model = (Relation) this.getModel();
+        Relationship model = (Relationship) this.getModel();
 
         ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
 
@@ -87,10 +87,10 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     public void performRequest(Request request) {
-        Relation relation = (Relation) this.getModel();
+        Relationship relation = (Relationship) this.getModel();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            Relation copy = relation.copy();
+            Relationship copy = relation.copy();
 
             RelationDialog dialog = new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 

@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionFactory;
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.controller.command.ermodel.OpenERModelCommand;
 import org.insightech.er.editor.controller.editpart.outline.ERDiagramOutlineEditPart;
 import org.insightech.er.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
@@ -286,7 +286,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 
             if (diagram.getCurrentErmodel() == null) {
                 // �S�̃r���[
-                ERDiagramEditor editor = ((ERDiagramEditor) diagram.getEditor().getActiveEditor());
+                MainModelEditor editor = ((MainModelEditor) diagram.getEditor().getActiveEditor());
                 editor.reveal(table);
                 return;
             }

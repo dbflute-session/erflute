@@ -11,7 +11,7 @@ import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.dbexport.ddl.DDLCreator;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.sequence.Sequence;
@@ -76,7 +76,7 @@ public class PostgresDDLCreator extends DDLCreator {
             ddlList.add(ddl.toString());
         }
 
-        for (Column column : table.getColumns()) {
+        for (ERColumn column : table.getColumns()) {
             if (column instanceof NormalColumn) {
                 NormalColumn normalColumn = (NormalColumn) column;
 

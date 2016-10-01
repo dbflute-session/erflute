@@ -23,8 +23,8 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.insightech.er.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.GroupSet;
@@ -38,7 +38,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
 
     private static final int GROUP_TABLE_HEIGHT = 75;
 
-    private View copyData;
+    private ERView copyData;
 
     private Text physicalNameText;
 
@@ -56,7 +56,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
 
     private ERTableComposite groupTableComposite;
 
-    public AttributeTabWrapper(ViewDialog viewDialog, TabFolder parent, int style, View copyData) {
+    public AttributeTabWrapper(ViewDialog viewDialog, TabFolder parent, int style, ERView copyData) {
         super(viewDialog, parent, style, "label.table.attribute");
 
         this.copyData = copyData;
@@ -213,7 +213,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
         this.initGroupCombo();
 
         int index = 0;
-        for (Column column : this.copyData.getColumns()) {
+        for (ERColumn column : this.copyData.getColumns()) {
             if (column instanceof ColumnGroup) {
                 if (!this.getColumnGroups().contains((ColumnGroup) column)) {
                     this.tableComposite.removeColumn(index);

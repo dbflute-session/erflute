@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
@@ -63,10 +63,10 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
 
     private Map<TableEditor, List<NormalColumn>> editorReferencedMap;
 
-    private Map<Relation, Set<NormalColumn>> foreignKeySetMap;
+    private Map<Relationship, Set<NormalColumn>> foreignKeySetMap;
 
     public RelationByExistingColumnsDialog(Shell parentShell, ERTable source, List<NormalColumn> candidateForeignKeyColumns,
-            Map<NormalColumn, List<NormalColumn>> referencedMap, Map<Relation, Set<NormalColumn>> foreignKeySetMap) {
+            Map<NormalColumn, List<NormalColumn>> referencedMap, Map<Relationship, Set<NormalColumn>> foreignKeySetMap) {
         super(parentShell, 2);
 
         this.source = source;

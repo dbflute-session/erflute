@@ -29,7 +29,7 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     }
 
     public int remove(ERTable table) {
-        int index = this.tableList.indexOf(table);
+        final int index = this.tableList.indexOf(table);
         this.tableList.remove(index);
         this.firePropertyChange(PROPERTY_CHANGE_TABLE_SET, null, null);
 
@@ -42,42 +42,33 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
 
     public List<ERTable> getList() {
         Collections.sort(this.tableList);
-
         return this.tableList;
     }
 
+    @Override
     public Iterator<ERTable> iterator() {
         Collections.sort(this.tableList);
-
         return this.tableList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TableSet clone() {
-        TableSet tableSet = (TableSet) super.clone();
-        List<ERTable> newTableList = new ArrayList<ERTable>();
-
-        for (ERTable table : this.tableList) {
-            ERTable newTable = (ERTable) table.clone();
+        final TableSet tableSet = (TableSet) super.clone();
+        final List<ERTable> newTableList = new ArrayList<ERTable>();
+        for (final ERTable table : this.tableList) {
+            final ERTable newTable = table.clone();
             newTableList.add(newTable);
         }
-
         tableSet.tableList = newTableList;
-
         return tableSet;
     }
 
     public List<String> getAutoSequenceNames(String database) {
-        List<String> autoSequenceNames = new ArrayList<String>();
-
-        for (ERTable table : this.tableList) {
-            String prefix = table.getNameWithSchema(database) + "_";
-
-            for (NormalColumn column : table.getNormalColumns()) {
-                SqlType sqlType = column.getType();
+        final List<String> autoSequenceNames = new ArrayList<String>();
+        for (final ERTable table : this.tableList) {
+            final String prefix = table.getNameWithSchema(database) + "_";
+            for (final NormalColumn column : table.getNormalColumns()) {
+                final SqlType sqlType = column.getType();
 
                 if (SqlType.valueOfId(SqlType.SQL_TYPE_ID_SERIAL).equals(sqlType)
                         || SqlType.valueOfId(SqlType.SQL_TYPE_ID_BIG_SERIAL).equals(sqlType)) {
@@ -85,20 +76,32 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
                 }
             }
         }
-
         return autoSequenceNames;
     }
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + (tableList != null ? tableList : null) + "}";
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getName() {
         return DisplayMessages.getMessage("label.object.type.table_list");
     }
 
+    @Override
     public String getObjectType() {
         return "list";
     }
-
 }

@@ -14,7 +14,7 @@ import org.insightech.er.editor.model.diagram_contents.element.connection.Connec
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
@@ -34,7 +34,7 @@ public class PersistentXml extends Persistent {
     public class PersistentContext {
         public final Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
         public final Map<ConnectionElement, Integer> connectionMap = new HashMap<ConnectionElement, Integer>();
-        public final Map<Column, Integer> columnMap = new HashMap<Column, Integer>();
+        public final Map<ERColumn, Integer> columnMap = new HashMap<ERColumn, Integer>();
         public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
         public final Map<NodeElement, Integer> nodeElementMap = new HashMap<NodeElement, Integer>();
         public final Map<ERModel, Integer> ermodelMap = new HashMap<ERModel, Integer>();
@@ -69,8 +69,8 @@ public class PersistentXml extends Persistent {
             }
             if (content instanceof ERTable) {
                 final ERTable table = (ERTable) content;
-                final List<Column> columns = table.getColumns();
-                for (final Column column : columns) {
+                final List<ERColumn> columns = table.getColumns();
+                for (final ERColumn column : columns) {
                     if (column instanceof NormalColumn) {
                         context.columnMap.put(column, new Integer(columnCount));
                         columnCount++;

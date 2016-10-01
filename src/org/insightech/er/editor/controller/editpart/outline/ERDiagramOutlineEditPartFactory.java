@@ -25,14 +25,14 @@ import org.insightech.er.editor.controller.editpart.outline.trigger.TriggerSetOu
 import org.insightech.er.editor.controller.editpart.outline.view.ViewOutlineEditPart;
 import org.insightech.er.editor.controller.editpart.outline.view.ViewSetOutlineEditPart;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relation;
+import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableSet;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.index.Index;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.IndexSet;
-import org.insightech.er.editor.model.diagram_contents.element.node.view.View;
+import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.ViewSet;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Word;
@@ -68,7 +68,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
         } else if (model instanceof ERDiagram) {
             editPart = new ERDiagramOutlineEditPart(quickMode);
 
-        } else if (model instanceof Relation) {
+        } else if (model instanceof Relationship) {
             editPart = new RelationOutlineEditPart();
 
         } else if (model instanceof Word) {
@@ -92,7 +92,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
         } else if (model instanceof ViewSet) {
             editPart = new ViewSetOutlineEditPart();
 
-        } else if (model instanceof View) {
+        } else if (model instanceof ERView) {
             editPart = new ViewOutlineEditPart();
 
         } else if (model instanceof TriggerSet) {
@@ -113,7 +113,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
         } else if (model instanceof IndexSet) {
             editPart = new IndexSetOutlineEditPart();
 
-        } else if (model instanceof Index) {
+        } else if (model instanceof ERIndex) {
             editPart = new IndexOutlineEditPart();
         }
 

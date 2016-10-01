@@ -34,7 +34,7 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.DiagramContents;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.column.Column;
+import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.CopyWord;
 import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Dictionary;
@@ -67,7 +67,7 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
 
     private DiagramContents diagramContents;
 
-    private List<Column> columnList;
+    private List<ERColumn> columnList;
 
     private List<Word> wordList;
 
@@ -83,7 +83,7 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
         CopyManager copyManager = new CopyManager();
 
         this.diagramContents = copyManager.copy(this.diagram.getDiagramContents());
-        this.columnList = new ArrayList<Column>();
+        this.columnList = new ArrayList<ERColumn>();
     }
 
     /**
@@ -301,7 +301,7 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
             if (nodeElement instanceof ERTable) {
                 ERTable table = (ERTable) nodeElement;
 
-                for (Column column : table.getColumns()) {
+                for (ERColumn column : table.getColumns()) {
                     TableItem tableItem = new TableItem(this.attributeTable, SWT.NONE);
                     this.column2TableItem(table, column, tableItem);
                     this.columnList.add(column);
@@ -310,7 +310,7 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
         }
     }
 
-    private void column2TableItem(ERTable table, Column column, TableItem tableItem) {
+    private void column2TableItem(ERTable table, ERColumn column, TableItem tableItem) {
         // this.disposeCheckBox(column);
 
         if (table != null) {
@@ -529,7 +529,7 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
     // }
 
     public Control getControl(Point xy) {
-        Column column = this.getColumn(xy);
+        ERColumn column = this.getColumn(xy);
 
         if (column instanceof NormalColumn) {
             NormalColumn targetColumn = (NormalColumn) column;
@@ -574,14 +574,14 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
         return null;
     }
 
-    private Column getColumn(Point xy) {
+    private ERColumn getColumn(Point xy) {
         return this.columnList.get(xy.y);
     }
 
     public void setData(Point xy, Control control) {
         this.errorMessage = null;
 
-        Column column = this.getColumn(xy);
+        ERColumn column = this.getColumn(xy);
 
         if (column instanceof NormalColumn) {
             NormalColumn targetColumn = (NormalColumn) column;
@@ -724,7 +724,7 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
 
         } else {
             for (int i = 0; i < this.columnList.size(); i++) {
-                Column column = this.columnList.get(i);
+                ERColumn column = this.columnList.get(i);
                 if (column instanceof NormalColumn) {
                     NormalColumn normalColumn = (NormalColumn) column;
                     if (word.equals(normalColumn.getWord())) {
@@ -761,7 +761,7 @@ public class EditAllAttributesDialog extends AbstractDialog implements EditableT
     }
 
     public void onDoubleClicked(Point xy) {
-        Column column = getColumn(xy);
+        ERColumn column = getColumn(xy);
 
         if (column instanceof NormalColumn) {
             NormalColumn normalColumn = (NormalColumn) column;

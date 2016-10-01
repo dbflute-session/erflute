@@ -1,13 +1,13 @@
 package org.insightech.er.editor.view.action.option.notation.level;
 
-import org.insightech.er.editor.ERDiagramEditor;
+import org.insightech.er.editor.MainModelEditor;
 import org.insightech.er.editor.model.settings.Settings;
 
 public class ChangeNotationLevelToExcludeTypeAction extends AbstractChangeNotationLevelAction {
 
     public static final String ID = ChangeNotationLevelToExcludeTypeAction.class.getName();
 
-    public ChangeNotationLevelToExcludeTypeAction(ERDiagramEditor editor) {
+    public ChangeNotationLevelToExcludeTypeAction(MainModelEditor editor) {
         super(ID, editor);
     }
 
