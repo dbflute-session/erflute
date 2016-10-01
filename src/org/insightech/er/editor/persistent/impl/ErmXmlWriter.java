@@ -5,8 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,106 +62,23 @@ import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.model.tracking.ChangeTracking;
 import org.insightech.er.editor.model.tracking.ChangeTrackingList;
-import org.insightech.er.editor.persistent.Persistent;
+import org.insightech.er.editor.persistent.impl.PersistentXml.PersistentContext;
 
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class PersistentXmlImpl extends Persistent {
+public class ErmXmlWriter {
 
-    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    protected static final DateFormat DATE_FORMAT = PersistentXml.DATE_FORMAT;
 
-    private class PersistentContext {
-        private final Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
-        private final Map<ConnectionElement, Integer> connectionMap = new HashMap<ConnectionElement, Integer>();
-        private final Map<Column, Integer> columnMap = new HashMap<Column, Integer>();
-        private final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
-        private final Map<NodeElement, Integer> nodeElementMap = new HashMap<NodeElement, Integer>();
-        private final Map<ERModel, Integer> ermodelMap = new HashMap<ERModel, Integer>();
-        private final Map<Word, Integer> wordMap = new HashMap<Word, Integer>();
-        private final Map<Tablespace, Integer> tablespaceMap = new HashMap<Tablespace, Integer>();
-        private final Map<Environment, Integer> environmentMap = new HashMap<Environment, Integer>();
+    protected final PersistentXml persistentXml;
+
+    public ErmXmlWriter(PersistentXml persistentXml) {
+        super();
+        this.persistentXml = persistentXml;
     }
 
-    private PersistentContext getContext(DiagramContents diagramContents) {
-        final PersistentContext context = new PersistentContext();
-        int columnGroupCount = 0;
-        int columnCount = 0;
-        for (final ColumnGroup columnGroup : diagramContents.getGroups()) {
-            context.columnGroupMap.put(columnGroup, new Integer(columnGroupCount));
-            columnGroupCount++;
-
-            for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-                context.columnMap.put(normalColumn, new Integer(columnCount));
-                columnCount++;
-            }
-        }
-
-        int nodeElementCount = 0;
-        int connectionCount = 0;
-        int complexUniqueKeyCount = 0;
-        for (final NodeElement content : diagramContents.getContents()) {
-            context.nodeElementMap.put(content, new Integer(nodeElementCount));
-            nodeElementCount++;
-            final List<ConnectionElement> connections = content.getIncomings();
-            for (final ConnectionElement connection : connections) {
-                context.connectionMap.put(connection, new Integer(connectionCount));
-                connectionCount++;
-            }
-
-            if (content instanceof ERTable) {
-                final ERTable table = (ERTable) content;
-                final List<Column> columns = table.getColumns();
-                for (final Column column : columns) {
-                    if (column instanceof NormalColumn) {
-                        context.columnMap.put(column, new Integer(columnCount));
-                        columnCount++;
-                    }
-                }
-                for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
-                    context.complexUniqueKeyMap.put(complexUniqueKey, new Integer(complexUniqueKeyCount));
-                    complexUniqueKeyCount++;
-                }
-            }
-        }
-
-        int wordCount = 0;
-        for (final Word word : diagramContents.getDictionary().getWordList()) {
-            context.wordMap.put(word, new Integer(wordCount));
-            wordCount++;
-        }
-
-        int tablespaceCount = 0;
-        for (final Tablespace tablespace : diagramContents.getTablespaceSet()) {
-            context.tablespaceMap.put(tablespace, new Integer(tablespaceCount));
-            tablespaceCount++;
-        }
-
-        int environmentCount = 0;
-        for (final Environment environment : diagramContents.getSettings().getEnvironmentSetting().getEnvironments()) {
-            context.environmentMap.put(environment, new Integer(environmentCount));
-            environmentCount++;
-        }
-
-        int virtualModelCount = 0;
-        for (final ERModel model : diagramContents.getModelSet()) {
-            context.ermodelMap.put(model, new Integer(virtualModelCount));
-            virtualModelCount++;
-        }
-
-        return context;
-    }
-
-    private PersistentContext getCurrentContext(ERDiagram diagram) {
-        return this.getContext(diagram.getDiagramContents());
-    }
-
-    private PersistentContext getChangeTrackingContext(ChangeTracking changeTracking) {
-        return this.getContext(changeTracking.getDiagramContents());
-    }
-
-    @Override
-    public InputStream createInputStream(ERDiagram diagram) throws IOException {
+    public InputStream write(ERDiagram diagram) throws IOException {
         InputStream inputStream = null;
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final String xml = this.createXML(diagram);
@@ -172,47 +87,76 @@ public class PersistentXmlImpl extends Persistent {
         return inputStream;
     }
 
-    private static String tab(String str) {
-        str = str.replaceAll("\n\t", "\n\t\t");
-        str = str.replaceAll("\n<", "\n\t<");
-        return "\t" + str;
-    }
+    /*
+    <dictionary>
+        ...
+    </dictionary>
+    <tablespace_set>
+    </tablespace_set>
+    <contents>
+        <table>
+            <id>0</id>
+            <height>-1</height>
+            <width>-1</width>
+                <font_name>Lucida Grande</font_name>
+                <font_size>9</font_size>
+            <x>752</x>
+            <y>651</y>
+            <color>
+                <r>128</r>
+                <g>128</g>
+                <b>192</b>
+            </color>
+            <connections>
+                <relation>
+                    ...
+                </relation>
+            </connections>
+            <physical_name>MEMBER_WITHDRAWAL</physical_name>
+            <logical_name>会員退会情報</logical_name>
+            <description>退会会員の退会に関する詳細な情報。&#x0D;退会会員のみデータが存在し、&quot;1 : 0..1&quot; のパターンの one-to-one である。&#x0D;共通カラムがあってバージョンNOがないパターン。&#x0D;基本的に更新は入らないが、重要なデータなので万が一のために更新系の共通カラムも。</description>
+            <constraint></constraint>
+            <primary_key_name></primary_key_name>
+            <option></option>
+            <columns>
+                <normal_column>
+                    <id>5</id>
+                    <referenced_column>34</referenced_column>
+                    <relation>0</relation>
+                    <description></description>
+                    <unique_key_name></unique_key_name>
+                    <logical_name>メンバーID</logical_name>
+                    <physical_name></physical_name>
+                    ...
+                </normal_column>
+            </columns>
+     */
 
     private String createXML(ERDiagram diagram) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<diagram>\n");
-
         if (diagram.getDbSetting() != null) {
             xml.append("\t<dbsetting>\n").append(tab(tab(this.createXML(diagram.getDbSetting())))).append("\t</dbsetting>\n");
         }
         if (diagram.getPageSetting() != null) {
             xml.append("\t<page_setting>\n").append(tab(tab(this.createXML(diagram.getPageSetting())))).append("\t</page_setting>\n");
         }
-
         xml.append("\t<category_index>").append(diagram.getCurrentCategoryIndex()).append("</category_index>\n");
         if (diagram.getCurrentErmodel() != null) {
             xml.append("\t<current_ermodel>").append(diagram.getCurrentErmodel().getName()).append("</current_ermodel>\n");
         }
-
         xml.append("\t<zoom>").append(diagram.getZoom()).append("</zoom>\n");
         xml.append("\t<x>").append(diagram.getX()).append("</x>\n");
         xml.append("\t<y>").append(diagram.getY()).append("</y>\n");
-
         appendColor(xml, "default_color", diagram.getDefaultColor());
-
         xml.append(tab(this.createXMLColor(diagram.getColor())));
         xml.append("\t<font_name>").append(escape(diagram.getFontName())).append("</font_name>\n");
         xml.append("\t<font_size>").append(diagram.getFontSize()).append("</font_size>\n");
-
-        final PersistentContext context = this.getCurrentContext(diagram);
-
+        final PersistentContext context = persistentXml.getCurrentContext(diagram);
         xml.append(tab(this.createXML(diagram.getDiagramContents(), context)));
         xml.append(tab(this.createXML(diagram.getChangeTrackingList())));
-
         xml.append("</diagram>\n");
-
         return xml.toString();
     }
 
@@ -229,7 +173,6 @@ public class PersistentXmlImpl extends Persistent {
 
     private String createXML(DBSetting dbSetting) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<dbsystem>").append(escape(dbSetting.getDbsystem())).append("</dbsystem>\n");
         xml.append("<server>").append(escape(dbSetting.getServer())).append("</server>\n");
         xml.append("<port>").append(dbSetting.getPort()).append("</port>\n");
@@ -239,13 +182,11 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("<use_default_driver>").append(dbSetting.isUseDefaultDriver()).append("</use_default_driver>\n");
         xml.append("<url>").append(escape(dbSetting.getUrl())).append("</url>\n");
         xml.append("<driver_class_name>").append(escape(dbSetting.getDriverClassName())).append("</driver_class_name>\n");
-
         return xml.toString();
     }
 
     private String createXML(PageSetting pageSetting) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<direction_horizontal>").append(pageSetting.isDirectionHorizontal()).append("</direction_horizontal>\n");
         xml.append("<scale>").append(pageSetting.getScale()).append("</scale>\n");
         xml.append("<paper_size>").append(escape(pageSetting.getPaperSize())).append("</paper_size>\n");
@@ -253,7 +194,6 @@ public class PersistentXmlImpl extends Persistent {
         xml.append("<left_margin>").append(pageSetting.getLeftMargin()).append("</left_margin>\n");
         xml.append("<bottom_margin>").append(pageSetting.getBottomMargin()).append("</bottom_margin>\n");
         xml.append("<right_margin>").append(pageSetting.getRightMargin()).append("</right_margin>\n");
-
         return xml.toString();
     }
 
@@ -261,7 +201,7 @@ public class PersistentXmlImpl extends Persistent {
         final StringBuilder xml = new StringBuilder();
 
         xml.append(this.createXML(diagramContents.getSettings(), context));
-        xml.append(this.createXML(diagramContents.getDictionary(), context));
+        xml.append(this.createXmlOfDictionary(diagramContents.getDictionary(), context));
         xml.append(this.createXML(diagramContents.getTablespaceSet(), context));
         xml.append(this.createXML(diagramContents.getContents(), context));
         xml.append(this.createXMLERModel(diagramContents.getModelSet(), context));
@@ -666,18 +606,12 @@ public class PersistentXmlImpl extends Persistent {
 
     private String createXML(ChangeTracking changeTracking) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<change_tracking>\n");
-
         xml.append("\t<updated_date>").append(DATE_FORMAT.format(changeTracking.getUpdatedDate())).append("</updated_date>\n");
         xml.append("\t<comment>").append(escape(changeTracking.getComment())).append("</comment>\n");
-
-        final PersistentContext context = this.getChangeTrackingContext(changeTracking);
-
+        final PersistentContext context = persistentXml.getChangeTrackingContext(changeTracking);
         xml.append(tab(this.createXML(changeTracking.getDiagramContents(), context)));
-
         xml.append("</change_tracking>\n");
-
         return xml.toString();
     }
 
@@ -1411,52 +1345,54 @@ public class PersistentXmlImpl extends Persistent {
         return xml.toString();
     }
 
-    private String createXML(Dictionary dictionary, PersistentContext context) {
+    // ===================================================================================
+    //                                                                          Dictionary
+    //                                                                          ==========
+    private String createXmlOfDictionary(Dictionary dictionary, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<dictionary>\n");
-
         for (final Word word : dictionary.getWordList()) {
-            xml.append(tab(this.createXML(word, context)));
+            xml.append(tab(this.createXmlOfWord(word, context)));
         }
-
         xml.append("</dictionary>\n");
-
         return xml.toString();
     }
 
-    private String createXML(Word word, PersistentContext context) {
+    // ===================================================================================
+    //                                                                               Word
+    //                                                                              ======
+    private String createXmlOfWord(Word word, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<word>\n");
-
         if (context != null) {
             xml.append("\t<id>").append(context.wordMap.get(word)).append("</id>\n");
         }
-
         xml.append("\t<length>").append(word.getTypeData().getLength()).append("</length>\n");
         xml.append("\t<decimal>").append(word.getTypeData().getDecimal()).append("</decimal>\n");
-
         final Integer arrayDimension = word.getTypeData().getArrayDimension();
         xml.append("\t<array>").append(word.getTypeData().isArray()).append("</array>\n");
         xml.append("\t<array_dimension>").append(arrayDimension).append("</array_dimension>\n");
-
         xml.append("\t<unsigned>").append(word.getTypeData().isUnsigned()).append("</unsigned>\n");
         xml.append("\t<args>").append(escape(word.getTypeData().getArgs())).append("</args>\n");
-
         xml.append("\t<description>").append(escape(word.getDescription())).append("</description>\n");
         xml.append("\t<logical_name>").append(escape(word.getLogicalName())).append("</logical_name>\n");
         xml.append("\t<physical_name>").append(escape(word.getPhysicalName())).append("</physical_name>\n");
-
         String type = "";
         if (word.getType() != null) {
             type = word.getType().getId();
         }
         xml.append("\t<type>").append(type).append("</type>\n");
-
         xml.append("</word>\n");
-
         return xml.toString();
+    }
+
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
+    private static String tab(String str) {
+        str = str.replaceAll("\n\t", "\n\t\t");
+        str = str.replaceAll("\n<", "\n\t<");
+        return "\t" + str;
     }
 
     public static String escape(String s) {
@@ -1487,7 +1423,7 @@ public class PersistentXmlImpl extends Persistent {
         // references.
         // The first five are defined by default for all XML documents.
         // The next three (#xD, #xA, #x9) are encoded to avoid them
-        // being converted to spaces on deserialization
+        // being converted to spaces on de-serialization
         switch (c) {
         case '<':
             return "lt"; //$NON-NLS-1$
@@ -1507,14 +1443,5 @@ public class PersistentXmlImpl extends Persistent {
             return "#x09"; //$NON-NLS-1$
         }
         return null;
-    }
-
-    // ===================================================================================
-    //                                                                               Load
-    //                                                                              ======
-    @Override
-    public ERDiagram load(InputStream in) throws Exception {
-        final XMLLoader loader = new XMLLoader();
-        return loader.load(in);
     }
 }

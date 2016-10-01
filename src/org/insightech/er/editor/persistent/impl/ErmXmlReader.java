@@ -2,6 +2,7 @@ package org.insightech.er.editor.persistent.impl;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,12 +85,14 @@ import org.w3c.dom.NodeList;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class XMLLoader {
+public class ErmXmlReader {
 
-    private ERDiagram diagram;
-    private String database;
+    protected static final DateFormat DATE_FORMAT = PersistentXml.DATE_FORMAT;
 
-    private class LoadContext {
+    protected ERDiagram diagram;
+    protected String database;
+
+    protected class LoadContext {
 
         private final Map<String, NodeElement> nodeElementMap;
         private final Map<String, NormalColumn> columnMap;
@@ -207,7 +210,7 @@ public class XMLLoader {
         }
     }
 
-    public ERDiagram load(InputStream in) throws Exception {
+    public ERDiagram read(InputStream in) throws Exception {
         final DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         final Document document = parser.parse(in);
         Node root = document.getFirstChild();
@@ -344,22 +347,16 @@ public class XMLLoader {
 
     private Date getDateValue(Element element, String tagname) {
         final NodeList nodeList = element.getElementsByTagName(tagname);
-
         if (nodeList.getLength() == 0) {
             return null;
         }
-
         final Node node = nodeList.item(0);
-
         if (node.getFirstChild() == null) {
             return null;
         }
-
         final String value = node.getFirstChild().getNodeValue();
-
         try {
-            return PersistentXmlImpl.DATE_FORMAT.parse(value);
-
+            return DATE_FORMAT.parse(value);
         } catch (final ParseException e) {
             return null;
         }

@@ -17,7 +17,7 @@
 	</extension>
 
 	<extension point="org.eclipse.ui.preferencePages">
-		<page class="org.insightech.er.preference.PreferencePage"
+		<page class="org.insightech.er.preference.PreferenceTopPage"
 			id="org.dbflute.erflute.page"
 			name="%plugin.name"/>
 		<page category="org.dbflute.erflute.page"

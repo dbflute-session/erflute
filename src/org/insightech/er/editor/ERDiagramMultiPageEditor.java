@@ -104,7 +104,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
                 file.refreshLocal(IResource.DEPTH_ONE, new NullProgressMonitor());
             }
             final InputStream in = file.getContents();
-            this.diagram = persistent.load(in);
+            this.diagram = persistent.read(in);
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
@@ -296,7 +296,7 @@ public class ERDiagramMultiPageEditor extends MultiPageEditorPart {
         try {
             monitor.setTaskName("create stream...");
             diagram.getDiagramContents().getSettings().getModelProperties().setUpdatedDate(new Date());
-            final InputStream source = persistent.createInputStream(this.diagram);
+            final InputStream source = persistent.write(this.diagram);
             if (!file.exists()) {
                 file.create(source, true, monitor);
             } else {

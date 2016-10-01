@@ -23,7 +23,7 @@ import org.insightech.er.editor.view.dialog.group.GroupManageDialog;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class PreferencePage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
+public class PreferenceTopPage extends org.eclipse.jface.preference.PreferencePage implements IWorkbenchPreferencePage {
 
     @Override
     protected Control createContents(Composite parent) {

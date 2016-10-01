@@ -97,7 +97,7 @@ public class ImportFromFileAction extends AbstractImportAction {
                 in = file.getContents();
             }
 
-            this.loadedDiagram = persistent.load(in);
+            this.loadedDiagram = persistent.read(in);
 
         } finally {
             in.close();

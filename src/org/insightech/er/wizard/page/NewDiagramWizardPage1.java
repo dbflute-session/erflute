@@ -74,7 +74,7 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
     protected InputStream getInitialContents() {
         final Persistent persistent = Persistent.getInstance();
         try {
-            return persistent.createInputStream(this.diagram);
+            return persistent.write(this.diagram);
         } catch (final IOException e) {
             Activator.showExceptionDialog(e);
         }

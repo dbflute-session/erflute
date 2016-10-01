@@ -16,62 +16,59 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTabl
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceProperties;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public interface DBManager {
 
-    public static final int SUPPORT_AUTO_INCREMENT = 0;
+    int SUPPORT_AUTO_INCREMENT = 0;
+    int SUPPORT_AUTO_INCREMENT_SETTING = 1;
+    int SUPPORT_DESC_INDEX = 2;
+    int SUPPORT_FULLTEXT_INDEX = 3;
+    int SUPPORT_SCHEMA = 4;
+    int SUPPORT_SEQUENCE = 5;
 
-    public static final int SUPPORT_AUTO_INCREMENT_SETTING = 1;
+    String getId();
 
-    public static final int SUPPORT_DESC_INDEX = 2;
+    String getURL(String serverName, String dbName, int port);
 
-    public static final int SUPPORT_FULLTEXT_INDEX = 3;
+    int getDefaultPort();
 
-    public static final int SUPPORT_SCHEMA = 4;
+    String getDriverClassName();
 
-    public static final int SUPPORT_SEQUENCE = 5;
+    Class<Driver> getDriverClass(String driverClassName);
 
-    public String getId();
+    SqlTypeManager getSqlTypeManager();
 
-    public String getURL(String serverName, String dbName, int port);
+    TableProperties createTableProperties(TableProperties tableProperties);
 
-    public int getDefaultPort();
+    TablespaceProperties createTablespaceProperties();
 
-    public String getDriverClassName();
+    TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties);
 
-    public Class<Driver> getDriverClass(String driverClassName);
+    DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon);
 
-    public SqlTypeManager getSqlTypeManager();
+    boolean isSupported(int support);
 
-    public TableProperties createTableProperties(TableProperties tableProperties);
+    boolean doesNeedURLDatabaseName();
 
-    public TablespaceProperties createTablespaceProperties();
+    boolean doesNeedURLServerName();
 
-    public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties);
+    boolean isReservedWord(String str);
 
-    public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon);
+    List<String> getIndexTypeList(ERTable table);
 
-    public boolean isSupported(int support);
+    PreImportFromDBManager getPreTableImportManager();
 
-    public boolean doesNeedURLDatabaseName();
+    ImportFromDBManager getTableImportManager();
 
-    public boolean doesNeedURLServerName();
+    PreTableExportManager getPreTableExportManager();
 
-    public boolean isReservedWord(String str);
+    String[] getCurrentTimeValue();
 
-    public List<String> getIndexTypeList(ERTable table);
+    List<String> getImportSchemaList(Connection con) throws SQLException;
 
-    public PreImportFromDBManager getPreTableImportManager();
+    List<String> getSystemSchemaList();
 
-    public ImportFromDBManager getTableImportManager();
-
-    public PreTableExportManager getPreTableExportManager();
-
-    public String[] getCurrentTimeValue();
-
-    public List<String> getImportSchemaList(Connection con) throws SQLException;
-
-    public List<String> getSystemSchemaList();
-
-    public BigDecimal getSequenceMaxValue();
-
+    BigDecimal getSequenceMaxValue();
 }

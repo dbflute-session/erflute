@@ -16,27 +16,22 @@ import org.insightech.er.db.sqltype.SqlType.TypeKey;
 
 /**
  * #willdelete
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class SqlTypeFactory {
 
     public static void load() throws IOException, ClassNotFoundException {
-        final InputStream in = SqlTypeFactory.class.getResourceAsStream("/SqlType.xls");
+        final InputStream ins = SqlTypeFactory.class.getResourceAsStream("/SqlType.xls");
         try {
-            final HSSFWorkbook workBook = POIUtils.readExcelBook(in);
+            final HSSFWorkbook workBook = POIUtils.readExcelBook(ins);
             final HSSFSheet sheet = workBook.getSheetAt(0);
             final Map<String, Map<SqlType, String>> dbAliasMap = new HashMap<String, Map<SqlType, String>>();
             final Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<String, Map<TypeKey, SqlType>>();
             final HSSFRow headerRow = sheet.getRow(0);
             for (int colNum = 4; colNum < headerRow.getLastCellNum(); colNum++) {
                 final String dbId = POIUtils.getCellValue(sheet, 0, colNum);
-
-                final Map<SqlType, String> aliasMap = new LinkedHashMap<SqlType, String>();
-                dbAliasMap.put(dbId, aliasMap);
-
-                final Map<TypeKey, SqlType> sqlTypeMap = new LinkedHashMap<TypeKey, SqlType>();
-                dbSqlTypeMap.put(dbId, sqlTypeMap);
+                dbAliasMap.put(dbId, new LinkedHashMap<SqlType, String>());
+                dbSqlTypeMap.put(dbId, new LinkedHashMap<TypeKey, SqlType>());
             }
 
             // #point ここでめっちゃセットしてる (その後、さらに初期化)
@@ -44,40 +39,30 @@ public class SqlTypeFactory {
 
             for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
                 final HSSFRow row = sheet.getRow(rowNum);
-
                 final String sqlTypeId = POIUtils.getCellValue(sheet, rowNum, 0);
                 if (Check.isEmpty(sqlTypeId)) {
                     break;
                 }
-                final Class javaClass = Class.forName(POIUtils.getCellValue(sheet, rowNum, 1));
+                final Class<?> javaClass = Class.forName(POIUtils.getCellValue(sheet, rowNum, 1));
                 final boolean needArgs = POIUtils.getBooleanCellValue(sheet, rowNum, 2);
                 final boolean fullTextIndexable = POIUtils.getBooleanCellValue(sheet, rowNum, 3);
-
                 final SqlType sqlType = new SqlType(sqlTypeId, javaClass, needArgs, fullTextIndexable);
-
                 for (int colNum = 4; colNum < row.getLastCellNum(); colNum++) {
-
                     String dbId = POIUtils.getCellValue(sheet, 0, colNum);
-
                     if (Check.isEmpty(dbId)) {
                         dbId = POIUtils.getCellValue(sheet, 0, colNum - 1);
                         final String key = POIUtils.getCellValue(sheet, rowNum, colNum);
                         if (!Check.isEmpty(key)) {
                             sqlType.addToSqlTypeMap(key, dbId);
                         }
-
                     } else {
                         final Map<SqlType, String> aliasMap = dbAliasMap.get(dbId);
-
                         if (POIUtils.getCellColor(sheet, rowNum, colNum) != HSSFColor.RED.index) {
                             String alias = POIUtils.getCellValue(sheet, rowNum, colNum);
-
                             if (Check.isEmpty(alias)) {
                                 alias = sqlTypeId;
                             }
-
                             aliasMap.put(sqlType, alias);
-
                             if (POIUtils.getCellColor(sheet, rowNum, colNum) == HSSFColor.SKY_BLUE.index) {
                                 sqlType.addToSqlTypeMap(alias, dbId);
                             }
@@ -85,11 +70,9 @@ public class SqlTypeFactory {
                     }
                 }
             }
-
         } finally {
-            in.close();
+            ins.close();
         }
-
     }
 
     public static void main(String[] args) {

@@ -16,12 +16,13 @@ import org.insightech.er.db.impl.sqlserver2008.SqlServer2008DBManager;
 import org.insightech.er.db.impl.standard_sql.StandardSQLDBManager;
 import org.insightech.er.editor.model.ERDiagram;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class DBManagerFactory {
 
     private static final List<DBManager> DB_LIST = new ArrayList<DBManager>();
-
     private static final List<String> DB_ID_LIST = new ArrayList<String>();
-
     static {
         new StandardSQLDBManager();
         new DB2DBManager();
@@ -41,12 +42,11 @@ public class DBManagerFactory {
     }
 
     public static DBManager getDBManager(String database) {
-        for (DBManager manager : DB_LIST) {
+        for (final DBManager manager : DB_LIST) {
             if (manager.getId().equals(database)) {
                 return manager;
             }
         }
-
         throw new IllegalArgumentException(DisplayMessages.getMessage("error.database.is.not.supported") + database);
     }
 
@@ -57,5 +57,4 @@ public class DBManagerFactory {
     public static List<String> getAllDBList() {
         return DB_ID_LIST;
     }
-
 }

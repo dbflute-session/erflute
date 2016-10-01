@@ -22,106 +22,93 @@ import org.insightech.er.editor.model.settings.JDBCDriverSetting;
 import org.insightech.er.preference.PreferenceInitializer;
 import org.insightech.er.preference.jdbc.JDBCPathDialog;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public abstract class DBManagerBase implements DBManager {
 
-    private Set<String> reservedWords = new HashSet<String>();
+    private final Set<String> reservedWords;
 
     public DBManagerBase() {
         DBManagerFactory.addDB(this);
-
         this.reservedWords = this.getReservedWords();
     }
 
+    @Override
     public String getURL(String serverName, String dbName, int port) {
         String temp = serverName.replaceAll("\\\\", "\\\\\\\\");
         String url = this.getURL().replaceAll("<SERVER NAME>", temp);
         url = url.replaceAll("<PORT>", String.valueOf(port));
-
         temp = dbName.replaceAll("\\\\", "\\\\\\\\");
         url = url.replaceAll("<DB NAME>", temp);
-
         return url;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class<Driver> getDriverClass(String driverClassName) {
         String path = null;
-        Class clazz = null;
-
+        Class<Driver> clazz = null;
         try {
             if (driverClassName.equals("sun.jdbc.odbc.JdbcOdbcDriver")) {
                 return (Class<Driver>) Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-
             } else {
                 path = PreferenceInitializer.getJDBCDriverPath(this.getId(), driverClassName);
-                ClassLoader loader = this.getClassLoader(path);
-                clazz = loader.loadClass(driverClassName);
+                final ClassLoader loader = this.getClassLoader(path);
+                clazz = (Class<Driver>) loader.loadClass(driverClassName);
             }
-
-        } catch (Exception e) {
-            JDBCPathDialog dialog =
+        } catch (final Exception e) {
+            final JDBCPathDialog dialog =
                     new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getId(), driverClassName,
                             path, new ArrayList<JDBCDriverSetting>(), false);
-
             if (dialog.open() == IDialogConstants.OK_ID) {
-                JDBCDriverSetting newDriverSetting = new JDBCDriverSetting(this.getId(), dialog.getDriverClassName(), dialog.getPath());
-
-                List<JDBCDriverSetting> driverSettingList = PreferenceInitializer.getJDBCDriverSettingList();
-
+                final JDBCDriverSetting newDriverSetting =
+                        new JDBCDriverSetting(this.getId(), dialog.getDriverClassName(), dialog.getPath());
+                final List<JDBCDriverSetting> driverSettingList = PreferenceInitializer.getJDBCDriverSettingList();
                 if (driverSettingList.contains(newDriverSetting)) {
                     driverSettingList.remove(newDriverSetting);
                 }
                 driverSettingList.add(newDriverSetting);
-
                 PreferenceInitializer.saveJDBCDriverSettingList(driverSettingList);
-
                 clazz = this.getDriverClass(dialog.getDriverClassName());
             }
         }
-
         return clazz;
     }
 
     private ClassLoader getClassLoader(String uri) throws SQLException, MalformedURLException {
-
-        StringTokenizer tokenizer = new StringTokenizer(uri, ";");
-        int count = tokenizer.countTokens();
-
-        URL[] urls = new URL[count];
-
+        final StringTokenizer tokenizer = new StringTokenizer(uri, ";");
+        final int count = tokenizer.countTokens();
+        final URL[] urls = new URL[count];
         for (int i = 0; i < urls.length; i++) {
             urls[i] = new URL("file", "", tokenizer.nextToken());
         }
-
-        URLClassLoader loader = new URLClassLoader(urls, this.getClass().getClassLoader());
-
-        return loader;
+        return new URLClassLoader(urls, this.getClass().getClassLoader());
     }
 
-    abstract protected String getURL();
+    protected abstract String getURL();
 
-    abstract public String getDriverClassName();
+    @Override
+    public abstract String getDriverClassName();
 
     protected Set<String> getReservedWords() {
-        Set<String> reservedWords = new HashSet<String>();
-
-        ResourceBundle bundle = ResourceBundle.getBundle(this.getClass().getPackage().getName() + ".reserved_word");
-
-        Enumeration<String> keys = bundle.getKeys();
-
+        final Set<String> reservedWords = new HashSet<String>();
+        final ResourceBundle bundle = ResourceBundle.getBundle(this.getClass().getPackage().getName() + ".reserved_word");
+        final Enumeration<String> keys = bundle.getKeys();
         while (keys.hasMoreElements()) {
             reservedWords.add(keys.nextElement().toUpperCase());
         }
-
         return reservedWords;
     }
 
+    @Override
     public boolean isReservedWord(String str) {
         return reservedWords.contains(str.toUpperCase());
     }
 
+    @Override
     public boolean isSupported(int supportItem) {
-        int[] supportItems = this.getSupportItems();
+        final int[] supportItems = this.getSupportItems();
 
         for (int i = 0; i < supportItems.length; i++) {
             if (supportItems[i] == supportItem) {
@@ -132,44 +119,35 @@ public abstract class DBManagerBase implements DBManager {
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean doesNeedURLDatabaseName() {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean doesNeedURLServerName() {
         return true;
     }
 
     abstract protected int[] getSupportItems();
 
+    @Override
     public List<String> getImportSchemaList(Connection con) throws SQLException {
-        List<String> schemaList = new ArrayList<String>();
-
-        DatabaseMetaData metaData = con.getMetaData();
+        final List<String> schemaList = new ArrayList<String>();
+        final DatabaseMetaData metaData = con.getMetaData();
         try {
-            ResultSet rs = metaData.getSchemas();
-
+            final ResultSet rs = metaData.getSchemas();
             while (rs.next()) {
                 schemaList.add(rs.getString(1));
             }
-
-        } catch (SQLException e) {
+        } catch (final SQLException ignored) {
             // when schema is not supported
         }
-
         return schemaList;
     }
 
+    @Override
     public List<String> getSystemSchemaList() {
-        List<String> list = new ArrayList<String>();
-
-        return list;
+        return new ArrayList<String>();
     }
-
 }
