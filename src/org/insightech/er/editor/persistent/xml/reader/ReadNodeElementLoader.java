@@ -5,8 +5,6 @@ import org.insightech.er.editor.model.diagram_contents.element.connection.Commen
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
-import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
-import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -101,17 +99,6 @@ public class ReadNodeElementLoader {
             bendpoint.setRelative(this.getBooleanValue(bendPointElement, "relative"));
             connection.addBendpoint(i, bendpoint);
         }
-    }
-
-    // ===================================================================================
-    //                                                                               Note
-    //                                                                              ======
-    private Note loadNote(ERModel model, Element element, LoadContext context) {
-        final Note note = new Note();
-        note.setModel(model);
-        note.setText(this.getStringValue(element, "text"));
-        loadNodeElement(note, element, context);
-        return note;
     }
 
     // ===================================================================================
