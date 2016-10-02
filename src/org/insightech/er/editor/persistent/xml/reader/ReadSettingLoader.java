@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.util.NameValue;
 import org.insightech.er.db.impl.standard_sql.StandardSQLDBManager;
@@ -15,6 +16,8 @@ import org.insightech.er.editor.model.diagram_contents.element.node.model_proper
 import org.insightech.er.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.insightech.er.editor.model.settings.CategorySetting;
 import org.insightech.er.editor.model.settings.DBSetting;
+import org.insightech.er.editor.model.settings.Environment;
+import org.insightech.er.editor.model.settings.EnvironmentSetting;
 import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
@@ -26,27 +29,27 @@ import org.w3c.dom.NodeList;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadSettingLogic {
+public class ReadSettingLoader {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
-    protected final ReadDatabaseLogic databaseLogic;
-    protected final ReadTablePropertiesLogic tablePropertiesLogic;
-    protected final ReadNodeElementLogic nodeElementLogic;
+    protected final ReadDatabaseLoader databaseLoader;
+    protected final ReadTablePropertiesLoader tablePropertiesLoader;
+    protected final ReadNodeElementLoader nodeElementLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadSettingLogic(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDatabaseLogic databaseLogic,
-            ReadTablePropertiesLogic tablePropertiesLogic, ReadNodeElementLogic nodeElementLogic) {
+    public ReadSettingLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDatabaseLoader databaseLoader,
+            ReadTablePropertiesLoader tablePropertiesLoader, ReadNodeElementLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
-        this.databaseLogic = databaseLogic;
-        this.tablePropertiesLogic = tablePropertiesLogic;
-        this.nodeElementLogic = nodeElementLogic;
+        this.databaseLoader = databaseLoader;
+        this.tablePropertiesLoader = tablePropertiesLoader;
+        this.nodeElementLoader = nodeElementLoader;
     }
 
     // ===================================================================================
@@ -99,7 +102,7 @@ public class ReadSettingLogic {
         final Element element = this.getElement(parent, "settings");
 
         if (element != null) {
-            settings.setDatabase(databaseLogic.loadDatabase(element));
+            settings.setDatabase(databaseLoader.loadDatabase(element));
             settings.setCapital(this.getBooleanValue(element, "capital"));
             settings.setTableStyle(Format.null2blank(this.getStringValue(element, "table_style")));
 
@@ -130,7 +133,7 @@ public class ReadSettingLogic {
 
             final ModelProperties modelProperties = settings.getModelProperties();
             this.loadModelProperties(modelProperties, element);
-            tablePropertiesLogic.loadTableProperties((TableProperties) settings.getTableViewProperties(), element, context);
+            tablePropertiesLoader.loadTableProperties((TableProperties) settings.getTableViewProperties(), element, context);
         }
     }
 
@@ -193,7 +196,7 @@ public class ReadSettingLogic {
             }
             final Element categoryElement = (Element) nodeList.item(i);
             final Category category = new Category();
-            nodeElementLogic.loadNodeElement(category, categoryElement, context);
+            nodeElementLoader.loadNodeElement(category, categoryElement, context);
             category.setName(this.getStringValue(categoryElement, "name"));
             final boolean isSelected = this.getBooleanValue(categoryElement, "selected");
             final String[] keys = this.getTagValues(categoryElement, "node_element");
@@ -230,6 +233,36 @@ public class ReadSettingLogic {
                     new NameValue(this.getStringValue(propertyElement, "name"), this.getStringValue(propertyElement, "value"));
             modelProperties.addProperty(nameValue);
         }
+    }
+
+    // ===================================================================================
+    //                                                                         Environment
+    //                                                                         ===========
+    public void loadEnvironmentSetting(EnvironmentSetting environmentSetting, Element parent, LoadContext context) {
+        final Element settingElement = this.getElement(parent, "settings");
+        final Element element = this.getElement(settingElement, "environment_setting");
+        final List<Environment> environmentList = new ArrayList<Environment>();
+        if (element != null) {
+            final NodeList nodeList = element.getChildNodes();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
+                    continue;
+                }
+                final Element environmentElement = (Element) nodeList.item(i);
+                final String id = this.getStringValue(environmentElement, "id");
+                final String name = this.getStringValue(environmentElement, "name");
+                final Environment environment = new Environment(name);
+                environmentList.add(environment);
+                context.environmentMap.put(id, environment);
+            }
+        }
+        if (environmentList.isEmpty()) {
+            final String message = DisplayMessages.getMessage("label.default");
+            final Environment environment = new Environment(message);
+            environmentList.add(environment);
+            context.environmentMap.put("", environment);
+        }
+        environmentSetting.setEnvironments(environmentList);
     }
 
     // ===================================================================================

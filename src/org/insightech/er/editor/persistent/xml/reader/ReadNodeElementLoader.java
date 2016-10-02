@@ -5,6 +5,8 @@ import org.insightech.er.editor.model.diagram_contents.element.connection.Commen
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
+import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,7 +15,7 @@ import org.w3c.dom.NodeList;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadNodeElementLogic {
+public class ReadNodeElementLoader {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -24,7 +26,7 @@ public class ReadNodeElementLogic {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadNodeElementLogic(PersistentXml persistentXml, ReadAssistLogic assistLogic) {
+    public ReadNodeElementLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
     }
@@ -99,6 +101,17 @@ public class ReadNodeElementLogic {
             bendpoint.setRelative(this.getBooleanValue(bendPointElement, "relative"));
             connection.addBendpoint(i, bendpoint);
         }
+    }
+
+    // ===================================================================================
+    //                                                                               Note
+    //                                                                              ======
+    private Note loadNote(ERModel model, Element element, LoadContext context) {
+        final Note note = new Note();
+        note.setModel(model);
+        note.setText(this.getStringValue(element, "text"));
+        loadNodeElement(note, element, context);
+        return note;
     }
 
     // ===================================================================================

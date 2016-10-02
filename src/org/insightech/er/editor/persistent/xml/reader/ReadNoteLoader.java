@@ -1,37 +1,40 @@
 package org.insightech.er.editor.persistent.xml.reader;
 
-import org.insightech.er.db.DBManagerFactory;
+import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadDatabaseLogic {
+public class ReadNoteLoader {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
+    protected final ReadNodeElementLoader nodeElementLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadDatabaseLogic(PersistentXml persistentXml, ReadAssistLogic assistLogic) {
+    public ReadNoteLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadNodeElementLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
+        this.nodeElementLoader = nodeElementLoader;
     }
 
     // ===================================================================================
-    //                                                                            Database
-    //                                                                            ========
-    public String loadDatabase(Element settingsElement) {
-        String database = getStringValue(settingsElement, "database");
-        if (database == null) {
-            database = DBManagerFactory.getAllDBList().get(0);
-        }
-        return database;
+    //                                                                               Note
+    //                                                                              ======
+    public Note loadNote(ERModel model, Element element, LoadContext context) {
+        final Note note = new Note();
+        note.setModel(model);
+        note.setText(getStringValue(element, "text"));
+        nodeElementLoader.loadNodeElement(note, element, context);
+        return note;
     }
 
     // ===================================================================================
