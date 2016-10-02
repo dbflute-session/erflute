@@ -22,6 +22,7 @@ import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnG
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.insightech.er.editor.model.settings.Environment;
 import org.insightech.er.editor.persistent.Persistent;
+import org.insightech.er.editor.persistent.xml.reader.ErmXmlReader;
 import org.insightech.er.editor.persistent.xml.writer.ErmXmlWriter;
 
 /**

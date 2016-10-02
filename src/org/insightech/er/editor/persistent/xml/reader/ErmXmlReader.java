@@ -1,4 +1,4 @@
-package org.insightech.er.editor.persistent.xml;
+package org.insightech.er.editor.persistent.xml.reader;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -6,10 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -75,6 +72,7 @@ import org.insightech.er.editor.model.settings.EnvironmentSetting;
 import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
+import org.insightech.er.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -85,132 +83,23 @@ import org.w3c.dom.NodeList;
  */
 public class ErmXmlReader {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     protected static final DateFormat DATE_FORMAT = PersistentXml.DATE_FORMAT;
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     protected ERDiagram diagram;
     protected String database;
 
-    protected class LoadContext {
-
-        private final Map<String, NodeElement> nodeElementMap;
-        private final Map<String, NormalColumn> columnMap;
-        private final Map<String, ComplexUniqueKey> complexUniqueKeyMap;
-        private final Map<NormalColumn, String[]> columnRelationMap;
-        private final Map<NormalColumn, String[]> columnReferencedColumnMap;
-        private final Map<String, ColumnGroup> columnGroupMap;
-        private final Map<String, ERModel> ermodelMap;
-        private final Map<Relationship, String> referencedColumnMap;
-        private final Map<Relationship, String> referencedComplexUniqueKeyMap;
-        private final Map<ConnectionElement, String> connectionSourceMap;
-        private final Map<ConnectionElement, String> connectionTargetMap;
-        private final Map<String, ConnectionElement> connectionMap;
-        private final Map<String, Word> wordMap;
-        private final Map<String, Tablespace> tablespaceMap;
-        private final Map<String, Environment> environmentMap;
-        private final Map<UniqueWord, Word> uniqueWordMap;
-        private final Dictionary dictionary;
-
-        private LoadContext(Dictionary dictionary) {
-            this.nodeElementMap = new HashMap<String, NodeElement>();
-            this.columnMap = new HashMap<String, NormalColumn>();
-            this.complexUniqueKeyMap = new HashMap<String, ComplexUniqueKey>();
-            this.columnRelationMap = new HashMap<NormalColumn, String[]>();
-            this.columnReferencedColumnMap = new HashMap<NormalColumn, String[]>();
-            this.ermodelMap = new HashMap<String, ERModel>();
-            this.columnGroupMap = new HashMap<String, ColumnGroup>();
-            this.referencedColumnMap = new HashMap<Relationship, String>();
-            this.referencedComplexUniqueKeyMap = new HashMap<Relationship, String>();
-            this.connectionMap = new HashMap<String, ConnectionElement>();
-            this.connectionSourceMap = new HashMap<ConnectionElement, String>();
-            this.connectionTargetMap = new HashMap<ConnectionElement, String>();
-            this.wordMap = new HashMap<String, Word>();
-            this.tablespaceMap = new HashMap<String, Tablespace>();
-            this.environmentMap = new HashMap<String, Environment>();
-            this.uniqueWordMap = new HashMap<UniqueWord, Word>();
-
-            this.dictionary = dictionary;
-            this.dictionary.clear();
-        }
-
-        private void resolve() {
-            for (final ConnectionElement connection : this.connectionSourceMap.keySet()) {
-                final String id = this.connectionSourceMap.get(connection);
-                final NodeElement nodeElement = this.nodeElementMap.get(id);
-                if (nodeElement == null) {
-                    System.out.println("error");
-                }
-                connection.setSource(nodeElement);
-            }
-
-            for (final ConnectionElement connection : this.connectionTargetMap.keySet()) {
-                final String id = this.connectionTargetMap.get(connection);
-                final NodeElement nodeElement = this.nodeElementMap.get(id);
-                if (nodeElement == null) {
-                    System.out.println("error");
-                }
-                connection.setTarget(nodeElement);
-            }
-
-            for (final Relationship relation : this.referencedColumnMap.keySet()) {
-                final String id = this.referencedColumnMap.get(relation);
-                final NormalColumn column = this.columnMap.get(id);
-                if (column == null) {
-                    System.out.println("error");
-                }
-                relation.setReferencedColumn(column);
-            }
-
-            for (final Relationship relation : this.referencedComplexUniqueKeyMap.keySet()) {
-                final String id = this.referencedComplexUniqueKeyMap.get(relation);
-                final ComplexUniqueKey complexUniqueKey = this.complexUniqueKeyMap.get(id);
-                relation.setReferencedComplexUniqueKey(complexUniqueKey);
-            }
-
-            final Set<NormalColumn> foreignKeyColumnSet = this.columnReferencedColumnMap.keySet();
-            while (!foreignKeyColumnSet.isEmpty()) {
-                final NormalColumn foreignKeyColumn = foreignKeyColumnSet.iterator().next();
-                reduce(foreignKeyColumnSet, foreignKeyColumn);
-            }
-        }
-
-        private void reduce(Set<NormalColumn> foreignKeyColumnSet, NormalColumn foreignKeyColumn) {
-            final String[] referencedColumnIds = this.columnReferencedColumnMap.get(foreignKeyColumn);
-            final String[] relationIds = this.columnRelationMap.get(foreignKeyColumn);
-            final List<NormalColumn> referencedColumnList = new ArrayList<NormalColumn>();
-            if (referencedColumnIds != null) {
-                for (final String referencedColumnId : referencedColumnIds) {
-                    try {
-                        Integer.parseInt(referencedColumnId);
-                        final NormalColumn referencedColumn = this.columnMap.get(referencedColumnId);
-                        referencedColumnList.add(referencedColumn);
-                        if (foreignKeyColumnSet.contains(referencedColumn)) {
-                            reduce(foreignKeyColumnSet, referencedColumn);
-                        }
-                    } catch (final NumberFormatException e) {}
-                }
-            }
-
-            if (relationIds != null) {
-                for (final String relationId : relationIds) {
-                    try {
-                        Integer.parseInt(relationId);
-                        final Relationship relation = (Relationship) this.connectionMap.get(relationId);
-                        for (final NormalColumn referencedColumn : referencedColumnList) {
-                            if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
-                                foreignKeyColumn.addReference(referencedColumn, relation);
-                                break;
-                            }
-                        }
-                    } catch (final NumberFormatException e) {}
-                }
-            }
-            foreignKeyColumnSet.remove(foreignKeyColumn);
-        }
-    }
-
-    public ERDiagram read(InputStream in) throws Exception {
+    // ===================================================================================
+    //                                                                               Read
+    //                                                                              ======
+    public ERDiagram read(InputStream ins) throws Exception {
         final DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        final Document document = parser.parse(in);
+        final Document document = parser.parse(ins);
         Node root = document.getFirstChild();
         while (root.getNodeType() == Node.COMMENT_NODE) {
             document.removeChild(root);
@@ -220,244 +109,111 @@ public class ErmXmlReader {
         return this.diagram;
     }
 
-    private String getStringValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return "";
-        }
-        return node.getFirstChild().getNodeValue();
-    }
-
-    private String[] getTagValues(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        final String[] values = new String[nodeList.getLength()];
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            final Node node = nodeList.item(i);
-            if (node.getFirstChild() != null) {
-                values[i] = node.getFirstChild().getNodeValue();
-            }
-        }
-        return values;
-    }
-
-    private boolean getBooleanValue(Element element, String tagname) {
-        return getBooleanValue(element, tagname, false);
-    }
-
-    private boolean getBooleanValue(Element element, String tagname, boolean defaultValue) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return defaultValue;
-        }
-        final Node node = nodeList.item(0);
-        final String value = node.getFirstChild().getNodeValue();
-        return Boolean.valueOf(value).booleanValue();
-    }
-
-    private int getIntValue(Element element, String tagname) {
-        return getIntValue(element, tagname, 0);
-    }
-
-    private int getIntValue(Element element, String tagname, int defaultValue) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return defaultValue;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return defaultValue;
-        }
-        final String value = node.getFirstChild().getNodeValue();
-        return Integer.valueOf(value).intValue();
-    }
-
-    private Integer getIntegerValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return null;
-        }
-        final String value = node.getFirstChild().getNodeValue();
-        try {
-            return Integer.valueOf(value);
-        } catch (final NumberFormatException e) {
-            return null;
-        }
-    }
-
-    private Long getLongValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-
-        final Node node = nodeList.item(0);
-
-        if (node.getFirstChild() == null) {
-            return null;
-        }
-
-        final String value = node.getFirstChild().getNodeValue();
-
-        try {
-            return Long.valueOf(value);
-
-        } catch (final NumberFormatException e) {
-            return null;
-        }
-    }
-
-    private BigDecimal getBigDecimalValue(Element element, String tagname) {
-        final String value = this.getStringValue(element, tagname);
-
-        try {
-            return new BigDecimal(value);
-        } catch (final Exception e) {}
-
-        return null;
-    }
-
-    private double getDoubleValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-
-        if (nodeList.getLength() == 0) {
-            return 0;
-        }
-
-        final Node node = nodeList.item(0);
-
-        if (node.getFirstChild() == null) {
-            return 0;
-        }
-
-        final String value = node.getFirstChild().getNodeValue();
-
-        return Double.valueOf(value).doubleValue();
-    }
-
-    private Date getDateValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return null;
-        }
-        final String value = node.getFirstChild().getNodeValue();
-        try {
-            return DATE_FORMAT.parse(value);
-        } catch (final ParseException e) {
-            return null;
-        }
-    }
-
-    private Element getElement(Element element, String tagname) {
-        final NodeList nodeList = element.getChildNodes();
-
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                final Element ele = (Element) nodeList.item(i);
-                if (ele.getTagName().equals(tagname)) {
-                    return ele;
-                }
-            }
-        }
-
-        return null;
-    }
-
     private void load(Element root) {
-        final Element settings = this.getElement(root, "settings");
-        this.database = this.loadDatabase(settings);
-
+        final Element settings = getElement(root, "settings");
+        this.database = loadDatabase(settings);
         this.diagram = new ERDiagram(this.database);
-
-        this.loadDBSetting(this.diagram, root);
-        this.loadPageSetting(this.diagram, root);
-
-        this.loadColor(this.diagram, root);
-        this.loadDefaultColor(this.diagram, root);
-        this.loadFont(this.diagram, root);
-
+        loadDBSetting(this.diagram, root);
+        loadPageSetting(this.diagram, root);
+        loadColor(this.diagram, root);
+        loadDefaultColor(this.diagram, root);
+        loadFont(this.diagram, root);
         final DiagramContents diagramContents = this.diagram.getDiagramContents();
-        this.loadDiagramContents(diagramContents, root);
-
+        loadDiagramContents(diagramContents, root);
         this.diagram.setCurrentCategory(null, this.getIntValue(root, "category_index"));
         this.diagram.setCurrentErmodel(null, this.getStringValue(root, "current_ermodel"));
-
         final double zoom = this.getDoubleValue(root, "zoom");
         this.diagram.setZoom(zoom);
-
         final int x = this.getIntValue(root, "x");
         final int y = this.getIntValue(root, "y");
         this.diagram.setLocation(x, y);
     }
 
+    // ===================================================================================
+    //                                                                            Database
+    //                                                                            ========
     private String loadDatabase(Element settingsElement) {
-        String database = this.getStringValue(settingsElement, "database");
+        String database = getStringValue(settingsElement, "database");
         if (database == null) {
             database = DBManagerFactory.getAllDBList().get(0);
         }
-
         return database;
     }
 
+    // ===================================================================================
+    //                                                                          DB Setting
+    //                                                                          ==========
+    private void loadDBSetting(ERDiagram diagram, Element element) {
+        final Element dbSettingElement = getElement(element, "dbsetting");
+        if (dbSettingElement != null) {
+            final String dbsystem = getStringValue(element, "dbsystem");
+            final String server = getStringValue(element, "server");
+            final int port = getIntValue(element, "port");
+            final String database = getStringValue(element, "database");
+            final String user = getStringValue(element, "user");
+            final String password = getStringValue(element, "password");
+            boolean useDefaultDriver = getBooleanValue(element, "use_default_driver", true);
+            if (StandardSQLDBManager.ID.equals(dbsystem)) {
+                useDefaultDriver = false;
+            }
+            final String url = getStringValue(element, "url");
+            final String driverClassName = getStringValue(element, "driver_class_name");
+            final DBSetting dbSetting =
+                    new DBSetting(dbsystem, server, port, database, user, password, useDefaultDriver, url, driverClassName);
+            diagram.setDbSetting(dbSetting);
+        }
+    }
+
+    // ===================================================================================
+    //                                                                        Page Setting
+    //                                                                        ============
+    private void loadPageSetting(ERDiagram diagram, Element element) {
+        final Element dbSettingElement = this.getElement(element, "page_setting");
+        if (dbSettingElement != null) {
+            final boolean directionHorizontal = this.getBooleanValue(element, "direction_horizontal");
+            final int scale = this.getIntValue(element, "scale");
+            final String paperSize = this.getStringValue(element, "paper_size");
+            final int topMargin = this.getIntValue(element, "top_margin");
+            final int leftMargin = this.getIntValue(element, "left_margin");
+            final int bottomMargin = this.getIntValue(element, "bottom_margin");
+            final int rightMargin = this.getIntValue(element, "right_margin");
+            final PageSetting pageSetting =
+                    new PageSetting(directionHorizontal, scale, paperSize, topMargin, rightMargin, bottomMargin, leftMargin);
+            diagram.setPageSetting(pageSetting);
+        }
+    }
+
+    // ===================================================================================
+    //                                                                    Diagram Contents
+    //                                                                    ================
     private void loadDiagramContents(DiagramContents diagramContents, Element parent) {
         final Dictionary dictionary = diagramContents.getDictionary();
-
         final LoadContext context = new LoadContext(dictionary);
-
         this.loadDictionary(dictionary, parent, context);
-
         final Settings settings = diagramContents.getSettings();
         this.loadEnvironmentSetting(settings.getEnvironmentSetting(), parent, context);
-
         this.loadTablespaceSet(diagramContents.getTablespaceSet(), parent, context);
-
         final GroupSet columnGroups = diagramContents.getGroups();
         columnGroups.clear();
-
         this.loadColumnGroups(columnGroups, parent, context);
         this.loadContents(diagramContents.getContents(), parent, context);
         diagramContents.getModelSet().addModels(this.loadErmodels(parent, context));
-        // #deleted test data
-        //this.loadTestDataList(diagramContents.getTestDataList(), parent, context);
         this.loadSequenceSet(diagramContents.getSequenceSet(), parent);
         this.loadTriggerSet(diagramContents.getTriggerSet(), parent);
-
         this.loadSettings(settings, parent, context);
-
         context.resolve();
     }
 
     private List<ERModel> loadErmodels(Element parent, LoadContext context) {
         final List<ERModel> results = new ArrayList<ERModel>();
-
         final Element element = this.getElement(parent, "ermodels");
-
         if (element != null) {
             final NodeList nodeList = element.getElementsByTagName("ermodel");
-
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element modelElement = (Element) nodeList.item(i);
-
                 final ERModel model = new ERModel(diagram);
                 model.setName(getStringValue(modelElement, "name"));
                 loadColor(model, modelElement);
-
                 final List<ERVirtualTable> tables = new ArrayList<ERVirtualTable>();
                 final Element vtables = getElement(modelElement, "vtables");
                 if (vtables != null) {
@@ -468,7 +224,6 @@ public class ErmXmlReader {
                     }
                 }
                 model.setTables(tables);
-
                 final List<Note> notes = new ArrayList<Note>();
                 final Element elNotes = getElement(modelElement, "notes");
                 if (elNotes != null) {
@@ -476,7 +231,6 @@ public class ErmXmlReader {
                     for (int k = 0; k < noteEls.getLength(); k++) {
                         final Element noteElement = (Element) noteEls.item(k);
                         final Note note = loadNote(model, noteElement, context);
-
                         final String id = this.getStringValue(noteElement, "id");
                         context.nodeElementMap.put(id, note);
                         notes.add(note);
@@ -484,7 +238,6 @@ public class ErmXmlReader {
                     }
                 }
                 model.setNotes(notes);
-
                 final List<VGroup> groups = new ArrayList<VGroup>();
                 final Element elGroups = getElement(modelElement, "groups");
                 if (elGroups != null) {
@@ -492,14 +245,12 @@ public class ErmXmlReader {
                     for (int k = 0; k < groupEls.getLength(); k++) {
                         final Element groupElement = (Element) groupEls.item(k);
                         final VGroup group = loadGroup(model, groupElement, context);
-
                         final String id = this.getStringValue(groupElement, "id");
                         context.nodeElementMap.put(id, group);
                         groups.add(group);
                     }
                 }
                 model.setGroups(groups);
-
                 final String id = this.getStringValue(modelElement, "id");
                 context.ermodelMap.put(id, model);
                 results.add(model);
@@ -1203,17 +954,6 @@ public class ErmXmlReader {
         nodeElement.setLocation(new Location(x, y, width, height));
     }
 
-    private void loadFont(ViewableModel viewableModel, Element element) {
-        if (getElement(element, "font_name") == null) {
-            return;
-        }
-        final String fontName = this.getStringValue(element, "font_name");
-        final int fontSize = this.getIntValue(element, "font_size");
-
-        viewableModel.setFontName(fontName);
-        viewableModel.setFontSize(fontSize);
-    }
-
     private void loadContents(NodeSet contents, Element parent, LoadContext context) {
         final Element element = this.getElement(parent, "contents");
 
@@ -1575,46 +1315,157 @@ public class ErmXmlReader {
         }
     }
 
-    private void loadDBSetting(ERDiagram diagram, Element element) {
-        final Element dbSettingElement = this.getElement(element, "dbsetting");
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
+    private String getStringValue(Element element, String tagname) {
+        final NodeList nodeList = element.getElementsByTagName(tagname);
+        if (nodeList.getLength() == 0) {
+            return null;
+        }
+        final Node node = nodeList.item(0);
+        if (node.getFirstChild() == null) {
+            return "";
+        }
+        return node.getFirstChild().getNodeValue();
+    }
 
-        if (dbSettingElement != null) {
-            final String dbsystem = this.getStringValue(element, "dbsystem");
-            final String server = this.getStringValue(element, "server");
-            final int port = this.getIntValue(element, "port");
-            final String database = this.getStringValue(element, "database");
-            final String user = this.getStringValue(element, "user");
-            final String password = this.getStringValue(element, "password");
-            boolean useDefaultDriver = this.getBooleanValue(element, "use_default_driver", true);
-            if (StandardSQLDBManager.ID.equals(dbsystem)) {
-                useDefaultDriver = false;
-            }
+    private boolean getBooleanValue(Element element, String tagname) {
+        return getBooleanValue(element, tagname, false);
+    }
 
-            final String url = this.getStringValue(element, "url");
-            final String driverClassName = this.getStringValue(element, "driver_class_name");
+    private boolean getBooleanValue(Element element, String tagname, boolean defaultValue) {
+        final NodeList nodeList = element.getElementsByTagName(tagname);
+        if (nodeList.getLength() == 0) {
+            return defaultValue;
+        }
+        final Node node = nodeList.item(0);
+        final String value = node.getFirstChild().getNodeValue();
+        return Boolean.valueOf(value).booleanValue();
+    }
 
-            final DBSetting dbSetting =
-                    new DBSetting(dbsystem, server, port, database, user, password, useDefaultDriver, url, driverClassName);
-            diagram.setDbSetting(dbSetting);
+    private int getIntValue(Element element, String tagname) {
+        return getIntValue(element, tagname, 0);
+    }
+
+    private int getIntValue(Element element, String tagname, int defaultValue) {
+        final NodeList nodeList = element.getElementsByTagName(tagname);
+        if (nodeList.getLength() == 0) {
+            return defaultValue;
+        }
+        final Node node = nodeList.item(0);
+        if (node.getFirstChild() == null) {
+            return defaultValue;
+        }
+        final String value = node.getFirstChild().getNodeValue();
+        return Integer.valueOf(value).intValue();
+    }
+
+    private Integer getIntegerValue(Element element, String tagname) {
+        final NodeList nodeList = element.getElementsByTagName(tagname);
+        if (nodeList.getLength() == 0) {
+            return null;
+        }
+        final Node node = nodeList.item(0);
+        if (node.getFirstChild() == null) {
+            return null;
+        }
+        final String value = node.getFirstChild().getNodeValue();
+        try {
+            return Integer.valueOf(value);
+        } catch (final NumberFormatException e) {
+            return null;
         }
     }
 
-    private void loadPageSetting(ERDiagram diagram, Element element) {
-        final Element dbSettingElement = this.getElement(element, "page_setting");
-
-        if (dbSettingElement != null) {
-            final boolean directionHorizontal = this.getBooleanValue(element, "direction_horizontal");
-            final int scale = this.getIntValue(element, "scale");
-            final String paperSize = this.getStringValue(element, "paper_size");
-            final int topMargin = this.getIntValue(element, "top_margin");
-            final int leftMargin = this.getIntValue(element, "left_margin");
-            final int bottomMargin = this.getIntValue(element, "bottom_margin");
-            final int rightMargin = this.getIntValue(element, "right_margin");
-
-            final PageSetting pageSetting =
-                    new PageSetting(directionHorizontal, scale, paperSize, topMargin, rightMargin, bottomMargin, leftMargin);
-            diagram.setPageSetting(pageSetting);
+    private Long getLongValue(Element element, String tagname) {
+        final NodeList nodeList = element.getElementsByTagName(tagname);
+        if (nodeList.getLength() == 0) {
+            return null;
         }
+        final Node node = nodeList.item(0);
+        if (node.getFirstChild() == null) {
+            return null;
+        }
+        final String value = node.getFirstChild().getNodeValue();
+        try {
+            return Long.valueOf(value);
+        } catch (final NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private BigDecimal getBigDecimalValue(Element element, String tagname) {
+        final String value = this.getStringValue(element, tagname);
+
+        try {
+            return new BigDecimal(value);
+        } catch (final Exception e) {}
+
+        return null;
+    }
+
+    private double getDoubleValue(Element element, String tagname) {
+        final NodeList nodeList = element.getElementsByTagName(tagname);
+
+        if (nodeList.getLength() == 0) {
+            return 0;
+        }
+
+        final Node node = nodeList.item(0);
+
+        if (node.getFirstChild() == null) {
+            return 0;
+        }
+
+        final String value = node.getFirstChild().getNodeValue();
+
+        return Double.valueOf(value).doubleValue();
+    }
+
+    private Date getDateValue(Element element, String tagname) {
+        final NodeList nodeList = element.getElementsByTagName(tagname);
+        if (nodeList.getLength() == 0) {
+            return null;
+        }
+        final Node node = nodeList.item(0);
+        if (node.getFirstChild() == null) {
+            return null;
+        }
+        final String value = node.getFirstChild().getNodeValue();
+        try {
+            return DATE_FORMAT.parse(value);
+        } catch (final ParseException e) {
+            return null;
+        }
+    }
+
+    private String[] getTagValues(Element element, String tagname) {
+        final NodeList nodeList = element.getElementsByTagName(tagname);
+        final String[] values = new String[nodeList.getLength()];
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            final Node node = nodeList.item(i);
+            if (node.getFirstChild() != null) {
+                values[i] = node.getFirstChild().getNodeValue();
+            }
+        }
+        return values;
+    }
+
+    private Element getElement(Element element, String tagname) {
+        final NodeList nodeList = element.getChildNodes();
+        if (nodeList.getLength() == 0) {
+            return null;
+        }
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                final Element ele = (Element) nodeList.item(i);
+                if (ele.getTagName().equals(tagname)) {
+                    return ele;
+                }
+            }
+        }
+        return null;
     }
 
     private void loadColor(ViewableModel model, Element element) {
@@ -1641,5 +1492,16 @@ public class ErmXmlReader {
         }
 
         diagram.setDefaultColor(rgb[0], rgb[1], rgb[2]);
+    }
+
+    private void loadFont(ViewableModel viewableModel, Element element) {
+        if (getElement(element, "font_name") == null) {
+            return;
+        }
+        final String fontName = this.getStringValue(element, "font_name");
+        final int fontSize = this.getIntValue(element, "font_size");
+
+        viewableModel.setFontName(fontName);
+        viewableModel.setFontSize(fontSize);
     }
 }
