@@ -1,0 +1,69 @@
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.dbflute.erflute.editor.controller.command.AbstractCommand;
+import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+
+public class DefaultLineCommand extends AbstractCommand {
+
+    private int sourceXp;
+
+    private int sourceYp;
+
+    private int targetXp;
+
+    private int targetYp;
+
+    private ConnectionElement connection;
+
+    private List<Bendpoint> oldBendpointList;
+
+    public DefaultLineCommand(ERDiagram diagram, ConnectionElement connection) {
+        if (connection instanceof Relationship) {
+            Relationship relation = (Relationship) connection;
+
+            this.sourceXp = relation.getSourceXp();
+            this.sourceYp = relation.getSourceYp();
+            this.targetXp = relation.getTargetXp();
+            this.targetYp = relation.getTargetYp();
+        }
+
+        this.connection = connection;
+        this.oldBendpointList = this.connection.getBendpoints();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doExecute() {
+        this.connection.setBendpoints(new ArrayList<Bendpoint>());
+        if (connection instanceof Relationship) {
+            Relationship relation = (Relationship) connection;
+
+            relation.setSourceLocationp(-1, -1);
+            relation.setTargetLocationp(-1, -1);
+            relation.setParentMove();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doUndo() {
+        this.connection.setBendpoints(this.oldBendpointList);
+        if (connection instanceof Relationship) {
+            Relationship relation = (Relationship) connection;
+
+            relation.setSourceLocationp(this.sourceXp, this.sourceYp);
+            relation.setTargetLocationp(this.targetXp, this.targetYp);
+            relation.setParentMove();
+        }
+    }
+}

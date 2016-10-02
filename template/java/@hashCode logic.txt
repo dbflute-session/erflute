@@ -1,1 +1,0 @@
-		result = prime * result + ((@physicalColumnName == null) ? 0 : @physicalColumnName.hashCode());

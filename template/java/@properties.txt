@@ -1,2 +1,0 @@
-	/** @logicalColumnName. */
-	private @type @physicalColumnName;
