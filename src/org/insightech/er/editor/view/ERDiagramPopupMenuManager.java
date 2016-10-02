@@ -50,7 +50,6 @@ import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToLog
 import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToPhysicalAction;
 import org.insightech.er.editor.view.action.printer.PageSettingAction;
 import org.insightech.er.editor.view.action.search.SearchAction;
-import org.insightech.er.editor.view.action.tracking.ChangeTrackingAction;
 
 /**
  * @author ermaster
@@ -186,21 +185,11 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
         exportMenu.add(this.getAction(ExportToDDLAction.ID));
         exportMenu.add(this.getAction(ExportToImageAction.ID));
-
-        // #deleted
-        //exportMenu.add(this.getAction(ExportToExcelAction.ID));
-        //exportMenu.add(this.getAction(ExportToHtmlAction.ID));
-        //exportMenu.add(this.getAction(ExportToDictionaryAction.ID));
-        //exportMenu.add(this.getAction(ExportToTranslationDictionaryAction.ID));
-        //exportMenu.add(this.getAction(ExportToTestDataAction.ID));
-        //exportMenu.add(this.getAction(ExportToJavaAction.ID));
-
         exportMenu.add(new GroupMarker("export"));
 
         this.add(exportMenu);
         this.add(new Separator());
         this.add(this.getAction(PageSettingAction.ID));
-        this.add(this.getAction(ChangeTrackingAction.ID));
 
         final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
         categoryMenu.add(this.getAction(CategoryManageAction.ID));

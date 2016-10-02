@@ -21,7 +21,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.Wo
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.insightech.er.editor.model.settings.Environment;
-import org.insightech.er.editor.model.tracking.ChangeTracking;
 import org.insightech.er.editor.persistent.Persistent;
 
 /**
@@ -112,10 +111,6 @@ public class PersistentXml extends Persistent {
 
     public PersistentContext getCurrentContext(ERDiagram diagram) {
         return this.getContext(diagram.getDiagramContents());
-    }
-
-    public PersistentContext getChangeTrackingContext(ChangeTracking changeTracking) {
-        return this.getContext(changeTracking.getDiagramContents());
     }
 
     // ===================================================================================

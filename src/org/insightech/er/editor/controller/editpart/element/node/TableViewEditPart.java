@@ -33,13 +33,11 @@ import org.insightech.er.editor.controller.editpolicy.element.node.table_view.Ta
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.TableView;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.tracking.UpdatedNodeElement;
 import org.insightech.er.editor.view.figure.anchor.XYChopboxAnchor;
 import org.insightech.er.editor.view.figure.table.TableFigure;
 import org.insightech.er.editor.view.figure.table.column.GroupColumnFigure;
@@ -99,56 +97,32 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             tableFigure.create(tableView.getColor());
             final ERDiagram diagram = this.getDiagram();
             tableFigure.setName(getTableViewName(tableView, diagram));
-
-            UpdatedNodeElement updated = null;
-            if (diagram.getChangeTrackingList().isCalculated()) {
-                updated = diagram.getChangeTrackingList().getUpdatedNodeElement(tableView);
-            }
-
             for (final Object child : this.getChildren()) {
                 if (child instanceof ColumnEditPart) {
                     final ColumnEditPart part = (ColumnEditPart) child;
-                    part.refreshTableColumns(updated);
+                    part.refreshTableColumns();
                 }
                 if (child instanceof IndexEditPart) {
                     final IndexEditPart part = (IndexEditPart) child;
-                    part.refreshTableColumns(updated);
+                    part.refreshTableColumns();
                 }
-                //				if (diagram.isShowMainColumn()) {
-                //				} else {
-                //					part.refreshTableColumns(updated);
-                //				}
+                //              if (diagram.isShowMainColumn()) {
+                //              } else {
+                //                  part.refreshTableColumns(updated);
+                //              }
             }
-
-            if (updated != null) {
-                ERTable table = null;
-                if (getModel() instanceof ERTable) {
-                    table = (ERTable) getModel();
-                }
-                if (getModel() instanceof ERVirtualTable) {
-                    table = ((ERVirtualTable) getModel()).getRawTable();
-                }
-
-                showRemovedColumns(diagram, table, tableFigure, updated.getRemovedColumns(), true);
-            }
-
             super.refreshVisuals();
-
             if (ERDiagramEditPart.isUpdateable()) {
                 this.getFigure().getUpdateManager().performValidation();
             }
-
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
-
     }
 
     public static void showRemovedColumns(ERDiagram diagram, ERTable table, TableFigure tableFigure, Collection<ERColumn> removedColumns,
             boolean isRemoved) {
-
         final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
-
         for (final ERColumn removedColumn : removedColumns) {
             if (removedColumn instanceof ColumnGroup) {
                 if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {

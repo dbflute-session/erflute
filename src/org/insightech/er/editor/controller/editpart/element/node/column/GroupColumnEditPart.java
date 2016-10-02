@@ -9,7 +9,6 @@ import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.tracking.UpdatedNodeElement;
 import org.insightech.er.editor.view.figure.table.TableFigure;
 import org.insightech.er.editor.view.figure.table.column.GroupColumnFigure;
 
@@ -19,45 +18,30 @@ public class GroupColumnEditPart extends ColumnEditPart {
 
     @Override
     protected IFigure createFigure() {
-        GroupColumnFigure figure = new GroupColumnFigure();
-        return figure;
+        return new GroupColumnFigure();
     }
 
     @Override
-    public void refreshTableColumns(UpdatedNodeElement updated) {
-        ERDiagram diagram = this.getDiagram();
-
-        GroupColumnFigure columnFigure = (GroupColumnFigure) this.getFigure();
-
-        TableViewEditPart parent = (TableViewEditPart) this.getParent();
+    public void refreshTableColumns() {
+        final ERDiagram diagram = this.getDiagram();
+        final GroupColumnFigure columnFigure = (GroupColumnFigure) this.getFigure();
+        final TableViewEditPart parent = (TableViewEditPart) this.getParent();
         parent.getContentPane().add(figure);
-
-        int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
-
-        ERColumn column = (ERColumn) this.getModel();
-
+        final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
+        final ERColumn column = (ERColumn) this.getModel();
         if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
-            TableFigure tableFigure = (TableFigure) parent.getFigure();
-
-            boolean isAdded = false;
-            boolean isUpdated = false;
-            if (updated != null) {
-                isAdded = updated.isAdded(column);
-                isUpdated = updated.isUpdated(column);
-            }
-
+            final TableFigure tableFigure = (TableFigure) parent.getFigure();
+            final boolean isAdded = false;
+            final boolean isUpdated = false;
             if ((notationLevel == Settings.NOTATION_LEVLE_KEY)) {
                 columnFigure.clearLabel();
                 return;
             }
-
             addGroupColumnFigure(diagram, tableFigure, columnFigure, column, isAdded, isUpdated, false);
-
             if (selected) {
                 columnFigure.setBackgroundColor(ColorConstants.titleBackground);
                 columnFigure.setForegroundColor(ColorConstants.titleForeground);
             }
-
         } else {
             columnFigure.clearLabel();
             return;
@@ -67,7 +51,7 @@ public class GroupColumnEditPart extends ColumnEditPart {
     public static void addGroupColumnFigure(ERDiagram diagram, TableFigure tableFigure, GroupColumnFigure columnFigure, ERColumn column,
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
 
-        ColumnGroup groupColumn = (ColumnGroup) column;
+        final ColumnGroup groupColumn = (ColumnGroup) column;
 
         tableFigure.addColumnGroup(columnFigure, diagram.getDiagramContents().getSettings().getViewMode(),
                 diagram.filter(groupColumn.getName()), isAdded, isUpdated, isRemoved);
@@ -78,10 +62,10 @@ public class GroupColumnEditPart extends ColumnEditPart {
      */
     @Override
     public void setSelected(int value) {
-        GroupColumnFigure figure = (GroupColumnFigure) this.getFigure();
+        final GroupColumnFigure figure = (GroupColumnFigure) this.getFigure();
 
         if (value != 0 && this.getParent() != null && this.getParent().getParent() != null) {
-            List selectedEditParts = this.getViewer().getSelectedEditParts();
+            final List selectedEditParts = this.getViewer().getSelectedEditParts();
 
             if (selectedEditParts != null && selectedEditParts.size() == 1) {
                 figure.setBackgroundColor(ColorConstants.titleBackground);

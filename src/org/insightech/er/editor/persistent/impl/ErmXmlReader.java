@@ -75,8 +75,6 @@ import org.insightech.er.editor.model.settings.EnvironmentSetting;
 import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.tracking.ChangeTracking;
-import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -406,8 +404,6 @@ public class ErmXmlReader {
         final int x = this.getIntValue(root, "x");
         final int y = this.getIntValue(root, "y");
         this.diagram.setLocation(x, y);
-
-        this.loadChangeTrackingList(this.diagram.getChangeTrackingList(), root);
     }
 
     private String loadDatabase(Element settingsElement) {
@@ -713,58 +709,21 @@ public class ErmXmlReader {
         return properties;
     }
 
-    private void loadChangeTrackingList(ChangeTrackingList changeTrackingList, Element parent) {
-        final Element element = this.getElement(parent, "change_tracking_list");
-
-        if (element != null) {
-            final NodeList nodeList = element.getElementsByTagName("change_tracking");
-
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                final Element changeTrackingElemnt = (Element) nodeList.item(i);
-                final ChangeTracking changeTracking = this.loadChangeTracking(changeTrackingElemnt);
-
-                changeTrackingList.addChangeTracking(changeTracking);
-            }
-        }
-    }
-
-    private ChangeTracking loadChangeTracking(Element element) {
-        final DiagramContents diagramContents = new DiagramContents();
-
-        loadDiagramContents(diagramContents, element);
-
-        final ChangeTracking changeTracking = new ChangeTracking(diagramContents);
-
-        changeTracking.setComment(this.getStringValue(element, "comment"));
-        changeTracking.setUpdatedDate(this.getDateValue(element, "updated_date"));
-
-        return changeTracking;
-    }
-
     private void loadColumnGroups(GroupSet columnGroups, Element parent, LoadContext context) {
-
         final Element element = this.getElement(parent, "column_groups");
-
         final NodeList nodeList = element.getElementsByTagName("column_group");
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             final Element columnGroupElement = (Element) nodeList.item(i);
-
             final ColumnGroup columnGroup = new ColumnGroup();
-
             columnGroup.setGroupName(this.getStringValue(columnGroupElement, "group_name"));
-
             final List<ERColumn> columns = this.loadColumns(columnGroupElement, context);
             for (final ERColumn column : columns) {
                 columnGroup.addColumn((NormalColumn) column);
             }
-
             columnGroups.add(columnGroup);
-
             final String id = this.getStringValue(columnGroupElement, "id");
             context.columnGroupMap.put(id, columnGroup);
         }
-
     }
 
     // #deleted test data

@@ -16,8 +16,6 @@ import org.insightech.er.editor.controller.editpart.element.node.ViewEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.column.GroupColumnEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.column.NormalColumnEditPart;
 import org.insightech.er.editor.controller.editpart.element.node.index.IndexEditPart;
-import org.insightech.er.editor.controller.editpart.element.node.removed.RemovedERTableEditPart;
-import org.insightech.er.editor.controller.editpart.element.node.removed.RemovedNoteEditPart;
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
@@ -33,8 +31,6 @@ import org.insightech.er.editor.model.diagram_contents.element.node.table.column
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.diagram_contents.element.node.view.ERView;
 import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.insightech.er.editor.model.tracking.RemovedERTable;
-import org.insightech.er.editor.model.tracking.RemovedNote;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -69,10 +65,6 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
             editPart = new CommentConnectionEditPart();
         } else if (model instanceof Category) {
             editPart = new CategoryEditPart();
-        } else if (model instanceof RemovedERTable) {
-            editPart = new RemovedERTableEditPart();
-        } else if (model instanceof RemovedNote) {
-            editPart = new RemovedNoteEditPart();
         } else if (model instanceof NormalColumn) {
             editPart = new NormalColumnEditPart();
         } else if (model instanceof ColumnGroup) {

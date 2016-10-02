@@ -52,7 +52,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
     public void deactivate() {
         try {
             super.deactivate();
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             t.printStackTrace();
         }
     }
@@ -62,7 +62,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
      */
     @Override
     protected IFigure createFigure() {
-        FreeformLayer layer = new FreeformLayer();
+        final FreeformLayer layer = new FreeformLayer();
         layer.setLayoutManager(new FreeformLayout());
 
         return layer;
@@ -76,32 +76,22 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         this.installEditPolicy(EditPolicy.LAYOUT_ROLE, new ERDiagramLayoutEditPolicy());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List getModelChildren() {
-        List<Object> modelChildren = new ArrayList<Object>();
+        final List<Object> modelChildren = new ArrayList<Object>();
 
-        ERDiagram diagram = (ERDiagram) this.getModel();
+        final ERDiagram diagram = (ERDiagram) this.getModel();
 
         //		modelChildren.addAll(diagram.getDiagramContents().getSettings()
         //				.getCategorySetting().getSelectedCategories());
 
         modelChildren.add(diagram.getDiagramContents().getSettings().getModelProperties());
-        List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
-        for (NodeElement nodeEl : nodeElementList) {
-            if (nodeEl instanceof Note) {
-                // Note �͑S�̃r���[�ɂ͒u���Ȃ�
-            } else {
+        final List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
+        for (final NodeElement nodeEl : nodeElementList) {
+            if (nodeEl instanceof Note) {} else {
                 modelChildren.add(nodeEl);
             }
         }
-
-        if (diagram.getChangeTrackingList().isCalculated()) {
-            modelChildren.addAll(diagram.getChangeTrackingList().getRemovedNodeElementSet());
-        }
-
         return modelChildren;
     }
 
@@ -123,23 +113,23 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
             this.refresh();
             this.refreshRelations();
 
-            List<NodeElement> nodeElementList = (List<NodeElement>) event.getNewValue();
+            final List<NodeElement> nodeElementList = (List<NodeElement>) event.getNewValue();
 
             if (nodeElementList != null) {
                 this.getViewer().deselectAll();
-                SelectionManager selectionManager = this.getViewer().getSelectionManager();
+                final SelectionManager selectionManager = this.getViewer().getSelectionManager();
 
-                Map<NodeElement, EditPart> modelToEditPart = getModelToEditPart();
+                final Map<NodeElement, EditPart> modelToEditPart = getModelToEditPart();
 
-                for (NodeElement nodeElement : nodeElementList) {
+                for (final NodeElement nodeElement : nodeElementList) {
                     selectionManager.appendSelection(modelToEditPart.get(nodeElement));
                 }
             }
 
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ADD)) {
-            Object newValue = event.getNewValue();
+            final Object newValue = event.getNewValue();
             if (newValue instanceof ERModel) {
-                ERDiagram diagram = (ERDiagram) this.getModel();
+                final ERDiagram diagram = (ERDiagram) this.getModel();
                 //				diagram.getDiagramContents().getModelSet().add((ERModel)newValue);
                 //				diagram.addContent((ERModel)newValue);
                 //				diagram.getDiagramContents().getModelSet().
@@ -161,7 +151,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
             //			this.internalRefreshTable(newTable);
 
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_TABLE)) {
-            ERTable newTable = (ERTable) event.getNewValue();
+            final ERTable newTable = (ERTable) event.getNewValue();
             this.internalRefreshTable(newTable);
 
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
@@ -171,7 +161,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
             this.changeDatabase(event);
 
         } else if (event.getPropertyName().equals(ERDiagramPropertySource.PROPERTY_INIT_DATABASE)) {
-            ERDiagram diagram = (ERDiagram) this.getModel();
+            final ERDiagram diagram = (ERDiagram) this.getModel();
             diagram.restoreDatabase(DBManagerFactory.getAllDBList().get(0));
 
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
@@ -192,8 +182,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         //			
         //		}
 
-        Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
-        for (Entry<NodeElement, EditPart> entry : entrySet) {
+        final Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
+        for (final Entry<NodeElement, EditPart> entry : entrySet) {
             if (entry.getKey().equals(table)) {
                 // �e�[�u���̍X�V
                 entry.getValue().refresh();
@@ -214,9 +204,9 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
     }
 
     public void refreshRelations() {
-        for (Object child : this.getChildren()) {
+        for (final Object child : this.getChildren()) {
             if (child instanceof NodeElementEditPart) {
-                NodeElementEditPart part = (NodeElementEditPart) child;
+                final NodeElementEditPart part = (NodeElementEditPart) child;
                 part.refreshConnections();
             }
         }
@@ -227,30 +217,30 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
      */
     @Override
     public void refreshVisuals() {
-        ERDiagram element = (ERDiagram) this.getModel();
+        final ERDiagram element = (ERDiagram) this.getModel();
 
-        int[] color = element.getColor();
+        final int[] color = element.getColor();
 
         if (color != null) {
-            Color bgColor = DesignResources.getColor(color);
+            final Color bgColor = DesignResources.getColor(color);
             this.getViewer().getControl().setBackground(bgColor);
         }
 
-        for (Object child : this.getChildren()) {
+        for (final Object child : this.getChildren()) {
             if (child instanceof NodeElementEditPart) {
-                NodeElementEditPart part = (NodeElementEditPart) child;
+                final NodeElementEditPart part = (NodeElementEditPart) child;
                 part.refreshVisuals();
             }
         }
     }
 
     private void changeSettings() {
-        ERDiagram diagram = (ERDiagram) this.getModel();
-        Settings settings = diagram.getDiagramContents().getSettings();
+        final ERDiagram diagram = (ERDiagram) this.getModel();
+        final Settings settings = diagram.getDiagramContents().getSettings();
 
-        for (Object child : this.getChildren()) {
+        for (final Object child : this.getChildren()) {
             if (child instanceof NodeElementEditPart) {
-                NodeElementEditPart part = (NodeElementEditPart) child;
+                final NodeElementEditPart part = (NodeElementEditPart) child;
                 part.changeSettings(settings);
             }
         }
@@ -258,7 +248,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 
     private void changeDatabase(PropertyChangeEvent event) {
 
-        MessageBox messageBox =
+        final MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
         messageBox.setText(DisplayMessages.getMessage("dialog.title.change.database"));
         messageBox.setMessage(DisplayMessages.getMessage("dialog.message.change.database"));
@@ -267,18 +257,18 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
             event.setPropagationId("consumed");
 
         } else {
-            ERDiagram diagram = (ERDiagram) this.getModel();
+            final ERDiagram diagram = (ERDiagram) this.getModel();
 
             diagram.restoreDatabase(String.valueOf(event.getOldValue()));
         }
     }
 
     private Map<NodeElement, EditPart> getModelToEditPart() {
-        Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
-        List children = getChildren();
+        final Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
+        final List children = getChildren();
 
         for (int i = 0; i < children.size(); i++) {
-            EditPart editPart = (EditPart) children.get(i);
+            final EditPart editPart = (EditPart) children.get(i);
             modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
         }
 

@@ -9,17 +9,18 @@ import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
+// #willdeleted
 public class UpdatedNodeElement implements Serializable {
 
     private static final long serialVersionUID = -1547406607441505291L;
 
-    private NodeElement nodeElement;
+    private final NodeElement nodeElement;
 
-    private Set<ERColumn> addedColumns;
+    private final Set<ERColumn> addedColumns;
 
-    private Set<ERColumn> updatedColumns;
+    private final Set<ERColumn> updatedColumns;
 
-    private Set<ERColumn> removedColumns;
+    private final Set<ERColumn> removedColumns;
 
     public UpdatedNodeElement(NodeElement nodeElement) {
         this.nodeElement = nodeElement;

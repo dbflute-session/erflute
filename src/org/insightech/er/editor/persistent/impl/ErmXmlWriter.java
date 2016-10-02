@@ -60,8 +60,6 @@ import org.insightech.er.editor.model.settings.EnvironmentSetting;
 import org.insightech.er.editor.model.settings.ExportSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.tracking.ChangeTracking;
-import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.insightech.er.editor.persistent.impl.PersistentXml.PersistentContext;
 
 /**
@@ -139,9 +137,7 @@ public class ErmXmlWriter {
             xml.append("\t<dbsetting>\n").append(tab(tab(buildDBSetting(diagram.getDbSetting())))).append("\t</dbsetting>\n");
         }
         if (diagram.getPageSetting() != null) {
-            xml.append("\t<page_setting>\n")
-                    .append(tab(tab(this.buildPageSetting(diagram.getPageSetting()))))
-                    .append("\t</page_setting>\n");
+            xml.append("\t<page_setting>\n").append(tab(tab(buildPageSetting(diagram.getPageSetting())))).append("\t</page_setting>\n");
         }
         xml.append("\t<category_index>").append(diagram.getCurrentCategoryIndex()).append("</category_index>\n");
         if (diagram.getCurrentErmodel() != null) {
@@ -156,11 +152,13 @@ public class ErmXmlWriter {
         xml.append("\t<font_size>").append(diagram.getFontSize()).append("</font_size>\n");
         final PersistentContext context = persistentXml.getCurrentContext(diagram);
         xml.append(tab(buildDiagramContents(diagram.getDiagramContents(), context)));
-        xml.append(tab(buildChangeTrackingList(diagram.getChangeTrackingList())));
         xml.append("</diagram>\n");
         return xml.toString();
     }
 
+    // ===================================================================================
+    //                                                                          DB Setting
+    //                                                                          ==========
     private String buildDBSetting(DBSetting dbSetting) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<dbsystem>").append(escape(dbSetting.getDbsystem())).append("</dbsystem>\n");
@@ -175,6 +173,9 @@ public class ErmXmlWriter {
         return xml.toString();
     }
 
+    // ===================================================================================
+    //                                                                        Page Setting
+    //                                                                        ============
     private String buildPageSetting(PageSetting pageSetting) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<direction_horizontal>").append(pageSetting.isDirectionHorizontal()).append("</direction_horizontal>\n");
@@ -187,17 +188,9 @@ public class ErmXmlWriter {
         return xml.toString();
     }
 
-    private void appendColor(StringBuilder xml, String tagName, int[] defaultColor) {
-        if (defaultColor == null) {
-            return;
-        }
-        xml.append("\t<" + tagName + ">\n");
-        xml.append("\t\t<r>").append(defaultColor[0]).append("</r>\n");
-        xml.append("\t\t<g>").append(defaultColor[1]).append("</g>\n");
-        xml.append("\t\t<b>").append(defaultColor[2]).append("</b>\n");
-        xml.append("\t</" + tagName + ">\n");
-    }
-
+    // ===================================================================================
+    //                                                                    Diagram Contents
+    //                                                                    ================
     private String buildDiagramContents(DiagramContents diagramContents, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append(biuldSettings(diagramContents.getSettings(), context));
@@ -384,8 +377,8 @@ public class ErmXmlWriter {
         xml.append("\t<suspend_validator>").append(settings.isSuspendValidator()).append("</suspend_validator>\n");
         xml.append("\t<titleFontEm>").append(settings.getTitleFontEm().toString()).append("</titleFontEm>\n");
         xml.append("\t<masterDataBasePath>").append(settings.getMasterDataBasePath().toString()).append("</masterDataBasePath>\n");
-        xml.append(tab(createXML(settings.getExportSetting(), context)));
-        xml.append(tab(createXML(settings.getCategorySetting(), context)));
+        xml.append(tab(buildExportSetting(settings.getExportSetting(), context)));
+        xml.append(tab(buildCategorySetting(settings.getCategorySetting(), context)));
         xml.append(tab(buildModelProperties(settings.getModelProperties(), context)));
         xml.append(tab(buildTableProperties((TableProperties) settings.getTableViewProperties(), context)));
         xml.append(tab(buildEnvironmentSetting(settings.getEnvironmentSetting(), context)));
@@ -394,33 +387,9 @@ public class ErmXmlWriter {
     }
 
     // ===================================================================================
-    //                                                                Change Tracking List
-    //                                                                ====================
-    private String buildChangeTrackingList(ChangeTrackingList changeTrackingList) {
-        final StringBuilder xml = new StringBuilder();
-        xml.append("<change_tracking_list>\n");
-        for (final ChangeTracking changeTracking : changeTrackingList.getList()) {
-            xml.append(tab(doBuildChangeTracking(changeTracking)));
-        }
-        xml.append("</change_tracking_list>\n");
-        return xml.toString();
-    }
-
-    private String doBuildChangeTracking(ChangeTracking changeTracking) {
-        final StringBuilder xml = new StringBuilder();
-        xml.append("<change_tracking>\n");
-        xml.append("\t<updated_date>").append(DATE_FORMAT.format(changeTracking.getUpdatedDate())).append("</updated_date>\n");
-        xml.append("\t<comment>").append(escape(changeTracking.getComment())).append("</comment>\n");
-        final PersistentContext context = persistentXml.getChangeTrackingContext(changeTracking);
-        xml.append(tab(this.buildDiagramContents(changeTracking.getDiagramContents(), context)));
-        xml.append("</change_tracking>\n");
-        return xml.toString();
-    }
-
-    // ===================================================================================
     //                                                                      Export Setting
     //                                                                      ==============
-    private String createXML(ExportSetting exportSetting, PersistentContext context) {
+    private String buildExportSetting(ExportSetting exportSetting, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<export_setting>\n");
         xml.append("\t<category_name_to_export>")
@@ -468,27 +437,21 @@ public class ErmXmlWriter {
     // ===================================================================================
     //                                                                   Category Settings
     //                                                                   =================
-    private String createXML(CategorySetting categorySettings, PersistentContext context) {
+    private String buildCategorySetting(CategorySetting categorySettings, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-
         xml.append("<category_settings>\n");
         xml.append("\t<free_layout>").append(categorySettings.isFreeLayout()).append("</free_layout>\n");
         xml.append("\t<show_referred_tables>").append(categorySettings.isShowReferredTables()).append("</show_referred_tables>\n");
-
         xml.append("\t<categories>\n");
-
         for (final Category category : categorySettings.getAllCategories()) {
-            xml.append(tab(tab(this.createXML(category, categorySettings.isSelected(category), context))));
+            xml.append(tab(tab(doBuildCategory(category, categorySettings.isSelected(category), context))));
         }
-
         xml.append("\t</categories>\n");
-
         xml.append("</category_settings>\n");
-
         return xml.toString();
     }
 
-    private String createXML(Category category, boolean isSelected, PersistentContext context) {
+    private String doBuildCategory(Category category, boolean isSelected, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<category>\n");
         xml.append(tab(buildNodeElement(category, context)));
@@ -554,13 +517,11 @@ public class ErmXmlWriter {
     private String buildERModel(ERModelSet modelSet, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<ermodels>\n");
-
         for (final ERModel erModel : modelSet) {
             xml.append("\t<ermodel>\n");
             xml.append("\t\t<id>").append(context.ermodelMap.get(erModel)).append("</id>\n");
             xml.append("\t\t<name>").append(erModel.getName()).append("</name>\n");
             appendColor(xml, "color", erModel.getColor());
-
             xml.append("\t\t<vtables>\n");
             for (final ERVirtualTable table : erModel.getTables()) {
                 xml.append("\t\t\t<vtable>\n");
@@ -571,22 +532,18 @@ public class ErmXmlWriter {
                 xml.append("\t\t\t</vtable>\n");
             }
             xml.append("\t\t</vtables>\n");
-
             xml.append("\t\t<groups>\n");
             for (final VGroup group : erModel.getGroups()) {
                 xml.append(buildVGroup(group, context));
             }
             xml.append("\t\t</groups>\n");
-
             xml.append("\t\t<notes>\n");
             for (final Note note : erModel.getNotes()) {
                 xml.append(buildNote(note, context));
             }
             xml.append("\t\t</notes>\n");
-
             xml.append("\t</ermodel>\n");
         }
-
         xml.append("</ermodels>\n");
         return xml.toString();
     }
@@ -619,33 +576,6 @@ public class ErmXmlWriter {
     ////		xml.append("</ermodels>\n");
     //		return xml.toString();
     //	}
-
-    private String buildNodeElement(NodeElement nodeElement, PersistentContext context) {
-        final StringBuilder xml = new StringBuilder();
-        xml.append("<id>").append(Format.toString(context.nodeElementMap.get(nodeElement))).append("</id>\n");
-        xml.append("<height>").append(nodeElement.getHeight()).append("</height>\n");
-        xml.append("<width>").append(nodeElement.getWidth()).append("</width>\n");
-        xml.append("\t<font_name>").append(escape(nodeElement.getFontName())).append("</font_name>\n");
-        xml.append("\t<font_size>").append(nodeElement.getFontSize()).append("</font_size>\n");
-        xml.append("<x>").append(nodeElement.getX()).append("</x>\n");
-        xml.append("<y>").append(nodeElement.getY()).append("</y>\n");
-        xml.append(this.buildColor(nodeElement.getColor()));
-        final List<ConnectionElement> incomings = nodeElement.getIncomings();
-        xml.append(this.buildConnections(incomings, context));
-        return xml.toString();
-    }
-
-    private String buildColor(int[] colors) {
-        final StringBuilder xml = new StringBuilder();
-        if (colors != null) {
-            xml.append("<color>\n");
-            xml.append("\t<r>").append(colors[0]).append("</r>\n");
-            xml.append("\t<g>").append(colors[1]).append("</g>\n");
-            xml.append("\t<b>").append(colors[2]).append("</b>\n");
-            xml.append("</color>\n");
-        }
-        return xml.toString();
-    }
 
     // ===================================================================================
     //                                                                               Table
@@ -1111,6 +1041,50 @@ public class ErmXmlWriter {
         xml.append("\t<description>").append(escape(trigger.getDescription())).append("</description>\n");
         xml.append("</trigger>\n");
         return xml.toString();
+    }
+
+    // ===================================================================================
+    //                                                                        Node Element
+    //                                                                        ============
+    private String buildNodeElement(NodeElement nodeElement, PersistentContext context) {
+        final StringBuilder xml = new StringBuilder();
+        xml.append("<id>").append(Format.toString(context.nodeElementMap.get(nodeElement))).append("</id>\n");
+        xml.append("<height>").append(nodeElement.getHeight()).append("</height>\n");
+        xml.append("<width>").append(nodeElement.getWidth()).append("</width>\n");
+        xml.append("\t<font_name>").append(escape(nodeElement.getFontName())).append("</font_name>\n");
+        xml.append("\t<font_size>").append(nodeElement.getFontSize()).append("</font_size>\n");
+        xml.append("<x>").append(nodeElement.getX()).append("</x>\n");
+        xml.append("<y>").append(nodeElement.getY()).append("</y>\n");
+        xml.append(buildColor(nodeElement.getColor()));
+        final List<ConnectionElement> incomings = nodeElement.getIncomings();
+        xml.append(buildConnections(incomings, context));
+        return xml.toString();
+    }
+
+    // ===================================================================================
+    //                                                                               Color
+    //                                                                               =====
+    private String buildColor(int[] colors) {
+        final StringBuilder xml = new StringBuilder();
+        if (colors != null) {
+            xml.append("<color>\n");
+            xml.append("\t<r>").append(colors[0]).append("</r>\n");
+            xml.append("\t<g>").append(colors[1]).append("</g>\n");
+            xml.append("\t<b>").append(colors[2]).append("</b>\n");
+            xml.append("</color>\n");
+        }
+        return xml.toString();
+    }
+
+    private void appendColor(StringBuilder xml, String tagName, int[] defaultColor) {
+        if (defaultColor == null) {
+            return;
+        }
+        xml.append("\t<" + tagName + ">\n");
+        xml.append("\t\t<r>").append(defaultColor[0]).append("</r>\n");
+        xml.append("\t\t<g>").append(defaultColor[1]).append("</g>\n");
+        xml.append("\t\t<b>").append(defaultColor[2]).append("</b>\n");
+        xml.append("\t</" + tagName + ">\n");
     }
 
     // ===================================================================================

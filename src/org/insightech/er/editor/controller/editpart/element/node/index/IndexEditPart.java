@@ -17,7 +17,6 @@ import org.insightech.er.editor.controller.editpart.element.node.TableViewEditPa
 import org.insightech.er.editor.model.ERDiagram;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.tracking.UpdatedNodeElement;
 import org.insightech.er.editor.view.figure.table.IndexFigure;
 import org.insightech.er.editor.view.figure.table.TableFigure;
 
@@ -42,7 +41,7 @@ public class IndexEditPart extends AbstractModelEditPart {
      */
     @Override
     public EditPart getTargetEditPart(Request request) {
-        EditPart editPart = super.getTargetEditPart(request);
+        final EditPart editPart = super.getTargetEditPart(request);
 
         if (!this.getDiagram().isDisableSelectColumn()) {
             return editPart;
@@ -57,33 +56,25 @@ public class IndexEditPart extends AbstractModelEditPart {
 
     @Override
     protected IFigure createFigure() {
-        IndexFigure figure = new IndexFigure();
+        final IndexFigure figure = new IndexFigure();
         //		figure.setBorder(new LineBorder(ColorConstants.black, 1));
         return figure;
     }
 
-    public void refreshTableColumns(UpdatedNodeElement updated) {
-        ERDiagram diagram = this.getDiagram();
+    public void refreshTableColumns() {
+        final ERDiagram diagram = this.getDiagram();
+        final IndexFigure indexFigure = (IndexFigure) this.getFigure();
+        final ERIndex index = (ERIndex) this.getModel();
+        final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
-        IndexFigure indexFigure = (IndexFigure) this.getFigure();
-
-        ERIndex index = (ERIndex) this.getModel();
-
-        if (diagram.isShowMainColumn()) {
-            // �C���f�b�N�X�͏�ɕ\��
-        }
-
-        int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
-
-        TableViewEditPart parent = (TableViewEditPart) this.getParent();
-        List figures = parent.getContentPane().getChildren();
+        final TableViewEditPart parent = (TableViewEditPart) this.getParent();
+        final List figures = parent.getContentPane().getChildren();
         boolean isFirst = false;
         if (!(figures.get(figures.size() - 1) instanceof IndexFigure)) {
-            // Index �̐擪�̓{�[�_�[��t����
             if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
                 isFirst = true;
                 parent.getContentPane().add(new GuideEditPart.GuideLineFigure());
-                Label indexHeader = new Label();
+                final Label indexHeader = new Label();
                 indexHeader.setLabelAlignment(PositionConstants.LEFT);
                 indexHeader.setText("<< index >>");
                 indexHeader.setBorder(new MarginBorder(new Insets(4, 3, 0, 0)));
@@ -92,9 +83,8 @@ public class IndexEditPart extends AbstractModelEditPart {
             }
         }
         parent.getContentPane().add(figure);
-
         if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
-            TableFigure tableFigure = (TableFigure) parent.getFigure();
+            final TableFigure tableFigure = (TableFigure) parent.getFigure();
 
             //			List<NormalColumn> selectedReferencedColulmnList = this
             //					.getSelectedReferencedColulmnList();

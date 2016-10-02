@@ -20,7 +20,6 @@ import org.insightech.er.editor.model.diagram_contents.not_element.group.GlobalG
 import org.insightech.er.editor.model.settings.DBSetting;
 import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 
 /**
  * #analyzed is one ERD
@@ -44,7 +43,6 @@ public class ERDiagram extends ViewableModel {
     //                                                                           =========
     private DiagramContents diagramContents; // may be replaced, not null
     private ERFluteMultiPageEditor editor;
-    private ChangeTrackingList changeTrackingList;
     private int[] defaultColor;
     private boolean tooltip;
     private boolean showMainColumn;
@@ -316,13 +314,6 @@ public class ERDiagram extends ViewableModel {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public ChangeTrackingList getChangeTrackingList() {
-        if (this.changeTrackingList == null) {
-            this.changeTrackingList = new ChangeTrackingList();
-        }
-        return changeTrackingList;
-    }
-
     public DiagramContents getDiagramContents() {
         return this.diagramContents;
     }

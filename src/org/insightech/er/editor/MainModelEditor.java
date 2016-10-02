@@ -110,7 +110,6 @@ import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToPhy
 import org.insightech.er.editor.view.action.printer.PageSettingAction;
 import org.insightech.er.editor.view.action.printer.PrintImageAction;
 import org.insightech.er.editor.view.action.search.SearchAction;
-import org.insightech.er.editor.view.action.tracking.ChangeTrackingAction;
 import org.insightech.er.editor.view.action.zoom.ZoomAdjustAction;
 import org.insightech.er.editor.view.contributor.ERDiagramActionBarContributor;
 import org.insightech.er.editor.view.drag_drop.ERDiagramTransferDragSourceListener;
@@ -263,7 +262,7 @@ public class MainModelEditor extends GraphicalEditorWithPalette {
                         new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
                         new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
                         new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
-                        new GroupManageAction(this), new ChangeTrackingAction(this), new OptionSettingAction(this),
+                        new GroupManageAction(this), /* #deleted new ChangeTrackingAction(this) , */new OptionSettingAction(this),
                         new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
                         /* #deleted new TranslationManageAction(this), */
                         /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),

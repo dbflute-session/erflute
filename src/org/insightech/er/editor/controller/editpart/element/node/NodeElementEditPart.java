@@ -8,7 +8,6 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.core.util.Check;
 import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -34,10 +33,7 @@ import org.insightech.er.editor.model.ViewableModel;
 import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
-import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
-import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.settings.Settings;
-import org.insightech.er.editor.model.tracking.ChangeTrackingList;
 import org.insightech.er.editor.view.figure.connection.ERDiagramConnection;
 import org.insightech.er.editor.view.figure.table.TableFigure;
 
@@ -101,8 +97,8 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
     }
 
     protected void setVisible() {
-        NodeElement element = (NodeElement) this.getModel();
-        Category category = this.getCurrentCategory();
+        final NodeElement element = (NodeElement) this.getModel();
+        final Category category = this.getCurrentCategory();
 
         if (category != null) {
             this.figure.setVisible(category.isVisible(element, this.getDiagram()));
@@ -115,13 +111,13 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
     protected Font changeFont(IFigure figure) {
         this.disposeFont();
 
-        NodeElement nodeElement = (NodeElement) this.getModel();
+        final NodeElement nodeElement = (NodeElement) this.getModel();
 
         String fontName = nodeElement.getFontName();
         int fontSize = nodeElement.getFontSize();
 
         if (Check.isEmpty(fontName)) {
-            FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
+            final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
             fontName = fontData.getName();
             nodeElement.setFontName(fontName);
         }
@@ -133,8 +129,11 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
         this.font = new Font(Display.getCurrent(), fontName, fontSize, SWT.NORMAL);
 
         if (getDiagram().getDiagramContents().getSettings().getTitleFontEm() != null) {
-            int largeFontSize =
-                    getDiagram().getDiagramContents().getSettings().getTitleFontEm().multiply(new BigDecimal(nodeElement.getFontSize()))
+            final int largeFontSize =
+                    getDiagram().getDiagramContents()
+                            .getSettings()
+                            .getTitleFontEm()
+                            .multiply(new BigDecimal(nodeElement.getFontSize()))
                             .intValue();
             this.largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
         }
@@ -152,66 +151,41 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
      */
     @Override
     public void refreshVisuals() {
-        NodeElement element = (NodeElement) this.getModel();
-
+        final NodeElement element = (NodeElement) this.getModel();
         this.setVisible();
-
-        Rectangle rectangle = this.getRectangle();
-
-        GraphicalEditPart parent = (GraphicalEditPart) this.getParent();
-
-        IFigure figure = this.getFigure();
-
-        int[] color = element.getColor();
-
+        final Rectangle rectangle = this.getRectangle();
+        final GraphicalEditPart parent = (GraphicalEditPart) this.getParent();
+        final IFigure figure = this.getFigure();
+        final int[] color = element.getColor();
         if (color != null) {
-            ChangeTrackingList changeTrackingList = this.getDiagram().getChangeTrackingList();
-
-            if (changeTrackingList.isCalculated() && (element instanceof Note || element instanceof ERTable)) {
-                if (changeTrackingList.isAdded(element)) {
-                    figure.setBackgroundColor(DesignResources.ADDED_COLOR);
-
-                } else if (changeTrackingList.getUpdatedNodeElement(element) != null) {
-                    figure.setBackgroundColor(DesignResources.UPDATED_COLOR);
-
-                } else {
-                    figure.setBackgroundColor(ColorConstants.white);
-                }
-
-            } else {
-                Color bgColor = DesignResources.getColor(color);
-                figure.setBackgroundColor(bgColor);
-            }
-
+            final Color bgColor = DesignResources.getColor(color);
+            figure.setBackgroundColor(bgColor);
         }
-
         parent.setLayoutConstraint(this, figure, rectangle);
-
     }
 
     public void refreshConnections() {
-        for (Object sourceConnection : this.getSourceConnections()) {
-            ConnectionEditPart editPart = (ConnectionEditPart) sourceConnection;
-            ConnectionElement connectinoElement = (ConnectionElement) editPart.getModel();
+        for (final Object sourceConnection : this.getSourceConnections()) {
+            final ConnectionEditPart editPart = (ConnectionEditPart) sourceConnection;
+            final ConnectionElement connectinoElement = (ConnectionElement) editPart.getModel();
             connectinoElement.setParentMove();
         }
-
-        for (Object targetConnection : this.getTargetConnections()) {
-            ConnectionEditPart editPart = (ConnectionEditPart) targetConnection;
-            ConnectionElement connectinoElement = (ConnectionElement) editPart.getModel();
+        for (final Object targetConnection : this.getTargetConnections()) {
+            final ConnectionEditPart editPart = (ConnectionEditPart) targetConnection;
+            final ConnectionElement connectinoElement = (ConnectionElement) editPart.getModel();
 
             connectinoElement.setParentMove();
         }
     }
 
     protected Rectangle getRectangle() {
-        NodeElement element = (NodeElement) this.getModel();
+        final NodeElement element = (NodeElement) this.getModel();
 
-        Point point = new Point(element.getX(), element.getY());
+        final Point point = new Point(element.getX(), element.getY());
 
-        Dimension dimension = new Dimension(element.getWidth(), element.getHeight());
+        final Dimension dimension = new Dimension(element.getWidth(), element.getHeight());
 
-        Dimension minimumSize = this.figure.getMinimumSize();
+        final Dimension minimumSize = this.figure.getMinimumSize();
 
         if (dimension.width != -1 && dimension.width < minimumSize.width) {
             dimension.width = minimumSize.width;
@@ -228,7 +202,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
      */
     @Override
     protected List getModelSourceConnections() {
-        NodeElement element = (NodeElement) this.getModel();
+        final NodeElement element = (NodeElement) this.getModel();
         return element.getOutgoings();
     }
 
@@ -237,22 +211,26 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
      */
     @Override
     protected List getModelTargetConnections() {
-        NodeElement element = (NodeElement) this.getModel();
+        final NodeElement element = (NodeElement) this.getModel();
         return element.getIncomings();
     }
 
+    @Override
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
         return new ChopboxAnchor(this.getFigure());
     }
 
+    @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
         return new ChopboxAnchor(this.getFigure());
     }
 
+    @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
         return new ChopboxAnchor(this.getFigure());
     }
 
+    @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
         return new ChopboxAnchor(this.getFigure());
     }
@@ -260,15 +238,16 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
     public void changeSettings(Settings settings) {
         this.refresh();
 
-        for (Object object : this.getSourceConnections()) {
-            ERDiagramConnectionEditPart editPart = (ERDiagramConnectionEditPart) object;
-            ERDiagramConnection connection = (ERDiagramConnection) editPart.getFigure();
+        for (final Object object : this.getSourceConnections()) {
+            final ERDiagramConnectionEditPart editPart = (ERDiagramConnectionEditPart) object;
+            final ERDiagramConnection connection = (ERDiagramConnection) editPart.getFigure();
             connection.setBezier(settings.isUseBezierCurve());
 
             editPart.refresh();
         }
     }
 
+    @Override
     public boolean isDeleteable() {
         return true;
     }
@@ -279,7 +258,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
     @Override
     public void setSelected(int value) {
         if (value != 0 && getViewer() != null) {
-            for (Object editPartObject : this.getViewer().getSelectedEditParts()) {
+            for (final Object editPartObject : this.getViewer().getSelectedEditParts()) {
                 if (editPartObject instanceof ColumnEditPart) {
                     ((ColumnEditPart) editPartObject).setSelected(0);
                 }
@@ -298,7 +277,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
             try {
                 performRequestOpen();
 
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 Activator.showExceptionDialog(e);
             }
         }

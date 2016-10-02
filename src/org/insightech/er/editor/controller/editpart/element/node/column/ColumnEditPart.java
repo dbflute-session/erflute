@@ -8,11 +8,10 @@ import org.eclipse.gef.Request;
 import org.insightech.er.editor.controller.editpart.element.AbstractModelEditPart;
 import org.insightech.er.editor.controller.editpolicy.element.node.table_view.ColumnSelectionHandlesEditPolicy;
 import org.insightech.er.editor.controller.editpolicy.element.node.table_view.NormalColumnComponentEditPolicy;
-import org.insightech.er.editor.model.tracking.UpdatedNodeElement;
 
 public abstract class ColumnEditPart extends AbstractModelEditPart {
 
-    public abstract void refreshTableColumns(UpdatedNodeElement updated);
+    public abstract void refreshTableColumns();
 
     @Override
     protected void createEditPolicies() {
@@ -24,21 +23,15 @@ public abstract class ColumnEditPart extends AbstractModelEditPart {
     public void doPropertyChange(PropertyChangeEvent evt) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public EditPart getTargetEditPart(Request request) {
-        EditPart editPart = super.getTargetEditPart(request);
-
+        final EditPart editPart = super.getTargetEditPart(request);
         if (!this.getDiagram().isDisableSelectColumn()) {
             return editPart;
         }
-
         if (editPart != null) {
             return editPart.getParent();
         }
-
         return null;
     }
 }

@@ -52,7 +52,6 @@ import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToLog
 import org.insightech.er.editor.view.action.option.notation.type.ChangeViewToPhysicalAction;
 import org.insightech.er.editor.view.action.printer.PageSettingAction;
 import org.insightech.er.editor.view.action.search.SearchAction;
-import org.insightech.er.editor.view.action.tracking.ChangeTrackingAction;
 
 /**
  * @author ermaster
@@ -188,9 +187,7 @@ public class ERDiagramOnePopupMenuManager extends MenuManager {
         prepareExportMenu(sharedImages);
 
         this.add(new Separator());
-
         this.add(this.getAction(PageSettingAction.ID));
-        this.add(this.getAction(ChangeTrackingAction.ID));
 
         final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
         categoryMenu.add(this.getAction(CategoryManageAction.ID));
