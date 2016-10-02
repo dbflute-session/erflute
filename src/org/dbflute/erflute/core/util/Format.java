@@ -1,9 +1,9 @@
 package org.dbflute.erflute.core.util;
 
-import org.insightech.er.db.impl.mysql.MySQLDBManager;
-import org.insightech.er.db.impl.postgres.PostgresDBManager;
-import org.insightech.er.db.sqltype.SqlType;
-import org.insightech.er.editor.model.diagram_contents.not_element.dictionary.TypeData;
+import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
+import org.dbflute.erflute.db.impl.postgres.PostgresDBManager;
+import org.dbflute.erflute.db.sqltype.SqlType;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 
 public class Format {
 

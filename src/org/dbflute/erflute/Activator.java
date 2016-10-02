@@ -8,6 +8,8 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.core.dialog.InternalDirectoryDialog;
 import org.dbflute.erflute.core.dialog.InternalFileDialog;
 import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.view.action.dbexport.ExportToImageAction;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -34,8 +36,6 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.view.action.dbexport.ExportToImageAction;
 import org.osgi.framework.BundleContext;
 
 /**
