@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.persistent.impl.PersistentXml;
+import org.insightech.er.editor.persistent.xml.PersistentXml;
 
 /**
  * @author modified by jflute (originated in ermaster)

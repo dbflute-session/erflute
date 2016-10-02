@@ -1,4 +1,4 @@
-package org.insightech.er.editor.persistent.impl;
+package org.insightech.er.editor.persistent.serialize;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

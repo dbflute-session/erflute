@@ -1,4 +1,4 @@
-package org.insightech.er.editor.persistent.impl;
+package org.insightech.er.editor.persistent.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +22,7 @@ import org.insightech.er.editor.model.diagram_contents.not_element.group.ColumnG
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.insightech.er.editor.model.settings.Environment;
 import org.insightech.er.editor.persistent.Persistent;
+import org.insightech.er.editor.persistent.xml.writer.ErmXmlWriter;
 
 /**
  * @author modified by jflute (originated in ermaster)

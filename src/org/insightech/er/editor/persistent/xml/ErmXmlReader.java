@@ -1,4 +1,4 @@
-package org.insightech.er.editor.persistent.impl;
+package org.insightech.er.editor.persistent.xml;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -606,47 +606,33 @@ public class ErmXmlReader {
 
     private Tablespace loadTablespace(Element element, LoadContext context) {
         final String id = this.getStringValue(element, "id");
-
         final Tablespace tablespace = new Tablespace();
         tablespace.setName(this.getStringValue(element, "name"));
-
         final NodeList nodeList = element.getElementsByTagName("properties");
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             final Element propertiesElemnt = (Element) nodeList.item(i);
-
             final String environmentId = this.getStringValue(propertiesElemnt, "environment_id");
             final Environment environment = context.environmentMap.get(environmentId);
-
             TablespaceProperties tablespaceProperties = null;
-
             if (DB2DBManager.ID.equals(this.database)) {
                 tablespaceProperties = this.loadTablespacePropertiesDB2(propertiesElemnt);
-
             } else if (MySQLDBManager.ID.equals(this.database)) {
                 tablespaceProperties = this.loadTablespacePropertiesMySQL(propertiesElemnt);
-
             } else if (OracleDBManager.ID.equals(this.database)) {
                 tablespaceProperties = this.loadTablespacePropertiesOracle(propertiesElemnt);
-
             } else if (PostgresDBManager.ID.equals(this.database)) {
                 tablespaceProperties = this.loadTablespacePropertiesPostgres(propertiesElemnt);
-
             }
-
             tablespace.putProperties(environment, tablespaceProperties);
         }
-
         if (id != null) {
             context.tablespaceMap.put(id, tablespace);
         }
-
         return tablespace;
     }
 
     private TablespaceProperties loadTablespacePropertiesDB2(Element element) {
         final DB2TablespaceProperties properties = new DB2TablespaceProperties();
-
         properties.setBufferPoolName(this.getStringValue(element, "buffer_pool_name"));
         properties.setContainer(this.getStringValue(element, "container"));
         // properties.setContainerDevicePath(this.getStringValue(element,
@@ -662,25 +648,21 @@ public class ErmXmlReader {
         properties.setPageSize(this.getStringValue(element, "page_size"));
         properties.setPrefetchSize(this.getStringValue(element, "prefetch_size"));
         properties.setType(this.getStringValue(element, "type"));
-
         return properties;
     }
 
     private TablespaceProperties loadTablespacePropertiesMySQL(Element element) {
         final MySQLTablespaceProperties properties = new MySQLTablespaceProperties();
-
         properties.setDataFile(this.getStringValue(element, "data_file"));
         properties.setEngine(this.getStringValue(element, "engine"));
         properties.setExtentSize(this.getStringValue(element, "extent_size"));
         properties.setInitialSize(this.getStringValue(element, "initial_size"));
         properties.setLogFileGroup(this.getStringValue(element, "log_file_group"));
-
         return properties;
     }
 
     private TablespaceProperties loadTablespacePropertiesOracle(Element element) {
         final OracleTablespaceProperties properties = new OracleTablespaceProperties();
-
         properties.setAutoExtend(this.getBooleanValue(element, "auto_extend"));
         properties.setAutoExtendMaxSize(this.getStringValue(element, "auto_extend_max_size"));
         properties.setAutoExtendSize(this.getStringValue(element, "auto_extend_size"));
@@ -696,16 +678,13 @@ public class ErmXmlReader {
         properties.setOffline(this.getBooleanValue(element, "offline"));
         properties.setPctIncrease(this.getStringValue(element, "pct_increase"));
         properties.setTemporary(this.getBooleanValue(element, "temporary"));
-
         return properties;
     }
 
     private TablespaceProperties loadTablespacePropertiesPostgres(Element element) {
         final PostgresTablespaceProperties properties = new PostgresTablespaceProperties();
-
         properties.setLocation(this.getStringValue(element, "location"));
         properties.setOwner(this.getStringValue(element, "owner"));
-
         return properties;
     }
 
