@@ -3,9 +3,7 @@ package org.insightech.er.editor.persistent.xml.reader;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,35 +11,22 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.Format;
-import org.dbflute.erflute.core.util.NameValue;
-import org.insightech.er.db.DBManagerFactory;
 import org.insightech.er.db.impl.db2.DB2DBManager;
 import org.insightech.er.db.impl.db2.tablespace.DB2TablespaceProperties;
 import org.insightech.er.db.impl.mysql.MySQLDBManager;
-import org.insightech.er.db.impl.mysql.MySQLTableProperties;
 import org.insightech.er.db.impl.mysql.tablespace.MySQLTablespaceProperties;
 import org.insightech.er.db.impl.oracle.OracleDBManager;
 import org.insightech.er.db.impl.oracle.tablespace.OracleTablespaceProperties;
 import org.insightech.er.db.impl.postgres.PostgresDBManager;
-import org.insightech.er.db.impl.postgres.PostgresTableProperties;
 import org.insightech.er.db.impl.postgres.tablespace.PostgresTablespaceProperties;
-import org.insightech.er.db.impl.standard_sql.StandardSQLDBManager;
 import org.insightech.er.db.sqltype.SqlType;
 import org.insightech.er.editor.model.ERDiagram;
-import org.insightech.er.editor.model.ViewableModel;
 import org.insightech.er.editor.model.diagram_contents.DiagramContents;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.insightech.er.editor.model.diagram_contents.element.connection.CommentConnection;
-import org.insightech.er.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.insightech.er.editor.model.diagram_contents.element.connection.Relationship;
-import org.insightech.er.editor.model.diagram_contents.element.node.Location;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeElement;
 import org.insightech.er.editor.model.diagram_contents.element.node.NodeSet;
-import org.insightech.er.editor.model.diagram_contents.element.node.category.Category;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.insightech.er.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.insightech.er.editor.model.diagram_contents.element.node.image.InsertedImage;
-import org.insightech.er.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.insightech.er.editor.model.diagram_contents.element.node.note.Note;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERTable;
 import org.insightech.er.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -65,12 +50,8 @@ import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.Ta
 import org.insightech.er.editor.model.diagram_contents.not_element.tablespace.TablespaceSet;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.Trigger;
 import org.insightech.er.editor.model.diagram_contents.not_element.trigger.TriggerSet;
-import org.insightech.er.editor.model.settings.CategorySetting;
-import org.insightech.er.editor.model.settings.DBSetting;
 import org.insightech.er.editor.model.settings.Environment;
 import org.insightech.er.editor.model.settings.EnvironmentSetting;
-import org.insightech.er.editor.model.settings.ExportSetting;
-import org.insightech.er.editor.model.settings.PageSetting;
 import org.insightech.er.editor.model.settings.Settings;
 import org.insightech.er.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Document;
@@ -91,8 +72,28 @@ public class ErmXmlReader {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
+    protected final PersistentXml persistentXml;
+    protected final ReadAssistLogic assistLogic;
+    protected final ReadDatabaseLogic databaseLogic;
+    protected final ReadTablePropertiesLogic tablePropertiesLogic;
+    protected final ReadNodeElementLogic nodeElementLogic;
+    protected final ReadSettingLogic settingLogic;
+
+    // state
     protected ERDiagram diagram;
     protected String database;
+
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
+    public ErmXmlReader(PersistentXml persistentXml) {
+        this.persistentXml = persistentXml;
+        this.assistLogic = new ReadAssistLogic(persistentXml);
+        this.databaseLogic = new ReadDatabaseLogic(persistentXml, assistLogic);
+        this.tablePropertiesLogic = new ReadTablePropertiesLogic(persistentXml, assistLogic);
+        this.nodeElementLogic = new ReadNodeElementLogic(persistentXml, assistLogic);
+        this.settingLogic = new ReadSettingLogic(persistentXml, assistLogic, databaseLogic, tablePropertiesLogic, nodeElementLogic);
+    }
 
     // ===================================================================================
     //                                                                               Read
@@ -115,9 +116,9 @@ public class ErmXmlReader {
         this.diagram = new ERDiagram(this.database);
         loadDBSetting(this.diagram, root);
         loadPageSetting(this.diagram, root);
-        loadColor(this.diagram, root);
-        loadDefaultColor(this.diagram, root);
-        loadFont(this.diagram, root);
+        assistLogic.loadColor(this.diagram, root);
+        assistLogic.loadDefaultColor(this.diagram, root);
+        assistLogic.loadFont(this.diagram, root);
         final DiagramContents diagramContents = this.diagram.getDiagramContents();
         loadDiagramContents(diagramContents, root);
         this.diagram.setCurrentCategory(null, this.getIntValue(root, "category_index"));
@@ -133,54 +134,21 @@ public class ErmXmlReader {
     //                                                                            Database
     //                                                                            ========
     private String loadDatabase(Element settingsElement) {
-        String database = getStringValue(settingsElement, "database");
-        if (database == null) {
-            database = DBManagerFactory.getAllDBList().get(0);
-        }
-        return database;
+        return databaseLogic.loadDatabase(settingsElement);
     }
 
     // ===================================================================================
     //                                                                          DB Setting
     //                                                                          ==========
     private void loadDBSetting(ERDiagram diagram, Element element) {
-        final Element dbSettingElement = getElement(element, "dbsetting");
-        if (dbSettingElement != null) {
-            final String dbsystem = getStringValue(element, "dbsystem");
-            final String server = getStringValue(element, "server");
-            final int port = getIntValue(element, "port");
-            final String database = getStringValue(element, "database");
-            final String user = getStringValue(element, "user");
-            final String password = getStringValue(element, "password");
-            boolean useDefaultDriver = getBooleanValue(element, "use_default_driver", true);
-            if (StandardSQLDBManager.ID.equals(dbsystem)) {
-                useDefaultDriver = false;
-            }
-            final String url = getStringValue(element, "url");
-            final String driverClassName = getStringValue(element, "driver_class_name");
-            final DBSetting dbSetting =
-                    new DBSetting(dbsystem, server, port, database, user, password, useDefaultDriver, url, driverClassName);
-            diagram.setDbSetting(dbSetting);
-        }
+        settingLogic.loadDBSetting(diagram, element);
     }
 
     // ===================================================================================
     //                                                                        Page Setting
     //                                                                        ============
     private void loadPageSetting(ERDiagram diagram, Element element) {
-        final Element dbSettingElement = this.getElement(element, "page_setting");
-        if (dbSettingElement != null) {
-            final boolean directionHorizontal = this.getBooleanValue(element, "direction_horizontal");
-            final int scale = this.getIntValue(element, "scale");
-            final String paperSize = this.getStringValue(element, "paper_size");
-            final int topMargin = this.getIntValue(element, "top_margin");
-            final int leftMargin = this.getIntValue(element, "left_margin");
-            final int bottomMargin = this.getIntValue(element, "bottom_margin");
-            final int rightMargin = this.getIntValue(element, "right_margin");
-            final PageSetting pageSetting =
-                    new PageSetting(directionHorizontal, scale, paperSize, topMargin, rightMargin, bottomMargin, leftMargin);
-            diagram.setPageSetting(pageSetting);
-        }
+        settingLogic.loadPageSetting(diagram, element);
     }
 
     // ===================================================================================
@@ -213,7 +181,7 @@ public class ErmXmlReader {
                 final Element modelElement = (Element) nodeList.item(i);
                 final ERModel model = new ERModel(diagram);
                 model.setName(getStringValue(modelElement, "name"));
-                loadColor(model, modelElement);
+                assistLogic.loadColor(model, modelElement);
                 final List<ERVirtualTable> tables = new ArrayList<ERVirtualTable>();
                 final Element vtables = getElement(modelElement, "vtables");
                 if (vtables != null) {
@@ -281,14 +249,11 @@ public class ErmXmlReader {
 
     private void loadSequenceSet(SequenceSet sequenceSet, Element parent) {
         final Element element = this.getElement(parent, "sequence_set");
-
         if (element != null) {
             final NodeList nodeList = element.getElementsByTagName("sequence");
-
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element sequenceElemnt = (Element) nodeList.item(i);
                 final Sequence sequence = this.loadSequence(sequenceElemnt);
-
                 sequenceSet.addSequence(sequence);
             }
         }
@@ -296,7 +261,6 @@ public class ErmXmlReader {
 
     private Sequence loadSequence(Element element) {
         final Sequence sequence = new Sequence();
-
         sequence.setName(this.getStringValue(element, "name"));
         sequence.setSchema(this.getStringValue(element, "schema"));
         sequence.setIncrement(this.getIntegerValue(element, "increment"));
@@ -309,20 +273,16 @@ public class ErmXmlReader {
         sequence.setDescription(this.getStringValue(element, "description"));
         sequence.setDataType(this.getStringValue(element, "data_type"));
         sequence.setDecimalSize(this.getIntValue(element, "decimal_size"));
-
         return sequence;
     }
 
     private void loadTriggerSet(TriggerSet triggerSet, Element parent) {
         final Element element = this.getElement(parent, "trigger_set");
-
         if (element != null) {
             final NodeList nodeList = element.getElementsByTagName("trigger");
-
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element triggerElemnt = (Element) nodeList.item(i);
                 final Trigger trigger = this.loadTrigger(triggerElemnt);
-
                 triggerSet.addTrigger(trigger);
             }
         }
@@ -330,21 +290,17 @@ public class ErmXmlReader {
 
     private Trigger loadTrigger(Element element) {
         final Trigger trigger = new Trigger();
-
         trigger.setName(this.getStringValue(element, "name"));
         trigger.setSchema(this.getStringValue(element, "schema"));
         trigger.setSql(this.getStringValue(element, "sql"));
         trigger.setDescription(this.getStringValue(element, "description"));
-
         return trigger;
     }
 
     private void loadTablespaceSet(TablespaceSet tablespaceSet, Element parent, LoadContext context) {
         final Element element = this.getElement(parent, "tablespace_set");
-
         if (element != null) {
             final NodeList nodeList = element.getElementsByTagName("tablespace");
-
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element tablespaceElemnt = (Element) nodeList.item(i);
                 final Tablespace tablespace = this.loadTablespace(tablespaceElemnt, context);
@@ -456,233 +412,91 @@ public class ErmXmlReader {
         }
     }
 
-    // #deleted test data
-    //private void loadTestDataList(List<TestData> testDataList, Element parent, LoadContext context) {
-    //
-    //    Element element = this.getElement(parent, "test_data_list");
-    //
-    //    if (element != null) {
-    //        NodeList nodeList = element.getElementsByTagName("test_data");
-    //
-    //        for (int i = 0; i < nodeList.getLength(); i++) {
-    //            Element testDataElement = (Element) nodeList.item(i);
-    //
-    //            TestData testData = new TestData();
-    //            this.loadTestData(testData, testDataElement, context);
-    //            testDataList.add(testData);
-    //        }
-    //    }
-    //}
-    //private void loadTestData(TestData testData, Element element, LoadContext context) {
-    //
-    //    testData.setName(this.getStringValue(element, "name"));
-    //    testData.setExportOrder(this.getIntValue(element, "export_order"));
-    //
-    //    NodeList nodeList = element.getElementsByTagName("table_test_data");
-    //
-    //    for (int i = 0; i < nodeList.getLength(); i++) {
-    //        Element tableTestDataElement = (Element) nodeList.item(i);
-    //
-    //        TableTestData tableTestData = new TableTestData();
-    //
-    //        String tableId = this.getStringValue(tableTestDataElement, "table_id");
-    //        ERTable table = (ERTable) context.nodeElementMap.get(tableId);
-    //        if (table != null) {
-    //            this.loadDirectTestData(tableTestData.getDirectTestData(), tableTestDataElement, context);
-    //            this.loadRepeatTestData(tableTestData.getRepeatTestData(), tableTestDataElement, context);
-    //
-    //            testData.putTableTestData(table, tableTestData);
-    //        }
-    //    }
-    //
-    //}
-    //private void loadDirectTestData(DirectTestData directTestData, Element parent, LoadContext context) {
-    //    Element element = this.getElement(parent, "direct_test_data");
-    //
-    //    NodeList nodeList = element.getElementsByTagName("data");
-    //
-    //    List<Map<NormalColumn, String>> dataList = directTestData.getDataList();
-    //    for (int i = 0; i < nodeList.getLength(); i++) {
-    //        Element dataElement = (Element) nodeList.item(i);
-    //
-    //        NodeList columnNodeList = dataElement.getElementsByTagName("column_data");
-    //
-    //        Map<NormalColumn, String> data = new HashMap<NormalColumn, String>();
-    //
-    //        for (int j = 0; j < columnNodeList.getLength(); j++) {
-    //            Element columnDataElement = (Element) columnNodeList.item(j);
-    //
-    //            String columnId = this.getStringValue(columnDataElement, "column_id");
-    //            NormalColumn column = context.columnMap.get(columnId);
-    //
-    //            String value = this.getStringValue(columnDataElement, "value");
-    //
-    //            data.put(column, value);
-    //        }
-    //
-    //        dataList.add(data);
-    //    }
-    //}
-    //private void loadRepeatTestData(RepeatTestData repeatTestData, Element parent, LoadContext context) {
-    //    Element element = this.getElement(parent, "repeat_test_data");
-    //
-    //    int testDataNum = this.getIntegerValue(element, "test_data_num");
-    //    repeatTestData.setTestDataNum(testDataNum);
-    //
-    //    Element dataDefListElement = this.getElement(element, "data_def_list");
-    //
-    //    NodeList nodeList = dataDefListElement.getElementsByTagName("data_def");
-    //
-    //    for (int i = 0; i < nodeList.getLength(); i++) {
-    //        Element dataDefElement = (Element) nodeList.item(i);
-    //
-    //        String columnId = this.getStringValue(dataDefElement, "column_id");
-    //        NormalColumn column = context.columnMap.get(columnId);
-    //
-    //        RepeatTestDataDef dataDef = new RepeatTestDataDef();
-    //
-    //        dataDef.setType(this.getStringValue(dataDefElement, "type"));
-    //        dataDef.setRepeatNum(this.getIntValue(dataDefElement, "repeat_num"));
-    //        dataDef.setTemplate(this.getStringValue(dataDefElement, "template"));
-    //        dataDef.setFrom(this.getIntValue(dataDefElement, "from"));
-    //        dataDef.setTo(this.getIntValue(dataDefElement, "to"));
-    //        dataDef.setIncrement(this.getIntValue(dataDefElement, "increment"));
-    //        dataDef.setSelects(this.getTagValues(dataDefElement, "select"));
-    //
-    //        Element modifiedValuesElement = this.getElement(dataDefElement, "modified_values");
-    //        if (modifiedValuesElement != null) {
-    //            NodeList modifiedValueNodeList = modifiedValuesElement.getElementsByTagName("modified_value");
-    //
-    //            for (int j = 0; j < modifiedValueNodeList.getLength(); j++) {
-    //                Element modifiedValueNode = (Element) modifiedValueNodeList.item(j);
-    //
-    //                Integer row = this.getIntValue(modifiedValueNode, "row");
-    //                String value = this.getStringValue(modifiedValueNode, "value");
-    //
-    //                dataDef.setModifiedValue(row, value);
-    //            }
-    //        }
-    //
-    //        repeatTestData.setDataDef(column, dataDef);
-    //    }
-    //}
-
     private void loadDictionary(Dictionary dictionary, Element parent, LoadContext context) {
-
         final Element element = this.getElement(parent, "dictionary");
-
         if (element != null) {
             final NodeList nodeList = element.getElementsByTagName("word");
-
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element wordElement = (Element) nodeList.item(i);
-
                 this.loadWord(wordElement, context);
             }
         }
     }
 
     private Word loadWord(Element element, LoadContext context) {
-
         final String id = this.getStringValue(element, "id");
-
         final String type = this.getStringValue(element, "type");
-
         final TypeData typeData =
                 new TypeData(this.getIntegerValue(element, "length"), this.getIntegerValue(element, "decimal"), this.getBooleanValue(
                         element, "array"), this.getIntegerValue(element, "array_dimension"), this.getBooleanValue(element, "unsigned"),
                         this.getStringValue(element, "args"));
-
         final Word word =
                 new Word(Format.null2blank(this.getStringValue(element, "physical_name")), Format.null2blank(this.getStringValue(element,
                         "logical_name")), SqlType.valueOfId(type), typeData,
                         Format.null2blank(this.getStringValue(element, "description")), this.database);
-
         context.wordMap.put(id, word);
-
         return word;
     }
 
     private List<ERColumn> loadColumns(Element parent, LoadContext context) {
         final List<ERColumn> columns = new ArrayList<ERColumn>();
-
         final Element element = this.getElement(parent, "columns");
-
         final NodeList groupList = element.getChildNodes();
-
         for (int i = 0; i < groupList.getLength(); i++) {
             if (groupList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-
             final Element columnElement = (Element) groupList.item(i);
-
             if ("column_group".equals(columnElement.getTagName())) {
                 final ColumnGroup column = this.loadColumnGroup(columnElement, context);
                 columns.add(column);
-
             } else if ("normal_column".equals(columnElement.getTagName())) {
                 final NormalColumn column = this.loadNormalColumn(columnElement, context);
                 columns.add(column);
             }
         }
-
         return columns;
     }
 
     private ColumnGroup loadColumnGroup(Element element, LoadContext context) {
         final String key = element.getFirstChild().getNodeValue();
-
         return context.columnGroupMap.get(key);
     }
 
     private NormalColumn loadNormalColumn(Element element, LoadContext context) {
-
         final String id = this.getStringValue(element, "id");
-
         final String type = this.getStringValue(element, "type");
-
         final String wordId = this.getStringValue(element, "word_id");
-
         Word word = context.wordMap.get(wordId);
-
         NormalColumn normalColumn = null;
-
         if (word == null) {
             word =
                     new Word(this.getStringValue(element, "physical_name"), this.getStringValue(element, "logical_name"),
                             SqlType.valueOfId(type), new TypeData(null, null, false, null, false, null), this.getStringValue(element,
                                     "description"), database);
-
             final UniqueWord uniqueWord = new UniqueWord(word);
-
             if (context.uniqueWordMap.containsKey(uniqueWord)) {
                 word = context.uniqueWordMap.get(uniqueWord);
             } else {
                 context.uniqueWordMap.put(uniqueWord, word);
             }
         }
-
         normalColumn =
                 new NormalColumn(word, this.getBooleanValue(element, "not_null"), this.getBooleanValue(element, "primary_key"),
                         this.getBooleanValue(element, "unique_key"), this.getBooleanValue(element, "auto_increment"), this.getStringValue(
                                 element, "default_value"), this.getStringValue(element, "constraint"), this.getStringValue(element,
                                 "unique_key_name"), this.getStringValue(element, "character_set"),
                         this.getStringValue(element, "collation"));
-
         final Element autoIncrementSettingElement = this.getElement(element, "sequence");
         if (autoIncrementSettingElement != null) {
             final Sequence autoIncrementSetting = this.loadSequence(autoIncrementSettingElement);
             normalColumn.setAutoIncrementSetting(autoIncrementSetting);
         }
-
         boolean isForeignKey = false;
-
         final String[] relationIds = this.getTagValues(element, "relation");
         if (relationIds != null) {
             context.columnRelationMap.put(normalColumn, relationIds);
         }
-
         String[] referencedColumnIds = this.getTagValues(element, "referenced_column");
         final List<String> temp = new ArrayList<String>();
         for (final String str : referencedColumnIds) {
@@ -691,177 +505,22 @@ public class ErmXmlReader {
                     Integer.parseInt(str);
                     temp.add(str);
                 }
-
             } catch (final NumberFormatException e) {}
         }
-
         referencedColumnIds = temp.toArray(new String[temp.size()]);
-
         if (referencedColumnIds.length != 0) {
             context.columnReferencedColumnMap.put(normalColumn, referencedColumnIds);
             isForeignKey = true;
         }
-
         if (!isForeignKey) {
             context.dictionary.add(normalColumn);
         }
-
         context.columnMap.put(id, normalColumn);
-
         return normalColumn;
     }
 
     private void loadSettings(Settings settings, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "settings");
-
-        if (element != null) {
-            settings.setDatabase(this.loadDatabase(element));
-            settings.setCapital(this.getBooleanValue(element, "capital"));
-            settings.setTableStyle(Format.null2blank(this.getStringValue(element, "table_style")));
-
-            settings.setNotation(this.getStringValue(element, "notation"));
-            settings.setNotationLevel(this.getIntValue(element, "notation_level"));
-            settings.setNotationExpandGroup(this.getBooleanValue(element, "notation_expand_group"));
-
-            settings.setViewMode(this.getIntValue(element, "view_mode"));
-            settings.setOutlineViewMode(this.getIntValue(element, "outline_view_mode"));
-            settings.setViewOrderBy(this.getIntValue(element, "view_order_by"));
-
-            settings.setAutoImeChange(this.getBooleanValue(element, "auto_ime_change"));
-            settings.setValidatePhysicalName(this.getBooleanValue(element, "validate_physical_name", true));
-            settings.setUseBezierCurve(this.getBooleanValue(element, "use_bezier_curve"));
-            settings.setSuspendValidator(this.getBooleanValue(element, "suspend_validator"));
-            if (this.getStringValue(element, "titleFontEm") != null) {
-                settings.setTitleFontEm(new BigDecimal(this.getStringValue(element, "titleFontEm")));
-            }
-            if (this.getStringValue(element, "masterDataBasePath") != null) {
-                settings.setMasterDataBasePath(this.getStringValue(element, "masterDataBasePath"));
-            }
-
-            final ExportSetting exportSetting = settings.getExportSetting();
-            this.loadExportSetting(exportSetting, element, context);
-
-            final CategorySetting categorySetting = settings.getCategorySetting();
-            this.loadCategorySetting(categorySetting, element, context);
-
-            final ModelProperties modelProperties = settings.getModelProperties();
-            this.loadModelProperties(modelProperties, element);
-
-            this.loadTableProperties((TableProperties) settings.getTableViewProperties(), element, context);
-        }
-    }
-
-    private void loadExportSetting(ExportSetting exportSetting, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "export_setting");
-
-        if (element != null) {
-            exportSetting.setCategoryNameToExport(this.getStringValue(element, "category_name_to_export"));
-            exportSetting.setDdlOutput(this.getStringValue(element, "ddl_output"));
-            exportSetting.setExcelOutput(this.getStringValue(element, "excel_output"));
-            exportSetting.setExcelTemplate(this.getStringValue(element, "excel_template"));
-            exportSetting.setImageOutput(this.getStringValue(element, "image_output"));
-            exportSetting.setPutERDiagramOnExcel(this.getBooleanValue(element, "put_diagram_on_excel"));
-            exportSetting.setUseLogicalNameAsSheet(this.getBooleanValue(element, "use_logical_name_as_sheet"));
-            exportSetting.setOpenAfterSaved(this.getBooleanValue(element, "open_after_saved"));
-
-            exportSetting.getDdlTarget().createComment = this.getBooleanValue(element, "create_comment");
-            exportSetting.getDdlTarget().createForeignKey = this.getBooleanValue(element, "create_foreignKey");
-            exportSetting.getDdlTarget().createIndex = this.getBooleanValue(element, "create_index");
-            exportSetting.getDdlTarget().createSequence = this.getBooleanValue(element, "create_sequence");
-            exportSetting.getDdlTarget().createTable = this.getBooleanValue(element, "create_table");
-            exportSetting.getDdlTarget().createTablespace = this.getBooleanValue(element, "create_tablespace");
-            exportSetting.getDdlTarget().createTrigger = this.getBooleanValue(element, "create_trigger");
-            exportSetting.getDdlTarget().createView = this.getBooleanValue(element, "create_view");
-
-            exportSetting.getDdlTarget().dropIndex = this.getBooleanValue(element, "drop_index");
-            exportSetting.getDdlTarget().dropSequence = this.getBooleanValue(element, "drop_sequence");
-            exportSetting.getDdlTarget().dropTable = this.getBooleanValue(element, "drop_table");
-            exportSetting.getDdlTarget().dropTablespace = this.getBooleanValue(element, "drop_tablespace");
-            exportSetting.getDdlTarget().dropTrigger = this.getBooleanValue(element, "drop_trigger");
-            exportSetting.getDdlTarget().dropView = this.getBooleanValue(element, "drop_view");
-
-            exportSetting.getDdlTarget().inlineColumnComment = this.getBooleanValue(element, "inline_column_comment");
-            exportSetting.getDdlTarget().inlineTableComment = this.getBooleanValue(element, "inline_table_comment");
-
-            exportSetting.getDdlTarget().commentValueDescription = this.getBooleanValue(element, "comment_value_description");
-            exportSetting.getDdlTarget().commentValueLogicalName = this.getBooleanValue(element, "comment_value_logical_name");
-            exportSetting.getDdlTarget().commentValueLogicalNameDescription =
-                    this.getBooleanValue(element, "comment_value_logical_name_description");
-            exportSetting.getDdlTarget().commentReplaceLineFeed = this.getBooleanValue(element, "comment_replace_line_feed");
-            exportSetting.getDdlTarget().commentReplaceString = this.getStringValue(element, "comment_replace_string");
-
-            // #deleted
-            //this.loadExportJavaSetting(exportSetting.getExportJavaSetting(), element, context);
-            //this.loadExportTestDataSetting(exportSetting.getExportTestDataSetting(), element, context);
-        }
-    }
-
-    // #deleted
-    //private void loadExportJavaSetting(ExportJavaSetting exportJavaSetting, Element parent, LoadContext context) {
-    //    Element element = this.getElement(parent, "export_java_setting");
-    //
-    //    if (element != null) {
-    //        exportJavaSetting.setJavaOutput(this.getStringValue(element, "java_output"));
-    //        exportJavaSetting.setPackageName(Format.null2blank(this.getStringValue(element, "package_name")));
-    //        exportJavaSetting.setClassNameSuffix(Format.null2blank(this.getStringValue(element, "class_name_suffix")));
-    //        exportJavaSetting.setSrcFileEncoding(this.getStringValue(element, "src_file_encoding"));
-    //        exportJavaSetting.setWithHibernate(this.getBooleanValue(element, "with_hibernate"));
-    //    }
-    //}
-    //private void loadExportTestDataSetting(ExportTestDataSetting exportTestDataSetting, Element parent, LoadContext context) {
-    //    Element element = this.getElement(parent, "export_testdata_setting");
-    //
-    //    if (element != null) {
-    //        exportTestDataSetting.setExportFileEncoding(this.getStringValue(element, "file_encoding"));
-    //        exportTestDataSetting.setExportFilePath(this.getStringValue(element, "file_path"));
-    //        exportTestDataSetting.setExportFormat(this.getIntValue(element, "format"));
-    //    }
-    //}
-
-    private void loadCategorySetting(CategorySetting categorySetting, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "category_settings");
-        categorySetting.setFreeLayout(this.getBooleanValue(element, "free_layout"));
-        categorySetting.setShowReferredTables(this.getBooleanValue(element, "show_referred_tables"));
-
-        final Element categoriesElement = this.getElement(element, "categories");
-
-        final NodeList nodeList = categoriesElement.getChildNodes();
-
-        final List<Category> selectedCategories = new ArrayList<Category>();
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
-                continue;
-            }
-
-            final Element categoryElement = (Element) nodeList.item(i);
-
-            final Category category = new Category();
-
-            this.loadNodeElement(category, categoryElement, context);
-            category.setName(this.getStringValue(categoryElement, "name"));
-            final boolean isSelected = this.getBooleanValue(categoryElement, "selected");
-
-            final String[] keys = this.getTagValues(categoryElement, "node_element");
-
-            final List<NodeElement> nodeElementList = new ArrayList<NodeElement>();
-
-            for (final String key : keys) {
-                final NodeElement nodeElement = context.nodeElementMap.get(key);
-                if (nodeElement != null) {
-                    nodeElementList.add(nodeElement);
-                }
-            }
-
-            category.setContents(nodeElementList);
-            categorySetting.addCategory(category);
-
-            if (isSelected) {
-                selectedCategories.add(category);
-            }
-        }
-
-        categorySetting.setSelectedCategories(selectedCategories);
+        settingLogic.loadSettings(settings, parent, context);
     }
 
     private VGroup loadGroup(ERModel model, Element node, LoadContext context) {
@@ -912,46 +571,12 @@ public class ErmXmlReader {
                 context.environmentMap.put(id, environment);
             }
         }
-
         if (environmentList.isEmpty()) {
             final Environment environment = new Environment(DisplayMessages.getMessage("label.default"));
             environmentList.add(environment);
             context.environmentMap.put("", environment);
         }
-
         environmentSetting.setEnvironments(environmentList);
-    }
-
-    private void loadModelProperties(ModelProperties modelProperties, Element parent) {
-        final Element element = this.getElement(parent, "model_properties");
-
-        this.loadLocation(modelProperties, element);
-        this.loadColor(modelProperties, element);
-
-        modelProperties.setDisplay(this.getBooleanValue(element, "display"));
-        modelProperties.setCreationDate(this.getDateValue(element, "creation_date"));
-        modelProperties.setUpdatedDate(this.getDateValue(element, "updated_date"));
-
-        final NodeList nodeList = element.getElementsByTagName("model_property");
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            final Element propertyElement = (Element) nodeList.item(i);
-
-            final NameValue nameValue =
-                    new NameValue(this.getStringValue(propertyElement, "name"), this.getStringValue(propertyElement, "value"));
-
-            modelProperties.addProperty(nameValue);
-        }
-    }
-
-    private void loadLocation(NodeElement nodeElement, Element element) {
-
-        final int x = this.getIntValue(element, "x");
-        final int y = this.getIntValue(element, "y");
-        final int width = this.getIntValue(element, "width");
-        final int height = this.getIntValue(element, "height");
-
-        nodeElement.setLocation(new Location(x, y, width, height));
     }
 
     private void loadContents(NodeSet contents, Element parent, LoadContext context) {
@@ -998,9 +623,7 @@ public class ErmXmlReader {
 
     private ERTable loadTable(Element element, LoadContext context) {
         final ERTable table = new ERTable();
-
         table.setDiagram(this.diagram);
-
         this.loadNodeElement(table, element, context);
         table.setPhysicalName(this.getStringValue(element, "physical_name"));
         table.setLogicalName(this.getStringValue(element, "logical_name"));
@@ -1008,18 +631,13 @@ public class ErmXmlReader {
         table.setConstraint(this.getStringValue(element, "constraint"));
         table.setPrimaryKeyName(this.getStringValue(element, "primary_key_name"));
         table.setOption(this.getStringValue(element, "option"));
-
         final List<ERColumn> columns = this.loadColumns(element, context);
         table.setColumns(columns);
-
         final List<ERIndex> indexes = this.loadIndexes(element, table, context);
         table.setIndexes(indexes);
-
         final List<ComplexUniqueKey> complexUniqueKeyList = this.loadComplexUniqueKeyList(element, table, context);
         table.setComplexUniqueKeyList(complexUniqueKeyList);
-
-        this.loadTableProperties((TableProperties) table.getTableViewProperties(), element, context);
-
+        loadTableProperties((TableProperties) table.getTableViewProperties(), element, context);
         return table;
     }
 
@@ -1027,176 +645,112 @@ public class ErmXmlReader {
         final String tableId = getStringValue(element, "id");
         final ERTable rawTable = (ERTable) context.nodeElementMap.get(tableId);
         final ERVirtualTable vtable = new ERVirtualTable(model, rawTable);
-        loadLocation(vtable, element);
-        loadFont(vtable, element);
+        assistLogic.loadLocation(vtable, element);
+        assistLogic.loadFont(vtable, element);
         return vtable;
     }
 
     private ERView loadView(Element element, LoadContext context) {
         final ERView view = new ERView();
-
         view.setDiagram(this.diagram);
-
         this.loadNodeElement(view, element, context);
         view.setPhysicalName(this.getStringValue(element, "physical_name"));
         view.setLogicalName(this.getStringValue(element, "logical_name"));
         view.setDescription(this.getStringValue(element, "description"));
         view.setSql(this.getStringValue(element, "sql"));
-
         final List<ERColumn> columns = this.loadColumns(element, context);
         view.setColumns(columns);
-
         this.loadViewProperties((ViewProperties) view.getTableViewProperties(), element, context);
-
         return view;
     }
 
     private List<ERIndex> loadIndexes(Element parent, ERTable table, LoadContext context) {
         final List<ERIndex> indexes = new ArrayList<ERIndex>();
-
         final Element element = this.getElement(parent, "indexes");
-
         final NodeList nodeList = element.getChildNodes();
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-
             final Element indexElement = (Element) nodeList.item(i);
-
             String type = this.getStringValue(indexElement, "type");
             if ("null".equals(type)) {
                 type = null;
             }
-
             final ERIndex index =
                     new ERIndex(table, this.getStringValue(indexElement, "name"), this.getBooleanValue(indexElement, "non_unique"), type,
                             this.getStringValue(indexElement, "description"));
-
             index.setFullText(this.getBooleanValue(indexElement, "full_text"));
-
             this.loadIndexColumns(index, indexElement, context);
-
             indexes.add(index);
         }
-
         return indexes;
     }
 
     private void loadIndexColumns(ERIndex index, Element parent, LoadContext context) {
         final Element element = this.getElement(parent, "columns");
         final NodeList nodeList = element.getChildNodes();
-
         final List<Boolean> descs = new ArrayList<Boolean>();
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-
             final Element columnElement = (Element) nodeList.item(i);
-
             final String id = this.getStringValue(columnElement, "id");
             final NormalColumn column = context.columnMap.get(id);
-
             final Boolean desc = new Boolean(this.getBooleanValue(columnElement, "desc"));
-
             index.addColumn(column);
             descs.add(desc);
         }
-
         index.setDescs(descs);
     }
 
     private List<ComplexUniqueKey> loadComplexUniqueKeyList(Element parent, ERTable table, LoadContext context) {
         final List<ComplexUniqueKey> complexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
-
         final Element element = this.getElement(parent, "complex_unique_key_list");
         if (element == null) {
             return complexUniqueKeyList;
         }
-
         final NodeList nodeList = element.getChildNodes();
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-
             final Element complexUniqueKeyElement = (Element) nodeList.item(i);
-
             final String id = this.getStringValue(complexUniqueKeyElement, "id");
             final String name = this.getStringValue(complexUniqueKeyElement, "name");
-
             final ComplexUniqueKey complexUniqueKey = new ComplexUniqueKey(name);
-
             this.loadComplexUniqueKeyColumns(complexUniqueKey, complexUniqueKeyElement, context);
-
             complexUniqueKeyList.add(complexUniqueKey);
-
             context.complexUniqueKeyMap.put(id, complexUniqueKey);
         }
-
         return complexUniqueKeyList;
     }
 
     private void loadComplexUniqueKeyColumns(ComplexUniqueKey complexUniqueKey, Element parent, LoadContext context) {
         final Element element = this.getElement(parent, "columns");
         final NodeList nodeList = element.getChildNodes();
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-
             final Element columnElement = (Element) nodeList.item(i);
-
             final String id = this.getStringValue(columnElement, "id");
             final NormalColumn column = context.columnMap.get(id);
-
             complexUniqueKey.addColumn(column);
         }
     }
 
     private void loadTableProperties(TableProperties tableProperties, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "table_properties");
-
-        final String tablespaceId = this.getStringValue(element, "tablespace_id");
-        final Tablespace tablespace = context.tablespaceMap.get(tablespaceId);
-        tableProperties.setTableSpace(tablespace);
-
-        tableProperties.setSchema(this.getStringValue(element, "schema"));
-
-        if (tableProperties instanceof MySQLTableProperties) {
-            this.loadTablePropertiesMySQL((MySQLTableProperties) tableProperties, element);
-
-        } else if (tableProperties instanceof PostgresTableProperties) {
-            this.loadTablePropertiesPostgres((PostgresTableProperties) tableProperties, element);
-
-        }
-    }
-
-    private void loadTablePropertiesMySQL(MySQLTableProperties tableProperties, Element element) {
-
-        tableProperties.setCharacterSet(this.getStringValue(element, "character_set"));
-        tableProperties.setCollation(this.getStringValue(element, "collation"));
-        tableProperties.setStorageEngine(this.getStringValue(element, "storage_engine"));
-        tableProperties.setPrimaryKeyLengthOfText(this.getIntegerValue(element, "primary_key_length_of_text"));
-    }
-
-    private void loadTablePropertiesPostgres(PostgresTableProperties tableProperties, Element element) {
-        tableProperties.setWithoutOIDs(this.getBooleanValue(element, "without_oids"));
+        tablePropertiesLogic.loadTableProperties(tableProperties, parent, context);
     }
 
     private void loadViewProperties(ViewProperties viewProperties, Element parent, LoadContext context) {
         final Element element = this.getElement(parent, "view_properties");
-
         if (element != null) {
             final String tablespaceId = this.getStringValue(element, "tablespace_id");
             final Tablespace tablespace = context.tablespaceMap.get(tablespaceId);
             viewProperties.setTableSpace(tablespace);
-
             viewProperties.setSchema(this.getStringValue(element, "schema"));
         }
     }
@@ -1204,304 +758,67 @@ public class ErmXmlReader {
     private Note loadNote(ERModel model, Element element, LoadContext context) {
         final Note note = new Note();
         note.setModel(model);
-
         note.setText(this.getStringValue(element, "text"));
-        this.loadNodeElement(note, element, context);
-
+        loadNodeElement(note, element, context);
         return note;
     }
 
     private InsertedImage loadInsertedImage(Element element, LoadContext context) {
         final InsertedImage insertedImage = new InsertedImage();
-
         insertedImage.setBase64EncodedData(this.getStringValue(element, "data"));
         insertedImage.setHue(this.getIntValue(element, "hue"));
         insertedImage.setSaturation(this.getIntValue(element, "saturation"));
         insertedImage.setBrightness(this.getIntValue(element, "brightness"));
         insertedImage.setAlpha(this.getIntValue(element, "alpha", 255));
         insertedImage.setFixAspectRatio(this.getBooleanValue(element, "fix_aspect_ratio"));
-
-        this.loadNodeElement(insertedImage, element, context);
-
+        loadNodeElement(insertedImage, element, context);
         return insertedImage;
     }
 
     private void loadNodeElement(NodeElement nodeElement, Element element, LoadContext context) {
-        final String id = this.getStringValue(element, "id");
-
-        this.loadLocation(nodeElement, element);
-        this.loadColor(nodeElement, element);
-        this.loadFont(nodeElement, element);
-
-        context.nodeElementMap.put(id, nodeElement);
-
-        this.loadConnections(element, context);
-    }
-
-    private void loadConnections(Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "connections");
-
-        if (element != null) {
-            final NodeList nodeList = element.getChildNodes();
-
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
-                    continue;
-                }
-
-                final Element connectionElement = (Element) nodeList.item(i);
-
-                if ("relation".equals(connectionElement.getTagName())) {
-                    this.loadRelation(connectionElement, context);
-
-                } else if ("comment_connection".equals(connectionElement.getTagName())) {
-                    this.loadCommentConnection(connectionElement, context);
-                }
-            }
-        }
-    }
-
-    private void loadRelation(Element element, LoadContext context) {
-        final boolean referenceForPK = this.getBooleanValue(element, "reference_for_pk");
-        final Relationship connection = new Relationship(referenceForPK, null, null);
-
-        this.load(connection, element, context);
-
-        connection.setChildCardinality(this.getStringValue(element, "child_cardinality"));
-        connection.setParentCardinality(this.getStringValue(element, "parent_cardinality"));
-        connection.setName(this.getStringValue(element, "name"));
-        connection.setOnDeleteAction(this.getStringValue(element, "on_delete_action"));
-        connection.setOnUpdateAction(this.getStringValue(element, "on_update_action"));
-        connection.setSourceLocationp(this.getIntValue(element, "source_xp"), this.getIntValue(element, "source_yp"));
-        connection.setTargetLocationp(this.getIntValue(element, "target_xp"), this.getIntValue(element, "target_yp"));
-
-        final String referencedComplexUniqueKeyId = this.getStringValue(element, "referenced_complex_unique_key");
-        if (!"null".equals(referencedComplexUniqueKeyId)) {
-            context.referencedComplexUniqueKeyMap.put(connection, referencedComplexUniqueKeyId);
-        }
-        final String referencedColumnId = this.getStringValue(element, "referenced_column");
-        if (!"null".equals(referencedColumnId)) {
-            context.referencedColumnMap.put(connection, referencedColumnId);
-        }
-    }
-
-    private void loadCommentConnection(Element element, LoadContext context) {
-        final CommentConnection connection = new CommentConnection();
-
-        this.load(connection, element, context);
-    }
-
-    private void load(ConnectionElement connection, Element element, LoadContext context) {
-        final String id = this.getStringValue(element, "id");
-
-        context.connectionMap.put(id, connection);
-
-        final String source = this.getStringValue(element, "source");
-        final String target = this.getStringValue(element, "target");
-
-        context.connectionSourceMap.put(connection, source);
-        context.connectionTargetMap.put(connection, target);
-
-        final NodeList nodeList = element.getElementsByTagName("bendpoint");
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            final Element bendPointElement = (Element) nodeList.item(i);
-
-            final Bendpoint bendpoint = new Bendpoint(this.getIntValue(bendPointElement, "x"), this.getIntValue(bendPointElement, "y"));
-
-            bendpoint.setRelative(this.getBooleanValue(bendPointElement, "relative"));
-
-            connection.addBendpoint(i, bendpoint);
-        }
+        nodeElementLogic.loadNodeElement(nodeElement, element, context);
     }
 
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
     private String getStringValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return "";
-        }
-        return node.getFirstChild().getNodeValue();
+        return assistLogic.getStringValue(element, tagname);
     }
 
     private boolean getBooleanValue(Element element, String tagname) {
-        return getBooleanValue(element, tagname, false);
-    }
-
-    private boolean getBooleanValue(Element element, String tagname, boolean defaultValue) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return defaultValue;
-        }
-        final Node node = nodeList.item(0);
-        final String value = node.getFirstChild().getNodeValue();
-        return Boolean.valueOf(value).booleanValue();
+        return assistLogic.getBooleanValue(element, tagname);
     }
 
     private int getIntValue(Element element, String tagname) {
-        return getIntValue(element, tagname, 0);
+        return assistLogic.getIntValue(element, tagname);
     }
 
     private int getIntValue(Element element, String tagname, int defaultValue) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return defaultValue;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return defaultValue;
-        }
-        final String value = node.getFirstChild().getNodeValue();
-        return Integer.valueOf(value).intValue();
+        return assistLogic.getIntValue(element, tagname, defaultValue);
     }
 
     private Integer getIntegerValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return null;
-        }
-        final String value = node.getFirstChild().getNodeValue();
-        try {
-            return Integer.valueOf(value);
-        } catch (final NumberFormatException e) {
-            return null;
-        }
+        return assistLogic.getIntegerValue(element, tagname);
     }
 
     private Long getLongValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return null;
-        }
-        final String value = node.getFirstChild().getNodeValue();
-        try {
-            return Long.valueOf(value);
-        } catch (final NumberFormatException e) {
-            return null;
-        }
+        return assistLogic.getLongValue(element, tagname);
     }
 
     private BigDecimal getBigDecimalValue(Element element, String tagname) {
-        final String value = this.getStringValue(element, tagname);
-
-        try {
-            return new BigDecimal(value);
-        } catch (final Exception e) {}
-
-        return null;
+        return assistLogic.getBigDecimalValue(element, tagname);
     }
 
     private double getDoubleValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-
-        if (nodeList.getLength() == 0) {
-            return 0;
-        }
-
-        final Node node = nodeList.item(0);
-
-        if (node.getFirstChild() == null) {
-            return 0;
-        }
-
-        final String value = node.getFirstChild().getNodeValue();
-
-        return Double.valueOf(value).doubleValue();
-    }
-
-    private Date getDateValue(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-        final Node node = nodeList.item(0);
-        if (node.getFirstChild() == null) {
-            return null;
-        }
-        final String value = node.getFirstChild().getNodeValue();
-        try {
-            return DATE_FORMAT.parse(value);
-        } catch (final ParseException e) {
-            return null;
-        }
+        return assistLogic.getDoubleValue(element, tagname);
     }
 
     private String[] getTagValues(Element element, String tagname) {
-        final NodeList nodeList = element.getElementsByTagName(tagname);
-        final String[] values = new String[nodeList.getLength()];
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            final Node node = nodeList.item(i);
-            if (node.getFirstChild() != null) {
-                values[i] = node.getFirstChild().getNodeValue();
-            }
-        }
-        return values;
+        return assistLogic.getTagValues(element, tagname);
     }
 
     private Element getElement(Element element, String tagname) {
-        final NodeList nodeList = element.getChildNodes();
-        if (nodeList.getLength() == 0) {
-            return null;
-        }
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                final Element ele = (Element) nodeList.item(i);
-                if (ele.getTagName().equals(tagname)) {
-                    return ele;
-                }
-            }
-        }
-        return null;
-    }
-
-    private void loadColor(ViewableModel model, Element element) {
-        final int[] rgb = new int[] { 255, 255, 255 };
-        final Element color = this.getElement(element, "color");
-
-        if (color != null) {
-            rgb[0] = this.getIntValue(color, "r");
-            rgb[1] = this.getIntValue(color, "g");
-            rgb[2] = this.getIntValue(color, "b");
-        }
-
-        model.setColor(rgb[0], rgb[1], rgb[2]);
-    }
-
-    private void loadDefaultColor(ERDiagram diagram, Element element) {
-        final int[] rgb = new int[] { 255, 255, 255 };
-        final Element color = this.getElement(element, "default_color");
-
-        if (color != null) {
-            rgb[0] = this.getIntValue(color, "r");
-            rgb[1] = this.getIntValue(color, "g");
-            rgb[2] = this.getIntValue(color, "b");
-        }
-
-        diagram.setDefaultColor(rgb[0], rgb[1], rgb[2]);
-    }
-
-    private void loadFont(ViewableModel viewableModel, Element element) {
-        if (getElement(element, "font_name") == null) {
-            return;
-        }
-        final String fontName = this.getStringValue(element, "font_name");
-        final int fontSize = this.getIntValue(element, "font_size");
-
-        viewableModel.setFontName(fontName);
-        viewableModel.setFontSize(fontSize);
+        return assistLogic.getElement(element, tagname);
     }
 }

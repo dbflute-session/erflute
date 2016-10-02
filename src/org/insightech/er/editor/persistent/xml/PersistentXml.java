@@ -120,7 +120,7 @@ public class PersistentXml extends Persistent {
     //                                                                              ======
     @Override
     public ERDiagram read(InputStream ins) throws Exception {
-        return new ErmXmlReader().read(ins);
+        return new ErmXmlReader(this).read(ins);
     }
 
     // ===================================================================================
