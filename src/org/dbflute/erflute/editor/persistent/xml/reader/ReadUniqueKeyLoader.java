@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadComplexUniqueKeyLoader {
+public class ReadUniqueKeyLoader {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -25,7 +25,7 @@ public class ReadComplexUniqueKeyLoader {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadComplexUniqueKeyLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic) {
+    public ReadUniqueKeyLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
     }

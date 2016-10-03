@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class WrittenComplexUniqueKeyBuilder {
+public class WrittenUniqueKeyBuilder {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -22,7 +22,7 @@ public class WrittenComplexUniqueKeyBuilder {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenComplexUniqueKeyBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic) {
+    public WrittenUniqueKeyBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
     }

@@ -1,11 +1,13 @@
 package org.dbflute.erflute.editor.model.diagram_contents.element.node;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.dbflute.erflute.editor.model.AbstractModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImageSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
@@ -16,97 +18,70 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ViewSet;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     private static final long serialVersionUID = -120487815554383179L;
-
     public static final String PROPERTY_CHANGE_CONTENTS = "contents";
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private final NoteSet noteSet;
-
     private final TableSet tableSet;
-
-    //	private VGroupSet groupSet;
-
-    //	private ERModelSet ermodelSet;
-
     private final ViewSet viewSet;
-
     private final List<NodeElement> nodeElementList;
-
     private final InsertedImageSet insertedImageSet;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public NodeSet() {
         this.tableSet = new TableSet();
-        //		this.groupSet = new VGroupSet();
-        //		this.ermodelSet = new ERModelSet();
         this.viewSet = new ViewSet();
         this.noteSet = new NoteSet();
         this.insertedImageSet = new InsertedImageSet();
-
         this.nodeElementList = new ArrayList<NodeElement>();
     }
 
+    // ===================================================================================
+    //                                                                            Add Node
+    //                                                                            ========
     public void addNodeElement(NodeElement nodeElement) {
         if (nodeElement instanceof ERTable) {
             this.tableSet.add((ERTable) nodeElement);
-
         } else if (nodeElement instanceof ERView) {
             this.viewSet.add((ERView) nodeElement);
-
         } else if (nodeElement instanceof Note) {
             this.noteSet.add((Note) nodeElement);
-
         } else if (nodeElement instanceof InsertedImage) {
             this.insertedImageSet.add((InsertedImage) nodeElement);
-
-        } else if (nodeElement instanceof VGroup) {
-            // do nothing
-            //			this.groupSet.add((VGroup) nodeElement);
-            //		} else if (nodeElement instanceof ERModel) {
-            //			this.ermodelSet.add((ERModel) nodeElement);
-
         } else {
-            System.out.println("not support " + nodeElement);
-            //			throw new RuntimeException("not support " + nodeElement);
+            System.out.println("not support " + nodeElement); // why sysout? by jflute
         }
-
-        this.nodeElementList.add(nodeElement);
-
-        this.firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
+        nodeElementList.add(nodeElement);
+        firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
     public void remove(NodeElement nodeElement) {
-        //		if (nodeElement instanceof ERVirtualTable) {
-        //			this.tableSet.remove((ERVirtualTable) nodeElement);
-        //			
-        //		} else
         if (nodeElement instanceof ERTable) {
             this.tableSet.remove((ERTable) nodeElement);
-
         } else if (nodeElement instanceof ERView) {
             this.viewSet.remove((ERView) nodeElement);
-
         } else if (nodeElement instanceof Note) {
             this.noteSet.remove((Note) nodeElement);
-
         } else if (nodeElement instanceof InsertedImage) {
             this.insertedImageSet.remove((InsertedImage) nodeElement);
-
-            //		} else if (nodeElement instanceof VGroup) {
-            // do nothing
-            //			this.groupSet.remove((VGroup) nodeElement);
-
-            //		} else if (nodeElement instanceof ERModel) {
-            //			this.ermodelSet.remove((ERModel) nodeElement);
-
         } else {
             throw new RuntimeException("not support " + nodeElement);
         }
-
-        this.nodeElementList.remove(nodeElement);
-
-        this.firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
+        nodeElementList.remove(nodeElement);
+        firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
     public boolean contains(NodeElement nodeElement) {
@@ -118,29 +93,42 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         this.viewSet.getList().clear();
         this.noteSet.getList().clear();
         this.insertedImageSet.getList().clear();
-
         this.nodeElementList.clear();
     }
 
     public boolean isEmpty() {
-        return this.nodeElementList.isEmpty();
+        return nodeElementList.isEmpty();
     }
 
     public List<NodeElement> getNodeElementList() {
-        return this.nodeElementList;
+        return nodeElementList;
     }
 
     public List<TableView> getTableViewList() {
         final List<TableView> nodeElementList = new ArrayList<TableView>();
-
         nodeElementList.addAll(this.tableSet.getList());
         nodeElementList.addAll(this.viewSet.getList());
-
         return nodeElementList;
     }
 
+    public Set<NodeElement> getSortedSet() {
+        final List<NodeElement> elementList = getNodeElementList();
+        final TreeSet<NodeElement> treeSet = new TreeSet<NodeElement>(new Comparator<NodeElement>() {
+            @Override
+            public int compare(NodeElement o1, NodeElement o2) {
+                if (!o1.getClass().getName().equals(o2.getClass().getName())) {
+                    return o1.getClass().getName().compareTo(o2.getClass().getName());
+                } else {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            }
+        });
+        treeSet.addAll(elementList);
+        return treeSet;
+    }
+
     @Override
-    public Iterator<NodeElement> iterator() {
+    public Iterator<NodeElement> iterator() { // not sorted so cannot use for persistent
         return this.getNodeElementList().iterator();
     }
 
@@ -170,9 +158,4 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
     public InsertedImageSet getInsertedImageSet() {
         return insertedImageSet;
     }
-
-    //	public ERModelSet getErmodelSet() {
-    //		return ermodelSet;
-    //	}
-
 }
