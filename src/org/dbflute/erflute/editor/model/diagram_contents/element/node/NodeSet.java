@@ -111,15 +111,19 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         return nodeElementList;
     }
 
-    public Set<NodeElement> getSortedSet() {
+    public Set<NodeElement> getPersistentSet() { // #for_erflute
         final List<NodeElement> elementList = getNodeElementList();
         final TreeSet<NodeElement> treeSet = new TreeSet<NodeElement>(new Comparator<NodeElement>() {
             @Override
             public int compare(NodeElement o1, NodeElement o2) {
-                if (!o1.getClass().getName().equals(o2.getClass().getName())) {
-                    return o1.getClass().getName().compareTo(o2.getClass().getName());
+                if (o1.getPersistentOrder() != o2.getPersistentOrder()) {
+                    return o1.getPersistentOrder() - o2.getPersistentOrder();
                 } else {
-                    return o1.getName().compareTo(o2.getName());
+                    if (!o1.getClass().getName().equals(o2.getClass().getName())) { // just in case
+                        return o1.getClass().getName().compareTo(o2.getClass().getName());
+                    } else {
+                        return o1.getName().compareTo(o2.getName());
+                    }
                 }
             }
         });

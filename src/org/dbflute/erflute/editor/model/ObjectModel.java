@@ -1,10 +1,13 @@
 package org.dbflute.erflute.editor.model;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public interface ObjectModel {
 
-    public String getObjectType();
+    String getObjectType();
 
-    public String getName();
+    String getName(); // as display name
 
-    public String getDescription();
+    String getDescription();
 }

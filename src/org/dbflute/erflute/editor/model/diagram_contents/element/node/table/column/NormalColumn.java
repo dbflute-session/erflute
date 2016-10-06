@@ -208,12 +208,9 @@ public class NormalColumn extends ERColumn {
         this.collation = collation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getName() {
-        return this.getLogicalName();
+        return this.getPhysicalName(); // #for_erflute change logical to physical for fixed sort
     }
 
     public NormalColumn getRootReferencedColumn() {

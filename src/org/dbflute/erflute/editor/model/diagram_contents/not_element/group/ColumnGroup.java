@@ -45,7 +45,7 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
 
     public void setColumns(List<NormalColumn> columns) {
         this.columns = columns;
-        for (ERColumn column : columns) {
+        for (final ERColumn column : columns) {
             column.setColumnHolder(this);
         }
     }
@@ -55,10 +55,10 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
     }
 
     public List<TableView> getUsedTalbeList(ERDiagram diagram) {
-        List<TableView> usedTableList = new ArrayList<TableView>();
+        final List<TableView> usedTableList = new ArrayList<TableView>();
 
-        for (TableView table : diagram.getDiagramContents().getContents().getTableViewList()) {
-            for (ERColumn tableColumn : table.getColumns()) {
+        for (final TableView table : diagram.getDiagramContents().getContents().getTableViewList()) {
+            for (final ERColumn tableColumn : table.getColumns()) {
                 if (tableColumn == this) {
                     usedTableList.add(table);
                     break;
@@ -69,6 +69,7 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
         return usedTableList;
     }
 
+    @Override
     public int compareTo(ColumnGroup other) {
         if (other == null) {
             return -1;
@@ -84,48 +85,38 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
         return this.groupName.toUpperCase().compareTo(other.getGroupName().toUpperCase());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getName() {
         return this.getGroupName();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ColumnGroup clone() {
-        ColumnGroup clone = (ColumnGroup) super.clone();
-
-        List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();
-
-        for (NormalColumn column : this.columns) {
-            NormalColumn cloneColumn = (NormalColumn) column.clone();
+        final ColumnGroup clone = (ColumnGroup) super.clone();
+        final List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();
+        for (final NormalColumn column : this.columns) {
+            final NormalColumn cloneColumn = column.clone();
             cloneColumns.add(cloneColumn);
         }
-
         clone.setColumns(cloneColumns);
-
         return clone;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
-
         sb.append(", groupName:" + groupName);
         sb.append(", columns:" + columns);
-
         return sb.toString();
     }
 
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getObjectType() {
         return "group";
     }

@@ -178,7 +178,7 @@ public class ErmXmlWriter {
     private String buildContents(NodeSet contents, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<contents>\n");
-        for (final NodeElement content : contents.getSortedSet()) {
+        for (final NodeElement content : contents.getPersistentSet()) {
             final String subxml;
             if (content instanceof ERTable) {
                 subxml = buildTable((ERTable) content, context);

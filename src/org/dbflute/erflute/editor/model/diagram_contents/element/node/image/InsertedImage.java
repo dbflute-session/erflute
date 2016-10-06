@@ -12,22 +12,13 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElemen
 public class InsertedImage extends NodeElement {
 
     private static final long serialVersionUID = -2035035973213266486L;
-
     public static final String PROPERTY_CHANGE_IMAGE = "image";
 
     private String base64EncodedData;
-
-    /** 0�@�`�@360 */
     private int hue;
-
-    /** -100�@�`�@+100 */
     private int saturation;
-
-    /** -100�@�`�@+100 */
     private int brightness;
-
     private int alpha;
-
     private boolean fixAspectRatio;
 
     public InsertedImage() {
@@ -42,14 +33,17 @@ public class InsertedImage extends NodeElement {
         this.base64EncodedData = base64EncodedData;
     }
 
+    @Override
     public String getDescription() {
         return null;
     }
 
+    @Override
     public String getName() {
         return null;
     }
 
+    @Override
     public String getObjectType() {
         return "image";
     }
@@ -60,19 +54,19 @@ public class InsertedImage extends NodeElement {
         try {
             in = new BufferedInputStream(new FileInputStream(imageFilePath));
 
-            byte[] data = IOUtils.toByteArray(in);
+            final byte[] data = IOUtils.toByteArray(in);
 
-            String encodedData = new String(Base64.encodeBase64(data));
+            final String encodedData = new String(Base64.encodeBase64(data));
             this.setBase64EncodedData(encodedData);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
 
         } finally {
             if (in != null) {
                 try {
                     in.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     Activator.showExceptionDialog(e);
                 }
             }
@@ -125,6 +119,11 @@ public class InsertedImage extends NodeElement {
 
     @Override
     public boolean needsUpdateOtherModel() {
-        return true; // �s��
+        return true;
+    }
+
+    @Override
+    public int getPersistentOrder() {
+        return 14;
     }
 }

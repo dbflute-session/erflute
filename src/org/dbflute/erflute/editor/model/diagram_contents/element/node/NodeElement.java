@@ -8,29 +8,23 @@ import org.dbflute.erflute.editor.model.ObjectModel;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public abstract class NodeElement extends ViewableModel implements ObjectModel {
 
     private static final long serialVersionUID = -5143984125818569247L;
 
     public static final String PROPERTY_CHANGE_RECTANGLE = "rectangle";
-
     public static final String PROPERTY_CHANGE_INCOMING = "incoming";
-
     public static final String PROPERTY_CHANGE_OUTGOING = "outgoing";
 
     private Location location;
-
     private List<ConnectionElement> incomings = new ArrayList<ConnectionElement>();
-
     private List<ConnectionElement> outgoings = new ArrayList<ConnectionElement>();
-
     private ERDiagram diagram;
 
-    /**
-     * ���̗v�f��ύX�����Ƃ��A�����f����̗v�f���ύX����K�v�����邩�H
-     * @return
-     */
-    abstract public boolean needsUpdateOtherModel();
+    public abstract boolean needsUpdateOtherModel();
 
     public NodeElement() {
         this.location = new Location(0, 0, 0, 0);
@@ -62,7 +56,6 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
 
     public void setLocation(Location location) {
         this.location = location;
-
         this.firePropertyChange(PROPERTY_CHANGE_RECTANGLE, null, null);
     }
 
@@ -105,41 +98,31 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
     }
 
     public List<NodeElement> getReferringElementList() {
-        List<NodeElement> referringElementList = new ArrayList<NodeElement>();
-
-        for (ConnectionElement connectionElement : this.getOutgoings()) {
-            NodeElement targetElement = connectionElement.getTarget();
-
+        final List<NodeElement> referringElementList = new ArrayList<NodeElement>();
+        for (final ConnectionElement connectionElement : this.getOutgoings()) {
+            final NodeElement targetElement = connectionElement.getTarget();
             referringElementList.add(targetElement);
         }
-
         return referringElementList;
     }
 
     public List<NodeElement> getReferedElementList() {
-        List<NodeElement> referedElementList = new ArrayList<NodeElement>();
-
-        for (ConnectionElement connectionElement : this.getIncomings()) {
-            NodeElement sourceElement = connectionElement.getSource();
-
+        final List<NodeElement> referedElementList = new ArrayList<NodeElement>();
+        for (final ConnectionElement connectionElement : this.getIncomings()) {
+            final NodeElement sourceElement = connectionElement.getSource();
             referedElementList.add(sourceElement);
         }
-
         return referedElementList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public NodeElement clone() {
-        NodeElement clone = (NodeElement) super.clone();
-
+        final NodeElement clone = (NodeElement) super.clone();
         clone.location = this.location.clone();
         clone.setIncoming(new ArrayList<ConnectionElement>());
         clone.setOutgoing(new ArrayList<ConnectionElement>());
-
         return clone;
     }
 
+    public abstract int getPersistentOrder(); // #for_erflute
 }

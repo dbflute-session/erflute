@@ -9,6 +9,9 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ObjectListModel;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<ERView> {
 
     private static final long serialVersionUID = -120487815554383179L;
@@ -32,51 +35,46 @@ public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<
     }
 
     public int remove(ERView view) {
-        int index = this.viewList.indexOf(view);
+        final int index = this.viewList.indexOf(view);
         this.viewList.remove(index);
         this.firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
-
         return index;
     }
 
     public List<ERView> getList() {
         Collections.sort(this.viewList);
-
         return this.viewList;
     }
 
+    @Override
     public Iterator<ERView> iterator() {
         Collections.sort(this.viewList);
-
         return this.viewList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ViewSet clone() {
-        ViewSet viewSet = (ViewSet) super.clone();
-        List<ERView> newViewList = new ArrayList<ERView>();
-
-        for (ERView view : viewList) {
-            ERView newView = (ERView) view.clone();
+        final ViewSet viewSet = (ViewSet) super.clone();
+        final List<ERView> newViewList = new ArrayList<ERView>();
+        for (final ERView view : viewList) {
+            final ERView newView = view.clone();
             newViewList.add(newView);
         }
-
         viewSet.viewList = newViewList;
-
         return viewSet;
     }
 
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getName() {
         return DisplayMessages.getMessage("label.object.type.view_list");
     }
 
+    @Override
     public String getObjectType() {
         return "list";
     }

@@ -12,19 +12,13 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
     private static final long serialVersionUID = 4315217440968295922L;
 
     private static final Comparator<Word> WITHOUT_NAME_COMPARATOR = new WordWithoutNameComparator();
-
     public static final Comparator<Word> PHYSICAL_NAME_COMPARATOR = new WordPhysicalNameComparator();
-
     public static final Comparator<Word> LOGICAL_NAME_COMPARATOR = new WordLogicalNameComparator();
 
     private String physicalName;
-
     private String logicalName;
-
     private SqlType type;
-
     private TypeData typeData;
-
     private String description;
 
     public Word(String physicalName, String logicalName, SqlType type, TypeData typeData, String description, String database) {
@@ -88,6 +82,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
         return typeData;
     }
 
+    @Override
     public String getDescription() {
         return this.description;
     }
@@ -104,20 +99,24 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
         to.typeData = this.typeData.clone();
     }
 
+    @Override
     public int compareTo(Word o) {
         return PHYSICAL_NAME_COMPARATOR.compare(this, o);
     }
 
+    @Override
     public String getName() {
-        return this.getLogicalName();
+        return this.getPhysicalName(); // #for_erflute change logical to physical for fixed sort
     }
 
+    @Override
     public String getObjectType() {
         return "word";
     }
 
     private static class WordWithoutNameComparator implements Comparator<Word> {
 
+        @Override
         public int compare(Word o1, Word o2) {
             if (o1 == o2) {
                 return 0;
@@ -137,7 +136,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
                 if (o2.type == null) {
                     return -1;
                 }
-                int value = o1.type.getId().compareTo(o2.type.getId());
+                final int value = o1.type.getId().compareTo(o2.type.getId());
                 if (value != 0) {
                     return value;
                 }
@@ -151,13 +150,13 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
                 if (o2.typeData == null) {
                     return -1;
                 }
-                int value = o1.typeData.compareTo(o2.typeData);
+                final int value = o1.typeData.compareTo(o2.typeData);
                 if (value != 0) {
                     return value;
                 }
             }
 
-            int value = Format.null2blank(o1.description).compareTo(Format.null2blank(o2.description));
+            final int value = Format.null2blank(o1.description).compareTo(Format.null2blank(o2.description));
             if (value != 0) {
                 return value;
             }
@@ -169,6 +168,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
 
     private static class WordPhysicalNameComparator implements Comparator<Word> {
 
+        @Override
         public int compare(Word o1, Word o2) {
             if (o1 == o2) {
                 return 0;
@@ -199,6 +199,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
 
     private static class WordLogicalNameComparator implements Comparator<Word> {
 
+        @Override
         public int compare(Word o1, Word o2) {
             if (o1 == o2) {
                 return 0;

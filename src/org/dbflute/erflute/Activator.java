@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -123,37 +124,26 @@ public class Activator extends AbstractUIPlugin {
     }
 
     public static boolean showConfirmDialog(String message, int ok, int cancel) {
-        final MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION | ok | cancel);
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final MessageBox messageBox = new MessageBox(shell, SWT.ICON_INFORMATION | ok | cancel);
         messageBox.setText(DisplayMessages.getMessage("dialog.title.confirm"));
         messageBox.setMessage(DisplayMessages.getMessage(message));
         final int result = messageBox.open();
-
-        if (result == ok) {
-            return true;
-        }
-
-        return false;
+        return result == ok;
     }
 
     public static String showSaveDialog(String filePath, String[] filterExtensions) {
         String dir = null;
         String fileName = null;
-
         if (filePath != null && !"".equals(filePath.trim())) {
             final File file = new File(filePath.trim());
-
             dir = file.getParent();
             fileName = file.getName();
         }
-
         final FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.SAVE);
-
         fileDialog.setFilterPath(dir);
         fileDialog.setFileName(fileName);
-
         fileDialog.setFilterExtensions(filterExtensions);
-
         return fileDialog.open();
     }
 
@@ -164,9 +154,8 @@ public class Activator extends AbstractUIPlugin {
      * @return ファイルパスの文字列表現 (NullAllowed: OK状態でなければ)
      */
     public static String showSaveDialogInternal(String filePath, String[] filterExtensions) {
-        final InternalFileDialog fileDialog =
-                new InternalFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath,
-                        filterExtensions[0].substring(1));
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final InternalFileDialog fileDialog = new InternalFileDialog(shell, filePath, filterExtensions[0].substring(1));
         if (fileDialog.open() == Window.OK) {
             final IPath path = fileDialog.getResourcePath();
             return path.toString();
@@ -180,8 +169,8 @@ public class Activator extends AbstractUIPlugin {
      * @return ファイルパスの文字列表現 (NullAllowed: OK状態でなければ)
      */
     public static String showDirectoryDialogInternal(String filePath) {
-        final InternalDirectoryDialog fileDialog =
-                new InternalDirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), filePath);
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final InternalDirectoryDialog fileDialog = new InternalDirectoryDialog(shell, filePath);
         if (fileDialog.open() == Window.OK) {
             final IPath path = fileDialog.getResourcePath();
             return path.toString();
@@ -195,7 +184,8 @@ public class Activator extends AbstractUIPlugin {
             final File file = new File(filePath.trim());
             fileName = file.getPath();
         }
-        final DirectoryDialog dialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.NONE);
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final DirectoryDialog dialog = new DirectoryDialog(shell, SWT.NONE);
         dialog.setFilterPath(fileName);
         return dialog.open();
     }
@@ -350,7 +340,6 @@ public class Activator extends AbstractUIPlugin {
         public void run() {
             GC figureCanvasGC = null;
             GC imageGC = null;
-
             try {
                 final ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) viewer.getRootEditPart();
                 rootEditPart.refresh();
@@ -364,7 +353,6 @@ public class Activator extends AbstractUIPlugin {
 
                 img = new Image(Display.getCurrent(), rootFigureBounds.width + 20, rootFigureBounds.height + 20);
                 imageGC = new GC(img);
-
                 imageGC.setBackground(figureCanvasGC.getBackground());
                 imageGC.setForeground(figureCanvasGC.getForeground());
                 imageGC.setFont(figureCanvasGC.getFont());
@@ -376,12 +364,9 @@ public class Activator extends AbstractUIPlugin {
                 final Graphics imgGraphics = new SWTGraphics(imageGC);
                 imgGraphics.setBackgroundColor(figureCanvas.getBackground());
                 imgGraphics.fillRectangle(0, 0, rootFigureBounds.width + 20, rootFigureBounds.height + 20);
-
                 imgGraphics.translate(ExportToImageAction.translateX(rootFigureBounds.x),
                         ExportToImageAction.translateY(rootFigureBounds.y));
-
                 rootFigure.paint(imgGraphics);
-
             } finally {
                 if (figureCanvasGC != null) {
                     figureCanvasGC.dispose();
@@ -391,7 +376,6 @@ public class Activator extends AbstractUIPlugin {
                 }
             }
         }
-
     }
 
     public static Image createImage(GraphicalViewer viewer) {

@@ -152,6 +152,11 @@ public class ERModel extends NodeElement {
         this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
+    @Override
+    public int getPersistentOrder() {
+        return 6;
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========

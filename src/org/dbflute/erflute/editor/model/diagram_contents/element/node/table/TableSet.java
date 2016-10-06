@@ -11,28 +11,41 @@ import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ObjectListModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class TableSet extends AbstractModel implements ObjectListModel, Iterable<ERTable> {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     private static final long serialVersionUID = 5264397678674390103L;
-
     public static final String PROPERTY_CHANGE_TABLE_SET = "TableSet";
 
-    private List<ERTable> tableList;
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    private List<ERTable> tableList; // overridden in clone()
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public TableSet() {
         this.tableList = new ArrayList<ERTable>();
     }
 
+    // ===================================================================================
+    //                                                                        Manipulation
+    //                                                                        ============
     public void add(ERTable table) {
-        this.tableList.add(table);
-        this.firePropertyChange(PROPERTY_CHANGE_TABLE_SET, null, null);
+        tableList.add(table);
+        firePropertyChange(PROPERTY_CHANGE_TABLE_SET, null, null);
     }
 
     public int remove(ERTable table) {
-        final int index = this.tableList.indexOf(table);
-        this.tableList.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_TABLE_SET, null, null);
-
+        final int index = tableList.indexOf(table);
+        tableList.remove(index);
+        firePropertyChange(PROPERTY_CHANGE_TABLE_SET, null, null);
         return index;
     }
 
@@ -41,13 +54,35 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     }
 
     public List<ERTable> getList() {
-        Collections.sort(this.tableList);
-        return this.tableList;
+        Collections.sort(tableList); // immobilize e.g. DDL order
+        return tableList;
     }
 
+    public List<String> getAutoSequenceNames(String database) {
+        final List<String> autoSequenceNames = new ArrayList<String>();
+        for (final ERTable table : tableList) {
+            final String prefix = table.getNameWithSchema(database) + "_";
+            for (final NormalColumn column : table.getNormalColumns()) {
+                final SqlType sqlType = column.getType();
+                if (isSerialType(sqlType)) {
+                    autoSequenceNames.add((prefix + column.getPhysicalName() + "_seq").toUpperCase());
+                }
+            }
+        }
+        return autoSequenceNames;
+    }
+
+    private boolean isSerialType(final SqlType sqlType) {
+        return SqlType.valueOfId(SqlType.SQL_TYPE_ID_SERIAL).equals(sqlType)
+                || SqlType.valueOfId(SqlType.SQL_TYPE_ID_BIG_SERIAL).equals(sqlType);
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
     @Override
     public Iterator<ERTable> iterator() {
-        Collections.sort(this.tableList);
+        Collections.sort(tableList);
         return this.tableList.iterator();
     }
 
@@ -55,28 +90,12 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     public TableSet clone() {
         final TableSet tableSet = (TableSet) super.clone();
         final List<ERTable> newTableList = new ArrayList<ERTable>();
-        for (final ERTable table : this.tableList) {
+        for (final ERTable table : tableList) {
             final ERTable newTable = table.clone();
             newTableList.add(newTable);
         }
         tableSet.tableList = newTableList;
         return tableSet;
-    }
-
-    public List<String> getAutoSequenceNames(String database) {
-        final List<String> autoSequenceNames = new ArrayList<String>();
-        for (final ERTable table : this.tableList) {
-            final String prefix = table.getNameWithSchema(database) + "_";
-            for (final NormalColumn column : table.getNormalColumns()) {
-                final SqlType sqlType = column.getType();
-
-                if (SqlType.valueOfId(SqlType.SQL_TYPE_ID_SERIAL).equals(sqlType)
-                        || SqlType.valueOfId(SqlType.SQL_TYPE_ID_BIG_SERIAL).equals(sqlType)) {
-                    autoSequenceNames.add((prefix + column.getPhysicalName() + "_seq").toUpperCase());
-                }
-            }
-        }
-        return autoSequenceNames;
     }
 
     // ===================================================================================
@@ -91,8 +110,8 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     //                                                                            Accessor
     //                                                                            ========
     @Override
-    public String getDescription() {
-        return "";
+    public String getObjectType() {
+        return "list";
     }
 
     @Override
@@ -101,7 +120,7 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     }
 
     @Override
-    public String getObjectType() {
-        return "list";
+    public String getDescription() {
+        return "";
     }
 }

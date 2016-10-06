@@ -12,23 +12,17 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElemen
 public class ModelProperties extends NodeElement implements Cloneable {
 
     private static final long serialVersionUID = 5311013351131568260L;
-
     public static final String PROPERTY_CHANGE_MODEL_PROPERTIES = "model_properties";
 
     private boolean display;
-
     private List<NameValue> properties;
-
     private Date creationDate;
-
     private Date updatedDate;
 
     public ModelProperties() {
         this.creationDate = new Date();
         this.updatedDate = new Date();
-
         this.setLocation(new Location(50, 50, -1, -1));
-
         this.properties = new ArrayList<NameValue>();
     }
 
@@ -66,7 +60,6 @@ public class ModelProperties extends NodeElement implements Cloneable {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
-
         this.firePropertyChange(PROPERTY_CHANGE_MODEL_PROPERTIES, null, null);
     }
 
@@ -76,53 +69,43 @@ public class ModelProperties extends NodeElement implements Cloneable {
 
     public void setDisplay(boolean display) {
         this.display = display;
-
         this.firePropertyChange(PROPERTY_CHANGE_MODEL_PROPERTIES, null, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setLocation(Location location) {
         location.width = -1;
         location.height = -1;
-
         super.setLocation(location);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ModelProperties clone() {
-        ModelProperties clone = (ModelProperties) super.clone();
-
-        List<NameValue> list = new ArrayList<NameValue>();
-
-        for (NameValue nameValue : this.properties) {
+        final ModelProperties clone = (ModelProperties) super.clone();
+        final List<NameValue> list = new ArrayList<NameValue>();
+        for (final NameValue nameValue : this.properties) {
             list.add(nameValue.clone());
         }
-
         clone.properties = list;
-
         return clone;
     }
 
     public void setProperties(List<NameValue> properties) {
         this.properties = properties;
-
         this.firePropertyChange(PROPERTY_CHANGE_MODEL_PROPERTIES, null, null);
     }
 
+    @Override
     public String getDescription() {
         return null;
     }
 
+    @Override
     public String getName() {
         return null;
     }
 
+    @Override
     public String getObjectType() {
         return "model_properties";
     }
@@ -132,4 +115,8 @@ public class ModelProperties extends NodeElement implements Cloneable {
         return false;
     }
 
+    @Override
+    public int getPersistentOrder() {
+        return 8;
+    }
 }

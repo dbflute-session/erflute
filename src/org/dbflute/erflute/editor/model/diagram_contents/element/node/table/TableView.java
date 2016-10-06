@@ -61,7 +61,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     }
 
     public void setPhysicalName(String physicalName) {
-        String old = this.physicalName;
+        final String old = this.physicalName;
         this.physicalName = physicalName;
 
         this.firePropertyChange(PROPERTY_CHANGE_PHYSICAL_NAME, old, physicalName);
@@ -72,31 +72,21 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     }
 
     public void setLogicalName(String logicalName) {
-        String old = this.logicalName;
+        final String old = this.logicalName;
         this.logicalName = logicalName;
-
         this.firePropertyChange(PROPERTY_CHANGE_LOGICAL_NAME, old, logicalName);
     }
 
+    @Override
     public String getName() {
-        return this.getLogicalName();
+        return this.getPhysicalName(); // #for_erflute change logical to physical for fixed sort
     }
 
-    /**
-     * description ���擾���܂�.
-     *
-     * @return description
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * description ��ݒ肵�܂�.
-     *
-     * @param description
-     *            description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
@@ -105,79 +95,62 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
         return this.columns;
     }
 
-    //	public Collection<? extends Object> getIndexes() {
-    //		return new ArrayList<Object>();
-    //	}
-
     public TableViewProperties getTableViewProperties() {
         return this.tableViewProperties;
     }
 
     public List<NormalColumn> getExpandedColumns() {
-        List<NormalColumn> expandedColumns = new ArrayList<NormalColumn>();
-
-        for (ERColumn column : this.getColumns()) {
+        final List<NormalColumn> expandedColumns = new ArrayList<NormalColumn>();
+        for (final ERColumn column : this.getColumns()) {
             if (column instanceof NormalColumn) {
-                NormalColumn normalColumn = (NormalColumn) column;
+                final NormalColumn normalColumn = (NormalColumn) column;
                 expandedColumns.add(normalColumn);
-
             } else if (column instanceof ColumnGroup) {
-                ColumnGroup groupColumn = (ColumnGroup) column;
-
+                final ColumnGroup groupColumn = (ColumnGroup) column;
                 expandedColumns.addAll(groupColumn.getColumns());
             }
         }
-
         return expandedColumns;
     }
 
     public List<Relationship> getIncomingRelations() {
-        List<Relationship> relations = new ArrayList<Relationship>();
-
-        for (ConnectionElement connection : this.getIncomings()) {
+        final List<Relationship> relations = new ArrayList<Relationship>();
+        for (final ConnectionElement connection : this.getIncomings()) {
             if (connection instanceof Relationship) {
                 relations.add((Relationship) connection);
             }
         }
-
         return relations;
     }
 
     public List<Relationship> getOutgoingRelations() {
-        List<Relationship> relations = new ArrayList<Relationship>();
-
-        for (ConnectionElement connection : this.getOutgoings()) {
+        final List<Relationship> relations = new ArrayList<Relationship>();
+        for (final ConnectionElement connection : this.getOutgoings()) {
             if (connection instanceof Relationship) {
                 relations.add((Relationship) connection);
             }
         }
-
         Collections.sort(relations);
-
         return relations;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setLocation(Location location) {
         super.setLocation(location);
-
         if (this.getDiagram() != null) {
-            for (Relationship relation : this.getOutgoingRelations()) {
+            for (final Relationship relation : this.getOutgoingRelations()) {
                 relation.setParentMove();
             }
-            for (Relationship relation : this.getIncomingRelations()) {
+            for (final Relationship relation : this.getIncomingRelations()) {
                 relation.setParentMove();
             }
         }
     }
 
     public List<NormalColumn> getNormalColumns() {
-        List<NormalColumn> normalColumns = new ArrayList<NormalColumn>();
+        final List<NormalColumn> normalColumns = new ArrayList<NormalColumn>();
 
-        for (ERColumn column : this.columns) {
+        for (final ERColumn column : this.columns) {
             if (column instanceof NormalColumn) {
                 normalColumns.add((NormalColumn) column);
             }
@@ -192,7 +165,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     public void setColumns(List<ERColumn> columns) {
         this.columns = columns;
 
-        for (ERColumn column : columns) {
+        for (final ERColumn column : columns) {
             column.setColumnHolder(this);
         }
         this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
@@ -228,12 +201,12 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
         to.setLogicalName(this.getLogicalName());
         to.setDescription(this.getDescription());
 
-        List<ERColumn> columns = new ArrayList<ERColumn>();
+        final List<ERColumn> columns = new ArrayList<ERColumn>();
 
-        for (ERColumn fromColumn : this.getColumns()) {
+        for (final ERColumn fromColumn : this.getColumns()) {
             if (fromColumn instanceof NormalColumn) {
-                NormalColumn normalColumn = (NormalColumn) fromColumn;
-                NormalColumn copyColumn = new CopyColumn(normalColumn);
+                final NormalColumn normalColumn = (NormalColumn) fromColumn;
+                final NormalColumn copyColumn = new CopyColumn(normalColumn);
                 if (normalColumn.getWord() != null) {
                     copyColumn.setWord(new CopyWord(normalColumn.getWord()));
                 }
@@ -253,7 +226,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     }
 
     public void restructureData(TableView to) {
-        Dictionary dictionary = this.getDiagram().getDiagramContents().getDictionary();
+        final Dictionary dictionary = this.getDiagram().getDiagramContents().getDictionary();
 
         to.setPhysicalName(this.getPhysicalName());
         to.setLogicalName(this.getLogicalName());
@@ -262,17 +235,17 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
             to.setColor(this.getColor()[0], this.getColor()[1], this.getColor()[2]);
         }
 
-        for (NormalColumn toColumn : to.getNormalColumns()) {
+        for (final NormalColumn toColumn : to.getNormalColumns()) {
             dictionary.remove(toColumn);
         }
 
-        List<ERColumn> columns = new ArrayList<ERColumn>();
+        final List<ERColumn> columns = new ArrayList<ERColumn>();
 
-        List<NormalColumn> newPrimaryKeyColumns = new ArrayList<NormalColumn>();
+        final List<NormalColumn> newPrimaryKeyColumns = new ArrayList<NormalColumn>();
 
-        for (ERColumn fromColumn : this.getColumns()) {
+        for (final ERColumn fromColumn : this.getColumns()) {
             if (fromColumn instanceof NormalColumn) {
-                CopyColumn copyColumn = (CopyColumn) fromColumn;
+                final CopyColumn copyColumn = (CopyColumn) fromColumn;
 
                 CopyWord copyWord = copyColumn.getWord();
                 if (copyColumn.isForeignKey()) {
@@ -280,11 +253,11 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
                 }
 
                 if (copyWord != null) {
-                    Word originalWord = copyColumn.getOriginalWord();
+                    final Word originalWord = copyColumn.getOriginalWord();
                     dictionary.copyTo(copyWord, originalWord);
                 }
 
-                NormalColumn restructuredColumn = copyColumn.getRestructuredColumn();
+                final NormalColumn restructuredColumn = copyColumn.getRestructuredColumn();
 
                 restructuredColumn.setColumnHolder(this);
                 if (copyWord == null) {
@@ -309,34 +282,34 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     }
 
     private void setTargetTableRelation(TableView sourceTable, List<NormalColumn> newPrimaryKeyColumns) {
-        for (Relationship relation : sourceTable.getOutgoingRelations()) {
+        for (final Relationship relation : sourceTable.getOutgoingRelations()) {
 
             // �֘A��PK���Q�Ƃ��Ă���ꍇ
             if (relation.isReferenceForPK()) {
                 // �Q�Ƃ���e�[�u��
-                TableView targetTable = relation.getTargetTableView();
+                final TableView targetTable = relation.getTargetTableView();
 
                 // �O���L�[���X�g
-                List<NormalColumn> foreignKeyColumns = relation.getForeignKeyColumns();
+                final List<NormalColumn> foreignKeyColumns = relation.getForeignKeyColumns();
 
                 boolean isPrimary = true;
                 boolean isPrimaryChanged = false;
 
                 // �Q�Ƃ����e�[�u����PK�ɑ΂��ď������s��
-                for (NormalColumn primaryKeyColumn : newPrimaryKeyColumns) {
+                for (final NormalColumn primaryKeyColumn : newPrimaryKeyColumns) {
                     boolean isReferenced = false;
 
-                    for (Iterator<NormalColumn> iter = foreignKeyColumns.iterator(); iter.hasNext();) {
+                    for (final Iterator<NormalColumn> iter = foreignKeyColumns.iterator(); iter.hasNext();) {
 
                         // �O���L�[
-                        NormalColumn foreignKeyColumn = iter.next();
+                        final NormalColumn foreignKeyColumn = iter.next();
 
                         if (isPrimary) {
                             isPrimary = foreignKeyColumn.isPrimaryKey();
                         }
 
                         // �O���L�[�̎Q�Ɨ�PK��Ɠ����ꍇ
-                        for (NormalColumn referencedColumn : foreignKeyColumn.getReferencedColumnList()) {
+                        for (final NormalColumn referencedColumn : foreignKeyColumn.getReferencedColumnList()) {
                             if (referencedColumn == primaryKeyColumn) {
                                 isReferenced = true;
                                 iter.remove();
@@ -353,13 +326,13 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
                         if (isPrimary) {
                             isPrimaryChanged = true;
                         }
-                        NormalColumn foreignKeyColumn = new NormalColumn(primaryKeyColumn, primaryKeyColumn, relation, isPrimary);
+                        final NormalColumn foreignKeyColumn = new NormalColumn(primaryKeyColumn, primaryKeyColumn, relation, isPrimary);
 
                         targetTable.addColumn(foreignKeyColumn);
                     }
                 }
 
-                for (NormalColumn removedColumn : foreignKeyColumns) {
+                for (final NormalColumn removedColumn : foreignKeyColumns) {
                     if (removedColumn.isPrimaryKey()) {
                         isPrimaryChanged = true;
                     }
@@ -367,7 +340,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
                 }
 
                 if (isPrimaryChanged) {
-                    List<NormalColumn> nextNewPrimaryKeyColumns = ((ERTable) targetTable).getPrimaryKeys();
+                    final List<NormalColumn> nextNewPrimaryKeyColumns = ((ERTable) targetTable).getPrimaryKeys();
 
                     this.setTargetTableRelation(targetTable, nextNewPrimaryKeyColumns);
                 }
@@ -377,12 +350,13 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
         }
     }
 
+    @Override
     public int compareTo(TableView other) {
         return PHYSICAL_NAME_COMPARATOR.compare(this, other);
     }
 
     public void replaceColumnGroup(ColumnGroup oldColumnGroup, ColumnGroup newColumnGroup) {
-        int index = this.columns.indexOf(oldColumnGroup);
+        final int index = this.columns.indexOf(oldColumnGroup);
         if (index != -1) {
             this.columns.remove(index);
             this.columns.add(index, newColumnGroup);
@@ -390,15 +364,15 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     }
 
     public String getNameWithSchema(String database) {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
-        DBManager dbManager = DBManagerFactory.getDBManager(database);
+        final DBManager dbManager = DBManagerFactory.getDBManager(database);
 
         if (!dbManager.isSupported(DBManager.SUPPORT_SCHEMA)) {
             return Format.null2blank(this.getPhysicalName());
         }
 
-        TableViewProperties commonTableViewProperties = this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
+        final TableViewProperties commonTableViewProperties = this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
 
         String schema = this.tableViewProperties.getSchema();
 
@@ -420,6 +394,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
 
     private static class TableViewPhysicalNameComparator implements Comparator<TableView> {
 
+        @Override
         public int compare(TableView o1, TableView o2) {
             if (o1 == o2) {
                 return 0;
@@ -431,8 +406,9 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
                 return 1;
             }
 
-            int compareTo =
-                    Format.null2blank(o1.getTableViewProperties().getSchema()).toUpperCase()
+            final int compareTo =
+                    Format.null2blank(o1.getTableViewProperties().getSchema())
+                            .toUpperCase()
                             .compareTo(Format.null2blank(o2.getTableViewProperties().getSchema()).toUpperCase());
 
             if (compareTo != 0) {
@@ -458,6 +434,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
 
     private static class TableViewLogicalNameComparator implements Comparator<TableView> {
 
+        @Override
         public int compare(TableView o1, TableView o2) {
             if (o1 == o2) {
                 return 0;
@@ -469,8 +446,9 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
                 return 1;
             }
 
-            int compareTo =
-                    Format.null2blank(o1.getTableViewProperties().getSchema()).toUpperCase()
+            final int compareTo =
+                    Format.null2blank(o1.getTableViewProperties().getSchema())
+                            .toUpperCase()
                             .compareTo(Format.null2blank(o2.getTableViewProperties().getSchema()).toUpperCase());
 
             if (compareTo != 0) {

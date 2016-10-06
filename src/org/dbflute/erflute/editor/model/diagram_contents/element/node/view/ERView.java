@@ -9,12 +9,14 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.properties.ViewProperties;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERView extends TableView implements ObjectModel, ColumnHolder {
 
     private static final long serialVersionUID = -4492787972500741281L;
 
     public static final String NEW_PHYSICAL_NAME = DisplayMessages.getMessage("new.view.physical.name");
-
     public static final String NEW_LOGICAL_NAME = DisplayMessages.getMessage("new.view.logical.name");
 
     private String sql;
@@ -34,7 +36,7 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
     @Override
     public void addColumn(ERColumn column) {
         if (column instanceof NormalColumn) {
-            NormalColumn normalColumn = (NormalColumn) column;
+            final NormalColumn normalColumn = (NormalColumn) column;
             normalColumn.setAutoIncrement(false);
             normalColumn.setPrimaryKey(false);
             normalColumn.setUniqueKey(false);
@@ -49,7 +51,7 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
 
     @Override
     public ERView copyData() {
-        ERView to = new ERView();
+        final ERView to = new ERView();
         to.setSql(this.getSql());
 
         super.copyTableViewData(to);
@@ -61,32 +63,21 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
 
     @Override
     public void restructureData(TableView to) {
-        ERView view = (ERView) to;
-
+        final ERView view = (ERView) to;
         view.setSql(this.getSql());
-
         super.restructureData(to);
-
         view.tableViewProperties = this.tableViewProperties.clone();
-
     }
 
-    /**
-     * �r���[�𕡐����܂��B<br>
-     * ����������́A���O��SQL�ƃv���p�e�B�̂݁B<br>
-     * ��͕����ΏۊO�Ƃ��A�ォ�畡������B<br>
-     */
     @Override
     public ERView clone() {
-        ERView clone = (ERView) super.clone();
-
-        // �v���p�e�B�𕡐����܂��B
-        TableViewProperties cloneViewProperties = this.tableViewProperties.clone();
+        final ERView clone = (ERView) super.clone();
+        final TableViewProperties cloneViewProperties = this.tableViewProperties.clone();
         clone.tableViewProperties = cloneViewProperties;
-
         return clone;
     }
 
+    @Override
     public String getObjectType() {
         return "view";
     }
@@ -96,4 +87,8 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
         return true;
     }
 
+    @Override
+    public int getPersistentOrder() {
+        return 4;
+    }
 }

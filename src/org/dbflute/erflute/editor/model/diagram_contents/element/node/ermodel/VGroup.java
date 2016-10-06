@@ -12,14 +12,15 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class VGroup extends NodeElement implements IResizable, Comparable<VGroup> {
 
     private static final long serialVersionUID = 8251435120903384808L;
-
     public static final String PROPERTY_CHANGE_VGROUP = "vgroup";
 
     private List<NodeElement> nodeElementList;
-
     private String name;
 
     public VGroup() {
@@ -28,27 +29,21 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
 
     public void setContents(List<NodeElement> contetns) {
         this.nodeElementList = contetns;
-
         if (this.getWidth() == 0) {
-
             int categoryX = 0;
             int categoryY = 0;
-
             int categoryWidth = 300;
             int categoryHeight = 400;
-
             if (!nodeElementList.isEmpty()) {
                 categoryX = nodeElementList.get(0).getX();
                 categoryY = nodeElementList.get(0).getY();
                 categoryWidth = nodeElementList.get(0).getWidth();
                 categoryHeight = nodeElementList.get(0).getHeight();
-
-                for (NodeElement nodeElement : nodeElementList) {
-                    int x = nodeElement.getX();
-                    int y = nodeElement.getY();
+                for (final NodeElement nodeElement : nodeElementList) {
+                    final int x = nodeElement.getX();
+                    final int y = nodeElement.getY();
                     int width = nodeElement.getWidth();
                     int height = nodeElement.getHeight();
-
                     if (categoryX > x) {
                         width += categoryX - x;
                         categoryX = x;
@@ -57,18 +52,14 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
                         height += categoryY - y;
                         categoryY = y;
                     }
-
                     if (x - categoryX + width > categoryWidth) {
                         categoryWidth = x - categoryX + width;
                     }
-
                     if (y - categoryY + height > categoryHeight) {
                         categoryHeight = y - categoryY + height;
                     }
-
                 }
             }
-
             this.setLocation(new Location(categoryX, categoryY, categoryWidth, categoryHeight));
         }
     }
@@ -101,6 +92,7 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
         //		return isVisible;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -115,9 +107,9 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     }
 
     public List<ERTable> getTableContents() {
-        List<ERTable> tableList = new ArrayList<ERTable>();
+        final List<ERTable> tableList = new ArrayList<ERTable>();
 
-        for (NodeElement nodeElement : this.nodeElementList) {
+        for (final NodeElement nodeElement : this.nodeElementList) {
             if (nodeElement instanceof ERTable) {
                 tableList.add((ERTable) nodeElement);
             }
@@ -127,9 +119,9 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     }
 
     public List<ERView> getViewContents() {
-        List<ERView> viewList = new ArrayList<ERView>();
+        final List<ERView> viewList = new ArrayList<ERView>();
 
-        for (NodeElement nodeElement : this.nodeElementList) {
+        for (final NodeElement nodeElement : this.nodeElementList) {
             if (nodeElement instanceof ERView) {
                 viewList.add((ERView) nodeElement);
             }
@@ -139,38 +131,32 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     }
 
     public List<TableView> getTableViewContents() {
-        List<TableView> tableList = new ArrayList<TableView>();
-
-        for (NodeElement nodeElement : this.nodeElementList) {
+        final List<TableView> tableList = new ArrayList<TableView>();
+        for (final NodeElement nodeElement : this.nodeElementList) {
             if (nodeElement instanceof TableView) {
                 tableList.add((TableView) nodeElement);
             }
         }
-
         return tableList;
     }
 
+    @Override
     public int compareTo(VGroup other) {
-        int compareTo = 0;
-
-        compareTo = Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
-
-        return compareTo;
+        return Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public VGroup clone() {
-        VGroup clone = (VGroup) super.clone();
+        final VGroup clone = (VGroup) super.clone();
         return clone;
     }
 
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getObjectType() {
         return "vgroup";
     }
@@ -178,5 +164,10 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     @Override
     public boolean needsUpdateOtherModel() {
         return false;
+    }
+
+    @Override
+    public int getPersistentOrder() {
+        return 16;
     }
 }

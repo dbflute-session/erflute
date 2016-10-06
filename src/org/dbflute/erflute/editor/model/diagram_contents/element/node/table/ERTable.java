@@ -309,4 +309,9 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     public boolean needsUpdateOtherModel() {
         return true;
     }
+
+    @Override
+    public int getPersistentOrder() {
+        return 2;
+    }
 }
