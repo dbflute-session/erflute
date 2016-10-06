@@ -43,8 +43,8 @@ public class ReadDictionaryLoader {
     }
 
     private Word loadWord(Element element, LoadContext context, String database) {
-        final String id = this.getStringValue(element, "id");
-        final String type = this.getStringValue(element, "type");
+        final String id = getStringValue(element, "id");
+        final String type = getStringValue(element, "type");
         final Integer length = getIntegerValue(element, "length");
         final Integer decimal = getIntegerValue(element, "decimal");
         final boolean array = getBooleanValue(element, "array");

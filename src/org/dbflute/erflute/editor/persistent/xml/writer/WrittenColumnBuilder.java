@@ -59,9 +59,8 @@ public class WrittenColumnBuilder {
     private String doBuildNormalColumn(NormalColumn normalColumn, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<normal_column>\n");
-        Integer wordId = null;
         if (context != null) {
-            wordId = context.wordMap.get(normalColumn.getWord());
+            final Integer wordId = context.wordMap.get(normalColumn.getWord());
             if (wordId != null) {
                 xml.append("\t<word_id>").append(wordId).append("</word_id>\n");
             }
