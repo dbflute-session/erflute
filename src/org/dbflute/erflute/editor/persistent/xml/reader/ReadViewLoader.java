@@ -41,10 +41,10 @@ public class ReadViewLoader {
     public ERView loadView(Element element, LoadContext context, ERDiagram diagram, String database) {
         final ERView view = new ERView();
         view.setDiagram(diagram);
-        nodeElementLoader.loadNodeElement(view, element, context);
         view.setPhysicalName(getStringValue(element, "physical_name"));
         view.setLogicalName(getStringValue(element, "logical_name"));
         view.setDescription(getStringValue(element, "description"));
+        nodeElementLoader.loadNodeElement(view, element, context);
         view.setSql(getStringValue(element, "sql"));
         final List<ERColumn> columns = columnLoader.loadColumns(element, context, database);
         view.setColumns(columns);
@@ -57,9 +57,5 @@ public class ReadViewLoader {
     //                                                                        ============
     private String getStringValue(Element element, String tagname) {
         return assistLogic.getStringValue(element, tagname);
-    }
-
-    private Element getElement(Element element, String tagname) {
-        return assistLogic.getElement(element, tagname);
     }
 }

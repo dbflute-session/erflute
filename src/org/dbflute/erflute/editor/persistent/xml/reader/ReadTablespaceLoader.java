@@ -53,9 +53,9 @@ public class ReadTablespaceLoader {
     }
 
     private Tablespace loadTablespace(Element element, LoadContext context, String database) {
-        final String id = getStringValue(element, "id");
         final Tablespace tablespace = new Tablespace();
         tablespace.setName(getStringValue(element, "name"));
+        final String id = getStringValue(element, "id");
         final NodeList nodeList = element.getElementsByTagName("properties");
         for (int i = 0; i < nodeList.getLength(); i++) {
             final Element propertiesElemnt = (Element) nodeList.item(i);

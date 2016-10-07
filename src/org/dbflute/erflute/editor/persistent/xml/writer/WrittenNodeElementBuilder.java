@@ -36,8 +36,14 @@ public class WrittenNodeElementBuilder {
     public String buildNodeElement(NodeElement nodeElement, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<id>").append(Format.toString(context.nodeElementMap.get(nodeElement))).append("</id>\n");
-        xml.append("<height>").append(nodeElement.getHeight()).append("</height>\n");
-        xml.append("<width>").append(nodeElement.getWidth()).append("</width>\n");
+        final int height = nodeElement.getHeight();
+        if (height >= 0) {
+            xml.append("<height>").append(height).append("</height>\n");
+        }
+        final int width = nodeElement.getWidth();
+        if (width >= 0) {
+            xml.append("<width>").append(width).append("</width>\n");
+        }
         xml.append("<font_name>").append(escape(nodeElement.getFontName())).append("</font_name>\n");
         xml.append("<font_size>").append(nodeElement.getFontSize()).append("</font_size>\n");
         xml.append("<x>").append(nodeElement.getX()).append("</x>\n");

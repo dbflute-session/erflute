@@ -223,7 +223,7 @@ public class WrittenColumnBuilder {
         final StringBuilder xml = new StringBuilder();
         xml.append("<column_groups>\n");
         for (final ColumnGroup columnGroup : columnGroups) {
-            xml.append(tab(tab(doBuildColumnGroup(columnGroup, context))));
+            xml.append(tab(doBuildColumnGroup(columnGroup, context)));
         }
         xml.append("</column_groups>\n");
         return xml.toString();
