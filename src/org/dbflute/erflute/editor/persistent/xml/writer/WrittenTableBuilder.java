@@ -50,7 +50,7 @@ public class WrittenTableBuilder {
         final StringBuilder xml = new StringBuilder();
         xml.append("<table>\n");
         setupName(table, xml); // name first to be read-able XML e.g. physical_name
-        setupComment(table, xml);
+        setupComment(table, xml); // me too
         xml.append(tab(nodeElementBuilder.buildNodeElement(table, context))); // should be before columns
         final String constraint = table.getConstraint();
         if (Srl.is_NotNull_and_NotEmpty(constraint)) {

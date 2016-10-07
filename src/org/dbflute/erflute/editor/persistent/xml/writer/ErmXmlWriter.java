@@ -74,9 +74,9 @@ public class ErmXmlWriter {
         this.sequenceBuilder = new WrittenSequenceBuilder(persistentXml, assistLogic);
         this.triggerBuilder = new WrittenTriggerBuilder(persistentXml, assistLogic);
         this.columnBuilder = new WrittenColumnBuilder(persistentXml, assistLogic, sequenceBuilder);
-        this.tableBuilder =
-                new WrittenTableBuilder(persistentXml, assistLogic, nodeElementBuilder, columnBuilder, indexBuilder, uniqueKeyBuilder,
-                        tablePropertiesBuilder);
+        this.tableBuilder = new WrittenTableBuilder(persistentXml //
+                , assistLogic, nodeElementBuilder, columnBuilder //
+                , indexBuilder, uniqueKeyBuilder, tablePropertiesBuilder);
         this.viewBuilder = new WrittenViewBuilder(persistentXml, assistLogic, nodeElementBuilder, columnBuilder);
         this.ermodelBuilder = new WrittenERModelBuilder(persistentXml, assistLogic, nodeElementBuilder, noteBuilder);
     }

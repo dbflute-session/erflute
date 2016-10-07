@@ -24,8 +24,11 @@ import org.dbflute.erflute.editor.model.settings.Environment;
  */
 public class LoadContext {
 
-    public final Map<String, NodeElement> nodeElementMap;
-    public final Map<String, NormalColumn> columnMap;
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    public final Map<String, NodeElement> nodeElementMap; // ID = node
+    public final Map<String, NormalColumn> columnMap; // ID = column
     public final Map<String, ComplexUniqueKey> complexUniqueKeyMap;
     public final Map<NormalColumn, String[]> columnRelationMap;
     public final Map<NormalColumn, String[]> columnReferencedColumnMap;
@@ -36,12 +39,15 @@ public class LoadContext {
     public final Map<ConnectionElement, String> connectionSourceMap;
     public final Map<ConnectionElement, String> connectionTargetMap;
     public final Map<String, ConnectionElement> connectionMap;
-    public final Map<String, Word> wordMap;
     public final Map<String, Tablespace> tablespaceMap;
     public final Map<String, Environment> environmentMap;
-    public final Map<UniqueWord, Word> uniqueWordMap;
     public final Dictionary dictionary;
+    public final Map<String, Word> wordMap;
+    public final Map<UniqueWord, Word> uniqueWordMap;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public LoadContext(Dictionary dictionary) {
         this.nodeElementMap = new HashMap<String, NodeElement>();
         this.columnMap = new HashMap<String, NormalColumn>();
@@ -55,16 +61,18 @@ public class LoadContext {
         this.connectionMap = new HashMap<String, ConnectionElement>();
         this.connectionSourceMap = new HashMap<ConnectionElement, String>();
         this.connectionTargetMap = new HashMap<ConnectionElement, String>();
-        this.wordMap = new HashMap<String, Word>();
         this.tablespaceMap = new HashMap<String, Tablespace>();
         this.environmentMap = new HashMap<String, Environment>();
-        this.uniqueWordMap = new HashMap<UniqueWord, Word>();
-
         this.dictionary = dictionary;
         this.dictionary.clear();
+        this.wordMap = new HashMap<String, Word>();
+        this.uniqueWordMap = new HashMap<UniqueWord, Word>();
     }
 
-    public void resolve() {
+    // ===================================================================================
+    //                                                                  Resolve ID Mapping
+    //                                                                  ==================
+    public void resolve() { // called by reader
         for (final ConnectionElement connection : this.connectionSourceMap.keySet()) {
             final String id = this.connectionSourceMap.get(connection);
             final NodeElement nodeElement = this.nodeElementMap.get(id);
@@ -73,7 +81,6 @@ public class LoadContext {
             }
             connection.setSource(nodeElement);
         }
-
         for (final ConnectionElement connection : this.connectionTargetMap.keySet()) {
             final String id = this.connectionTargetMap.get(connection);
             final NodeElement nodeElement = this.nodeElementMap.get(id);
@@ -82,7 +89,6 @@ public class LoadContext {
             }
             connection.setTarget(nodeElement);
         }
-
         for (final Relationship relation : this.referencedColumnMap.keySet()) {
             final String id = this.referencedColumnMap.get(relation);
             final NormalColumn column = this.columnMap.get(id);
@@ -91,13 +97,11 @@ public class LoadContext {
             }
             relation.setReferencedColumn(column);
         }
-
         for (final Relationship relation : this.referencedComplexUniqueKeyMap.keySet()) {
             final String id = this.referencedComplexUniqueKeyMap.get(relation);
             final ComplexUniqueKey complexUniqueKey = this.complexUniqueKeyMap.get(id);
             relation.setReferencedComplexUniqueKey(complexUniqueKey);
         }
-
         final Set<NormalColumn> foreignKeyColumnSet = this.columnReferencedColumnMap.keySet();
         while (!foreignKeyColumnSet.isEmpty()) {
             final NormalColumn foreignKeyColumn = foreignKeyColumnSet.iterator().next();
