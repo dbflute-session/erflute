@@ -50,8 +50,8 @@ public class PersistentXml extends Persistent {
 
     private PersistentContext createContext(DiagramContents diagramContents) {
         final PersistentContext context = new PersistentContext();
-        final int columnCount = setupColumn(diagramContents, context);
-        setupNodeElement(diagramContents, context, columnCount);
+        final int columnCount = setupColumnGroup(diagramContents, context);
+        setupNodeElement(diagramContents, context, columnCount); // contains table, column
         setupWord(diagramContents, context);
         setupTablespace(diagramContents, context);
         setupEnvironment(diagramContents, context);
@@ -59,7 +59,7 @@ public class PersistentXml extends Persistent {
         return context;
     }
 
-    private int setupColumn(DiagramContents diagramContents, final PersistentContext context) {
+    private int setupColumnGroup(DiagramContents diagramContents, final PersistentContext context) {
         int columnGroupNo = 1;
         int columnNo = 1;
         for (final ColumnGroup columnGroup : diagramContents.getGroups()) {
