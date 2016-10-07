@@ -154,7 +154,7 @@ public class WrittenNodeElementBuilder {
         xml.append("<source>").append(sourceId).append("</source>\n"); // e.g. MEMBER_STATUS
         xml.append("<target>").append(targetId).append("</target>\n"); // e.g. MEMBER
         for (final Bendpoint bendpoint : connection.getBendpoints()) {
-            xml.append(tab(buildBendPoint(bendpoint)));
+            xml.append(buildBendPoint(bendpoint));
         }
         return xml.toString();
     }
