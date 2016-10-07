@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
@@ -37,26 +38,22 @@ public class ReadAssistLogic {
     public void loadColor(ViewableModel model, Element element) {
         final int[] rgb = new int[] { 255, 255, 255 };
         final Element color = this.getElement(element, "color");
-
         if (color != null) {
             rgb[0] = this.getIntValue(color, "r");
             rgb[1] = this.getIntValue(color, "g");
             rgb[2] = this.getIntValue(color, "b");
         }
-
         model.setColor(rgb[0], rgb[1], rgb[2]);
     }
 
     public void loadDefaultColor(ERDiagram diagram, Element element) {
         final int[] rgb = new int[] { 255, 255, 255 };
         final Element color = this.getElement(element, "default_color");
-
         if (color != null) {
             rgb[0] = this.getIntValue(color, "r");
             rgb[1] = this.getIntValue(color, "g");
             rgb[2] = this.getIntValue(color, "b");
         }
-
         diagram.setDefaultColor(rgb[0], rgb[1], rgb[2]);
     }
 
@@ -98,6 +95,11 @@ public class ReadAssistLogic {
             return "";
         }
         return node.getFirstChild().getNodeValue();
+    }
+
+    public String getStringValue(Element element, String tagname, String defaultValue) {
+        final String str = getStringValue(element, tagname);
+        return Srl.is_NotNull_and_NotEmpty(str) ? str : defaultValue;
     }
 
     public boolean getBooleanValue(Element element, String tagname) {
@@ -167,29 +169,22 @@ public class ReadAssistLogic {
 
     public BigDecimal getBigDecimalValue(Element element, String tagname) {
         final String value = this.getStringValue(element, tagname);
-
         try {
             return new BigDecimal(value);
         } catch (final Exception e) {}
-
         return null;
     }
 
     public double getDoubleValue(Element element, String tagname) {
         final NodeList nodeList = element.getElementsByTagName(tagname);
-
         if (nodeList.getLength() == 0) {
             return 0;
         }
-
         final Node node = nodeList.item(0);
-
         if (node.getFirstChild() == null) {
             return 0;
         }
-
         final String value = node.getFirstChild().getNodeValue();
-
         return Double.valueOf(value).doubleValue();
     }
 

@@ -50,13 +50,13 @@ public class ReadTableLoader {
     public ERTable loadTable(Element element, LoadContext context, ERDiagram diagram, String database) {
         final ERTable table = new ERTable();
         table.setDiagram(diagram);
+        table.setPhysicalName(getStringValue(element, "physical_name"));
+        table.setLogicalName(getStringValue(element, "logical_name"));
+        table.setDescription(getStringValue(element, "description"));
         nodeElementLoader.loadNodeElement(table, element, context);
-        table.setPhysicalName(this.getStringValue(element, "physical_name"));
-        table.setLogicalName(this.getStringValue(element, "logical_name"));
-        table.setDescription(this.getStringValue(element, "description"));
-        table.setConstraint(this.getStringValue(element, "constraint"));
-        table.setPrimaryKeyName(this.getStringValue(element, "primary_key_name"));
-        table.setOption(this.getStringValue(element, "option"));
+        table.setConstraint(getStringValue(element, "constraint"));
+        table.setPrimaryKeyName(getStringValue(element, "primary_key_name"));
+        table.setOption(getStringValue(element, "option"));
         final List<ERColumn> columns = columnLoader.loadColumns(element, context, database);
         table.setColumns(columns);
         final List<ERIndex> indexes = indexLoader.loadIndexes(element, table, context);

@@ -27,7 +27,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
     private String physicalName;
     private String logicalName;
     private SqlType type;
-    private TypeData typeData;
+    private TypeData typeData; // not null
     private String description;
 
     // ===================================================================================
@@ -186,7 +186,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
     //                                                                            ========
     @Override
     public String getName() {
-        return this.getPhysicalName(); // #for_erflute change logical to physical for fixed sort
+        return getPhysicalName(); // #for_erflute change logical to physical for fixed sort
     }
 
     @Override
@@ -194,24 +194,24 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
         return "word";
     }
 
-    public String getLogicalName() {
-        return logicalName;
-    }
-
     public String getPhysicalName() {
         return physicalName;
     }
 
-    public SqlType getType() {
-        return type;
+    public void setPhysicalName(String physicalName) {
+        this.physicalName = physicalName;
+    }
+
+    public String getLogicalName() {
+        return logicalName;
     }
 
     public void setLogicalName(String logicalName) {
         this.logicalName = logicalName;
     }
 
-    public void setPhysicalName(String physicalName) {
-        this.physicalName = physicalName;
+    public SqlType getType() {
+        return type;
     }
 
     public void setType(SqlType type, TypeData typeData, String database) {

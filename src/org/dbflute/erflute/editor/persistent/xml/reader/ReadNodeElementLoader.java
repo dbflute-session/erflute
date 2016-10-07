@@ -33,7 +33,7 @@ public class ReadNodeElementLoader {
     //                                                                        Node Element
     //                                                                        ============
     public void loadNodeElement(NodeElement nodeElement, Element element, LoadContext context) {
-        final String id = this.getStringValue(element, "id");
+        final String id = getStringValue(element, "id");
         assistLogic.loadLocation(nodeElement, element);
         assistLogic.loadColor(nodeElement, element);
         assistLogic.loadFont(nodeElement, element);
@@ -42,7 +42,7 @@ public class ReadNodeElementLoader {
     }
 
     private void loadConnections(Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "connections");
+        final Element element = getElement(parent, "connections");
         if (element != null) {
             final NodeList nodeList = element.getChildNodes();
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -60,23 +60,23 @@ public class ReadNodeElementLoader {
     }
 
     private void loadRelation(Element element, LoadContext context) {
-        final boolean referenceForPK = this.getBooleanValue(element, "reference_for_pk");
+        final boolean referenceForPK = getBooleanValue(element, "reference_for_pk");
         final Relationship connection = new Relationship(referenceForPK, null, null);
         loadConnectionElement(connection, element, context);
-        connection.setChildCardinality(this.getStringValue(element, "child_cardinality"));
-        connection.setParentCardinality(this.getStringValue(element, "parent_cardinality"));
-        connection.setName(this.getStringValue(element, "name"));
-        connection.setOnDeleteAction(this.getStringValue(element, "on_delete_action"));
-        connection.setOnUpdateAction(this.getStringValue(element, "on_update_action"));
-        connection.setSourceLocationp(this.getIntValue(element, "source_xp"), this.getIntValue(element, "source_yp"));
-        connection.setTargetLocationp(this.getIntValue(element, "target_xp"), this.getIntValue(element, "target_yp"));
-        final String referencedComplexUniqueKeyId = this.getStringValue(element, "referenced_complex_unique_key");
-        if (!"null".equals(referencedComplexUniqueKeyId)) {
-            context.referencedComplexUniqueKeyMap.put(connection, referencedComplexUniqueKeyId);
-        }
-        final String referencedColumnId = this.getStringValue(element, "referenced_column");
-        if (!"null".equals(referencedColumnId)) {
+        connection.setChildCardinality(getStringValue(element, "child_cardinality"));
+        connection.setParentCardinality(getStringValue(element, "parent_cardinality"));
+        connection.setName(getStringValue(element, "name"));
+        connection.setOnDeleteAction(getStringValue(element, "on_delete_action", "NO ACTION"));
+        connection.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
+        connection.setSourceLocationp(getIntValue(element, "source_xp", -1), this.getIntValue(element, "source_yp", -1));
+        connection.setTargetLocationp(getIntValue(element, "target_xp", -1), this.getIntValue(element, "target_yp", -1));
+        final String referencedColumnId = getStringValue(element, "referenced_column");
+        if (referencedColumnId != null) {
             context.referencedColumnMap.put(connection, referencedColumnId);
+        }
+        final String referencedComplexUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
+        if (referencedComplexUniqueKeyId != null) {
+            context.referencedComplexUniqueKeyMap.put(connection, referencedComplexUniqueKeyId);
         }
     }
 
@@ -108,12 +108,20 @@ public class ReadNodeElementLoader {
         return assistLogic.getStringValue(element, tagname);
     }
 
+    private String getStringValue(Element element, String tagname, String defaultValue) {
+        return assistLogic.getStringValue(element, tagname, defaultValue);
+    }
+
     private boolean getBooleanValue(Element element, String tagname) {
         return assistLogic.getBooleanValue(element, tagname);
     }
 
     private int getIntValue(Element element, String tagname) {
         return assistLogic.getIntValue(element, tagname);
+    }
+
+    private int getIntValue(Element element, String tagname, int defaultValue) {
+        return assistLogic.getIntValue(element, tagname, defaultValue);
     }
 
     private Element getElement(Element element, String tagname) {

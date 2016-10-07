@@ -5,30 +5,43 @@ import java.math.BigDecimal;
 import org.dbflute.erflute.editor.model.ObjectModel;
 import org.dbflute.erflute.editor.model.WithSchemaModel;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class Sequence extends WithSchemaModel implements ObjectModel {
 
     private static final long serialVersionUID = -4492787972500741281L;
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private String description;
-
     private Integer increment;
-
     private Long minValue;
-
     private BigDecimal maxValue;
-
     private Long start;
-
     private Integer cache;
-
     private boolean cycle;
-
     private boolean order;
-
     private String dataType;
-
     private int decimalSize;
 
+    // ===================================================================================
+    //                                                                       Determination
+    //                                                                       =============
+    public boolean isEmpty() { // basically for persistent
+        return isNullOrEmpty(description) && increment == null && minValue == null && maxValue == null // all settings
+                && start == null && cache == null && !cycle && !order && isNullOrEmpty(dataType) && decimalSize == 0;
+    }
+
+    private boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    @Override
     public String getObjectType() {
         return "sequence";
     }
@@ -81,21 +94,11 @@ public class Sequence extends WithSchemaModel implements ObjectModel {
         this.start = start;
     }
 
-    /**
-     * description ���擾���܂�.
-     * 
-     * @return description
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * description ��ݒ肵�܂�.
-     * 
-     * @param description
-     *            description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
@@ -123,5 +126,4 @@ public class Sequence extends WithSchemaModel implements ObjectModel {
     public void setOrder(boolean order) {
         this.order = order;
     }
-
 }

@@ -32,8 +32,9 @@ public class ReadDictionaryLoader {
     //                                                                          Dictionary
     //                                                                          ==========
     public void loadDictionary(Dictionary dictionary, Element parent, LoadContext context, String database) {
+        // needs to migrate from ERMaster-b
         final Element element = this.getElement(parent, "dictionary");
-        if (element != null) {
+        if (element != null) { // always false after ERFlute
             final NodeList nodeList = element.getElementsByTagName("word");
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element wordElement = (Element) nodeList.item(i);

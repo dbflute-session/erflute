@@ -38,13 +38,12 @@ public class WrittenNodeElementBuilder {
         xml.append("<id>").append(Format.toString(context.nodeElementMap.get(nodeElement))).append("</id>\n");
         xml.append("<height>").append(nodeElement.getHeight()).append("</height>\n");
         xml.append("<width>").append(nodeElement.getWidth()).append("</width>\n");
-        xml.append("\t<font_name>").append(escape(nodeElement.getFontName())).append("</font_name>\n");
-        xml.append("\t<font_size>").append(nodeElement.getFontSize()).append("</font_size>\n");
+        xml.append("<font_name>").append(escape(nodeElement.getFontName())).append("</font_name>\n");
+        xml.append("<font_size>").append(nodeElement.getFontSize()).append("</font_size>\n");
         xml.append("<x>").append(nodeElement.getX()).append("</x>\n");
         xml.append("<y>").append(nodeElement.getY()).append("</y>\n");
         xml.append(assistLogic.buildColor(nodeElement.getColor()));
-        final List<ConnectionElement> incomings = nodeElement.getIncomings();
-        xml.append(buildConnections(incomings, context));
+        xml.append(buildConnections(nodeElement.getIncomings(), context));
         return xml.toString();
     }
 
@@ -82,23 +81,60 @@ public class WrittenNodeElementBuilder {
     private String buildRelationship(Relationship relation, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<relation>\n");
+        xml.append("\t<name>").append(escape(relation.getName())).append("</name>\n");
         xml.append(tab(buildConnectionElement(relation, context)));
         xml.append("\t<child_cardinality>").append(escape(relation.getChildCardinality())).append("</child_cardinality>\n");
         xml.append("\t<parent_cardinality>").append(escape(relation.getParentCardinality())).append("</parent_cardinality>\n");
         xml.append("\t<reference_for_pk>").append(relation.isReferenceForPK()).append("</reference_for_pk>\n");
-        xml.append("\t<name>").append(escape(relation.getName())).append("</name>\n");
-        xml.append("\t<on_delete_action>").append(escape(relation.getOnDeleteAction())).append("</on_delete_action>\n");
-        xml.append("\t<on_update_action>").append(escape(relation.getOnUpdateAction())).append("</on_update_action>\n");
-        xml.append("\t<source_xp>").append(relation.getSourceXp()).append("</source_xp>\n");
-        xml.append("\t<source_yp>").append(relation.getSourceYp()).append("</source_yp>\n");
-        xml.append("\t<target_xp>").append(relation.getTargetXp()).append("</target_xp>\n");
-        xml.append("\t<target_yp>").append(relation.getTargetYp()).append("</target_yp>\n");
-        xml.append("\t<referenced_column>").append(context.columnMap.get(relation.getReferencedColumn())).append("</referenced_column>\n");
-        xml.append("\t<referenced_complex_unique_key>")
-                .append(context.complexUniqueKeyMap.get(relation.getReferencedComplexUniqueKey()))
-                .append("</referenced_complex_unique_key>\n");
+        setupOnDeleteUpdate(relation, xml);
+        setupSourceTargetXy(relation, xml);
+        setupReferenced(relation, context, xml);
         xml.append("</relation>\n");
         return xml.toString();
+    }
+
+    private void setupOnDeleteUpdate(Relationship relation, final StringBuilder xml) {
+        // not write if empty or false to slim XML
+        final String onDeleteAction = relation.getOnDeleteAction();
+        if (onDeleteAction != null && !"NO ACTION".equals(onDeleteAction)) {
+            xml.append("\t<on_delete_action>").append(escape(onDeleteAction)).append("</on_delete_action>\n");
+        }
+        final String onUpdateAction = relation.getOnUpdateAction();
+        if (onUpdateAction != null && !"NO ACTION".equals(onUpdateAction)) {
+            xml.append("\t<on_update_action>").append(escape(onUpdateAction)).append("</on_update_action>\n");
+        }
+    }
+
+    private void setupSourceTargetXy(Relationship relation, StringBuilder xml) {
+        // not write if empty or false to slim XML
+        final int sourceXp = relation.getSourceXp();
+        if (sourceXp >= 0) {
+            xml.append("\t<source_xp>").append(sourceXp).append("</source_xp>\n");
+        }
+        final int sourceYp = relation.getSourceYp();
+        if (sourceYp >= 0) {
+            xml.append("\t<source_yp>").append(sourceYp).append("</source_yp>\n");
+        }
+        final int targetXp = relation.getTargetXp();
+        if (targetXp >= 0) {
+            xml.append("\t<target_xp>").append(targetXp).append("</target_xp>\n");
+        }
+        final int targetYp = relation.getTargetYp();
+        if (targetYp >= 0) {
+            xml.append("\t<target_yp>").append(targetYp).append("</target_yp>\n");
+        }
+    }
+
+    private void setupReferenced(Relationship relation, PersistentContext context, final StringBuilder xml) {
+        // not write if empty or false to slim XML
+        final Integer referencecdColumnId = context.columnMap.get(relation.getReferencedColumn());
+        if (referencecdColumnId != null) {
+            xml.append("\t<referenced_column>").append(referencecdColumnId).append("</referenced_column>\n");
+        }
+        final Integer complexUniqueKeyId = context.complexUniqueKeyMap.get(relation.getReferencedComplexUniqueKey());
+        if (complexUniqueKeyId != null) {
+            xml.append("\t<referenced_complex_unique_key>").append(complexUniqueKeyId).append("</referenced_complex_unique_key>\n");
+        }
     }
 
     // ===================================================================================

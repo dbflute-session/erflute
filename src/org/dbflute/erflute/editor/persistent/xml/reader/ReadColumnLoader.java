@@ -66,48 +66,73 @@ public class ReadColumnLoader {
     }
 
     private NormalColumn doLoadNormalColumn(Element element, LoadContext context, String database) {
-        final String id = this.getStringValue(element, "id");
-        final String type = this.getStringValue(element, "type");
-        final String wordId = this.getStringValue(element, "word_id");
-        Word word = context.wordMap.get(wordId);
-        NormalColumn normalColumn = null;
-        if (word == null) {
-            final String physicalName = getStringValue(element, "physical_name");
-            final String logicalName = getStringValue(element, "logical_name");
-            final String description = getStringValue(element, "description");
-            final TypeData typeData = new TypeData(null, null, false, null, false, null);
-            final SqlType sqlType = SqlType.valueOfId(type);
-            word = new Word(physicalName, logicalName, sqlType, typeData, description, database);
-            final UniqueWord uniqueWord = new UniqueWord(word);
-            if (context.uniqueWordMap.containsKey(uniqueWord)) {
-                word = context.uniqueWordMap.get(uniqueWord);
-            } else {
-                context.uniqueWordMap.put(uniqueWord, word);
-            }
+        final Word word = prepareWord(element, context, database);
+        final NormalColumn normalColumn = createNormalColumn(element, word);
+        final String id = getStringValue(element, "id");
+        final boolean isForeignKey = setupRelationship(element, context, normalColumn);
+        setupAutoIncrement(element, normalColumn);
+        if (!isForeignKey) {
+            context.dictionary.add(normalColumn);
         }
+        context.columnMap.put(id, normalColumn);
+        return normalColumn;
+    }
+
+    private Word prepareWord(Element element, LoadContext context, String database) {
+        final String wordId = getStringValue(element, "word_id"); // needs for migration from ERMaster-b
+        Word word = context.wordMap.get(wordId);
+        if (word == null) { // always true after ERFlute
+            word = createWord(element, context, database);
+        }
+        return word;
+    }
+
+    private Word createWord(Element element, LoadContext context, String database) {
+        final String physicalName = nullToEmpty(getStringValue(element, "physical_name"));
+        final String logicalName = nullToEmpty(getStringValue(element, "logical_name"));
+        final SqlType sqlType = SqlType.valueOfId(getStringValue(element, "type"));
+        final TypeData typeData = createTypeData(element);
+        final String description = getStringValue(element, "description");
+        Word word = new Word(physicalName, logicalName, sqlType, typeData, description, database);
+        final UniqueWord uniqueWord = new UniqueWord(word); // #willanalyze needed? by jflute
+        if (context.uniqueWordMap.containsKey(uniqueWord)) {
+            word = context.uniqueWordMap.get(uniqueWord);
+        } else {
+            context.uniqueWordMap.put(uniqueWord, word);
+        }
+        return word;
+    }
+
+    private TypeData createTypeData(Element element) { // #for_erflute
+        final Integer length = getIntegerValue(element, "length");
+        final Integer decimal = getIntegerValue(element, "decimal");
+        final boolean array = getBooleanValue(element, "array");
+        final Integer arrayDimension = getIntegerValue(element, "arrayDimension");
+        final boolean unsigned = getBooleanValue(element, "unsigned");
+        final String args = getStringValue(element, "args");
+        return new TypeData(length, decimal, array, arrayDimension, unsigned, args);
+    }
+
+    private NormalColumn createNormalColumn(Element element, final Word word) {
         final boolean notNull = getBooleanValue(element, "not_null");
         final boolean primaryKey = getBooleanValue(element, "primary_key");
+        final boolean uniqueKey = getBooleanValue(element, "unique_key");
+        final boolean autoIncrement = getBooleanValue(element, "auto_increment");
         final String defaultValue = getStringValue(element, "default_value");
         final String constraint = getStringValue(element, "constraint");
-        final boolean uniqueKey = getBooleanValue(element, "unique_key");
         final String uniqueKeyName = getStringValue(element, "unique_key_name");
         final String characterSet = getStringValue(element, "character_set");
         final String collation = getStringValue(element, "collation");
-        final boolean autoIncrement = getBooleanValue(element, "auto_increment");
-        normalColumn =
-                new NormalColumn(word, notNull, primaryKey, uniqueKey, autoIncrement, defaultValue, constraint, uniqueKeyName,
-                        characterSet, collation);
-        final Element autoIncrementSettingElement = getElement(element, "sequence");
-        if (autoIncrementSettingElement != null) {
-            final Sequence autoIncrementSetting = sequenceLoader.loadSequence(autoIncrementSettingElement);
-            normalColumn.setAutoIncrementSetting(autoIncrementSetting);
-        }
-        boolean isForeignKey = false;
-        final String[] relationIds = this.getTagValues(element, "relation");
+        return new NormalColumn(word, notNull, primaryKey, uniqueKey, autoIncrement, defaultValue, constraint, uniqueKeyName, characterSet,
+                collation);
+    }
+
+    private boolean setupRelationship(Element element, LoadContext context, final NormalColumn normalColumn) {
+        final String[] relationIds = getTagValues(element, "relation");
         if (relationIds != null) {
             context.columnRelationMap.put(normalColumn, relationIds);
         }
-        String[] referencedColumnIds = this.getTagValues(element, "referenced_column");
+        String[] referencedColumnIds = getTagValues(element, "referenced_column");
         final List<String> temp = new ArrayList<String>();
         for (final String str : referencedColumnIds) {
             try {
@@ -118,15 +143,20 @@ public class ReadColumnLoader {
             } catch (final NumberFormatException e) {}
         }
         referencedColumnIds = temp.toArray(new String[temp.size()]);
+        boolean isForeignKey = false;
         if (referencedColumnIds.length != 0) {
             context.columnReferencedColumnMap.put(normalColumn, referencedColumnIds);
             isForeignKey = true;
         }
-        if (!isForeignKey) {
-            context.dictionary.add(normalColumn);
+        return isForeignKey;
+    }
+
+    private void setupAutoIncrement(Element element, final NormalColumn normalColumn) {
+        final Element autoIncrementSettingElement = getElement(element, "sequence");
+        if (autoIncrementSettingElement != null) {
+            final Sequence autoIncrementSetting = sequenceLoader.loadSequence(autoIncrementSettingElement);
+            normalColumn.setAutoIncrementSetting(autoIncrementSetting);
         }
-        context.columnMap.put(id, normalColumn);
-        return normalColumn;
     }
 
     // ===================================================================================
@@ -140,11 +170,19 @@ public class ReadColumnLoader {
         return assistLogic.getBooleanValue(element, tagname);
     }
 
+    private Integer getIntegerValue(Element element, String tagname) {
+        return assistLogic.getIntegerValue(element, tagname);
+    }
+
     private String[] getTagValues(Element element, String tagname) {
         return assistLogic.getTagValues(element, tagname);
     }
 
     private Element getElement(Element element, String tagname) {
         return assistLogic.getElement(element, tagname);
+    }
+
+    private String nullToEmpty(String str) {
+        return str != null ? str : "";
     }
 }

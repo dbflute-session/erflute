@@ -3,12 +3,16 @@ package org.dbflute.erflute.editor.persistent.xml.writer;
 import java.util.List;
 
 import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
@@ -59,49 +63,157 @@ public class WrittenColumnBuilder {
     private String doBuildNormalColumn(NormalColumn normalColumn, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<normal_column>\n");
-        if (context != null) {
-            final Integer wordId = context.wordMap.get(normalColumn.getWord());
-            if (wordId != null) {
-                xml.append("\t<word_id>").append(wordId).append("</word_id>\n");
-            }
-            xml.append("\t<id>").append(context.columnMap.get(normalColumn)).append("</id>\n");
-            for (final NormalColumn referencedColumn : normalColumn.getReferencedColumnList()) {
-                xml.append("\t<referenced_column>")
-                        .append(Format.toString(context.columnMap.get(referencedColumn)))
-                        .append("</referenced_column>\n");
-            }
-            for (final Relationship relation : normalColumn.getRelationshipList()) {
-                xml.append("\t<relation>").append(context.connectionMap.get(relation)).append("</relation>\n");
-            }
+        // #for_erflute not persist word info to immobilize XML
+        //final Integer wordId = context.wordMap.get(normalColumn.getWord());
+        //if (wordId != null) {
+        //    xml.append("\t<word_id>").append(wordId).append("</word_id>\n");
+        //}
+        final Word word = normalColumn.getWord();
+        setupName(normalColumn, xml, word); // name first to be read-able XML e.g. physical_name
+        setupType(normalColumn, xml, word); // e.g. type, length
+        if (context != null) { // needed? by jflute
+            setupRelationship(normalColumn, context, xml);
         }
+        setupComment(normalColumn, xml, word); // e.g. description
+        if (context != null) { // needed? by jflute
+            setupId(normalColumn, context, xml);
+        }
+        setupGeneralConstraint(normalColumn, xml);
+        setupCharacterSettings(normalColumn, xml);
+        // nobody read in old age: referenced_column and relation are saved instead
+        //xml.append("\t<foreign_key>").append(normalColumn.isForeignKey()).append("</foreign_key>\n");
+        setupAutoIncrementSetting(normalColumn, xml);
+        xml.append("</normal_column>\n");
+        return xml.toString();
+    }
 
-        final String description = normalColumn.getForeignKeyDescription();
-        final String logicalName = normalColumn.getForeignKeyLogicalName();
-        final String physicalName = normalColumn.getForeignKeyPhysicalName();
-        final SqlType sqlType = normalColumn.getType();
+    private void setupName(NormalColumn normalColumn, StringBuilder xml, Word word) {
+        // not write if empty or false to slim XML
+        final String physicalName = word != null ? word.getPhysicalName() : normalColumn.getForeignKeyPhysicalName();
+        final String logicalName = word != null ? word.getLogicalName() : normalColumn.getForeignKeyLogicalName();
+        if (Srl.is_NotNull_and_NotEmpty(physicalName)) { // basically true except FK column
+            xml.append("\t<physical_name>").append(escape(physicalName)).append("</physical_name>\n");
+        }
+        if (Srl.is_NotNull_and_NotEmpty(logicalName)) {
+            xml.append("\t<logical_name>").append(escape(logicalName)).append("</logical_name>\n");
+        }
+    }
 
-        xml.append("\t<description>").append(escape(description)).append("</description>\n");
-        xml.append("\t<unique_key_name>").append(escape(normalColumn.getUniqueKeyName())).append("</unique_key_name>\n");
-        xml.append("\t<logical_name>").append(escape(logicalName)).append("</logical_name>\n");
-        xml.append("\t<physical_name>").append(escape(physicalName)).append("</physical_name>\n");
+    private void setupType(NormalColumn normalColumn, final StringBuilder xml, final Word word) {
+        if (!normalColumn.isForeignKey()) { // FK column depends on target PK
+            xml.append("\t<type>").append(prepareType(normalColumn)).append("</type>\n");
+            setupTypeData(xml, word);
+        }
+    }
 
+    private String prepareType(NormalColumn normalColumn) {
         String type = "";
+        final SqlType sqlType = normalColumn.getType();
         if (sqlType != null) {
             type = sqlType.getId();
         }
-        xml.append("\t<type>").append(type).append("</type>\n");
-        xml.append("\t<constraint>").append(escape(normalColumn.getConstraint())).append("</constraint>\n");
-        xml.append("\t<default_value>").append(escape(normalColumn.getDefaultValue())).append("</default_value>\n");
-        xml.append("\t<auto_increment>").append(normalColumn.isAutoIncrement()).append("</auto_increment>\n");
-        xml.append("\t<foreign_key>").append(normalColumn.isForeignKey()).append("</foreign_key>\n");
-        xml.append("\t<not_null>").append(normalColumn.isNotNull()).append("</not_null>\n");
-        xml.append("\t<primary_key>").append(normalColumn.isPrimaryKey()).append("</primary_key>\n");
-        xml.append("\t<unique_key>").append(normalColumn.isUniqueKey()).append("</unique_key>\n");
-        xml.append("\t<character_set>").append(escape(normalColumn.getCharacterSet())).append("</character_set>\n");
-        xml.append("\t<collation>").append(escape(normalColumn.getCollation())).append("</collation>\n");
-        xml.append(tab(sequenceBuilder.buildSequence(normalColumn.getAutoIncrementSetting())));
-        xml.append("</normal_column>\n");
-        return xml.toString();
+        return type;
+    }
+
+    private void setupTypeData(StringBuilder xml, Word word) {
+        // not write if empty or false to slim XML
+        final TypeData typeData = word.getTypeData();
+        final Integer length = word != null ? typeData.getLength() : null;
+        final Integer decimal = word != null ? typeData.getDecimal() : null;
+        final boolean array = word != null ? typeData.isArray() : null;
+        final Integer arrayDimension = word != null ? typeData.getArrayDimension() : null;
+        final boolean unsigned = word != null ? typeData.isUnsigned() : null;
+        final String args = word != null ? typeData.getArgs() : null;
+        if (length != null) {
+            xml.append("\t<length>").append(escape(length)).append("</length>\n");
+        }
+        if (decimal != null) {
+            xml.append("\t<decimal>").append(escape(decimal)).append("</decimal>\n");
+        }
+        if (array) {
+            xml.append("\t<array>").append(escape(array)).append("</array>\n");
+        }
+        if (arrayDimension != null) {
+            xml.append("\t<arrayDimension>").append(escape(arrayDimension)).append("</arrayDimension>\n");
+        }
+        if (unsigned) {
+            xml.append("\t<unsigned>").append(escape(unsigned)).append("</unsigned>\n");
+        }
+        if (Srl.is_NotNull_and_NotEmpty(args)) {
+            xml.append("\t<args>").append(escape(args)).append("</args>\n");
+        }
+    }
+
+    private void setupComment(NormalColumn normalColumn, final StringBuilder xml, final Word word) {
+        final String description = word != null ? word.getDescription() : normalColumn.getForeignKeyDescription();
+        if (Srl.is_NotNull_and_NotEmpty(description)) {
+            xml.append("\t<description>").append(escape(description)).append("</description>\n");
+        }
+    }
+
+    private void setupId(NormalColumn normalColumn, PersistentContext context, final StringBuilder xml) {
+        xml.append("\t<id>").append(context.columnMap.get(normalColumn)).append("</id>\n");
+    }
+
+    private void setupRelationship(NormalColumn normalColumn, PersistentContext context, final StringBuilder xml) {
+        for (final NormalColumn referencedColumn : normalColumn.getReferencedColumnList()) {
+            final String columnId = Format.toString(context.columnMap.get(referencedColumn));
+            xml.append("\t<referenced_column>").append(columnId).append("</referenced_column>\n");
+        }
+        for (final Relationship relation : normalColumn.getRelationshipList()) {
+            final Integer relationId = context.connectionMap.get(relation);
+            xml.append("\t<relation>").append(relationId).append("</relation>\n");
+        }
+    }
+
+    private void setupGeneralConstraint(NormalColumn normalColumn, final StringBuilder xml) {
+        // not write if empty or false to slim XML
+        final boolean notNull = normalColumn.isNotNull();
+        if (notNull) {
+            xml.append("\t<not_null>").append(notNull).append("</not_null>\n");
+        }
+        final boolean primaryKey = normalColumn.isPrimaryKey();
+        if (primaryKey) {
+            xml.append("\t<primary_key>").append(primaryKey).append("</primary_key>\n");
+        }
+        final boolean uniqueKey = normalColumn.isUniqueKey();
+        if (uniqueKey) {
+            xml.append("\t<unique_key>").append(uniqueKey).append("</unique_key>\n");
+        }
+        final boolean autoIncrement = normalColumn.isAutoIncrement();
+        if (autoIncrement) {
+            xml.append("\t<auto_increment>").append(autoIncrement).append("</auto_increment>\n");
+        }
+        final String defaultValue = normalColumn.getDefaultValue();
+        if (Srl.is_NotNull_and_NotEmpty(defaultValue)) {
+            xml.append("\t<default_value>").append(escape(defaultValue)).append("</default_value>\n");
+        }
+        final String constraint = normalColumn.getConstraint();
+        if (Srl.is_NotNull_and_NotEmpty(constraint)) {
+            xml.append("\t<constraint>").append(escape(constraint)).append("</constraint>\n");
+        }
+        final String uniqueKeyName = normalColumn.getUniqueKeyName();
+        if (Srl.is_NotNull_and_NotEmpty(uniqueKeyName)) {
+            xml.append("\t<unique_key_name>").append(escape(uniqueKeyName)).append("</unique_key_name>\n");
+        }
+    }
+
+    private void setupCharacterSettings(NormalColumn normalColumn, final StringBuilder xml) {
+        final String characterSet = normalColumn.getCharacterSet();
+        if (Srl.is_NotNull_and_NotEmpty(characterSet)) {
+            xml.append("\t<character_set>").append(escape(characterSet)).append("</character_set>\n");
+        }
+        final String collation = normalColumn.getCollation();
+        if (Srl.is_NotNull_and_NotEmpty(collation)) {
+            xml.append("\t<collation>").append(escape(collation)).append("</collation>\n");
+        }
+    }
+
+    private void setupAutoIncrementSetting(NormalColumn normalColumn, final StringBuilder xml) {
+        final Sequence autoIncrementSetting = normalColumn.getAutoIncrementSetting();
+        if (normalColumn.isAutoIncrement() && !autoIncrementSetting.isEmpty()) {
+            xml.append(tab(sequenceBuilder.buildSequence(autoIncrementSetting)));
+        }
     }
 
     // ===================================================================================
@@ -138,7 +250,7 @@ public class WrittenColumnBuilder {
         return assistLogic.tab(str);
     }
 
-    private String escape(String s) {
-        return assistLogic.escape(s);
+    private String escape(Object obj) {
+        return assistLogic.escape(obj);
     }
 }

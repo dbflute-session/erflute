@@ -1,5 +1,6 @@
 package org.dbflute.erflute.editor.persistent.xml.writer;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.db.impl.mysql.MySQLTableProperties;
 import org.dbflute.erflute.db.impl.postgres.PostgresTableProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
@@ -31,11 +32,8 @@ public class WrittenTablePropertiesBuilder {
     public String buildTableProperties(TableProperties tableProperties, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<table_properties>\n");
-        final Integer tablespaceId = context.tablespaceMap.get(tableProperties.getTableSpace());
-        if (tablespaceId != null) {
-            xml.append("\t<tablespace_id>").append(tablespaceId).append("</tablespace_id>\n");
-        }
-        xml.append("\t<schema>").append(escape(tableProperties.getSchema())).append("</schema>\n");
+        setupTablespace(tableProperties, context, xml);
+        setupSchema(tableProperties, xml);
         if (tableProperties instanceof MySQLTableProperties) {
             xml.append(tab(doBuildMySQLTableProperties((MySQLTableProperties) tableProperties)));
         } else if (tableProperties instanceof PostgresTableProperties) {
@@ -45,20 +43,50 @@ public class WrittenTablePropertiesBuilder {
         return xml.toString();
     }
 
+    private void setupTablespace(TableProperties tableProperties, PersistentContext context, final StringBuilder xml) {
+        final Integer tablespaceId = context.tablespaceMap.get(tableProperties.getTableSpace());
+        if (tablespaceId != null) {
+            xml.append("\t<tablespace_id>").append(tablespaceId).append("</tablespace_id>\n");
+        }
+    }
+
+    private void setupSchema(TableProperties tableProperties, final StringBuilder xml) {
+        // not write if empty or false to slim XML
+        final String schema = tableProperties.getSchema();
+        if (Srl.is_NotNull_and_NotEmpty(schema)) {
+            xml.append("\t<schema>").append(escape(schema)).append("</schema>\n");
+        }
+    }
+
     private String doBuildMySQLTableProperties(MySQLTableProperties tableProperties) {
+        // not write if empty or false to slim XML
         final StringBuilder xml = new StringBuilder();
-        xml.append("<character_set>").append(escape(tableProperties.getCharacterSet())).append("</character_set>\n");
-        xml.append("<collation>").append(escape(tableProperties.getCollation())).append("</collation>\n");
-        xml.append("<storage_engine>").append(escape(tableProperties.getStorageEngine())).append("</storage_engine>\n");
-        xml.append("<primary_key_length_of_text>")
-                .append(tableProperties.getPrimaryKeyLengthOfText())
-                .append("</primary_key_length_of_text>\n");
+        final String characterSet = tableProperties.getCharacterSet();
+        if (Srl.is_NotNull_and_NotEmpty(characterSet)) {
+            xml.append("<character_set>").append(escape(characterSet)).append("</character_set>\n");
+        }
+        final String collation = tableProperties.getCollation();
+        if (Srl.is_NotNull_and_NotEmpty(collation)) {
+            xml.append("<collation>").append(escape(collation)).append("</collation>\n");
+        }
+        final String storageEngine = tableProperties.getStorageEngine();
+        if (Srl.is_NotNull_and_NotEmpty(storageEngine)) {
+            xml.append("<storage_engine>").append(escape(storageEngine)).append("</storage_engine>\n");
+        }
+        final Integer primaryKeyLengthOfText = tableProperties.getPrimaryKeyLengthOfText();
+        if (primaryKeyLengthOfText != null) {
+            xml.append("<primary_key_length_of_text>").append(primaryKeyLengthOfText).append("</primary_key_length_of_text>\n");
+        }
         return xml.toString();
     }
 
     private String doBuildPostgresTableProperties(PostgresTableProperties tableProperties) {
+        // not write if empty or false to slim XML
         final StringBuilder xml = new StringBuilder();
-        xml.append("<without_oids>").append(tableProperties.isWithoutOIDs()).append("</without_oids>\n");
+        final boolean withoutOIDs = tableProperties.isWithoutOIDs();
+        if (withoutOIDs) {
+            xml.append("<without_oids>").append(withoutOIDs).append("</without_oids>\n");
+        }
         return xml.toString();
     }
 
