@@ -34,7 +34,7 @@ public class LoadContext {
     public final Map<NormalColumn, String[]> columnReferencedColumnMap;
     public final Map<String, ColumnGroup> columnGroupMap;
     public final Map<String, ERModel> ermodelMap;
-    public final Map<Relationship, String> referencedColumnMap;
+    public final Map<Relationship, String> referencedColumnMap; // relationship = column ID
     public final Map<Relationship, String> referencedComplexUniqueKeyMap;
     public final Map<ConnectionElement, String> connectionSourceMap;
     public final Map<ConnectionElement, String> connectionTargetMap;
@@ -73,36 +73,36 @@ public class LoadContext {
     //                                                                  Resolve ID Mapping
     //                                                                  ==================
     public void resolve() { // called by reader
-        for (final ConnectionElement connection : this.connectionSourceMap.keySet()) {
-            final String id = this.connectionSourceMap.get(connection);
-            final NodeElement nodeElement = this.nodeElementMap.get(id);
-            if (nodeElement == null) {
+        for (final ConnectionElement connection : connectionSourceMap.keySet()) {
+            final String id = connectionSourceMap.get(connection);
+            final NodeElement nodeElement = nodeElementMap.get(id);
+            if (nodeElement == null) { // what should I do? by jflute
                 System.out.println("error");
             }
             connection.setSource(nodeElement);
         }
-        for (final ConnectionElement connection : this.connectionTargetMap.keySet()) {
-            final String id = this.connectionTargetMap.get(connection);
-            final NodeElement nodeElement = this.nodeElementMap.get(id);
+        for (final ConnectionElement connection : connectionTargetMap.keySet()) {
+            final String id = connectionTargetMap.get(connection);
+            final NodeElement nodeElement = nodeElementMap.get(id);
             if (nodeElement == null) {
                 System.out.println("error");
             }
             connection.setTarget(nodeElement);
         }
-        for (final Relationship relation : this.referencedColumnMap.keySet()) {
-            final String id = this.referencedColumnMap.get(relation);
-            final NormalColumn column = this.columnMap.get(id);
+        for (final Relationship relation : referencedColumnMap.keySet()) {
+            final String id = referencedColumnMap.get(relation);
+            final NormalColumn column = columnMap.get(id);
             if (column == null) {
                 System.out.println("error");
             }
             relation.setReferencedColumn(column);
         }
-        for (final Relationship relation : this.referencedComplexUniqueKeyMap.keySet()) {
-            final String id = this.referencedComplexUniqueKeyMap.get(relation);
-            final ComplexUniqueKey complexUniqueKey = this.complexUniqueKeyMap.get(id);
+        for (final Relationship relation : referencedComplexUniqueKeyMap.keySet()) {
+            final String id = referencedComplexUniqueKeyMap.get(relation);
+            final ComplexUniqueKey complexUniqueKey = complexUniqueKeyMap.get(id);
             relation.setReferencedComplexUniqueKey(complexUniqueKey);
         }
-        final Set<NormalColumn> foreignKeyColumnSet = this.columnReferencedColumnMap.keySet();
+        final Set<NormalColumn> foreignKeyColumnSet = columnReferencedColumnMap.keySet();
         while (!foreignKeyColumnSet.isEmpty()) {
             final NormalColumn foreignKeyColumn = foreignKeyColumnSet.iterator().next();
             reduce(foreignKeyColumnSet, foreignKeyColumn);
@@ -110,34 +110,27 @@ public class LoadContext {
     }
 
     private void reduce(Set<NormalColumn> foreignKeyColumnSet, NormalColumn foreignKeyColumn) {
-        final String[] referencedColumnIds = this.columnReferencedColumnMap.get(foreignKeyColumn);
-        final String[] relationIds = this.columnRelationMap.get(foreignKeyColumn);
+        final String[] referencedColumnIds = columnReferencedColumnMap.get(foreignKeyColumn);
+        final String[] relationIds = columnRelationMap.get(foreignKeyColumn);
         final List<NormalColumn> referencedColumnList = new ArrayList<NormalColumn>();
         if (referencedColumnIds != null) {
             for (final String referencedColumnId : referencedColumnIds) {
-                try {
-                    Integer.parseInt(referencedColumnId);
-                    final NormalColumn referencedColumn = this.columnMap.get(referencedColumnId);
-                    referencedColumnList.add(referencedColumn);
-                    if (foreignKeyColumnSet.contains(referencedColumn)) {
-                        reduce(foreignKeyColumnSet, referencedColumn);
-                    }
-                } catch (final NumberFormatException e) {}
+                final NormalColumn referencedColumn = columnMap.get(referencedColumnId);
+                referencedColumnList.add(referencedColumn);
+                if (foreignKeyColumnSet.contains(referencedColumn)) {
+                    reduce(foreignKeyColumnSet, referencedColumn);
+                }
             }
         }
-
         if (relationIds != null) {
             for (final String relationId : relationIds) {
-                try {
-                    Integer.parseInt(relationId);
-                    final Relationship relation = (Relationship) this.connectionMap.get(relationId);
-                    for (final NormalColumn referencedColumn : referencedColumnList) {
-                        if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
-                            foreignKeyColumn.addReference(referencedColumn, relation);
-                            break;
-                        }
+                final Relationship relation = (Relationship) connectionMap.get(relationId);
+                for (final NormalColumn referencedColumn : referencedColumnList) {
+                    if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
+                        foreignKeyColumn.addReference(referencedColumn, relation);
+                        break;
                     }
-                } catch (final NumberFormatException e) {}
+                }
             }
         }
         foreignKeyColumnSet.remove(foreignKeyColumn);

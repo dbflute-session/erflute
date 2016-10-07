@@ -68,8 +68,8 @@ public class ReadNodeElementLoader {
         connection.setName(getStringValue(element, "name"));
         connection.setOnDeleteAction(getStringValue(element, "on_delete_action", "NO ACTION"));
         connection.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
-        connection.setSourceLocationp(getIntValue(element, "source_xp", -1), this.getIntValue(element, "source_yp", -1));
-        connection.setTargetLocationp(getIntValue(element, "target_xp", -1), this.getIntValue(element, "target_yp", -1));
+        connection.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
+        connection.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
         final String referencedColumnId = getStringValue(element, "referenced_column");
         if (referencedColumnId != null) {
             context.referencedColumnMap.put(connection, referencedColumnId);

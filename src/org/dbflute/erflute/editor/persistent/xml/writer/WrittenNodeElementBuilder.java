@@ -89,8 +89,8 @@ public class WrittenNodeElementBuilder {
         xml.append("<relation>\n");
         xml.append("\t<name>").append(escape(relation.getName())).append("</name>\n");
         xml.append(tab(buildConnectionElement(relation, context)));
-        xml.append("\t<child_cardinality>").append(escape(relation.getChildCardinality())).append("</child_cardinality>\n");
         xml.append("\t<parent_cardinality>").append(escape(relation.getParentCardinality())).append("</parent_cardinality>\n");
+        xml.append("\t<child_cardinality>").append(escape(relation.getChildCardinality())).append("</child_cardinality>\n");
         xml.append("\t<reference_for_pk>").append(relation.isReferenceForPK()).append("</reference_for_pk>\n");
         setupOnDeleteUpdate(relation, xml);
         setupSourceTargetXy(relation, xml);
@@ -113,7 +113,7 @@ public class WrittenNodeElementBuilder {
 
     private void setupSourceTargetXy(Relationship relation, StringBuilder xml) {
         // not write if empty or false to slim XML
-        final int sourceXp = relation.getSourceXp();
+        final int sourceXp = relation.getSourceXp(); // e.g. MEMBER_STATUS
         if (sourceXp >= 0) {
             xml.append("\t<source_xp>").append(sourceXp).append("</source_xp>\n");
         }
@@ -121,7 +121,7 @@ public class WrittenNodeElementBuilder {
         if (sourceYp >= 0) {
             xml.append("\t<source_yp>").append(sourceYp).append("</source_yp>\n");
         }
-        final int targetXp = relation.getTargetXp();
+        final int targetXp = relation.getTargetXp(); // e.g. MEMBER
         if (targetXp >= 0) {
             xml.append("\t<target_xp>").append(targetXp).append("</target_xp>\n");
         }
@@ -133,7 +133,7 @@ public class WrittenNodeElementBuilder {
 
     private void setupReferenced(Relationship relation, PersistentContext context, final StringBuilder xml) {
         // not write if empty or false to slim XML
-        final Integer referencecdColumnId = context.columnMap.get(relation.getReferencedColumn());
+        final String referencecdColumnId = context.columnMap.get(relation.getReferencedColumn());
         if (referencecdColumnId != null) {
             xml.append("\t<referenced_column>").append(referencecdColumnId).append("</referenced_column>\n");
         }
@@ -149,8 +149,10 @@ public class WrittenNodeElementBuilder {
     private String buildConnectionElement(ConnectionElement connection, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
-        xml.append("<source>").append(context.nodeElementMap.get(connection.getSource())).append("</source>\n");
-        xml.append("<target>").append(context.nodeElementMap.get(connection.getTarget())).append("</target>\n");
+        final Integer sourceId = context.nodeElementMap.get(connection.getSource());
+        final Integer targetId = context.nodeElementMap.get(connection.getTarget());
+        xml.append("<source>").append(sourceId).append("</source>\n"); // e.g. MEMBER_STATUS
+        xml.append("<target>").append(targetId).append("</target>\n"); // e.g. MEMBER
         for (final Bendpoint bendpoint : connection.getBendpoints()) {
             xml.append(tab(buildBendPoint(bendpoint)));
         }

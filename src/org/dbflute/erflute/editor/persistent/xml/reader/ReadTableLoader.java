@@ -7,10 +7,12 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ER
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
+import org.dbflute.erflute.editor.persistent.xml.reader.ReadColumnLoader.ColumnIdBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -57,7 +59,12 @@ public class ReadTableLoader {
         table.setConstraint(getStringValue(element, "constraint"));
         table.setPrimaryKeyName(getStringValue(element, "primary_key_name"));
         table.setOption(getStringValue(element, "option"));
-        final List<ERColumn> columns = columnLoader.loadColumns(element, context, database);
+        final List<ERColumn> columns = columnLoader.loadColumns(element, context, database, new ColumnIdBuilder() {
+            @Override
+            public String build(NormalColumn column) {
+                return column.buildColumnId(table);
+            }
+        });
         table.setColumns(columns);
         final List<ERIndex> indexes = indexLoader.loadIndexes(element, table, context);
         table.setIndexes(indexes);

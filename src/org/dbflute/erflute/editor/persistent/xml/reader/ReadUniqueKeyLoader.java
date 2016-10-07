@@ -7,6 +7,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
+import org.dbflute.erflute.editor.persistent.xml.reader.exception.PersistentXmlReadingFailureException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -35,7 +36,7 @@ public class ReadUniqueKeyLoader {
     //                                                                  ==================
     public List<ComplexUniqueKey> loadComplexUniqueKeyList(Element parent, ERTable table, LoadContext context) {
         final List<ComplexUniqueKey> complexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
-        final Element element = this.getElement(parent, "complex_unique_key_list");
+        final Element element = getElement(parent, "complex_unique_key_list");
         if (element == null) {
             return complexUniqueKeyList;
         }
@@ -45,10 +46,10 @@ public class ReadUniqueKeyLoader {
                 continue;
             }
             final Element complexUniqueKeyElement = (Element) nodeList.item(i);
-            final String id = this.getStringValue(complexUniqueKeyElement, "id");
-            final String name = this.getStringValue(complexUniqueKeyElement, "name");
+            final String id = getStringValue(complexUniqueKeyElement, "id");
+            final String name = getStringValue(complexUniqueKeyElement, "name");
             final ComplexUniqueKey complexUniqueKey = new ComplexUniqueKey(name);
-            this.loadComplexUniqueKeyColumns(complexUniqueKey, complexUniqueKeyElement, context);
+            loadComplexUniqueKeyColumns(complexUniqueKey, complexUniqueKeyElement, context);
             complexUniqueKeyList.add(complexUniqueKey);
             context.complexUniqueKeyMap.put(id, complexUniqueKey);
         }
@@ -56,15 +57,19 @@ public class ReadUniqueKeyLoader {
     }
 
     private void loadComplexUniqueKeyColumns(ComplexUniqueKey complexUniqueKey, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "columns");
+        final Element element = getElement(parent, "columns");
         final NodeList nodeList = element.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
             final Element columnElement = (Element) nodeList.item(i);
-            final String id = this.getStringValue(columnElement, "id");
+            final String id = getStringValue(columnElement, "id");
             final NormalColumn column = context.columnMap.get(id);
+            if (column == null) {
+                final String msg = "Not found the column for complex unique key: column=" + id + ", uniqueKey=" + complexUniqueKey;
+                throw new PersistentXmlReadingFailureException(msg);
+            }
             complexUniqueKey.addColumn(column);
         }
     }

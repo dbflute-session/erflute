@@ -62,7 +62,7 @@ public class WrittenIndexBuilder {
         int count = 0;
         for (final ERColumn column : index.getColumns()) {
             xml.append("\t\t<column>\n");
-            final Integer columnId = context.columnMap.get(column);
+            final String columnId = context.columnMap.get(column);
             xml.append("\t\t\t<id>").append(columnId).append("</id>\n");
             Boolean desc = Boolean.FALSE;
             if (descs.size() > count) {

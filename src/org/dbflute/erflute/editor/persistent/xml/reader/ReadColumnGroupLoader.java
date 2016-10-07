@@ -7,6 +7,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
+import org.dbflute.erflute.editor.persistent.xml.reader.ReadColumnLoader.ColumnIdBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -41,7 +42,12 @@ public class ReadColumnGroupLoader {
             final Element columnGroupElement = (Element) nodeList.item(i);
             final ColumnGroup columnGroup = new ColumnGroup();
             columnGroup.setGroupName(getStringValue(columnGroupElement, "group_name"));
-            final List<ERColumn> columns = columnLoader.loadColumns(columnGroupElement, context, database);
+            final List<ERColumn> columns = columnLoader.loadColumns(columnGroupElement, context, database, new ColumnIdBuilder() {
+                @Override
+                public String build(NormalColumn column) {
+                    return column.buildColumnIdAsGroup(columnGroup);
+                }
+            });
             for (final ERColumn column : columns) {
                 columnGroup.addColumn((NormalColumn) column);
             }

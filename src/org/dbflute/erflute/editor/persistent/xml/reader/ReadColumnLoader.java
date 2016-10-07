@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -40,7 +41,7 @@ public class ReadColumnLoader {
     // ===================================================================================
     //                                                                              Column
     //                                                                              ======
-    public List<ERColumn> loadColumns(Element parent, LoadContext context, String database) {
+    public List<ERColumn> loadColumns(Element parent, LoadContext context, String database, ColumnIdBuilder builder) {
         final List<ERColumn> columns = new ArrayList<ERColumn>();
         final Element element = getElement(parent, "columns");
         final NodeList groupList = element.getChildNodes();
@@ -53,11 +54,16 @@ public class ReadColumnLoader {
                 final ColumnGroup column = doLoadColumnGroup(columnElement, context);
                 columns.add(column);
             } else if ("normal_column".equals(columnElement.getTagName())) {
-                final NormalColumn column = doLoadNormalColumn(columnElement, context, database);
+                final NormalColumn column = doLoadNormalColumn(columnElement, context, database, builder);
                 columns.add(column);
             }
         }
         return columns;
+    }
+
+    public static interface ColumnIdBuilder {
+
+        String build(NormalColumn column);
     }
 
     private ColumnGroup doLoadColumnGroup(Element element, LoadContext context) {
@@ -65,14 +71,18 @@ public class ReadColumnLoader {
         return context.columnGroupMap.get(key);
     }
 
-    private NormalColumn doLoadNormalColumn(Element element, LoadContext context, String database) {
+    private NormalColumn doLoadNormalColumn(Element element, LoadContext context, String database, ColumnIdBuilder builder) {
         final Word word = prepareWord(element, context, database);
         final NormalColumn normalColumn = createNormalColumn(element, word);
-        final String id = getStringValue(element, "id");
         final boolean isForeignKey = setupRelationship(element, context, normalColumn);
         setupAutoIncrement(element, normalColumn);
         if (!isForeignKey) {
             context.dictionary.add(normalColumn);
+        }
+        // not use serial ID to immobilize XML 
+        String id = getStringValue(element, "id"); // when migration from ERMaster-b
+        if (Srl.is_Null_or_TrimmedEmpty(id)) { // basically true after ERFlute
+            id = builder.build(normalColumn); // e.g. MEMBER.MEMBER_NAME
         }
         context.columnMap.put(id, normalColumn);
         return normalColumn;
@@ -128,21 +138,13 @@ public class ReadColumnLoader {
     }
 
     private boolean setupRelationship(Element element, LoadContext context, final NormalColumn normalColumn) {
+        // normalColumn's reference info will be resolved later (in LoadContext)
+        // because reference table may not be loaded yet here
         final String[] relationIds = getTagValues(element, "relation");
         if (relationIds != null) {
             context.columnRelationMap.put(normalColumn, relationIds);
         }
-        String[] referencedColumnIds = getTagValues(element, "referenced_column");
-        final List<String> temp = new ArrayList<String>();
-        for (final String str : referencedColumnIds) {
-            try {
-                if (str != null) {
-                    Integer.parseInt(str);
-                    temp.add(str);
-                }
-            } catch (final NumberFormatException e) {}
-        }
-        referencedColumnIds = temp.toArray(new String[temp.size()]);
+        final String[] referencedColumnIds = getTagValues(element, "referenced_column");
         boolean isForeignKey = false;
         if (referencedColumnIds.length != 0) {
             context.columnReferencedColumnMap.put(normalColumn, referencedColumnIds);

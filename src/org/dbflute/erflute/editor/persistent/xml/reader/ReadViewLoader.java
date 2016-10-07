@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.properties.ViewProperties;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
+import org.dbflute.erflute.editor.persistent.xml.reader.ReadColumnLoader.ColumnIdBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -46,7 +48,12 @@ public class ReadViewLoader {
         view.setDescription(getStringValue(element, "description"));
         nodeElementLoader.loadNodeElement(view, element, context);
         view.setSql(getStringValue(element, "sql"));
-        final List<ERColumn> columns = columnLoader.loadColumns(element, context, database);
+        final List<ERColumn> columns = columnLoader.loadColumns(element, context, database, new ColumnIdBuilder() {
+            @Override
+            public String build(NormalColumn column) {
+                return column.buildColumnId(view);
+            }
+        });
         view.setColumns(columns);
         viewPropertiesLoader.loadViewProperties((ViewProperties) view.getTableViewProperties(), element, context);
         return view;

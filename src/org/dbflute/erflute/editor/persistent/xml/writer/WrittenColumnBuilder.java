@@ -89,13 +89,27 @@ public class WrittenColumnBuilder {
 
     private void setupName(NormalColumn normalColumn, StringBuilder xml, Word word) {
         // not write if empty or false to slim XML
-        final String physicalName = word != null ? word.getPhysicalName() : normalColumn.getForeignKeyPhysicalName();
+        final String physicalName = derivePhysicalName(normalColumn, word);
         final String logicalName = word != null ? word.getLogicalName() : normalColumn.getForeignKeyLogicalName();
-        if (Srl.is_NotNull_and_NotEmpty(physicalName)) { // basically true except FK column
-            xml.append("\t<physical_name>").append(escape(physicalName)).append("</physical_name>\n");
-        }
-        if (Srl.is_NotNull_and_NotEmpty(logicalName)) {
+        xml.append("\t<physical_name>").append(escape(physicalName)).append("</physical_name>\n");
+        if (Srl.is_NotNull_and_NotEmpty(logicalName)) { // not required
             xml.append("\t<logical_name>").append(escape(logicalName)).append("</logical_name>\n");
+        }
+    }
+
+    private String derivePhysicalName(NormalColumn normalColumn, Word word) {
+        if (word != null) {
+            return word.getPhysicalName();
+        }
+        final String foreignKeyPhysicalName = normalColumn.getForeignKeyPhysicalName();
+        if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyPhysicalName)) {
+            return foreignKeyPhysicalName;
+        }
+        final NormalColumn firstReferencedColumn = normalColumn.getFirstReferencedColumn();
+        if (firstReferencedColumn != null) {
+            return firstReferencedColumn.getPhysicalName();
+        } else { // no way but you can save
+            return "#error:UnknownColumn";
         }
     }
 
@@ -152,7 +166,8 @@ public class WrittenColumnBuilder {
     }
 
     private void setupId(NormalColumn normalColumn, PersistentContext context, final StringBuilder xml) {
-        xml.append("\t<id>").append(context.columnMap.get(normalColumn)).append("</id>\n");
+        // not use serial ID to immobilize XML
+        //xml.append("\t<id>").append(context.columnMap.get(normalColumn)).append("</id>\n");
     }
 
     private void setupRelationship(NormalColumn normalColumn, PersistentContext context, final StringBuilder xml) {

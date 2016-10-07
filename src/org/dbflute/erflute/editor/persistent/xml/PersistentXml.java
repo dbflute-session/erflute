@@ -36,7 +36,7 @@ public class PersistentXml extends Persistent {
         public final Map<NodeElement, Integer> nodeElementMap = new HashMap<NodeElement, Integer>();
         public final Map<ConnectionElement, Integer> connectionMap = new HashMap<ConnectionElement, Integer>();
         public final Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
-        public final Map<ERColumn, Integer> columnMap = new HashMap<ERColumn, Integer>(); // column = ID
+        public final Map<ERColumn, String> columnMap = new HashMap<ERColumn, String>(); // column = ID
         public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
         public final Map<Word, Integer> wordMap = new HashMap<Word, Integer>();
         public final Map<Tablespace, Integer> tablespaceMap = new HashMap<Tablespace, Integer>();
@@ -50,8 +50,8 @@ public class PersistentXml extends Persistent {
 
     private PersistentContext createContext(DiagramContents diagramContents) {
         final PersistentContext context = new PersistentContext();
-        final int columnNo = setupColumnGroup(diagramContents, context);
-        setupNodeElement(diagramContents, context, columnNo); // contains table, column
+        setupNodeElement(diagramContents, context); // contains table, column
+        setupColumnGroup(diagramContents, context);
         setupWord(diagramContents, context);
         setupTablespace(diagramContents, context);
         setupEnvironment(diagramContents, context);
@@ -59,21 +59,7 @@ public class PersistentXml extends Persistent {
         return context;
     }
 
-    private int setupColumnGroup(DiagramContents diagramContents, final PersistentContext context) {
-        int columnGroupNo = 1;
-        int columnNo = 1;
-        for (final ColumnGroup columnGroup : diagramContents.getGroups()) {
-            context.columnGroupMap.put(columnGroup, columnGroupNo);
-            columnGroupNo++;
-            for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-                context.columnMap.put(normalColumn, columnNo);
-                columnNo++;
-            }
-        }
-        return columnNo;
-    }
-
-    private void setupNodeElement(DiagramContents diagramContents, final PersistentContext context, int columnNo) {
+    private void setupNodeElement(DiagramContents diagramContents, final PersistentContext context) {
         int nodeElementNo = 1;
         int connectionNo = 1;
         int complexUniqueKeyNo = 1;
@@ -90,14 +76,24 @@ public class PersistentXml extends Persistent {
                 final List<ERColumn> columns = table.getColumns();
                 for (final ERColumn column : columns) {
                     if (column instanceof NormalColumn) {
-                        context.columnMap.put(column, columnNo);
-                        columnNo++;
+                        context.columnMap.put(column, ((NormalColumn) column).buildColumnId(table));
                     }
                 }
                 for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
                     context.complexUniqueKeyMap.put(complexUniqueKey, complexUniqueKeyNo);
                     complexUniqueKeyNo++;
                 }
+            }
+        }
+    }
+
+    private void setupColumnGroup(DiagramContents diagramContents, final PersistentContext context) {
+        int columnGroupNo = 1;
+        for (final ColumnGroup columnGroup : diagramContents.getGroups()) {
+            context.columnGroupMap.put(columnGroup, columnGroupNo);
+            columnGroupNo++;
+            for (final NormalColumn normalColumn : columnGroup.getColumns()) {
+                context.columnMap.put(normalColumn, normalColumn.buildColumnIdAsGroup(columnGroup));
             }
         }
     }

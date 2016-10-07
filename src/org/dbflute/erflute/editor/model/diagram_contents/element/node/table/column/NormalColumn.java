@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 
 /**
@@ -22,7 +25,7 @@ public class NormalColumn extends ERColumn {
     //                                                                           Attribute
     //                                                                           =========
     private Word word;
-    private String foreignKeyPhysicalName;
+    private String foreignKeyPhysicalName; // #willanalyze unused? by jflute
     private String foreignKeyLogicalName;
     private String foreignKeyDescription;
     private boolean notNull;
@@ -328,6 +331,31 @@ public class NormalColumn extends ERColumn {
             from.word.copyTo(to.word);
         }
         to.setColumnHolder(from.getColumnHolder());
+    }
+
+    // ===================================================================================
+    //                                                                           Column ID
+    //                                                                           =========
+    public String buildColumnId(TableView table) {
+        return table.getPhysicalName() + "." + getResolvedPhysicalName();
+    }
+
+    public String buildColumnIdAsGroup(ColumnGroup group) {
+        return "columnGroup." + group.getGroupName() + "." + getResolvedPhysicalName();
+    }
+
+    private String getResolvedPhysicalName() {
+        final String physicalName = getPhysicalName();
+        if (Srl.is_NotNull_and_NotEmpty(physicalName)) {
+            return physicalName;
+        } else {
+            final NormalColumn firstReferencedColumn = getFirstReferencedColumn();
+            if (firstReferencedColumn != null) {
+                return firstReferencedColumn.getPhysicalName();
+            } else { // no way? by jflute
+                return "Unknown";
+            }
+        }
     }
 
     // ===================================================================================
