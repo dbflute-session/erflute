@@ -8,7 +8,7 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
@@ -26,7 +26,7 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = VerticalLineAction.class.getName();
 
-    public VerticalLineAction(MainModelEditor editor) {
+    public VerticalLineAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.vertical.line"), editor);
 
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));

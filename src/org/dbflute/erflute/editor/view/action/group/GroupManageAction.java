@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.action.group;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
@@ -19,7 +19,7 @@ public class GroupManageAction extends AbstractBaseAction {
 
     public static final String ID = GroupManageAction.class.getName();
 
-    public GroupManageAction(MainModelEditor editor) {
+    public GroupManageAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.manage.group"), editor);
     }
 

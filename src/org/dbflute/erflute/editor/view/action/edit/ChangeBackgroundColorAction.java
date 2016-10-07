@@ -7,7 +7,7 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeBackgroundColorCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.NormalColumnEditPart;
@@ -88,7 +88,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
     private void setRGB(RGB rgb) {
         this.rgb = rgb;
 
-        EditPart editPart = ((MainModelEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
+        EditPart editPart = ((RealModelEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
 
         if (editPart.getModel() instanceof ERModel) {
             // �r���[�̔w�i�F�ύX

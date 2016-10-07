@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
@@ -20,13 +20,13 @@ import org.eclipse.ui.IFileEditorInput;
 
 public abstract class AbstractBaseAction extends Action {
 
-    private MainModelEditor editor;
+    private RealModelEditor editor;
 
-    public AbstractBaseAction(String id, String text, MainModelEditor editor) {
+    public AbstractBaseAction(String id, String text, RealModelEditor editor) {
         this(id, text, SWT.NONE, editor);
     }
 
-    public AbstractBaseAction(String id, String text, int style, MainModelEditor editor) {
+    public AbstractBaseAction(String id, String text, int style, RealModelEditor editor) {
         super(text, style);
         this.setId(id);
 
@@ -90,7 +90,7 @@ public abstract class AbstractBaseAction extends Action {
         return null;
     }
 
-    protected MainModelEditor getEditorPart() {
+    protected RealModelEditor getEditorPart() {
         return this.editor;
     }
 }

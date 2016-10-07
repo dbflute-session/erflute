@@ -8,7 +8,7 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
@@ -28,7 +28,7 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = HorizontalLineAction.class.getName();
 
-    public HorizontalLineAction(MainModelEditor editor) {
+    public HorizontalLineAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.horizontal.line"), editor);
 
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.HORIZONTAL_LINE));

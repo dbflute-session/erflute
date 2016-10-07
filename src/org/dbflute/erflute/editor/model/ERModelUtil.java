@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.SubModelEditor;
+import org.dbflute.erflute.editor.VirtualModelEditor;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -40,8 +40,8 @@ public class ERModelUtil {
             return false;
         }
         IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
-        if (activeEditor instanceof SubModelEditor) {
-            SubModelEditor editor = (SubModelEditor) activeEditor;
+        if (activeEditor instanceof VirtualModelEditor) {
+            VirtualModelEditor editor = (VirtualModelEditor) activeEditor;
             editor.setContents(diagram.getCurrentErmodel());
             diagram.changeAll();
             return true;
@@ -53,8 +53,8 @@ public class ERModelUtil {
         if (refreshDiagram(diagram)) {
             if (element instanceof ERTable) {
                 IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
-                if (activeEditor instanceof SubModelEditor) {
-                    SubModelEditor editor = (SubModelEditor) activeEditor;
+                if (activeEditor instanceof VirtualModelEditor) {
+                    VirtualModelEditor editor = (VirtualModelEditor) activeEditor;
                     editor.reveal((ERTable) element);
                 }
             }

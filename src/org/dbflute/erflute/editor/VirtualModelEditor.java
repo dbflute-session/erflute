@@ -33,7 +33,7 @@ import org.eclipse.swt.SWT;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class SubModelEditor extends MainModelEditor {
+public class VirtualModelEditor extends RealModelEditor {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -43,7 +43,7 @@ public class SubModelEditor extends MainModelEditor {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public SubModelEditor(ERDiagram diagram, ERModel model, ERDiagramEditPartFactory editPartFactory,
+    public VirtualModelEditor(ERDiagram diagram, ERModel model, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         super(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
         this.model = model;

@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.ermodel;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.SubModelEditor;
+import org.dbflute.erflute.editor.VirtualModelEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.ChangeVGroupCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
@@ -15,7 +15,7 @@ public class VGroupManageAction extends AbstractBaseAction {
 
     public static final String ID = VGroupManageAction.class.getName();
 
-    public VGroupManageAction(SubModelEditor editor) {
+    public VGroupManageAction(VirtualModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.vgroup.manage"), editor);
     }
 
@@ -26,7 +26,7 @@ public class VGroupManageAction extends AbstractBaseAction {
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
 
-        ERModel model = ((SubModelEditor) getEditorPart()).getModel();
+        ERModel model = ((VirtualModelEditor) getEditorPart()).getModel();
         ERModel newModel = (ERModel) model.clone();
 
         VGroupManageDialog dialog = new VGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), newModel);

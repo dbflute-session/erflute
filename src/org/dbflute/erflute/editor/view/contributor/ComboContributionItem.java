@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.contributor;
 import java.util.List;
 
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -110,7 +110,7 @@ public abstract class ComboContributionItem extends ContributionItem {
 
     private void executeCommand(Command command) {
         ERFluteMultiPageEditor multiPageEditor = (ERFluteMultiPageEditor) this.workbenchPage.getActiveEditor();
-        MainModelEditor editor = (MainModelEditor) multiPageEditor.getActiveEditor();
+        RealModelEditor editor = (RealModelEditor) multiPageEditor.getActiveEditor();
         editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 

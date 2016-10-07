@@ -11,7 +11,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbimport.DBObjectSet;
 import org.dbflute.erflute.editor.model.dbimport.ImportFromDBManagerBase;
@@ -33,7 +33,7 @@ public class ImportFromDBAction extends AbstractImportAction {
 
     private DBSetting dbSetting;
 
-    public ImportFromDBAction(MainModelEditor editor) {
+    public ImportFromDBAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.db"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.DATABASE));
     }

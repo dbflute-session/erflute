@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.extension;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.eclipse.jface.action.IAction;
 
 /**
@@ -14,6 +14,6 @@ public interface IERDiagramActionFactory {
      * @param editor
      * @return IAction
      */
-    public IAction createIAction(MainModelEditor editor);
+    public IAction createIAction(RealModelEditor editor);
 
 }

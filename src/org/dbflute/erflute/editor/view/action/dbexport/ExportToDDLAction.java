@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.action.dbexport;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.settings.Settings;
@@ -16,7 +16,7 @@ public class ExportToDDLAction extends AbstractBaseAction {
 
     public static final String ID = ExportToDDLAction.class.getName();
 
-    public ExportToDDLAction(MainModelEditor editor) {
+    public ExportToDDLAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.ddl"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_DDL));
     }

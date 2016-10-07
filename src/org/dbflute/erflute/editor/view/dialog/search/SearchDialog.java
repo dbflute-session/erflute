@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.common.ReplaceCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -143,7 +143,7 @@ public class SearchDialog extends Dialog {
 
     private TabFolder tabFolder;
 
-    public SearchDialog(Shell parentShell, GraphicalViewer viewer, MainModelEditor erDiagramEditor, ERDiagram diagram) {
+    public SearchDialog(Shell parentShell, GraphicalViewer viewer, RealModelEditor erDiagramEditor, ERDiagram diagram) {
         super(parentShell);
 
         this.setShellStyle(SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);

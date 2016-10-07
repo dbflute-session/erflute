@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.view.action.edit;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.common.PasteCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
@@ -25,7 +25,7 @@ import org.eclipse.ui.actions.ActionFactory;
  */
 public class PasteAction extends SelectionAction {
 
-    private MainModelEditor editor;
+    private RealModelEditor editor;
 
     /**
      * �R���X�g���N�^
@@ -42,7 +42,7 @@ public class PasteAction extends SelectionAction {
 
         this.setId(ActionFactory.PASTE.getId());
 
-        MainModelEditor editor = (MainModelEditor) part;
+        RealModelEditor editor = (RealModelEditor) part;
 
         this.editor = editor;
     }

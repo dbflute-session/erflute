@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.SubModelEditor;
+import org.dbflute.erflute.editor.VirtualModelEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -19,9 +19,9 @@ import org.eclipse.ui.PlatformUI;
 public class PlaceTableAction extends AbstractBaseAction {
 
     public static final String ID = PlaceTableAction.class.getName();
-    private SubModelEditor oneEditor;
+    private VirtualModelEditor oneEditor;
 
-    public PlaceTableAction(SubModelEditor editor) {
+    public PlaceTableAction(VirtualModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.ermodel.place.table"), editor);
         this.oneEditor = editor;
     }

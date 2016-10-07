@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.option.notation;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.common.notation.ChangeCapitalCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
@@ -12,7 +12,7 @@ public class ChangeCapitalAction extends AbstractBaseAction {
 
     public static final String ID = ChangeCapitalAction.class.getName();
 
-    public ChangeCapitalAction(MainModelEditor editor) {
+    public ChangeCapitalAction(RealModelEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
         this.setText(DisplayMessages.getMessage("action.title.display.capital"));
     }

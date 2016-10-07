@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.RightAngleLineCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
@@ -25,7 +25,7 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = RightAngleLineAction.class.getName();
 
-    public RightAngleLineAction(MainModelEditor editor) {
+    public RightAngleLineAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.right.angle.line"), editor);
     }
 

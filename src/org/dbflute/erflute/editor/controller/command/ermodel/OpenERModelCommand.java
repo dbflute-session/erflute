@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.controller.command.ermodel;
 
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
-import org.dbflute.erflute.editor.SubModelEditor;
+import org.dbflute.erflute.editor.VirtualModelEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
@@ -25,7 +25,7 @@ public class OpenERModelCommand extends AbstractCommand {
 
         editor.setCurrentErmodel(model);
 
-        ((SubModelEditor) editor.getActiveEditor()).reveal(table);
+        ((VirtualModelEditor) editor.getActiveEditor()).reveal(table);
         //		IEditorInput editorInput = editor2.getEditorInput();
         //
         //

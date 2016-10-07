@@ -50,8 +50,8 @@ public class PersistentXml extends Persistent {
 
     private PersistentContext createContext(DiagramContents diagramContents) {
         final PersistentContext context = new PersistentContext();
-        final int columnCount = setupColumnGroup(diagramContents, context);
-        setupNodeElement(diagramContents, context, columnCount); // contains table, column
+        final int columnNo = setupColumnGroup(diagramContents, context);
+        setupNodeElement(diagramContents, context, columnNo); // contains table, column
         setupWord(diagramContents, context);
         setupTablespace(diagramContents, context);
         setupEnvironment(diagramContents, context);
@@ -73,7 +73,7 @@ public class PersistentXml extends Persistent {
         return columnNo;
     }
 
-    private void setupNodeElement(DiagramContents diagramContents, final PersistentContext context, int columnCount) {
+    private void setupNodeElement(DiagramContents diagramContents, final PersistentContext context, int columnNo) {
         int nodeElementNo = 1;
         int connectionNo = 1;
         int complexUniqueKeyNo = 1;
@@ -90,8 +90,8 @@ public class PersistentXml extends Persistent {
                 final List<ERColumn> columns = table.getColumns();
                 for (final ERColumn column : columns) {
                     if (column instanceof NormalColumn) {
-                        context.columnMap.put(column, columnCount);
-                        columnCount++;
+                        context.columnMap.put(column, columnNo);
+                        columnNo++;
                     }
                 }
                 for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {

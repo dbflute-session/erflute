@@ -1,13 +1,13 @@
 package org.dbflute.erflute.editor.view.action.option.notation.level;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.model.settings.Settings;
 
 public class ChangeNotationLevelToNameAndKeyAction extends AbstractChangeNotationLevelAction {
 
     public static final String ID = ChangeNotationLevelToNameAndKeyAction.class.getName();
 
-    public ChangeNotationLevelToNameAndKeyAction(MainModelEditor editor) {
+    public ChangeNotationLevelToNameAndKeyAction(RealModelEditor editor) {
         super(ID, editor);
     }
 

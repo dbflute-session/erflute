@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.common;
 
 import java.util.ArrayList;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -40,7 +40,7 @@ public class PasteCommand extends AbstractCommand {
      * @param x
      * @param y
      */
-    public PasteCommand(MainModelEditor editor, NodeSet nodeElements, int x, int y) {
+    public PasteCommand(RealModelEditor editor, NodeSet nodeElements, int x, int y) {
         this.viewer = editor.getGraphicalViewer();
         Object model = viewer.getContents().getModel();
         if (model instanceof ERDiagram) {

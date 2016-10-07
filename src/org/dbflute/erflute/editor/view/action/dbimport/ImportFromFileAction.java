@@ -13,7 +13,7 @@ import java.util.Set;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbimport.DBObject;
@@ -60,7 +60,7 @@ public class ImportFromFileAction extends AbstractImportAction {
 
     private ERDiagram loadedDiagram;
 
-    public ImportFromFileAction(MainModelEditor editor) {
+    public ImportFromFileAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.file"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.TABLE));
     }

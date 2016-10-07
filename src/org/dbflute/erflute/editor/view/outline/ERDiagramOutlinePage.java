@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.outline;
 import java.util.List;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.ermodel.OpenERModelCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
@@ -286,7 +286,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 
             if (diagram.getCurrentErmodel() == null) {
                 // �S�̃r���[
-                MainModelEditor editor = ((MainModelEditor) diagram.getEditor().getActiveEditor());
+                RealModelEditor editor = ((RealModelEditor) diagram.getEditor().getActiveEditor());
                 editor.reveal(table);
                 return;
             }

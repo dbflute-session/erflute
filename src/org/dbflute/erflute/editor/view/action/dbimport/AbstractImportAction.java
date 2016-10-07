@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.view.action.dbimport;
 
 import java.util.List;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.dbimport.ImportTableCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
@@ -24,7 +24,7 @@ public abstract class AbstractImportAction extends AbstractBaseAction {
 
     protected List<ColumnGroup> importedColumnGroups;
 
-    public AbstractImportAction(String id, String text, MainModelEditor editor) {
+    public AbstractImportAction(String id, String text, RealModelEditor editor) {
         super(id, text, editor);
     }
 

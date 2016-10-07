@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.DefaultLineCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
@@ -21,7 +21,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = DefaultLineAction.class.getName();
 
-    public DefaultLineAction(MainModelEditor editor) {
+    public DefaultLineAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.default"), editor);
     }
 

@@ -26,7 +26,7 @@ public class DiagramContents {
     private TriggerSet triggerSet;
     private IndexSet indexSet;
     private TablespaceSet tablespaceSet;
-    private ERModelSet modelSet;
+    private ERModelSet modelSet; // #willdelete virtual model?
 
     // ===================================================================================
     //                                                                         Constructor

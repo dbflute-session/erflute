@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.ermodel;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.command.ermodel.AddERModelCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.settings.Settings;
@@ -15,7 +15,7 @@ public class ERModelAddAction extends AbstractBaseAction {
 
     public static final String ID = ERModelAddAction.class.getName();
 
-    public ERModelAddAction(MainModelEditor editor) {
+    public ERModelAddAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.ermodel.add"), editor);
     }
 

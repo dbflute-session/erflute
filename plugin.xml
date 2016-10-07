@@ -36,15 +36,6 @@
 		</editor>
 	</extension>
 
-	<extension point="org.eclipse.ui.editors"> <!-- to show XML plainly -->
-		<editor class="org.dbflute.erflute.editor.TestEditor"
-			extensions="erm2"
-			icon="icons/table.gif"
-			id="org.dbflute.erflute.editors.TestEditor"
-			name="%plugin.name">
-		</editor>
-	</extension>
-
 	<extension point="org.eclipse.ant.core.antTasks">
 		<antTask name="ermaster.ddl"
 			class="org.insightech.er.ant_task.DDLAntTask"

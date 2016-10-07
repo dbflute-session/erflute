@@ -6,7 +6,7 @@ import java.util.Map;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.RealModelEditor;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.image.ExportToImageWithProgressManager;
@@ -38,7 +38,7 @@ public class ExportToImageAction extends AbstractExportAction {
 
     public static final String ID = ExportToImageAction.class.getName();
 
-    public ExportToImageAction(MainModelEditor editor) {
+    public ExportToImageAction(RealModelEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.image"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_IMAGE));
     }

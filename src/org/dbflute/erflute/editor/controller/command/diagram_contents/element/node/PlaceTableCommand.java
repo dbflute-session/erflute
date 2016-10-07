@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.n
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.editor.SubModelEditor;
+import org.dbflute.erflute.editor.VirtualModelEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -35,7 +35,7 @@ public class PlaceTableCommand extends AbstractCommand {
 
         if (orgTables != null) {
             // �����z�u
-            SubModelEditor modelEditor = (SubModelEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            VirtualModelEditor modelEditor = (VirtualModelEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
 
             Point cursorLocation = Display.getCurrent().getCursorLocation();
             Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
@@ -69,7 +69,7 @@ public class PlaceTableCommand extends AbstractCommand {
         } else {
             ERTable curTable = orgTable;
 
-            SubModelEditor modelEditor = (SubModelEditor) curTable.getDiagram().getEditor().getActiveEditor();
+            VirtualModelEditor modelEditor = (VirtualModelEditor) curTable.getDiagram().getEditor().getActiveEditor();
 
             // ���Ƀr���[��ɓ���e�[�u������������u���Ȃ�
             for (ERVirtualTable vtable : modelEditor.getModel().getTables()) {
@@ -107,13 +107,13 @@ public class PlaceTableCommand extends AbstractCommand {
                 model.remove(vtable);
             }
 
-            SubModelEditor modelEditor = (SubModelEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            VirtualModelEditor modelEditor = (VirtualModelEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         } else {
             ERModel model = orgTable.getDiagram().getCurrentErmodel();
             model.remove(virtualTable);
 
-            SubModelEditor modelEditor = (SubModelEditor) orgTable.getDiagram().getEditor().getActiveEditor();
+            VirtualModelEditor modelEditor = (VirtualModelEditor) orgTable.getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         }
     }
