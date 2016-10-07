@@ -97,8 +97,8 @@ public class ErmXmlWriter {
     private String buildDiagram(ERDiagram diagram) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        xml.append("<presenter>ERFlute</presenter>"); // mark just in case
         xml.append("<diagram>\n");
+        xml.append("\t<presenter>ERFlute</presenter>\n"); // mark just in case
         if (diagram.getDbSetting() != null) {
             xml.append("\t<dbsetting>\n").append(tab(tab(buildDBSetting(diagram.getDbSetting())))).append("\t</dbsetting>\n");
         }
