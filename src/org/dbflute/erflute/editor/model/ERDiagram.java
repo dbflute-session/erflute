@@ -315,7 +315,7 @@ public class ERDiagram extends ViewableModel {
     //                                                                            Accessor
     //                                                                            ========
     public DiagramContents getDiagramContents() {
-        return this.diagramContents;
+        return diagramContents;
     }
 
     public void setEditor(ERFluteMultiPageEditor editor) {

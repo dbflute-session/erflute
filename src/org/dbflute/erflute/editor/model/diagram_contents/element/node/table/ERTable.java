@@ -32,18 +32,12 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     private String constraint;
     private String primaryKeyName;
     private String option;
-
     private List<ERIndex> indexes;
     private List<ComplexUniqueKey> complexUniqueKeyList;
 
     public ERTable() {
         this.indexes = new ArrayList<ERIndex>();
         this.complexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
-    }
-
-    @Override
-    public String toString() {
-        return getPhysicalName();
     }
 
     public NormalColumn getAutoIncrementColumn() {
@@ -56,19 +50,6 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
             }
         }
         return null;
-    }
-
-    @Override
-    public TableViewProperties getTableViewProperties() {
-        this.tableViewProperties =
-                DBManagerFactory.getDBManager(this.getDiagram()).createTableProperties((TableProperties) this.tableViewProperties);
-        return this.tableViewProperties;
-    }
-
-    public TableViewProperties getTableViewProperties(String database) {
-        this.tableViewProperties =
-                DBManagerFactory.getDBManager(database).createTableProperties((TableProperties) this.tableViewProperties);
-        return this.tableViewProperties;
     }
 
     public void addIndex(ERIndex index) {
@@ -214,50 +195,6 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
         }
     }
 
-    public void setComplexUniqueKeyList(List<ComplexUniqueKey> complexUniqueKeyList) {
-        this.complexUniqueKeyList = complexUniqueKeyList;
-    }
-
-    public List<ComplexUniqueKey> getComplexUniqueKeyList() {
-        return complexUniqueKeyList;
-    }
-
-    public void setTableViewProperties(TableProperties tableProperties) {
-        this.tableViewProperties = tableProperties;
-    }
-
-    @Override
-    public ERTable clone() {
-        final ERTable clone = (ERTable) super.clone();
-        final TableProperties cloneTableProperties = (TableProperties) this.getTableViewProperties().clone();
-        clone.tableViewProperties = cloneTableProperties;
-        return clone;
-    }
-
-    public String getConstraint() {
-        return constraint;
-    }
-
-    public void setConstraint(String constraint) {
-        this.constraint = constraint;
-    }
-
-    public String getPrimaryKeyName() {
-        return primaryKeyName;
-    }
-
-    public void setPrimaryKeyName(String primaryKeyName) {
-        this.primaryKeyName = primaryKeyName;
-    }
-
-    public String getOption() {
-        return option;
-    }
-
-    public void setOption(String option) {
-        this.option = option;
-    }
-
     public static boolean isRecursive(TableView source, TableView target) {
         for (final Relationship relation : source.getIncomingRelations()) {
             final TableView temp = relation.getSourceTableView();
@@ -300,6 +237,25 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
         return new Relationship(referenceForPK, referencedComplexUniqueKey, referencedColumn);
     }
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public ERTable clone() {
+        final ERTable clone = (ERTable) super.clone();
+        final TableProperties cloneTableProperties = (TableProperties) this.getTableViewProperties().clone();
+        clone.tableViewProperties = cloneTableProperties;
+        return clone;
+    }
+
+    @Override
+    public String toString() {
+        return getPhysicalName();
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     @Override
     public String getObjectType() {
         return "table";
@@ -313,5 +269,54 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     @Override
     public int getPersistentOrder() {
         return 2;
+    }
+
+    public void setComplexUniqueKeyList(List<ComplexUniqueKey> complexUniqueKeyList) {
+        this.complexUniqueKeyList = complexUniqueKeyList;
+    }
+
+    public List<ComplexUniqueKey> getComplexUniqueKeyList() {
+        return complexUniqueKeyList;
+    }
+
+    @Override
+    public TableViewProperties getTableViewProperties() {
+        this.tableViewProperties =
+                DBManagerFactory.getDBManager(this.getDiagram()).createTableProperties((TableProperties) this.tableViewProperties);
+        return this.tableViewProperties;
+    }
+
+    public TableViewProperties getTableViewProperties(String database) {
+        this.tableViewProperties =
+                DBManagerFactory.getDBManager(database).createTableProperties((TableProperties) this.tableViewProperties);
+        return this.tableViewProperties;
+    }
+
+    public void setTableViewProperties(TableProperties tableProperties) {
+        this.tableViewProperties = tableProperties;
+    }
+
+    public String getConstraint() {
+        return constraint;
+    }
+
+    public void setConstraint(String constraint) {
+        this.constraint = constraint;
+    }
+
+    public String getPrimaryKeyName() {
+        return primaryKeyName;
+    }
+
+    public void setPrimaryKeyName(String primaryKeyName) {
+        this.primaryKeyName = primaryKeyName;
+    }
+
+    public String getOption() {
+        return option;
+    }
+
+    public void setOption(String option) {
+        this.option = option;
     }
 }

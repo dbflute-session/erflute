@@ -33,86 +33,105 @@ public class PersistentXml extends Persistent {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public class PersistentContext {
-        public final Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
-        public final Map<ConnectionElement, Integer> connectionMap = new HashMap<ConnectionElement, Integer>();
-        public final Map<ERColumn, Integer> columnMap = new HashMap<ERColumn, Integer>();
-        public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
         public final Map<NodeElement, Integer> nodeElementMap = new HashMap<NodeElement, Integer>();
-        public final Map<ERModel, Integer> ermodelMap = new HashMap<ERModel, Integer>();
+        public final Map<ConnectionElement, Integer> connectionMap = new HashMap<ConnectionElement, Integer>();
+        public final Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
+        public final Map<ERColumn, Integer> columnMap = new HashMap<ERColumn, Integer>(); // column = ID
+        public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
         public final Map<Word, Integer> wordMap = new HashMap<Word, Integer>();
         public final Map<Tablespace, Integer> tablespaceMap = new HashMap<Tablespace, Integer>();
         public final Map<Environment, Integer> environmentMap = new HashMap<Environment, Integer>();
+        public final Map<ERModel, Integer> ermodelMap = new HashMap<ERModel, Integer>();
     }
 
-    public PersistentContext getContext(DiagramContents diagramContents) {
+    public PersistentContext getCurrentContext(ERDiagram diagram) { // called by writer
+        return createContext(diagram.getDiagramContents());
+    }
+
+    private PersistentContext createContext(DiagramContents diagramContents) {
         final PersistentContext context = new PersistentContext();
-        int columnGroupCount = 0;
-        int columnCount = 0;
+        final int columnCount = setupColumn(diagramContents, context);
+        setupNodeElement(diagramContents, context, columnCount);
+        setupWord(diagramContents, context);
+        setupTablespace(diagramContents, context);
+        setupEnvironment(diagramContents, context);
+        setupVirtualModel(diagramContents, context);
+        return context;
+    }
+
+    private int setupColumn(DiagramContents diagramContents, final PersistentContext context) {
+        int columnGroupNo = 1;
+        int columnNo = 1;
         for (final ColumnGroup columnGroup : diagramContents.getGroups()) {
-            context.columnGroupMap.put(columnGroup, new Integer(columnGroupCount));
-            columnGroupCount++;
+            context.columnGroupMap.put(columnGroup, columnGroupNo);
+            columnGroupNo++;
             for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-                context.columnMap.put(normalColumn, new Integer(columnCount));
-                columnCount++;
+                context.columnMap.put(normalColumn, columnNo);
+                columnNo++;
             }
         }
+        return columnNo;
+    }
 
-        int nodeElementCount = 0;
-        int connectionCount = 0;
-        int complexUniqueKeyCount = 0;
+    private void setupNodeElement(DiagramContents diagramContents, final PersistentContext context, int columnCount) {
+        int nodeElementNo = 1;
+        int connectionNo = 1;
+        int complexUniqueKeyNo = 1;
         for (final NodeElement content : diagramContents.getContents()) {
-            context.nodeElementMap.put(content, new Integer(nodeElementCount));
-            nodeElementCount++;
+            context.nodeElementMap.put(content, nodeElementNo);
+            nodeElementNo++;
             final List<ConnectionElement> connections = content.getIncomings();
             for (final ConnectionElement connection : connections) {
-                context.connectionMap.put(connection, new Integer(connectionCount));
-                connectionCount++;
+                context.connectionMap.put(connection, connectionNo);
+                connectionNo++;
             }
             if (content instanceof ERTable) {
                 final ERTable table = (ERTable) content;
                 final List<ERColumn> columns = table.getColumns();
                 for (final ERColumn column : columns) {
                     if (column instanceof NormalColumn) {
-                        context.columnMap.put(column, new Integer(columnCount));
+                        context.columnMap.put(column, columnCount);
                         columnCount++;
                     }
                 }
                 for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
-                    context.complexUniqueKeyMap.put(complexUniqueKey, new Integer(complexUniqueKeyCount));
-                    complexUniqueKeyCount++;
+                    context.complexUniqueKeyMap.put(complexUniqueKey, complexUniqueKeyNo);
+                    complexUniqueKeyNo++;
                 }
             }
         }
-
-        int wordCount = 0;
-        for (final Word word : diagramContents.getDictionary().getWordList()) {
-            context.wordMap.put(word, new Integer(wordCount));
-            wordCount++;
-        }
-
-        int tablespaceCount = 0;
-        for (final Tablespace tablespace : diagramContents.getTablespaceSet()) {
-            context.tablespaceMap.put(tablespace, new Integer(tablespaceCount));
-            tablespaceCount++;
-        }
-
-        int environmentCount = 0;
-        for (final Environment environment : diagramContents.getSettings().getEnvironmentSetting().getEnvironments()) {
-            context.environmentMap.put(environment, new Integer(environmentCount));
-            environmentCount++;
-        }
-
-        int virtualModelCount = 0;
-        for (final ERModel model : diagramContents.getModelSet()) {
-            context.ermodelMap.put(model, new Integer(virtualModelCount));
-            virtualModelCount++;
-        }
-
-        return context;
     }
 
-    public PersistentContext getCurrentContext(ERDiagram diagram) {
-        return this.getContext(diagram.getDiagramContents());
+    private void setupWord(DiagramContents diagramContents, final PersistentContext context) {
+        int wordNo = 1;
+        for (final Word word : diagramContents.getDictionary().getWordList()) {
+            context.wordMap.put(word, wordNo);
+            wordNo++;
+        }
+    }
+
+    private void setupTablespace(DiagramContents diagramContents, final PersistentContext context) {
+        int tablespaceNo = 1;
+        for (final Tablespace tablespace : diagramContents.getTablespaceSet()) {
+            context.tablespaceMap.put(tablespace, tablespaceNo);
+            tablespaceNo++;
+        }
+    }
+
+    private void setupEnvironment(DiagramContents diagramContents, final PersistentContext context) {
+        int environmentNo = 1;
+        for (final Environment environment : diagramContents.getSettings().getEnvironmentSetting().getEnvironments()) {
+            context.environmentMap.put(environment, environmentNo);
+            environmentNo++;
+        }
+    }
+
+    private void setupVirtualModel(DiagramContents diagramContents, final PersistentContext context) {
+        int virtualModelNo = 1;
+        for (final ERModel model : diagramContents.getModelSet()) {
+            context.ermodelMap.put(model, virtualModelNo);
+            virtualModelNo++;
+        }
     }
 
     // ===================================================================================
