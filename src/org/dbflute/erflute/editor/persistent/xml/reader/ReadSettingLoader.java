@@ -22,6 +22,7 @@ import org.dbflute.erflute.editor.model.settings.ExportSetting;
 import org.dbflute.erflute.editor.model.settings.PageSetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
+import org.dbflute.erflute.editor.view.dialog.dbexport.ExportToDDLDialog;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -154,7 +155,11 @@ public class ReadSettingLoader {
         final Element element = this.getElement(parent, "export_setting");
 
         if (element != null) {
-            exportSetting.setCategoryNameToExport(this.getStringValue(element, "category_name_to_export"));
+            String categoryNameToExport = getStringValue(element, "category_name_to_export");
+            if ("\u5168\u4f53".equals(categoryNameToExport)) { // Japanese "all" (zentai) as KANJI
+                categoryNameToExport = ExportToDDLDialog.DEFAULT_CATEGORY;
+            }
+            exportSetting.setCategoryNameToExport(categoryNameToExport);
             exportSetting.setDdlOutput(this.getStringValue(element, "ddl_output"));
             exportSetting.setExcelOutput(this.getStringValue(element, "excel_output"));
             exportSetting.setExcelTemplate(this.getStringValue(element, "excel_template"));
@@ -250,12 +255,13 @@ public class ReadSettingLoader {
     }
 
     // ===================================================================================
-    //                                                                         Environment
-    //                                                                         ===========
+    //                                                              Tablespace Environment
+    //                                                              ======================
     public void loadEnvironmentSetting(EnvironmentSetting environmentSetting, Element parent, LoadContext context) {
         final Element settingElement = this.getElement(parent, "settings");
         final Element element = this.getElement(settingElement, "environment_setting");
         final List<Environment> environmentList = new ArrayList<Environment>();
+        final String defaultExpression = "Default";
         if (element != null) {
             final NodeList nodeList = element.getChildNodes();
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -266,7 +272,7 @@ public class ReadSettingLoader {
                 final String id = getStringValue(environmentElement, "id");
                 String name = getStringValue(environmentElement, "name");
                 if ("\u30c7\u30d5\u30a9\u30eb\u30c8".equals(name)) { // Japanese "default" as Katakana
-                    name = "default"; // #for_erflute use English only
+                    name = defaultExpression; // #for_erflute use English only
                 }
                 final Environment environment = new Environment(name);
                 environmentList.add(environment);
@@ -274,8 +280,7 @@ public class ReadSettingLoader {
             }
         }
         if (environmentList.isEmpty()) {
-            final String message = "default"; // #for_erflute use English only
-            final Environment environment = new Environment(message);
+            final Environment environment = new Environment(defaultExpression); // #for_erflute use English only
             environmentList.add(environment);
             context.environmentMap.put("", environment);
         }

@@ -54,7 +54,12 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ExportToDDLDialog extends AbstractDialog {
+
+    public static final String DEFAULT_CATEGORY = "All";
 
     private Combo environmentCombo;
 
@@ -116,7 +121,6 @@ public class ExportToDDLDialog extends AbstractDialog {
 
     public ExportToDDLDialog(Shell parentShell, ERDiagram diagram, IEditorPart editorPart, GraphicalViewer viewer) {
         super(parentShell, 3);
-
         this.diagram = diagram;
         this.editorPart = editorPart;
     }
@@ -127,7 +131,6 @@ public class ExportToDDLDialog extends AbstractDialog {
     @Override
     protected void initLayout(GridLayout layout) {
         super.initLayout(layout);
-
         layout.verticalSpacing = 15;
     }
 
@@ -151,7 +154,6 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.initCategoryCombo();
 
         this.createCheckboxComposite(parent);
-
         this.createCommentComposite(parent);
 
         final GridData optionCheckGridData = new GridData();
@@ -163,9 +165,9 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     private void initCategoryCombo() {
-        this.categoryCombo.add("All");
-        for (final Category category : this.diagram.getDiagramContents().getSettings().getCategorySetting().getAllCategories()) {
-            this.categoryCombo.add(category.getName());
+        categoryCombo.add(DEFAULT_CATEGORY); // #for_erflute use English only
+        for (final Category category : diagram.getDiagramContents().getSettings().getCategorySetting().getAllCategories()) {
+            categoryCombo.add(category.getName());
         }
     }
 
