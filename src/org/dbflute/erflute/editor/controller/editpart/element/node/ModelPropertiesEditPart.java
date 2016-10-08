@@ -23,10 +23,10 @@ public class ModelPropertiesEditPart extends NodeElementEditPart implements IRes
      */
     @Override
     protected IFigure createFigure() {
-        ERDiagram diagram = this.getDiagram();
-        Settings settings = diagram.getDiagramContents().getSettings();
+        final ERDiagram diagram = this.getDiagram();
+        final Settings settings = diagram.getDiagramContents().getSettings();
 
-        ModelPropertiesFigure figure = new ModelPropertiesFigure();
+        final ModelPropertiesFigure figure = new ModelPropertiesFigure();
 
         this.changeFont(figure);
 
@@ -47,65 +47,41 @@ public class ModelPropertiesEditPart extends NodeElementEditPart implements IRes
         super.doPropertyChange(event);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void refreshVisuals() {
-        ERDiagram diagram = this.getDiagram();
-        ModelProperties modelProperties = (ModelProperties) this.getModel();
-
-        ModelPropertiesFigure figure = (ModelPropertiesFigure) this.getFigure();
-
-        figure.setData(modelProperties.getProperties(), modelProperties.getCreationDate(), modelProperties.getUpdatedDate(), diagram
-                .getDiagramContents().getSettings().getTableStyle(), modelProperties.getColor());
-
+        final ERDiagram diagram = this.getDiagram();
+        final ModelProperties modelProperties = (ModelProperties) this.getModel();
+        final ModelPropertiesFigure figure = (ModelPropertiesFigure) this.getFigure();
+        figure.setData(modelProperties.getProperties(), diagram.getDiagramContents().getSettings().getTableStyle(),
+                modelProperties.getColor());
         super.refreshVisuals();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void changeSettings(Settings settings) {
         this.figure.setVisible(settings.getModelProperties().isDisplay());
         super.changeSettings(settings);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void setVisible() {
-        ERDiagram diagram = this.getDiagram();
-
-        Settings settings = diagram.getDiagramContents().getSettings();
-
+        final ERDiagram diagram = this.getDiagram();
+        final Settings settings = diagram.getDiagramContents().getSettings();
         this.figure.setVisible(settings.getModelProperties().isDisplay());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequestOpen() {
-        ERDiagram diagram = this.getDiagram();
-
-        ModelProperties copyModelProperties = (ModelProperties) diagram.getDiagramContents().getSettings().getModelProperties().clone();
-
-        ModelPropertiesDialog dialog =
+        final ERDiagram diagram = this.getDiagram();
+        final ModelProperties copyModelProperties = diagram.getDiagramContents().getSettings().getModelProperties().clone();
+        final ModelPropertiesDialog dialog =
                 new ModelPropertiesDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copyModelProperties);
-
         if (dialog.open() == IDialogConstants.OK_ID) {
-            ChangeModelPropertiesCommand command = new ChangeModelPropertiesCommand(diagram, copyModelProperties);
-
+            final ChangeModelPropertiesCommand command = new ChangeModelPropertiesCommand(diagram, copyModelProperties);
             this.executeCommand(command);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isDeleteable() {
         return false;

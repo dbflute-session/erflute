@@ -1,7 +1,6 @@
 package org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
@@ -16,12 +15,8 @@ public class ModelProperties extends NodeElement implements Cloneable {
 
     private boolean display;
     private List<NameValue> properties;
-    private Date creationDate;
-    private Date updatedDate;
 
     public ModelProperties() {
-        this.creationDate = new Date();
-        this.updatedDate = new Date();
         this.setLocation(new Location(50, 50, -1, -1));
         this.properties = new ArrayList<NameValue>();
     }
@@ -44,23 +39,6 @@ public class ModelProperties extends NodeElement implements Cloneable {
 
     public void addProperty(NameValue property) {
         this.properties.add(property);
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-        this.firePropertyChange(PROPERTY_CHANGE_MODEL_PROPERTIES, null, null);
     }
 
     public boolean isDisplay() {

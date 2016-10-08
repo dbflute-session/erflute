@@ -1,7 +1,5 @@
 package org.dbflute.erflute.editor.persistent.xml.writer;
 
-import java.text.DateFormat;
-
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.editor.model.dbexport.ddl.DDLTarget;
@@ -191,9 +189,6 @@ public class WrittenSettingBuilder {
         xml.append("<model_properties>\n");
         xml.append(tab(nodeElementBuilder.buildNodeElement(modelProperties, context)));
         xml.append("\t<display>").append(modelProperties.isDisplay()).append("</display>\n");
-        final DateFormat dateFormat = assistLogic.getDateFormat();
-        xml.append("\t<creation_date>").append(dateFormat.format(modelProperties.getCreationDate())).append("</creation_date>\n");
-        xml.append("\t<updated_date>").append(dateFormat.format(modelProperties.getUpdatedDate())).append("</updated_date>\n");
         for (final NameValue property : modelProperties.getProperties()) {
             xml.append(tab(doBuildModelProperty(property, context)));
         }

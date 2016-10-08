@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.view.figure;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
@@ -26,64 +25,49 @@ public class ModelPropertiesFigure extends RectangleFigure {
     private Color foregroundColor;
 
     public ModelPropertiesFigure() {
-        TableLayout layout = new TableLayout(2);
+        final TableLayout layout = new TableLayout(2);
 
         this.setLayoutManager(layout);
     }
 
     private void addRow(String name, String value, String tableStyle) {
-        Border border = new MarginBorder(5);
-
-        ToolbarLayout layout = new ToolbarLayout();
+        final Border border = new MarginBorder(5);
+        final ToolbarLayout layout = new ToolbarLayout();
         layout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
         layout.setStretchMinorAxis(true);
-
-        Label nameLabel = new Label();
-
-        Label valueLabel = new Label();
-
+        final Label nameLabel = new Label();
+        final Label valueLabel = new Label();
         nameLabel.setBorder(border);
         nameLabel.setText(name);
         nameLabel.setLabelAlignment(PositionConstants.LEFT);
         nameLabel.setForegroundColor(this.foregroundColor);
-
         this.add(nameLabel);
-
         if (!DisplayMessages.getMessage("action.title.change.design.simple").equals(tableStyle)
                 && !DisplayMessages.getMessage("action.title.change.design.frame").equals(tableStyle)) {
             valueLabel.setBackgroundColor(ColorConstants.white);
             valueLabel.setOpaque(true);
             valueLabel.setForegroundColor(ColorConstants.black);
-
         } else {
             valueLabel.setOpaque(false);
             valueLabel.setForegroundColor(this.foregroundColor);
         }
-
         valueLabel.setBorder(border);
         valueLabel.setText(value);
         valueLabel.setLabelAlignment(PositionConstants.LEFT);
-
         this.add(valueLabel);
     }
 
-    public void setData(List<NameValue> properties, Date creationDate, Date updatedDate, String tableStyle, int[] color) {
+    public void setData(List<NameValue> properties, String tableStyle, int[] color) {
         this.removeAll();
-
         this.decideColor(color);
-
-        for (NameValue property : properties) {
+        for (final NameValue property : properties) {
             this.addRow(property.getName(), property.getValue(), tableStyle);
         }
-
-        this.addRow(DisplayMessages.getMessage("label.creation.date"), DATE_FORMAT.format(creationDate), tableStyle);
-        this.addRow(DisplayMessages.getMessage("label.updated.date"), DATE_FORMAT.format(updatedDate), tableStyle);
     }
 
     private void decideColor(int[] color) {
         if (color != null) {
-            int sum = color[0] + color[1] + color[2];
-
+            final int sum = color[0] + color[1] + color[2];
             if (sum > 255) {
                 this.foregroundColor = ColorConstants.black;
             } else {

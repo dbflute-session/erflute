@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -295,7 +294,6 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         final IFile file = ((IFileEditorInput) this.getEditorInput()).getFile();
         try {
             monitor.setTaskName("create stream...");
-            diagram.getDiagramContents().getSettings().getModelProperties().setUpdatedDate(new Date());
             final InputStream source = persistent.write(this.diagram);
             if (!file.exists()) {
                 file.create(source, true, monitor);

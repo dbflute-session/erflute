@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
@@ -224,8 +223,6 @@ public class ReadSettingLoader {
         assistLogic.loadLocation(modelProperties, element);
         assistLogic.loadColor(modelProperties, element);
         modelProperties.setDisplay(this.getBooleanValue(element, "display"));
-        modelProperties.setCreationDate(this.getDateValue(element, "creation_date"));
-        modelProperties.setUpdatedDate(this.getDateValue(element, "updated_date"));
         final NodeList nodeList = element.getElementsByTagName("model_property");
         for (int i = 0; i < nodeList.getLength(); i++) {
             final Element propertyElement = (Element) nodeList.item(i);
@@ -282,10 +279,6 @@ public class ReadSettingLoader {
 
     private int getIntValue(Element element, String tagname) {
         return assistLogic.getIntValue(element, tagname);
-    }
-
-    private Date getDateValue(Element element, String tagname) {
-        return assistLogic.getDateValue(element, tagname);
     }
 
     private String[] getTagValues(Element element, String tagname) {
