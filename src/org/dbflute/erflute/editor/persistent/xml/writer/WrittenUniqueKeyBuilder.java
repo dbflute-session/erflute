@@ -43,12 +43,14 @@ public class WrittenUniqueKeyBuilder {
     private String doBuildComplexUniqueKey(ComplexUniqueKey complexUniqueKey, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<complex_unique_key>\n");
-        xml.append("\t<id>").append(context.complexUniqueKeyMap.get(complexUniqueKey)).append("</id>\n");
+        // #for_erflute unneeded ID for unique key
+        //xml.append("\t<id>").append(context.complexUniqueKeyMap.get(complexUniqueKey)).append("</id>\n");
         xml.append("\t<name>").append(Format.null2blank(complexUniqueKey.getUniqueKeyName())).append("</name>\n");
         xml.append("\t<columns>\n");
         for (final NormalColumn column : complexUniqueKey.getColumnList()) {
             xml.append("\t\t<column>\n");
-            xml.append("\t\t\t<id>").append(context.columnMap.get(column)).append("</id>\n");
+            final String columnId = context.columnMap.get(column);
+            xml.append("\t\t\t<column_id>").append(columnId).append("</column_id>\n"); // #for_erflute change id to column_id
             xml.append("\t\t</column>\n");
         }
         xml.append("\t</columns>\n");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -65,6 +66,14 @@ public class ComplexUniqueKey extends AbstractModel {
         }
 
         return isReferenced;
+    }
+
+    public String buildUniqueKeyId(ERTable table) {
+        if (Srl.is_NotNull_and_NotTrimmedEmpty(getUniqueKeyName())) {
+            return getUniqueKeyName();
+        } else {
+            return table.getPhysicalName() + "." + getColumnList();
+        }
     }
 
     // ===================================================================================

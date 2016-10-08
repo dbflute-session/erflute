@@ -301,6 +301,15 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     }
 
     // ===================================================================================
+    //                                                                        TableView ID
+    //                                                                        ============
+    public String buildTableViewId() {
+        return getIdPrefix() + "." + getPhysicalName();
+    }
+
+    protected abstract String getIdPrefix();
+
+    // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
     @Override

@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
@@ -46,11 +47,14 @@ public class ReadUniqueKeyLoader {
                 continue;
             }
             final Element complexUniqueKeyElement = (Element) nodeList.item(i);
-            final String id = getStringValue(complexUniqueKeyElement, "id");
             final String name = getStringValue(complexUniqueKeyElement, "name");
             final ComplexUniqueKey complexUniqueKey = new ComplexUniqueKey(name);
             loadComplexUniqueKeyColumns(complexUniqueKey, complexUniqueKeyElement, context);
             complexUniqueKeyList.add(complexUniqueKey);
+            String id = getStringValue(complexUniqueKeyElement, "id"); // migration from ERMaster
+            if (Srl.is_Null_or_TrimmedEmpty(id)) {
+                id = complexUniqueKey.buildUniqueKeyId(table); // #for_erflute
+            }
             context.complexUniqueKeyMap.put(id, complexUniqueKey);
         }
         return complexUniqueKeyList;
@@ -64,7 +68,10 @@ public class ReadUniqueKeyLoader {
                 continue;
             }
             final Element columnElement = (Element) nodeList.item(i);
-            final String id = getStringValue(columnElement, "id");
+            String id = getStringValue(columnElement, "id"); // migration from ERMaster
+            if (Srl.is_Null_or_TrimmedEmpty(id)) {
+                id = getStringValue(columnElement, "column_id"); // #for_erflute
+            }
             final NormalColumn column = context.columnMap.get(id);
             if (column == null) {
                 final String msg = "Not found the column for complex unique key: column=" + id + ", uniqueKey=" + complexUniqueKey;

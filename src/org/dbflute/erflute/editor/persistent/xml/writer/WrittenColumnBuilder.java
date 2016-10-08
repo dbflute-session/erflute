@@ -45,22 +45,22 @@ public class WrittenColumnBuilder {
         xml.append("<columns>\n");
         for (final ERColumn column : columns) {
             if (column instanceof ColumnGroup) {
-                xml.append(tab(doBuildColumnsColumnGroup((ColumnGroup) column, context)));
+                xml.append(tab(setupColumnsColumnGroup((ColumnGroup) column, context)));
             } else if (column instanceof NormalColumn) {
-                xml.append(tab(doBuildNormalColumn((NormalColumn) column, context)));
+                xml.append(tab(setupNormalColumn((NormalColumn) column, context)));
             }
         }
         xml.append("</columns>\n");
         return xml.toString();
     }
 
-    private String doBuildColumnsColumnGroup(ColumnGroup columnGroup, PersistentContext context) {
+    private String setupColumnsColumnGroup(ColumnGroup columnGroup, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<column_group>").append(context.columnGroupMap.get(columnGroup)).append("</column_group>\n");
         return xml.toString();
     }
 
-    private String doBuildNormalColumn(NormalColumn normalColumn, PersistentContext context) {
+    private String setupNormalColumn(NormalColumn normalColumn, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<normal_column>\n");
         // #for_erflute not persist word info to immobilize XML
@@ -109,7 +109,7 @@ public class WrittenColumnBuilder {
         if (firstReferencedColumn != null) {
             return firstReferencedColumn.getPhysicalName();
         } else { // no way but you can save
-            return "#error:UnknownColumn";
+            return "#error:unknownColumn";
         }
     }
 
@@ -176,7 +176,7 @@ public class WrittenColumnBuilder {
             xml.append("\t<referenced_column>").append(columnId).append("</referenced_column>\n");
         }
         for (final Relationship relation : normalColumn.getRelationshipList()) {
-            final Integer relationId = context.connectionMap.get(relation);
+            final String relationId = context.connectionMap.get(relation);
             xml.append("\t<relation>").append(relationId).append("</relation>\n");
         }
     }
@@ -247,11 +247,12 @@ public class WrittenColumnBuilder {
     private String doBuildColumnGroup(ColumnGroup columnGroup, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<column_group>\n");
-        xml.append("\t<id>").append(context.columnGroupMap.get(columnGroup)).append("</id>\n");
+        final Integer groupId = context.columnGroupMap.get(columnGroup);
+        xml.append("\t<group_id>").append(groupId).append("</group_id>\n"); // #for_erflute change id to group_id
         xml.append("\t<group_name>").append(escape(columnGroup.getGroupName())).append("</group_name>\n");
         xml.append("\t<columns>\n");
         for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-            xml.append(tab(tab(doBuildNormalColumn(normalColumn, context))));
+            xml.append(tab(tab(setupNormalColumn(normalColumn, context))));
         }
         xml.append("\t</columns>\n");
         xml.append("</column_group>\n");

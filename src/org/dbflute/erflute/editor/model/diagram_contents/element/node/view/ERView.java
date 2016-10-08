@@ -69,6 +69,17 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
         view.tableViewProperties = this.tableViewProperties.clone();
     }
 
+    // ===================================================================================
+    //                                                                        TableView ID
+    //                                                                        ============
+    @Override
+    protected String getIdPrefix() {
+        return "view";
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
     @Override
     public ERView clone() {
         final ERView clone = (ERView) super.clone();
@@ -77,6 +88,9 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
         return clone;
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     @Override
     public String getObjectType() {
         return "view";

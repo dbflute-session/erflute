@@ -77,7 +77,8 @@ public class LoadContext {
             final String id = connectionSourceMap.get(connection);
             final NodeElement nodeElement = nodeElementMap.get(id);
             if (nodeElement == null) { // what should I do? by jflute
-                System.out.println("error");
+                System.out.println("*error, Not found the source ID: " + id + ", connection=" + connection + ", existingKeys="
+                        + nodeElementMap.keySet());
             }
             connection.setSource(nodeElement);
         }
@@ -85,17 +86,21 @@ public class LoadContext {
             final String id = connectionTargetMap.get(connection);
             final NodeElement nodeElement = nodeElementMap.get(id);
             if (nodeElement == null) {
-                System.out.println("error");
+                System.out.println("*error, Not found the target ID: " + id + ", connection=" + connection + ", existingKeys="
+                        + nodeElementMap.keySet());
             }
             connection.setTarget(nodeElement);
         }
         for (final Relationship relation : referencedColumnMap.keySet()) {
             final String id = referencedColumnMap.get(relation);
-            final NormalColumn column = columnMap.get(id);
-            if (column == null) {
-                System.out.println("error");
+            if (id != null) { // null allowed when migration from ERMaster...?
+                final NormalColumn column = columnMap.get(id);
+                if (column == null) {
+                    System.out.println("*error, Not found the column ID: " + id + ", relation=" + relation + ", existingKeys="
+                            + columnMap.keySet());
+                }
+                relation.setReferencedColumn(column);
             }
-            relation.setReferencedColumn(column);
         }
         for (final Relationship relation : referencedComplexUniqueKeyMap.keySet()) {
             final String id = referencedComplexUniqueKeyMap.get(relation);

@@ -11,9 +11,11 @@ import java.util.Map;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
@@ -33,8 +35,8 @@ public class PersistentXml extends Persistent {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public class PersistentContext {
-        public final Map<NodeElement, Integer> nodeElementMap = new HashMap<NodeElement, Integer>();
-        public final Map<ConnectionElement, Integer> connectionMap = new HashMap<ConnectionElement, Integer>();
+        public final Map<NodeElement, String> nodeElementMap = new HashMap<NodeElement, String>();
+        public final Map<ConnectionElement, String> connectionMap = new HashMap<ConnectionElement, String>();
         public final Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
         public final Map<ERColumn, String> columnMap = new HashMap<ERColumn, String>(); // column = ID
         public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
@@ -64,11 +66,23 @@ public class PersistentXml extends Persistent {
         int connectionNo = 1;
         int complexUniqueKeyNo = 1;
         for (final NodeElement content : diagramContents.getContents()) {
-            context.nodeElementMap.put(content, nodeElementNo);
+            final String nodeElementId;
+            if (content instanceof TableView) {
+                nodeElementId = ((TableView) content).buildTableViewId();
+            } else {
+                nodeElementId = String.valueOf(nodeElementNo);
+            }
+            context.nodeElementMap.put(content, nodeElementId);
             nodeElementNo++;
             final List<ConnectionElement> connections = content.getIncomings();
             for (final ConnectionElement connection : connections) {
-                context.connectionMap.put(connection, connectionNo);
+                final String connectionId;
+                if (connection instanceof Relationship) {
+                    connectionId = ((Relationship) connection).buildRelationshipId();
+                } else {
+                    connectionId = String.valueOf(connectionNo);
+                }
+                context.connectionMap.put(connection, connectionId);
                 connectionNo++;
             }
             if (content instanceof ERTable) {

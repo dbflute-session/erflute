@@ -8,6 +8,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Comm
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
@@ -35,7 +36,9 @@ public class WrittenNodeElementBuilder {
     //                                                                        ============
     public String buildNodeElement(NodeElement nodeElement, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<id>").append(Format.toString(context.nodeElementMap.get(nodeElement))).append("</id>\n");
+        if (!(nodeElement instanceof TableView)) {
+            xml.append("<id>").append(Format.toString(context.nodeElementMap.get(nodeElement))).append("</id>\n");
+        }
         final int height = nodeElement.getHeight();
         if (height >= 0) {
             xml.append("<height>").append(height).append("</height>\n");
@@ -148,9 +151,11 @@ public class WrittenNodeElementBuilder {
     //                                                                  ==================
     private String buildConnectionElement(ConnectionElement connection, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
-        final Integer sourceId = context.nodeElementMap.get(connection.getSource());
-        final Integer targetId = context.nodeElementMap.get(connection.getTarget());
+        if (!(connection instanceof Relationship)) {
+            xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
+        }
+        final String sourceId = context.nodeElementMap.get(connection.getSource());
+        final String targetId = context.nodeElementMap.get(connection.getTarget());
         xml.append("<source>").append(sourceId).append("</source>\n"); // e.g. MEMBER_STATUS
         xml.append("<target>").append(targetId).append("</target>\n"); // e.g. MEMBER
         for (final Bendpoint bendpoint : connection.getBendpoints()) {

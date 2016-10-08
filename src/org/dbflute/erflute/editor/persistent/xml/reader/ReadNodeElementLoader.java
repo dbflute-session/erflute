@@ -1,10 +1,12 @@
 package org.dbflute.erflute.editor.persistent.xml.reader;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,12 +35,19 @@ public class ReadNodeElementLoader {
     //                                                                        Node Element
     //                                                                        ============
     public void loadNodeElement(NodeElement nodeElement, Element element, LoadContext context) {
-        final String id = getStringValue(element, "id");
+        String id = getStringValue(element, "id");
+        if (Srl.is_Null_or_TrimmedEmpty(id)) {
+            if (nodeElement instanceof TableView) {
+                id = ((TableView) nodeElement).buildTableViewId(); // #for_erflute
+            } else {
+                id = "#error:unknownId_for_" + nodeElement.getName();
+            }
+        }
         assistLogic.loadLocation(nodeElement, element);
         assistLogic.loadColor(nodeElement, element);
         assistLogic.loadFont(nodeElement, element);
         context.nodeElementMap.put(id, nodeElement);
-        this.loadConnections(element, context);
+        loadConnections(element, context);
     }
 
     private void loadConnections(Element parent, LoadContext context) {
@@ -51,9 +60,9 @@ public class ReadNodeElementLoader {
                 }
                 final Element connectionElement = (Element) nodeList.item(i);
                 if ("relation".equals(connectionElement.getTagName())) {
-                    this.loadRelation(connectionElement, context);
+                    loadRelation(connectionElement, context);
                 } else if ("comment_connection".equals(connectionElement.getTagName())) {
-                    this.loadCommentConnection(connectionElement, context);
+                    loadCommentConnection(connectionElement, context);
                 }
             }
         }
@@ -62,15 +71,14 @@ public class ReadNodeElementLoader {
     private void loadRelation(Element element, LoadContext context) {
         final boolean referenceForPK = getBooleanValue(element, "reference_for_pk");
         final Relationship connection = new Relationship(referenceForPK, null, null);
-        loadConnectionElement(connection, element, context);
+        connection.setName(getStringValue(element, "name"));
         connection.setChildCardinality(getStringValue(element, "child_cardinality"));
         connection.setParentCardinality(getStringValue(element, "parent_cardinality"));
-        connection.setName(getStringValue(element, "name"));
         connection.setOnDeleteAction(getStringValue(element, "on_delete_action", "NO ACTION"));
         connection.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
         connection.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
         connection.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
-        final String referencedColumnId = getStringValue(element, "referenced_column");
+        final String referencedColumnId = getStringValue(element, "referenced_column"); // needed? (in relation) by jflute
         if (referencedColumnId != null) {
             context.referencedColumnMap.put(connection, referencedColumnId);
         }
@@ -78,6 +86,7 @@ public class ReadNodeElementLoader {
         if (referencedComplexUniqueKeyId != null) {
             context.referencedComplexUniqueKeyMap.put(connection, referencedComplexUniqueKeyId);
         }
+        loadConnectionElement(connection, element, context);
     }
 
     private void loadCommentConnection(Element element, LoadContext context) {
@@ -86,17 +95,24 @@ public class ReadNodeElementLoader {
     }
 
     private void loadConnectionElement(ConnectionElement connection, Element element, LoadContext context) {
-        final String id = this.getStringValue(element, "id");
-        context.connectionMap.put(id, connection);
         final String source = getStringValue(element, "source");
         final String target = getStringValue(element, "target");
+        String id = getStringValue(element, "id");
+        if (Srl.is_Null_or_TrimmedEmpty(id)) {
+            if (connection instanceof Relationship) {
+                id = ((Relationship) connection).buildRelationshipId(); // #for_erflute
+            } else {
+                id = "#error:unknownId_for_" + target + "_to_" + source;
+            }
+        }
+        context.connectionMap.put(id, connection);
         context.connectionSourceMap.put(connection, source);
         context.connectionTargetMap.put(connection, target);
         final NodeList nodeList = element.getElementsByTagName("bendpoint");
         for (int i = 0; i < nodeList.getLength(); i++) {
             final Element bendPointElement = (Element) nodeList.item(i);
-            final Bendpoint bendpoint = new Bendpoint(this.getIntValue(bendPointElement, "x"), this.getIntValue(bendPointElement, "y"));
-            bendpoint.setRelative(this.getBooleanValue(bendPointElement, "relative"));
+            final Bendpoint bendpoint = new Bendpoint(getIntValue(bendPointElement, "x"), this.getIntValue(bendPointElement, "y"));
+            bendpoint.setRelative(getBooleanValue(bendPointElement, "relative"));
             connection.addBendpoint(i, bendpoint);
         }
     }

@@ -11,6 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
@@ -82,7 +83,7 @@ public class ReadColumnLoader {
         // not use serial ID to immobilize XML 
         String id = getStringValue(element, "id"); // when migration from ERMaster-b
         if (Srl.is_Null_or_TrimmedEmpty(id)) { // basically true after ERFlute
-            id = builder.build(normalColumn); // e.g. MEMBER.MEMBER_NAME
+            id = builder.build(normalColumn); // #for_erflute e.g. MEMBER.MEMBER_NAME
         }
         context.columnMap.put(id, normalColumn);
         return normalColumn;
@@ -158,6 +159,34 @@ public class ReadColumnLoader {
         if (autoIncrementSettingElement != null) {
             final Sequence autoIncrementSetting = sequenceLoader.loadSequence(autoIncrementSettingElement);
             normalColumn.setAutoIncrementSetting(autoIncrementSetting);
+        }
+    }
+
+    // ===================================================================================
+    //                                                                       Column Groups
+    //                                                                       =============
+    public void loadColumnGroups(GroupSet columnGroups, Element parent, LoadContext context, String database) {
+        final Element element = this.getElement(parent, "column_groups");
+        final NodeList nodeList = element.getElementsByTagName("column_group");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            final Element columnGroupElement = (Element) nodeList.item(i);
+            final ColumnGroup columnGroup = new ColumnGroup();
+            columnGroup.setGroupName(getStringValue(columnGroupElement, "group_name"));
+            final List<ERColumn> columns = loadColumns(columnGroupElement, context, database, new ColumnIdBuilder() {
+                @Override
+                public String build(NormalColumn column) {
+                    return column.buildColumnIdAsGroup(columnGroup);
+                }
+            });
+            for (final ERColumn column : columns) {
+                columnGroup.addColumn((NormalColumn) column);
+            }
+            columnGroups.add(columnGroup);
+            String id = getStringValue(columnGroupElement, "id"); // migratino from ERMaster
+            if (Srl.is_Null_or_TrimmedEmpty(id)) {
+                id = getStringValue(columnGroupElement, "group_id"); // migratino from ERMaster
+            }
+            context.columnGroupMap.put(id, columnGroup);
         }
     }
 

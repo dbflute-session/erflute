@@ -45,7 +45,6 @@ public class ErmXmlReader {
     protected final ReadSequenceLoader sequenceLoader;
     protected final ReadTriggerLoader triggerLoader;
     protected final ReadColumnLoader columnLoader;
-    protected final ReadColumnGroupLoader columnGroupLoader;
     protected final ReadSettingLoader settingLoader;
     protected final ReadGroupLoader groupLoader;
     protected final ReadTablespaceLoader tablespaceLoader;
@@ -75,7 +74,6 @@ public class ErmXmlReader {
         this.sequenceLoader = new ReadSequenceLoader(persistentXml, assistLogic);
         this.triggerLoader = new ReadTriggerLoader(persistentXml, assistLogic);
         this.columnLoader = new ReadColumnLoader(persistentXml, assistLogic, sequenceLoader);
-        this.columnGroupLoader = new ReadColumnGroupLoader(persistentXml, assistLogic, columnLoader);
         this.settingLoader = new ReadSettingLoader(persistentXml, assistLogic, databaseLoader, tablePropertiesLoader, nodeElementLoader);
         this.groupLoader = new ReadGroupLoader(persistentXml, assistLogic, nodeElementLoader);
         this.tablespaceLoader = new ReadTablespaceLoader(persistentXml, assistLogic);
@@ -141,7 +139,7 @@ public class ErmXmlReader {
         tablespaceLoader.loadTablespaceSet(diagramContents.getTablespaceSet(), parent, context, database);
         final GroupSet columnGroups = diagramContents.getGroups();
         columnGroups.clear();
-        columnGroupLoader.loadColumnGroups(columnGroups, parent, context, database);
+        columnLoader.loadColumnGroups(columnGroups, parent, context, database);
         loadContents(diagramContents.getContents(), parent, context);
         diagramContents.getModelSet().addModels(loadErmodels(parent, context));
         sequenceLoader.loadSequenceSet(diagramContents.getSequenceSet(), parent);
@@ -154,7 +152,7 @@ public class ErmXmlReader {
     //                                                                            Contents
     //                                                                            ========
     private void loadContents(NodeSet contents, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "contents");
+        final Element element = getElement(parent, "contents");
         final NodeList nodeList = element.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {

@@ -9,60 +9,13 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElemen
 public abstract class ConnectionElement extends AbstractModel {
 
     private static final long serialVersionUID = -5418951773059063716L;
-
     public static final String PROPERTY_CHANGE_CONNECTION = "connection";
-
     public static final String PROPERTY_CHANGE_BEND_POINT = "bendPoint";
-
     public static final String PROPERTY_CHANGE_CONNECTION_ATTRIBUTE = "connection_attribute";
 
     protected NodeElement source;
-
     protected NodeElement target;
-
-    // �x���h�E�|�C���g�̈ʒu���̃��X�g
     private List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
-
-    public NodeElement getSource() {
-        return source;
-    }
-
-    public void setSource(NodeElement source) {
-        if (this.source != null) {
-            this.source.removeOutgoing(this);
-        }
-
-        this.source = source;
-
-        if (this.source != null) {
-            this.source.addOutgoing(this);
-        }
-
-        this.firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, source);
-    }
-
-    public void setSourceAndTarget(NodeElement source, NodeElement target) {
-        this.source = source;
-        this.target = target;
-    }
-
-    public void setTarget(NodeElement target) {
-        if (this.target != null) {
-            this.target.removeIncoming(this);
-        }
-
-        this.target = target;
-
-        if (this.target != null) {
-            this.target.addIncoming(this);
-        }
-
-        this.firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, source);
-    }
-
-    public NodeElement getTarget() {
-        return target;
-    }
 
     public void delete() {
         source.removeOutgoing(this);
@@ -88,10 +41,6 @@ public abstract class ConnectionElement extends AbstractModel {
         firePropertyChange(PROPERTY_CHANGE_BEND_POINT, null, null);
     }
 
-    public List<Bendpoint> getBendpoints() {
-        return bendPoints;
-    }
-
     public void removeBendpoint(int index) {
         bendPoints.remove(index);
         firePropertyChange(PROPERTY_CHANGE_BEND_POINT, null, null);
@@ -106,20 +55,59 @@ public abstract class ConnectionElement extends AbstractModel {
         firePropertyChange(PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
     }
 
-    /**
-     * �ڑ��𕡐����܂��B �ڑ����Ɛڑ���̃m�[�h�͂Ƃ��ɁA�������Ɠ����ł��B
-     */
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
     @Override
     public ConnectionElement clone() {
-        ConnectionElement clone = (ConnectionElement) super.clone();
-
-        List<Bendpoint> cloneBendPoints = new ArrayList<Bendpoint>();
-        for (Bendpoint bendPoint : bendPoints) {
+        final ConnectionElement clone = (ConnectionElement) super.clone();
+        final List<Bendpoint> cloneBendPoints = new ArrayList<Bendpoint>();
+        for (final Bendpoint bendPoint : bendPoints) {
             cloneBendPoints.add((Bendpoint) bendPoint.clone());
         }
-
         clone.bendPoints = cloneBendPoints;
-
         return clone;
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public NodeElement getSource() {
+        return source;
+    }
+
+    public void setSource(NodeElement source) {
+        if (this.source != null) {
+            this.source.removeOutgoing(this);
+        }
+        this.source = source;
+        if (this.source != null) {
+            this.source.addOutgoing(this);
+        }
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, source);
+    }
+
+    public NodeElement getTarget() {
+        return target;
+    }
+
+    public void setTarget(NodeElement target) {
+        if (this.target != null) {
+            this.target.removeIncoming(this);
+        }
+        this.target = target;
+        if (this.target != null) {
+            this.target.addIncoming(this);
+        }
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, source);
+    }
+
+    public void setSourceAndTarget(NodeElement source, NodeElement target) {
+        this.source = source;
+        this.target = target;
+    }
+
+    public List<Bendpoint> getBendpoints() {
+        return bendPoints;
     }
 }

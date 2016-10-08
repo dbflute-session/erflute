@@ -238,6 +238,14 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     }
 
     // ===================================================================================
+    //                                                                        TableView ID
+    //                                                                        ============
+    @Override
+    protected String getIdPrefix() {
+        return "table";
+    }
+
+    // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
     @Override

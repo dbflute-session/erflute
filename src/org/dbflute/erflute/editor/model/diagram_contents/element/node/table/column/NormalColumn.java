@@ -337,7 +337,7 @@ public class NormalColumn extends ERColumn {
     //                                                                           Column ID
     //                                                                           =========
     public String buildColumnId(TableView table) {
-        return table.getPhysicalName() + "." + getResolvedPhysicalName();
+        return table.buildTableViewId() + "." + getResolvedPhysicalName();
     }
 
     public String buildColumnIdAsGroup(ColumnGroup group) {
