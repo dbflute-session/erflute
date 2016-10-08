@@ -37,7 +37,10 @@ public class WrittenNodeElementBuilder {
     public String buildNodeElement(NodeElement nodeElement, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         if (!(nodeElement instanceof TableView)) {
-            xml.append("<id>").append(Format.toString(context.nodeElementMap.get(nodeElement))).append("</id>\n");
+            final String id = context.nodeElementMap.get(nodeElement);
+            if (id != null) { // null allowed when e.g. modelProperties
+                xml.append("<id>").append(Format.toString(id)).append("</id>\n");
+            }
         }
         final int height = nodeElement.getHeight();
         if (height >= 0) {

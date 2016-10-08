@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.editor.controller.command.category.ChangeCategoryNameCommand;
@@ -80,7 +79,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             this.zoomComboContributionItem = new ZoomComboContributionItem(this.getSite().getPage());
             final RealModelEditor editor = new RealModelEditor(diagram, this.editPartFactory, zoomComboContributionItem, this.outlinePage);
             final int index = addPage(editor, this.getEditorInput()); // as main
-            this.setPageText(index, DisplayMessages.getMessage("label.all"));
+            setPageText(index, "Real Model");
         } catch (final PartInitException e) {
             Activator.showExceptionDialog(e);
         }

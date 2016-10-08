@@ -18,81 +18,50 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * �R�s�[�A�N�V����
- * 
- * @author nakajima
- * 
+ * @author modified by jflute (originated in ermaster)
  */
 public class CopyAction extends SelectionAction {
 
-    /**
-     * �R���X�g���N�^
-     * 
-     * @param part
-     */
     public CopyAction(IWorkbenchPart part) {
         super(part);
-
-        this.setText(DisplayMessages.getMessage("action.title.copy"));
-
-        ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+        setText(DisplayMessages.getMessage("action.title.copy"));
+        final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
         setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
-
         this.setId(ActionFactory.COPY.getId());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @SuppressWarnings("unchecked")
     protected boolean calculateEnabled() {
-        List<EditPart> list = new ArrayList<EditPart>(this.getSelectedObjects());
-
+        final List<EditPart> list = new ArrayList<EditPart>(this.getSelectedObjects());
         if (list.isEmpty()) {
             return false;
         }
         if (list.size() == 1 && list.get(0) instanceof ModelPropertiesEditPart || list.get(0) instanceof ERDiagramEditPart) {
             return false;
         }
-
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void run() {
         copy();
     }
 
-    /**
-     * �R�s�[�����s���܂��B <br>
-     * ���̎��_�̃R�s�[�Ώۂ��R�s�[�̈�ɕ������Ă����܂�<br>
-     */
     private void copy() {
         if (!calculateEnabled()) {
             return;
         }
-
-        // �R�s�[�����N���A���܂��B
         CopyManager.clear();
-
-        // �I������Ă���m�[�h��EditPart���擾���܂�
-        NodeSet nodeElementList = new NodeSet();
-
-        for (Object object : this.getSelectedObjects()) {
+        final NodeSet nodeElementList = new NodeSet();
+        for (final Object object : getSelectedObjects()) {
             if (object instanceof NodeElementEditPart) {
-                NodeElementEditPart editPart = (NodeElementEditPart) object;
-
-                NodeElement nodeElement = (NodeElement) editPart.getModel();
+                final NodeElementEditPart editPart = (NodeElementEditPart) object;
+                final NodeElement nodeElement = (NodeElement) editPart.getModel();
                 nodeElementList.addNodeElement(nodeElement);
             }
         }
-
         CopyManager.copy(nodeElementList);
     }
-
 }

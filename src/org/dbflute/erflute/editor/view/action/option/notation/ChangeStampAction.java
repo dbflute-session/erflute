@@ -17,15 +17,10 @@ public class ChangeStampAction extends AbstractBaseAction {
         this.setText(DisplayMessages.getMessage("action.title.display.stamp"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeStampCommand command = new ChangeStampCommand(diagram, this.isChecked());
-
+        final ERDiagram diagram = this.getDiagram();
+        final ChangeStampCommand command = new ChangeStampCommand(diagram, this.isChecked());
         this.execute(command);
     }
 }

@@ -113,18 +113,23 @@ public class ErmXmlReader {
         diagram = new ERDiagram(database);
         settingLoader.loadDBSetting(diagram, root);
         settingLoader.loadPageSetting(diagram, root);
+        // #for_erflute not keep category_index to immobilize XML (frequently changed by everybody)
+        //diagram.setCurrentCategory(null, getIntValue(root, "category_index"));
+        // #for_erflute not keep default_color to immobilize XML (frequently changed by everybody)
+        //assistLogic.loadDefaultColor(diagram, root);
         assistLogic.loadColor(diagram, root);
-        assistLogic.loadDefaultColor(diagram, root);
         assistLogic.loadFont(diagram, root);
         final DiagramContents diagramContents = diagram.getDiagramContents();
         loadDiagramContents(diagramContents, root);
-        diagram.setCurrentCategory(null, getIntValue(root, "category_index"));
-        diagram.setCurrentErmodel(null, getStringValue(root, "current_ermodel"));
-        final double zoom = getDoubleValue(root, "zoom");
-        diagram.setZoom(zoom);
-        final int x = getIntValue(root, "x");
-        final int y = getIntValue(root, "y");
-        diagram.setLocation(x, y);
+        // #for_erflute not keep current_ermodel to immobilize XML (frequently changed by everybody)
+        //diagram.setCurrentErmodel(null, getStringValue(root, "current_ermodel"));
+        // #for_erflute not keep zoom to immobilize XML (frequently changed by everybody)
+        //final double zoom = getDoubleValue(root, "zoom");
+        //diagram.setZoom(zoom);
+        // #for_erflute not keep location to immobilize XML (frequently changed by everybody)
+        //final int x = getIntValue(root, "x");
+        //final int y = getIntValue(root, "y");
+        //diagram.setLocation(x, y);
     }
 
     // ===================================================================================
@@ -215,18 +220,6 @@ public class ErmXmlReader {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
-    private String getStringValue(Element element, String tagname) {
-        return assistLogic.getStringValue(element, tagname);
-    }
-
-    private int getIntValue(Element element, String tagname) {
-        return assistLogic.getIntValue(element, tagname);
-    }
-
-    private double getDoubleValue(Element element, String tagname) {
-        return assistLogic.getDoubleValue(element, tagname);
-    }
-
     private Element getElement(Element element, String tagname) {
         return assistLogic.getElement(element, tagname);
     }

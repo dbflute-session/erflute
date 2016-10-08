@@ -74,7 +74,7 @@ public class ERDiagram extends ViewableModel {
     //                                                                          ==========
     public void init() {
         diagramContents.setColumnGroups(GlobalGroupSet.load());
-        final Settings settings = this.getDiagramContents().getSettings();
+        final Settings settings = getDiagramContents().getSettings();
         settings.getModelProperties().init();
     }
 

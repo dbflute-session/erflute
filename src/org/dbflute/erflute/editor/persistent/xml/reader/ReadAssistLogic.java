@@ -75,8 +75,8 @@ public class ReadAssistLogic {
     //                                                                            Location
     //                                                                            ========
     public void loadLocation(NodeElement nodeElement, Element element) {
-        final int x = this.getIntValue(element, "x");
-        final int y = this.getIntValue(element, "y");
+        final int x = getIntValue(element, "x");
+        final int y = getIntValue(element, "y");
         final int width = getIntValue(element, "width", -1);
         final int height = getIntValue(element, "height", -1);
         nodeElement.setLocation(new Location(x, y, width, height));

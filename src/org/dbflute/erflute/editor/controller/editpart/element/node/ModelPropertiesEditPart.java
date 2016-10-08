@@ -12,38 +12,30 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ModelPropertiesEditPart extends NodeElementEditPart implements IResizable {
 
-    public ModelPropertiesEditPart() {
+    public ModelPropertiesEditPart() { // used by stamp (menu "show stamp")
         super();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected IFigure createFigure() {
         final ERDiagram diagram = this.getDiagram();
         final Settings settings = diagram.getDiagramContents().getSettings();
-
         final ModelPropertiesFigure figure = new ModelPropertiesFigure();
-
         this.changeFont(figure);
-
         figure.setVisible(settings.getModelProperties().isDisplay());
-
         return figure;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void doPropertyChange(PropertyChangeEvent event) {
         if (event.getPropertyName().equals(ModelProperties.PROPERTY_CHANGE_MODEL_PROPERTIES)) {
             refreshVisuals();
         }
-
         super.doPropertyChange(event);
     }
 

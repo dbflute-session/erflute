@@ -105,14 +105,23 @@ public class ErmXmlWriter {
         if (diagram.getPageSetting() != null) {
             xml.append("\t<page_setting>\n").append(tab(tab(buildPageSetting(diagram.getPageSetting())))).append("\t</page_setting>\n");
         }
-        xml.append("\t<category_index>").append(diagram.getCurrentCategoryIndex()).append("</category_index>\n");
-        if (diagram.getCurrentErmodel() != null) {
-            xml.append("\t<current_ermodel>").append(diagram.getCurrentErmodel().getName()).append("</current_ermodel>\n");
-        }
-        xml.append("\t<zoom>").append(diagram.getZoom()).append("</zoom>\n");
-        xml.append("\t<x>").append(diagram.getX()).append("</x>\n");
-        xml.append("\t<y>").append(diagram.getY()).append("</y>\n");
-        appendColor(xml, "default_color", diagram.getDefaultColor());
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        // *basically not keep private viewing information e.g. location
+        // _/_/_/_/_/_/_/_/_/_/
+        // #for_erflute not keep category_index to immobilize XML (frequently changed by everybody)
+        //xml.append("\t<category_index>").append(diagram.getCurrentCategoryIndex()).append("</category_index>\n");
+        // #for_erflute not keep current_ermodel to immobilize XML (frequently changed by everybody)
+        //if (diagram.getCurrentErmodel() != null) {
+        //    xml.append("\t<current_ermodel>").append(diagram.getCurrentErmodel().getName()).append("</current_ermodel>\n");
+        //}
+        // #for_erflute not keep zoom to immobilize XML (frequently changed by everybody)
+        //xml.append("\t<zoom>").append(diagram.getZoom()).append("</zoom>\n");
+        // #for_erflute not keep location to immobilize XML (frequently changed by everybody)
+        // and reader does not read it since ERMaster...? by jflute
+        //xml.append("\t<x>").append(diagram.getX()).append("</x>\n");
+        //xml.append("\t<y>").append(diagram.getY()).append("</y>\n");
+        // #for_erflute not keep default_color to immobilize XML (frequently changed by everybody)
+        //appendColor(xml, "default_color", diagram.getDefaultColor());
         xml.append(tab(buildColor(diagram.getColor())));
         xml.append("\t<font_name>").append(escape(diagram.getFontName())).append("</font_name>\n");
         xml.append("\t<font_size>").append(diagram.getFontSize()).append("</font_size>\n");
@@ -252,10 +261,6 @@ public class ErmXmlWriter {
     //                                                                               =====
     private String buildColor(int[] colors) {
         return assistLogic.buildColor(colors);
-    }
-
-    private void appendColor(StringBuilder xml, String tagName, int[] defaultColor) {
-        assistLogic.appendColor(xml, tagName, defaultColor);
     }
 
     // ===================================================================================

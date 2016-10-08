@@ -3,17 +3,19 @@ package org.dbflute.erflute.editor.model.diagram_contents.element.node.model_pro
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ModelProperties extends NodeElement implements Cloneable {
 
     private static final long serialVersionUID = 5311013351131568260L;
     public static final String PROPERTY_CHANGE_MODEL_PROPERTIES = "model_properties";
 
-    private boolean display;
+    private boolean display; // show model properties table on editor, true if menu "show stamp"
     private List<NameValue> properties;
 
     public ModelProperties() {
@@ -21,12 +23,15 @@ public class ModelProperties extends NodeElement implements Cloneable {
         this.properties = new ArrayList<NameValue>();
     }
 
-    public void init() {
-        properties.add(new NameValue(DisplayMessages.getMessage("label.project.name"), ""));
-        properties.add(new NameValue(DisplayMessages.getMessage("label.model.name"), ""));
-        properties.add(new NameValue(DisplayMessages.getMessage("label.version"), ""));
-        properties.add(new NameValue(DisplayMessages.getMessage("label.company.name"), ""));
-        properties.add(new NameValue(DisplayMessages.getMessage("label.author"), ""));
+    public void init() { // when new diagram
+        // #for_erflute remove minor function to be simple
+        //properties.add(new NameValue(DisplayMessages.getMessage("label.project.name"), ""));
+        //properties.add(new NameValue(DisplayMessages.getMessage("label.model.name"), ""));
+        //properties.add(new NameValue(DisplayMessages.getMessage("label.version"), ""));
+        //properties.add(new NameValue(DisplayMessages.getMessage("label.company.name"), ""));
+        //properties.add(new NameValue(DisplayMessages.getMessage("label.author"), ""));
+        properties.add(new NameValue("title", ""));
+        properties.add(new NameValue("author", ""));
     }
 
     public void clear() {
@@ -47,7 +52,7 @@ public class ModelProperties extends NodeElement implements Cloneable {
 
     public void setDisplay(boolean display) {
         this.display = display;
-        this.firePropertyChange(PROPERTY_CHANGE_MODEL_PROPERTIES, null, null);
+        firePropertyChange(PROPERTY_CHANGE_MODEL_PROPERTIES, null, null);
     }
 
     @Override

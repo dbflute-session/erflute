@@ -2,9 +2,10 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.db.impl.standard_sql.StandardSQLDBManager;
@@ -29,6 +30,19 @@ import org.w3c.dom.NodeList;
  * @author modified by jflute (originated in ermaster)
  */
 public class ReadSettingLoader {
+
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    private static final Map<String, String> defaultModelPropertyMigrationMap; // #for_erflute
+    static {
+        final Map<String, String> map = new HashMap<String, String>();
+        map.put("\u4f5c\u6210\u8005", "author");
+        map.put("\u4f1a\u793e\u540d", "company name");
+        map.put("\u30e2\u30c7\u30eb\u540d", "model name");
+        map.put("\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u540d", "project name");
+        defaultModelPropertyMigrationMap = map;
+    }
 
     // ===================================================================================
     //                                                                           Attribute
@@ -219,15 +233,18 @@ public class ReadSettingLoader {
     //                                                                    Model Properties
     //                                                                    ================
     private void loadModelProperties(ModelProperties modelProperties, Element parent) {
-        final Element element = this.getElement(parent, "model_properties");
+        final Element element = getElement(parent, "model_properties");
         assistLogic.loadLocation(modelProperties, element);
         assistLogic.loadColor(modelProperties, element);
-        modelProperties.setDisplay(this.getBooleanValue(element, "display"));
+        modelProperties.setDisplay(getBooleanValue(element, "display"));
         final NodeList nodeList = element.getElementsByTagName("model_property");
         for (int i = 0; i < nodeList.getLength(); i++) {
             final Element propertyElement = (Element) nodeList.item(i);
-            final NameValue nameValue =
-                    new NameValue(this.getStringValue(propertyElement, "name"), this.getStringValue(propertyElement, "value"));
+            final String name = getStringValue(propertyElement, "name");
+            final String migratedName = defaultModelPropertyMigrationMap.get(name);
+            final String realName = migratedName != null ? migratedName : name;
+            final String value = getStringValue(propertyElement, "value");
+            final NameValue nameValue = new NameValue(realName, value);
             modelProperties.addProperty(nameValue);
         }
     }
@@ -246,15 +263,18 @@ public class ReadSettingLoader {
                     continue;
                 }
                 final Element environmentElement = (Element) nodeList.item(i);
-                final String id = this.getStringValue(environmentElement, "id");
-                final String name = this.getStringValue(environmentElement, "name");
+                final String id = getStringValue(environmentElement, "id");
+                String name = getStringValue(environmentElement, "name");
+                if ("\u30c7\u30d5\u30a9\u30eb\u30c8".equals(name)) { // Japanese "default" as Katakana
+                    name = "default"; // #for_erflute use English only
+                }
                 final Environment environment = new Environment(name);
                 environmentList.add(environment);
                 context.environmentMap.put(id, environment);
             }
         }
         if (environmentList.isEmpty()) {
-            final String message = DisplayMessages.getMessage("label.default");
+            final String message = "default"; // #for_erflute use English only
             final Environment environment = new Environment(message);
             environmentList.add(environment);
             context.environmentMap.put("", environment);
