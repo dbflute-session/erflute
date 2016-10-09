@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element.relation;
+package org.dbflute.erflute.editor.view.dialog.relationship;
 
 import java.util.ArrayList;
 import java.util.List;

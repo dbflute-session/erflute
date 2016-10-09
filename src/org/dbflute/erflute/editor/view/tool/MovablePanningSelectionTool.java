@@ -29,39 +29,27 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         if (event.keyCode == SWT.SHIFT) {
             shift = true;
         }
-
         return super.handleKeyUp(event);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean handleKeyDown(KeyEvent event) {
         int dx = 0;
         int dy = 0;
-
         if (event.keyCode == SWT.SHIFT) {
             shift = true;
         }
-
         if (event.keyCode == SWT.ARROW_DOWN) {
             dy = 1;
-
         } else if (event.keyCode == SWT.ARROW_LEFT) {
             dx = -1;
-
         } else if (event.keyCode == SWT.ARROW_RIGHT) {
             dx = 1;
-
         } else if (event.keyCode == SWT.ARROW_UP) {
             dy = -1;
         }
-
         NodeElementEditPart targetEditPart = null;
-
-        Object model = this.getCurrentViewer().getContents().getModel();
-
+        final Object model = this.getCurrentViewer().getContents().getModel();
         ERDiagram diagram = null;
         if (model instanceof ERModel) {
             diagram = ((ERModel) model).getDiagram();
@@ -69,55 +57,40 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         if (model instanceof ERDiagram) {
             diagram = (ERDiagram) model;
         }
-
         if (diagram != null) {
-
-            List selectedObject = this.getCurrentViewer().getSelectedEditParts();
+            final List<?> selectedObject = this.getCurrentViewer().getSelectedEditParts();
             if (!selectedObject.isEmpty()) {
-
-                CompoundCommand command = new CompoundCommand();
-
-                for (Object object : selectedObject) {
-
+                final CompoundCommand command = new CompoundCommand();
+                for (final Object object : selectedObject) {
                     if (object instanceof ERTableEditPart || object instanceof NoteEditPart) {
-                        NodeElementEditPart editPart = (NodeElementEditPart) object;
+                        final NodeElementEditPart editPart = (NodeElementEditPart) object;
                         targetEditPart = editPart;
-
-                        NodeElement nodeElement = (NodeElement) editPart.getModel();
-
-                        MoveElementCommand moveElementCommand =
+                        final NodeElement nodeElement = (NodeElement) editPart.getModel();
+                        final MoveElementCommand moveElementCommand =
                                 new MoveElementCommand(diagram, editPart.getFigure().getBounds(), nodeElement.getX() + dx,
                                         nodeElement.getY() + dy, nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
-
                         command.add(moveElementCommand);
                     }
                 }
-
                 this.getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
             }
         }
-
         if (event.keyCode == SWT.CR && targetEditPart != null) {
-            Request request = new Request();
+            final Request request = new Request();
             request.setType(RequestConstants.REQ_OPEN);
             targetEditPart.performRequest(request);
         }
-
         return super.handleKeyDown(event);
     }
 
     @Override
     public void mouseDown(MouseEvent e, EditPartViewer viewer) {
         if (viewer.getContents() instanceof ERDiagramEditPart) {
-            ERDiagramEditPart editPart = (ERDiagramEditPart) viewer.getContents();
-            ERDiagram diagram = (ERDiagram) editPart.getModel();
-
+            final ERDiagramEditPart editPart = (ERDiagramEditPart) viewer.getContents();
+            final ERDiagram diagram = (ERDiagram) editPart.getModel();
             diagram.mousePoint = new Point(e.x, e.y);
-
             editPart.getFigure().translateToRelative(diagram.mousePoint);
         }
-
         super.mouseDown(e, viewer);
     }
-
 }

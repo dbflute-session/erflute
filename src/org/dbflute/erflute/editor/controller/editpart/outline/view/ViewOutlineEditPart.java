@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElement
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.element.view.ViewDialog;
+import org.dbflute.erflute.editor.view.dialog.view.ViewDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;

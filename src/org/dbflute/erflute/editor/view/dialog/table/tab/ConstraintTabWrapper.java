@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element.table.tab;
+package org.dbflute.erflute.editor.view.dialog.table.tab;
 
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.util.Check;
@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.view.dialog.element.table.TableDialog;
+import org.dbflute.erflute.editor.view.dialog.table.TableDialog;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;

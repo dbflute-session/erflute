@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
-import org.dbflute.erflute.editor.view.dialog.element.InsertedImageDialog;
+import org.dbflute.erflute.editor.view.dialog.image.InsertedImageDialog;
 import org.dbflute.erflute.editor.view.figure.InsertedImageFigure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;

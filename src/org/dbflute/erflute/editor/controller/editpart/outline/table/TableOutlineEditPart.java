@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.C
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.IndexSet;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.element.table.TableDialog;
+import org.dbflute.erflute.editor.view.dialog.table.TableDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;

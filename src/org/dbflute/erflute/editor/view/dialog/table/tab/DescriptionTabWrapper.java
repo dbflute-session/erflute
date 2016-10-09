@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element.table.tab;
+package org.dbflute.erflute.editor.view.dialog.table.tab;
 
 import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;

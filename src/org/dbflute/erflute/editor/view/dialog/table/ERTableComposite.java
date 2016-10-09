@@ -38,9 +38,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * テーブル情報のダイアログ。
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class ERTableComposite extends Composite {
 
@@ -57,17 +55,17 @@ public class ERTableComposite extends Composite {
     private Button columnDeleteButton;
     private Button upButton;
     private Button downButton;
-    private ERDiagram diagram;
-    private ERTable ertable;
+    private final ERDiagram diagram;
+    private final ERTable ertable;
     private List<ERColumn> columnList;
-    private AbstractColumnDialog columnDialog;
-    private AbstractDialog parentDialog;
-    private Map<ERColumn, TableEditor[]> columnNotNullCheckMap = new HashMap<ERColumn, TableEditor[]>();
-    private boolean buttonDisplay;
-    private boolean checkboxEnabled;
-    private int height;
+    private final AbstractColumnDialog columnDialog;
+    private final AbstractDialog parentDialog;
+    private final Map<ERColumn, TableEditor[]> columnNotNullCheckMap = new HashMap<ERColumn, TableEditor[]>();
+    private final boolean buttonDisplay;
+    private final boolean checkboxEnabled;
+    private final int height;
 
-    private ERTableCompositeHolder holder;
+    private final ERTableCompositeHolder holder;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -96,7 +94,7 @@ public class ERTableComposite extends Composite {
         this.columnDialog = columnDialog;
         this.parentDialog = parentDialog;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = horizontalSpan;
         this.setLayoutData(gridData);
 
@@ -105,7 +103,7 @@ public class ERTableComposite extends Composite {
     }
 
     private void createComposite() {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
 
         this.setLayout(gridLayout);
@@ -122,7 +120,6 @@ public class ERTableComposite extends Composite {
 
     private void createTable() {
         this.table = CompositeFactory.createTable(this, this.height, 3);
-
         CompositeFactory.createTableColumn(this.table, "PK", KEY_WIDTH, SWT.CENTER);
         CompositeFactory.createTableColumn(this.table, "FK", KEY_WIDTH, SWT.CENTER);
         CompositeFactory.createTableColumn(this.table, "label.physical.name", NAME_WIDTH, SWT.NONE);
@@ -130,29 +127,22 @@ public class ERTableComposite extends Composite {
         CompositeFactory.createTableColumn(this.table, "label.column.type", TYPE_WIDTH, SWT.NONE);
         CompositeFactory.createTableColumn(this.table, "label.not.null", NOT_NULL_WIDTH, SWT.NONE);
         CompositeFactory.createTableColumn(this.table, "label.unique.key", UNIQUE_KEY_WIDTH, SWT.NONE);
-
         this.table.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = table.getSelectionIndex();
+                final int index = table.getSelectionIndex();
                 selectTable(index);
-
-                ERColumn selectedColumn = columnList.get(index);
+                final ERColumn selectedColumn = columnList.get(index);
                 if (selectedColumn instanceof ColumnGroup) {
                     holder.selectGroup((ColumnGroup) selectedColumn);
                 }
             }
         });
-
         table.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.keyCode == SWT.SPACE) {
-                    ERColumn targetColumn = getTargetColumn();
+                    final ERColumn targetColumn = getTargetColumn();
                     if (targetColumn == null || !(targetColumn instanceof CopyColumn)) {
                         return;
                     }
@@ -160,18 +150,14 @@ public class ERTableComposite extends Composite {
                 }
             }
         });
-
         if (this.buttonDisplay) {
             this.table.addMouseListener(new MouseAdapter() {
-
                 @Override
                 public void mouseDoubleClick(MouseEvent e) {
-                    ERColumn targetColumn = getTargetColumn();
-
+                    final ERColumn targetColumn = getTargetColumn();
                     if (targetColumn == null || !(targetColumn instanceof CopyColumn)) {
                         return;
                     }
-
                     addOrEditColumn((CopyColumn) targetColumn, false);
                 }
             });
@@ -183,13 +169,13 @@ public class ERTableComposite extends Composite {
      *
      */
     private void createButton() {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 8;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
 
-        Composite buttonComposite = new Composite(this, SWT.NONE);
+        final Composite buttonComposite = new Composite(this, SWT.NONE);
         buttonComposite.setLayoutData(gridData);
         buttonComposite.setLayout(gridLayout);
 
@@ -215,7 +201,7 @@ public class ERTableComposite extends Composite {
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                ERColumn targetColumn = getTargetColumn();
+                final ERColumn targetColumn = getTargetColumn();
 
                 if (targetColumn == null || !(targetColumn instanceof CopyColumn)) {
                     return;
@@ -278,18 +264,18 @@ public class ERTableComposite extends Composite {
 
     private void initComposite() {
         if (this.columnList != null) {
-            for (ERColumn column : this.columnList) {
-                TableItem tableItem = new TableItem(this.table, SWT.NONE);
+            for (final ERColumn column : this.columnList) {
+                final TableItem tableItem = new TableItem(this.table, SWT.NONE);
                 this.column2TableItem(column, tableItem);
             }
         }
     }
 
     private void disposeCheckBox(ERColumn column) {
-        TableEditor[] oldEditors = this.columnNotNullCheckMap.get(column);
+        final TableEditor[] oldEditors = this.columnNotNullCheckMap.get(column);
 
         if (oldEditors != null) {
-            for (TableEditor oldEditor : oldEditors) {
+            for (final TableEditor oldEditor : oldEditors) {
                 if (oldEditor.getEditor() != null) {
                     oldEditor.getEditor().dispose();
                     oldEditor.dispose();
@@ -306,7 +292,7 @@ public class ERTableComposite extends Composite {
         if (column instanceof NormalColumn) {
             tableItem.setBackground(ColorConstants.white);
 
-            NormalColumn normalColumn = (NormalColumn) column;
+            final NormalColumn normalColumn = (NormalColumn) column;
 
             if (normalColumn.isPrimaryKey()) {
                 tableItem.setImage(0, Activator.getImage(ImageKey.PRIMARY_KEY));
@@ -323,7 +309,7 @@ public class ERTableComposite extends Composite {
             tableItem.setText(2, Format.null2blank(normalColumn.getPhysicalName()));
             tableItem.setText(3, Format.null2blank(normalColumn.getLogicalName()));
 
-            SqlType sqlType = normalColumn.getType();
+            final SqlType sqlType = normalColumn.getType();
 
             tableItem.setText(4, Format.formatType(sqlType, normalColumn.getTypeData(), this.diagram.getDatabase()));
 
@@ -347,7 +333,7 @@ public class ERTableComposite extends Composite {
         final Button uniqueCheckButton = new Button(this.table, SWT.CHECK);
         uniqueCheckButton.pack();
 
-        TableEditor[] editors = new TableEditor[2];
+        final TableEditor[] editors = new TableEditor[2];
 
         editors[0] = new TableEditor(this.table);
 
@@ -428,7 +414,7 @@ public class ERTableComposite extends Composite {
      * @param add
      */
     private void addTableData(NormalColumn column, boolean add) {
-        int index = this.table.getSelectionIndex();
+        final int index = this.table.getSelectionIndex();
 
         TableItem tableItem = null;
         CopyColumn copyColumn = null;
@@ -462,13 +448,13 @@ public class ERTableComposite extends Composite {
     }
 
     private void removeColumn() {
-        int index = this.table.getSelectionIndex();
+        final int index = this.table.getSelectionIndex();
 
         if (index != -1) {
-            ERColumn column = this.columnList.get(index);
+            final ERColumn column = this.columnList.get(index);
 
             if (column instanceof NormalColumn) {
-                NormalColumn normalColumn = (NormalColumn) column;
+                final NormalColumn normalColumn = (NormalColumn) column;
 
                 if (normalColumn.isForeignKey()) {
                     this.setMessage(DisplayMessages.getMessage("error.foreign.key.not.deleteable"));
@@ -500,7 +486,7 @@ public class ERTableComposite extends Composite {
         this.disposeCheckBox(column);
 
         for (int i = index; i < this.table.getItemCount(); i++) {
-            TableItem tableItem = this.table.getItem(i);
+            final TableItem tableItem = this.table.getItem(i);
             column = this.columnList.get(i);
 
             this.disposeCheckBox(column);
@@ -514,7 +500,7 @@ public class ERTableComposite extends Composite {
     private CopyColumn getTargetColumn() {
         CopyColumn column = null;
 
-        int index = this.table.getSelectionIndex();
+        final int index = this.table.getSelectionIndex();
 
         if (index != -1) {
             column = (CopyColumn) this.columnList.get(index);
@@ -524,14 +510,15 @@ public class ERTableComposite extends Composite {
     }
 
     private void setMessage(String message) {
-        MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+        final MessageBox messageBox =
+                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
         messageBox.setText(DisplayMessages.getMessage("dialog.title.error"));
         messageBox.setMessage(message);
         messageBox.open();
     }
 
     private void upColumn() {
-        int index = this.table.getSelectionIndex();
+        final int index = this.table.getSelectionIndex();
 
         if (index != -1 && index != 0) {
             this.changeColumn(index - 1, index);
@@ -540,7 +527,7 @@ public class ERTableComposite extends Composite {
     }
 
     private void downColumn() {
-        int index = this.table.getSelectionIndex();
+        final int index = this.table.getSelectionIndex();
 
         if (index != -1 && index != table.getItemCount() - 1) {
             this.changeColumn(index, index + 1);
@@ -549,7 +536,7 @@ public class ERTableComposite extends Composite {
     }
 
     private void changeColumn(int index1, int index2) {
-        ERColumn column1 = this.columnList.remove(index1);
+        final ERColumn column1 = this.columnList.remove(index1);
         ERColumn column2 = null;
 
         if (index1 < index2) {
@@ -563,7 +550,7 @@ public class ERTableComposite extends Composite {
             this.columnList.add(index2, column1);
         }
 
-        TableItem[] tableItems = this.table.getItems();
+        final TableItem[] tableItems = this.table.getItems();
 
         this.column2TableItem(column1, tableItems[index2]);
         this.column2TableItem(column2, tableItems[index1]);
@@ -572,7 +559,6 @@ public class ERTableComposite extends Composite {
     private void addOrEditColumn(CopyColumn targetColumn, boolean add) {
         boolean foreignKey = false;
         boolean isRefered = false;
-
         if (targetColumn != null) {
             foreignKey = targetColumn.isForeignKey();
             if (this.ertable != null) {
@@ -580,32 +566,24 @@ public class ERTableComposite extends Composite {
             }
         }
         this.columnDialog.setTargetColumn(targetColumn, foreignKey, isRefered);
-
         if (this.columnDialog.open() == IDialogConstants.OK_ID) {
-            NormalColumn column = this.columnDialog.getColumn();
+            final NormalColumn column = this.columnDialog.getColumn();
             addTableData(column, add);
         }
     }
 
-    /**
-     * tableを取得します。
-     * @return table
-     */
     public Table getTable() {
         return table;
     }
 
     public void setColumnList(List<ERColumn> columnList) {
         this.table.removeAll();
-
         if (this.columnList != null) {
-            for (ERColumn column : this.columnList) {
+            for (final ERColumn column : this.columnList) {
                 this.disposeCheckBox(column);
             }
         }
-
         this.columnList = columnList;
-
         initComposite();
     }
 

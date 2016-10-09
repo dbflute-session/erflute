@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element.table.tab;
+package org.dbflute.erflute.editor.view.dialog.table.tab;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
 import org.dbflute.erflute.editor.view.dialog.column.real.ColumnDialog;
-import org.dbflute.erflute.editor.view.dialog.element.table.TableDialog;
 import org.dbflute.erflute.editor.view.dialog.group.GroupManageDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableCompositeHolder;
+import org.dbflute.erflute.editor.view.dialog.table.TableDialog;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;

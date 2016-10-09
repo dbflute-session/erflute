@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVi
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
-import org.dbflute.erflute.editor.view.dialog.element.relation.RelationByExistingColumnsDialog;
+import org.dbflute.erflute.editor.view.dialog.relationship.RelationByExistingColumnsDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 

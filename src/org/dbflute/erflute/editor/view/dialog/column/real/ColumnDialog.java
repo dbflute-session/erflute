@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
-import org.dbflute.erflute.editor.view.dialog.element.table.sub.AutoIncrementSettingDialog;
+import org.dbflute.erflute.editor.view.dialog.table.sub.AutoIncrementSettingDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;

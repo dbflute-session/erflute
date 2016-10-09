@@ -1,24 +1,27 @@
-package org.dbflute.erflute.editor.view.dialog.element.view.tab;
+package org.dbflute.erflute.editor.view.dialog.view.tab;
 
-import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
+import org.dbflute.erflute.editor.view.dialog.view.ViewDialog;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 
-public class DescriptionTabWrapper extends ValidatableTabWrapper {
+public class SqlTabWrapper extends ValidatableTabWrapper {
 
     private ERView copyData;
 
-    private Text descriptionText;
+    private Text sqlText;
 
-    public DescriptionTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERView copyData) {
-        super(dialog, parent, style, "label.table.description");
+    private ViewDialog viewDialog;
 
+    public SqlTabWrapper(ViewDialog viewDialog, TabFolder parent, int style, ERView copyData) {
+        super(viewDialog, parent, style, "label.sql");
+
+        this.viewDialog = viewDialog;
         this.copyData = copyData;
 
         this.init();
@@ -30,9 +33,9 @@ public class DescriptionTabWrapper extends ValidatableTabWrapper {
         gridLayout.numColumns = 1;
         this.setLayout(gridLayout);
 
-        this.descriptionText = CompositeFactory.createTextArea(null, this, "label.table.description", -1, 400, 1, true);
+        this.sqlText = CompositeFactory.createTextArea(this.viewDialog, this, "label.sql", 400, 400, 1, true);
 
-        this.descriptionText.setText(Format.null2blank(copyData.getDescription()));
+        this.sqlText.setText(Format.null2blank(copyData.getSql()));
     }
 
     /**
@@ -40,13 +43,18 @@ public class DescriptionTabWrapper extends ValidatableTabWrapper {
      */
     @Override
     public void validatePage() throws InputException {
-        String text = descriptionText.getText().trim();
-        this.copyData.setDescription(text);
+        String text = sqlText.getText().trim();
+
+        if (text.equals("")) {
+            throw new InputException("error.view.sql.empty");
+        }
+
+        this.copyData.setSql(text);
     }
 
     @Override
     public void setInitFocus() {
-        this.descriptionText.setFocus();
+        this.sqlText.setFocus();
     }
 
     @Override

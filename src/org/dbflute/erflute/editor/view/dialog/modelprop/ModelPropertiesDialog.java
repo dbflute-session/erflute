@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element;
+package org.dbflute.erflute.editor.view.dialog.modelprop;
 
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.dialog.AbstractDialog;

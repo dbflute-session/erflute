@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element.view;
+package org.dbflute.erflute.editor.view.dialog.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
-import org.dbflute.erflute.editor.view.dialog.element.view.tab.AdvancedTabWrapper;
-import org.dbflute.erflute.editor.view.dialog.element.view.tab.AttributeTabWrapper;
-import org.dbflute.erflute.editor.view.dialog.element.view.tab.DescriptionTabWrapper;
-import org.dbflute.erflute.editor.view.dialog.element.view.tab.SqlTabWrapper;
+import org.dbflute.erflute.editor.view.dialog.view.tab.AdvancedTabWrapper;
+import org.dbflute.erflute.editor.view.dialog.view.tab.AttributeTabWrapper;
+import org.dbflute.erflute.editor.view.dialog.view.tab.DescriptionTabWrapper;
+import org.dbflute.erflute.editor.view.dialog.view.tab.SqlTabWrapper;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;

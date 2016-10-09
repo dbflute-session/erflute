@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element;
+package org.dbflute.erflute.editor.view.dialog.image;
 
 import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.widgets.CompositeFactory;

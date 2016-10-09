@@ -1,8 +1,11 @@
-package org.dbflute.erflute.editor.view.dialog.element.view.tab;
+package org.dbflute.erflute.editor.view.dialog.table.tab;
 
+import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.properties.ViewProperties;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -10,25 +13,32 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-public class AdvancedComposite extends Composite {
+public abstract class AdvancedComposite extends Composite {
 
     private Combo tableSpaceCombo;
 
     private Text schemaText;
 
-    protected ViewProperties viewProperties;
+    protected TableProperties tableProperties;
 
-    private ERDiagram diagram;
+    protected ERDiagram diagram;
+
+    protected AbstractDialog dialog;
+
+    protected ERTable table;
 
     public AdvancedComposite(Composite parent) {
         super(parent, SWT.NONE);
     }
 
-    public final void initialize(ViewProperties viewProperties, ERDiagram diagram) {
-        this.viewProperties = viewProperties;
+    public final void initialize(AbstractDialog dialog, TableProperties tableProperties, ERDiagram diagram, ERTable table) {
+        this.dialog = dialog;
+        this.tableProperties = tableProperties;
         this.diagram = diagram;
+        this.table = table;
 
         this.initComposite();
+        this.addListener();
         this.setData();
     }
 
@@ -44,6 +54,9 @@ public class AdvancedComposite extends Composite {
         this.initTablespaceCombo();
     }
 
+    protected void addListener() {
+    }
+
     private void initTablespaceCombo() {
         this.tableSpaceCombo.add("");
 
@@ -53,35 +66,33 @@ public class AdvancedComposite extends Composite {
     }
 
     protected void setData() {
-        Tablespace tablespace = this.viewProperties.getTableSpace();
+        Tablespace tablespace = this.tableProperties.getTableSpace();
 
         if (tablespace != null) {
             int index = this.diagram.getDiagramContents().getTablespaceSet().getTablespaceList().indexOf(tablespace);
             this.tableSpaceCombo.select(index + 1);
         }
 
-        if (this.viewProperties.getSchema() != null && this.schemaText != null) {
-            this.schemaText.setText(this.viewProperties.getSchema());
+        if (this.tableProperties.getSchema() != null && this.schemaText != null) {
+            this.schemaText.setText(this.tableProperties.getSchema());
         }
     }
 
-    public boolean validate() {
+    public void validate() throws InputException {
         if (this.tableSpaceCombo != null) {
             int tablespaceIndex = this.tableSpaceCombo.getSelectionIndex();
             if (tablespaceIndex > 0) {
                 Tablespace tablespace = this.diagram.getDiagramContents().getTablespaceSet().getTablespaceList().get(tablespaceIndex - 1);
-                this.viewProperties.setTableSpace(tablespace);
+                this.tableProperties.setTableSpace(tablespace);
 
             } else {
-                this.viewProperties.setTableSpace(null);
+                this.tableProperties.setTableSpace(null);
             }
         }
 
         if (this.schemaText != null) {
-            this.viewProperties.setSchema(this.schemaText.getText());
+            this.tableProperties.setSchema(this.schemaText.getText());
         }
-
-        return true;
     }
 
     public void setInitFocus() {

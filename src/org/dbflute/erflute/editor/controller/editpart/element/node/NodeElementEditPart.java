@@ -42,9 +42,6 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
     private Font font;
     private Font largeFont;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void deactivate() {
         this.disposeFont();
@@ -61,24 +58,19 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
     public void doPropertyChange(PropertyChangeEvent event) {
         if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_RECTANGLE)) {
             refreshVisuals();
-
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
             refreshVisuals();
-
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_FONT)) {
             this.changeFont(this.figure);
             refreshVisuals();
             //			if (getNodeModel().needsUpdateOtherModel()) {
-            //				// �S�r���[�̃��t���b�V��
             //				getNodeModel().getDiagram().refreshAllModel(event, getNodeModel());
             //			} else {
             //				refreshVisuals();
             //			}
             //
-
         } else if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_INCOMING)) {
             refreshTargetConnections();
-
         } else if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_OUTGOING)) {
             refreshSourceConnections();
         }
@@ -88,9 +80,6 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
         return (NodeElement) super.getModel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new NodeElementGraphicalNodeEditPolicy());
@@ -237,12 +226,10 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
 
     public void changeSettings(Settings settings) {
         this.refresh();
-
         for (final Object object : this.getSourceConnections()) {
             final ERDiagramConnectionEditPart editPart = (ERDiagramConnectionEditPart) object;
             final ERDiagramConnection connection = (ERDiagramConnection) editPart.getFigure();
             connection.setBezier(settings.isUseBezierCurve());
-
             editPart.refresh();
         }
     }
@@ -252,9 +239,6 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setSelected(int value) {
         if (value != 0 && getViewer() != null) {
@@ -264,24 +248,18 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
                 }
             }
         }
-
         super.setSelected(value);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequest(Request request) {
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             try {
                 performRequestOpen();
-
             } catch (final Exception e) {
                 Activator.showExceptionDialog(e);
             }
         }
-
         super.performRequest(request);
     }
 

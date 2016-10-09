@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element.relation;
+package org.dbflute.erflute.editor.view.dialog.relationship;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.dbflute.erflute.editor.view.dialog.element.relation.RelationDialog.ColumnComboInfo;
+import org.dbflute.erflute.editor.view.dialog.relationship.RelationDialog.ColumnComboInfo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;

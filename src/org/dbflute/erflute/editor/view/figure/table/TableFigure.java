@@ -23,12 +23,9 @@ import org.eclipse.swt.graphics.Font;
 
 public class TableFigure extends RoundedRectangle {
 
-    private Figure columns;
-
+    private final Figure columns;
     private StyleSupport styleSupport;
-
     private Color foregroundColor;
-
     private Font largeFont;
 
     public TableFigure(Settings settings) {
@@ -38,41 +35,30 @@ public class TableFigure extends RoundedRectangle {
     }
 
     public void setSettings(Settings settings) {
-        //		System.out.println("TableFigure::setTableStyle " + tableStyle);
-        String tableStyle = settings.getTableStyle();
+        final String tableStyle = settings.getTableStyle();
         if (ChangeDesignToSimpleAction.TYPE.equals(tableStyle)) {
             this.styleSupport = new SimpleStyleSupport(this, settings);
-
         } else if (ChangeDesignToFrameAction.TYPE.equals(tableStyle)) {
             this.styleSupport = new FrameStyleSupport(this, settings);
-
         } else {
             this.styleSupport = new FunnyStyleSupport(this, settings);
         }
-
         this.styleSupport.init();
-
         this.create(null);
     }
 
     public void create(int[] color) {
         this.decideColor(color);
-
         this.removeAll();
-
         this.styleSupport.createTitleBar();
-
         this.columns.removeAll();
-
         this.styleSupport.createColumnArea(this.columns);
-
         this.styleSupport.createFooter();
     }
 
     private void decideColor(int[] color) {
         if (color != null) {
-            int sum = color[0] + color[1] + color[2];
-
+            final int sum = color[0] + color[1] + color[2];
             if (sum > 255) {
                 this.foregroundColor = ColorConstants.black;
             } else {
@@ -98,10 +84,8 @@ public class TableFigure extends RoundedRectangle {
             String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
             boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
-
         columnFigure.removeAll();
         columnFigure.setBackgroundColor(null);
-
         this.styleSupport.addColumn(table, normalColumn, columnFigure, viewMode, physicalName, logicalName, type, primaryKey, foreignKey,
                 isNotNull, uniqueKey, displayKey, displayDetail, displayType, isSelectedReferenced, isSelectedForeignKey, isAdded,
                 isUpdated, isRemoved);
@@ -109,27 +93,21 @@ public class TableFigure extends RoundedRectangle {
 
     public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded, boolean isUpdated,
             boolean isRemoved) {
-
         columnFigure.removeAll();
         columnFigure.setBackgroundColor(null);
-
         this.styleSupport.addColumnGroup(columnFigure, viewMode, name, isAdded, isUpdated, isRemoved);
     }
 
     public void addIndex(IndexFigure indexFigure, int viewMode, String physicalName, String logicalName, boolean isFirst) {
-
         indexFigure.removeAll();
         indexFigure.setBackgroundColor(null);
-
         this.styleSupport.addIndex(indexFigure, physicalName, isFirst);
     }
 
     @Override
     public Rectangle getBounds() {
-        Rectangle bounds = super.getBounds();
-
+        final Rectangle bounds = super.getBounds();
         this.styleSupport.adjustBounds(bounds);
-
         return bounds;
     }
 
@@ -143,11 +121,6 @@ public class TableFigure extends RoundedRectangle {
         super.fillShape(graphics);
     }
 
-    /**
-     * columns ���擾���܂�.
-     *
-     * @return columns
-     */
     public Figure getColumns() {
         return columns;
     }
@@ -160,12 +133,7 @@ public class TableFigure extends RoundedRectangle {
         this.largeFont = largeFont;
     }
 
-    /**
-     * largeFont���擾���܂��B
-     * @return largeFont
-     */
     public Font getLargeFont() {
         return largeFont;
     }
-
 }

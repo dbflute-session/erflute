@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element.table;
+package org.dbflute.erflute.editor.view.dialog.table;
 
 import java.util.Arrays;
 

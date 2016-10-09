@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.element.table.sub;
+package org.dbflute.erflute.editor.view.dialog.table.sub;
 
 import java.util.ArrayList;
 import java.util.HashMap;

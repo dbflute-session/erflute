@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEdi
 import org.dbflute.erflute.editor.controller.editpolicy.not_element.index.IndexComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
-import org.dbflute.erflute.editor.view.dialog.element.table.sub.IndexDialog;
+import org.dbflute.erflute.editor.view.dialog.table.sub.IndexDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;

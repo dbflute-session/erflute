@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.controller.editpolicy.element.connection.ERDia
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.view.dialog.element.relation.RelationDialog;
+import org.dbflute.erflute.editor.view.dialog.relationship.RelationDialog;
 import org.dbflute.erflute.editor.view.figure.connection.ERDiagramConnection;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.BendpointConnectionRouter;

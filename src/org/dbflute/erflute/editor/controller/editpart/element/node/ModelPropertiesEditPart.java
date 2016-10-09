@@ -6,7 +6,7 @@ import org.dbflute.erflute.editor.controller.command.common.ChangeModelPropertie
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.element.ModelPropertiesDialog;
+import org.dbflute.erflute.editor.view.dialog.modelprop.ModelPropertiesDialog;
 import org.dbflute.erflute.editor.view.figure.ModelPropertiesFigure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.dialogs.IDialogConstants;
