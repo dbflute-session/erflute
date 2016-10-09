@@ -32,11 +32,11 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private final NoteSet noteSet;
     private final TableSet tableSet;
     private final ViewSet viewSet;
-    private final List<NodeElement> nodeElementList;
+    private final NoteSet noteSet;
     private final InsertedImageSet insertedImageSet;
+    private final List<NodeElement> nodeElementList;
 
     // ===================================================================================
     //                                                                         Constructor
