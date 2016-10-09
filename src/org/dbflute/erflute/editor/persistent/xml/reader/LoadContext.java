@@ -94,7 +94,7 @@ public class LoadContext {
         }
         for (final Relationship relation : referencedColumnMap.keySet()) {
             final String id = referencedColumnMap.get(relation);
-            if (id != null) { // null allowed when migration from ERMaster...?
+            if (id != null && !id.equals("null")) { // null allowed when migration from ERMaster...?
                 final NormalColumn column = columnMap.get(id);
                 if (column == null) {
                     System.out.println("*error, Not found the column ID: " + id + ", relation=" + relation + ", existingKeys="

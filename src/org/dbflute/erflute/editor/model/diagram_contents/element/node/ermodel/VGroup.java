@@ -92,20 +92,6 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
         //		return isVisible;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-        this.firePropertyChange(PROPERTY_CHANGE_VGROUP, null, null);
-    }
-
-    public List<NodeElement> getContents() {
-        return nodeElementList;
-    }
-
     public List<ERTable> getTableContents() {
         final List<ERTable> tableList = new ArrayList<ERTable>();
 
@@ -140,6 +126,9 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
         return tableList;
     }
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
     @Override
     public int compareTo(VGroup other) {
         return Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
@@ -149,6 +138,23 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     public VGroup clone() {
         final VGroup clone = (VGroup) super.clone();
         return clone;
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        this.firePropertyChange(PROPERTY_CHANGE_VGROUP, null, null);
+    }
+
+    public List<NodeElement> getContents() {
+        return nodeElementList;
     }
 
     @Override

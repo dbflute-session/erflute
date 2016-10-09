@@ -39,28 +39,29 @@ public class WrittenERModelBuilder {
     public String buildERModel(ERModelSet modelSet, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<ermodels>\n");
-        for (final ERModel erModel : modelSet) {
+        for (final ERModel ermodel : modelSet) {
             xml.append("\t<ermodel>\n");
-            xml.append("\t\t<id>").append(context.ermodelMap.get(erModel)).append("</id>\n");
-            xml.append("\t\t<name>").append(erModel.getName()).append("</name>\n");
-            assistLogic.appendColor(xml, "color", erModel.getColor());
+            xml.append("\t\t<id>").append(context.ermodelMap.get(ermodel)).append("</id>\n");
+            xml.append("\t\t<name>").append(ermodel.getName()).append("</name>\n");
+            xml.append(tab(tab(assistLogic.buildColor(ermodel.getColor()))));
             xml.append("\t\t<vtables>\n");
-            for (final ERVirtualTable table : erModel.getTables()) {
+            for (final ERVirtualTable table : ermodel.getTables()) {
                 xml.append("\t\t\t<vtable>\n");
                 xml.append("\t\t\t\t<id>").append(context.nodeElementMap.get(table.getRawTable())).append("</id>\n");
                 xml.append("\t\t\t\t<x>").append(table.getX()).append("</x>\n");
                 xml.append("\t\t\t\t<y>").append(table.getY()).append("</y>\n");
-                appendFont(xml, table);
+                xml.append("\t\t\t\t<font_name>").append(escape(ermodel.getFontName())).append("</font_name>\n");
+                xml.append("\t\t\t\t<font_size>").append(ermodel.getFontSize()).append("</font_size>\n");
                 xml.append("\t\t\t</vtable>\n");
             }
             xml.append("\t\t</vtables>\n");
             xml.append("\t\t<groups>\n");
-            for (final VGroup group : erModel.getGroups()) {
-                xml.append(buildVGroup(group, context));
+            for (final VGroup group : ermodel.getGroups()) {
+                xml.append(tab(tab(tab(buildVGroup(group, context)))));
             }
             xml.append("\t\t</groups>\n");
             xml.append("\t\t<notes>\n");
-            for (final Note note : erModel.getNotes()) {
+            for (final Note note : ermodel.getNotes()) {
                 xml.append(noteBuilder.buildNote(note, context));
             }
             xml.append("\t\t</notes>\n");
@@ -68,11 +69,6 @@ public class WrittenERModelBuilder {
         }
         xml.append("</ermodels>\n");
         return xml.toString();
-    }
-
-    private void appendFont(StringBuilder xml, NodeElement nodeElement) {
-        xml.append("\t<font_name>").append(escape(nodeElement.getFontName())).append("</font_name>\n");
-        xml.append("\t<font_size>").append(nodeElement.getFontSize()).append("</font_size>\n");
     }
 
     // ===================================================================================
@@ -83,11 +79,9 @@ public class WrittenERModelBuilder {
         xml.append("<group>\n");
         xml.append(tab(nodeElementBuilder.buildNodeElement(group, context)));
         xml.append("\t<name>").append(escape(group.getName())).append("</name>\n");
-        //      xml.append("\t<selected>").append(isSelected).append("</selected>\n");
         for (final NodeElement nodeElement : group.getContents()) {
-            xml.append("\t<node_element>")
-                    .append(context.nodeElementMap.get(((ERVirtualTable) nodeElement).getRawTable()))
-                    .append("</node_element>\n");
+            final String nodeId = context.nodeElementMap.get(((ERVirtualTable) nodeElement).getRawTable());
+            xml.append("\t<node_element>").append(nodeId).append("</node_element>\n");
         }
         xml.append("</group>\n");
         return xml.toString();

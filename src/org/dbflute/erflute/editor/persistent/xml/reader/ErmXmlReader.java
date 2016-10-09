@@ -163,28 +163,28 @@ public class ErmXmlReader {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-            final Node node = nodeList.item(i);
-            if ("table".equals(node.getNodeName())) {
-                final ERTable table = loadTable((Element) node, context);
+            final Node content = nodeList.item(i);
+            if ("table".equals(content.getNodeName())) {
+                final ERTable table = loadTable((Element) content, context);
                 contents.addNodeElement(table);
-            } else if ("view".equals(node.getNodeName())) {
-                final ERView view = loadView((Element) node, context);
+            } else if ("view".equals(content.getNodeName())) {
+                final ERView view = loadView((Element) content, context);
                 contents.addNodeElement(view);
-                // what? by jflute
-                //			} else if ("note".equals(node.getNodeName())) {
-                //				Note note = this.loadNote((Element) node, context);
-                //				contents.addNodeElement(note);
-            } else if ("image".equals(node.getNodeName())) {
-                final InsertedImage insertedImage = imageLoader.loadInsertedImage((Element) node, context);
+            } else if ("note".equals(content.getNodeName())) {
+                // #willfix note by jflute
+                System.out.println("*Unsupported for now: " + content);
+                //final Note note = noteLoader.loadNote((Element) node, context);
+                //contents.addNodeElement(note);
+            } else if ("image".equals(content.getNodeName())) {
+                final InsertedImage insertedImage = imageLoader.loadInsertedImage((Element) content, context);
                 contents.addNodeElement(insertedImage);
-            } else if ("ermodel".equals(node.getNodeName())) {
-                final ERModel ermodel = loadErmodel((Element) node, context);
+            } else if ("ermodel".equals(content.getNodeName())) {
+                final ERModel ermodel = loadErmodel((Element) content, context);
                 contents.addNodeElement(ermodel);
-                //			} else if ("group".equals(node.getNodeName())) {
-                //				VGroup group = this.loadGroup((Element) node, context);
-                //				contents.addNodeElement(group);
+            } else if ("group".equals(content.getNodeName())) {
+                continue; // not use here, saved in ermodel
             } else {
-                throw new RuntimeException("not support " + node);
+                throw new IllegalStateException("*Unsupported contents: " + content);
             }
         }
     }

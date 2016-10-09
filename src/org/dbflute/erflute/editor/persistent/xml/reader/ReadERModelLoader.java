@@ -83,7 +83,7 @@ public class ReadERModelLoader {
                 }
                 model.setTables(tables);
                 loadElementNotes(context, modelElement, model, diagram);
-                loadElementGroups(context, modelElement, model);
+                loadElementVGroups(context, modelElement, model);
                 final String id = getStringValue(modelElement, "id");
                 context.ermodelMap.put(id, model);
                 results.add(model);
@@ -109,7 +109,7 @@ public class ReadERModelLoader {
         model.setNotes(notes);
     }
 
-    private void loadElementGroups(LoadContext context, Element modelElement, ERModel model) {
+    private void loadElementVGroups(LoadContext context, Element modelElement, ERModel model) {
         final List<VGroup> groups = new ArrayList<VGroup>();
         final Element elGroups = getElement(modelElement, "groups");
         if (elGroups != null) {

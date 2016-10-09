@@ -11,7 +11,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
@@ -194,10 +196,14 @@ public class ErmXmlWriter {
                 subxml = buildTable((ERTable) content, context);
             } else if (content instanceof ERView) {
                 subxml = buildView((ERView) content, context);
+            } else if (content instanceof Note) {
+                subxml = noteBuilder.buildNote((Note) content, context);
             } else if (content instanceof InsertedImage) {
-                subxml = buildImage((InsertedImage) content, context);
+                subxml = imageBuilder.buildImage((InsertedImage) content, context);
+            } else if (content instanceof VGroup) {
+                continue; // not use here, saved in ermodel
             } else {
-                throw new RuntimeException("not support " + content);
+                throw new IllegalStateException("*Unsupported contents: " + content);
             }
             if (subxml != null) { // no way, but just in case? by jflute
                 xml.append(tab(subxml));
@@ -226,13 +232,6 @@ public class ErmXmlWriter {
     //                                                                              ======
     private String buildView(ERView view, PersistentContext context) {
         return viewBuilder.buildView(view, context);
-    }
-
-    // ===================================================================================
-    //                                                                               Image
-    //                                                                               =====
-    private String buildImage(InsertedImage insertedImage, PersistentContext context) {
-        return imageBuilder.buildImage(insertedImage, context);
     }
 
     // ===================================================================================
