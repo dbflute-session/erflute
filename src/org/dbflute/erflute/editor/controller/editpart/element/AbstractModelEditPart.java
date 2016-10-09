@@ -19,30 +19,22 @@ public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart im
 
     private static final boolean DEBUG = false;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void activate() {
         super.activate();
-
-        AbstractModel model = (AbstractModel) this.getModel();
+        final AbstractModel model = (AbstractModel) this.getModel();
         model.addPropertyChangeListener(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void deactivate() {
-        AbstractModel model = (AbstractModel) this.getModel();
+        final AbstractModel model = (AbstractModel) this.getModel();
         model.removePropertyChangeListener(this);
-
         super.deactivate();
     }
 
     protected ERDiagram getDiagram() {
-        Object model = this.getRoot().getContents().getModel();
+        final Object model = this.getRoot().getContents().getModel();
         if (model instanceof ERModel) {
             return ((ERModel) model).getDiagram();
         }
@@ -57,20 +49,18 @@ public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart im
         this.getViewer().getEditDomain().getCommandStack().execute(command);
     }
 
+    @Override
     public final void propertyChange(PropertyChangeEvent event) {
         try {
             if (DEBUG) {
                 logger.log(Level.INFO, this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
             }
-
             this.doPropertyChange(event);
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }
 
     protected void doPropertyChange(PropertyChangeEvent event) {
     }
-
 }

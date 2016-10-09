@@ -40,25 +40,19 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
 
     private Label targetLabel;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected IFigure createFigure() {
-        boolean bezier = this.getDiagram().getDiagramContents().getSettings().isUseBezierCurve();
-        PolylineConnection connection = new ERDiagramConnection(bezier);
+        final boolean bezier = this.getDiagram().getDiagramContents().getSettings().isUseBezierCurve();
+        final PolylineConnection connection = new ERDiagramConnection(bezier);
         connection.setConnectionRouter(new BendpointConnectionRouter());
 
-        ConnectionEndpointLocator targetLocator = new ConnectionEndpointLocator(connection, true);
+        final ConnectionEndpointLocator targetLocator = new ConnectionEndpointLocator(connection, true);
         this.targetLabel = new Label("");
         connection.add(targetLabel, targetLocator);
 
         return connection;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
@@ -66,22 +60,19 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
         this.installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new RelationBendpointEditPolicy());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshBendpoints() {
         try {
             // ベンド・ポイントの位置情報の取得
-            Relationship relation = (Relationship) this.getModel();
+            final Relationship relation = (Relationship) this.getModel();
 
             // 実際のベンド・ポイントのリスト
-            List<org.eclipse.draw2d.Bendpoint> constraint = new ArrayList<org.eclipse.draw2d.Bendpoint>();
+            final List<org.eclipse.draw2d.Bendpoint> constraint = new ArrayList<org.eclipse.draw2d.Bendpoint>();
 
-            for (Bendpoint bendPoint : relation.getBendpoints()) {
+            for (final Bendpoint bendPoint : relation.getBendpoints()) {
                 if (bendPoint.isRelative()) {
 
-                    ERTableEditPart tableEditPart = (ERTableEditPart) this.getSource();
+                    final ERTableEditPart tableEditPart = (ERTableEditPart) this.getSource();
                     if (tableEditPart != null) {
                         Rectangle bounds = tableEditPart.getFigure().getBounds();
                         int width = bounds.width;
@@ -98,7 +89,7 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
 
                         RelativeBendpoint point = new RelativeBendpoint();
 
-                        int xp = relation.getTargetXp();
+                        final int xp = relation.getTargetXp();
                         int x;
 
                         if (xp == -1) {
@@ -139,96 +130,68 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
             }
 
             this.getConnectionFigure().setRoutingConstraint(constraint);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshVisuals() {
         super.refreshVisuals();
-
-        ERDiagram diagram = this.getDiagram();
-
+        final ERDiagram diagram = this.getDiagram();
         if (diagram != null) {
-            Relationship relation = (Relationship) this.getModel();
-
-            PolylineConnection connection = (PolylineConnection) this.getConnectionFigure();
-
-            String notation = diagram.getDiagramContents().getSettings().getNotation();
-
-            Decoration decoration =
+            final Relationship relation = (Relationship) this.getModel();
+            final PolylineConnection connection = (PolylineConnection) this.getConnectionFigure();
+            final String notation = diagram.getDiagramContents().getSettings().getNotation();
+            final Decoration decoration =
                     DecorationFactory.getDecoration(notation, relation.getParentCardinality(), relation.getChildCardinality());
-
             connection.setSourceDecoration(decoration.getSourceDecoration());
             connection.setTargetDecoration(decoration.getTargetDecoration());
             targetLabel.setText(Format.null2blank(decoration.getTargetLabel()));
         }
-
         this.calculateAnchorLocation();
-
         this.refreshBendpoints();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequest(Request request) {
-        Relationship relation = (Relationship) this.getModel();
-
+        final Relationship relation = (Relationship) this.getModel();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            Relationship copy = relation.copy();
-
-            RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
-
+            final Relationship copy = relation.copy();
+            final RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
             if (dialog.open() == IDialogConstants.OK_ID) {
-                ChangeRelationshipPropertyCommand command = new ChangeRelationshipPropertyCommand(relation, copy);
+                final ChangeRelationshipPropertyCommand command = new ChangeRelationshipPropertyCommand(relation, copy);
                 this.getViewer().getEditDomain().getCommandStack().execute(command);
             }
         }
-
         super.performRequest(request);
     }
 
     private void calculateAnchorLocation() {
-        Relationship relation = (Relationship) this.getModel();
-
-        TableViewEditPart sourceEditPart = (TableViewEditPart) this.getSource();
-
+        final Relationship relation = (Relationship) this.getModel();
+        final TableViewEditPart sourceEditPart = (TableViewEditPart) this.getSource();
         Point sourcePoint = null;
         Point targetPoint = null;
-
         if (sourceEditPart != null && relation.getSourceXp() != -1 && relation.getSourceYp() != -1) {
-            Rectangle bounds = sourceEditPart.getFigure().getBounds();
+            final Rectangle bounds = sourceEditPart.getFigure().getBounds();
             sourcePoint =
                     new Point(bounds.x + (bounds.width * relation.getSourceXp() / 100), bounds.y
                             + (bounds.height * relation.getSourceYp() / 100));
         }
-
-        TableViewEditPart targetEditPart = (TableViewEditPart) this.getTarget();
-
+        final TableViewEditPart targetEditPart = (TableViewEditPart) this.getTarget();
         if (targetEditPart != null && relation.getTargetXp() != -1 && relation.getTargetYp() != -1) {
-            Rectangle bounds = targetEditPart.getFigure().getBounds();
+            final Rectangle bounds = targetEditPart.getFigure().getBounds();
             targetPoint =
                     new Point(bounds.x + (bounds.width * relation.getTargetXp() / 100), bounds.y
                             + (bounds.height * relation.getTargetYp() / 100));
         }
-
-        ConnectionAnchor sourceAnchor = this.getConnectionFigure().getSourceAnchor();
-
+        final ConnectionAnchor sourceAnchor = this.getConnectionFigure().getSourceAnchor();
         if (sourceAnchor instanceof XYChopboxAnchor) {
             ((XYChopboxAnchor) sourceAnchor).setLocation(sourcePoint);
         }
-
-        ConnectionAnchor targetAnchor = this.getConnectionFigure().getTargetAnchor();
-
+        final ConnectionAnchor targetAnchor = this.getConnectionFigure().getTargetAnchor();
         if (targetAnchor instanceof XYChopboxAnchor) {
             ((XYChopboxAnchor) targetAnchor).setLocation(targetPoint);
         }
     }
-
 }

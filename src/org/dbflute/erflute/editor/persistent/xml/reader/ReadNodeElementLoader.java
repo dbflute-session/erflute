@@ -62,7 +62,9 @@ public class ReadNodeElementLoader {
                     continue;
                 }
                 final Element connectionElement = (Element) nodeList.item(i);
-                if ("relation".equals(connectionElement.getTagName())) {
+                if ("relation".equals(connectionElement.getTagName())) { // migration from ERMaster
+                    loadRelationship(nodeElement, connectionElement, context);
+                } else if ("relationship".equals(connectionElement.getTagName())) { // #for_erflute rename to relationship
                     loadRelationship(nodeElement, connectionElement, context);
                 } else if ("comment_connection".equals(connectionElement.getTagName())) {
                     loadCommentConnection(nodeElement, connectionElement, context);

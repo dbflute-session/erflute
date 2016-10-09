@@ -93,7 +93,7 @@ public class WrittenNodeElementBuilder {
     //                                                                        ============
     private String buildRelationship(Relationship relation, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<relation>\n");
+        xml.append("<relationship>\n"); // #for_erflute rename to relationship
         xml.append("\t<name>").append(escape(relation.getForeignKeyName())).append("</name>\n");
         xml.append(tab(buildConnectionElement(relation, context)));
         xml.append("\t<parent_cardinality>").append(escape(relation.getParentCardinality())).append("</parent_cardinality>\n");
@@ -102,7 +102,7 @@ public class WrittenNodeElementBuilder {
         setupOnDeleteUpdate(relation, xml);
         setupSourceTargetXy(relation, xml);
         setupReferenced(relation, context, xml);
-        xml.append("</relation>\n");
+        xml.append("</relationship>\n");
         return xml.toString();
     }
 

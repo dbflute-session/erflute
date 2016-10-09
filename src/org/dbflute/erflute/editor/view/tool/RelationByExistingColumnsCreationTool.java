@@ -6,46 +6,35 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.eclipse.gef.tools.ConnectionCreationTool;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class RelationByExistingColumnsCreationTool extends ConnectionCreationTool {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean handleCreateConnection() {
         try {
-            CreateRelationshipByExistingColumnsCommand command = (CreateRelationshipByExistingColumnsCommand) this.getCommand();
-
+            final CreateRelationshipByExistingColumnsCommand command = (CreateRelationshipByExistingColumnsCommand) this.getCommand();
             if (command == null) {
                 return false;
             }
-
-            TableView source = (TableView) command.getSourceModel();
-            TableView target = (TableView) command.getTargetModel();
-
+            final TableView source = (TableView) command.getSourceModel();
+            final TableView target = (TableView) command.getTargetModel();
             if (ERTable.isRecursive(source, target)) {
                 Activator.showErrorDialog("error.recursive.relation");
-
                 this.eraseSourceFeedback();
-
                 return false;
             }
-
-            this.eraseSourceFeedback();
-            CreateRelationshipByExistingColumnsCommand endCommand = (CreateRelationshipByExistingColumnsCommand) this.getCommand();
-
+            eraseSourceFeedback();
+            final CreateRelationshipByExistingColumnsCommand endCommand = (CreateRelationshipByExistingColumnsCommand) this.getCommand();
             if (!endCommand.selectColumns()) {
                 return false;
             }
-
-            this.setCurrentCommand(endCommand);
-            this.executeCurrentCommand();
-
-        } catch (Exception e) {
+            setCurrentCommand(endCommand);
+            executeCurrentCommand();
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
-
         return true;
     }
-
 }

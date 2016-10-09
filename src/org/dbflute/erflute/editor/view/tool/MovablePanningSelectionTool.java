@@ -11,6 +11,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -20,6 +21,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class MovablePanningSelectionTool extends PanningSelectionTool {
 
     public static boolean shift = false;
@@ -58,7 +62,7 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
             diagram = (ERDiagram) model;
         }
         if (diagram != null) {
-            final List<?> selectedObject = this.getCurrentViewer().getSelectedEditParts();
+            final List<?> selectedObject = getCurrentViewer().getSelectedEditParts();
             if (!selectedObject.isEmpty()) {
                 final CompoundCommand command = new CompoundCommand();
                 for (final Object object : selectedObject) {
@@ -66,25 +70,34 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                         final NodeElementEditPart editPart = (NodeElementEditPart) object;
                         targetEditPart = editPart;
                         final NodeElement nodeElement = (NodeElement) editPart.getModel();
-                        final MoveElementCommand moveElementCommand =
-                                new MoveElementCommand(diagram, editPart.getFigure().getBounds(), nodeElement.getX() + dx,
-                                        nodeElement.getY() + dy, nodeElement.getWidth(), nodeElement.getHeight(), nodeElement);
-                        command.add(moveElementCommand);
+                        command.add(createMoveElementCommand(dx, dy, diagram, editPart, nodeElement));
                     }
                 }
-                this.getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
+                getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
             }
         }
         openDetailByKeyCode(event, targetEditPart);
         return super.handleKeyDown(event);
     }
 
+    private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram, final NodeElementEditPart editPart,
+            final NodeElement nodeElement) {
+        final Rectangle bounds = editPart.getFigure().getBounds();
+        final int width = nodeElement.getWidth();
+        final int height = nodeElement.getHeight();
+        return new MoveElementCommand(diagram, bounds, nodeElement.getX() + dx, nodeElement.getY() + dy, width, height, nodeElement);
+    }
+
     private void openDetailByKeyCode(KeyEvent event, NodeElementEditPart targetEditPart) {
-        if (targetEditPart != null && (event.keyCode == SWT.CR || event.keyCode == SWT.SPACE)) {
+        if (targetEditPart != null && isOpenDetailKeyCode(event)) {
             final Request request = new Request();
             request.setType(RequestConstants.REQ_OPEN);
             targetEditPart.performRequest(request);
         }
+    }
+
+    private boolean isOpenDetailKeyCode(KeyEvent event) {
+        return event.keyCode == SWT.CR || event.keyCode == SWT.SPACE;
     }
 
     @Override

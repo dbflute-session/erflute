@@ -177,7 +177,7 @@ public class WrittenColumnBuilder {
         }
         for (final Relationship relation : normalColumn.getRelationshipList()) {
             final String relationId = context.connectionMap.get(relation);
-            xml.append("\t<relation>").append(relationId).append("</relation>\n");
+            xml.append("\t<relationship>").append(relationId).append("</relationship>\n"); // #for_erflute rename to relationship
         }
     }
 
