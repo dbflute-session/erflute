@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
  */
 public abstract class Persistent {
 
-    private static Persistent persistent = new PersistentXml();
+    private static final Persistent persistent = new PersistentXml();
 
     public static Persistent getInstance() {
         return persistent;

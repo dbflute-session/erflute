@@ -2,52 +2,45 @@ package org.dbflute.erflute.editor.model.dbexport.ddl;
 
 import java.io.Serializable;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class DDLTarget implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 8212409392159961699L;
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    // default settings of DDL export here
     public boolean dropTablespace = false;
-
     public boolean dropSequence = false;
-
     public boolean dropTrigger = false;
-
     public boolean dropView = false;
-
     public boolean dropIndex = false;
-
     public boolean dropTable = false;
 
     public boolean createTablespace = true;
-
     public boolean createSequence = true;
-
     public boolean createTrigger = true;
-
     public boolean createView = true;
-
     public boolean createIndex = true;
-
     public boolean createTable = true;
-
     public boolean createForeignKey = true;
-
     public boolean createComment = true;
 
-    public boolean inlineTableComment = false;
-
-    public boolean inlineColumnComment = false;
-
     public boolean commentValueDescription = false;
-
     public boolean commentValueLogicalName = false;
+    public boolean commentValueLogicalNameDescription = true; // e.g. logical_name: description
 
-    public boolean commentValueLogicalNameDescription = true;
-
+    public boolean inlineTableComment = false;
+    public boolean inlineColumnComment = false;
     public boolean commentReplaceLineFeed = false;
-
     public String commentReplaceString;
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -56,7 +49,7 @@ public class DDLTarget implements Serializable, Cloneable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        DDLTarget other = (DDLTarget) obj;
+        final DDLTarget other = (DDLTarget) obj;
         if (commentReplaceLineFeed != other.commentReplaceLineFeed)
             return false;
         if (commentReplaceString == null) {
@@ -105,17 +98,12 @@ public class DDLTarget implements Serializable, Cloneable {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public DDLTarget clone() {
         try {
-            DDLTarget clone = (DDLTarget) super.clone();
-
+            final DDLTarget clone = (DDLTarget) super.clone();
             return clone;
-
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             return null;
         }
     }
