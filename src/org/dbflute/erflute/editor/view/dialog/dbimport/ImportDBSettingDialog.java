@@ -31,7 +31,7 @@ public class ImportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         this.setCurrentSetting();
 
         Connection con = null;

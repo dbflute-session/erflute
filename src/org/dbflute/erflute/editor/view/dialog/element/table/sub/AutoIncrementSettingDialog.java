@@ -58,7 +58,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String text = incrementText.getText();
 
         if (!text.equals("")) {
@@ -129,7 +129,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         this.result = new Sequence();
 
         Integer increment = null;

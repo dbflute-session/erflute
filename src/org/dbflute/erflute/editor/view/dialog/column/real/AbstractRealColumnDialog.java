@@ -17,6 +17,9 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
 
     protected Button notNullCheck;
@@ -96,14 +99,6 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
     }
 
     @Override
-    protected void perfomeOK() {
-        super.perfomeOK();
-        this.returnColumn =
-                new NormalColumn(returnWord, notNullCheck.getSelection(), false, uniqueKeyCheck.getSelection(), false,
-                        defaultText.getText(), constraintText.getText(), null, null, null);
-    }
-
-    @Override
     protected void setEnabledBySqlType() {
         super.setEnabledBySqlType();
         final SqlType selectedType = SqlType.valueOf(diagram.getDatabase(), typeCombo.getText());
@@ -119,5 +114,18 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
                 }
             }
         }
+    }
+
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
+    @Override
+    protected void performOK() {
+        super.performOK();
+        final boolean notNull = notNullCheck.getSelection();
+        final boolean uniqueKey = uniqueKeyCheck.getSelection();
+        final String defaultValue = defaultText.getText();
+        final String constraint = constraintText.getText();
+        returnColumn = new NormalColumn(returnWord, notNull, false, uniqueKey, false, defaultValue, constraint, null, null, null);
     }
 }

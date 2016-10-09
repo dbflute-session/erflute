@@ -290,7 +290,7 @@ public class ModelPropertiesDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         return null;
     }
 
@@ -298,7 +298,7 @@ public class ModelPropertiesDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
         this.modelProperties.clear();
 
         for (int i = 0; i < this.table.getItemCount(); i++) {

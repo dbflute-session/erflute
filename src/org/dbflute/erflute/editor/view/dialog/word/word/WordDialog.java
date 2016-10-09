@@ -29,17 +29,17 @@ public class WordDialog extends AbstractWordDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String text = logicalNameText.getText().trim();
         if (text.equals("")) {
             return "error.column.logical.name.empty";
         }
 
-        return super.getErrorMessage();
+        return super.doValidate();
     }
 
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
         String text = lengthText.getText();
         Integer length = null;
         if (!text.equals("")) {

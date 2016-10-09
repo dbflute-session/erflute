@@ -258,7 +258,7 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         if (this.groupNameText.getEnabled()) {
             String text = this.groupNameText.getText().trim();
 
@@ -274,7 +274,7 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
     }
 
     @Override

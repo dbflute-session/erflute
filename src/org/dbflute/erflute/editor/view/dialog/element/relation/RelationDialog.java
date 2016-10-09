@@ -324,7 +324,7 @@ public class RelationDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
         this.relation.setName(this.nameText.getText());
         this.relation.setOnDeleteAction(this.onDeleteCombo.getText());
         this.relation.setOnUpdateAction(this.onUpdateCombo.getText());
@@ -357,7 +357,7 @@ public class RelationDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String text = nameText.getText().trim();
         if (!Check.isAlphabet(text)) {
             return "error.constraint.name.not.alphabet";

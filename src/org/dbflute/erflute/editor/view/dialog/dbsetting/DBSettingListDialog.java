@@ -114,7 +114,7 @@ public class DBSettingListDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         int index = settingTable.getSelectionIndex();
         this.result = this.dbSettingList.get(index);
     }
@@ -181,7 +181,7 @@ public class DBSettingListDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         int index = settingTable.getSelectionIndex();
         if (index == -1) {
             return "dialog.message.load.db.setting";

@@ -219,7 +219,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         if (this.errorMessage == null) {
             this.calculate();
         }
@@ -232,7 +232,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
     }
 
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
     }
 
     @Override

@@ -94,7 +94,7 @@ public class JDBCPathDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String selectedDatabase = this.database;
         if (this.databaseCombo != null) {
             selectedDatabase = this.databaseCombo.getText();
@@ -116,7 +116,7 @@ public class JDBCPathDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         this.path = fileFieldEditor.getStringValue();
         this.driverClassName = this.driverClassNameText.getText();
         if (this.databaseCombo != null) {

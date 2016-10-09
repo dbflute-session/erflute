@@ -31,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ColumnDialog extends AbstractRealColumnDialog {
 
-    private final ERTable erTable;
+    private final ERTable table;
     private Sequence autoIncrementSetting;
     protected Button primaryKeyCheck;
     protected Text uniqueKeyNameText;
@@ -40,9 +40,9 @@ public class ColumnDialog extends AbstractRealColumnDialog {
     protected Button autoIncrementCheck;
     protected Button autoIncrementSettingButton;
 
-    public ColumnDialog(Shell parentShell, ERTable erTable) {
-        super(parentShell, erTable.getDiagram());
-        this.erTable = erTable;
+    public ColumnDialog(Shell parentShell, ERTable table) {
+        super(parentShell, table.getDiagram());
+        this.table = table;
     }
 
     @Override
@@ -121,7 +121,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
         } else {
             this.notNullCheck.setEnabled(true);
         }
-        final NormalColumn autoIncrementColumn = this.erTable.getAutoIncrementColumn();
+        final NormalColumn autoIncrementColumn = this.table.getAutoIncrementColumn();
         if (this.primaryKeyCheck.getSelection()) {
             if (autoIncrementColumn == null || autoIncrementColumn == targetColumn) {
                 this.enableAutoIncrement(true);
@@ -181,36 +181,6 @@ public class ColumnDialog extends AbstractRealColumnDialog {
     }
 
     @Override
-    protected void perfomeOK() {
-        super.perfomeOK();
-        this.returnColumn.setPrimaryKey(primaryKeyCheck.getSelection());
-        if (this.autoIncrementCheck != null) {
-            this.returnColumn.setAutoIncrement(this.autoIncrementCheck.getSelection());
-        }
-        this.returnColumn.setAutoIncrementSetting(this.autoIncrementSetting);
-        this.returnColumn.setUniqueKeyName(this.uniqueKeyNameText.getText());
-        if (this.characterSetCombo != null) {
-            this.returnColumn.setCharacterSet(this.characterSetCombo.getText());
-            this.returnColumn.setCollation(this.collationCombo.getText());
-        }
-    }
-
-    @Override
-    protected String getErrorMessage() {
-        if (this.autoIncrementCheck != null && this.autoIncrementCheck.getSelection()) {
-            final SqlType selectedType = SqlType.valueOf(this.diagram.getDatabase(), this.typeCombo.getText());
-            if (selectedType == null || !selectedType.isNumber()) {
-                return "error.no.auto.increment.column";
-            }
-        }
-        final String text = uniqueKeyNameText.getText().trim();
-        if (!Check.isAlphabet(text)) {
-            return "error.unique.key.name.not.alphabet";
-        }
-        return super.getErrorMessage();
-    }
-
-    @Override
     protected void addListener() {
         super.addListener();
         if (this.autoIncrementSettingButton != null) {
@@ -226,7 +196,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
                 }
             });
         }
-        final NormalColumn autoIncrementColumn = this.erTable.getAutoIncrementColumn();
+        final NormalColumn autoIncrementColumn = this.table.getAutoIncrementColumn();
         this.primaryKeyCheck.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -282,6 +252,46 @@ public class ColumnDialog extends AbstractRealColumnDialog {
             this.autoIncrementSetting = targetColumn.getAutoIncrementSetting();
         } else {
             this.autoIncrementSetting = new Sequence();
+        }
+    }
+
+    // ===================================================================================
+    //                                                                          Validation
+    //                                                                          ==========
+    @Override
+    protected String doValidate() {
+        final String superResult = super.doValidate();
+        if (superResult != null) {
+            return superResult;
+        }
+        if (autoIncrementCheck != null && autoIncrementCheck.getSelection()) {
+            final SqlType selectedType = SqlType.valueOf(this.diagram.getDatabase(), this.typeCombo.getText());
+            if (selectedType == null || !selectedType.isNumber()) {
+                return "error.no.auto.increment.column";
+            }
+        }
+        final String text = uniqueKeyNameText.getText().trim();
+        if (!Check.isAlphabet(text)) {
+            return "error.unique.key.name.not.alphabet";
+        }
+        return null;
+    }
+
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
+    @Override
+    protected void performOK() {
+        super.performOK();
+        this.returnColumn.setPrimaryKey(primaryKeyCheck.getSelection());
+        if (this.autoIncrementCheck != null) {
+            this.returnColumn.setAutoIncrement(this.autoIncrementCheck.getSelection());
+        }
+        this.returnColumn.setAutoIncrementSetting(this.autoIncrementSetting);
+        this.returnColumn.setUniqueKeyName(this.uniqueKeyNameText.getText());
+        if (this.characterSetCombo != null) {
+            this.returnColumn.setCharacterSet(this.characterSetCombo.getText());
+            this.returnColumn.setCollation(this.collationCombo.getText());
         }
     }
 }

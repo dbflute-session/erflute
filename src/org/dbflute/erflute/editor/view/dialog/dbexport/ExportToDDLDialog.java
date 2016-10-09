@@ -264,7 +264,7 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         if (isBlank(this.environmentCombo)) {
             return "error.tablespace.environment.empty";
         }
@@ -278,7 +278,7 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         final String saveFilePath = this.outputFileText.getFilePath();
 
         final DDLTarget ddlTarget = new DDLTarget();

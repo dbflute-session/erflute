@@ -236,7 +236,7 @@ public class PageSettingDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         this.pageSetting =
                 new PageSetting(this.hButton.getSelection(), this.scaleSpinner.getSelection(), this.sizeCombo.getText(),
                         this.topMarginSpinner.getSelection(), this.rightMarginSpinner.getSelection(),
@@ -262,7 +262,7 @@ public class PageSettingDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         return null;
     }
 

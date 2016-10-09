@@ -83,7 +83,7 @@ public class ViewDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         try {
             for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
                 tabWrapper.validatePage();
@@ -105,7 +105,7 @@ public class ViewDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
     }
 
     @Override

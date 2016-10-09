@@ -159,7 +159,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         DBManager manager = null;
 
         String database = this.getDBSName();

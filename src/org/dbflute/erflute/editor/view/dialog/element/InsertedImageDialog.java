@@ -51,7 +51,7 @@ public class InsertedImageDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         this.insertedImage.setHue(this.hueSpinner.getSelection());
         this.insertedImage.setSaturation(this.saturationSpinner.getSelection());
         this.insertedImage.setBrightness(this.brightnessSpinner.getSelection());
@@ -68,7 +68,7 @@ public class InsertedImageDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
         this.newInsertedImage = new InsertedImage();
         this.newInsertedImage.setHue(this.hueSpinner.getSelection());
         this.newInsertedImage.setSaturation(this.saturationSpinner.getSelection());

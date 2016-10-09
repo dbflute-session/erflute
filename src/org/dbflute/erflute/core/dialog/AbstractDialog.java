@@ -104,26 +104,6 @@ public abstract class AbstractDialog extends Dialog {
         }
     }
 
-    final public boolean validate() {
-        if (!this.initialized) {
-            return true;
-        }
-        final Button okButton = this.getButton(IDialogConstants.OK_ID);
-        if (okButton != null) {
-            okButton.setEnabled(false);
-        }
-        final String errorMessage = this.getErrorMessage();
-        if (errorMessage != null) {
-            this.setMessage(DisplayMessages.getMessage(errorMessage));
-            return false;
-        }
-        if (okButton != null && this.enabledOkButton) {
-            okButton.setEnabled(true);
-        }
-        this.setMessage(null);
-        return true;
-    }
-
     protected void setMessage(String errorMessage) {
         if (this.errorMessageText != null) {
             if (errorMessage == null) {
@@ -180,7 +160,7 @@ public abstract class AbstractDialog extends Dialog {
                 if (!validate()) {
                     return;
                 }
-                this.perfomeOK();
+                performOK();
                 setReturnCode(buttonId);
                 close();
             } catch (final InputException e) {
@@ -194,9 +174,29 @@ public abstract class AbstractDialog extends Dialog {
         super.buttonPressed(buttonId);
     }
 
-    abstract protected String getErrorMessage();
+    public final boolean validate() {
+        if (!this.initialized) {
+            return true;
+        }
+        final Button okButton = getButton(IDialogConstants.OK_ID);
+        if (okButton != null) {
+            okButton.setEnabled(false);
+        }
+        final String errorMessage = doValidate();
+        if (errorMessage != null) {
+            this.setMessage(DisplayMessages.getMessage(errorMessage));
+            return false;
+        }
+        if (okButton != null && this.enabledOkButton) {
+            okButton.setEnabled(true);
+        }
+        this.setMessage(null);
+        return true;
+    }
 
-    abstract protected void perfomeOK() throws InputException;
+    abstract protected String doValidate();
+
+    abstract protected void performOK() throws InputException;
 
     abstract protected String getTitle();
 

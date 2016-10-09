@@ -517,7 +517,7 @@ public class IndexDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
         String text = nameText.getText();
 
         this.resultIndex = new ERIndex(table, text, !this.uniqueCheckBox.getSelection(), this.typeCombo.getText(), null);
@@ -545,7 +545,7 @@ public class IndexDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String text = nameText.getText().trim();
 
         if (text.equals("")) {

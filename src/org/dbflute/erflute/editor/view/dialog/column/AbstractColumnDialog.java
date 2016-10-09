@@ -139,8 +139,24 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
     //    }
     //}
 
+    // #for_erflute not use word linkage
+    //@Override
+    //protected void addListener() {
+    //    super.addListener();
+    //    this.wordFilterText.addModifyListener(new ModifyListener() {
+    //        @Override
+    //        public void modifyText(ModifyEvent modifyevent) {
+    //            final String filterString = wordFilterText.getText();
+    //            initializeWordCombo(filterString);
+    //        }
+    //    });
+    //}
+
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
         String text = lengthText.getText();
         Integer length = null;
         if (!text.equals("")) {
@@ -198,20 +214,10 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
         returnWord = word;
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public NormalColumn getColumn() {
         return this.returnColumn;
     }
-
-    // #for_erflute not use word linkage
-    //@Override
-    //protected void addListener() {
-    //    super.addListener();
-    //    this.wordFilterText.addModifyListener(new ModifyListener() {
-    //        @Override
-    //        public void modifyText(ModifyEvent modifyevent) {
-    //            final String filterString = wordFilterText.getText();
-    //            initializeWordCombo(filterString);
-    //        }
-    //    });
-    //}
 }

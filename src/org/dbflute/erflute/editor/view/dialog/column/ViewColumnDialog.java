@@ -6,6 +6,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ViewColumnDialog extends AbstractColumnDialog {
 
     public ViewColumnDialog(Shell parentShell, ERView view) {
@@ -36,10 +39,12 @@ public class ViewColumnDialog extends AbstractColumnDialog {
         }
     }
 
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
     @Override
-    protected void perfomeOK() {
-        super.perfomeOK();
+    protected void performOK() {
+        super.performOK();
         this.returnColumn = new NormalColumn(this.returnWord, false, false, false, false, null, null, null, null, null);
     }
-
 }

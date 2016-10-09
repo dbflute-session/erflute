@@ -472,7 +472,7 @@ public class VGroupManageDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         validatePage();
     }
 
@@ -482,7 +482,7 @@ public class VGroupManageDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         return null;
     }
 

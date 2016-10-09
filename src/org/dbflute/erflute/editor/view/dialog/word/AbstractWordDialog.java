@@ -273,17 +273,17 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     }
 
     // ===================================================================================
-    //                                                                       Error Message
-    //                                                                       =============
+    //                                                                          Validation
+    //                                                                          ==========
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String text = physicalNameText.getText().trim();
         if (!Check.isAlphabet(text)) {
-            if (this.diagram.getDiagramContents().getSettings().isValidatePhysicalName()) {
+            if (diagram.getDiagramContents().getSettings().isValidatePhysicalName()) {
                 return "error.column.physical.name.not.alphabet";
             }
         }
-        final String logicalName = this.logicalNameText.getText().trim();
+        final String logicalName = logicalNameText.getText().trim();
         if (Check.isEmpty(text) && Check.isEmpty(logicalName)) {
             return "error.column.name.empty";
         }

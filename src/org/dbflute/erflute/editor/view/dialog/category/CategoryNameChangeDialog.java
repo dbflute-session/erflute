@@ -35,7 +35,7 @@ public class CategoryNameChangeDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CategoryNameChangeDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String text = categoryNameText.getText().trim();
 
         if ("".equals(text)) {

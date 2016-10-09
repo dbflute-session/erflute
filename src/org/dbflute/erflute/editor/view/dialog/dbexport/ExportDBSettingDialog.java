@@ -70,7 +70,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         if (this.settingAddButton != null) {
             this.settingAddButton.setEnabled(false);
         }
@@ -83,14 +83,14 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
             return "error.database.not.correct";
         }
 
-        return super.getErrorMessage();
+        return super.doValidate();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         this.setCurrentSetting();
 
         String db = this.getDBSName();

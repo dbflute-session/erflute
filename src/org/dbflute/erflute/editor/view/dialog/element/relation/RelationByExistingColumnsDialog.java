@@ -160,7 +160,7 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
         int index = this.columnCombo.getSelectionIndex();
 
         if (index < this.columnComboInfo.complexUniqueKeyStartIndex) {
@@ -206,7 +206,7 @@ public class RelationByExistingColumnsDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         Set<NormalColumn> selectedColumns = new HashSet<NormalColumn>();
 
         for (TableEditor tableEditor : this.tableEditorList) {

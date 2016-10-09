@@ -101,7 +101,7 @@ public class TableDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         try {
             for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
                 tabWrapper.validatePage();
@@ -123,7 +123,7 @@ public class TableDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         String physicalName = copyData.getPhysicalName();
         int prefixPos = physicalName.indexOf('_');
         if (prefixPos < 0) {
