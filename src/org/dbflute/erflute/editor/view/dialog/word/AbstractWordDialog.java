@@ -10,8 +10,6 @@ import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -251,14 +249,15 @@ public abstract class AbstractWordDialog extends AbstractDialog {
                 setEnabledBySqlType();
             }
         });
-        this.physicalNameText.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (logicalNameText.getText().equals("")) {
-                    logicalNameText.setText(physicalNameText.getText());
-                }
-            }
-        });
+        // #for_erflute quit physical name and logical name linkage
+        //this.physicalNameText.addFocusListener(new FocusAdapter() {
+        //    @Override
+        //    public void focusLost(FocusEvent e) {
+        //        if (logicalNameText.getText().equals("")) {
+        //            logicalNameText.setText(physicalNameText.getText());
+        //        }
+        //    }
+        //});
         this.physicalNameText.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
