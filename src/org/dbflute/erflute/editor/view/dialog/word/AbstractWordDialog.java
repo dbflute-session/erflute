@@ -27,7 +27,6 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     protected Combo typeCombo;
     protected Text logicalNameText;
     protected Text physicalNameText;
-    private String oldPhysicalName;
     protected Text lengthText;
     protected Text decimalText;
     protected Button arrayCheck;
@@ -41,7 +40,6 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     public AbstractWordDialog(Shell parentShell, ERDiagram diagram) {
         super(parentShell);
         this.diagram = diagram;
-        this.oldPhysicalName = "";
     }
 
     public void setAdd(boolean add) {
@@ -152,7 +150,6 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     protected void setData(String physicalName, String logicalName, SqlType sqlType, TypeData typeData, String description) {
         this.physicalNameText.setText(Format.toString(physicalName));
         this.logicalNameText.setText(Format.toString(logicalName));
-        this.oldPhysicalName = physicalNameText.getText();
         if (sqlType != null) {
             final String database = this.diagram.getDatabase();
             final String sqlTypeAlias = sqlType.getAlias(database);
@@ -202,40 +199,6 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     }
 
     // ===================================================================================
-    //                                                                         Set Enabled
-    //                                                                         ===========
-    protected void setEnabledBySqlType() {
-        final String database = diagram.getDatabase();
-        final SqlType selectedType = SqlType.valueOf(diagram.getDatabase(), typeCombo.getText());
-        if (selectedType != null) {
-            if (!selectedType.isNeedLength(diagram.getDatabase())) {
-                lengthText.setEnabled(false);
-            } else {
-                lengthText.setEnabled(true);
-            }
-            if (!selectedType.isNeedDecimal(database)) {
-                decimalText.setEnabled(false);
-            } else {
-                decimalText.setEnabled(true);
-            }
-            if (this.unsignedCheck != null) {
-                if (!selectedType.isNumber()) {
-                    unsignedCheck.setEnabled(false);
-                } else {
-                    unsignedCheck.setEnabled(true);
-                }
-            }
-            if (this.argsText != null) {
-                if (selectedType.doesNeedArgs()) {
-                    argsText.setEnabled(true);
-                } else {
-                    argsText.setEnabled(false);
-                }
-            }
-        }
-    }
-
-    // ===================================================================================
     //                                                                        Add Listener
     //                                                                        ============
     @Override
@@ -269,6 +232,37 @@ public abstract class AbstractWordDialog extends AbstractDialog {
         //});
     }
 
+    protected void setEnabledBySqlType() {
+        final String database = diagram.getDatabase();
+        final SqlType selectedType = SqlType.valueOf(diagram.getDatabase(), typeCombo.getText());
+        if (selectedType != null) {
+            if (!selectedType.isNeedLength(diagram.getDatabase())) {
+                lengthText.setEnabled(false);
+            } else {
+                lengthText.setEnabled(true);
+            }
+            if (!selectedType.isNeedDecimal(database)) {
+                decimalText.setEnabled(false);
+            } else {
+                decimalText.setEnabled(true);
+            }
+            if (this.unsignedCheck != null) {
+                if (!selectedType.isNumber()) {
+                    unsignedCheck.setEnabled(false);
+                } else {
+                    unsignedCheck.setEnabled(true);
+                }
+            }
+            if (this.argsText != null) {
+                if (selectedType.doesNeedArgs()) {
+                    argsText.setEnabled(true);
+                } else {
+                    argsText.setEnabled(false);
+                }
+            }
+        }
+    }
+
     // ===================================================================================
     //                                                                          Validation
     //                                                                          ==========
@@ -291,7 +285,6 @@ public abstract class AbstractWordDialog extends AbstractDialog {
                 if (len < 0) {
                     return "error.column.length.zero";
                 }
-
             } catch (final NumberFormatException e) {
                 return "error.column.length.degit";
             }
@@ -303,7 +296,6 @@ public abstract class AbstractWordDialog extends AbstractDialog {
                 if (len < 0) {
                     return "error.column.decimal.zero";
                 }
-
             } catch (final NumberFormatException e) {
                 return "error.column.decimal.degit";
             }
