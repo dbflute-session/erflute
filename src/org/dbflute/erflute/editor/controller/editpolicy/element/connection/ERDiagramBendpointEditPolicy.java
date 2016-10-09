@@ -2,9 +2,9 @@ package org.dbflute.erflute.editor.controller.editpolicy.element.connection;
 
 import java.util.List;
 
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.bendpoint.CreateBendpointCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.bendpoint.DeleteBendpointCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.bendpoint.MoveBendpointCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint.CreateBendpointCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint.DeleteBendpointCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint.MoveBendpointCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERModelEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;

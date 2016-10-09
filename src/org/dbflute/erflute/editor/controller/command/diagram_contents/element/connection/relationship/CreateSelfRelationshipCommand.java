@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
@@ -6,11 +6,11 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.eclipse.gef.EditPart;
 
-public class CreateSelfRelationCommand extends AbstractCreateRelationCommand {
+public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCommand {
 
     private Relationship relation;
 
-    public CreateSelfRelationCommand(Relationship relation) {
+    public CreateSelfRelationshipCommand(Relationship relation) {
         super();
         this.relation = relation;
     }

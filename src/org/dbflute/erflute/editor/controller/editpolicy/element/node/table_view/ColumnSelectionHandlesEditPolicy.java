@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.CreateRelationCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.DeleteRelationCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.CreateRelationshipByNewColumnCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.DeleteRelationshipCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.table_view.AddColumnGroupCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.table_view.AddWordCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.table_view.ChangeColumnOrderCommand;
@@ -244,7 +244,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 return null;
             }
 
-            final DeleteRelationCommand deleteOldRelationCommand = new DeleteRelationCommand(oldRelation, true);
+            final DeleteRelationshipCommand deleteOldRelationCommand = new DeleteRelationshipCommand(oldRelation, true);
             command.add(deleteOldRelationCommand);
 
             final Relationship newRelation =
@@ -294,7 +294,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 }
             }
 
-            final CreateRelationCommand createNewRelationCommand = new CreateRelationCommand(newRelation, oldForeignKeyColumnList);
+            final CreateRelationshipByNewColumnCommand createNewRelationCommand = new CreateRelationshipByNewColumnCommand(newRelation, oldForeignKeyColumnList);
 
             final EditPart sourceEditPart = (EditPart) viewer.getEditPartRegistry().get(referencedTableView);
             final EditPart targetEditPart = (EditPart) viewer.getEditPartRegistry().get(newTableView);

@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.tool;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.CreateRelationByExistingColumnsCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.CreateRelationshipByExistingColumnsCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.eclipse.gef.tools.ConnectionCreationTool;
@@ -14,7 +14,7 @@ public class RelationByExistingColumnsCreationTool extends ConnectionCreationToo
     @Override
     protected boolean handleCreateConnection() {
         try {
-            CreateRelationByExistingColumnsCommand command = (CreateRelationByExistingColumnsCommand) this.getCommand();
+            CreateRelationshipByExistingColumnsCommand command = (CreateRelationshipByExistingColumnsCommand) this.getCommand();
 
             if (command == null) {
                 return false;
@@ -32,7 +32,7 @@ public class RelationByExistingColumnsCreationTool extends ConnectionCreationToo
             }
 
             this.eraseSourceFeedback();
-            CreateRelationByExistingColumnsCommand endCommand = (CreateRelationByExistingColumnsCommand) this.getCommand();
+            CreateRelationshipByExistingColumnsCommand endCommand = (CreateRelationshipByExistingColumnsCommand) this.getCommand();
 
             if (!endCommand.selectColumns()) {
                 return false;

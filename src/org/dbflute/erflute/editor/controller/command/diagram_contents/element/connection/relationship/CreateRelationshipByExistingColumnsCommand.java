@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ import org.eclipse.ui.PlatformUI;
  * @author who?
  * @author jflute
  */
-public class CreateRelationByExistingColumnsCommand extends AbstractCreateRelationCommand {
+public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRelationshipCommand {
 
     private Relationship relation;
 
@@ -35,7 +35,7 @@ public class CreateRelationByExistingColumnsCommand extends AbstractCreateRelati
 
     private List<Word> wordList;
 
-    public CreateRelationByExistingColumnsCommand() {
+    public CreateRelationshipByExistingColumnsCommand() {
         super();
         this.wordList = new ArrayList<Word>();
     }

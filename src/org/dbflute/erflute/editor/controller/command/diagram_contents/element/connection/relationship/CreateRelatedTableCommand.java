@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 
-public class CreateRelatedTableCommand extends AbstractCreateRelationCommand {
+public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand {
 
     private Relationship relation1;
 

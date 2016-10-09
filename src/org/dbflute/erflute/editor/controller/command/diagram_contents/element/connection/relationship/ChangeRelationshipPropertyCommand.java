@@ -1,10 +1,10 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 
-public class ChangeRelationPropertyCommand extends AbstractCommand {
+public class ChangeRelationshipPropertyCommand extends AbstractCommand {
 
     private Relationship oldCopyRelation;
 
@@ -14,7 +14,7 @@ public class ChangeRelationPropertyCommand extends AbstractCommand {
 
     private TableView oldTargetTable;
 
-    public ChangeRelationPropertyCommand(Relationship relation, Relationship newCopyRelation) {
+    public ChangeRelationshipPropertyCommand(Relationship relation, Relationship newCopyRelation) {
         this.relation = relation;
         this.oldCopyRelation = relation.copy();
         this.newCopyRelation = newCopyRelation;

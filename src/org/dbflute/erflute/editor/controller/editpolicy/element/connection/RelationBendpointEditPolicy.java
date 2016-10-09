@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.controller.editpolicy.element.connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.bendpoint.MoveRelationBendpointCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint.MoveRelationBendpointCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;

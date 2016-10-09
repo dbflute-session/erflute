@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.eclipse.swt.SWT;
 
-public class DeleteRelationCommand extends DeleteConnectionCommand {
+public class DeleteRelationshipCommand extends DeleteConnectionCommand {
 
     private TableView oldTargetCopyTable;
 
@@ -27,7 +27,7 @@ public class DeleteRelationCommand extends DeleteConnectionCommand {
 
     private Map<NormalColumn, NormalColumn> referencedColumnMap;
 
-    public DeleteRelationCommand(Relationship relation, Boolean removeForeignKey) {
+    public DeleteRelationshipCommand(Relationship relation, Boolean removeForeignKey) {
         super(relation);
 
         this.relation = relation;

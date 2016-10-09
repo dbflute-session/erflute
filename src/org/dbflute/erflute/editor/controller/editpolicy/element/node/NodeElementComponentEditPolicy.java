@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.DeleteConnectionCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.DeleteRelationCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.DeleteRelationshipCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.DeleteElementCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.category.DeleteCategoryCommand;
 import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
@@ -74,7 +74,7 @@ public class NodeElementComponentEditPolicy extends ComponentEditPolicy {
             if (virtualTable == null) {
                 for (ConnectionElement connection : element.getIncomings()) {
                     if (connection instanceof Relationship) {
-                        command.add(new DeleteRelationCommand((Relationship) connection, true));
+                        command.add(new DeleteRelationshipCommand((Relationship) connection, true));
 
                     } else {
                         command.add(new DeleteConnectionCommand(connection));
@@ -87,7 +87,7 @@ public class NodeElementComponentEditPolicy extends ComponentEditPolicy {
 
                     if (!targets.contains(target)) {
                         if (connection instanceof Relationship) {
-                            command.add(new DeleteRelationCommand((Relationship) connection, true));
+                            command.add(new DeleteRelationshipCommand((Relationship) connection, true));
                         } else {
                             command.add(new DeleteConnectionCommand(connection));
                         }

@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.bendpoint;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;

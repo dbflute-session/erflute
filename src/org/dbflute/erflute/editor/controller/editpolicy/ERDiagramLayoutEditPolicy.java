@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.command.common.NothingToDoCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.bendpoint.MoveBendpointCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint.MoveBendpointCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.CreateElementCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveVGroupCommand;

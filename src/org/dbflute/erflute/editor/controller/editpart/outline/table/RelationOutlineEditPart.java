@@ -5,7 +5,7 @@ import java.beans.PropertyChangeEvent;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.core.util.Format;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.ChangeRelationPropertyCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.ChangeRelationshipPropertyCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.connection.RelationEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -95,7 +95,7 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
             RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(relation, copy);
+                ChangeRelationshipPropertyCommand command = new ChangeRelationshipPropertyCommand(relation, copy);
                 this.execute(command);
             }
         }

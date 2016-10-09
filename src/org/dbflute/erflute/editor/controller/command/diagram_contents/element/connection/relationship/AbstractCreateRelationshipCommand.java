@@ -1,11 +1,11 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.AbstractCreateConnectionCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 
-public abstract class AbstractCreateRelationCommand extends AbstractCreateConnectionCommand {
+public abstract class AbstractCreateRelationshipCommand extends AbstractCreateConnectionCommand {
 
     /**
      * {@inheritDoc}

@@ -4,13 +4,13 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.AbstractCreateConnectionCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.CreateCommentConnectionCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.CreateConnectionCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.AbstractCreateRelationCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.CreateRelatedTableCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.CreateRelationByExistingColumnsCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.CreateRelationCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.CreateSelfRelationCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.ReconnectSourceCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.ReconnectTargetCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.AbstractCreateRelationshipCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.CreateRelatedTableCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.CreateRelationshipByExistingColumnsCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.CreateRelationshipByNewColumnCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.CreateSelfRelationshipCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.ReconnectSourceCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.ReconnectTargetCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
@@ -42,7 +42,7 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
 
         NodeElementEditPart targetEditPart = (NodeElementEditPart) request.getTargetEditPart();
 
-        if (command instanceof AbstractCreateRelationCommand) {
+        if (command instanceof AbstractCreateRelationshipCommand) {
             if (!(targetEditPart instanceof TableViewEditPart)) {
                 return null;
             }
@@ -97,7 +97,7 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
     private Command getRelationCreateCommand(CreateConnectionRequest request, Object object) {
         if (object instanceof Relationship) {
             Relationship relation = (Relationship) object;
-            CreateRelationCommand command = new CreateRelationCommand(relation);
+            CreateRelationshipByNewColumnCommand command = new CreateRelationshipByNewColumnCommand(relation);
 
             EditPart source = request.getTargetEditPart();
             command.setSource(source);
@@ -133,7 +133,7 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
             ERTableEditPart sourceEditPart = (ERTableEditPart) request.getTargetEditPart();
             ERTable sourceTable = (ERTable) sourceEditPart.getModel();
 
-            CreateSelfRelationCommand command = new CreateSelfRelationCommand(sourceTable.createRelation());
+            CreateSelfRelationshipCommand command = new CreateSelfRelationshipCommand(sourceTable.createRelation());
 
             command.setSource(sourceEditPart);
 
@@ -142,7 +142,7 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
             return command;
 
         } else if (object instanceof RelationByExistingColumns) {
-            CreateRelationByExistingColumnsCommand command = new CreateRelationByExistingColumnsCommand();
+            CreateRelationshipByExistingColumnsCommand command = new CreateRelationshipByExistingColumnsCommand();
 
             EditPart source = request.getTargetEditPart();
             command.setSource(source);

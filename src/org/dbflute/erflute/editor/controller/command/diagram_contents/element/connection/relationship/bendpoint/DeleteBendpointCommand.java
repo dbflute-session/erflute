@@ -1,23 +1,19 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.bendpoint;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 
-public class CreateBendpointCommand extends AbstractCommand {
+public class DeleteBendpointCommand extends AbstractCommand {
 
     private ConnectionElement connection;
 
-    int x;
-
-    int y;
+    private Bendpoint oldBendpoint;
 
     private int index;
 
-    public CreateBendpointCommand(ConnectionElement connection, int x, int y, int index) {
+    public DeleteBendpointCommand(ConnectionElement connection, int index) {
         this.connection = connection;
-        this.x = x;
-        this.y = y;
         this.index = index;
     }
 
@@ -26,8 +22,8 @@ public class CreateBendpointCommand extends AbstractCommand {
      */
     @Override
     protected void doExecute() {
-        Bendpoint bendpoint = new Bendpoint(this.x, this.y);
-        connection.addBendpoint(index, bendpoint);
+        this.oldBendpoint = this.connection.getBendpoints().get(index);
+        this.connection.removeBendpoint(index);
     }
 
     /**
@@ -35,6 +31,6 @@ public class CreateBendpointCommand extends AbstractCommand {
      */
     @Override
     protected void doUndo() {
-        connection.removeBendpoint(index);
+        this.connection.addBendpoint(index, oldBendpoint);
     }
 }

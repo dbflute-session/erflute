@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.Format;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.ChangeRelationPropertyCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.ChangeRelationshipPropertyCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.connection.RelationBendpointEditPolicy;
@@ -186,7 +186,7 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
             RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(relation, copy);
+                ChangeRelationshipPropertyCommand command = new ChangeRelationshipPropertyCommand(relation, copy);
                 this.getViewer().getEditDomain().getCommandStack().execute(command);
             }
         }

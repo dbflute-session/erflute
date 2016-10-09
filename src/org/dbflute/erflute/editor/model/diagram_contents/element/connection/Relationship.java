@@ -264,6 +264,8 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyName)) { // e.g. FK_MEMBER_MEMBER_STATUS
             return foreignKeyName; // should be unique
         } else { // when no name FK
+            // *cannot use when no name multiple FK
+            // FK constraint name is required as possible
             final String pk = referenceForPK ? "PK" : "UQ"; // to be unique
             return target + "::" + source + "::" + pk;
         }
