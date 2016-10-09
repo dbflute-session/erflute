@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname.DefaultForeignKeyNameProvider;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
@@ -95,11 +95,11 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
                     referencedMap.put(rootReferencedColumn, foreignKeyList);
                 }
                 foreignKeyList.add(normalColumn);
-                for (final Relationship relation : normalColumn.getRelationshipList()) {
-                    Set<NormalColumn> foreignKeySet = foreignKeySetMap.get(relation);
+                for (final Relationship relationship : normalColumn.getRelationshipList()) {
+                    Set<NormalColumn> foreignKeySet = foreignKeySetMap.get(relationship);
                     if (foreignKeySet == null) {
                         foreignKeySet = new HashSet<NormalColumn>();
-                        foreignKeySetMap.put(relation, foreignKeySet);
+                        foreignKeySetMap.put(relationship, foreignKeySet);
                     }
                     foreignKeySet.add(normalColumn);
                 }
@@ -121,7 +121,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         if (dialog.open() == IDialogConstants.OK_ID) {
             this.relationship =
                     new Relationship(dialog.isReferenceForPK(), dialog.getReferencedComplexUniqueKey(), dialog.getReferencedColumn());
-            final String defaultName = prepareDefaultFKConstraintName(sourceTable, targetTable);
+            final String defaultName = provideDefaultForeignKeyName(sourceTable, targetTable);
             if (defaultName != null) {
                 this.relationship.setForeignKeyName(defaultName);
             }
@@ -133,25 +133,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         return true;
     }
 
-    protected String prepareDefaultFKConstraintName(ERTable sourceTable, TableView targetTable) {
-        // MySQL only for now for quick implementation (2014/10/23)
-        if (isDatabaseMySQL(targetTable)) {
-            final String standardName = buildStandardFKConstraintName(sourceTable, targetTable);
-            final int limitLength = 64; // where do I define it?
-            return cutName(standardName, limitLength);
-        }
-        return null;
-    }
-
-    protected boolean isDatabaseMySQL(TableView targetTable) {
-        return MySQLDBManager.ID.equals(targetTable.getDiagram().getDatabase()); // for now
-    }
-
-    protected String buildStandardFKConstraintName(ERTable sourceTable, TableView targetTable) {
-        return "FK_" + targetTable.getPhysicalName() + "_" + sourceTable.getPhysicalName();
-    }
-
-    protected String cutName(final String name, int limitLength) {
-        return name.length() > limitLength ? name.substring(0, limitLength) : name;
+    private String provideDefaultForeignKeyName(ERTable sourceTable, TableView targetTable) {
+        return new DefaultForeignKeyNameProvider().provide(sourceTable, targetTable);
     }
 }

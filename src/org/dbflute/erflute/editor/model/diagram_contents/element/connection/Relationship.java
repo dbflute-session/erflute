@@ -307,8 +307,8 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         return foreignKeyName;
     }
 
-    public void setForeignKeyName(String foreignKey) {
-        this.foreignKeyName = foreignKey;
+    public void setForeignKeyName(String foreignKeyName) {
+        this.foreignKeyName = foreignKeyName;
     }
 
     public String getOnDeleteAction() {

@@ -2,6 +2,7 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.c
 
 import java.util.List;
 
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname.DefaultForeignKeyNameProvider;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
@@ -27,21 +28,29 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
     @Override
     protected void doExecute() {
         ERDiagramEditPart.setUpdateable(false);
-        this.relationship.setSource((TableView) source.getModel());
+        final TableView sourceTable = (TableView) source.getModel();
+        final TableView targetTable = (TableView) target.getModel();
+        relationship.setSource(sourceTable);
         ERDiagramEditPart.setUpdateable(true);
-        this.relationship.setTargetTableView((TableView) target.getModel(), this.foreignKeyColumnList);
-        if (this.relationship.getSource() instanceof ERTable || this.relationship.getTarget() instanceof ERTable) {
+        relationship.setTargetTableView(targetTable, this.foreignKeyColumnList);
+        if (relationship.getSource() instanceof ERTable || relationship.getTarget() instanceof ERTable) {
             final ERModelSet modelSet = this.relationship.getSource().getDiagram().getDiagramContents().getModelSet();
             modelSet.createRelation(relationship);
         }
+        final String foreignKeyName = provideDefaultForeignKeyName(sourceTable, targetTable);
+        relationship.setForeignKeyName(foreignKeyName);
+    }
+
+    public String provideDefaultForeignKeyName(TableView sourceTable, TableView targetTable) {
+        return new DefaultForeignKeyNameProvider().provide(sourceTable, targetTable);
     }
 
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
-        this.relationship.setSource(null);
+        relationship.setSource(null);
         ERDiagramEditPart.setUpdateable(true);
-        this.relationship.setTargetTableView(null);
+        relationship.setTargetTableView(null);
         final TableView targetTable = (TableView) this.target.getModel();
         targetTable.setDirty();
     }

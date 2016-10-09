@@ -9,20 +9,22 @@ import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ErrorDialog;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 public class CreateElementCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private NodeElement element;
+    private final NodeElement element;
 
-    private List<NodeElement> enclosedElementList;
+    private final List<NodeElement> enclosedElementList;
 
     public CreateElementCommand(ERDiagram diagram, NodeElement element, int x, int y, Dimension size, List<NodeElement> enclosedElementList) {
         this.diagram = diagram;
@@ -35,12 +37,12 @@ public class CreateElementCommand extends AbstractCommand {
         }
 
         if (element instanceof ERTable) {
-            ERTable table = (ERTable) element;
+            final ERTable table = (ERTable) element;
             table.setLogicalName(ERTable.NEW_LOGICAL_NAME);
             table.setPhysicalName(ERTable.NEW_PHYSICAL_NAME);
 
         } else if (element instanceof ERView) {
-            ERView view = (ERView) element;
+            final ERView view = (ERView) element;
             view.setLogicalName(ERView.NEW_LOGICAL_NAME);
             view.setPhysicalName(ERView.NEW_PHYSICAL_NAME);
         }
@@ -48,31 +50,29 @@ public class CreateElementCommand extends AbstractCommand {
         this.enclosedElementList = enclosedElementList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
+        final ERModel currentErmodel = diagram.getCurrentErmodel();
         if (element instanceof VGroup) {
-            VGroup group = (VGroup) this.element;
+            final VGroup group = (VGroup) this.element;
             group.setName(DisplayMessages.getMessage("label.vgroup"));
-            group.setContents(this.enclosedElementList);
-            if (diagram.getCurrentErmodel() != null) {
-                diagram.getCurrentErmodel().addGroup(group);
+            group.setContents(enclosedElementList);
+            if (currentErmodel != null) {
+                currentErmodel.addGroup(group);
             } else {
-                ErrorDialog dialog =
-                        new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "�S�̃r���[�ɃO���[�v�͐ݒ�ł��܂���B");
+                final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                final String message = "Cannot use group at real model (use at virtual model)";
+                final ErrorDialog dialog = new ErrorDialog(shell, message);
                 dialog.open();
             }
         } else {
-            if (diagram.getCurrentErmodel() != null) {
-                diagram.getCurrentErmodel().addNewContent(this.element);
+            if (currentErmodel != null) {
+                currentErmodel.addNewContent(this.element);
                 ERModelUtil.refreshDiagram(diagram, element);
             } else {
                 this.diagram.addNewContent(this.element);
             }
         }
-
         //		if (!(this.element instanceof VGroup)) {
         //		} else {
         //			VGroup group = (VGroup) this.element;
@@ -80,19 +80,15 @@ public class CreateElementCommand extends AbstractCommand {
         //			group.setContents(this.enclosedElementList);
         //			this.diagram.addGroup(group);
         //		}
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         if (!(this.element instanceof Category)) {
             this.diagram.removeContent(this.element);
 
         } else {
-            Category category = (Category) this.element;
+            final Category category = (Category) this.element;
             category.getContents().clear();
             this.diagram.removeCategory(category);
         }

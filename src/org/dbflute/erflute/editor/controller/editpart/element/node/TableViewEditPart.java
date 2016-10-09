@@ -48,22 +48,18 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
     private Font titleFont;
 
     @Override
-    protected List getModelChildren() {
+    protected List<Object> getModelChildren() {
         final List<Object> modelChildren = new ArrayList<Object>();
-
         final TableView tableView = (TableView) this.getModel();
-
         final ERDiagram diagram = this.getDiagram();
         if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {
             modelChildren.addAll(tableView.getExpandedColumns());
         } else {
             modelChildren.addAll(tableView.getColumns());
         }
-
         if (tableView instanceof ERTable) {
             modelChildren.addAll(((ERTable) tableView).getIndexes());
         }
-
         return modelChildren;
     }
 
@@ -73,12 +69,10 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             refreshVisuals();
         } else if (event.getPropertyName().equals(TableView.PROPERTY_CHANGE_LOGICAL_NAME)) {
             refreshVisuals();
-
         } else if (event.getPropertyName().equals(TableView.PROPERTY_CHANGE_COLUMNS)) {
             this.refreshChildren();
             refreshVisuals();
         }
-
         super.doPropertyChange(event);
         this.refreshConnections();
     }
