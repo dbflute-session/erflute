@@ -75,12 +75,16 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                 this.getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
             }
         }
-        if (event.keyCode == SWT.CR && targetEditPart != null) {
+        openDetailByKeyCode(event, targetEditPart);
+        return super.handleKeyDown(event);
+    }
+
+    private void openDetailByKeyCode(KeyEvent event, NodeElementEditPart targetEditPart) {
+        if (targetEditPart != null && (event.keyCode == SWT.CR || event.keyCode == SWT.SPACE)) {
             final Request request = new Request();
             request.setType(RequestConstants.REQ_OPEN);
             targetEditPart.performRequest(request);
         }
-        return super.handleKeyDown(event);
     }
 
     @Override

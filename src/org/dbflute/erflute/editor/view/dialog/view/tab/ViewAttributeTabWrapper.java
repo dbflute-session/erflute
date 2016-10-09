@@ -283,9 +283,16 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
     @Override
     public void validatePage() throws InputException {
         final String physicalName = physicalNameText.getText().trim();
+        if (physicalName.isEmpty()) {
+            throw new InputException("error.view.physical.name.not.alphabet");
+        }
+        final String defaultPhysicalName = DisplayMessages.getMessage("new.view.physical.name");
+        if (defaultPhysicalName.equalsIgnoreCase(physicalName)) {
+            throw new InputException("error.view.physical.name.empty");
+        }
         if (!Check.isAlphabet(physicalName)) {
             if (view.getDiagram().getDiagramContents().getSettings().isValidatePhysicalName()) {
-                throw new InputException("error.table.physical.name.not.alphabet");
+                throw new InputException("error.view.physical.name.not.alphabet");
             }
         }
         final List<TableView> tableViewList = view.getDiagram().getDiagramContents().getContents().getTableViewList();
@@ -293,7 +300,7 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
             final String currentName = tableView.getPhysicalName();
             if (previousPhysicalName != null && !previousPhysicalName.equalsIgnoreCase(currentName)) { // other tables
                 if (currentName.equalsIgnoreCase(physicalName)) {
-                    throw new InputException("error.table.physical.name.already.exists");
+                    throw new InputException("error.view.physical.name.already.exists");
                 }
             }
         }
