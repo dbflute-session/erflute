@@ -105,9 +105,6 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         firePropertyChange("target", null, target);
     }
 
-    // ===================================================================================
-    //                                                                           FK Column
-    //                                                                           =========
     private NormalColumn createForeiKeyColumn(NormalColumn referencedColumn, List<NormalColumn> foreignKeyColumnList, int index) {
         final NormalColumn foreignKeyColumn = new NormalColumn(referencedColumn, referencedColumn, this, false);
         if (foreignKeyColumnList != null) {
@@ -117,6 +114,9 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         return foreignKeyColumn;
     }
 
+    // ===================================================================================
+    //                                                                           FK Column
+    //                                                                           =========
     public void setTargetWithoutForeignKey(TableView target) {
         super.setTarget(target);
     }
@@ -251,23 +251,33 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
     }
 
     public String buildRelationshipId() { // for complete state e.g. when writing
-        final TableView sourceTableView = getSourceTableView();
         final TableView targetTableView = getTargetTableView();
-        return doBuildRelationshipId(sourceTableView.buildTableViewId(), targetTableView.buildTableViewId());
+        final List<NormalColumn> foreignKeyColumns = getForeignKeyColumns();
+        final List<String> physicalColumnNameList = new ArrayList<String>();
+        for (final NormalColumn column : foreignKeyColumns) {
+            physicalColumnNameList.add(column.getPhysicalName());
+        }
+        return doBuildRelationshipId(targetTableView.getPhysicalName(), physicalColumnNameList);
     }
 
-    public String buildRelationshipId(String source, String target) { // for making state e.g. when reading
-        return doBuildRelationshipId(source, target);
+    public String buildRelationshipId(String tableName, List<String> physicalColumnNameList) { // for making state e.g. when reading
+        return doBuildRelationshipId(tableName, physicalColumnNameList);
     }
 
-    private String doBuildRelationshipId(String source, String target) {
+    private String doBuildRelationshipId(String tableName, List<String> physicalColumnNameList) {
         if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyName)) { // e.g. FK_MEMBER_MEMBER_STATUS
             return foreignKeyName; // should be unique
         } else { // when no name FK
-            // *cannot use when no name multiple FK
-            // FK constraint name is required as possible
+            // while FK constraint name should be required as possible
             final String pk = referenceForPK ? "PK" : "UQ"; // to be unique
-            return target + "::" + source + "::" + pk;
+            final StringBuilder sb = new StringBuilder();
+            for (final String fkColumn : physicalColumnNameList) {
+                if (sb.length() > 0) {
+                    sb.append("/");
+                }
+                sb.append(fkColumn);
+            }
+            return tableName + "." + "[" + sb.toString() + "]." + pk;
         }
     }
 

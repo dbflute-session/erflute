@@ -1,5 +1,8 @@
 package org.dbflute.erflute.editor.persistent.xml.reader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
@@ -99,9 +102,8 @@ public class ReadNodeElementLoader {
         final String target = getStringValue(element, "target");
         String id = getStringValue(element, "id");
         if (Srl.is_Null_or_TrimmedEmpty(id)) {
-            if (nodeElement instanceof TableView && connection instanceof Relationship) {
-                // basically relationship's parent is table but just in case
-                id = ((Relationship) connection).buildRelationshipId(source, target); // #for_erflute
+            if (nodeElement instanceof TableView && connection instanceof Relationship) { // table determination just in case
+                id = buildRelationshipId((TableView) nodeElement, element, context, (Relationship) connection);
             } else {
                 id = "#error:unknownId_for_" + target + "_to_" + source;
             }
@@ -116,6 +118,18 @@ public class ReadNodeElementLoader {
             bendpoint.setRelative(getBooleanValue(bendPointElement, "relative"));
             connection.addBendpoint(i, bendpoint);
         }
+    }
+
+    private String buildRelationshipId(TableView tableView, Element element, LoadContext context, Relationship relationship) {
+        final String tableName = tableView.getPhysicalName();
+        final NodeList nodeList = element.getElementsByTagName("fk_columns");
+        final List<String> physicalColumnNameList = new ArrayList<String>();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            final Element columnElement = (Element) nodeList.item(i);
+            final String column = getStringValue(columnElement, "fk_column_name");
+            physicalColumnNameList.add(column);
+        }
+        return relationship.buildRelationshipId(tableName, physicalColumnNameList); // #for_erflute
     }
 
     // ===================================================================================

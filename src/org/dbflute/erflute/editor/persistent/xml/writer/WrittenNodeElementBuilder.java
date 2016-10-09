@@ -9,6 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Conn
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
@@ -164,6 +165,9 @@ public class WrittenNodeElementBuilder {
         for (final Bendpoint bendpoint : connection.getBendpoints()) {
             xml.append(buildBendPoint(bendpoint));
         }
+        if (connection instanceof Relationship) {
+            xml.append(buildFKColumns(((Relationship) connection))); // #for_erflute to build relation ID
+        }
         return xml.toString();
     }
 
@@ -174,6 +178,19 @@ public class WrittenNodeElementBuilder {
         xml.append("\t<x>").append(bendpoint.getX()).append("</x>\n");
         xml.append("\t<y>").append(bendpoint.getY()).append("</y>\n");
         xml.append("</bendpoint>\n");
+        return xml.toString();
+    }
+
+    private String buildFKColumns(Relationship relationship) {
+        final StringBuilder xml = new StringBuilder();
+        xml.append("<fk_columns>\n");
+        final List<NormalColumn> foreignKeyColumns = relationship.getForeignKeyColumns();
+        for (final NormalColumn column : foreignKeyColumns) {
+            xml.append("\t<fk_column>\n");
+            xml.append("\t\t<fk_column_name>").append(column.getPhysicalName()).append("</fk_column_name>\n");
+            xml.append("\t</fk_column>\n");
+        }
+        xml.append("</fk_columns>\n");
         return xml.toString();
     }
 
