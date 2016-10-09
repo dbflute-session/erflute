@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.persistent.xml.reader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,24 +50,24 @@ public class LoadContext {
     //                                                                         Constructor
     //                                                                         ===========
     public LoadContext(Dictionary dictionary) {
-        this.nodeElementMap = new HashMap<String, NodeElement>();
-        this.columnMap = new HashMap<String, NormalColumn>();
-        this.complexUniqueKeyMap = new HashMap<String, ComplexUniqueKey>();
-        this.columnRelationMap = new HashMap<NormalColumn, String[]>();
-        this.columnReferencedColumnMap = new HashMap<NormalColumn, String[]>();
-        this.ermodelMap = new HashMap<String, ERModel>();
-        this.columnGroupMap = new HashMap<String, ColumnGroup>();
-        this.referencedColumnMap = new HashMap<Relationship, String>();
-        this.referencedComplexUniqueKeyMap = new HashMap<Relationship, String>();
-        this.connectionMap = new HashMap<String, ConnectionElement>();
-        this.connectionSourceMap = new HashMap<ConnectionElement, String>();
-        this.connectionTargetMap = new HashMap<ConnectionElement, String>();
-        this.tablespaceMap = new HashMap<String, Tablespace>();
-        this.environmentMap = new HashMap<String, Environment>();
+        this.nodeElementMap = new LinkedHashMap<String, NodeElement>();
+        this.columnMap = new LinkedHashMap<String, NormalColumn>();
+        this.complexUniqueKeyMap = new LinkedHashMap<String, ComplexUniqueKey>();
+        this.columnRelationMap = new LinkedHashMap<NormalColumn, String[]>();
+        this.columnReferencedColumnMap = new LinkedHashMap<NormalColumn, String[]>();
+        this.ermodelMap = new LinkedHashMap<String, ERModel>();
+        this.columnGroupMap = new LinkedHashMap<String, ColumnGroup>();
+        this.referencedColumnMap = new LinkedHashMap<Relationship, String>();
+        this.referencedComplexUniqueKeyMap = new LinkedHashMap<Relationship, String>();
+        this.connectionMap = new LinkedHashMap<String, ConnectionElement>();
+        this.connectionSourceMap = new LinkedHashMap<ConnectionElement, String>();
+        this.connectionTargetMap = new LinkedHashMap<ConnectionElement, String>();
+        this.tablespaceMap = new LinkedHashMap<String, Tablespace>();
+        this.environmentMap = new LinkedHashMap<String, Environment>();
         this.dictionary = dictionary;
         this.dictionary.clear();
-        this.wordMap = new HashMap<String, Word>();
-        this.uniqueWordMap = new HashMap<UniqueWord, Word>();
+        this.wordMap = new LinkedHashMap<String, Word>();
+        this.uniqueWordMap = new LinkedHashMap<UniqueWord, Word>();
     }
 
     // ===================================================================================

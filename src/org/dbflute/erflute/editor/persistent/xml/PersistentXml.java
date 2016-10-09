@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,15 +35,15 @@ public class PersistentXml extends Persistent {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public class PersistentContext {
-        public final Map<NodeElement, String> nodeElementMap = new HashMap<NodeElement, String>();
-        public final Map<ConnectionElement, String> connectionMap = new HashMap<ConnectionElement, String>();
-        public final Map<ColumnGroup, Integer> columnGroupMap = new HashMap<ColumnGroup, Integer>();
-        public final Map<ERColumn, String> columnMap = new HashMap<ERColumn, String>(); // column = ID
-        public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, Integer>();
-        public final Map<Word, Integer> wordMap = new HashMap<Word, Integer>();
-        public final Map<Tablespace, Integer> tablespaceMap = new HashMap<Tablespace, Integer>();
-        public final Map<Environment, Integer> environmentMap = new HashMap<Environment, Integer>();
-        public final Map<ERModel, Integer> ermodelMap = new HashMap<ERModel, Integer>();
+        public final Map<NodeElement, String> nodeElementMap = new LinkedHashMap<NodeElement, String>();
+        public final Map<ConnectionElement, String> connectionMap = new LinkedHashMap<ConnectionElement, String>();
+        public final Map<ColumnGroup, Integer> columnGroupMap = new LinkedHashMap<ColumnGroup, Integer>();
+        public final Map<ERColumn, String> columnMap = new LinkedHashMap<ERColumn, String>(); // column = ID
+        public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new LinkedHashMap<ComplexUniqueKey, Integer>();
+        public final Map<Word, Integer> wordMap = new LinkedHashMap<Word, Integer>();
+        public final Map<Tablespace, Integer> tablespaceMap = new LinkedHashMap<Tablespace, Integer>();
+        public final Map<Environment, Integer> environmentMap = new LinkedHashMap<Environment, Integer>();
+        public final Map<ERModel, Integer> ermodelMap = new LinkedHashMap<ERModel, Integer>();
     }
 
     public PersistentContext getCurrentContext(ERDiagram diagram) { // called by writer
