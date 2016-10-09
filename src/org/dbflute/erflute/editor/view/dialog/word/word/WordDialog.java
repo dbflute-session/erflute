@@ -7,16 +7,22 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 import org.dbflute.erflute.editor.view.dialog.word.AbstractWordDialog;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class WordDialog extends AbstractWordDialog {
 
-    private Word targetWord;
-
+    private final Word targetWord;
     private Word returnWord;
 
     public WordDialog(Shell parentShell, Word targetWord, boolean add, ERDiagram diagram) {
         super(parentShell, diagram);
-
         this.targetWord = targetWord;
+    }
+
+    @Override
+    protected String getTitle() {
+        return "dialog.title.word";
     }
 
     @Override
@@ -25,78 +31,65 @@ public class WordDialog extends AbstractWordDialog {
                 this.targetWord.getTypeData(), this.targetWord.getDescription());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    // ===================================================================================
+    //                                                                          Validation
+    //                                                                          ==========
     @Override
     protected String doValidate() {
-        String text = logicalNameText.getText().trim();
-        if (text.equals("")) {
+        final String text = logicalNameText.getText().trim();
+        if (text.isEmpty()) {
             return "error.column.logical.name.empty";
         }
-
         return super.doValidate();
     }
 
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
     @Override
     protected void performOK() {
         String text = lengthText.getText();
         Integer length = null;
         if (!text.equals("")) {
-            int len = Integer.parseInt(text);
+            final int len = Integer.parseInt(text);
             length = new Integer(len);
         }
-
         text = decimalText.getText();
-
         Integer decimal = null;
         if (!text.equals("")) {
-            int len = Integer.parseInt(text);
+            final int len = Integer.parseInt(text);
             decimal = new Integer(len);
         }
-
         boolean array = false;
         Integer arrayDimension = null;
-
         if (this.arrayDimensionText != null) {
             text = arrayDimensionText.getText();
-
             if (!text.equals("")) {
-                int len = Integer.parseInt(text);
+                final int len = Integer.parseInt(text);
                 arrayDimension = new Integer(len);
             }
-
             array = this.arrayCheck.getSelection();
         }
-
         boolean unsigned = false;
-
         if (this.unsignedCheck != null) {
             unsigned = this.unsignedCheck.getSelection();
         }
-
         text = physicalNameText.getText();
-
-        String database = this.diagram.getDatabase();
-
-        SqlType selectedType = SqlType.valueOf(database, typeCombo.getText());
-
+        final String database = this.diagram.getDatabase();
+        final SqlType selectedType = SqlType.valueOf(database, typeCombo.getText());
         String args = null;
         if (this.argsText != null) {
             args = this.argsText.getText();
         }
-        TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
-
+        final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
         this.returnWord =
                 new Word(physicalNameText.getText(), logicalNameText.getText(), selectedType, typeData, descriptionText.getText(), database);
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public Word getWord() {
         return this.returnWord;
-    }
-
-    @Override
-    protected String getTitle() {
-        return "dialog.title.word";
     }
 }

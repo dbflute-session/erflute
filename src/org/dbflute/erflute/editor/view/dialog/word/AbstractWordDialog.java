@@ -268,20 +268,19 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     //                                                                          ==========
     @Override
     protected String doValidate() {
-        String text = physicalNameText.getText().trim();
-        if (!Check.isAlphabet(text)) {
+        final String physicalName = physicalNameText.getText().trim();
+        if (physicalName.isEmpty()) { // required
+            return "error.column.physical.name.empty";
+        }
+        if (!Check.isAlphabet(physicalName)) {
             if (diagram.getDiagramContents().getSettings().isValidatePhysicalName()) {
                 return "error.column.physical.name.not.alphabet";
             }
         }
-        final String logicalName = logicalNameText.getText().trim();
-        if (Check.isEmpty(text) && Check.isEmpty(logicalName)) {
-            return "error.column.name.empty";
-        }
-        text = lengthText.getText();
-        if (!text.equals("")) {
+        final String length = lengthText.getText();
+        if (!length.equals("")) {
             try {
-                final int len = Integer.parseInt(text);
+                final int len = Integer.parseInt(length);
                 if (len < 0) {
                     return "error.column.length.zero";
                 }
@@ -289,10 +288,10 @@ public abstract class AbstractWordDialog extends AbstractDialog {
                 return "error.column.length.degit";
             }
         }
-        text = decimalText.getText();
-        if (!text.equals("")) {
+        final String decimal = decimalText.getText();
+        if (!decimal.equals("")) {
             try {
-                final int len = Integer.parseInt(text);
+                final int len = Integer.parseInt(decimal);
                 if (len < 0) {
                     return "error.column.decimal.zero";
                 }
@@ -301,10 +300,10 @@ public abstract class AbstractWordDialog extends AbstractDialog {
             }
         }
         if (arrayDimensionText != null) {
-            text = arrayDimensionText.getText();
-            if (!text.equals("")) {
+            final String arrayDimension = arrayDimensionText.getText();
+            if (!arrayDimension.equals("")) {
                 try {
-                    final int len = Integer.parseInt(text);
+                    final int len = Integer.parseInt(arrayDimension);
                     if (len < 1) {
                         return "error.column.array.dimension.one";
                     }
@@ -319,9 +318,9 @@ public abstract class AbstractWordDialog extends AbstractDialog {
         }
         final SqlType selectedType = SqlType.valueOf(diagram.getDatabase(), typeCombo.getText());
         if (selectedType != null && this.argsText != null) {
-            text = argsText.getText();
+            final String args = argsText.getText();
             if (selectedType.doesNeedArgs()) {
-                if (text.equals("")) {
+                if (args.equals("")) {
                     return "error.column.type.enum.set";
                 }
             }

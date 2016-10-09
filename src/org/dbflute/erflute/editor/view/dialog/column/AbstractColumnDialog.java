@@ -23,7 +23,7 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
     // #for_erflute not use word linkage
     //protected Combo wordCombo;
     //protected Text wordFilterText;
-    protected CopyColumn targetColumn;
+    protected CopyColumn targetColumn; // not null when edit, null allowed when add
     protected NormalColumn returnColumn;
     protected Word returnWord;
     protected List<Word> wordList;

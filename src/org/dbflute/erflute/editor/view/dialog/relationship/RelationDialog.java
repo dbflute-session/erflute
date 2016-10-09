@@ -22,71 +22,60 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class RelationDialog extends AbstractDialog {
 
-    private Relationship relation;
-
+    private final Relationship relation;
     private Text nameText;
-
     private Text parentTableNameText;
-
     private Combo columnCombo;
-
     private Combo parentCardinalityCombo;
-
     private Combo childCardinalityCombo;
-
     private Combo onUpdateCombo;
-
     private Combo onDeleteCombo;
-
     private ColumnComboInfo columnComboInfo;
 
     public RelationDialog(Shell parentShell, Relationship relation) {
         super(parentShell, 2);
-
         this.relation = relation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initialize(Composite composite) {
         CompositeFactory.createLabel(composite, "label.constraint.name", 2);
         this.nameText = CompositeFactory.createText(this, composite, null, 2, false);
-
         createMethodGroup(composite);
-
-        int size = createParentGroup(composite);
+        final int size = createParentGroup(composite);
         createChildGroup(composite, size);
     }
 
     private void createMethodGroup(Composite composite) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.grabExcessHorizontalSpace = true;
         gridData.horizontalSpan = 2;
         gridData.horizontalAlignment = GridData.FILL;
 
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gridData);
         group.setLayout(gridLayout);
         group.setText(DisplayMessages.getMessage("label.reference.operation"));
 
-        Label label1 = new Label(group, SWT.NONE);
+        final Label label1 = new Label(group, SWT.NONE);
         label1.setText("ON UPDATE");
         createOnUpdateCombo(group);
 
-        Label label2 = new Label(group, SWT.NONE);
+        final Label label2 = new Label(group, SWT.NONE);
         label2.setText("ON DELETE");
         createOnDeleteCombo(group);
     }
 
     private void createOnUpdateCombo(Group group) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
@@ -101,7 +90,7 @@ public class RelationDialog extends AbstractDialog {
     }
 
     private void createOnDeleteCombo(Group group) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
@@ -116,29 +105,29 @@ public class RelationDialog extends AbstractDialog {
     }
 
     private int createParentGroup(Composite composite) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.verticalSpacing = 10;
         gridLayout.marginHeight = 10;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gridData);
         group.setLayout(gridLayout);
         group.setText(DisplayMessages.getMessage("label.parent"));
 
-        Composite upperComposite = new Composite(group, SWT.NONE);
+        final Composite upperComposite = new Composite(group, SWT.NONE);
         upperComposite.setLayoutData(gridData);
         upperComposite.setLayout(gridLayout);
 
-        Label label1 = new Label(upperComposite, SWT.NONE);
+        final Label label1 = new Label(upperComposite, SWT.NONE);
         label1.setText(DisplayMessages.getMessage("label.reference.table"));
         parentTableNameText = new Text(upperComposite, SWT.BORDER | SWT.READ_ONLY);
         parentTableNameText.setLayoutData(gridData);
 
-        Label label2 = new Label(upperComposite, SWT.NONE);
+        final Label label2 = new Label(upperComposite, SWT.NONE);
         label2.setText(DisplayMessages.getMessage("label.reference.column"));
         this.createColumnCombo(upperComposite);
 
@@ -154,23 +143,23 @@ public class RelationDialog extends AbstractDialog {
      * 
      */
     private void createChildGroup(Composite composite, int size) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.marginHeight = 10;
         gridLayout.verticalSpacing = 10;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gridData);
         group.setLayout(gridLayout);
 
         group.setText(DisplayMessages.getMessage("label.child"));
 
-        Label filler = new Label(group, SWT.NONE);
+        final Label filler = new Label(group, SWT.NONE);
         filler.setText("");
-        GridData fillerGridData = new GridData();
+        final GridData fillerGridData = new GridData();
         fillerGridData.heightHint = size;
         filler.setLayoutData(fillerGridData);
 
@@ -178,7 +167,7 @@ public class RelationDialog extends AbstractDialog {
     }
 
     private void createColumnCombo(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
@@ -191,9 +180,9 @@ public class RelationDialog extends AbstractDialog {
     }
 
     public static ColumnComboInfo setReferencedColumnComboData(Combo columnCombo, ERTable table) {
-        ColumnComboInfo info = new ColumnComboInfo();
+        final ColumnComboInfo info = new ColumnComboInfo();
 
-        int primaryKeySize = table.getPrimaryKeySize();
+        final int primaryKeySize = table.getPrimaryKeySize();
 
         if (primaryKeySize != 0) {
             columnCombo.add("PRIMARY KEY");
@@ -205,13 +194,13 @@ public class RelationDialog extends AbstractDialog {
             info.candidatePK = false;
         }
 
-        for (ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
+        for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
             columnCombo.add(complexUniqueKey.getLabel());
         }
 
         info.columnStartIndex = info.complexUniqueKeyStartIndex + table.getComplexUniqueKeyList().size();
 
-        for (NormalColumn column : table.getNormalColumns()) {
+        for (final NormalColumn column : table.getNormalColumns()) {
             if (column.isUniqueKey()) {
                 columnCombo.add(column.getLogicalName());
                 info.candidateColumns.add(column);
@@ -222,14 +211,14 @@ public class RelationDialog extends AbstractDialog {
     }
 
     private void createParentMandatoryGroup(Group parent) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.marginHeight = 10;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        Group group = new Group(parent, SWT.NONE);
+        final Group group = new Group(parent, SWT.NONE);
         group.setLayout(gridLayout);
         group.setLayoutData(gridData);
         group.setText(DisplayMessages.getMessage("label.mandatory"));
@@ -244,14 +233,14 @@ public class RelationDialog extends AbstractDialog {
     }
 
     private void createChildMandatoryGroup(Group parent) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.marginHeight = 10;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.grabExcessHorizontalSpace = true;
         gridData.horizontalAlignment = GridData.FILL;
 
-        Group group = new Group(parent, SWT.NONE);
+        final Group group = new Group(parent, SWT.NONE);
         group.setLayout(gridLayout);
         group.setLayoutData(gridData);
         group.setText(DisplayMessages.getMessage("label.mandatory"));
@@ -267,15 +256,15 @@ public class RelationDialog extends AbstractDialog {
         childCardinalityCombo.add("0..1");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    protected String getTitle() {
+        return "dialog.title.relation";
+    }
+
     @Override
     protected void setData() {
-        ERTable sourceTable = (ERTable) this.relation.getSourceTableView();
-
+        final ERTable sourceTable = (ERTable) this.relation.getSourceTableView();
         this.nameText.setText(Format.null2blank(this.relation.getName()));
-
         if (this.relation.getOnUpdateAction() != null) {
             this.onUpdateCombo.setText(this.relation.getOnUpdateAction());
         }
@@ -292,10 +281,8 @@ public class RelationDialog extends AbstractDialog {
         } else {
             this.childCardinalityCombo.select(0);
         }
-
         if (this.relation.isReferenceForPK()) {
             this.columnCombo.select(0);
-
         } else if (this.relation.getReferencedComplexUniqueKey() != null) {
             for (int i = 0; i < sourceTable.getComplexUniqueKeyList().size(); i++) {
                 if (sourceTable.getComplexUniqueKeyList().get(i) == this.relation.getReferencedComplexUniqueKey()) {
@@ -331,7 +318,7 @@ public class RelationDialog extends AbstractDialog {
         this.relation.setChildCardinality(this.childCardinalityCombo.getText());
         this.relation.setParentCardinality(this.parentCardinalityCombo.getText());
 
-        int index = this.columnCombo.getSelectionIndex();
+        final int index = this.columnCombo.getSelectionIndex();
 
         if (index < this.columnComboInfo.complexUniqueKeyStartIndex) {
             this.relation.setReferenceForPK(true);
@@ -339,7 +326,7 @@ public class RelationDialog extends AbstractDialog {
             this.relation.setReferencedColumn(null);
 
         } else if (index < this.columnComboInfo.columnStartIndex) {
-            ComplexUniqueKey complexUniqueKey =
+            final ComplexUniqueKey complexUniqueKey =
                     ((ERTable) this.relation.getSourceTableView()).getComplexUniqueKeyList().get(
                             index - this.columnComboInfo.complexUniqueKeyStartIndex);
 
@@ -348,7 +335,7 @@ public class RelationDialog extends AbstractDialog {
             this.relation.setReferencedColumn(null);
 
         } else {
-            NormalColumn sourceColumn = this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
+            final NormalColumn sourceColumn = this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
 
             this.relation.setReferenceForPK(false);
             this.relation.setReferencedComplexUniqueKey(null);
@@ -358,31 +345,21 @@ public class RelationDialog extends AbstractDialog {
 
     @Override
     protected String doValidate() {
-        String text = nameText.getText().trim();
+        final String text = nameText.getText().trim();
         if (!Check.isAlphabet(text)) {
             return "error.constraint.name.not.alphabet";
         }
-
         return null;
-    }
-
-    @Override
-    protected String getTitle() {
-        return "dialog.title.relation";
     }
 
     public static class ColumnComboInfo {
         public List<NormalColumn> candidateColumns;
-
         public int complexUniqueKeyStartIndex;
-
         public int columnStartIndex;
-
         public boolean candidatePK;
 
         public ColumnComboInfo() {
             this.candidateColumns = new ArrayList<NormalColumn>();
         }
-
     }
 }

@@ -1,5 +1,7 @@
 package org.dbflute.erflute.editor.view.dialog.column.real;
 
+import java.util.List;
+
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
@@ -47,8 +49,8 @@ public class ColumnDialog extends AbstractRealColumnDialog {
 
     @Override
     protected void initializeDetailTab(Composite composite) {
-        this.uniqueKeyNameText = CompositeFactory.createText(this, composite, "label.unique.key.name", false);
         super.initializeDetailTab(composite);
+        this.uniqueKeyNameText = CompositeFactory.createText(this, composite, "label.unique.key.name", false);
         final DBManager manager = DBManagerFactory.getDBManager(this.diagram);
         if (MySQLDBManager.ID.equals(this.diagram.getDatabase())) {
             this.characterSetCombo = CompositeFactory.createCombo(this, composite, "label.character.set", 1);
@@ -270,9 +272,28 @@ public class ColumnDialog extends AbstractRealColumnDialog {
                 return "error.no.auto.increment.column";
             }
         }
-        final String text = uniqueKeyNameText.getText().trim();
-        if (!Check.isAlphabet(text)) {
+        final String uniqueKeyName = uniqueKeyNameText.getText().trim();
+        if (!Check.isAlphabet(uniqueKeyName)) {
             return "error.unique.key.name.not.alphabet";
+        }
+        final String physicalName = physicalNameText.getText().trim();
+        final List<NormalColumn> columns = table.getNormalColumns();
+        for (final NormalColumn column : columns) {
+            final String currentName = column.getPhysicalName();
+            if (add) {
+                if (currentName.toLowerCase().equals(physicalName.toLowerCase())) {
+                    return "error.column.physical.name.already.exists";
+                }
+            } else { // edit
+                if (targetColumn != null) { // basically true, just in case
+                    final String previousName = targetColumn.getPhysicalName();
+                    if (!currentName.equalsIgnoreCase(previousName)) { // other columns
+                        if (currentName.equalsIgnoreCase(physicalName)) {
+                            return "error.column.physical.name.already.exists";
+                        }
+                    }
+                }
+            }
         }
         return null;
     }
