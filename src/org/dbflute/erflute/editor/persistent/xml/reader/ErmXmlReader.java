@@ -165,49 +165,29 @@ public class ErmXmlReader {
             }
             final Node content = nodeList.item(i);
             if ("table".equals(content.getNodeName())) {
-                final ERTable table = loadTable((Element) content, context);
+                final ERTable table = tableLoader.loadTable((Element) content, context, diagram, database);
                 contents.addNodeElement(table);
             } else if ("view".equals(content.getNodeName())) {
-                final ERView view = loadView((Element) content, context);
+                final ERView view = viewLoader.loadView((Element) content, context, diagram, database);
                 contents.addNodeElement(view);
             } else if ("note".equals(content.getNodeName())) {
-                // #willfix note by jflute
+                // #willfix note on real model by jflute
                 System.out.println("*Unsupported for now: " + content);
                 //final Note note = noteLoader.loadNote((Element) node, context);
                 //contents.addNodeElement(note);
             } else if ("image".equals(content.getNodeName())) {
                 final InsertedImage insertedImage = imageLoader.loadInsertedImage((Element) content, context);
                 contents.addNodeElement(insertedImage);
-            } else if ("ermodel".equals(content.getNodeName())) {
-                final ERModel ermodel = loadErmodel((Element) content, context);
-                contents.addNodeElement(ermodel);
+                // #analyzed unused, virtual models in ermodels by jflute
+                //} else if ("ermodel".equals(content.getNodeName())) {
+                //    final ERModel ermodel = ermodelLoader.loadErmodel((Element) content, context, diagram);
+                //    contents.addNodeElement(ermodel);
             } else if ("group".equals(content.getNodeName())) {
                 continue; // not use here, saved in ermodel
             } else {
                 throw new IllegalStateException("*Unsupported contents: " + content);
             }
         }
-    }
-
-    // ===================================================================================
-    //                                                                               Table
-    //                                                                               =====
-    private ERTable loadTable(Element element, LoadContext context) {
-        return tableLoader.loadTable(element, context, diagram, database);
-    }
-
-    // ===================================================================================
-    //                                                                               View
-    //                                                                              ======
-    private ERView loadView(Element element, LoadContext context) {
-        return viewLoader.loadView(element, context, diagram, database);
-    }
-
-    // ===================================================================================
-    //                                                                             ERModel
-    //                                                                             =======
-    private ERModel loadErmodel(Element parent, LoadContext context) {
-        return ermodelLoader.loadErmodel(parent, context, diagram);
     }
 
     // ===================================================================================

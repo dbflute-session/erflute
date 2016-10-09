@@ -38,26 +38,27 @@ public class ReadERModelLoader {
         this.groupLoader = groupLoader;
     }
 
-    // ===================================================================================
-    //                                                                             ERModel
-    //                                                                             =======
-    public ERModel loadErmodel(Element parent, LoadContext context, ERDiagram diagram) {
-        final ERModel model = new ERModel(diagram);
-        model.setName(getStringValue(parent, "name"));
-        final List<ERVirtualTable> tables = new ArrayList<ERVirtualTable>();
-        final Element vtables = getElement(parent, "vtables");
-        if (vtables != null) {
-            final NodeList tableEls = vtables.getElementsByTagName("vtable");
-            for (int k = 0; k < tableEls.getLength(); k++) {
-                final Element tableElement = (Element) tableEls.item(k);
-                tables.add(tableLoader.loadVirtualTable(model, tableElement, context));
-            }
-        }
-        model.setTables(tables);
-        final String id = getStringValue(parent, "id");
-        context.ermodelMap.put(id, model);
-        return model;
-    }
+    // #analyzed unused, virtual models in ermodels by jflute
+    //// ===================================================================================
+    ////                                                                             ERModel
+    ////                                                                             =======
+    //public ERModel loadErmodel(Element parent, LoadContext context, ERDiagram diagram) {
+    //    final ERModel model = new ERModel(diagram);
+    //    model.setName(getStringValue(parent, "name"));
+    //    final List<ERVirtualTable> tables = new ArrayList<ERVirtualTable>();
+    //    final Element vtables = getElement(parent, "vtables");
+    //    if (vtables != null) {
+    //        final NodeList tableEls = vtables.getElementsByTagName("vtable");
+    //        for (int k = 0; k < tableEls.getLength(); k++) {
+    //            final Element tableElement = (Element) tableEls.item(k);
+    //            tables.add(tableLoader.loadVirtualTable(model, tableElement, context));
+    //        }
+    //    }
+    //    model.setTables(tables);
+    //    final String id = getStringValue(parent, "id");
+    //    context.ermodelMap.put(id, model);
+    //    return model;
+    //}
 
     // ===================================================================================
     //                                                                            ERModels

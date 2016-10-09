@@ -55,16 +55,16 @@ public class WrittenERModelBuilder {
                 xml.append("\t\t\t</vtable>\n");
             }
             xml.append("\t\t</vtables>\n");
+            xml.append("\t\t<notes>\n");
+            for (final Note note : ermodel.getNotes()) {
+                xml.append(tab(tab(tab(noteBuilder.buildNote(note, context)))));
+            }
+            xml.append("\t\t</notes>\n");
             xml.append("\t\t<groups>\n");
             for (final VGroup group : ermodel.getGroups()) {
                 xml.append(tab(tab(tab(buildVGroup(group, context)))));
             }
             xml.append("\t\t</groups>\n");
-            xml.append("\t\t<notes>\n");
-            for (final Note note : ermodel.getNotes()) {
-                xml.append(noteBuilder.buildNote(note, context));
-            }
-            xml.append("\t\t</notes>\n");
             xml.append("\t</ermodel>\n");
         }
         xml.append("</ermodels>\n");
