@@ -10,8 +10,6 @@ import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
@@ -258,17 +256,17 @@ public abstract class AbstractWordDialog extends AbstractDialog {
         //        }
         //    }
         //});
-        this.physicalNameText.addModifyListener(new ModifyListener() {
-            @Override
-            public void modifyText(ModifyEvent e) {
-                final String logicalName = logicalNameText.getText();
-                final String physicalName = physicalNameText.getText();
-                if (oldPhysicalName.equals(logicalName) || logicalName.equals("")) {
-                    logicalNameText.setText(physicalName);
-                    oldPhysicalName = physicalName;
-                }
-            }
-        });
+        //this.physicalNameText.addModifyListener(new ModifyListener() {
+        //    @Override
+        //    public void modifyText(ModifyEvent e) {
+        //        final String logicalName = logicalNameText.getText();
+        //        final String physicalName = physicalNameText.getText();
+        //        if (oldPhysicalName.equals(logicalName) || logicalName.equals("")) {
+        //            logicalNameText.setText(physicalName);
+        //            oldPhysicalName = physicalName;
+        //        }
+        //    }
+        //});
     }
 
     // ===================================================================================
