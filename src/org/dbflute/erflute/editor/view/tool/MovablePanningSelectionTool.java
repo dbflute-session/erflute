@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
@@ -16,6 +18,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.PanningSelectionTool;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -52,8 +55,8 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         } else if (event.keyCode == SWT.ARROW_UP) {
             dy = -1;
         }
-        NodeElementEditPart targetEditPart = null;
         final Object model = this.getCurrentViewer().getContents().getModel();
+        AbstractGraphicalEditPart targetEditPart = null;
         ERDiagram diagram = null;
         if (model instanceof ERModel) {
             diagram = ((ERModel) model).getDiagram();
@@ -65,12 +68,18 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
             final List<?> selectedObject = getCurrentViewer().getSelectedEditParts();
             if (!selectedObject.isEmpty()) {
                 final CompoundCommand command = new CompoundCommand();
-                for (final Object object : selectedObject) {
-                    if (object instanceof ERTableEditPart || object instanceof NoteEditPart) {
-                        final NodeElementEditPart editPart = (NodeElementEditPart) object;
+                for (final Object obj : selectedObject) {
+                    if (isNodeElementEditPart(obj)) {
+                        final NodeElementEditPart editPart = (NodeElementEditPart) obj;
                         targetEditPart = editPart;
                         final NodeElement nodeElement = (NodeElement) editPart.getModel();
                         command.add(createMoveElementCommand(dx, dy, diagram, editPart, nodeElement));
+                    } else if (obj instanceof RelationEditPart) {
+                        final RelationEditPart editPart = (RelationEditPart) obj;
+                        targetEditPart = editPart;
+                        // #thining needed? by jflute
+                        //final NodeElement nodeElement = (NodeElement) editPart.getModel();
+                        //command.add(createMoveElementCommand(dx, dy, diagram, editPart, nodeElement));
                     }
                 }
                 getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
@@ -78,6 +87,10 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         }
         openDetailByKeyCode(event, targetEditPart);
         return super.handleKeyDown(event);
+    }
+
+    private boolean isNodeElementEditPart(final Object obj) {
+        return obj instanceof TableViewEditPart || obj instanceof NoteEditPart || obj instanceof ModelPropertiesEditPart;
     }
 
     private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram, final NodeElementEditPart editPart,
@@ -88,7 +101,7 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         return new MoveElementCommand(diagram, bounds, nodeElement.getX() + dx, nodeElement.getY() + dy, width, height, nodeElement);
     }
 
-    private void openDetailByKeyCode(KeyEvent event, NodeElementEditPart targetEditPart) {
+    private void openDetailByKeyCode(KeyEvent event, AbstractGraphicalEditPart targetEditPart) {
         if (targetEditPart != null && isOpenDetailKeyCode(event)) {
             final Request request = new Request();
             request.setType(RequestConstants.REQ_OPEN);
