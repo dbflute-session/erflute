@@ -58,7 +58,7 @@ public class ComplexUniqueKey extends AbstractModel {
             target = ((CopyComplexUniqueKey) target).getOriginal();
         }
 
-        for (final Relationship relation : table.getOutgoingRelations()) {
+        for (final Relationship relation : table.getOutgoingRelationshipList()) {
             if (relation.getReferencedComplexUniqueKey() == target) {
                 isReferenced = true;
                 break;

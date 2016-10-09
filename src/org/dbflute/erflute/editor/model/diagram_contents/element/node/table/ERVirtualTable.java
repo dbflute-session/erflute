@@ -263,10 +263,10 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<Relationship> getIncomingRelations() {
+    public List<Relationship> getIncomingRelationshipList() {
         final List<Relationship> elements = new ArrayList<Relationship>();
         final List<ERVirtualTable> modelTables = model.getTables();
-        for (final Relationship el : rawTable.getIncomingRelations()) {
+        for (final Relationship el : rawTable.getIncomingRelationshipList()) {
             final NodeElement findEl = el.getSource();
             for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
@@ -280,10 +280,10 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<Relationship> getOutgoingRelations() {
+    public List<Relationship> getOutgoingRelationshipList() {
         final List<Relationship> elements = new ArrayList<Relationship>();
         final List<ERVirtualTable> modelTables = model.getTables();
-        for (final Relationship el : rawTable.getOutgoingRelations()) {
+        for (final Relationship el : rawTable.getOutgoingRelationshipList()) {
             final NodeElement findEl = el.getSource();
             for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {

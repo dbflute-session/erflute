@@ -192,7 +192,7 @@ public class ImportTableCommand extends AbstractCommand {
         boolean anotherSelfRelation = false;
 
         TableView sourceTable = relation.getSourceTableView();
-        for (Relationship otherRelation : sourceTable.getOutgoingRelations()) {
+        for (Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
             if (otherRelation == relation) {
                 continue;
             }

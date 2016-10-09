@@ -316,7 +316,7 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         table.setLogicalName(logicalName);
 
         boolean needPrimaryKey = false;
-        for (final Relationship relation : table.getOutgoingRelations()) {
+        for (final Relationship relation : table.getOutgoingRelationshipList()) {
             if (relation.isReferenceForPK()) {
                 needPrimaryKey = true;
                 break;

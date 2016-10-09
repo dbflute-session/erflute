@@ -120,7 +120,7 @@ public class NormalColumn extends ERColumn {
         final ColumnHolder columnHolder = this.getColumnHolder();
         if (columnHolder instanceof ERTable) {
             final ERTable table = (ERTable) columnHolder;
-            for (final Relationship relation : table.getOutgoingRelations()) {
+            for (final Relationship relation : table.getOutgoingRelationshipList()) {
                 if (relation.isReferenceForPK()) {
                     if (this.isPrimaryKey()) {
                         outgoingRelationList.add(relation);
@@ -140,7 +140,7 @@ public class NormalColumn extends ERColumn {
         final ColumnHolder columnHolder = this.getColumnHolder();
         if (columnHolder instanceof ERTable) {
             final ERTable table = (ERTable) columnHolder;
-            for (final Relationship relation : table.getOutgoingRelations()) {
+            for (final Relationship relation : table.getOutgoingRelationshipList()) {
                 boolean found = false;
                 for (final NormalColumn column : relation.getTargetTableView().getNormalColumns()) {
                     if (column.isForeignKey()) {
@@ -224,7 +224,7 @@ public class NormalColumn extends ERColumn {
         }
         boolean isRefered = false;
         final ERTable table = (ERTable) this.getColumnHolder();
-        for (final Relationship relation : table.getOutgoingRelations()) {
+        for (final Relationship relation : table.getOutgoingRelationshipList()) {
             if (!relation.isReferenceForPK()) {
                 for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
                     for (final NormalColumn referencedColumn : foreignKeyColumn.referencedColumnList) {
@@ -251,7 +251,7 @@ public class NormalColumn extends ERColumn {
         }
         boolean isRefered = false;
         final ERTable table = (ERTable) this.getColumnHolder();
-        for (final Relationship relation : table.getOutgoingRelations()) {
+        for (final Relationship relation : table.getOutgoingRelationshipList()) {
             if (!relation.isReferenceForPK()) {
                 for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
                     for (final NormalColumn referencedColumn : foreignKeyColumn.referencedColumnList) {
@@ -372,9 +372,10 @@ public class NormalColumn extends ERColumn {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append(super.toString());
-        sb.append(", physicalName:" + this.getPhysicalName());
-        sb.append(", logicalName:" + this.getLogicalName());
+        sb.append(getClass().getSimpleName()).append(":{");
+        sb.append("physicalName=" + getPhysicalName());
+        sb.append(", logicalName=" + getLogicalName());
+        sb.append("}");
         return sb.toString();
     }
 
@@ -383,7 +384,7 @@ public class NormalColumn extends ERColumn {
     //                                                                            ========
     @Override
     public String getName() {
-        return this.getPhysicalName(); // #for_erflute change logical to physical for fixed sort
+        return getPhysicalName(); // #for_erflute change logical to physical for fixed sort
     }
 
     public String getPhysicalName() {

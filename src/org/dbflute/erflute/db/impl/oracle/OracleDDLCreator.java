@@ -108,9 +108,9 @@ public class OracleDDLCreator extends DDLCreator {
         ddl.append(filter(relation.getTargetTableView().getNameWithSchema(this.getDiagram().getDatabase())));
         ddl.append("\r\n");
         ddl.append("\tADD ");
-        if (relation.getName() != null && !relation.getName().trim().equals("")) {
+        if (relation.getForeignKeyName() != null && !relation.getForeignKeyName().trim().equals("")) {
             ddl.append("CONSTRAINT ");
-            ddl.append(filter(relation.getName()));
+            ddl.append(filter(relation.getForeignKeyName()));
             ddl.append(" ");
         }
         ddl.append("FOREIGN KEY (");

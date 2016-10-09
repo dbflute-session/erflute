@@ -48,7 +48,7 @@ public class ReplaceManager {
 
         if (type == SearchResultRow.TYPE_RELATION_NAME) {
             Relationship relation = (Relationship) object;
-            String original = relation.getName();
+            String original = relation.getForeignKeyName();
 
             String str = replace(original, keyword, replaceWord);
 
@@ -56,7 +56,7 @@ public class ReplaceManager {
                 return null;
             }
 
-            relation.setName(str);
+            relation.setForeignKeyName(str);
 
             return new ReplaceResult(original);
 
@@ -375,7 +375,7 @@ public class ReplaceManager {
         if (type == SearchResultRow.TYPE_RELATION_NAME) {
             Relationship relation = (Relationship) object;
 
-            relation.setName(str);
+            relation.setForeignKeyName(str);
 
         } else if (type == SearchResultRow.TYPE_INDEX_NAME) {
             ERIndex index = (ERIndex) object;

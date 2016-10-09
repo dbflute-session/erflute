@@ -284,7 +284,7 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
     public void validatePage() throws InputException {
         final String physicalName = physicalNameText.getText().trim();
         if (physicalName.isEmpty()) {
-            throw new InputException("error.view.physical.name.not.alphabet");
+            throw new InputException("error.view.physical.name.empty");
         }
         final String defaultPhysicalName = DisplayMessages.getMessage("new.view.physical.name");
         if (defaultPhysicalName.equalsIgnoreCase(physicalName)) {

@@ -18,6 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.dbflute.erflute.editor.model.settings.Environment;
+import org.dbflute.erflute.editor.persistent.xml.reader.exception.PersistentXmlReadingFailureException;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -121,6 +122,9 @@ public class LoadContext {
         if (referencedColumnIds != null) {
             for (final String referencedColumnId : referencedColumnIds) {
                 final NormalColumn referencedColumn = columnMap.get(referencedColumnId);
+                if (referencedColumn == null) {
+                    throwReferencedColumnNotFoundException(foreignKeyColumn, referencedColumnId);
+                }
                 referencedColumnList.add(referencedColumn);
                 if (foreignKeyColumnSet.contains(referencedColumn)) {
                     reduce(foreignKeyColumnSet, referencedColumn);
@@ -129,15 +133,30 @@ public class LoadContext {
         }
         if (relationIds != null) {
             for (final String relationId : relationIds) {
-                final Relationship relation = (Relationship) connectionMap.get(relationId);
+                final Relationship relationship = (Relationship) connectionMap.get(relationId);
+                if (relationship == null) {
+                    throwRelationshipNotFoundException(foreignKeyColumn, relationId);
+                }
                 for (final NormalColumn referencedColumn : referencedColumnList) {
-                    if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
-                        foreignKeyColumn.addReference(referencedColumn, relation);
+                    if (referencedColumn.getColumnHolder() == relationship.getSourceTableView()) {
+                        foreignKeyColumn.addReference(referencedColumn, relationship);
                         break;
                     }
                 }
             }
         }
         foreignKeyColumnSet.remove(foreignKeyColumn);
+    }
+
+    private void throwReferencedColumnNotFoundException(NormalColumn foreignKeyColumn, final String referencedColumnId) {
+        final Set<String> keys = columnMap.keySet();
+        final String msg = "Not found the referencedColumn: id=" + referencedColumnId + ", fk=" + foreignKeyColumn + ", existing=" + keys;
+        throw new PersistentXmlReadingFailureException(msg);
+    }
+
+    private void throwRelationshipNotFoundException(NormalColumn foreignKeyColumn, final String relationId) {
+        final Set<String> keys = connectionMap.keySet();
+        final String msg = "Not found the relationship: id=" + relationId + ", fk=" + foreignKeyColumn + ", existing=" + keys;
+        throw new PersistentXmlReadingFailureException(msg);
     }
 }

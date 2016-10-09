@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.relationship.RelationDialog;
+import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -92,7 +92,7 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             Relationship copy = relation.copy();
 
-            RelationDialog dialog = new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
+            RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(relation, copy);

@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.controller.editpolicy.element.connection.Relat
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.view.dialog.relationship.RelationDialog;
+import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipDialog;
 import org.dbflute.erflute.editor.view.figure.anchor.XYChopboxAnchor;
 import org.dbflute.erflute.editor.view.figure.connection.ERDiagramConnection;
 import org.dbflute.erflute.editor.view.figure.connection.decoration.DecorationFactory;
@@ -183,7 +183,7 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             Relationship copy = relation.copy();
 
-            RelationDialog dialog = new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
+            RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(relation, copy);

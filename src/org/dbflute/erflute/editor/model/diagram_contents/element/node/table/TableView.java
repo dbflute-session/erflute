@@ -64,10 +64,10 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     public void setLocation(Location location) {
         super.setLocation(location);
         if (this.getDiagram() != null) {
-            for (final Relationship relation : this.getOutgoingRelations()) {
+            for (final Relationship relation : this.getOutgoingRelationshipList()) {
                 relation.setParentMove();
             }
-            for (final Relationship relation : this.getIncomingRelations()) {
+            for (final Relationship relation : this.getIncomingRelationshipList()) {
                 relation.setParentMove();
             }
         }
@@ -125,12 +125,12 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     //                                                                               Copy
     //                                                                              ======
     public TableView copyTableViewData(TableView to) {
-        to.setDiagram(this.getDiagram());
-        to.setPhysicalName(this.getPhysicalName());
-        to.setLogicalName(this.getLogicalName());
-        to.setDescription(this.getDescription());
+        to.setDiagram(getDiagram());
+        to.setPhysicalName(getPhysicalName());
+        to.setLogicalName(getLogicalName());
+        to.setDescription(getDescription());
         final List<ERColumn> columns = new ArrayList<ERColumn>();
-        for (final ERColumn fromColumn : this.getColumns()) {
+        for (final ERColumn fromColumn : getColumns()) {
             if (fromColumn instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) fromColumn;
                 final NormalColumn copyColumn = new CopyColumn(normalColumn);
@@ -143,8 +143,8 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
             }
         }
         to.setColumns(columns);
-        to.setOutgoing(this.getOutgoings());
-        to.setIncoming(this.getIncomings());
+        to.setOutgoing(getOutgoings());
+        to.setIncoming(getIncomings());
         return to;
     }
 
@@ -166,7 +166,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
         }
         final List<ERColumn> columns = new ArrayList<ERColumn>();
         final List<NormalColumn> newPrimaryKeyColumns = new ArrayList<NormalColumn>();
-        for (final ERColumn fromColumn : this.getColumns()) {
+        for (final ERColumn fromColumn : getColumns()) {
             if (fromColumn instanceof NormalColumn) {
                 final CopyColumn copyColumn = (CopyColumn) fromColumn;
                 CopyWord copyWord = copyColumn.getWord();
@@ -199,7 +199,7 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
     //                                                                        Relationship
     //                                                                        ============
     private void setTargetTableRelation(TableView sourceTable, List<NormalColumn> newPrimaryKeyColumns) {
-        for (final Relationship relation : sourceTable.getOutgoingRelations()) {
+        for (final Relationship relation : sourceTable.getOutgoingRelationshipList()) {
             if (relation.isReferenceForPK()) {
                 final TableView targetTable = relation.getTargetTableView();
                 final List<NormalColumn> foreignKeyColumns = relation.getForeignKeyColumns();
@@ -246,9 +246,9 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
         }
     }
 
-    public List<Relationship> getIncomingRelations() {
+    public List<Relationship> getIncomingRelationshipList() {
         final List<Relationship> relations = new ArrayList<Relationship>();
-        for (final ConnectionElement connection : this.getIncomings()) {
+        for (final ConnectionElement connection : getIncomings()) {
             if (connection instanceof Relationship) {
                 relations.add((Relationship) connection);
             }
@@ -256,9 +256,9 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
         return relations;
     }
 
-    public List<Relationship> getOutgoingRelations() {
+    public List<Relationship> getOutgoingRelationshipList() {
         final List<Relationship> relations = new ArrayList<Relationship>();
-        for (final ConnectionElement connection : this.getOutgoings()) {
+        for (final ConnectionElement connection : getOutgoings()) {
             if (connection instanceof Relationship) {
                 relations.add((Relationship) connection);
             }
@@ -287,10 +287,10 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
         if (!dbManager.isSupported(DBManager.SUPPORT_SCHEMA)) {
             return Format.null2blank(this.getPhysicalName());
         }
-        final TableViewProperties commonTableViewProperties = this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
+        final TableViewProperties tableViewProperties = this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
         String schema = this.tableViewProperties.getSchema();
         if (schema == null || schema.equals("")) {
-            schema = commonTableViewProperties.getSchema();
+            schema = tableViewProperties.getSchema();
         }
         if (schema != null && !schema.equals("")) {
             sb.append(schema);

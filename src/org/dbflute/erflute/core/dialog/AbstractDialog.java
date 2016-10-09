@@ -59,6 +59,8 @@ public abstract class AbstractDialog extends Dialog {
         return composite;
     }
 
+    protected abstract String getTitle();
+
     @Override
     protected Control createContents(Composite parent) {
         final Control control = super.createContents(parent);
@@ -174,6 +176,9 @@ public abstract class AbstractDialog extends Dialog {
         super.buttonPressed(buttonId);
     }
 
+    // ===================================================================================
+    //                                                                          Validation
+    //                                                                          ==========
     public final boolean validate() {
         if (!this.initialized) {
             return true;
@@ -190,16 +195,20 @@ public abstract class AbstractDialog extends Dialog {
         if (okButton != null && this.enabledOkButton) {
             okButton.setEnabled(true);
         }
-        this.setMessage(null);
+        setMessage(null);
         return true;
     }
 
-    abstract protected String doValidate();
+    protected abstract String doValidate();
 
-    abstract protected void performOK() throws InputException;
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
+    protected abstract void performOK() throws InputException;
 
-    abstract protected String getTitle();
-
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
     protected Button createCheckbox(Composite composite, String title) {
         return CompositeFactory.createCheckbox(this, composite, title, this.getNumColumns());
     }

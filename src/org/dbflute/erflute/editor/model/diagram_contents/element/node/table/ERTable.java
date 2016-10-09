@@ -196,7 +196,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     }
 
     public static boolean isRecursive(TableView source, TableView target) {
-        for (final Relationship relation : source.getIncomingRelations()) {
+        for (final Relationship relation : source.getIncomingRelationshipList()) {
             final TableView temp = relation.getSourceTableView();
             if (temp.equals(source)) {
                 continue;

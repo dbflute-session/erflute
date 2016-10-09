@@ -36,7 +36,7 @@ public class CreateSelfRelationCommand extends AbstractCreateRelationCommand {
 
         ERTable sourceTable = (ERTable) this.source.getModel();
 
-        for (Relationship otherRelation : sourceTable.getOutgoingRelations()) {
+        for (Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
             if (otherRelation.getSource() == otherRelation.getTarget()) {
                 anotherSelfRelation = true;
                 break;

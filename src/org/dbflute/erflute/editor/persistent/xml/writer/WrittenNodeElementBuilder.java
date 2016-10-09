@@ -93,7 +93,7 @@ public class WrittenNodeElementBuilder {
     private String buildRelationship(Relationship relation, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<relation>\n");
-        xml.append("\t<name>").append(escape(relation.getName())).append("</name>\n");
+        xml.append("\t<name>").append(escape(relation.getForeignKeyName())).append("</name>\n");
         xml.append(tab(buildConnectionElement(relation, context)));
         xml.append("\t<parent_cardinality>").append(escape(relation.getParentCardinality())).append("</parent_cardinality>\n");
         xml.append("\t<child_cardinality>").append(escape(relation.getChildCardinality())).append("</child_cardinality>\n");

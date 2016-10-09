@@ -47,10 +47,10 @@ public class ReadNodeElementLoader {
         assistLogic.loadColor(nodeElement, element);
         assistLogic.loadFont(nodeElement, element);
         context.nodeElementMap.put(id, nodeElement);
-        loadConnections(element, context);
+        loadConnections(nodeElement, element, context);
     }
 
-    private void loadConnections(Element parent, LoadContext context) {
+    private void loadConnections(NodeElement nodeElement, Element parent, LoadContext context) {
         final Element element = getElement(parent, "connections");
         if (element != null) {
             final NodeList nodeList = element.getChildNodes();
@@ -60,18 +60,18 @@ public class ReadNodeElementLoader {
                 }
                 final Element connectionElement = (Element) nodeList.item(i);
                 if ("relation".equals(connectionElement.getTagName())) {
-                    loadRelation(connectionElement, context);
+                    loadRelationship(nodeElement, connectionElement, context);
                 } else if ("comment_connection".equals(connectionElement.getTagName())) {
-                    loadCommentConnection(connectionElement, context);
+                    loadCommentConnection(nodeElement, connectionElement, context);
                 }
             }
         }
     }
 
-    private void loadRelation(Element element, LoadContext context) {
+    private void loadRelationship(NodeElement nodeElement, Element element, LoadContext context) {
         final boolean referenceForPK = getBooleanValue(element, "reference_for_pk");
         final Relationship connection = new Relationship(referenceForPK, null, null);
-        connection.setName(getStringValue(element, "name"));
+        connection.setForeignKeyName(getStringValue(element, "name"));
         connection.setChildCardinality(getStringValue(element, "child_cardinality"));
         connection.setParentCardinality(getStringValue(element, "parent_cardinality"));
         connection.setOnDeleteAction(getStringValue(element, "on_delete_action", "NO ACTION"));
@@ -86,21 +86,22 @@ public class ReadNodeElementLoader {
         if (referencedComplexUniqueKeyId != null) {
             context.referencedComplexUniqueKeyMap.put(connection, referencedComplexUniqueKeyId);
         }
-        loadConnectionElement(connection, element, context);
+        loadConnectionElement(nodeElement, element, context, connection);
     }
 
-    private void loadCommentConnection(Element element, LoadContext context) {
+    private void loadCommentConnection(NodeElement nodeElement, Element element, LoadContext context) {
         final CommentConnection connection = new CommentConnection();
-        loadConnectionElement(connection, element, context);
+        loadConnectionElement(nodeElement, element, context, connection);
     }
 
-    private void loadConnectionElement(ConnectionElement connection, Element element, LoadContext context) {
+    private void loadConnectionElement(NodeElement nodeElement, Element element, LoadContext context, ConnectionElement connection) {
         final String source = getStringValue(element, "source");
         final String target = getStringValue(element, "target");
         String id = getStringValue(element, "id");
         if (Srl.is_Null_or_TrimmedEmpty(id)) {
-            if (connection instanceof Relationship) {
-                id = ((Relationship) connection).buildRelationshipId(); // #for_erflute
+            if (nodeElement instanceof TableView && connection instanceof Relationship) {
+                // basically relationship's parent is table but just in case
+                id = ((Relationship) connection).buildRelationshipId(source, target); // #for_erflute
             } else {
                 id = "#error:unknownId_for_" + target + "_to_" + source;
             }

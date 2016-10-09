@@ -228,7 +228,7 @@ public class SearchManager {
                     if (nodeElement instanceof ERTable) {
                         ERTable table = (ERTable) nodeElement;
 
-                        for (Relationship relation : table.getIncomingRelations()) {
+                        for (Relationship relation : table.getIncomingRelationshipList()) {
                             if (skip) {
                                 if (relation != this.currentTarget) {
                                     continue;
@@ -402,7 +402,7 @@ public class SearchManager {
                     if (nodeElement instanceof ERTable) {
                         ERTable table = (ERTable) nodeElement;
 
-                        for (Relationship relation : table.getIncomingRelations()) {
+                        for (Relationship relation : table.getIncomingRelationshipList()) {
                             if (skip) {
                                 if (relation != this.currentTarget) {
                                     continue;
@@ -677,9 +677,9 @@ public class SearchManager {
     private List<SearchResultRow> search(Relationship relation, String keyword) {
         List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
 
-        if (this.search(relation.getName(), keyword)) {
-            String path = relation.getName();
-            rows.add(new SearchResultRow(SearchResultRow.TYPE_RELATION_NAME, relation.getName(), path, relation, relation));
+        if (this.search(relation.getForeignKeyName(), keyword)) {
+            String path = relation.getForeignKeyName();
+            rows.add(new SearchResultRow(SearchResultRow.TYPE_RELATION_NAME, relation.getForeignKeyName(), path, relation, relation));
 
         }
 

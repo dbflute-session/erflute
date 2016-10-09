@@ -11,6 +11,7 @@ import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -33,67 +34,43 @@ import org.eclipse.swt.widgets.Text;
 
 public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
-    private ERTable copyData;
-
-    private Text nameText;
-
+    private final ERTable table;
+    private Text uniqueKeyNameText;
+    private String previousUniqueKeyName;
     private Combo complexUniqueKeyCombo;
-
     private Table columnTable;
-
     private Button addButton;
-
     private Button updateButton;
-
     private Button deleteButton;
+    private final List<TableEditor> tableEditorList;
+    private final Map<TableEditor, NormalColumn> editorColumnMap;
 
-    private List<TableEditor> tableEditorList;
-
-    private Map<TableEditor, NormalColumn> editorColumnMap;
-
-    public ComplexUniqueKeyTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable copyData) {
+    public ComplexUniqueKeyTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable table) {
         super(dialog, parent, style, "label.complex.unique.key");
-
-        this.copyData = copyData;
+        this.table = table;
         this.tableEditorList = new ArrayList<TableEditor>();
         this.editorColumnMap = new HashMap<TableEditor, NormalColumn>();
-
         this.init();
     }
 
     @Override
     public void initComposite() {
-        GridLayout gridLayout = new GridLayout();
-        // gridLayout.verticalSpacing = 20;
+        final GridLayout gridLayout = new GridLayout();
         this.setLayout(gridLayout);
-
         this.complexUniqueKeyCombo = CompositeFactory.createReadOnlyCombo(null, this, "label.complex.unique.key");
-
-        this.nameText = CompositeFactory.createText(null, this, "label.unique.key.name", false);
-
+        this.uniqueKeyNameText = CompositeFactory.createText(null, this, "label.unique.key.name", false);
+        this.previousUniqueKeyName = uniqueKeyNameText.getText().trim();
         CompositeFactory.filler(this, 1);
-
         this.columnTable = CompositeFactory.createTable(this, 200, 1);
-
         CompositeFactory.createTableColumn(this.columnTable, "label.logical.name", ERTableComposite.NAME_WIDTH, SWT.NONE);
         CompositeFactory.createTableColumn(this.columnTable, "label.unique.key", ERTableComposite.UNIQUE_KEY_WIDTH, SWT.NONE);
-
-        GridLayout buttonGridLayout = new GridLayout();
+        final GridLayout buttonGridLayout = new GridLayout();
         buttonGridLayout.numColumns = 3;
-
-        Composite buttonComposite = new Composite(this, SWT.NONE);
+        final Composite buttonComposite = new Composite(this, SWT.NONE);
         buttonComposite.setLayout(buttonGridLayout);
-
         this.addButton = CompositeFactory.createButton(buttonComposite, "label.button.add");
         this.updateButton = CompositeFactory.createButton(buttonComposite, "label.button.update");
         this.deleteButton = CompositeFactory.createButton(buttonComposite, "label.button.delete");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void validatePage() throws InputException {
     }
 
     @Override
@@ -103,18 +80,14 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
     public void restruct() {
         this.columnTable.removeAll();
-
         this.disposeTableEditor();
-
-        for (NormalColumn normalColumn : this.copyData.getNormalColumns()) {
-            TableItem tableItem = new TableItem(this.columnTable, SWT.NONE);
+        for (final NormalColumn normalColumn : this.table.getNormalColumns()) {
+            final TableItem tableItem = new TableItem(this.columnTable, SWT.NONE);
             tableItem.setText(0, Format.null2blank(normalColumn.getName()));
-
-            TableEditor tableEditor = CompositeFactory.createCheckBoxTableEditor(tableItem, false, 1);
+            final TableEditor tableEditor = CompositeFactory.createCheckBoxTableEditor(tableItem, false, 1);
             this.tableEditorList.add(tableEditor);
             this.editorColumnMap.put(tableEditor, normalColumn);
         }
-
         this.setComboData();
         this.setButtonStatus(false);
     }
@@ -126,11 +99,10 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     }
 
     private void disposeTableEditor() {
-        for (TableEditor tableEditor : this.tableEditorList) {
+        for (final TableEditor tableEditor : this.tableEditorList) {
             tableEditor.getEditor().dispose();
             tableEditor.dispose();
         }
-
         this.tableEditorList.clear();
         this.editorColumnMap.clear();
     }
@@ -138,96 +110,71 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     @Override
     protected void addListener() {
         super.addListener();
-
         this.complexUniqueKeyCombo.addSelectionListener(new SelectionAdapter() {
-
             @Override
             public void widgetSelected(SelectionEvent e) {
                 checkSelectedKey();
             }
         });
-
         this.addButton.addSelectionListener(new SelectionAdapter() {
-
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String name = nameText.getText().trim();
-
-                if (!"".equals(name)) {
-                    if (!Check.isAlphabet(name)) {
-                        Activator.showErrorDialog("error.unique.key.name.not.alphabet");
-                        return;
-                    }
+                final String uniqueKeyName = uniqueKeyNameText.getText().trim();
+                if (!validateUniqueKeyName(uniqueKeyName)) {
+                    return;
                 }
-
-                List<NormalColumn> columnList = new ArrayList<NormalColumn>();
-
-                for (TableEditor tableEditor : tableEditorList) {
-                    Button checkBox = (Button) tableEditor.getEditor();
+                final List<NormalColumn> columnList = new ArrayList<NormalColumn>();
+                for (final TableEditor tableEditor : tableEditorList) {
+                    final Button checkBox = (Button) tableEditor.getEditor();
                     if (checkBox.getSelection()) {
                         columnList.add(editorColumnMap.get(tableEditor));
                     }
                 }
-
                 if (columnList.isEmpty()) {
                     Activator.showErrorDialog("error.not.checked.complex.unique.key.columns");
                     return;
                 }
-
                 if (contains(columnList) != null) {
                     Activator.showErrorDialog("error.already.exist.complex.unique.key");
                     return;
                 }
-
-                ComplexUniqueKey complexUniqueKey = new CopyComplexUniqueKey(new ComplexUniqueKey(name), null);
+                final ComplexUniqueKey complexUniqueKey = new CopyComplexUniqueKey(new ComplexUniqueKey(uniqueKeyName), null);
                 complexUniqueKey.setColumnList(columnList);
-                copyData.getComplexUniqueKeyList().add(complexUniqueKey);
+                table.getComplexUniqueKeyList().add(complexUniqueKey);
                 addComboData(complexUniqueKey);
                 complexUniqueKeyCombo.select(complexUniqueKeyCombo.getItemCount() - 1);
                 setButtonStatus(true);
             }
-
         });
-
         this.updateButton.addSelectionListener(new SelectionAdapter() {
-
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = complexUniqueKeyCombo.getSelectionIndex();
+                final int index = complexUniqueKeyCombo.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
-
-                String name = nameText.getText().trim();
-
-                if (!Check.isAlphabet(name)) {
-                    Activator.showErrorDialog("error.unique.key.name.not.alphabet");
+                final String uniqueKeyName = uniqueKeyNameText.getText().trim();
+                if (!validateUniqueKeyName(uniqueKeyName)) {
                     return;
                 }
-
-                ComplexUniqueKey complexUniqueKey = copyData.getComplexUniqueKeyList().get(index);
-
-                List<NormalColumn> columnList = new ArrayList<NormalColumn>();
-
-                for (TableEditor tableEditor : tableEditorList) {
-                    Button checkBox = (Button) tableEditor.getEditor();
+                final ComplexUniqueKey complexUniqueKey = table.getComplexUniqueKeyList().get(index);
+                final List<NormalColumn> columnList = new ArrayList<NormalColumn>();
+                for (final TableEditor tableEditor : tableEditorList) {
+                    final Button checkBox = (Button) tableEditor.getEditor();
                     if (checkBox.getSelection()) {
                         columnList.add(editorColumnMap.get(tableEditor));
                     }
                 }
-
                 if (columnList.isEmpty()) {
                     Activator.showErrorDialog("error.not.checked.complex.unique.key.columns");
                     return;
                 }
-
-                ComplexUniqueKey sameKey = contains(columnList);
+                final ComplexUniqueKey sameKey = contains(columnList);
                 if (sameKey != null && sameKey != complexUniqueKey) {
                     Activator.showErrorDialog("error.already.exist.complex.unique.key");
                     return;
                 }
-
-                complexUniqueKey.setUniqueKeyName(name);
+                complexUniqueKey.setUniqueKeyName(uniqueKeyName);
                 complexUniqueKey.setColumnList(columnList);
                 complexUniqueKeyCombo.remove(index);
                 complexUniqueKeyCombo.add(complexUniqueKey.getLabel(), index);
@@ -236,50 +183,66 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
         });
 
         this.deleteButton.addSelectionListener(new SelectionAdapter() {
-
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = complexUniqueKeyCombo.getSelectionIndex();
+                final int index = complexUniqueKeyCombo.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
-
                 complexUniqueKeyCombo.remove(index);
-                copyData.getComplexUniqueKeyList().remove(index);
-
-                if (index < copyData.getComplexUniqueKeyList().size()) {
+                table.getComplexUniqueKeyList().remove(index);
+                if (index < table.getComplexUniqueKeyList().size()) {
                     complexUniqueKeyCombo.select(index);
                 } else {
                     complexUniqueKeyCombo.select(index - 1);
                 }
-
                 checkSelectedKey();
             }
         });
     }
 
-    private void checkSelectedKey() {
-        int index = complexUniqueKeyCombo.getSelectionIndex();
+    private boolean validateUniqueKeyName(String uniqueKeyName) {
+        if (uniqueKeyName.isEmpty()) {
+            Activator.showErrorDialog("error.unique.key.name.empty");
+            return false;
+        }
+        if (!Check.isAlphabet(uniqueKeyName)) {
+            Activator.showErrorDialog("error.unique.key.name.not.alphabet");
+            return false;
+        }
+        final List<ERTable> tableList = table.getDiagram().getDiagramContents().getContents().getTableSet().getList();
+        for (final ERTable table : tableList) {
+            final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
+            for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
+                final String currentUniqueKeyName = complexUniqueKey.getUniqueKeyName();
+                if (currentUniqueKeyName != null) {
+                    if (!currentUniqueKeyName.equalsIgnoreCase(previousUniqueKeyName)) {
+                        if (currentUniqueKeyName.equalsIgnoreCase(uniqueKeyName)) {
+                            Activator.showErrorDialog("error.unique.key.name.already.exists");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
+    private void checkSelectedKey() {
+        final int index = complexUniqueKeyCombo.getSelectionIndex();
         ComplexUniqueKey complexUniqueKey = null;
         String name = null;
-
         if (index != -1) {
-            complexUniqueKey = copyData.getComplexUniqueKeyList().get(index);
+            complexUniqueKey = table.getComplexUniqueKeyList().get(index);
             name = complexUniqueKey.getUniqueKeyName();
-
             setButtonStatus(true);
-
         } else {
             setButtonStatus(false);
         }
-
-        nameText.setText(Format.null2blank(name));
-
-        for (TableEditor tableEditor : tableEditorList) {
-            Button checkbox = (Button) tableEditor.getEditor();
-
-            NormalColumn column = editorColumnMap.get(tableEditor);
+        uniqueKeyNameText.setText(Format.null2blank(name));
+        for (final TableEditor tableEditor : tableEditorList) {
+            final Button checkbox = (Button) tableEditor.getEditor();
+            final NormalColumn column = editorColumnMap.get(tableEditor);
             if (complexUniqueKey != null && complexUniqueKey.getColumnList().contains(column)) {
                 checkbox.setSelection(true);
             } else {
@@ -289,32 +252,28 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     }
 
     public ComplexUniqueKey contains(List<NormalColumn> columnList) {
-        for (ComplexUniqueKey complexUniqueKey : this.copyData.getComplexUniqueKeyList()) {
+        for (final ComplexUniqueKey complexUniqueKey : this.table.getComplexUniqueKeyList()) {
             if (columnList.size() == complexUniqueKey.getColumnList().size()) {
                 boolean exist = true;
-                for (NormalColumn column : columnList) {
+                for (final NormalColumn column : columnList) {
                     if (!complexUniqueKey.getColumnList().contains(column)) {
                         exist = false;
                         break;
                     }
                 }
-
                 if (exist) {
                     return complexUniqueKey;
                 }
             }
         }
-
         return null;
     }
 
     private void setComboData() {
         this.complexUniqueKeyCombo.removeAll();
-
-        for (Iterator<ComplexUniqueKey> iter = this.copyData.getComplexUniqueKeyList().iterator(); iter.hasNext();) {
-            ComplexUniqueKey complexUniqueKey = iter.next();
-
-            if (complexUniqueKey.isRemoved(this.copyData.getNormalColumns())) {
+        for (final Iterator<ComplexUniqueKey> iter = this.table.getComplexUniqueKeyList().iterator(); iter.hasNext();) {
+            final ComplexUniqueKey complexUniqueKey = iter.next();
+            if (complexUniqueKey.isRemoved(this.table.getNormalColumns())) {
                 iter.remove();
             } else {
                 this.addComboData(complexUniqueKey);
@@ -328,15 +287,48 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
     private void setButtonStatus(boolean enabled) {
         if (enabled) {
-            if (this.copyData.getComplexUniqueKeyList().get(this.complexUniqueKeyCombo.getSelectionIndex()).isReferenced(copyData)) {
+            if (table.getComplexUniqueKeyList().get(complexUniqueKeyCombo.getSelectionIndex()).isReferenced(table)) {
                 enabled = false;
             }
         }
-
         this.updateButton.setEnabled(enabled);
         this.deleteButton.setEnabled(enabled);
     }
 
+    // ===================================================================================
+    //                                                                          Validation
+    //                                                                          ==========
+    @Override
+    public void validatePage() throws InputException {
+        final String uniqueKeyName = uniqueKeyNameText.getText().trim();
+        // #thiking want to validate but always checked by jflute
+        //if (uniqueKeyName.isEmpty()) {
+        //    throw new InputException("error.unique.key.name.empty");
+        //}
+        if (Srl.is_NotNull_and_NotTrimmedEmpty(uniqueKeyName)) {
+            if (!Check.isAlphabet(uniqueKeyName)) {
+                throw new InputException("error.unique.key.name.not.alphabet");
+            }
+            final List<ERTable> tableList = table.getDiagram().getDiagramContents().getContents().getTableSet().getList();
+            for (final ERTable table : tableList) {
+                final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
+                for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
+                    final String currentUniqueKeyName = complexUniqueKey.getUniqueKeyName();
+                    if (currentUniqueKeyName != null) {
+                        if (!currentUniqueKeyName.equalsIgnoreCase(previousUniqueKeyName)) {
+                            if (currentUniqueKeyName.equalsIgnoreCase(uniqueKeyName)) {
+                                throw new InputException("error.unique.key.name.already.exists");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
     @Override
     public void perfomeOK() {
     }

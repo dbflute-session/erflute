@@ -13,15 +13,11 @@ import org.eclipse.swt.widgets.Text;
 
 public class ConstraintTabWrapper extends ValidatableTabWrapper {
 
-    private ERTable copyData;
-
+    private final ERTable copyData;
     private Text constraintText;
-
     private Text primaryKeyNameText;
-
     private Text optionText;
-
-    private TableDialog tableDialog;
+    private final TableDialog tableDialog;
 
     public ConstraintTabWrapper(TableDialog tableDialog, TabFolder parent, int style, ERTable copyData) {
         super(tableDialog, parent, style, "label.constraint.and.option");
@@ -52,7 +48,7 @@ public class ConstraintTabWrapper extends ValidatableTabWrapper {
 
     @Override
     public void initComposite() {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 1;
         this.setLayout(gridLayout);
 

@@ -65,19 +65,20 @@ public class PersistentXml extends Persistent {
         int nodeElementNo = 1;
         int connectionNo = 1;
         int complexUniqueKeyNo = 1;
-        for (final NodeElement content : diagramContents.getContents()) {
+        for (final NodeElement nodeElement : diagramContents.getContents()) {
             final String nodeElementId;
-            if (content instanceof TableView) {
-                nodeElementId = ((TableView) content).buildTableViewId();
+            if (nodeElement instanceof TableView) {
+                nodeElementId = ((TableView) nodeElement).buildTableViewId();
             } else {
                 nodeElementId = String.valueOf(nodeElementNo);
             }
-            context.nodeElementMap.put(content, nodeElementId);
+            context.nodeElementMap.put(nodeElement, nodeElementId);
             nodeElementNo++;
-            final List<ConnectionElement> connections = content.getIncomings();
+            final List<ConnectionElement> connections = nodeElement.getIncomings();
             for (final ConnectionElement connection : connections) {
                 final String connectionId;
-                if (connection instanceof Relationship) {
+                if (nodeElement instanceof TableView && connection instanceof Relationship) {
+                    // basically relationship's parent is table but just in case
                     connectionId = ((Relationship) connection).buildRelationshipId();
                 } else {
                     connectionId = String.valueOf(connectionNo);
@@ -85,8 +86,8 @@ public class PersistentXml extends Persistent {
                 context.connectionMap.put(connection, connectionId);
                 connectionNo++;
             }
-            if (content instanceof ERTable) {
-                final ERTable table = (ERTable) content;
+            if (nodeElement instanceof ERTable) {
+                final ERTable table = (ERTable) nodeElement;
                 final List<ERColumn> columns = table.getColumns();
                 for (final ERColumn column : columns) {
                     if (column instanceof NormalColumn) {

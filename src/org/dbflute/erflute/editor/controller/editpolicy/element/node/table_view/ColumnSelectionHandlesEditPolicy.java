@@ -46,7 +46,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
      */
     @Override
     protected List createSelectionHandles() {
-        List list = new ArrayList();
+        final List list = new ArrayList();
 
         getHost().getRoot().getContents().refresh();
 
@@ -56,29 +56,29 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
     }
 
     private Rectangle getColumnRectangle() {
-        ColumnEditPart columnEditPart = (ColumnEditPart) this.getHost();
-        NormalColumn column = (NormalColumn) columnEditPart.getModel();
+        final ColumnEditPart columnEditPart = (ColumnEditPart) this.getHost();
+        final NormalColumn column = (NormalColumn) columnEditPart.getModel();
 
-        IFigure figure = columnEditPart.getFigure();
-        Rectangle rect = figure.getBounds();
+        final IFigure figure = columnEditPart.getFigure();
+        final Rectangle rect = figure.getBounds();
 
         int startY = 0;
         int endY = 0;
 
         if (column.getColumnHolder() instanceof ColumnGroup) {
-            ColumnGroup columnGroup = (ColumnGroup) column.getColumnHolder();
+            final ColumnGroup columnGroup = (ColumnGroup) column.getColumnHolder();
 
-            NormalColumn firstColumn = columnGroup.getColumns().get(0);
-            NormalColumn finalColumn = columnGroup.getColumns().get(columnGroup.getColumns().size() - 1);
+            final NormalColumn firstColumn = columnGroup.getColumns().get(0);
+            final NormalColumn finalColumn = columnGroup.getColumns().get(columnGroup.getColumns().size() - 1);
 
-            for (Object editPart : columnEditPart.getParent().getChildren()) {
-                NormalColumnEditPart normalColumnEditPart = (NormalColumnEditPart) editPart;
+            for (final Object editPart : columnEditPart.getParent().getChildren()) {
+                final NormalColumnEditPart normalColumnEditPart = (NormalColumnEditPart) editPart;
                 if (normalColumnEditPart.getModel() == firstColumn) {
-                    Rectangle bounds = normalColumnEditPart.getFigure().getBounds();
+                    final Rectangle bounds = normalColumnEditPart.getFigure().getBounds();
                     startY = bounds.y;
 
                 } else if (normalColumnEditPart.getModel() == finalColumn) {
-                    Rectangle bounds = normalColumnEditPart.getFigure().getBounds();
+                    final Rectangle bounds = normalColumnEditPart.getFigure().getBounds();
                     endY = bounds.y + bounds.height;
                 }
             }
@@ -94,13 +94,13 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
     @Override
     public void showTargetFeedback(Request request) {
         if (request instanceof DirectEditRequest) {
-            ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-            double zoom = zoomManager.getZoom();
+            final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
+            final double zoom = zoomManager.getZoom();
 
-            Rectangle columnRectangle = this.getColumnRectangle();
-            int center = (int) ((columnRectangle.y + (columnRectangle.height / 2)) * zoom);
+            final Rectangle columnRectangle = this.getColumnRectangle();
+            final int center = (int) ((columnRectangle.y + (columnRectangle.height / 2)) * zoom);
 
-            DirectEditRequest directEditRequest = (DirectEditRequest) request;
+            final DirectEditRequest directEditRequest = (DirectEditRequest) request;
 
             int y = 0;
 
@@ -111,18 +111,18 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 y = columnRectangle.y + columnRectangle.height - 1;
             }
 
-            RectangleFigure feedbackFigure = new RectangleFigure();
+            final RectangleFigure feedbackFigure = new RectangleFigure();
             feedbackFigure.setForegroundColor(ColorConstants.lightGray);
             feedbackFigure.setBackgroundColor(ColorConstants.lightGray);
             feedbackFigure.setBounds(new Rectangle((int) (zoom * columnRectangle.x), (int) (zoom * y),
                     (int) (zoom * columnRectangle.width), (int) (zoom * 2)));
 
-            LayerManager manager = (LayerManager) this.getHost().getRoot();
-            IFigure layer = manager.getLayer(LayerConstants.PRIMARY_LAYER);
+            final LayerManager manager = (LayerManager) this.getHost().getRoot();
+            final IFigure layer = manager.getLayer(LayerConstants.PRIMARY_LAYER);
 
-            IFigure feedbackLayer = this.getFeedbackLayer();
+            final IFigure feedbackLayer = this.getFeedbackLayer();
 
-            List children = this.getFeedbackLayer().getChildren();
+            final List children = this.getFeedbackLayer().getChildren();
             children.clear();
 
             feedbackLayer.setBounds(layer.getBounds());
@@ -148,14 +148,13 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
 
         if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP.equals(request.getType())
                 || ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN_GROUP.equals(request.getType())) {
-            DirectEditRequest editRequest = (DirectEditRequest) request;
+            final DirectEditRequest editRequest = (DirectEditRequest) request;
 
-            TableView tableView = (TableView) this.getHost().getParent().getModel();
-            ColumnGroup columnGroup =
-                    (ColumnGroup) ((Map) editRequest.getDirectEditFeature())
-                            .get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_GROUP);
+            final TableView tableView = (TableView) this.getHost().getParent().getModel();
+            final ColumnGroup columnGroup =
+                    (ColumnGroup) ((Map) editRequest.getDirectEditFeature()).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_GROUP);
 
-            Object parent =
+            final Object parent =
                     ((Map) editRequest.getDirectEditFeature()).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_PARENT);
 
             if (parent == tableView || !tableView.getColumns().contains(columnGroup)) {
@@ -180,41 +179,40 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
     public Command getCommand(Request request) {
         try {
             if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP.equals(request.getType())) {
-                DirectEditRequest editRequest = (DirectEditRequest) request;
+                final DirectEditRequest editRequest = (DirectEditRequest) request;
 
-                TableView tableView = (TableView) this.getHost().getParent().getModel();
-                ColumnGroup columnGroup =
-                        (ColumnGroup) ((Map) editRequest.getDirectEditFeature())
-                                .get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_GROUP);
+                final TableView tableView = (TableView) this.getHost().getParent().getModel();
+                final ColumnGroup columnGroup =
+                        (ColumnGroup) ((Map) editRequest.getDirectEditFeature()).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_GROUP);
 
                 if (!tableView.getColumns().contains(columnGroup)) {
                     return new AddColumnGroupCommand(tableView, columnGroup, this.getColumnIndex(editRequest));
                 }
 
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD.equals(request.getType())) {
-                DirectEditRequest editRequest = (DirectEditRequest) request;
+                final DirectEditRequest editRequest = (DirectEditRequest) request;
 
-                TableView table = (TableView) this.getHost().getParent().getModel();
-                Word word = (Word) editRequest.getDirectEditFeature();
+                final TableView table = (TableView) this.getHost().getParent().getModel();
+                final Word word = (Word) editRequest.getDirectEditFeature();
 
                 return new AddWordCommand(table, word, this.getColumnIndex(editRequest));
 
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN.equals(request.getType())) {
-                DirectEditRequest editRequest = (DirectEditRequest) request;
+                final DirectEditRequest editRequest = (DirectEditRequest) request;
 
-                TableView newTableView = (TableView) this.getHost().getParent().getModel();
+                final TableView newTableView = (TableView) this.getHost().getParent().getModel();
 
                 return createMoveColumnCommand(editRequest, this.getHost().getViewer(), newTableView, this.getColumnIndex(editRequest));
 
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN_GROUP.equals(request.getType())) {
-                DirectEditRequest editRequest = (DirectEditRequest) request;
+                final DirectEditRequest editRequest = (DirectEditRequest) request;
 
-                TableView newTableView = (TableView) this.getHost().getParent().getModel();
+                final TableView newTableView = (TableView) this.getHost().getParent().getModel();
 
                 return createMoveColumnGroupCommand(editRequest, newTableView, this.getColumnIndex(editRequest));
             }
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
 
@@ -222,39 +220,38 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
     }
 
     public static Command createMoveColumnCommand(DirectEditRequest editRequest, EditPartViewer viewer, TableView newTableView, int index) {
-        NormalColumn oldColumn = (NormalColumn) editRequest.getDirectEditFeature();
+        final NormalColumn oldColumn = (NormalColumn) editRequest.getDirectEditFeature();
 
-        TableView oldTableView = (TableView) oldColumn.getColumnHolder();
+        final TableView oldTableView = (TableView) oldColumn.getColumnHolder();
         if (newTableView == oldTableView) {
             return new ChangeColumnOrderCommand(newTableView, oldColumn, index);
         }
 
-        CompoundCommand command = new CompoundCommand();
+        final CompoundCommand command = new CompoundCommand();
 
-        // �Q�Ƃ��Ă���O���L�[�̕ύX
-        List<Relationship> relationList = oldColumn.getOutgoingRelationList();
+        final List<Relationship> relationList = oldColumn.getOutgoingRelationList();
 
         if (!relationList.isEmpty()) {
             Activator.showErrorDialog("error.reference.key.not.moveable");
             return null;
 
         } else if (oldColumn.isForeignKey()) {
-            Relationship oldRelation = oldColumn.getRelationshipList().get(0);
-            TableView referencedTableView = oldRelation.getSourceTableView();
+            final Relationship oldRelation = oldColumn.getRelationshipList().get(0);
+            final TableView referencedTableView = oldRelation.getSourceTableView();
 
             if (ERTable.isRecursive(referencedTableView, newTableView)) {
                 Activator.showErrorDialog("error.recursive.relation");
                 return null;
             }
 
-            DeleteRelationCommand deleteOldRelationCommand = new DeleteRelationCommand(oldRelation, true);
+            final DeleteRelationCommand deleteOldRelationCommand = new DeleteRelationCommand(oldRelation, true);
             command.add(deleteOldRelationCommand);
 
-            Relationship newRelation =
+            final Relationship newRelation =
                     new Relationship(oldRelation.isReferenceForPK(), oldRelation.getReferencedComplexUniqueKey(),
                             oldRelation.getReferencedColumn());
 
-            List<NormalColumn> oldForeignKeyColumnList = new ArrayList<NormalColumn>();
+            final List<NormalColumn> oldForeignKeyColumnList = new ArrayList<NormalColumn>();
 
             if (referencedTableView == newTableView) {
                 Activator.showErrorDialog("error.foreign.key.not.moveable.to.reference.table");
@@ -262,8 +259,8 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
             }
 
             if (oldRelation.isReferenceForPK()) {
-                for (NormalColumn referencedPrimaryKey : ((ERTable) referencedTableView).getPrimaryKeys()) {
-                    for (NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
+                for (final NormalColumn referencedPrimaryKey : ((ERTable) referencedTableView).getPrimaryKeys()) {
+                    for (final NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
                         if (oldTableColumn.isForeignKey()) {
                             if (oldTableColumn.getReferencedColumn(oldRelation) == referencedPrimaryKey) {
                                 oldForeignKeyColumnList.add(oldTableColumn);
@@ -273,8 +270,8 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                     }
                 }
             } else if (oldRelation.getReferencedComplexUniqueKey() != null) {
-                for (NormalColumn referencedColumn : oldRelation.getReferencedComplexUniqueKey().getColumnList()) {
-                    for (NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
+                for (final NormalColumn referencedColumn : oldRelation.getReferencedComplexUniqueKey().getColumnList()) {
+                    for (final NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
                         if (oldTableColumn.isForeignKey()) {
                             if (oldTableColumn.getReferencedColumn(oldRelation) == referencedColumn) {
                                 oldForeignKeyColumnList.add(oldTableColumn);
@@ -288,8 +285,8 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 oldForeignKeyColumnList.add(oldColumn);
             }
 
-            for (NormalColumn oldForeignKey : oldForeignKeyColumnList) {
-                List<Relationship> oldRelationList = oldForeignKey.getOutgoingRelationList();
+            for (final NormalColumn oldForeignKey : oldForeignKeyColumnList) {
+                final List<Relationship> oldRelationList = oldForeignKey.getOutgoingRelationList();
 
                 if (!oldRelationList.isEmpty()) {
                     Activator.showErrorDialog("error.reference.key.not.moveable");
@@ -297,10 +294,10 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 }
             }
 
-            CreateRelationCommand createNewRelationCommand = new CreateRelationCommand(newRelation, oldForeignKeyColumnList);
+            final CreateRelationCommand createNewRelationCommand = new CreateRelationCommand(newRelation, oldForeignKeyColumnList);
 
-            EditPart sourceEditPart = (EditPart) viewer.getEditPartRegistry().get(referencedTableView);
-            EditPart targetEditPart = (EditPart) viewer.getEditPartRegistry().get(newTableView);
+            final EditPart sourceEditPart = (EditPart) viewer.getEditPartRegistry().get(referencedTableView);
+            final EditPart targetEditPart = (EditPart) viewer.getEditPartRegistry().get(newTableView);
 
             createNewRelationCommand.setSource(sourceEditPart);
             createNewRelationCommand.setTarget(targetEditPart);
@@ -308,23 +305,23 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
             command.add(createNewRelationCommand);
 
         } else {
-            TableView copyOldTableView = oldTableView.copyData();
-            for (NormalColumn column : copyOldTableView.getNormalColumns()) {
-                CopyColumn copyColumn = (CopyColumn) column;
+            final TableView copyOldTableView = oldTableView.copyData();
+            for (final NormalColumn column : copyOldTableView.getNormalColumns()) {
+                final CopyColumn copyColumn = (CopyColumn) column;
                 if (copyColumn.getOriginalColumn() == oldColumn) {
                     copyOldTableView.removeColumn(copyColumn);
                     break;
                 }
             }
 
-            ChangeTableViewPropertyCommand sourceTableCommand = new ChangeTableViewPropertyCommand(oldTableView, copyOldTableView);
+            final ChangeTableViewPropertyCommand sourceTableCommand = new ChangeTableViewPropertyCommand(oldTableView, copyOldTableView);
             command.add(sourceTableCommand);
 
-            TableView copyNewTableView = newTableView.copyData();
-            CopyColumn copyColumn = new CopyColumn(oldColumn);
+            final TableView copyNewTableView = newTableView.copyData();
+            final CopyColumn copyColumn = new CopyColumn(oldColumn);
             copyColumn.setWord(new CopyWord(oldColumn.getWord()));
             copyNewTableView.addColumn(index, copyColumn);
-            ChangeTableViewPropertyCommand targetTableCommand = new ChangeTableViewPropertyCommand(newTableView, copyNewTableView);
+            final ChangeTableViewPropertyCommand targetTableCommand = new ChangeTableViewPropertyCommand(newTableView, copyNewTableView);
             command.add(targetTableCommand);
         }
 
@@ -332,29 +329,27 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
     }
 
     public static Command createMoveColumnGroupCommand(DirectEditRequest editRequest, TableView newTableView, int index) {
-        ColumnGroup columnGroup =
-                (ColumnGroup) ((Map) editRequest.getDirectEditFeature())
-                        .get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_GROUP);
+        final ColumnGroup columnGroup =
+                (ColumnGroup) ((Map) editRequest.getDirectEditFeature()).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_GROUP);
 
-        TableView oldTableView =
-                (TableView) ((Map) editRequest.getDirectEditFeature())
-                        .get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_PARENT);
+        final TableView oldTableView =
+                (TableView) ((Map) editRequest.getDirectEditFeature()).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_PARENT);
 
         if (newTableView == oldTableView) {
             return new ChangeColumnOrderCommand(newTableView, columnGroup, index);
         }
 
-        CompoundCommand command = new CompoundCommand();
+        final CompoundCommand command = new CompoundCommand();
 
-        TableView copyOldTableView = oldTableView.copyData();
-        for (ERColumn column : copyOldTableView.getColumns()) {
+        final TableView copyOldTableView = oldTableView.copyData();
+        for (final ERColumn column : copyOldTableView.getColumns()) {
             if (column == columnGroup) {
                 copyOldTableView.removeColumn(column);
                 break;
             }
         }
 
-        ChangeTableViewPropertyCommand sourceTableCommand = new ChangeTableViewPropertyCommand(oldTableView, copyOldTableView);
+        final ChangeTableViewPropertyCommand sourceTableCommand = new ChangeTableViewPropertyCommand(oldTableView, copyOldTableView);
         command.add(sourceTableCommand);
 
         if (!newTableView.getColumns().contains(columnGroup)) {
@@ -365,23 +360,23 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
     }
 
     private int getColumnIndex(DirectEditRequest editRequest) {
-        ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-        double zoom = zoomManager.getZoom();
+        final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
+        final double zoom = zoomManager.getZoom();
 
-        ColumnEditPart columnEditPart = (ColumnEditPart) this.getHost();
+        final ColumnEditPart columnEditPart = (ColumnEditPart) this.getHost();
 
         ERColumn column = (ERColumn) columnEditPart.getModel();
-        TableView newTableView = (TableView) this.getHost().getParent().getModel();
+        final TableView newTableView = (TableView) this.getHost().getParent().getModel();
 
-        List<ERColumn> columns = newTableView.getColumns();
+        final List<ERColumn> columns = newTableView.getColumns();
 
         if (column.getColumnHolder() instanceof ColumnGroup) {
             column = (ColumnGroup) column.getColumnHolder();
         }
         int index = columns.indexOf(column);
 
-        Rectangle columnRectangle = this.getColumnRectangle();
-        int center = (int) ((columnRectangle.y + (columnRectangle.height / 2)) * zoom);
+        final Rectangle columnRectangle = this.getColumnRectangle();
+        final int center = (int) ((columnRectangle.y + (columnRectangle.height / 2)) * zoom);
 
         if (editRequest.getLocation().y >= center) {
             index++;

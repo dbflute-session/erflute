@@ -22,7 +22,7 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private String name;
+    private String foreignKeyName; // null allowed (not required)
     private String onUpdateAction;
     private String onDeleteAction;
     private String parentCardinality;
@@ -165,7 +165,7 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
     public Relationship copy() {
         final Relationship to = new Relationship(this.isReferenceForPK(), this.getReferencedComplexUniqueKey(), this.getReferencedColumn());
 
-        to.setName(this.getName());
+        to.setForeignKeyName(this.getForeignKeyName());
         to.setOnDeleteAction(this.getOnDeleteAction());
         to.setOnUpdateAction(this.getOnUpdateAction());
         to.setChildCardinality(this.getChildCardinality());
@@ -178,7 +178,7 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
     }
 
     public Relationship restructureRelationData(Relationship to) {
-        to.setName(this.getName());
+        to.setForeignKeyName(this.getForeignKeyName());
         to.setOnDeleteAction(this.getOnDeleteAction());
         to.setOnUpdateAction(this.getOnUpdateAction());
         to.setChildCardinality(this.getChildCardinality());
@@ -250,12 +250,22 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         this.getTargetTableView().setDirty();
     }
 
-    public String buildRelationshipId() {
-        if (Srl.is_NotNull_and_NotTrimmedEmpty(name)) { // e.g. FK_MEMBER_MEMBER_STATUS
-            return name; // should be unique
+    public String buildRelationshipId() { // for complete state e.g. when writing
+        final TableView sourceTableView = getSourceTableView();
+        final TableView targetTableView = getTargetTableView();
+        return doBuildRelationshipId(sourceTableView.buildTableViewId(), targetTableView.buildTableViewId());
+    }
+
+    public String buildRelationshipId(String source, String target) { // for making state e.g. when reading
+        return doBuildRelationshipId(source, target);
+    }
+
+    private String doBuildRelationshipId(String source, String target) {
+        if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyName)) { // e.g. FK_MEMBER_MEMBER_STATUS
+            return foreignKeyName; // should be unique
         } else { // when no name FK
             final String pk = referenceForPK ? "PK" : "UQ"; // to be unique
-            return getTargetTableView().getPhysicalName() + "." + getForeignKeyColumns() + "." + pk;
+            return target + "::" + source + "::" + pk;
         }
     }
 
@@ -275,18 +285,18 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":{" + name + ", " + referencedColumn + "}";
+        return getClass().getSimpleName() + ":{" + foreignKeyName + ", " + referencedColumn + "}";
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public String getName() {
-        return name;
+    public String getForeignKeyName() {
+        return foreignKeyName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setForeignKeyName(String foreignKey) {
+        this.foreignKeyName = foreignKey;
     }
 
     public String getOnDeleteAction() {

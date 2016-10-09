@@ -323,7 +323,7 @@ public abstract class DDLCreator {
                 continue;
             }
 
-            for (Relationship relation : table.getOutgoingRelations()) {
+            for (Relationship relation : table.getOutgoingRelationshipList()) {
                 if (first) {
                     ddl.append("\r\n/* Create Foreign Keys */\r\n\r\n");
                     first = false;
@@ -775,9 +775,9 @@ public abstract class DDLCreator {
         ddl.append(filter(relation.getTargetTableView().getNameWithSchema(diagram.getDatabase())));
         ddl.append("\r\n");
         ddl.append("\tADD ");
-        if (relation.getName() != null && !relation.getName().trim().equals("")) {
+        if (relation.getForeignKeyName() != null && !relation.getForeignKeyName().trim().equals("")) {
             ddl.append("CONSTRAINT ");
-            ddl.append(filter(relation.getName()));
+            ddl.append(filter(relation.getForeignKeyName()));
             ddl.append(" ");
         }
         ddl.append("FOREIGN KEY (");
@@ -934,7 +934,7 @@ public abstract class DDLCreator {
 
         doneTables.add(table);
 
-        for (Relationship relation : table.getOutgoingRelations()) {
+        for (Relationship relation : table.getOutgoingRelationshipList()) {
             TableView targetTableView = relation.getTargetTableView();
             if (!doneTables.contains(targetTableView)) {
                 doneTables.add(targetTableView);

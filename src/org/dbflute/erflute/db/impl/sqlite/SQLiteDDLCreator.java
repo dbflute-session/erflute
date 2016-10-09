@@ -38,7 +38,7 @@ public class SQLiteDDLCreator extends DDLCreator {
     protected String getPrimaryKeyDDL(ERTable table) {
         StringBuilder ddl = new StringBuilder();
 
-        for (Relationship relation : table.getIncomingRelations()) {
+        for (Relationship relation : table.getIncomingRelationshipList()) {
             ddl.append(",\r\n\tFOREIGN KEY (");
 
             boolean first = true;

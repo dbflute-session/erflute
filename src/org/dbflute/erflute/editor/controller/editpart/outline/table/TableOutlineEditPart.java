@@ -48,7 +48,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         Category category = this.getCurrentCategory();
 
         if (!quickMode) {
-            for (Relationship relation : table.getIncomingRelations()) {
+            for (Relationship relation : table.getIncomingRelationshipList()) {
                 if (category == null || category.contains(relation.getSource())) {
                     children.add(relation);
                 }

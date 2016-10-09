@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVi
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
-import org.dbflute.erflute.editor.view.dialog.relationship.RelationByExistingColumnsDialog;
+import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipByExistingColumnsDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 
@@ -149,15 +149,15 @@ public class CreateRelationByExistingColumnsCommand extends AbstractCreateRelati
             return false;
         }
 
-        RelationByExistingColumnsDialog dialog =
-                new RelationByExistingColumnsDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), sourceTable,
+        RelationshipByExistingColumnsDialog dialog =
+                new RelationshipByExistingColumnsDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), sourceTable,
                         candidateForeignKeyColumns, referencedMap, foreignKeySetMap);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             this.relation = new Relationship(dialog.isReferenceForPK(), dialog.getReferencedComplexUniqueKey(), dialog.getReferencedColumn());
             final String defaultName = prepareDefaultFKConstraintName(sourceTable, targetTable);
             if (defaultName != null) {
-                this.relation.setName(defaultName);
+                this.relation.setForeignKeyName(defaultName);
             }
             this.referencedColumnList = dialog.getReferencedColumnList();
             this.foreignKeyColumnList = dialog.getForeignKeyColumnList();
