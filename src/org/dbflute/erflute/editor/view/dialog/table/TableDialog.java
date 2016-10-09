@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
 import org.dbflute.erflute.editor.view.dialog.table.tab.AdvancedTabWrapper;
-import org.dbflute.erflute.editor.view.dialog.table.tab.AttributeTabWrapper;
+import org.dbflute.erflute.editor.view.dialog.table.tab.TableAttributeTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.table.tab.ComplexUniqueKeyTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.table.tab.ConstraintTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.table.tab.DescriptionTabWrapper;
@@ -63,7 +63,7 @@ public class TableDialog extends AbstractDialog {
         gridData.horizontalAlignment = GridData.FILL;
         this.tabFolder = new TabFolder(composite, SWT.NONE);
         this.tabFolder.setLayoutData(gridData);
-        final AttributeTabWrapper attributeTabWrapper = new AttributeTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
+        final TableAttributeTabWrapper attributeTabWrapper = new TableAttributeTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
         this.tabWrapperList.add(attributeTabWrapper);
         this.tabWrapperList.add(new DescriptionTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
         final ComplexUniqueKeyTabWrapper complexUniqueKeyTabWrapper =

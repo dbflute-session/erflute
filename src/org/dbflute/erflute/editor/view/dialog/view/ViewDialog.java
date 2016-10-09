@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
 import org.dbflute.erflute.editor.view.dialog.view.tab.AdvancedTabWrapper;
-import org.dbflute.erflute.editor.view.dialog.view.tab.AttributeTabWrapper;
+import org.dbflute.erflute.editor.view.dialog.view.tab.ViewAttributeTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.view.tab.DescriptionTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.view.tab.SqlTabWrapper;
 import org.eclipse.gef.EditPartViewer;
@@ -55,7 +55,7 @@ public class ViewDialog extends AbstractDialog {
         this.tabFolder = new TabFolder(composite, SWT.NONE);
         this.tabFolder.setLayoutData(gridData);
 
-        final AttributeTabWrapper attributeTabWrapper = new AttributeTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
+        final ViewAttributeTabWrapper attributeTabWrapper = new ViewAttributeTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
         this.tabWrapperList.add(attributeTabWrapper);
 
         this.tabWrapperList.add(new SqlTabWrapper(this, tabFolder, SWT.NONE, this.copyData));

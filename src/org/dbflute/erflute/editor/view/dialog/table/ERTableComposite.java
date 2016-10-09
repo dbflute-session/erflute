@@ -401,27 +401,12 @@ public class ERTableComposite extends Composite {
         }
     }
 
-    /**
-     * <pre>
-     * �ｽJ�ｽ�ｽ�ｽ�ｽ�ｽﾌ追隠箏ゑｿｽ�ｽ鼾�
-     * CopyColumn �ｽ�ｽ�ｽﾇ隠�ｽ�ｽ�ｽﾜゑｿｽ
-     * �ｽ�ｽ�ｽﾌ際、word �ｽﾉゑｿｽ CopyWord �ｽ�ｽ�ｽﾝ定さ�ｽ�ｽﾄゑｿｽ�ｽﾜゑｿｽ
-     * �ｽiCopyWord �ｽ�ｽ original �ｽ�ｽ �ｽ�ｽ�ｽ[�ｽh�ｽ�ｽI�ｽ箏ゑｿｽ�ｽ鼾�ｿｽﾍ、�ｽ�ｽ�ｽﾌイ�ｽ�ｽ�ｽX�ｽ^�ｽ�ｽ�ｽX
-     *  �ｽI�ｽ箏なゑｿｽ�ｽB�ｽ�ｽ鼾�ｿｽﾍ、�ｽV�ｽ�ｽ�ｽ�ｽ�ｽC�ｽ�ｽ�ｽX�ｽ^�ｽ�ｽ�ｽX�ｽj
-     * </pre>
-     *
-     * @param column
-     * @param add
-     */
     private void addTableData(NormalColumn column, boolean add) {
         final int index = this.table.getSelectionIndex();
-
         TableItem tableItem = null;
         CopyColumn copyColumn = null;
-
         if (add) {
             tableItem = new TableItem(table, SWT.NONE);
-
             copyColumn = new CopyColumn(column);
             this.columnList.add(copyColumn);
 

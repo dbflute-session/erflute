@@ -9,6 +9,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -30,68 +31,59 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTableCompositeHolder {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ERTableCompositeHolder {
 
     private static final int GROUP_TABLE_HEIGHT = 75;
 
-    private ERView copyData;
-
+    private final ERView view;
     private Text physicalNameText;
-
     private Text logicalNameText;
-
+    private String previousPhysicalName;
     private Combo groupCombo;
-
     private Button groupAddButton;
-
     private Button groupManageButton;
-
-    private ViewDialog viewDialog;
-
+    private final ViewDialog viewDialog;
     private ERTableComposite tableComposite;
-
     private ERTableComposite groupTableComposite;
 
-    public AttributeTabWrapper(ViewDialog viewDialog, TabFolder parent, int style, ERView copyData) {
+    public ViewAttributeTabWrapper(ViewDialog viewDialog, TabFolder parent, int style, ERView copyData) {
         super(viewDialog, parent, style, "label.table.attribute");
-
-        this.copyData = copyData;
+        this.view = copyData;
         this.viewDialog = viewDialog;
-
         this.init();
     }
 
     @Override
     public void initComposite() {
-        this.setLayout(new GridLayout());
-
-        this.createHeader(this);
-        this.createBody(this);
-        this.createFooter(this);
+        setLayout(new GridLayout());
+        createHeader(this);
+        createBody(this);
+        createFooter(this);
     }
 
     private void createHeader(Composite parent) {
-        Composite header = new Composite(parent, SWT.NONE);
-
-        GridLayout gridLayout = new GridLayout(4, false);
+        final Composite header = new Composite(parent, SWT.NONE);
+        final GridLayout gridLayout = new GridLayout(4, false);
         gridLayout.horizontalSpacing = 20;
-
         header.setLayout(gridLayout);
-
-        this.physicalNameText = CompositeFactory.createText(viewDialog, header, "label.physical.name", 1, 200, false);
-        this.logicalNameText = CompositeFactory.createText(viewDialog, header, "label.logical.name", 1, 200, true);
-
-        this.physicalNameText.setText(Format.null2blank(copyData.getPhysicalName()));
-        this.logicalNameText.setText(Format.null2blank(copyData.getLogicalName()));
+        physicalNameText = CompositeFactory.createText(viewDialog, header, "label.physical.name", 1, 200, false);
+        logicalNameText = CompositeFactory.createText(viewDialog, header, "label.logical.name", 1, 200, true);
+        physicalNameText.setText(Format.null2blank(view.getPhysicalName()));
+        logicalNameText.setText(Format.null2blank(view.getLogicalName()));
+        previousPhysicalName = physicalNameText.getText();
     }
 
     private void createBody(Composite parent) {
-        Composite content = new Composite(parent, SWT.BORDER);
-        GridData contentGridData = new GridData();
+        final Composite content = new Composite(parent, SWT.BORDER);
+        final GridData contentGridData = new GridData();
         contentGridData.horizontalAlignment = GridData.FILL;
         contentGridData.grabExcessHorizontalSpace = true;
 
@@ -103,39 +95,18 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
     }
 
     private void initTable(Composite parent) {
-        ViewColumnDialog columnDialog =
-                new ViewColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.copyData);
+        final ViewColumnDialog columnDialog =
+                new ViewColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.view);
 
         this.tableComposite =
-                new ERTableComposite(this, parent, this.copyData.getDiagram(), null, this.copyData.getColumns(), columnDialog,
-                        this.viewDialog, 2, true, false);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void validatePage() throws InputException {
-        String text = logicalNameText.getText().trim();
-        this.copyData.setLogicalName(text);
-
-        if (text.equals("")) {
-            throw new InputException("error.table.logical.name.empty");
-        }
-
-        text = physicalNameText.getText().trim();
-        if (!Check.isAlphabet(text)) {
-            if (copyData.getDiagram().getDiagramContents().getSettings().isValidatePhysicalName()) {
-                throw new InputException("error.table.physical.name.not.alphabet");
-            }
-        }
-        this.copyData.setPhysicalName(text);
+                new ERTableComposite(this, parent, this.view.getDiagram(), null, this.view.getColumns(), columnDialog, this.viewDialog, 2,
+                        true, false);
     }
 
     private void createFooter(Composite parent) {
-        Composite footer = new Composite(parent, SWT.NONE);
+        final Composite footer = new Composite(parent, SWT.NONE);
 
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
         footer.setLayout(gridLayout);
 
@@ -151,12 +122,12 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int targetIndex = groupCombo.getSelectionIndex();
+                final int targetIndex = groupCombo.getSelectionIndex();
                 if (targetIndex == -1) {
                     return;
                 }
 
-                ColumnGroup columnGroup = getColumnGroups().get(targetIndex);
+                final ColumnGroup columnGroup = getColumnGroups().get(targetIndex);
                 tableComposite.addTableData(columnGroup);
 
                 groupAddButton.setEnabled(false);
@@ -176,7 +147,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
      * 
      */
     private void createGroupCombo(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.widthHint = 200;
 
         this.groupCombo = new Combo(parent, SWT.READ_ONLY);
@@ -189,7 +160,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int targetIndex = groupCombo.getSelectionIndex();
+                final int targetIndex = groupCombo.getSelectionIndex();
                 if (targetIndex == -1) {
                     return;
                 }
@@ -202,7 +173,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
     private void initGroupCombo() {
         this.groupCombo.removeAll();
 
-        for (ColumnGroup columnGroup : this.getColumnGroups()) {
+        for (final ColumnGroup columnGroup : this.getColumnGroups()) {
             this.groupCombo.add(columnGroup.getGroupName());
         }
 
@@ -211,9 +182,8 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
 
     private void restructGroup() {
         this.initGroupCombo();
-
         int index = 0;
-        for (ERColumn column : this.copyData.getColumns()) {
+        for (final ERColumn column : this.view.getColumns()) {
             if (column instanceof ColumnGroup) {
                 if (!this.getColumnGroups().contains((ColumnGroup) column)) {
                     this.tableComposite.removeColumn(index);
@@ -222,19 +192,17 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
             }
             index++;
         }
-
         this.viewDialog.validate();
     }
 
     /**
      * This method initializes group
-     * 
      */
     private void createGroup(Composite parent) {
-        GridData gridData1 = new GridData();
+        final GridData gridData1 = new GridData();
         gridData1.heightHint = 100;
         gridData1.widthHint = -1;
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.heightHint = -1;
         gridData.horizontalSpan = 2;
 
@@ -251,38 +219,24 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
         // expandableComposite.setClient(inner);
         // toolkit.createLabel(inner, "aaa");
 
-        Group group = new Group(parent, SWT.NONE);
+        final Group group = new Group(parent, SWT.NONE);
         group.setLayout(new GridLayout());
         group.setLayoutData(gridData);
-
         this.groupTableComposite =
-                new ERTableComposite(this, group, this.copyData.getDiagram(), null, null, null, null, 2, false, false, GROUP_TABLE_HEIGHT);
-
+                new ERTableComposite(this, group, this.view.getDiagram(), null, null, null, null, 2, false, false, GROUP_TABLE_HEIGHT);
         this.groupManageButton = new Button(group, SWT.NONE);
         this.groupManageButton.setText(DisplayMessages.getMessage("label.button.group.manage"));
-
         this.groupManageButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                GroupSet groupSet = getColumnGroups();
-
-                GroupManageDialog dialog =
-                        new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, copyData
-                                .getDiagram(), false, -1);
-
+                final GroupSet groupSet = getColumnGroups();
+                final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                final GroupManageDialog dialog = new GroupManageDialog(shell, groupSet, view.getDiagram(), false, -1);
                 if (dialog.open() == IDialogConstants.OK_ID) {
-                    List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
-
-                    Command command = new ChangeGroupCommand(viewDialog.getDiagram(), groupSet, newColumnGroups);
-
+                    final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
+                    final Command command = new ChangeGroupCommand(viewDialog.getDiagram(), groupSet, newColumnGroups);
                     viewDialog.getViewer().getEditDomain().getCommandStack().execute(command);
-
                     restructGroup();
-
                     groupAddButton.setEnabled(false);
                 }
             }
@@ -291,7 +245,7 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
     }
 
     private GroupSet getColumnGroups() {
-        return this.copyData.getDiagram().getDiagramContents().getGroups();
+        return this.view.getDiagram().getDiagramContents().getGroups();
     }
 
     /**
@@ -302,28 +256,56 @@ public class AttributeTabWrapper extends ValidatableTabWrapper implements ERTabl
         this.physicalNameText.setFocus();
     }
 
+    @Override
     public void selectGroup(ColumnGroup selectedColumn) {
-        int targetIndex = this.getColumnGroups().indexOf(selectedColumn);
-
+        final int targetIndex = this.getColumnGroups().indexOf(selectedColumn);
         this.groupCombo.select(targetIndex);
         this.selectGroup(targetIndex);
-
         this.groupAddButton.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
     private void selectGroup(int targetIndex) {
-        ColumnGroup columnGroup = getColumnGroups().get(targetIndex);
-
-        if (this.copyData.getColumns().contains(columnGroup)) {
+        final ColumnGroup columnGroup = getColumnGroups().get(targetIndex);
+        if (this.view.getColumns().contains(columnGroup)) {
             this.groupAddButton.setEnabled(false);
         } else {
             this.groupAddButton.setEnabled(true);
         }
-
-        this.groupTableComposite.setColumnList((List) columnGroup.getColumns());
+        @SuppressWarnings("rawtypes")
+        final List columns = columnGroup.getColumns(); // to avoid generic headache
+        this.groupTableComposite.setColumnList(columns);
     }
 
+    // ===================================================================================
+    //                                                                          Validation
+    //                                                                          ==========
+    @Override
+    public void validatePage() throws InputException {
+        final String physicalName = physicalNameText.getText().trim();
+        if (!Check.isAlphabet(physicalName)) {
+            if (view.getDiagram().getDiagramContents().getSettings().isValidatePhysicalName()) {
+                throw new InputException("error.table.physical.name.not.alphabet");
+            }
+        }
+        final List<TableView> tableViewList = view.getDiagram().getDiagramContents().getContents().getTableViewList();
+        for (final TableView tableView : tableViewList) {
+            final String currentName = tableView.getPhysicalName();
+            if (previousPhysicalName != null && !previousPhysicalName.equalsIgnoreCase(currentName)) { // other tables
+                if (currentName.equalsIgnoreCase(physicalName)) {
+                    throw new InputException("error.table.physical.name.already.exists");
+                }
+            }
+        }
+        view.setPhysicalName(physicalName);
+
+        final String logicalName = logicalNameText.getText().trim();
+        view.setLogicalName(logicalName);
+    }
+
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
     @Override
     public void perfomeOK() {
     }
