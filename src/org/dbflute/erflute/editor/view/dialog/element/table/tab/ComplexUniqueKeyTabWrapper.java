@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CopyComplexUniqueKey;
-import org.dbflute.erflute.editor.view.dialog.common.ERTableComposite;
+import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;

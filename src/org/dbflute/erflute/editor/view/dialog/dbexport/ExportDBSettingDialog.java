@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.db.PreTableExportManager;
 import org.dbflute.erflute.editor.model.settings.Environment;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.common.AbstractDBSettingDialog;
+import org.dbflute.erflute.editor.view.dialog.dbsetting.AbstractDBSettingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;

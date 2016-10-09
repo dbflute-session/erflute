@@ -13,9 +13,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
-import org.dbflute.erflute.editor.view.dialog.common.ERTableComposite;
-import org.dbflute.erflute.editor.view.dialog.common.ERTableCompositeHolder;
-import org.dbflute.erflute.editor.view.dialog.word.column.real.GroupColumnDialog;
+import org.dbflute.erflute.editor.view.dialog.column.real.GroupColumnDialog;
+import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
+import org.dbflute.erflute.editor.view.dialog.table.ERTableCompositeHolder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;

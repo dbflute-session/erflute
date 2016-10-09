@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.view.dialog.common.AbstractDBSettingDialog;
+import org.dbflute.erflute.editor.view.dialog.dbsetting.AbstractDBSettingDialog;
 import org.dbflute.erflute.preference.PreferenceInitializer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;

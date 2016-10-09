@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.common;
+package org.dbflute.erflute.editor.view.dialog.table;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.view.dialog.word.column.AbstractColumnDialog;
+import org.dbflute.erflute.editor.view.dialog.column.AbstractColumnDialog;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;

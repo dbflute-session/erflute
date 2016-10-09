@@ -15,11 +15,11 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
-import org.dbflute.erflute.editor.view.dialog.common.ERTableComposite;
-import org.dbflute.erflute.editor.view.dialog.common.ERTableCompositeHolder;
+import org.dbflute.erflute.editor.view.dialog.column.real.ColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.element.table.TableDialog;
 import org.dbflute.erflute.editor.view.dialog.group.GroupManageDialog;
-import org.dbflute.erflute.editor.view.dialog.word.column.real.ColumnDialog;
+import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
+import org.dbflute.erflute.editor.view.dialog.table.ERTableCompositeHolder;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;

@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.common;
+package org.dbflute.erflute.editor.view.dialog.dbsetting;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;

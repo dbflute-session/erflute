@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.word.column;
+package org.dbflute.erflute.editor.view.dialog.column;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -16,7 +16,6 @@ public class ViewColumnDialog extends AbstractColumnDialog {
         if (this.foreignKey) {
             style |= SWT.READ_ONLY;
         }
-
         return style;
     }
 
@@ -25,28 +24,21 @@ public class ViewColumnDialog extends AbstractColumnDialog {
         return "dialog.title.column";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initializeComposite(Composite parent) {
         super.initializeComposite(parent);
-
         if (this.foreignKey) {
-            this.wordCombo.setEnabled(false);
+            // #for_erflute not use word linkage
+            //this.wordCombo.setEnabled(false);
             this.typeCombo.setEnabled(false);
             this.lengthText.setEnabled(false);
             this.decimalText.setEnabled(false);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void perfomeOK() {
         super.perfomeOK();
-
         this.returnColumn = new NormalColumn(this.returnWord, false, false, false, false, null, null, null, null, null);
     }
 

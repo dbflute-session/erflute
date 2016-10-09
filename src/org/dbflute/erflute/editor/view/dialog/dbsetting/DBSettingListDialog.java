@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.common;
+package org.dbflute.erflute.editor.view.dialog.dbsetting;
 
 import java.util.ArrayList;
 import java.util.List;

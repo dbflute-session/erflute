@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.word.column.real;
+package org.dbflute.erflute.editor.view.dialog.column.real;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.eclipse.swt.widgets.Shell;
