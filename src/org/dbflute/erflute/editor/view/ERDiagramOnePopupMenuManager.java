@@ -13,11 +13,10 @@ import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToImageAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromFileAction;
-import org.dbflute.erflute.editor.view.action.edit.EditAllAttributesAction;
-import org.dbflute.erflute.editor.view.action.ermodel.ERModelAddAction;
 import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
 import org.dbflute.erflute.editor.view.action.ermodel.VGroupManageAction;
+import org.dbflute.erflute.editor.view.action.ermodel.VirtualModelAddAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ResizeModelAction;
 import org.dbflute.erflute.editor.view.action.line.RightAngleLineAction;
@@ -115,7 +114,6 @@ public class ERDiagramOnePopupMenuManager extends MenuManager {
 
         this.add(this.getAction(ActionFactory.DELETE));
         this.add(this.getAction(ActionFactory.SELECT_ALL));
-        this.add(this.getAction(EditAllAttributesAction.ID));
 
         this.add(new Separator());
 
@@ -198,7 +196,7 @@ public class ERDiagramOnePopupMenuManager extends MenuManager {
         vgroupMenu.add(this.getAction(VGroupManageAction.ID));
         this.add(vgroupMenu);
 
-        this.add(this.getAction(ERModelAddAction.ID));
+        this.add(this.getAction(VirtualModelAddAction.ID));
         this.add(this.getAction(PlaceTableAction.ID));
         this.add(this.getAction(OptionSettingAction.ID));
 

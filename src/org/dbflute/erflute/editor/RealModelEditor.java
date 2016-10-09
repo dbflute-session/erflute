@@ -29,12 +29,11 @@ import org.dbflute.erflute.editor.view.action.dbimport.ImportFromFileAction;
 import org.dbflute.erflute.editor.view.action.edit.ChangeBackgroundColorAction;
 import org.dbflute.erflute.editor.view.action.edit.CopyAction;
 import org.dbflute.erflute.editor.view.action.edit.DeleteWithoutUpdateAction;
-import org.dbflute.erflute.editor.view.action.edit.EditAllAttributesAction;
 import org.dbflute.erflute.editor.view.action.edit.EditExcelAction;
 import org.dbflute.erflute.editor.view.action.edit.PasteAction;
 import org.dbflute.erflute.editor.view.action.edit.SelectAllContentsAction;
-import org.dbflute.erflute.editor.view.action.ermodel.ERModelAddAction;
 import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
+import org.dbflute.erflute.editor.view.action.ermodel.VirtualModelAddAction;
 import org.dbflute.erflute.editor.view.action.group.GroupManageAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ERDiagramAlignmentAction;
@@ -269,7 +268,7 @@ public class RealModelEditor extends GraphicalEditorWithPalette {
                         new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
                         /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
                         /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
-                        /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this), new EditAllAttributesAction(this),
+                        /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this), /* #deleted new EditAllAttributesAction(this), */
                         new DirectEditAction((IWorkbenchPart) this), new ERDiagramAlignmentAction(this, PositionConstants.LEFT),
                         new ERDiagramAlignmentAction(this, PositionConstants.CENTER),
                         new ERDiagramAlignmentAction(this, PositionConstants.RIGHT),
@@ -279,7 +278,7 @@ public class RealModelEditor extends GraphicalEditorWithPalette {
                         new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
                         new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
                         new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
-                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new ERModelAddAction(this),
+                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new VirtualModelAddAction(this),
                         new ERModelQuickOutlineAction(this), }));
 
         actionList.addAll(this.extensionLoader.createExtendedActions());
