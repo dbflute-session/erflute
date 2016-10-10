@@ -12,6 +12,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
@@ -171,10 +172,8 @@ public class ErmXmlReader {
                 final ERView view = viewLoader.loadView((Element) content, context, diagram, database);
                 contents.addNodeElement(view);
             } else if ("note".equals(content.getNodeName())) {
-                // #willfix note on real model by jflute
-                System.out.println("*Unsupported for now: " + content);
-                //final Note note = noteLoader.loadNote((Element) node, context);
-                //contents.addNodeElement(note);
+                final Note note = noteLoader.loadNote((Element) content, context);
+                contents.addNodeElement(note);
             } else if ("image".equals(content.getNodeName())) {
                 final InsertedImage insertedImage = imageLoader.loadInsertedImage((Element) content, context);
                 contents.addNodeElement(insertedImage);

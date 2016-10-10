@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
@@ -97,14 +98,17 @@ public class ReadERModelLoader {
         final List<Note> notes = new ArrayList<Note>();
         final Element elNotes = getElement(modelElement, "notes");
         if (elNotes != null) {
-            final NodeList noteEls = elNotes.getElementsByTagName("note");
-            for (int k = 0; k < noteEls.getLength(); k++) {
-                final Element noteElement = (Element) noteEls.item(k);
-                final Note note = noteLoader.loadNote(model, noteElement, context);
-                final String id = this.getStringValue(noteElement, "id");
-                context.nodeElementMap.put(id, note);
+            final NodeList noteNodeList = elNotes.getElementsByTagName("note");
+            for (int i = 0; i < noteNodeList.getLength(); i++) {
+                final Element noteElement = (Element) noteNodeList.item(i);
+                final Note note = noteLoader.loadNote(noteElement, context, model);
                 notes.add(note);
-                diagram.getDiagramContents().getContents().addNodeElement(note);
+                final String id = getStringValue(noteElement, "id");
+                if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster
+                    context.nodeElementMap.put(id, note);
+                }
+                // unneeded because note is independent on model by jflute
+                //diagram.getDiagramContents().getContents().addNodeElement(note);
             }
         }
         model.setNotes(notes);
@@ -118,9 +122,11 @@ public class ReadERModelLoader {
             for (int k = 0; k < groupEls.getLength(); k++) {
                 final Element groupElement = (Element) groupEls.item(k);
                 final VGroup group = groupLoader.loadGroup(model, groupElement, context);
-                final String id = getStringValue(groupElement, "id");
-                context.nodeElementMap.put(id, group);
                 groups.add(group);
+                final String id = getStringValue(groupElement, "id");
+                if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster
+                    context.nodeElementMap.put(id, group);
+                }
             }
         }
         model.setGroups(groups);

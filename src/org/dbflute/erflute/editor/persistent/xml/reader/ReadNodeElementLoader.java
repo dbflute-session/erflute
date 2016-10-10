@@ -43,7 +43,7 @@ public class ReadNodeElementLoader {
             if (nodeElement instanceof TableView) {
                 id = ((TableView) nodeElement).buildTableViewId(); // #for_erflute
             } else {
-                id = "#error:unknownId_for_" + nodeElement.getName();
+                id = nodeElement.getClass().getSimpleName() + "_" + nodeElement.hashCode();
             }
         }
         assistLogic.loadLocation(nodeElement, element);

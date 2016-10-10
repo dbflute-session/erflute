@@ -158,6 +158,16 @@ public class ERModel extends NodeElement {
         return 6;
     }
 
+    @Override
+    public boolean isUsePersistentId() {
+        return true;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
+        return false;
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========

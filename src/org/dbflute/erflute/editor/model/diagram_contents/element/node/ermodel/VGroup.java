@@ -128,30 +128,11 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     }
 
     // ===================================================================================
-    //                                                                      Basic Override
-    //                                                                      ==============
-    @Override
-    public int compareTo(VGroup other) {
-        return Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
-    }
-
-    @Override
-    public VGroup clone() {
-        final VGroup clone = (VGroup) super.clone();
-        return clone;
-    }
-
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    //                                                                     as Object Model
+    //                                                                     ===============
     @Override
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-        this.firePropertyChange(PROPERTY_CHANGE_VGROUP, null, null);
     }
 
     @Override
@@ -169,9 +150,44 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
         return false;
     }
 
+    // ===================================================================================
+    //                                                                     as Node Element
+    //                                                                     ===============
     @Override
     public int getPersistentOrder() {
         return 16;
+    }
+
+    @Override
+    public boolean isUsePersistentId() {
+        return false;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
+        return true;
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public int compareTo(VGroup other) {
+        return Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
+    }
+
+    @Override
+    public VGroup clone() {
+        final VGroup clone = (VGroup) super.clone();
+        return clone;
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public void setName(String name) {
+        this.name = name;
+        this.firePropertyChange(PROPERTY_CHANGE_VGROUP, null, null);
     }
 
     public List<NodeElement> getContents() {

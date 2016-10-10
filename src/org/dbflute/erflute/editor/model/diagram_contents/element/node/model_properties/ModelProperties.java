@@ -102,4 +102,14 @@ public class ModelProperties extends NodeElement implements Cloneable {
     public int getPersistentOrder() {
         return 8;
     }
+
+    @Override
+    public boolean isUsePersistentId() {
+        return true;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
+        return false;
+    }
 }

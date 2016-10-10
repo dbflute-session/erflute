@@ -71,8 +71,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 
         modelChildren.add(diagram.getDiagramContents().getSettings().getModelProperties());
         final List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
-        for (final NodeElement nodeElement : nodeElementList) {
-            modelChildren.add(nodeElement);
+        for (final NodeElement element : nodeElementList) {
+            modelChildren.add(element);
         }
         return modelChildren;
     }

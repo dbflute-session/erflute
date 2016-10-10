@@ -68,19 +68,19 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
-    public void remove(NodeElement nodeElement) {
-        if (nodeElement instanceof ERTable) {
-            this.tableSet.remove((ERTable) nodeElement);
-        } else if (nodeElement instanceof ERView) {
-            this.viewSet.remove((ERView) nodeElement);
-        } else if (nodeElement instanceof Note) {
-            this.noteSet.remove((Note) nodeElement);
-        } else if (nodeElement instanceof InsertedImage) {
-            this.insertedImageSet.remove((InsertedImage) nodeElement);
+    public void remove(NodeElement element) {
+        if (element instanceof ERTable) {
+            this.tableSet.remove((ERTable) element);
+        } else if (element instanceof ERView) {
+            this.viewSet.remove((ERView) element);
+        } else if (element instanceof Note) {
+            this.noteSet.remove((Note) element);
+        } else if (element instanceof InsertedImage) {
+            this.insertedImageSet.remove((InsertedImage) element);
         } else {
-            System.out.println("*Unsupported node element: " + nodeElement);
+            System.out.println("*Unsupported node element: " + element);
         }
-        nodeElementList.remove(nodeElement);
+        nodeElementList.remove(element);
         firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
     }
 

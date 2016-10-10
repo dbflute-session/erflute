@@ -379,6 +379,16 @@ public abstract class TableView extends NodeElement implements ObjectModel, Colu
         }
     }
 
+    @Override
+    public boolean isUsePersistentId() {
+        return false;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
+        return false;
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========

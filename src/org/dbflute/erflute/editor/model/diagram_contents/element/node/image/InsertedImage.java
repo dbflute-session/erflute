@@ -25,17 +25,9 @@ public class InsertedImage extends NodeElement {
         this.alpha = 255;
     }
 
-    public String getBase64EncodedData() {
-        return base64EncodedData;
-    }
-
-    public void setBase64EncodedData(String base64EncodedData) {
-        this.base64EncodedData = base64EncodedData;
-    }
-
     @Override
-    public String getDescription() {
-        return null;
+    public String getObjectType() {
+        return "image";
     }
 
     @Override
@@ -44,8 +36,28 @@ public class InsertedImage extends NodeElement {
     }
 
     @Override
-    public String getObjectType() {
-        return "image";
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public boolean needsUpdateOtherModel() {
+        return true;
+    }
+
+    @Override
+    public int getPersistentOrder() {
+        return 14;
+    }
+
+    @Override
+    public boolean isUsePersistentId() {
+        return true;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
+        return true;
     }
 
     public void setImageFilePath(String imageFilePath) {
@@ -71,6 +83,21 @@ public class InsertedImage extends NodeElement {
                 }
             }
         }
+    }
+
+    public void setDirty() {
+        this.firePropertyChange(PROPERTY_CHANGE_IMAGE, null, null);
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public String getBase64EncodedData() {
+        return base64EncodedData;
+    }
+
+    public void setBase64EncodedData(String base64EncodedData) {
+        this.base64EncodedData = base64EncodedData;
     }
 
     public int getHue() {
@@ -111,19 +138,5 @@ public class InsertedImage extends NodeElement {
 
     public void setFixAspectRatio(boolean fixAspectRatio) {
         this.fixAspectRatio = fixAspectRatio;
-    }
-
-    public void setDirty() {
-        this.firePropertyChange(PROPERTY_CHANGE_IMAGE, null, null);
-    }
-
-    @Override
-    public boolean needsUpdateOtherModel() {
-        return true;
-    }
-
-    @Override
-    public int getPersistentOrder() {
-        return 14;
     }
 }

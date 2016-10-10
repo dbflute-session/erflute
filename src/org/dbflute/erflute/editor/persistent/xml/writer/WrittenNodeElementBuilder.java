@@ -8,7 +8,6 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Comm
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
@@ -37,7 +36,7 @@ public class WrittenNodeElementBuilder {
     //                                                                        ============
     public String buildNodeElement(NodeElement nodeElement, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        if (!(nodeElement instanceof TableView)) {
+        if (nodeElement.isUsePersistentId()) {
             final String id = context.nodeElementMap.get(nodeElement);
             if (id != null) { // null allowed when e.g. modelProperties
                 xml.append("<id>").append(Format.toString(id)).append("</id>\n");

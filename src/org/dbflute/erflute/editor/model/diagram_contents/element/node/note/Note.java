@@ -22,7 +22,7 @@ public class Note extends NodeElement implements Comparable<Note> {
     //                                                                           Attribute
     //                                                                           =========
     private String text;
-    private ERModel model;
+    private ERModel model; // null allowed: when main model
 
     // ===================================================================================
     //                                                                         Constructor
@@ -78,6 +78,16 @@ public class Note extends NodeElement implements Comparable<Note> {
     @Override
     public int getPersistentOrder() {
         return 12;
+    }
+
+    @Override
+    public boolean isUsePersistentId() {
+        return false;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
+        return true;
     }
 
     // ===================================================================================

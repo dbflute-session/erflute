@@ -29,10 +29,20 @@ public class ReadNoteLoader {
     // ===================================================================================
     //                                                                               Note
     //                                                                              ======
-    public Note loadNote(ERModel model, Element element, LoadContext context) {
+    public Note loadNote(Element element, LoadContext context) { // for main model
+        return doLoadNote(element, context, null);
+    }
+
+    public Note loadNote(Element element, LoadContext context, ERModel model) { // for virtual
+        return doLoadNote(element, context, model);
+    }
+
+    private Note doLoadNote(Element element, LoadContext context, ERModel model) {
         final Note note = new Note();
-        note.setModel(model);
         note.setText(getStringValue(element, "text"));
+        if (model != null) {
+            note.setModel(model);
+        }
         nodeElementLoader.loadNodeElement(note, element, context);
         return note;
     }

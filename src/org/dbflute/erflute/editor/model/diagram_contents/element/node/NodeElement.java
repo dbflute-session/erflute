@@ -59,6 +59,10 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
 
     public abstract int getPersistentOrder(); // #for_erflute
 
+    public abstract boolean isUsePersistentId(); // #for_erflute
+
+    public abstract boolean isIndenpendentOnModel(); // #for_erflute
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
@@ -71,19 +75,19 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
     }
 
     public int getX() {
-        return this.location.x;
+        return location.x;
     }
 
     public int getY() {
-        return this.location.y;
+        return location.y;
     }
 
     public int getWidth() {
-        return this.location.width;
+        return location.width;
     }
 
     public int getHeight() {
-        return this.location.height;
+        return location.height;
     }
 
     public void setLocation(Location location) {

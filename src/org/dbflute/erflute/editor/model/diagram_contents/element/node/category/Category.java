@@ -162,4 +162,14 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
     public int getPersistentOrder() {
         return 10;
     }
+
+    @Override
+    public boolean isUsePersistentId() {
+        return true;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
+        return false;
+    }
 }
