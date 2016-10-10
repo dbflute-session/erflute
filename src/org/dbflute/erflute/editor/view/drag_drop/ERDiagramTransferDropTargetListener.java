@@ -78,21 +78,4 @@ public class ERDiagramTransferDropTargetListener extends AbstractTransferDropTar
         final TemplateTransfer transfer = (TemplateTransfer) this.getTransfer();
         return transfer.getObject();
     }
-
-    @Override
-    public boolean isEnabled(DropTargetEvent event) {
-        System.out.println("isEnabled");
-        final boolean result = super.isEnabled(event);
-        System.out.println(result);
-        return result;
-    }
-
-    @Override
-    protected Request getTargetRequest() {
-        System.out.println("getTargetRequest");
-        final Request result = super.getTargetRequest();
-        System.out.println(result);
-        return result;
-    }
-
 }

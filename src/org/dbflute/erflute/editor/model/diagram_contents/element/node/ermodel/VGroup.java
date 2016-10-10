@@ -20,8 +20,9 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     private static final long serialVersionUID = 8251435120903384808L;
     public static final String PROPERTY_CHANGE_VGROUP = "vgroup";
 
-    private List<NodeElement> nodeElementList;
     private String name;
+    private List<NodeElement> nodeElementList;
+    private ERModel model;
 
     public VGroup() {
         this.nodeElementList = new ArrayList<NodeElement>();
@@ -153,18 +154,14 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
         this.firePropertyChange(PROPERTY_CHANGE_VGROUP, null, null);
     }
 
-    public List<NodeElement> getContents() {
-        return nodeElementList;
+    @Override
+    public String getObjectType() {
+        return "vgroup";
     }
 
     @Override
     public String getDescription() {
         return "";
-    }
-
-    @Override
-    public String getObjectType() {
-        return "vgroup";
     }
 
     @Override
@@ -175,5 +172,17 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     @Override
     public int getPersistentOrder() {
         return 16;
+    }
+
+    public List<NodeElement> getContents() {
+        return nodeElementList;
+    }
+
+    public ERModel getModel() {
+        return model;
+    }
+
+    public void setModel(ERModel model) {
+        this.model = model;
     }
 }

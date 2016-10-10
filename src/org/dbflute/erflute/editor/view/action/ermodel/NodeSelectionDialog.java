@@ -17,21 +17,7 @@ import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
 public class NodeSelectionDialog extends FilteredItemsSelectionDialog {
 
-    //	private ItemsFilter itemsFilter = new ItemsFilter() {
-    //		@Override
-    //		public boolean matchItem(Object item) {
-    //			System.out.println("matchItem");
-    //			return true;
-    //		}
-    //		
-    //		@Override
-    //		public boolean isConsistentItem(Object item) {
-    //			System.out.println("isConsistentItem");
-    //			return true;
-    //		}
-    //	};
-
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
     public NodeSelectionDialog(Shell shell, ERDiagram diagram) {
         super(shell);
@@ -40,14 +26,12 @@ public class NodeSelectionDialog extends FilteredItemsSelectionDialog {
 
     @Override
     protected Control createExtendedContentArea(Composite parent) {
-        // TODO Auto-generated method stub
-        System.out.println("createExtendedContentArea");
         return null;
     }
 
     @Override
     protected IDialogSettings getDialogSettings() {
-        IDialogSettings result = new DialogSettings("NodeSelectionDialog"); //$NON-NLS-1$
+        final IDialogSettings result = new DialogSettings("NodeSelectionDialog"); //$NON-NLS-1$
         return result;
     }
 
@@ -58,33 +42,28 @@ public class NodeSelectionDialog extends FilteredItemsSelectionDialog {
 
     @Override
     protected ItemsFilter createFilter() {
-        System.out.println("createFilter");
         return new ItemsFilter() {
             @Override
             public boolean matchItem(Object item) {
                 if (item instanceof ERTable) {
-                    ERTable table = (ERTable) item;
-                    //					System.out.println(table.getPhysicalName());
+                    final ERTable table = (ERTable) item;
                     return this.patternMatcher.matches(table.getPhysicalName());
                 }
-                System.out.println("matchItem");
                 return false;
-                //				return true;
             }
 
             @Override
             public boolean isConsistentItem(Object item) {
-                System.out.println("isConsistentItem");
                 return true;
             }
         };
     }
 
     @Override
-    protected Comparator getItemsComparator() {
+    protected Comparator<Object> getItemsComparator() {
         return new Comparator<Object>() {
+            @Override
             public int compare(Object o1, Object o2) {
-                // TODO Auto-generated method stub
                 return 0;
             }
         };
@@ -98,7 +77,7 @@ public class NodeSelectionDialog extends FilteredItemsSelectionDialog {
     @Override
     protected void fillContentProvider(AbstractContentProvider contentProvider, ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
             throws CoreException {
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (final ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
             if (itemsFilter.matchItem(table)) {
                 contentProvider.add(table, itemsFilter);
             }
@@ -107,12 +86,10 @@ public class NodeSelectionDialog extends FilteredItemsSelectionDialog {
 
     @Override
     public String getElementName(Object item) {
-        //		System.out.println("getElementName");
         if (item instanceof ERTable) {
-            ERTable table = (ERTable) item;
+            final ERTable table = (ERTable) item;
             return table.getLogicalName();
         }
         return null;
     }
-
 }

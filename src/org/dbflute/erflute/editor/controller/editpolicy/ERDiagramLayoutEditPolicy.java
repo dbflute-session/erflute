@@ -42,57 +42,44 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.DirectEditRequest;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void showSizeOnDropFeedback(CreateRequest request) {
-        Point p = new Point(request.getLocation().getCopy());
-
-        ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-        double zoom = zoomManager.getZoom();
-
-        IFigure feedback = getSizeOnDropFeedback(request);
-
-        Dimension size = request.getSize().getCopy();
+        final Point p = new Point(request.getLocation().getCopy());
+        final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
+        final double zoom = zoomManager.getZoom();
+        final IFigure feedback = getSizeOnDropFeedback(request);
+        final Dimension size = request.getSize().getCopy();
         feedback.translateToRelative(size);
-        feedback.setBounds(new Rectangle((int) (p.x * zoom), (int) (p.y * zoom), size.width, size.height)
-                .expand(getCreationFeedbackOffset(request)));
+        feedback.setBounds(new Rectangle((int) (p.x * zoom), (int) (p.y * zoom), size.width, size.height).expand(getCreationFeedbackOffset(request)));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
         if (!(child instanceof NodeElementEditPart)) {
             return null;
         }
-
         try {
-            Rectangle rectangle = (Rectangle) constraint;
-
-            List selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
-
-            NodeElementEditPart editPart = (NodeElementEditPart) child;
-            NodeElement nodeElement = (NodeElement) editPart.getModel();
-            Rectangle currentRectangle = editPart.getFigure().getBounds();
-
+            final Rectangle rectangle = (Rectangle) constraint;
+            @SuppressWarnings("unchecked")
+            final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+            final NodeElementEditPart editPart = (NodeElementEditPart) child;
+            final NodeElement nodeElement = (NodeElement) editPart.getModel();
+            final Rectangle currentRectangle = editPart.getFigure().getBounds();
             boolean move = false;
-
             if (rectangle.width == currentRectangle.width && rectangle.height == currentRectangle.height) {
                 move = true;
             }
-
             boolean nothingToDo = false;
-
             if (move && !(editPart instanceof CategoryEditPart)) {
-                for (Object selectedEditPart : selectedEditParts) {
+                for (final Object selectedEditPart : selectedEditParts) {
                     if (selectedEditPart instanceof CategoryEditPart) {
-                        CategoryEditPart categoryEditPart = (CategoryEditPart) selectedEditPart;
-                        Category category = (Category) categoryEditPart.getModel();
+                        final CategoryEditPart categoryEditPart = (CategoryEditPart) selectedEditPart;
+                        final Category category = (Category) categoryEditPart.getModel();
 
                         if (category.contains(nodeElement)) {
                             nothingToDo = true;
@@ -100,98 +87,70 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                     }
                 }
             }
-
             if (move && !(editPart instanceof VGroupEditPart)) {
-                for (Object selectedEditPart : selectedEditParts) {
+                for (final Object selectedEditPart : selectedEditParts) {
                     if (selectedEditPart instanceof VGroupEditPart) {
-                        VGroupEditPart categoryEditPart = (VGroupEditPart) selectedEditPart;
-                        VGroup category = (VGroup) categoryEditPart.getModel();
-
+                        final VGroupEditPart categoryEditPart = (VGroupEditPart) selectedEditPart;
+                        final VGroup category = (VGroup) categoryEditPart.getModel();
                         if (category.contains(nodeElement)) {
                             nothingToDo = true;
                         }
                     }
                 }
             }
-
-            List<Command> bendpointMoveCommandList = new ArrayList<Command>();
-
-            int oldX = nodeElement.getX();
-            int oldY = nodeElement.getY();
-
-            int diffX = rectangle.x - oldX;
-            int diffY = rectangle.y - oldY;
-
-            for (Object obj : editPart.getSourceConnections()) {
-                AbstractConnectionEditPart connection = (AbstractConnectionEditPart) obj;
-
+            final List<Command> bendpointMoveCommandList = new ArrayList<Command>();
+            final int oldX = nodeElement.getX();
+            final int oldY = nodeElement.getY();
+            final int diffX = rectangle.x - oldX;
+            final int diffY = rectangle.y - oldY;
+            for (final Object obj : editPart.getSourceConnections()) {
+                final AbstractConnectionEditPart connection = (AbstractConnectionEditPart) obj;
                 if (selectedEditParts.contains(connection.getTarget())) {
-                    ConnectionElement connectionElement = (ConnectionElement) connection.getModel();
-
-                    List<Bendpoint> bendpointList = connectionElement.getBendpoints();
-
+                    final ConnectionElement connectionElement = (ConnectionElement) connection.getModel();
+                    final List<Bendpoint> bendpointList = connectionElement.getBendpoints();
                     for (int index = 0; index < bendpointList.size(); index++) {
-                        Bendpoint bendPoint = bendpointList.get(index);
-
+                        final Bendpoint bendPoint = bendpointList.get(index);
                         if (bendPoint.isRelative()) {
                             break;
                         }
-
-                        MoveBendpointCommand moveCommand =
+                        final MoveBendpointCommand moveCommand =
                                 new MoveBendpointCommand(connection, bendPoint.getX() + diffX, bendPoint.getY() + diffY, index);
                         bendpointMoveCommandList.add(moveCommand);
                     }
-
                 }
             }
-
-            CompoundCommand compoundCommand = new CompoundCommand();
-
+            final CompoundCommand compoundCommand = new CompoundCommand();
             if (!nothingToDo) {
-                Command changeConstraintCommand = this.createChangeConstraintCommand(editPart, rectangle);
-
+                final Command changeConstraintCommand = this.createChangeConstraintCommand(editPart, rectangle);
                 if (bendpointMoveCommandList.isEmpty()) {
                     return changeConstraintCommand;
-
                 }
-
                 compoundCommand.add(changeConstraintCommand);
-
             } else {
                 compoundCommand.add(new NothingToDoCommand());
             }
-
-            for (Command command : bendpointMoveCommandList) {
+            for (final Command command : bendpointMoveCommandList) {
                 compoundCommand.add(command);
             }
-
             return compoundCommand;
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.log(e);
             return null;
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
-        Rectangle rectangle = (Rectangle) constraint;
-
-        NodeElementEditPart editPart = (NodeElementEditPart) child;
-        NodeElement nodeElement = (NodeElement) editPart.getModel();
-        Rectangle currentRectangle = editPart.getFigure().getBounds();
-
+        final Rectangle rectangle = (Rectangle) constraint;
+        final NodeElementEditPart editPart = (NodeElementEditPart) child;
+        final NodeElement nodeElement = (NodeElement) editPart.getModel();
+        final Rectangle currentRectangle = editPart.getFigure().getBounds();
         boolean move = false;
-
         if (rectangle.width == currentRectangle.width && rectangle.height == currentRectangle.height) {
             move = true;
         }
-
         if (nodeElement instanceof Category) {
-            Category category = (Category) nodeElement;
+            final Category category = (Category) nodeElement;
             List<Category> otherCategories = null;
             if (move) {
                 if (this.getOtherCategory((Category) nodeElement) != null) {
@@ -199,37 +158,33 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 }
                 otherCategories = this.getOtherSelectedCategories(category);
             }
-            ERDiagram diagram = ERModelUtil.getDiagram(getHost());
+            final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
             return new MoveCategoryCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, category, otherCategories,
                     move);
-
         } else if (nodeElement instanceof VGroup) {
-            VGroup vgroup = (VGroup) nodeElement;
+            final VGroup vgroup = (VGroup) nodeElement;
             List<VGroup> otherGroups = null;
             if (move) {
-                // TODO
                 //				if (this.getOtherCategory((VGroup) nodeElement) != null) {
                 //					return null;
                 //				}
-                otherGroups = this.getOtherSelectedGroups(vgroup);
+                otherGroups = getOtherSelectedGroups(vgroup);
             }
-            ERDiagram diagram = ERModelUtil.getDiagram(getHost());
+            final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
             return new MoveVGroupCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, vgroup, otherGroups, move);
 
         } else {
-            ERDiagram diagram = ERModelUtil.getDiagram(getHost());
+            final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
             return new MoveElementCommand(diagram, currentRectangle, rectangle.x, rectangle.y, rectangle.width, rectangle.height,
                     nodeElement);
         }
     }
 
     private Category getOtherCategory(Category category) {
-        ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-
-        List<Category> selectedCategories = diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories();
-
-        for (NodeElement nodeElement : category.getContents()) {
-            for (Category otherCategory : selectedCategories) {
+        final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
+        final List<Category> selectedCategories = diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories();
+        for (final NodeElement nodeElement : category.getContents()) {
+            for (final Category otherCategory : selectedCategories) {
                 if (otherCategory != category && !isSelected(otherCategory)) {
                     if (otherCategory.contains(nodeElement)) {
                         return otherCategory;
@@ -237,28 +192,23 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 }
             }
         }
-
         return null;
     }
 
     private List<Category> getOtherSelectedCategories(Category category) {
-        List<Category> otherCategories = new ArrayList<Category>();
-
-        List selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
-
-        for (Object object : selectedEditParts) {
+        final List<Category> otherCategories = new ArrayList<Category>();
+        @SuppressWarnings("unchecked")
+        final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+        for (final Object object : selectedEditParts) {
             if (object instanceof CategoryEditPart) {
-                CategoryEditPart categoryEditPart = (CategoryEditPart) object;
-                Category otherCategory = (Category) categoryEditPart.getModel();
-
+                final CategoryEditPart categoryEditPart = (CategoryEditPart) object;
+                final Category otherCategory = (Category) categoryEditPart.getModel();
                 if (otherCategory == category) {
                     break;
                 }
-
                 otherCategories.add(otherCategory);
             }
         }
-
         return otherCategories;
     }
 
@@ -282,46 +232,39 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     //	}
 
     private List<VGroup> getOtherSelectedGroups(VGroup group) {
-        List<VGroup> otherCategories = new ArrayList<VGroup>();
-
-        List selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
-
-        for (Object object : selectedEditParts) {
+        final List<VGroup> otherCategories = new ArrayList<VGroup>();
+        @SuppressWarnings("unchecked")
+        final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+        for (final Object object : selectedEditParts) {
             if (object instanceof VGroupEditPart) {
-                VGroupEditPart categoryEditPart = (VGroupEditPart) object;
-                VGroup otherCategory = (VGroup) categoryEditPart.getModel();
-
+                final VGroupEditPart categoryEditPart = (VGroupEditPart) object;
+                final VGroup otherCategory = (VGroup) categoryEditPart.getModel();
                 if (otherCategory == group) {
                     break;
                 }
-
                 otherCategories.add(otherCategory);
             }
         }
-
         return otherCategories;
     }
 
     private boolean isSelected(Category category) {
-        List selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
-
-        for (Object object : selectedEditParts) {
+        @SuppressWarnings("unchecked")
+        final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+        for (final Object object : selectedEditParts) {
             if (object instanceof NodeElementEditPart) {
-                NodeElementEditPart editPart = (NodeElementEditPart) object;
+                final NodeElementEditPart editPart = (NodeElementEditPart) object;
                 if (editPart.getModel() == category) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getCreateCommand(CreateRequest request) {
+        // #willanalyze what is this? by jflute
         //		if (getHost() instanceof ERModelEditPart) {
         //			ERModelEditPart editPart = (ERModelEditPart) this.getHost();
         //
@@ -361,27 +304,21 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
         //			return new CreateElementCommand(diagram, element, point.x, point.y,
         //					size, enclosedElementList);
         //		}
-        AbstractModelEditPart editPart = (AbstractModelEditPart) this.getHost();
-
-        Point point = request.getLocation();
+        final AbstractModelEditPart editPart = (AbstractModelEditPart) this.getHost();
+        final Point point = request.getLocation();
         editPart.getFigure().translateToRelative(point);
-
-        NodeElement element = (NodeElement) request.getNewObject();
-        ERDiagram diagram = ERModelUtil.getDiagram(editPart);
-
+        final NodeElement element = (NodeElement) request.getNewObject(); // e.g. table, note
+        final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
         Dimension size = request.getSize();
-        List<NodeElement> enclosedElementList = new ArrayList<NodeElement>();
-
+        final List<NodeElement> enclosedElementList = new ArrayList<NodeElement>();
         if (size != null) {
-            ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-            double zoom = zoomManager.getZoom();
+            final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
+            final double zoom = zoomManager.getZoom();
             size = new Dimension((int) (size.width / zoom), (int) (size.height / zoom));
-
-            for (Object child : editPart.getChildren()) {
+            for (final Object child : editPart.getChildren()) {
                 if (child instanceof NodeElementEditPart) {
-                    NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) child;
-                    Rectangle bounds = nodeElementEditPart.getFigure().getBounds();
-
+                    final NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) child;
+                    final Rectangle bounds = nodeElementEditPart.getFigure().getBounds();
                     if (bounds.x > point.x && bounds.x + bounds.width < point.x + size.width && bounds.y > point.y
                             && bounds.y + bounds.height < point.y + size.height) {
                         enclosedElementList.add((NodeElement) nodeElementEditPart.getModel());
@@ -399,23 +336,18 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
 
     @Override
     public Command getCommand(Request request) {
-
         if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_PLACE_TABLE.equals(request.getType())) {
-
-            DirectEditRequest editRequest = (DirectEditRequest) request;
-            Object feature = editRequest.getDirectEditFeature();
+            final DirectEditRequest editRequest = (DirectEditRequest) request;
+            final Object feature = editRequest.getDirectEditFeature();
             if (feature instanceof ERTable) {
-                ERTable ertable = (ERTable) feature;
+                final ERTable ertable = (ERTable) feature;
                 return new PlaceTableCommand(ertable);
             }
             if (feature instanceof List) {
-                List list = (List) feature;
+                final List<?> list = (List<?>) feature;
                 return new PlaceTableCommand(list);
             }
         }
-
-        // TODO Auto-generated method stub
         return super.getCommand(request);
     }
-
 }

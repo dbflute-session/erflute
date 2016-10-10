@@ -27,11 +27,10 @@ public class ERModelEditPart extends NodeElementEditPart {
     public void doPropertyChange(PropertyChangeEvent event) {
 
         if (event.getPropertyName().equals(ERModel.PROPERTY_CHANGE_VTABLES)) {
-            // �e�[�u���z�u�ύX
             this.refreshChildren();
             this.refresh();
         } else if (event.getPropertyName().equals(ConnectionElement.PROPERTY_CHANGE_CONNECTION)) {
-            System.out.println("aa");
+            // ?
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
             this.refreshVisuals();
         }
@@ -42,14 +41,12 @@ public class ERModelEditPart extends NodeElementEditPart {
     public void refresh() {
         super.refresh();
 
-        // �����̃R�����g�A�E�g�O����StackOverflow�ɂȂ�B�ʂ̂Ƃ���Ń��t���b�V������K�v����
         //		Map<NodeElement, EditPart> part = getModelToEditPart();
         //		for (Entry<NodeElement, EditPart> entry : part.entrySet()) {
         //			if (entry.getKey() instanceof ERVirtualTable) {
         //				entry.getValue().addNotify();
         //			}
         //		}
-
     }
 
     @Override

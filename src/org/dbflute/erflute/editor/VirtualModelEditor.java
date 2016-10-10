@@ -134,7 +134,6 @@ public class VirtualModelEditor extends RealModelEditor {
                 // do nothing
                 //VGroupEditPart groupEditPart = (VGroupEditPart) tableEditPart;
                 //List children = groupEditPart.getChildren();
-                //System.out.println(children);
             }
         }
     }

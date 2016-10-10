@@ -107,39 +107,40 @@ public class ERModel extends NodeElement {
     }
 
     public void addNewContent(NodeElement element) {
-        getDiagram().addContent(element);
         if (element instanceof Note) {
             ((Note) element).setModel(this);
+        } else if (element instanceof VGroup) {
+            ((VGroup) element).setModel(this);
+        } else {
+            getDiagram().addContent(element);
         }
-
         int[] color = defaultColor;
         if (color == null) {
             color = getDiagram().getDefaultColor();
         }
         element.setColor(color[0], color[1], color[2]);
-
         if (getFontName() != null) {
-            element.setFontName(this.getFontName());
+            element.setFontName(getFontName());
         } else {
             element.setFontName(getDiagram().getFontName());
         }
-
         if (getFontSize() != 0) {
             element.setFontSize(this.getFontSize());
         } else {
             element.setFontSize(getDiagram().getFontSize());
         }
-
         if (element instanceof Note) {
-            final Note note = (Note) element;
-            notes.add(note);
-            this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+            notes.add((Note) element);
+            firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+        } else if (element instanceof VGroup) {
+            groups.add(((VGroup) element));
+            firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
         }
     }
 
     public void addGroup(VGroup group) {
         groups.add(group);
-        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+        firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
     public void remove(VGroup element) {
@@ -171,7 +172,7 @@ public class ERModel extends NodeElement {
 
     @Override
     public String getDescription() {
-        return null; // unsupported here
+        return ""; // unsupported here
     }
 
     public List<ERVirtualTable> getTables() {

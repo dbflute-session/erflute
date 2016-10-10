@@ -24,15 +24,14 @@ public class VGroupManageAction extends AbstractBaseAction {
      */
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = this.getDiagram();
 
-        ERModel model = ((VirtualModelEditor) getEditorPart()).getModel();
-        ERModel newModel = (ERModel) model.clone();
+        final ERModel model = ((VirtualModelEditor) getEditorPart()).getModel();
+        final ERModel newModel = (ERModel) model.clone();
 
-        VGroupManageDialog dialog = new VGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), newModel);
+        final VGroupManageDialog dialog = new VGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), newModel);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
-            System.out.println("ok");
             execute(new ChangeVGroupCommand(model, newModel.getGroups()));
             //			ChangeSettingsCommand command = new ChangeSettingsCommand(diagram,
             //					settings);

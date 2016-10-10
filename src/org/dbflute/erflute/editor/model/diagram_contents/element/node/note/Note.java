@@ -7,34 +7,32 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Conn
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class Note extends NodeElement implements Comparable<Note> {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     private static final long serialVersionUID = -8810455349879962852L;
     public static final String PROPERTY_CHANGE_NOTE = "note";
 
-    private ERModel model;
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private String text;
+    private ERModel model;
 
-    public Note() {
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
+    public Note() { // created by ERDiagramLayoutEditPolicy@getCreateCommand()
     }
 
-    public ERModel getModel() {
-        return model;
-    }
-
-    public void setModel(ERModel model) {
-        this.model = model;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-        this.firePropertyChange(PROPERTY_CHANGE_NOTE, null, null);
-    }
-
+    // ===================================================================================
+    //                                                                   Referring Element
+    //                                                                   =================
     @Override
     public List<NodeElement> getReferringElementList() {
         final List<NodeElement> referringElementList = super.getReferringElementList();
@@ -45,14 +43,12 @@ public class Note extends NodeElement implements Comparable<Note> {
         return referringElementList;
     }
 
+    // ===================================================================================
+    //                                                                        Object Model
+    //                                                                        ============
     @Override
-    public String getDescription() {
-        return "";
-    }
-
-    @Override
-    public int compareTo(Note other) {
-        return Format.null2blank(this.text).compareTo(Format.null2blank(other.text));
+    public String getObjectType() {
+        return "note";
     }
 
     @Override
@@ -67,10 +63,13 @@ public class Note extends NodeElement implements Comparable<Note> {
     }
 
     @Override
-    public String getObjectType() {
-        return "note";
+    public String getDescription() {
+        return "";
     }
 
+    // ===================================================================================
+    //                                                                     Assist Override
+    //                                                                     ===============
     @Override
     public boolean needsUpdateOtherModel() {
         return false;
@@ -79,5 +78,33 @@ public class Note extends NodeElement implements Comparable<Note> {
     @Override
     public int getPersistentOrder() {
         return 12;
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public int compareTo(Note other) {
+        return Format.null2blank(this.text).compareTo(Format.null2blank(other.text));
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+        this.firePropertyChange(PROPERTY_CHANGE_NOTE, null, null);
+    }
+
+    public ERModel getModel() {
+        return model;
+    }
+
+    public void setModel(ERModel model) {
+        this.model = model;
     }
 }

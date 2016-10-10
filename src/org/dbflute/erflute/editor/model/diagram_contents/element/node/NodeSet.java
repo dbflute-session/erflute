@@ -52,19 +52,19 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
     // ===================================================================================
     //                                                                            Add Node
     //                                                                            ========
-    public void addNodeElement(NodeElement nodeElement) {
-        if (nodeElement instanceof ERTable) {
-            this.tableSet.add((ERTable) nodeElement);
-        } else if (nodeElement instanceof ERView) {
-            this.viewSet.add((ERView) nodeElement);
-        } else if (nodeElement instanceof Note) {
-            this.noteSet.add((Note) nodeElement);
-        } else if (nodeElement instanceof InsertedImage) {
-            this.insertedImageSet.add((InsertedImage) nodeElement);
+    public void addNodeElement(NodeElement element) {
+        if (element instanceof ERTable) {
+            this.tableSet.add((ERTable) element);
+        } else if (element instanceof ERView) {
+            this.viewSet.add((ERView) element);
+        } else if (element instanceof Note) {
+            this.noteSet.add((Note) element);
+        } else if (element instanceof InsertedImage) {
+            this.insertedImageSet.add((InsertedImage) element);
         } else {
-            System.out.println("not support " + nodeElement); // why sysout? by jflute
+            System.out.println("*Unsupported node element: " + element);
         }
-        nodeElementList.add(nodeElement);
+        nodeElementList.add(element);
         firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
@@ -78,7 +78,7 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         } else if (nodeElement instanceof InsertedImage) {
             this.insertedImageSet.remove((InsertedImage) nodeElement);
         } else {
-            throw new RuntimeException("not support " + nodeElement);
+            System.out.println("*Unsupported node element: " + nodeElement);
         }
         nodeElementList.remove(nodeElement);
         firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);

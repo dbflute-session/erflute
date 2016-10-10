@@ -19,10 +19,10 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
     public static final String PROPERTY_CHANGE_INCOMING = "incoming";
     public static final String PROPERTY_CHANGE_OUTGOING = "outgoing";
 
+    private ERDiagram diagram; // null allowed: when virtual model element
     private Location location;
     private List<ConnectionElement> incomings = new ArrayList<ConnectionElement>();
     private List<ConnectionElement> outgoings = new ArrayList<ConnectionElement>();
-    private ERDiagram diagram;
 
     public abstract boolean needsUpdateOtherModel();
 
@@ -30,6 +30,38 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
         this.location = new Location(0, 0, 0, 0);
     }
 
+    public List<NodeElement> getReferringElementList() {
+        final List<NodeElement> referringElementList = new ArrayList<NodeElement>();
+        for (final ConnectionElement connectionElement : this.getOutgoings()) {
+            final NodeElement targetElement = connectionElement.getTarget();
+            referringElementList.add(targetElement);
+        }
+        return referringElementList;
+    }
+
+    public List<NodeElement> getReferedElementList() {
+        final List<NodeElement> referedElementList = new ArrayList<NodeElement>();
+        for (final ConnectionElement connectionElement : this.getIncomings()) {
+            final NodeElement sourceElement = connectionElement.getSource();
+            referedElementList.add(sourceElement);
+        }
+        return referedElementList;
+    }
+
+    @Override
+    public NodeElement clone() {
+        final NodeElement clone = (NodeElement) super.clone();
+        clone.location = this.location.clone();
+        clone.setIncoming(new ArrayList<ConnectionElement>());
+        clone.setOutgoing(new ArrayList<ConnectionElement>());
+        return clone;
+    }
+
+    public abstract int getPersistentOrder(); // #for_erflute
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public void setDiagram(ERDiagram diagram) {
         this.diagram = diagram;
     }
@@ -96,33 +128,4 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
         this.outgoings.remove(relation);
         this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
     }
-
-    public List<NodeElement> getReferringElementList() {
-        final List<NodeElement> referringElementList = new ArrayList<NodeElement>();
-        for (final ConnectionElement connectionElement : this.getOutgoings()) {
-            final NodeElement targetElement = connectionElement.getTarget();
-            referringElementList.add(targetElement);
-        }
-        return referringElementList;
-    }
-
-    public List<NodeElement> getReferedElementList() {
-        final List<NodeElement> referedElementList = new ArrayList<NodeElement>();
-        for (final ConnectionElement connectionElement : this.getIncomings()) {
-            final NodeElement sourceElement = connectionElement.getSource();
-            referedElementList.add(sourceElement);
-        }
-        return referedElementList;
-    }
-
-    @Override
-    public NodeElement clone() {
-        final NodeElement clone = (NodeElement) super.clone();
-        clone.location = this.location.clone();
-        clone.setIncoming(new ArrayList<ConnectionElement>());
-        clone.setOutgoing(new ArrayList<ConnectionElement>());
-        return clone;
-    }
-
-    public abstract int getPersistentOrder(); // #for_erflute
 }

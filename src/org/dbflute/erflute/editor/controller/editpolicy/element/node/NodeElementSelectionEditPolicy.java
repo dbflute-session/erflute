@@ -3,13 +3,9 @@ package org.dbflute.erflute.editor.controller.editpolicy.element.node;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.ViewableModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.figure.handle.ERDiagramMoveHandle;
 import org.dbflute.erflute.editor.view.figure.handle.ERDiagramResizeHandle;
 import org.eclipse.draw2d.PositionConstants;
@@ -24,33 +20,29 @@ public class NodeElementSelectionEditPolicy extends ResizableEditPolicy {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected List createSelectionHandles() {
-        List selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+    protected List<Object> createSelectionHandles() {
+        final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
         if (selectedEditParts.size() == 1) {
-            ViewableModel currentElement = (ViewableModel) getHost().getModel();
+            final ViewableModel currentElement = (ViewableModel) getHost().getModel();
             if (!(currentElement instanceof Category) && !(currentElement instanceof ModelProperties)) {
-                ERDiagram diagram = ERModelUtil.getDiagram(getHost().getRoot().getContents());
-
-                ViewableModel targetElement = currentElement;
-                if (currentElement instanceof ERVirtualTable) {
-                    // �r���[��ł̓e�[�u�����̂��X�V����
-                    targetElement = ((ERVirtualTable) currentElement).getRawTable();
-                }
-                List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
-                nodeElementList.remove(targetElement);
-                nodeElementList.add((NodeElement) targetElement);
+                // #for_erflute maybe unneeded, already linkage between main and virtual by jflute
+                //final ERDiagram diagram = ERModelUtil.getDiagram(getHost().getRoot().getContents());
+                //ViewableModel targetElement = currentElement;
+                //if (currentElement instanceof ERVirtualTable) {
+                //    targetElement = ((ERVirtualTable) currentElement).getRawTable();
+                //}
+                //final List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
+                //nodeElementList.remove(targetElement);
+                //nodeElementList.add((NodeElement) targetElement);
                 getHost().getRoot().getContents().refresh();
             }
         }
 
-        List list = new ArrayList();
-
-        int directions = this.getResizeDirections();
-
+        final List<Object> list = new ArrayList<Object>();
+        final int directions = getResizeDirections();
         if (directions == 0) {
-            //			NonResizableHandleKit.addHandles((GraphicalEditPart) getHost(),
-            //					list);
-
+            // #willanalyze what is this? by jflute
+            //NonResizableHandleKit.addHandles((GraphicalEditPart) getHost(), list);
         } else if (directions != -1) {
             // 0
             list.add(new ERDiagramMoveHandle((GraphicalEditPart) getHost()));
@@ -110,16 +102,13 @@ public class NodeElementSelectionEditPolicy extends ResizableEditPolicy {
             } else {
                 NonResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.NORTH_EAST);
             }
-
         } else {
             addHandles((GraphicalEditPart) getHost(), list);
         }
-
         return list;
     }
 
-    @SuppressWarnings("unchecked")
-    public static void addHandles(GraphicalEditPart part, List handles) {
+    public static void addHandles(GraphicalEditPart part, List<Object> handles) {
         handles.add(new ERDiagramMoveHandle(part));
         handles.add(createHandle(part, PositionConstants.EAST));
         handles.add(createHandle(part, PositionConstants.SOUTH_EAST));
@@ -132,8 +121,7 @@ public class NodeElementSelectionEditPolicy extends ResizableEditPolicy {
     }
 
     static Handle createHandle(GraphicalEditPart owner, int direction) {
-        ResizeHandle handle = new ERDiagramResizeHandle(owner, direction);
+        final ResizeHandle handle = new ERDiagramResizeHandle(owner, direction);
         return handle;
     }
-
 }

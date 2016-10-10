@@ -82,24 +82,24 @@ public class ERDiagram extends ViewableModel {
     //                                                                    Content Handling
     //                                                                    ================
     public void addNewContent(NodeElement element) {
-        element.setColor(this.defaultColor[0], this.defaultColor[1], this.defaultColor[2]);
-        element.setFontName(this.getFontName());
-        element.setFontSize(this.getFontSize());
+        element.setColor(defaultColor[0], defaultColor[1], defaultColor[2]);
+        element.setFontName(getFontName());
+        element.setFontSize(getFontSize());
         addContent(element);
     }
 
     public void addContent(NodeElement element) {
         element.setDiagram(this);
-        this.diagramContents.getContents().addNodeElement(element);
-        if (this.editor != null) {
-            final Category category = this.editor.getCurrentPageCategory();
+        diagramContents.getContents().addNodeElement(element);
+        if (editor != null) {
+            final Category category = editor.getCurrentPageCategory();
             if (category != null) {
                 category.getContents().add(element);
             }
         }
         if (element instanceof TableView) {
             for (final NormalColumn normalColumn : ((TableView) element).getNormalColumns()) {
-                this.getDiagramContents().getDictionary().add(normalColumn);
+                getDiagramContents().getDictionary().add(normalColumn);
             }
         }
         if (element instanceof ERTable) {
@@ -130,7 +130,7 @@ public class ERDiagram extends ViewableModel {
                 model.addTable(virtualTable);
             }
         }
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
     public void removeContent(NodeElement element) {
@@ -151,16 +151,13 @@ public class ERDiagram extends ViewableModel {
                 }
             }
         }
-
         if (element instanceof TableView) {
             this.diagramContents.getDictionary().remove((TableView) element);
         }
-
         for (final Category category : this.diagramContents.getSettings().getCategorySetting().getAllCategories()) {
             category.getContents().remove(element);
         }
-
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
     public void replaceContents(DiagramContents newDiagramContents) {
@@ -412,13 +409,10 @@ public class ERDiagram extends ViewableModel {
         if (str == null) {
             return str;
         }
-
         final Settings settings = this.getDiagramContents().getSettings();
-
         if (settings.isCapital()) {
             return str.toUpperCase();
         }
-
         return str;
     }
 
