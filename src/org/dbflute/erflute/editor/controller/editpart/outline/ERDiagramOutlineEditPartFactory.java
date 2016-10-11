@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.dbflute.erflute.editor.controller.editpart.outline.dictionary.DictionaryOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.dictionary.WordOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERModelOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERVirtualDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERModelSetOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.group.GroupOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.group.ColumnGroupOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.group.GroupSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.index.IndexOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.index.IndexSetOutlineEditPart;
@@ -57,7 +57,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
         EditPart editPart = null;
 
         if (model instanceof ERVirtualDiagram) {
-            editPart = new ERModelOutlineEditPart();
+            editPart = new ERVirtualDiagramOutlineEditPart();
         } else if (model instanceof ERVirtualDiagramSet) {
             editPart = new ERModelSetOutlineEditPart();
 
@@ -78,7 +78,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
             editPart = new DictionaryOutlineEditPart();
 
         } else if (model instanceof ColumnGroup) {
-            editPart = new GroupOutlineEditPart();
+            editPart = new ColumnGroupOutlineEditPart();
 
         } else if (model instanceof ColumnGroupSet) {
             editPart = new GroupSetOutlineEditPart();

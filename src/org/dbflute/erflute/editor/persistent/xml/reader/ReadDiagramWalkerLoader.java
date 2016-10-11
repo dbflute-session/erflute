@@ -35,9 +35,9 @@ public class ReadDiagramWalkerLoader {
     }
 
     // ===================================================================================
-    //                                                                        Node Element
-    //                                                                        ============
-    public void loadNodeElement(DiagramWalker walker, Element element, LoadContext context) {
+    //                                                                              Walker
+    //                                                                              ======
+    public void loadWalker(DiagramWalker walker, Element element, LoadContext context) {
         String id = getStringValue(element, "id");
         if (Srl.is_Null_or_TrimmedEmpty(id)) {
             if (walker instanceof TableView) {

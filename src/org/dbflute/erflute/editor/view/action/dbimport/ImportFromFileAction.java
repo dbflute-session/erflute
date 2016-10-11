@@ -279,7 +279,7 @@ public class ImportFromFileAction extends AbstractImportAction {
                 }
             }
 
-            selectedNodeSet.addNodeElement(nodeElement);
+            selectedNodeSet.addDiagramWalker(nodeElement);
         }
 
         for (DiagramWalker nodeElement : selectedNodeSet) {

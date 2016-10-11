@@ -21,7 +21,7 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private String text;
+    private String noteText;
     private ERVirtualDiagram vdiagram; // null allowed: when main model
 
     // ===================================================================================
@@ -53,7 +53,7 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
 
     @Override
     public String getName() {
-        String name = text;
+        String name = noteText;
         if (name == null) {
             name = "";
         } else if (name.length() > 20) {
@@ -95,18 +95,18 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     //                                                                      ==============
     @Override
     public int compareTo(WalkerNote other) {
-        return Format.null2blank(this.text).compareTo(Format.null2blank(other.text));
+        return Format.null2blank(this.noteText).compareTo(Format.null2blank(other.noteText));
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public String getText() {
-        return text;
+    public String getNoteText() {
+        return noteText;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setNoteText(String noteText) {
+        this.noteText = noteText;
         this.firePropertyChange(PROPERTY_CHANGE_WALKER_NOTE, null, null);
     }
 

@@ -535,8 +535,8 @@ public class SearchManager {
 
             String path = null;
 
-            if (this.search(note.getText(), keyword)) {
-                rows.add(new SearchResultRow(SearchResultRow.TYPE_NOTE, note.getText(), path, note, note));
+            if (this.search(note.getNoteText(), keyword)) {
+                rows.add(new SearchResultRow(SearchResultRow.TYPE_NOTE, note.getNoteText(), path, note, note));
             }
         }
 

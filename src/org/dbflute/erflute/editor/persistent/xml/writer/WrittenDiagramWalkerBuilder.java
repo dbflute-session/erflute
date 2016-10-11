@@ -32,12 +32,12 @@ public class WrittenDiagramWalkerBuilder {
     }
 
     // ===================================================================================
-    //                                                                        Node Element
-    //                                                                        ============
-    public String buildNodeElement(DiagramWalker walker, PersistentContext context) {
+    //                                                                      Walker Element
+    //                                                                      ==============
+    public String buildWalker(DiagramWalker walker, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         if (walker.isUsePersistentId()) {
-            final String id = context.diagramWalkerMap.get(walker);
+            final String id = context.walkerMap.get(walker);
             if (id != null) { // null allowed when e.g. modelProperties
                 xml.append("<id>").append(Format.toString(id)).append("</id>\n");
             }
@@ -66,24 +66,13 @@ public class WrittenDiagramWalkerBuilder {
         final StringBuilder xml = new StringBuilder();
         xml.append("<connections>\n");
         for (final ConnectionElement connection : incomings) {
-            if (connection instanceof CommentConnection) {
-                xml.append(tab(buildCommentConnection((CommentConnection) connection, context)));
-            } else if (connection instanceof Relationship) {
+            if (connection instanceof Relationship) {
                 xml.append(tab(buildRelationship((Relationship) connection, context)));
+            } else if (connection instanceof CommentConnection) {
+                xml.append(tab(buildCommentConnection((CommentConnection) connection, context)));
             }
         }
         xml.append("</connections>\n");
-        return xml.toString();
-    }
-
-    // ===================================================================================
-    //                                                                  Comment Connection
-    //                                                                  ==================
-    private String buildCommentConnection(CommentConnection connection, PersistentContext context) {
-        final StringBuilder xml = new StringBuilder();
-        xml.append("<comment_connection>\n");
-        xml.append(tab(buildConnectionElement(connection, context)));
-        xml.append("</comment_connection>\n");
         return xml.toString();
     }
 
@@ -150,15 +139,25 @@ public class WrittenDiagramWalkerBuilder {
     }
 
     // ===================================================================================
+    //                                                                  Comment Connection
+    //                                                                  ==================
+    private String buildCommentConnection(CommentConnection connection, PersistentContext context) {
+        final StringBuilder xml = new StringBuilder();
+        xml.append("<comment_connection>\n");
+        xml.append(tab(buildConnectionElement(connection, context)));
+        xml.append("</comment_connection>\n");
+        return xml.toString();
+    }
+
+    // ===================================================================================
     //                                                                  Connection Element
     //                                                                  ==================
     private String buildConnectionElement(ConnectionElement connection, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        if (!(connection instanceof Relationship)) {
-            xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
-        }
-        final String sourceId = context.diagramWalkerMap.get(connection.getSource());
-        final String targetId = context.diagramWalkerMap.get(connection.getTarget());
+        // #for_erflute unneeded ID for connection
+        //xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
+        final String sourceId = context.walkerMap.get(connection.getSource());
+        final String targetId = context.walkerMap.get(connection.getTarget());
         xml.append("<source>").append(sourceId).append("</source>\n"); // e.g. MEMBER_STATUS
         xml.append("<target>").append(targetId).append("</target>\n"); // e.g. MEMBER
         for (final Bendpoint bendpoint : connection.getBendpoints()) {

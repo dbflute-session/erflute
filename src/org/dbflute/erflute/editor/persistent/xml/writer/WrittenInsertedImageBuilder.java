@@ -7,31 +7,32 @@ import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class WrittenImageBuilder {
+public class WrittenInsertedImageBuilder {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder walkerBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenImageBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder) {
+    public WrittenInsertedImageBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic,
+            WrittenDiagramWalkerBuilder walkerBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
-        this.nodeElementBuilder = nodeElementBuilder;
+        this.walkerBuilder = walkerBuilder;
     }
 
     // ===================================================================================
     //                                                                               Image
     //                                                                               =====
-    public String buildImage(InsertedImage insertedImage, PersistentContext context) {
+    public String buildInsertedImage(InsertedImage insertedImage, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<image>\n");
-        xml.append(tab(nodeElementBuilder.buildNodeElement(insertedImage, context)));
+        xml.append(tab(walkerBuilder.buildWalker(insertedImage, context)));
         xml.append("\t<data>").append(insertedImage.getBase64EncodedData()).append("</data>\n");
         xml.append("\t<hue>").append(insertedImage.getHue()).append("</hue>\n");
         xml.append("\t<saturation>").append(insertedImage.getSaturation()).append("</saturation>\n");

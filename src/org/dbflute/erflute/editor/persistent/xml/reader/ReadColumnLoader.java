@@ -169,12 +169,16 @@ public class ReadColumnLoader {
     //                                                                       Column Groups
     //                                                                       =============
     public void loadColumnGroups(ColumnGroupSet columnGroups, Element parent, LoadContext context, String database) {
-        final Element element = this.getElement(parent, "column_groups");
+        final Element element = getElement(parent, "column_groups");
         final NodeList nodeList = element.getElementsByTagName("column_group");
         for (int i = 0; i < nodeList.getLength(); i++) {
             final Element columnGroupElement = (Element) nodeList.item(i);
             final ColumnGroup columnGroup = new ColumnGroup();
-            columnGroup.setGroupName(getStringValue(columnGroupElement, "group_name"));
+            String groupName = getStringValue(columnGroupElement, "group_name"); // migration from ERMaster
+            if (Srl.is_Null_or_Empty(groupName)) {
+                groupName = getStringValue(columnGroupElement, "column_group_name"); // #for_erflute
+            }
+            columnGroup.setGroupName(groupName);
             final List<ERColumn> columns = loadColumns(columnGroupElement, context, database, new ColumnIdBuilder() {
                 @Override
                 public String build(NormalColumn column) {
@@ -187,7 +191,7 @@ public class ReadColumnLoader {
             columnGroups.add(columnGroup);
             String id = getStringValue(columnGroupElement, "id"); // migratino from ERMaster
             if (Srl.is_Null_or_TrimmedEmpty(id)) {
-                id = getStringValue(columnGroupElement, "group_id"); // migratino from ERMaster
+                id = getStringValue(columnGroupElement, "column_group_id"); // migratino from ERMaster
             }
             context.columnGroupMap.put(id, columnGroup);
         }

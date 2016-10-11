@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.dbflute.erflute.editor.model.AbstractModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImageSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
@@ -27,14 +29,15 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     //                                                                          Definition
     //                                                                          ==========
     private static final long serialVersionUID = -120487815554383179L;
-    public static final String PROPERTY_CHANGE_CONTENTS = "contents";
+    public static final String PROPERTY_CHANGE_CONTENTS = "diagram_walkers";
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     private final TableSet tableSet;
     private final ViewSet viewSet;
-    private final WalkerNoteSet noteSet;
+    private final WalkerGroupSet walkerGroupSet;
+    private final WalkerNoteSet walkerNoteSet;
     private final InsertedImageSet insertedImageSet;
     private final List<DiagramWalker> walkerList;
 
@@ -44,7 +47,8 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     public DiagramWalkerSet() {
         this.tableSet = new TableSet();
         this.viewSet = new ViewSet();
-        this.noteSet = new WalkerNoteSet();
+        this.walkerGroupSet = new WalkerGroupSet();
+        this.walkerNoteSet = new WalkerNoteSet();
         this.insertedImageSet = new InsertedImageSet();
         this.walkerList = new ArrayList<DiagramWalker>();
     }
@@ -52,19 +56,21 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     // ===================================================================================
     //                                                                            Add Node
     //                                                                            ========
-    public void addNodeElement(DiagramWalker element) {
-        if (element instanceof ERTable) {
-            this.tableSet.add((ERTable) element);
-        } else if (element instanceof ERView) {
-            this.viewSet.add((ERView) element);
-        } else if (element instanceof WalkerNote) {
-            this.noteSet.add((WalkerNote) element);
-        } else if (element instanceof InsertedImage) {
-            this.insertedImageSet.add((InsertedImage) element);
+    public void addDiagramWalker(DiagramWalker walker) {
+        if (walker instanceof ERTable) {
+            this.tableSet.add((ERTable) walker);
+        } else if (walker instanceof ERView) {
+            this.viewSet.add((ERView) walker);
+        } else if (walker instanceof WalkerGroup) {
+            this.walkerGroupSet.add((WalkerGroup) walker);
+        } else if (walker instanceof WalkerNote) {
+            this.walkerNoteSet.add((WalkerNote) walker);
+        } else if (walker instanceof InsertedImage) {
+            this.insertedImageSet.add((InsertedImage) walker);
         } else {
-            System.out.println("*Unsupported node element: " + element);
+            System.out.println("*Unsupported diagram walker: " + walker);
         }
-        walkerList.add(element);
+        walkerList.add(walker);
         firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
@@ -73,12 +79,14 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
             this.tableSet.remove((ERTable) element);
         } else if (element instanceof ERView) {
             this.viewSet.remove((ERView) element);
+        } else if (element instanceof WalkerGroup) {
+            this.walkerGroupSet.remove((WalkerGroup) element);
         } else if (element instanceof WalkerNote) {
-            this.noteSet.remove((WalkerNote) element);
+            this.walkerNoteSet.remove((WalkerNote) element);
         } else if (element instanceof InsertedImage) {
             this.insertedImageSet.remove((InsertedImage) element);
         } else {
-            System.out.println("*Unsupported node element: " + element);
+            System.out.println("*Unsupported diagram walker: " + element);
         }
         walkerList.remove(element);
         firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
@@ -91,7 +99,8 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     public void clear() {
         this.tableSet.getList().clear();
         this.viewSet.getList().clear();
-        this.noteSet.getList().clear();
+        this.walkerGroupSet.getList().clear();
+        this.walkerNoteSet.getList().clear();
         this.insertedImageSet.getList().clear();
         this.walkerList.clear();
     }
@@ -147,16 +156,20 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
+    public TableSet getTableSet() {
+        return tableSet;
+    }
+
     public ViewSet getViewSet() {
         return viewSet;
     }
 
-    public WalkerNoteSet getNoteSet() {
-        return noteSet;
+    public WalkerGroupSet getWalkerGroupSet() {
+        return walkerGroupSet;
     }
 
-    public TableSet getTableSet() {
-        return tableSet;
+    public WalkerNoteSet getWalkerNoteSet() {
+        return walkerNoteSet;
     }
 
     public InsertedImageSet getInsertedImageSet() {

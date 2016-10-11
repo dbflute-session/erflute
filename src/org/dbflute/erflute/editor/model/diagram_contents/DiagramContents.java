@@ -19,28 +19,28 @@ public class DiagramContents {
     //                                                                           Attribute
     //                                                                           =========
     private Settings settings;
-    private DiagramWalkerSet walkerSet;
-    private ColumnGroupSet columnGroupSet;
     private Dictionary dictionary;
+    private TablespaceSet tablespaceSet;
+    private DiagramWalkerSet walkerSet;
+    private IndexSet indexSet;
+    private ERVirtualDiagramSet vdiagramSet;
+    private ColumnGroupSet columnGroupSet;
     private SequenceSet sequenceSet;
     private TriggerSet triggerSet;
-    private IndexSet indexSet;
-    private TablespaceSet tablespaceSet;
-    private ERVirtualDiagramSet vdiagramSet;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public DiagramContents() {
         this.settings = new Settings();
-        this.walkerSet = new DiagramWalkerSet();
-        this.columnGroupSet = new ColumnGroupSet();
         this.dictionary = new Dictionary();
+        this.tablespaceSet = new TablespaceSet();
+        this.walkerSet = new DiagramWalkerSet();
+        this.indexSet = new IndexSet();
+        this.vdiagramSet = new ERVirtualDiagramSet();
+        this.columnGroupSet = new ColumnGroupSet();
         this.sequenceSet = new SequenceSet();
         this.triggerSet = new TriggerSet();
-        this.indexSet = new IndexSet();
-        this.tablespaceSet = new TablespaceSet();
-        this.vdiagramSet = new ERVirtualDiagramSet();
     }
 
     // ===================================================================================
@@ -54,20 +54,12 @@ public class DiagramContents {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public DiagramWalkerSet getDiagramWalkers() {
-        return this.walkerSet;
+    public Settings getSettings() {
+        return settings;
     }
 
-    public void setDiagramWalkers(DiagramWalkerSet walkers) {
-        this.walkerSet = walkers;
-    }
-
-    public ColumnGroupSet getColumnGroupSet() {
-        return this.columnGroupSet;
-    }
-
-    public void setColumnGroupSet(ColumnGroupSet columnGroupSet) {
-        this.columnGroupSet = columnGroupSet;
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 
     public Dictionary getDictionary() {
@@ -76,6 +68,46 @@ public class DiagramContents {
 
     public void setDictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
+    }
+
+    public TablespaceSet getTablespaceSet() {
+        return tablespaceSet;
+    }
+
+    public void setTablespaceSet(TablespaceSet tablespaceSet) {
+        this.tablespaceSet = tablespaceSet;
+    }
+
+    public DiagramWalkerSet getDiagramWalkers() {
+        return this.walkerSet;
+    }
+
+    public void setDiagramWalkers(DiagramWalkerSet walkers) {
+        this.walkerSet = walkers;
+    }
+
+    public IndexSet getIndexSet() {
+        return indexSet;
+    }
+
+    public void setIndexSet(IndexSet indexSet) {
+        this.indexSet = indexSet;
+    }
+
+    public ERVirtualDiagramSet getVirtualDiagramSet() {
+        return vdiagramSet;
+    }
+
+    public void setVirtualDiagramSet(ERVirtualDiagramSet modelSet) {
+        this.vdiagramSet = modelSet;
+    }
+
+    public ColumnGroupSet getColumnGroupSet() {
+        return this.columnGroupSet;
+    }
+
+    public void setColumnGroupSet(ColumnGroupSet columnGroupSet) {
+        this.columnGroupSet = columnGroupSet;
     }
 
     public SequenceSet getSequenceSet() {
@@ -92,37 +124,5 @@ public class DiagramContents {
 
     public void setTriggerSet(TriggerSet triggerSet) {
         this.triggerSet = triggerSet;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(Settings settings) {
-        this.settings = settings;
-    }
-
-    public IndexSet getIndexSet() {
-        return indexSet;
-    }
-
-    public void setIndexSet(IndexSet indexSet) {
-        this.indexSet = indexSet;
-    }
-
-    public TablespaceSet getTablespaceSet() {
-        return tablespaceSet;
-    }
-
-    public void setTablespaceSet(TablespaceSet tablespaceSet) {
-        this.tablespaceSet = tablespaceSet;
-    }
-
-    public ERVirtualDiagramSet getVirtualDiagramSet() {
-        return vdiagramSet;
-    }
-
-    public void setVirtualDiagramSet(ERVirtualDiagramSet modelSet) {
-        this.vdiagramSet = modelSet;
     }
 }

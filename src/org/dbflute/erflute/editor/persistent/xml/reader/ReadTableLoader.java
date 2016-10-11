@@ -2,6 +2,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -25,7 +26,7 @@ public class ReadTableLoader {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
-    protected final ReadDiagramWalkerLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader walkerLoader;
     protected final ReadColumnLoader columnLoader;
     protected final ReadIndexLoader indexLoader;
     protected final ReadUniqueKeyLoader uniqueKeyLoader;
@@ -39,7 +40,7 @@ public class ReadTableLoader {
             ReadTablePropertiesLoader tablePropertiesLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
-        this.nodeElementLoader = nodeElementLoader;
+        this.walkerLoader = nodeElementLoader;
         this.columnLoader = columnLoader;
         this.indexLoader = indexLoader;
         this.uniqueKeyLoader = uniqueKeyLoader;
@@ -55,7 +56,7 @@ public class ReadTableLoader {
         table.setPhysicalName(getStringValue(element, "physical_name"));
         table.setLogicalName(getStringValue(element, "logical_name"));
         table.setDescription(getStringValue(element, "description"));
-        nodeElementLoader.loadNodeElement(table, element, context);
+        walkerLoader.loadWalker(table, element, context);
         table.setConstraint(getStringValue(element, "constraint"));
         table.setPrimaryKeyName(getStringValue(element, "primary_key_name"));
         table.setOption(getStringValue(element, "option"));
@@ -74,13 +75,26 @@ public class ReadTableLoader {
         return table;
     }
 
-    public ERVirtualTable loadVirtualTable(ERVirtualDiagram model, Element element, LoadContext context) {
-        final String tableId = getStringValue(element, "id");
+    public ERVirtualTable loadVirtualTable(ERVirtualDiagram vdiagram, Element element, LoadContext context) {
+        String tableId = getStringValue(element, "id"); // migration from ERMaster
+        if (Srl.is_Null_or_TrimmedEmpty(tableId)) {
+            tableId = getStringValue(element, "table_id"); // #for_erflute
+        }
         final ERTable rawTable = (ERTable) context.walkerMap.get(tableId);
-        final ERVirtualTable vtable = new ERVirtualTable(model, rawTable);
+        assertRawTableExists(vdiagram, context, tableId, rawTable);
+        final ERVirtualTable vtable = new ERVirtualTable(vdiagram, rawTable);
         assistLogic.loadLocation(vtable, element);
         assistLogic.loadFont(vtable, element);
         return vtable;
+    }
+
+    private void assertRawTableExists(ERVirtualDiagram vdiagram, LoadContext context, String tableId, final ERTable rawTable) {
+        if (rawTable == null) {
+            final String msg =
+                    "Not found the raw table by the ID: " + tableId + ", vdiagram=" + vdiagram.getName() + ", walkers="
+                            + context.walkerMap.keySet();
+            throw new IllegalStateException(msg);
+        }
     }
 
     // ===================================================================================

@@ -50,7 +50,7 @@ public class ErmXmlWriter {
     protected final WrittenIndexBuilder indexBuilder;
     protected final WrittenUniqueKeyBuilder uniqueKeyBuilder;
     protected final WrittenWalkerNoteBuilder noteBuilder;
-    protected final WrittenImageBuilder imageBuilder;
+    protected final WrittenInsertedImageBuilder imageBuilder;
     protected final WrittenSequenceBuilder sequenceBuilder;
     protected final WrittenTriggerBuilder triggerBuilder;
     protected final WrittenColumnBuilder columnBuilder;
@@ -72,7 +72,7 @@ public class ErmXmlWriter {
         this.indexBuilder = new WrittenIndexBuilder(persistentXml, assistLogic);
         this.uniqueKeyBuilder = new WrittenUniqueKeyBuilder(persistentXml, assistLogic);
         this.noteBuilder = new WrittenWalkerNoteBuilder(persistentXml, assistLogic, nodeElementBuilder);
-        this.imageBuilder = new WrittenImageBuilder(persistentXml, assistLogic, nodeElementBuilder);
+        this.imageBuilder = new WrittenInsertedImageBuilder(persistentXml, assistLogic, nodeElementBuilder);
         this.sequenceBuilder = new WrittenSequenceBuilder(persistentXml, assistLogic);
         this.triggerBuilder = new WrittenTriggerBuilder(persistentXml, assistLogic);
         this.columnBuilder = new WrittenColumnBuilder(persistentXml, assistLogic, sequenceBuilder);
@@ -155,8 +155,8 @@ public class ErmXmlWriter {
         xml.append(buildSettings(diagramContents.getSettings(), context));
         xml.append(buildDictionary(diagramContents.getDictionary(), context));
         xml.append(buildTablespace(diagramContents.getTablespaceSet(), context));
-        xml.append(buildContents(diagramContents.getDiagramWalkers(), context));
-        xml.append(buildERModel(diagramContents.getVirtualDiagramSet(), context));
+        xml.append(buildDiagramWalkers(diagramContents.getDiagramWalkers(), context));
+        xml.append(buildVirtualDiagram(diagramContents.getVirtualDiagramSet(), context));
         xml.append(buildColumnGroups(diagramContents.getColumnGroupSet(), context));
         xml.append(buildSequenceSet(diagramContents.getSequenceSet()));
         xml.append(buildTrigger(diagramContents.getTriggerSet()));
@@ -187,9 +187,9 @@ public class ErmXmlWriter {
     // ===================================================================================
     //                                                                            Contents
     //                                                                            ========
-    private String buildContents(DiagramWalkerSet contents, PersistentContext context) {
+    private String buildDiagramWalkers(DiagramWalkerSet contents, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<contents>\n");
+        xml.append("<diagram_walkers>\n");
         for (final DiagramWalker content : contents.getPersistentSet()) {
             final String subxml;
             if (content instanceof ERTable) {
@@ -199,7 +199,7 @@ public class ErmXmlWriter {
             } else if (content instanceof WalkerNote) {
                 subxml = noteBuilder.buildNote((WalkerNote) content, context);
             } else if (content instanceof InsertedImage) {
-                subxml = imageBuilder.buildImage((InsertedImage) content, context);
+                subxml = imageBuilder.buildInsertedImage((InsertedImage) content, context);
             } else if (content instanceof WalkerGroup) {
                 continue; // not use here, saved in ermodel
             } else {
@@ -209,14 +209,14 @@ public class ErmXmlWriter {
                 xml.append(tab(subxml));
             }
         }
-        xml.append("</contents>\n");
+        xml.append("</diagram_walkers>\n");
         return xml.toString();
     }
 
     // ===================================================================================
     //                                                                             ERModel
     //                                                                             =======
-    private String buildERModel(ERVirtualDiagramSet modelSet, PersistentContext context) {
+    private String buildVirtualDiagram(ERVirtualDiagramSet modelSet, PersistentContext context) {
         return ermodelBuilder.buildERModel(modelSet, context);
     }
 

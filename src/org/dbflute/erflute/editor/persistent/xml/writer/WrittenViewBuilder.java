@@ -41,7 +41,7 @@ public class WrittenViewBuilder {
         xml.append("\t<physical_name>").append(escape(view.getPhysicalName())).append("</physical_name>\n");
         xml.append("\t<logical_name>").append(escape(view.getLogicalName())).append("</logical_name>\n");
         xml.append("\t<description>").append(escape(view.getDescription())).append("</description>\n");
-        xml.append(tab(nodeElementBuilder.buildNodeElement(view, context)));
+        xml.append(tab(nodeElementBuilder.buildWalker(view, context)));
         xml.append("\t<sql>").append(escape(view.getSql())).append("</sql>\n");
         final List<ERColumn> columns = view.getColumns();
         xml.append(tab(columnBuilder.buildColumns(columns, context)));

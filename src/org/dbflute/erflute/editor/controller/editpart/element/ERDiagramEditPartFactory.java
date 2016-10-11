@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.controller.editpart.element;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.CommentConnectionEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.CategoryEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERModelEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.InsertedImageEditPart;
@@ -44,7 +44,7 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
     public EditPart createEditPart(EditPart context, Object model) {
         EditPart editPart = null;
         if (model instanceof ERVirtualDiagram) {
-            editPart = new ERModelEditPart();
+            editPart = new ERVirtualDiagramEditPart();
         } else if (model instanceof ERVirtualTable) {
             editPart = new ERVirtualTableEditPart();
         } else if (model instanceof ERTable) {

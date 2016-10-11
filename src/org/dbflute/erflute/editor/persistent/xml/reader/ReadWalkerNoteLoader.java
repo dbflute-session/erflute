@@ -1,5 +1,6 @@
 package org.dbflute.erflute.editor.persistent.xml.reader;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
@@ -33,17 +34,21 @@ public class ReadWalkerNoteLoader {
         return doLoadNote(element, context, null);
     }
 
-    public WalkerNote loadNote(Element element, LoadContext context, ERVirtualDiagram model) { // for virtual
-        return doLoadNote(element, context, model);
+    public WalkerNote loadNote(Element element, LoadContext context, ERVirtualDiagram vdiagram) { // for virtual
+        return doLoadNote(element, context, vdiagram);
     }
 
-    private WalkerNote doLoadNote(Element element, LoadContext context, ERVirtualDiagram model) {
+    private WalkerNote doLoadNote(Element element, LoadContext context, ERVirtualDiagram vdiagram) {
         final WalkerNote note = new WalkerNote();
-        note.setText(getStringValue(element, "text"));
-        if (model != null) {
-            note.setVirtualDiagram(model);
+        String noteText = getStringValue(element, "text"); // migration from ERMaster
+        if (Srl.is_Null_or_Empty(noteText)) {
+            noteText = getStringValue(element, "note_text"); // #for_erflute
         }
-        nodeElementLoader.loadNodeElement(note, element, context);
+        note.setNoteText(noteText);
+        if (vdiagram != null) {
+            note.setVirtualDiagram(vdiagram);
+        }
+        nodeElementLoader.loadWalker(note, element, context);
         return note;
     }
 

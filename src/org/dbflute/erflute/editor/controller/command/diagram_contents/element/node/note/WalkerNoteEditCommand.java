@@ -11,17 +11,17 @@ public class WalkerNoteEditCommand extends AbstractCommand {
 
     public WalkerNoteEditCommand(WalkerNote note, String text) {
         this.note = note;
-        this.oldText = this.note.getText();
+        this.oldText = this.note.getNoteText();
         this.text = text;
     }
 
     @Override
     protected void doExecute() {
-        this.note.setText(text);
+        this.note.setNoteText(text);
     }
 
     @Override
     protected void doUndo() {
-        this.note.setText(oldText);
+        this.note.setNoteText(oldText);
     }
 }

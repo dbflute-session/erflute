@@ -6,7 +6,7 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.co
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint.DeleteBendpointCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint.MoveBendpointCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERModelEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualDiagramEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.view.figure.connection.ERDiagramConnection;
 import org.eclipse.draw2d.geometry.Point;
@@ -83,8 +83,8 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
     @Override
     protected void showSelection() {
         EditPart contents = this.getHost().getRoot().getContents();
-        if (contents instanceof ERModelEditPart) {
-            ERModelEditPart part = (ERModelEditPart) contents;
+        if (contents instanceof ERVirtualDiagramEditPart) {
+            ERVirtualDiagramEditPart part = (ERVirtualDiagramEditPart) contents;
             part.refreshVisuals();
         } else {
             ERDiagramEditPart diagramEditPart = (ERDiagramEditPart) contents;

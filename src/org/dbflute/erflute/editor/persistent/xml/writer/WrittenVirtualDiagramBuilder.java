@@ -1,8 +1,8 @@
 package org.dbflute.erflute.editor.persistent.xml.writer;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -41,13 +41,17 @@ public class WrittenVirtualDiagramBuilder {
         xml.append("<vdiagrams>\n");
         for (final ERVirtualDiagram vdiagram : modelSet) {
             xml.append("\t<vdiagram>\n");
-            xml.append("\t\t<id>").append(context.virtualDiagramMap.get(vdiagram)).append("</id>\n");
-            xml.append("\t\t<name>").append(vdiagram.getName()).append("</name>\n");
+            if (vdiagram.isUsePersistentId()) {
+                final Integer vdiagramId = context.virtualDiagramMap.get(vdiagram);
+                xml.append("\t\t<vdiagram_id>").append(vdiagramId).append("</vdiagram_id>\n"); // #for_erflute
+            }
+            xml.append("\t\t<vdiagram_name>").append(vdiagram.getName()).append("</vdiagram_name>\n"); // #for_erflute
             xml.append(tab(tab(assistLogic.buildColor(vdiagram.getColor()))));
             xml.append("\t\t<vtables>\n");
             for (final ERVirtualTable table : vdiagram.getTables()) {
                 xml.append("\t\t\t<vtable>\n");
-                xml.append("\t\t\t\t<id>").append(context.diagramWalkerMap.get(table.getRawTable())).append("</id>\n");
+                final String tableId = context.walkerMap.get(table.getRawTable());
+                xml.append("\t\t\t\t<table_id>").append(tableId).append("</table_id>\n"); // #for_erflute
                 xml.append("\t\t\t\t<x>").append(table.getX()).append("</x>\n");
                 xml.append("\t\t\t\t<y>").append(table.getY()).append("</y>\n");
                 xml.append("\t\t\t\t<font_name>").append(escape(vdiagram.getFontName())).append("</font_name>\n");
@@ -55,16 +59,16 @@ public class WrittenVirtualDiagramBuilder {
                 xml.append("\t\t\t</vtable>\n");
             }
             xml.append("\t\t</vtables>\n");
-            xml.append("\t\t<notes>\n");
+            xml.append("\t\t<walker_notes>\n");
             for (final WalkerNote note : vdiagram.getNotes()) {
                 xml.append(tab(tab(tab(noteBuilder.buildNote(note, context)))));
             }
-            xml.append("\t\t</notes>\n");
-            xml.append("\t\t<groups>\n");
+            xml.append("\t\t</walker_notes>\n");
+            xml.append("\t\t<walker_groups>\n");
             for (final WalkerGroup group : vdiagram.getGroups()) {
-                xml.append(tab(tab(tab(buildVGroup(group, context)))));
+                xml.append(tab(tab(tab(buildWalkerGroup(group, context)))));
             }
-            xml.append("\t\t</groups>\n");
+            xml.append("\t\t</walker_groups>\n");
             xml.append("\t</vdiagram>\n");
         }
         xml.append("</vdiagrams>\n");
@@ -72,18 +76,18 @@ public class WrittenVirtualDiagramBuilder {
     }
 
     // ===================================================================================
-    //                                                                              VGroup
-    //                                                                              ======
-    private String buildVGroup(WalkerGroup group, PersistentContext context) {
+    //                                                                        Walker Group
+    //                                                                        ============
+    private String buildWalkerGroup(WalkerGroup group, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<group>\n");
-        xml.append(tab(nodeElementBuilder.buildNodeElement(group, context)));
-        xml.append("\t<name>").append(escape(group.getName())).append("</name>\n");
+        xml.append("<walker_group>\n");
+        xml.append(tab(nodeElementBuilder.buildWalker(group, context)));
+        xml.append("\t<walker_group_name>").append(escape(group.getName())).append("</walker_group_name>\n");
         for (final DiagramWalker nodeElement : group.getDiagramWalkerList()) {
-            final String nodeId = context.diagramWalkerMap.get(((ERVirtualTable) nodeElement).getRawTable());
-            xml.append("\t<node_element>").append(nodeId).append("</node_element>\n");
+            final String nodeId = context.walkerMap.get(((ERVirtualTable) nodeElement).getRawTable());
+            xml.append("\t<diagram_walker>").append(nodeId).append("</diagram_walker>\n");
         }
-        xml.append("</group>\n");
+        xml.append("</walker_group>\n");
         return xml.toString();
     }
 

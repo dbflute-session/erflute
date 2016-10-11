@@ -59,7 +59,7 @@ public class CopyAction extends SelectionAction {
             if (object instanceof DiagramWalkerEditPart) {
                 final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) object;
                 final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
-                nodeElementList.addNodeElement(nodeElement);
+                nodeElementList.addDiagramWalker(nodeElement);
             }
         }
         CopyManager.copy(nodeElementList);

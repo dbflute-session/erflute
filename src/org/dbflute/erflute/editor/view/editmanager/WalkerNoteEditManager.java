@@ -19,8 +19,8 @@ public class WalkerNoteEditManager extends DirectEditManager {
     @Override
     protected void initCellEditor() {
         final TextCellEditor editor = (TextCellEditor) this.getCellEditor();
-        if (note.getText() != null) {
-            editor.setValue(note.getText());
+        if (note.getNoteText() != null) {
+            editor.setValue(note.getNoteText());
         }
         final Text text = (Text) editor.getControl();
         text.selectAll();

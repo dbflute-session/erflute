@@ -17,7 +17,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 
-public class ERModelOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
+public class ERVirtualDiagramOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
     public void propertyChange(PropertyChangeEvent evt) {
         //		if (evt.getPropertyName().equals(TableSet.PROPERTY_CHANGE_TABLE_SET)) {

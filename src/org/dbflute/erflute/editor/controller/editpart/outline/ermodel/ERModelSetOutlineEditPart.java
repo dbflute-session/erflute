@@ -16,11 +16,10 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ER
 public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
-    protected List getModelChildren() {
-        ERVirtualDiagramSet modelSet = (ERVirtualDiagramSet) this.getModel();
-
-        List<ERVirtualDiagram> list = new ArrayList<ERVirtualDiagram>();
-        for (ERVirtualDiagram table : modelSet) {
+    protected List<ERVirtualDiagram> getModelChildren() {
+        final ERVirtualDiagramSet modelSet = (ERVirtualDiagramSet) this.getModel();
+        final List<ERVirtualDiagram> list = new ArrayList<ERVirtualDiagram>();
+        for (final ERVirtualDiagram table : modelSet) {
             list.add(table);
         }
         Collections.sort(list, new Comparator<ERVirtualDiagram>() {
@@ -29,7 +28,6 @@ public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
                 return o1.getName().compareTo(o2.getName());
             }
         });
-
         //		if (this.getDiagram().getDiagramContents().getSettings()
         //				.getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
         //			Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
@@ -38,10 +36,10 @@ public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
         //			Collections.sort(list, TableView.PHYSICAL_NAME_COMPARATOR);
         //
         //		}
-
         return list;
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(ERVirtualDiagramSet.PROPERTY_CHANGE_MODEL_SET)) {
             refresh();

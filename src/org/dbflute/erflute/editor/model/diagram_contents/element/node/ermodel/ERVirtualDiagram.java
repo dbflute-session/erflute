@@ -160,7 +160,7 @@ public class ERVirtualDiagram extends DiagramWalker {
 
     @Override
     public boolean isUsePersistentId() {
-        return true;
+        return false;
     }
 
     @Override

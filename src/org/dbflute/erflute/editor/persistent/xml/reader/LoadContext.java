@@ -74,23 +74,24 @@ public class LoadContext {
     //                                                                  Resolve ID Mapping
     //                                                                  ==================
     public void resolve() { // called by reader
+        // TODO jflute connection note (2016/10/11)
         for (final ConnectionElement connection : connectionSourceMap.keySet()) {
             final String id = connectionSourceMap.get(connection);
-            final DiagramWalker nodeElement = walkerMap.get(id);
-            if (nodeElement == null) { // what should I do? by jflute
+            final DiagramWalker walker = walkerMap.get(id);
+            if (walker == null) { // what should I do? by jflute
                 System.out.println("*error, Not found the source ID: " + id + ", connection=" + connection + ", existingKeys="
                         + walkerMap.keySet());
             }
-            connection.setSource(nodeElement);
+            connection.setSource(walker);
         }
         for (final ConnectionElement connection : connectionTargetMap.keySet()) {
             final String id = connectionTargetMap.get(connection);
-            final DiagramWalker nodeElement = walkerMap.get(id);
-            if (nodeElement == null) {
+            final DiagramWalker walker = walkerMap.get(id);
+            if (walker == null) {
                 System.out.println("*error, Not found the target ID: " + id + ", connection=" + connection + ", existingKeys="
                         + walkerMap.keySet());
             }
-            connection.setTarget(nodeElement);
+            connection.setTarget(walker);
         }
         for (final Relationship relation : referencedColumnMap.keySet()) {
             final String id = referencedColumnMap.get(relation);

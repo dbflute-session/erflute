@@ -42,18 +42,18 @@ public class ErmXmlReader {
     protected final ReadDatabaseLoader databaseLoader;
     protected final ReadTablePropertiesLoader tablePropertiesLoader;
     protected final ReadViewPropertiesLoader viewPropertiesLoader;
-    protected final ReadDiagramWalkerLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader diagramWalkerLoader;
     protected final ReadSequenceLoader sequenceLoader;
     protected final ReadTriggerLoader triggerLoader;
     protected final ReadColumnLoader columnLoader;
     protected final ReadSettingLoader settingLoader;
-    protected final ReadWalkerGroupLoader groupLoader;
     protected final ReadTablespaceLoader tablespaceLoader;
     protected final ReadDictionaryLoader dictionaryLoader;
     protected final ReadIndexLoader indexLoader;
     protected final ReadUniqueKeyLoader uniqueKeyLoader;
-    protected final ReadWalkerNoteLoader noteLoader;
-    protected final ReadImageLoader imageLoader;
+    protected final ReadWalkerGroupLoader walkerGroupLoader;
+    protected final ReadWalkerNoteLoader walkerNoteLoader;
+    protected final ReadInsertedImageLoader insertedImageLoader;
     protected final ReadTableLoader tableLoader;
     protected final ReadViewLoader viewLoader;
     protected final ReadVirtualDiagramLoader ermodelLoader;
@@ -71,23 +71,23 @@ public class ErmXmlReader {
         this.databaseLoader = new ReadDatabaseLoader(persistentXml, assistLogic);
         this.tablePropertiesLoader = new ReadTablePropertiesLoader(persistentXml, assistLogic);
         this.viewPropertiesLoader = new ReadViewPropertiesLoader(persistentXml, assistLogic);
-        this.nodeElementLoader = new ReadDiagramWalkerLoader(persistentXml, assistLogic);
+        this.diagramWalkerLoader = new ReadDiagramWalkerLoader(persistentXml, assistLogic);
         this.sequenceLoader = new ReadSequenceLoader(persistentXml, assistLogic);
         this.triggerLoader = new ReadTriggerLoader(persistentXml, assistLogic);
         this.columnLoader = new ReadColumnLoader(persistentXml, assistLogic, sequenceLoader);
-        this.settingLoader = new ReadSettingLoader(persistentXml, assistLogic, databaseLoader, tablePropertiesLoader, nodeElementLoader);
-        this.groupLoader = new ReadWalkerGroupLoader(persistentXml, assistLogic, nodeElementLoader);
+        this.settingLoader = new ReadSettingLoader(persistentXml, assistLogic, databaseLoader, tablePropertiesLoader, diagramWalkerLoader);
         this.tablespaceLoader = new ReadTablespaceLoader(persistentXml, assistLogic);
         this.dictionaryLoader = new ReadDictionaryLoader(persistentXml, assistLogic);
         this.indexLoader = new ReadIndexLoader(persistentXml, assistLogic);
         this.uniqueKeyLoader = new ReadUniqueKeyLoader(persistentXml, assistLogic);
-        this.noteLoader = new ReadWalkerNoteLoader(persistentXml, assistLogic, nodeElementLoader);
-        this.imageLoader = new ReadImageLoader(persistentXml, assistLogic, nodeElementLoader);
+        this.walkerGroupLoader = new ReadWalkerGroupLoader(persistentXml, assistLogic, diagramWalkerLoader);
+        this.walkerNoteLoader = new ReadWalkerNoteLoader(persistentXml, assistLogic, diagramWalkerLoader);
+        this.insertedImageLoader = new ReadInsertedImageLoader(persistentXml, assistLogic, diagramWalkerLoader);
         this.tableLoader =
-                new ReadTableLoader(persistentXml, assistLogic, nodeElementLoader, columnLoader, indexLoader, uniqueKeyLoader,
+                new ReadTableLoader(persistentXml, assistLogic, diagramWalkerLoader, columnLoader, indexLoader, uniqueKeyLoader,
                         tablePropertiesLoader);
-        this.viewLoader = new ReadViewLoader(persistentXml, assistLogic, nodeElementLoader, columnLoader, viewPropertiesLoader);
-        this.ermodelLoader = new ReadVirtualDiagramLoader(persistentXml, assistLogic, tableLoader, noteLoader, groupLoader);
+        this.viewLoader = new ReadViewLoader(persistentXml, assistLogic, diagramWalkerLoader, columnLoader, viewPropertiesLoader);
+        this.ermodelLoader = new ReadVirtualDiagramLoader(persistentXml, assistLogic, tableLoader, walkerNoteLoader, walkerGroupLoader);
     }
 
     // ===================================================================================
@@ -146,7 +146,7 @@ public class ErmXmlReader {
         final ColumnGroupSet columnGroups = diagramContents.getColumnGroupSet();
         columnGroups.clear();
         columnLoader.loadColumnGroups(columnGroups, parent, context, database);
-        loadContents(diagramContents.getDiagramWalkers(), parent, context);
+        loadDiagramWalkers(diagramContents.getDiagramWalkers(), parent, context);
         diagramContents.getVirtualDiagramSet().addModels(loadErmodels(parent, context));
         sequenceLoader.loadSequenceSet(diagramContents.getSequenceSet(), parent);
         triggerLoader.loadTriggerSet(diagramContents.getTriggerSet(), parent);
@@ -157,34 +157,34 @@ public class ErmXmlReader {
     // ===================================================================================
     //                                                                            Contents
     //                                                                            ========
-    private void loadContents(DiagramWalkerSet contents, Element parent, LoadContext context) {
-        final Element element = getElement(parent, "contents");
-        final NodeList nodeList = element.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
+    private void loadDiagramWalkers(DiagramWalkerSet contents, Element parent, LoadContext context) {
+        Element walkersElement = getElement(parent, "contents"); // migration from ERMaster
+        if (walkersElement == null) {
+            walkersElement = getElement(parent, "diagram_walkers"); // #for_erflute
+        }
+        final NodeList walkersNodeList = walkersElement.getChildNodes();
+        for (int i = 0; i < walkersNodeList.getLength(); i++) {
+            if (walkersNodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-            final Node content = nodeList.item(i);
-            if ("table".equals(content.getNodeName())) {
-                final ERTable table = tableLoader.loadTable((Element) content, context, diagram, database);
-                contents.addNodeElement(table);
-            } else if ("view".equals(content.getNodeName())) {
-                final ERView view = viewLoader.loadView((Element) content, context, diagram, database);
-                contents.addNodeElement(view);
-            } else if ("note".equals(content.getNodeName())) {
-                final WalkerNote note = noteLoader.loadNote((Element) content, context);
-                contents.addNodeElement(note);
-            } else if ("image".equals(content.getNodeName())) {
-                final InsertedImage insertedImage = imageLoader.loadInsertedImage((Element) content, context);
-                contents.addNodeElement(insertedImage);
-                // #analyzed unused, virtual models in ermodels by jflute
-                //} else if ("ermodel".equals(content.getNodeName())) {
-                //    final ERModel ermodel = ermodelLoader.loadErmodel((Element) content, context, diagram);
-                //    contents.addNodeElement(ermodel);
-            } else if ("group".equals(content.getNodeName())) {
+            final Node walkerNode = walkersNodeList.item(i);
+            final String walkerName = walkerNode.getNodeName();
+            if ("table".equals(walkerName)) {
+                final ERTable table = tableLoader.loadTable((Element) walkerNode, context, diagram, database);
+                contents.addDiagramWalker(table);
+            } else if ("view".equals(walkerName)) {
+                final ERView view = viewLoader.loadView((Element) walkerNode, context, diagram, database);
+                contents.addDiagramWalker(view);
+            } else if ("walker_note".equals(walkerName) || "note".equals(walkerName)) { // #for_erflute
+                final WalkerNote note = walkerNoteLoader.loadNote((Element) walkerNode, context);
+                contents.addDiagramWalker(note);
+            } else if ("walker_group".equals(walkerName) || "group".equals(walkerName)) { // #for_erflute
                 continue; // not use here, saved in ermodel
+            } else if ("inserted_image".equals(walkerName) || "image".equals(walkerName)) { // #for_erflute
+                final InsertedImage insertedImage = insertedImageLoader.loadInsertedImage((Element) walkerNode, context);
+                contents.addDiagramWalker(insertedImage);
             } else {
-                throw new IllegalStateException("*Unsupported contents: " + content);
+                throw new IllegalStateException("*Unsupported contents: " + walkerNode);
             }
         }
     }

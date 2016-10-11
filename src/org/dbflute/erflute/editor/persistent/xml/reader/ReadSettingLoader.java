@@ -214,7 +214,7 @@ public class ReadSettingLoader {
             }
             final Element categoryElement = (Element) nodeList.item(i);
             final Category category = new Category();
-            nodeElementLoader.loadNodeElement(category, categoryElement, context);
+            nodeElementLoader.loadWalker(category, categoryElement, context);
             category.setName(this.getStringValue(categoryElement, "name"));
             final boolean isSelected = this.getBooleanValue(categoryElement, "selected");
             final String[] keys = this.getTagValues(categoryElement, "node_element");

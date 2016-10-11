@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERModelEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -120,7 +120,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     //                                                                              ======
     @Override
     public void reveal(ERTable table) {
-        final ERModelEditPart editPart = (ERModelEditPart) getGraphicalViewer().getContents();
+        final ERVirtualDiagramEditPart editPart = (ERVirtualDiagramEditPart) getGraphicalViewer().getContents();
         final List<?> tableParts = editPart.getChildren();
         for (final Object tableEditPart : tableParts) {
             if (tableEditPart instanceof ERVirtualTableEditPart) {

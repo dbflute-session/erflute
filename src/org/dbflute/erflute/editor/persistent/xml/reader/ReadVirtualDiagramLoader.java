@@ -56,7 +56,11 @@ public class ReadVirtualDiagramLoader {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element modelElement = (Element) nodeList.item(i);
                 final ERVirtualDiagram vdiagram = new ERVirtualDiagram(diagram);
-                vdiagram.setName(getStringValue(modelElement, "name"));
+                String vdiagramName = getStringValue(modelElement, "name"); // migration from ERMaster
+                if (Srl.is_Null_or_Empty(vdiagramName)) {
+                    vdiagramName = getStringValue(modelElement, "vdiagram_name"); // #for_erflute
+                }
+                vdiagram.setName(vdiagramName);
                 assistLogic.loadColor(vdiagram, modelElement);
                 final List<ERVirtualTable> tables = new ArrayList<ERVirtualTable>();
                 final Element vtables = getElement(modelElement, "vtables");
@@ -68,8 +72,8 @@ public class ReadVirtualDiagramLoader {
                     }
                 }
                 vdiagram.setTables(tables);
-                loadElementNotes(context, modelElement, vdiagram, diagram);
-                loadElementVGroups(context, modelElement, vdiagram);
+                loadWalkerNotes(context, modelElement, vdiagram, diagram);
+                loadWalkerGroups(context, modelElement, vdiagram);
                 final String id = vdiagram.buildVirtualDiagramId(); // #for_erflute
                 context.virtualDiagramMap.put(id, vdiagram);
                 results.add(vdiagram);
@@ -78,14 +82,20 @@ public class ReadVirtualDiagramLoader {
         return results;
     }
 
-    private void loadElementNotes(LoadContext context, Element modelElement, ERVirtualDiagram model, ERDiagram diagram) {
+    private void loadWalkerNotes(LoadContext context, Element modelElement, ERVirtualDiagram vdiagram, ERDiagram diagram) {
         final List<WalkerNote> notes = new ArrayList<WalkerNote>();
-        final Element elNotes = getElement(modelElement, "notes");
-        if (elNotes != null) {
-            final NodeList noteNodeList = elNotes.getElementsByTagName("note");
+        Element notesElement = getElement(modelElement, "notes");
+        if (notesElement == null) {
+            notesElement = getElement(modelElement, "walker_notes"); // #for_erflute
+        }
+        if (notesElement != null) {
+            NodeList noteNodeList = notesElement.getElementsByTagName("note");
+            if (noteNodeList.getLength() == 0) {
+                noteNodeList = notesElement.getElementsByTagName("walker_note"); // #for_erflute
+            }
             for (int i = 0; i < noteNodeList.getLength(); i++) {
                 final Element noteElement = (Element) noteNodeList.item(i);
-                final WalkerNote note = noteLoader.loadNote(noteElement, context, model);
+                final WalkerNote note = noteLoader.loadNote(noteElement, context, vdiagram);
                 notes.add(note);
                 final String id = getStringValue(noteElement, "id");
                 if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster
@@ -95,17 +105,23 @@ public class ReadVirtualDiagramLoader {
                 //diagram.getDiagramContents().getContents().addNodeElement(note);
             }
         }
-        model.setNotes(notes);
+        vdiagram.setNotes(notes);
     }
 
-    private void loadElementVGroups(LoadContext context, Element modelElement, ERVirtualDiagram model) {
+    private void loadWalkerGroups(LoadContext context, Element modelElement, ERVirtualDiagram vdiagram) {
         final List<WalkerGroup> groups = new ArrayList<WalkerGroup>();
-        final Element elGroups = getElement(modelElement, "groups");
-        if (elGroups != null) {
-            final NodeList groupEls = elGroups.getElementsByTagName("group");
-            for (int k = 0; k < groupEls.getLength(); k++) {
-                final Element groupElement = (Element) groupEls.item(k);
-                final WalkerGroup group = groupLoader.loadWalkerGroup(model, groupElement, context);
+        Element groupsElement = getElement(modelElement, "groups"); // migration from ERMaster
+        if (groupsElement == null) {
+            groupsElement = getElement(modelElement, "walker_groups"); // #for_erflute
+        }
+        if (groupsElement != null) {
+            NodeList groupNoteList = groupsElement.getElementsByTagName("group");
+            if (groupNoteList.getLength() == 0) {
+                groupNoteList = groupsElement.getElementsByTagName("walker_group"); // #for_erflute
+            }
+            for (int k = 0; k < groupNoteList.getLength(); k++) {
+                final Element groupElement = (Element) groupNoteList.item(k);
+                final WalkerGroup group = groupLoader.loadWalkerGroup(vdiagram, groupElement, context);
                 groups.add(group);
                 final String id = getStringValue(groupElement, "id");
                 if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster
@@ -113,7 +129,7 @@ public class ReadVirtualDiagramLoader {
                 }
             }
         }
-        model.setGroups(groups);
+        vdiagram.setGroups(groups);
     }
 
     // ===================================================================================

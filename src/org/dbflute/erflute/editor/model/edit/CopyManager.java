@@ -84,7 +84,7 @@ public class CopyManager {
 
             // �m�[�h�𕡐����āA�R�s�[���ɒǉ����܂�
             DiagramWalker cloneNodeElement = (DiagramWalker) nodeElement.clone();
-            copyList.addNodeElement(cloneNodeElement);
+            copyList.addDiagramWalker(cloneNodeElement);
 
             nodeElementMap.put(nodeElement, cloneNodeElement);
 

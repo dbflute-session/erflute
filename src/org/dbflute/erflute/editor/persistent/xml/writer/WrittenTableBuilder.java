@@ -21,7 +21,7 @@ public class WrittenTableBuilder {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder walkerBuilder;
     protected final WrittenColumnBuilder columnBuilder;
     protected final WrittenIndexBuilder indexBuilder;
     protected final WrittenUniqueKeyBuilder uniqueKeyBuilder;
@@ -30,12 +30,12 @@ public class WrittenTableBuilder {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenTableBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder,
+    public WrittenTableBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder walkerBuilder,
             WrittenColumnBuilder columnBuilder, WrittenIndexBuilder indexBuilder, WrittenUniqueKeyBuilder uniqueKeyBuilder,
             WrittenTablePropertiesBuilder tablePropertiesBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
-        this.nodeElementBuilder = nodeElementBuilder;
+        this.walkerBuilder = walkerBuilder;
         this.columnBuilder = columnBuilder;
         this.indexBuilder = indexBuilder;
         this.uniqueKeyBuilder = uniqueKeyBuilder;
@@ -51,7 +51,7 @@ public class WrittenTableBuilder {
         xml.append("<table>\n");
         setupName(table, xml); // name first to be read-able XML e.g. physical_name
         setupComment(table, xml); // me too
-        xml.append(tab(nodeElementBuilder.buildNodeElement(table, context))); // should be before columns
+        xml.append(tab(walkerBuilder.buildWalker(table, context))); // should be before columns
         final String constraint = table.getConstraint();
         if (Srl.is_NotNull_and_NotEmpty(constraint)) {
             xml.append("\t<constraint>").append(escape(constraint)).append("</constraint>\n");

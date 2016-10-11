@@ -21,11 +21,10 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.swt.graphics.Color;
 
-public class ERModelEditPart extends DiagramWalkerEditPart {
+public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
 
     @Override
     public void doPropertyChange(PropertyChangeEvent event) {
-
         if (event.getPropertyName().equals(ERVirtualDiagram.PROPERTY_CHANGE_VTABLES)) {
             this.refreshChildren();
             this.refresh();
@@ -34,13 +33,11 @@ public class ERModelEditPart extends DiagramWalkerEditPart {
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
             this.refreshVisuals();
         }
-
     }
 
     @Override
     public void refresh() {
         super.refresh();
-
         //		Map<NodeElement, EditPart> part = getModelToEditPart();
         //		for (Entry<NodeElement, EditPart> entry : part.entrySet()) {
         //			if (entry.getKey() instanceof ERVirtualTable) {
@@ -50,12 +47,12 @@ public class ERModelEditPart extends DiagramWalkerEditPart {
     }
 
     @Override
-    protected List getModelChildren() {
+    protected List<Object> getModelChildren() {
         final List<Object> modelChildren = new ArrayList<Object>();
-        final ERVirtualDiagram model = (ERVirtualDiagram) this.getModel();
-        modelChildren.addAll(model.getGroups());
-        modelChildren.addAll(model.getTables());
-        modelChildren.addAll(model.getNotes());
+        final ERVirtualDiagram vdiagram = (ERVirtualDiagram) getModel();
+        modelChildren.addAll(vdiagram.getGroups());
+        modelChildren.addAll(vdiagram.getTables());
+        modelChildren.addAll(vdiagram.getNotes());
         return modelChildren;
     }
 
@@ -70,7 +67,6 @@ public class ERModelEditPart extends DiagramWalkerEditPart {
         //		ERModel ermodel = (ERModel) this.getModel();
         //		ERModelFigure figure = new ERModelFigure(ermodel.getName());
         //		return figure;
-
         final FreeformLayer layer = new FreeformLayer();
         layer.setLayoutManager(new FreeformLayout());
         return layer;

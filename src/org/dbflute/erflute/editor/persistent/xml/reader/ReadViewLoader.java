@@ -46,7 +46,7 @@ public class ReadViewLoader {
         view.setPhysicalName(getStringValue(element, "physical_name"));
         view.setLogicalName(getStringValue(element, "logical_name"));
         view.setDescription(getStringValue(element, "description"));
-        nodeElementLoader.loadNodeElement(view, element, context);
+        nodeElementLoader.loadWalker(view, element, context);
         view.setSql(getStringValue(element, "sql"));
         final List<ERColumn> columns = columnLoader.loadColumns(element, context, database, new ColumnIdBuilder() {
             @Override

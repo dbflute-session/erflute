@@ -46,7 +46,7 @@ public class WalkerGroupEditPart extends DiagramWalkerEditPart implements IResiz
         final Rectangle rectangle = super.getRectangle();
 
         final WalkerGroup group = (WalkerGroup) this.getModel();
-        final ERModelEditPart rootEditPart = (ERModelEditPart) getRoot().getContents();
+        final ERVirtualDiagramEditPart rootEditPart = (ERVirtualDiagramEditPart) getRoot().getContents();
         //		ERDiagramEditPart rootEditPart = (ERDiagramEditPart) this.getRoot().getContents();
 
         for (final Object child : rootEditPart.getChildren()) {

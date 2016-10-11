@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadImageLoader {
+public class ReadInsertedImageLoader {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -19,7 +19,7 @@ public class ReadImageLoader {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadImageLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader) {
+    public ReadInsertedImageLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementLoader = nodeElementLoader;
@@ -36,7 +36,7 @@ public class ReadImageLoader {
         insertedImage.setBrightness(this.getIntValue(element, "brightness"));
         insertedImage.setAlpha(this.getIntValue(element, "alpha", 255));
         insertedImage.setFixAspectRatio(this.getBooleanValue(element, "fix_aspect_ratio"));
-        nodeElementLoader.loadNodeElement(insertedImage, element, context);
+        nodeElementLoader.loadWalker(insertedImage, element, context);
         return insertedImage;
     }
 

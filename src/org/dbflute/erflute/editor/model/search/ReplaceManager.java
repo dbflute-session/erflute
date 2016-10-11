@@ -80,7 +80,7 @@ public class ReplaceManager {
 
         } else if (type == SearchResultRow.TYPE_NOTE) {
             WalkerNote note = (WalkerNote) object;
-            String original = note.getText();
+            String original = note.getNoteText();
 
             String str = replace(original, keyword, replaceWord);
 
@@ -88,7 +88,7 @@ public class ReplaceManager {
                 return null;
             }
 
-            note.setText(str);
+            note.setNoteText(str);
 
             return new ReplaceResult(original);
 
@@ -387,7 +387,7 @@ public class ReplaceManager {
         } else if (type == SearchResultRow.TYPE_NOTE) {
             WalkerNote note = (WalkerNote) object;
 
-            note.setText(str);
+            note.setNoteText(str);
 
         } else if (type == SearchResultRow.TYPE_MODEL_PROPERTY_NAME) {
             NameValue property = (NameValue) object;

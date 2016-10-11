@@ -11,8 +11,8 @@ import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEdi
 import org.dbflute.erflute.editor.controller.editpolicy.not_element.group.GroupComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.view.dialog.group.GroupDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
@@ -21,66 +21,52 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-public class GroupOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public class ColumnGroupOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
-        ColumnGroup columnGroup = (ColumnGroup) this.getModel();
-
+        final ColumnGroup columnGroup = (ColumnGroup) this.getModel();
         this.setWidgetText(this.getDiagram().filter(columnGroup.getName()));
         this.setWidgetImage(Activator.getImage(ImageKey.GROUP));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequest(Request request) {
-        ColumnGroup columnGroup = (ColumnGroup) this.getModel();
-        ERDiagram diagram = this.getDiagram();
-
-        ColumnGroupSet groupSet = diagram.getDiagramContents().getColumnGroupSet();
-
+        final ColumnGroup columnGroup = (ColumnGroup) getModel();
+        final ERDiagram diagram = getDiagram();
+        final ColumnGroupSet groupSet = diagram.getDiagramContents().getColumnGroupSet();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            GroupDialog dialog =
-                    new GroupDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, diagram,
-                            groupSet.indexOf(columnGroup));
-
+            final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+            final GroupDialog dialog = new GroupDialog(shell, groupSet, diagram, groupSet.indexOf(columnGroup));
             if (dialog.open() == IDialogConstants.OK_ID) {
-                List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
-
-                Command command = new ChangeGroupCommand(diagram, groupSet, newColumnGroups);
-
-                this.execute(command);
+                final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
+                final Command command = new ChangeGroupCommand(diagram, groupSet, newColumnGroups);
+                execute(command);
             }
         }
-
         super.performRequest(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public DragTracker getDragTracker(Request req) {
         return new SelectEditPartTracker(this);
     }
 
+    @Override
     public boolean isDeleteable() {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new GroupComponentEditPolicy());

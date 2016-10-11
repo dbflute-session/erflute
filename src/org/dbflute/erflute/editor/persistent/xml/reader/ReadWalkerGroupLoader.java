@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
@@ -36,10 +37,17 @@ public class ReadWalkerGroupLoader {
     //                                                                        ============
     public WalkerGroup loadWalkerGroup(ERVirtualDiagram model, Element node, LoadContext context) {
         final WalkerGroup group = new WalkerGroup();
-        nodeElementLoader.loadNodeElement(group, node, context);
-        group.setName(getStringValue(node, "name"));
+        nodeElementLoader.loadWalker(group, node, context);
+        String groupName = getStringValue(node, "name"); // migration from ERMaster
+        if (Srl.is_Null_or_Empty(groupName)) {
+            groupName = getStringValue(node, "walker_group_name"); // #for_erflute
+        }
+        group.setName(groupName);
         final List<ERVirtualTable> vtables = model.getTables();
-        final String[] keys = getTagValues(node, "node_element");
+        String[] keys = getTagValues(node, "node_element"); // migration from ERMaster
+        if (keys == null || keys.length == 0) {
+            keys = getTagValues(node, "diagram_walker"); // #for_erflute
+        }
         final List<DiagramWalker> walkerList = new ArrayList<DiagramWalker>();
         for (final String key : keys) {
             final DiagramWalker walker = context.walkerMap.get(key);

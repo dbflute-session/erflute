@@ -45,7 +45,7 @@ public class WalkerNoteEditPart extends DiagramWalkerEditPart implements IResiza
     public void refreshVisuals() {
         final WalkerNote note = (WalkerNote) this.getModel();
         final WalkerNoteFigure figure = (WalkerNoteFigure) this.getFigure();
-        figure.setText(note.getText(), note.getColor());
+        figure.setText(note.getNoteText(), note.getColor());
         super.refreshVisuals();
     }
 

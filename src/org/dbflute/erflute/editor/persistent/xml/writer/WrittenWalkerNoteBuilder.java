@@ -14,26 +14,26 @@ public class WrittenWalkerNoteBuilder {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder walkerBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenWalkerNoteBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder) {
+    public WrittenWalkerNoteBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder walkerBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
-        this.nodeElementBuilder = nodeElementBuilder;
+        this.walkerBuilder = walkerBuilder;
     }
 
     // ===================================================================================
-    //                                                                              Note
-    //                                                                             =======
+    //                                                                         Walker Note
+    //                                                                         ===========
     public String buildNote(WalkerNote note, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<note>\n");
-        xml.append(tab(nodeElementBuilder.buildNodeElement(note, context)));
-        xml.append("\t<text>").append(escape(note.getText())).append("</text>\n");
-        xml.append("</note>\n");
+        xml.append("<walker_note>\n");
+        xml.append(tab(walkerBuilder.buildWalker(note, context)));
+        xml.append("\t<note_text>").append(escape(note.getNoteText())).append("</note_text>\n");
+        xml.append("</walker_note>\n");
         return xml.toString();
     }
 

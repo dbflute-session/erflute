@@ -35,7 +35,7 @@ public class PersistentXml extends Persistent {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public class PersistentContext {
-        public final Map<DiagramWalker, String> diagramWalkerMap = new LinkedHashMap<DiagramWalker, String>();
+        public final Map<DiagramWalker, String> walkerMap = new LinkedHashMap<DiagramWalker, String>();
         public final Map<ConnectionElement, String> connectionMap = new LinkedHashMap<ConnectionElement, String>();
         public final Map<ColumnGroup, Integer> columnGroupMap = new LinkedHashMap<ColumnGroup, Integer>();
         public final Map<ERColumn, String> columnMap = new LinkedHashMap<ERColumn, String>(); // column = ID
@@ -72,7 +72,7 @@ public class PersistentXml extends Persistent {
             } else {
                 nodeElementId = String.valueOf(nodeElementNo);
             }
-            context.diagramWalkerMap.put(walker, nodeElementId);
+            context.walkerMap.put(walker, nodeElementId);
             nodeElementNo++;
             final List<ConnectionElement> connections = walker.getIncomings();
             for (final ConnectionElement connection : connections) {

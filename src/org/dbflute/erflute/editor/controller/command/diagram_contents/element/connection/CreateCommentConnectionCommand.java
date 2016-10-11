@@ -5,25 +5,23 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class CreateCommentConnectionCommand extends CreateConnectionCommand {
 
     public CreateCommentConnectionCommand(ConnectionElement connection) {
         super(connection);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean canExecute() {
         if (!super.canExecute()) {
             return false;
         }
-
         if (!(this.getSourceModel() instanceof WalkerNote) && !(this.getTargetModel() instanceof WalkerNote)) {
             return false;
         }
-
         return true;
     }
 
@@ -31,22 +29,19 @@ public class CreateCommentConnectionCommand extends CreateConnectionCommand {
     protected void doExecute() {
         DiagramWalker source = (DiagramWalker) this.source.getModel();
         DiagramWalker target = (DiagramWalker) this.target.getModel();
-
-        // Table���m�̃����[�V�����́ATable <=> Table �Ōq��
         if (source instanceof ERVirtualTable) {
             source = ((ERVirtualTable) source).getRawTable();
         }
         if (target instanceof ERVirtualTable) {
             target = ((ERVirtualTable) target).getRawTable();
         }
-
         connection.setSource(source);
         connection.setTarget(target);
-
         if (source instanceof WalkerNote) {
-            WalkerNote note = (WalkerNote) source;
-            note.getVirtualDiagram().changeAll();
+            final WalkerNote note = (WalkerNote) source;
+            if (note != null) { // in virtual diagram
+                note.getVirtualDiagram().changeAll();
+            }
         }
     }
-
 }

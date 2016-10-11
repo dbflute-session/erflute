@@ -8,7 +8,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
-import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERModelOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERVirtualDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.group.GroupSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.sequence.SequenceSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.table.TableOutlineEditPart;
@@ -48,7 +48,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
         ACTION_MAP.put(GroupSetOutlineEditPart.class, GroupManageAction.ID);
         ACTION_MAP.put(TableOutlineEditPart.class, CreateIndexAction.ID);
         ACTION_MAP.put(TablespaceSetOutlineEditPart.class, CreateTablespaceAction.ID);
-        ACTION_MAP.put(ERModelOutlineEditPart.class, ChangeNameAction.ID);
+        ACTION_MAP.put(ERVirtualDiagramOutlineEditPart.class, ChangeNameAction.ID);
     }
 
     private ActionRegistry actionRegistry;

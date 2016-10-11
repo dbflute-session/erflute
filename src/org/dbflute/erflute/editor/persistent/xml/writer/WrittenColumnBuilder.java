@@ -248,8 +248,8 @@ public class WrittenColumnBuilder {
         final StringBuilder xml = new StringBuilder();
         xml.append("<column_group>\n");
         final Integer groupId = context.columnGroupMap.get(columnGroup);
-        xml.append("\t<group_id>").append(groupId).append("</group_id>\n"); // #for_erflute change id to group_id
-        xml.append("\t<group_name>").append(escape(columnGroup.getGroupName())).append("</group_name>\n");
+        xml.append("\t<column_group_id>").append(groupId).append("</column_group_id>\n"); // #for_erflute change id to group_id
+        xml.append("\t<column_group_name>").append(escape(columnGroup.getGroupName())).append("</column_group_name>\n"); // me too
         xml.append("\t<columns>\n");
         for (final NormalColumn normalColumn : columnGroup.getColumns()) {
             xml.append(tab(tab(setupNormalColumn(normalColumn, context))));

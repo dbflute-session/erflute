@@ -90,7 +90,7 @@ public class ERDiagram extends ViewableModel {
 
     public void addContent(DiagramWalker element) {
         element.setDiagram(this);
-        diagramContents.getDiagramWalkers().addNodeElement(element);
+        diagramContents.getDiagramWalkers().addDiagramWalker(element);
         if (editor != null) {
             final Category category = editor.getCurrentPageCategory();
             if (category != null) {
