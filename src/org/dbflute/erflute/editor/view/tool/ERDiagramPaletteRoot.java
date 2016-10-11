@@ -8,8 +8,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.RelationByExistingColumns;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.SelfRelation;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -102,7 +102,7 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
     private void setupNoteTool(final PaletteGroup group) {
         final CreationToolEntry noteToolEntry =
                 new CreationToolEntry(DisplayMessages.getMessage("label.note"), DisplayMessages.getMessage("label.create.note"),
-                        new SimpleFactory(Note.class), Activator.getImageDescriptor(ImageKey.NOTE),
+                        new SimpleFactory(WalkerNote.class), Activator.getImageDescriptor(ImageKey.NOTE),
                         Activator.getImageDescriptor(ImageKey.NOTE));
         group.add(noteToolEntry);
         final ConnectionCreationToolEntry relationNoteTool =
@@ -115,7 +115,7 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
 
     private void setupDomainGroupTool(final PaletteGroup group) {
         group.add(new CreationToolEntry(DisplayMessages.getMessage("label.vgroup"), DisplayMessages.getMessage("label.vgroup"),
-                new SimpleFactory(VGroup.class), Activator.getImageDescriptor(ImageKey.CATEGORY),
+                new SimpleFactory(WalkerGroup.class), Activator.getImageDescriptor(ImageKey.CATEGORY),
                 Activator.getImageDescriptor(ImageKey.CATEGORY)));
     }
 

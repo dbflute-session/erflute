@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
@@ -52,7 +52,7 @@ public class ErmXmlReader {
     protected final ReadDictionaryLoader dictionaryLoader;
     protected final ReadIndexLoader indexLoader;
     protected final ReadUniqueKeyLoader uniqueKeyLoader;
-    protected final ReadNoteLoader noteLoader;
+    protected final ReadWalkerNoteLoader noteLoader;
     protected final ReadImageLoader imageLoader;
     protected final ReadTableLoader tableLoader;
     protected final ReadViewLoader viewLoader;
@@ -81,7 +81,7 @@ public class ErmXmlReader {
         this.dictionaryLoader = new ReadDictionaryLoader(persistentXml, assistLogic);
         this.indexLoader = new ReadIndexLoader(persistentXml, assistLogic);
         this.uniqueKeyLoader = new ReadUniqueKeyLoader(persistentXml, assistLogic);
-        this.noteLoader = new ReadNoteLoader(persistentXml, assistLogic, nodeElementLoader);
+        this.noteLoader = new ReadWalkerNoteLoader(persistentXml, assistLogic, nodeElementLoader);
         this.imageLoader = new ReadImageLoader(persistentXml, assistLogic, nodeElementLoader);
         this.tableLoader =
                 new ReadTableLoader(persistentXml, assistLogic, nodeElementLoader, columnLoader, indexLoader, uniqueKeyLoader,
@@ -172,7 +172,7 @@ public class ErmXmlReader {
                 final ERView view = viewLoader.loadView((Element) content, context, diagram, database);
                 contents.addNodeElement(view);
             } else if ("note".equals(content.getNodeName())) {
-                final Note note = noteLoader.loadNote((Element) content, context);
+                final WalkerNote note = noteLoader.loadNote((Element) content, context);
                 contents.addNodeElement(note);
             } else if ("image".equals(content.getNodeName())) {
                 final InsertedImage insertedImage = imageLoader.loadInsertedImage((Element) content, context);

@@ -17,7 +17,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class NoteFigure extends Shape {
+public class WalkerNoteFigure extends Shape {
 
     // ===================================================================================
     //                                                                          Definition
@@ -33,7 +33,7 @@ public class NoteFigure extends Shape {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public NoteFigure() {
+    public WalkerNoteFigure() {
         this.create();
         this.setMinimumSize(new Dimension(RETURN_WIDTH * 2, RETURN_WIDTH * 2));
     }

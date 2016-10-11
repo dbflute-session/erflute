@@ -1,14 +1,14 @@
 package org.dbflute.erflute.editor.persistent.xml.reader;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadNoteLoader {
+public class ReadWalkerNoteLoader {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -20,7 +20,7 @@ public class ReadNoteLoader {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadNoteLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader) {
+    public ReadWalkerNoteLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementLoader = nodeElementLoader;
@@ -29,16 +29,16 @@ public class ReadNoteLoader {
     // ===================================================================================
     //                                                                               Note
     //                                                                              ======
-    public Note loadNote(Element element, LoadContext context) { // for main model
+    public WalkerNote loadNote(Element element, LoadContext context) { // for main model
         return doLoadNote(element, context, null);
     }
 
-    public Note loadNote(Element element, LoadContext context, ERVirtualDiagram model) { // for virtual
+    public WalkerNote loadNote(Element element, LoadContext context, ERVirtualDiagram model) { // for virtual
         return doLoadNote(element, context, model);
     }
 
-    private Note doLoadNote(Element element, LoadContext context, ERVirtualDiagram model) {
-        final Note note = new Note();
+    private WalkerNote doLoadNote(Element element, LoadContext context, ERVirtualDiagram model) {
+        final WalkerNote note = new WalkerNote();
         note.setText(getStringValue(element, "text"));
         if (model != null) {
             note.setVirtualDiagram(model);

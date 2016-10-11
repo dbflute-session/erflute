@@ -10,13 +10,13 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ER
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class Note extends DiagramWalker implements Comparable<Note> {
+public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     private static final long serialVersionUID = -8810455349879962852L;
-    public static final String PROPERTY_CHANGE_NOTE = "note";
+    public static final String PROPERTY_CHANGE_WALKER_NOTE = "note";
 
     // ===================================================================================
     //                                                                           Attribute
@@ -27,7 +27,7 @@ public class Note extends DiagramWalker implements Comparable<Note> {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public Note() { // created by ERDiagramLayoutEditPolicy@getCreateCommand()
+    public WalkerNote() { // created by ERDiagramLayoutEditPolicy@getCreateCommand()
     }
 
     // ===================================================================================
@@ -94,7 +94,7 @@ public class Note extends DiagramWalker implements Comparable<Note> {
     //                                                                      Basic Override
     //                                                                      ==============
     @Override
-    public int compareTo(Note other) {
+    public int compareTo(WalkerNote other) {
         return Format.null2blank(this.text).compareTo(Format.null2blank(other.text));
     }
 
@@ -107,7 +107,7 @@ public class Note extends DiagramWalker implements Comparable<Note> {
 
     public void setText(String text) {
         this.text = text;
-        this.firePropertyChange(PROPERTY_CHANGE_NOTE, null, null);
+        this.firePropertyChange(PROPERTY_CHANGE_WALKER_NOTE, null, null);
     }
 
     public ERVirtualDiagram getVirtualDiagram() {

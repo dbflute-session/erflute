@@ -6,8 +6,8 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
@@ -24,14 +24,14 @@ public class ReadVirtualDiagramLoader {
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
     protected final ReadTableLoader tableLoader;
-    protected final ReadNoteLoader noteLoader;
+    protected final ReadWalkerNoteLoader noteLoader;
     protected final ReadGroupLoader groupLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public ReadVirtualDiagramLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadTableLoader tableLoader,
-            ReadNoteLoader noteLoader, ReadGroupLoader groupLoader) {
+            ReadWalkerNoteLoader noteLoader, ReadGroupLoader groupLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.tableLoader = tableLoader;
@@ -79,13 +79,13 @@ public class ReadVirtualDiagramLoader {
     }
 
     private void loadElementNotes(LoadContext context, Element modelElement, ERVirtualDiagram model, ERDiagram diagram) {
-        final List<Note> notes = new ArrayList<Note>();
+        final List<WalkerNote> notes = new ArrayList<WalkerNote>();
         final Element elNotes = getElement(modelElement, "notes");
         if (elNotes != null) {
             final NodeList noteNodeList = elNotes.getElementsByTagName("note");
             for (int i = 0; i < noteNodeList.getLength(); i++) {
                 final Element noteElement = (Element) noteNodeList.item(i);
-                final Note note = noteLoader.loadNote(noteElement, context, model);
+                final WalkerNote note = noteLoader.loadNote(noteElement, context, model);
                 notes.add(note);
                 final String id = getStringValue(noteElement, "id");
                 if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster
@@ -99,13 +99,13 @@ public class ReadVirtualDiagramLoader {
     }
 
     private void loadElementVGroups(LoadContext context, Element modelElement, ERVirtualDiagram model) {
-        final List<VGroup> groups = new ArrayList<VGroup>();
+        final List<WalkerGroup> groups = new ArrayList<WalkerGroup>();
         final Element elGroups = getElement(modelElement, "groups");
         if (elGroups != null) {
             final NodeList groupEls = elGroups.getElementsByTagName("group");
             for (int k = 0; k < groupEls.getLength(); k++) {
                 final Element groupElement = (Element) groupEls.item(k);
-                final VGroup group = groupLoader.loadGroup(model, groupElement, context);
+                final WalkerGroup group = groupLoader.loadGroup(model, groupElement, context);
                 groups.add(group);
                 final String id = getStringValue(groupElement, "id");
                 if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster

@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -202,8 +202,8 @@ public class SearchManager {
                 if (nodeElement instanceof ERTable) {
                     rows.addAll(this.search((ERTable) nodeElement, this.currentKeyword));
 
-                } else if (nodeElement instanceof Note) {
-                    rows.addAll(this.search((Note) nodeElement, this.currentKeyword));
+                } else if (nodeElement instanceof WalkerNote) {
+                    rows.addAll(this.search((WalkerNote) nodeElement, this.currentKeyword));
 
                 } else if (nodeElement instanceof ModelProperties) {
                     rows.addAll(this.search((ModelProperties) nodeElement, this.currentKeyword));
@@ -376,8 +376,8 @@ public class SearchManager {
                 if (nodeElement instanceof ERTable) {
                     rows.addAll(this.search((ERTable) nodeElement, this.currentKeyword));
 
-                } else if (nodeElement instanceof Note) {
-                    rows.addAll(this.search((Note) nodeElement, this.currentKeyword));
+                } else if (nodeElement instanceof WalkerNote) {
+                    rows.addAll(this.search((WalkerNote) nodeElement, this.currentKeyword));
 
                 } else if (nodeElement instanceof ModelProperties) {
                     rows.addAll(this.search((ModelProperties) nodeElement, this.currentKeyword));
@@ -528,7 +528,7 @@ public class SearchManager {
         return rows;
     }
 
-    private List<SearchResultRow> search(Note note, String keyword) {
+    private List<SearchResultRow> search(WalkerNote note, String keyword) {
         List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
 
         if (this.noteCheckBox) {

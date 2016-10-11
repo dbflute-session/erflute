@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
@@ -167,8 +167,8 @@ public class ERVirtualTable extends ERTable {
         final List<ERVirtualTable> modelTables = model.getTables();
         for (final ConnectionElement el : rawTable.getIncomings()) {
             final DiagramWalker findEl = el.getSource();
-            if (findEl instanceof Note) {
-                if (((Note) findEl).getVirtualDiagram().equals(model)) {
+            if (findEl instanceof WalkerNote) {
+                if (((WalkerNote) findEl).getVirtualDiagram().equals(model)) {
                     elements.add(el);
                 }
                 //				elements.add(el);
@@ -190,8 +190,8 @@ public class ERVirtualTable extends ERTable {
         final List<ERVirtualTable> modelTables = model.getTables();
         for (final ConnectionElement el : rawTable.getOutgoings()) {
             final DiagramWalker findEl = el.getTarget();
-            if (findEl instanceof Note) {
-                if (((Note) findEl).getVirtualDiagram().equals(model)) {
+            if (findEl instanceof WalkerNote) {
+                if (((WalkerNote) findEl).getVirtualDiagram().equals(model)) {
                     elements.add(el);
                 }
                 elements.add(el);

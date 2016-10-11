@@ -3,73 +3,52 @@ package org.dbflute.erflute.editor.controller.editpart.element.node;
 import java.beans.PropertyChangeEvent;
 
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.note.NoteDirectEditPolicy;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
-import org.dbflute.erflute.editor.view.editmanager.NoteCellEditor;
-import org.dbflute.erflute.editor.view.editmanager.NoteEditManager;
-import org.dbflute.erflute.editor.view.editmanager.NoteEditorLocator;
-import org.dbflute.erflute.editor.view.figure.NoteFigure;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.note.WalkerNoteDirectEditPolicy;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
+import org.dbflute.erflute.editor.view.editmanager.WalkerNoteCellEditor;
+import org.dbflute.erflute.editor.view.editmanager.WalkerNoteEditManager;
+import org.dbflute.erflute.editor.view.editmanager.WalkerNoteEditorLocator;
+import org.dbflute.erflute.editor.view.figure.WalkerNoteFigure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 
-public class NoteEditPart extends DiagramWalkerEditPart implements IResizable {
+public class WalkerNoteEditPart extends DiagramWalkerEditPart implements IResizable {
 
-    private NoteEditManager editManager = null;
+    private WalkerNoteEditManager editManager = null;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected IFigure createFigure() {
-        NoteFigure noteFigure = new NoteFigure();
-
+        final WalkerNoteFigure noteFigure = new WalkerNoteFigure();
         this.changeFont(noteFigure);
-
         return noteFigure;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void doPropertyChange(PropertyChangeEvent event) {
-        if (event.getPropertyName().equals(Note.PROPERTY_CHANGE_NOTE)) {
+        if (event.getPropertyName().equals(WalkerNote.PROPERTY_CHANGE_WALKER_NOTE)) {
             refreshVisuals();
         }
 
         super.doPropertyChange(event);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
-        this.installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new NoteDirectEditPolicy());
-
+        this.installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new WalkerNoteDirectEditPolicy());
         super.createEditPolicies();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void refreshVisuals() {
-        Note note = (Note) this.getModel();
-
-        NoteFigure figure = (NoteFigure) this.getFigure();
-
+        final WalkerNote note = (WalkerNote) this.getModel();
+        final WalkerNoteFigure figure = (WalkerNoteFigure) this.getFigure();
         figure.setText(note.getText(), note.getColor());
-
         super.refreshVisuals();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequest(Request request) {
         if (request.getType().equals(RequestConstants.REQ_DIRECT_EDIT) || request.getType().equals(RequestConstants.REQ_OPEN)) {
@@ -79,9 +58,8 @@ public class NoteEditPart extends DiagramWalkerEditPart implements IResizable {
 
     private void performDirectEdit() {
         if (this.editManager == null) {
-            this.editManager = new NoteEditManager(this, NoteCellEditor.class, new NoteEditorLocator(getFigure()));
+            this.editManager = new WalkerNoteEditManager(this, WalkerNoteCellEditor.class, new WalkerNoteEditorLocator(getFigure()));
         }
-
         this.editManager.show();
     }
 

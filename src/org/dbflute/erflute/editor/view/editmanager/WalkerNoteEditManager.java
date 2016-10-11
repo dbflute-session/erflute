@@ -1,34 +1,28 @@
 package org.dbflute.erflute.editor.view.editmanager;
 
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Text;
 
-public class NoteEditManager extends DirectEditManager {
+public class WalkerNoteEditManager extends DirectEditManager {
 
-    private Note note;
+    private final WalkerNote note;
 
-    public NoteEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator) {
+    public WalkerNoteEditManager(GraphicalEditPart source, Class<?> editorType, CellEditorLocator locator) {
         super(source, editorType, locator);
-        this.note = (Note) source.getModel();
+        this.note = (WalkerNote) source.getModel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initCellEditor() {
-        TextCellEditor editor = (TextCellEditor) this.getCellEditor();
-
+        final TextCellEditor editor = (TextCellEditor) this.getCellEditor();
         if (note.getText() != null) {
             editor.setValue(note.getText());
         }
-
-        Text text = (Text) editor.getControl();
-
+        final Text text = (Text) editor.getControl();
         text.selectAll();
     }
 }

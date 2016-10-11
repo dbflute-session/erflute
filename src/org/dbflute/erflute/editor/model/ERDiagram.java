@@ -9,8 +9,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -137,10 +137,10 @@ public class ERDiagram extends ViewableModel {
         if (element instanceof ERVirtualTable) {
             // メインビューのノードは残して仮想テーブルだけ削除
             currentErmodel.remove((ERVirtualTable) element);
-        } else if (element instanceof VGroup) {
-            currentErmodel.remove((VGroup) element);
-        } else if (element instanceof Note) {
-            currentErmodel.remove((Note) element);
+        } else if (element instanceof WalkerGroup) {
+            currentErmodel.remove((WalkerGroup) element);
+        } else if (element instanceof WalkerNote) {
+            currentErmodel.remove((WalkerNote) element);
         } else {
             this.diagramContents.getDiagramWalkers().remove(element);
             if (element instanceof ERTable) {

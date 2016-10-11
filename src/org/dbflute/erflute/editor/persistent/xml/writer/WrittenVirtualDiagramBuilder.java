@@ -3,8 +3,8 @@ package org.dbflute.erflute.editor.persistent.xml.writer;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
@@ -20,13 +20,13 @@ public class WrittenVirtualDiagramBuilder {
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
     protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
-    protected final WrittenNoteBuilder noteBuilder;
+    protected final WrittenWalkerNoteBuilder noteBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public WrittenVirtualDiagramBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic,
-            WrittenDiagramWalkerBuilder nodeElementBuilder, WrittenNoteBuilder noteBuilder) {
+            WrittenDiagramWalkerBuilder nodeElementBuilder, WrittenWalkerNoteBuilder noteBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementBuilder = nodeElementBuilder;
@@ -56,12 +56,12 @@ public class WrittenVirtualDiagramBuilder {
             }
             xml.append("\t\t</vtables>\n");
             xml.append("\t\t<notes>\n");
-            for (final Note note : vdiagram.getNotes()) {
+            for (final WalkerNote note : vdiagram.getNotes()) {
                 xml.append(tab(tab(tab(noteBuilder.buildNote(note, context)))));
             }
             xml.append("\t\t</notes>\n");
             xml.append("\t\t<groups>\n");
-            for (final VGroup group : vdiagram.getGroups()) {
+            for (final WalkerGroup group : vdiagram.getGroups()) {
                 xml.append(tab(tab(tab(buildVGroup(group, context)))));
             }
             xml.append("\t\t</groups>\n");
@@ -74,12 +74,12 @@ public class WrittenVirtualDiagramBuilder {
     // ===================================================================================
     //                                                                              VGroup
     //                                                                              ======
-    private String buildVGroup(VGroup group, PersistentContext context) {
+    private String buildVGroup(WalkerGroup group, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<group>\n");
         xml.append(tab(nodeElementBuilder.buildNodeElement(group, context)));
         xml.append("\t<name>").append(escape(group.getName())).append("</name>\n");
-        for (final DiagramWalker nodeElement : group.getContents()) {
+        for (final DiagramWalker nodeElement : group.getDiagramWalkerList()) {
             final String nodeId = context.diagramWalkerMap.get(((ERVirtualTable) nodeElement).getRawTable());
             xml.append("\t<node_element>").append(nodeId).append("</node_element>\n");
         }

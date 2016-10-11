@@ -8,13 +8,13 @@ import org.dbflute.erflute.editor.controller.command.common.NothingToDoCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.bendpoint.MoveBendpointCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.CreateElementCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveVGroupCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveWalkerGroupCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.PlaceTableCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.category.MoveCategoryCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.CategoryEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.VGroupEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerSelectionEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
@@ -22,7 +22,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bend
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.view.drag_drop.ERDiagramTransferDragSourceListener;
 import org.eclipse.draw2d.IFigure;
@@ -87,11 +87,11 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                     }
                 }
             }
-            if (move && !(editPart instanceof VGroupEditPart)) {
+            if (move && !(editPart instanceof WalkerGroupEditPart)) {
                 for (final Object selectedEditPart : selectedEditParts) {
-                    if (selectedEditPart instanceof VGroupEditPart) {
-                        final VGroupEditPart categoryEditPart = (VGroupEditPart) selectedEditPart;
-                        final VGroup category = (VGroup) categoryEditPart.getModel();
+                    if (selectedEditPart instanceof WalkerGroupEditPart) {
+                        final WalkerGroupEditPart categoryEditPart = (WalkerGroupEditPart) selectedEditPart;
+                        final WalkerGroup category = (WalkerGroup) categoryEditPart.getModel();
                         if (category.contains(nodeElement)) {
                             nothingToDo = true;
                         }
@@ -161,9 +161,9 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
             return new MoveCategoryCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, category, otherCategories,
                     move);
-        } else if (nodeElement instanceof VGroup) {
-            final VGroup vgroup = (VGroup) nodeElement;
-            List<VGroup> otherGroups = null;
+        } else if (nodeElement instanceof WalkerGroup) {
+            final WalkerGroup vgroup = (WalkerGroup) nodeElement;
+            List<WalkerGroup> otherGroups = null;
             if (move) {
                 //				if (this.getOtherCategory((VGroup) nodeElement) != null) {
                 //					return null;
@@ -171,7 +171,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 otherGroups = getOtherSelectedGroups(vgroup);
             }
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-            return new MoveVGroupCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, vgroup, otherGroups, move);
+            return new MoveWalkerGroupCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, vgroup, otherGroups, move);
 
         } else {
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
@@ -231,14 +231,14 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     //		return null;
     //	}
 
-    private List<VGroup> getOtherSelectedGroups(VGroup group) {
-        final List<VGroup> otherCategories = new ArrayList<VGroup>();
+    private List<WalkerGroup> getOtherSelectedGroups(WalkerGroup group) {
+        final List<WalkerGroup> otherCategories = new ArrayList<WalkerGroup>();
         @SuppressWarnings("unchecked")
         final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
         for (final Object object : selectedEditParts) {
-            if (object instanceof VGroupEditPart) {
-                final VGroupEditPart categoryEditPart = (VGroupEditPart) object;
-                final VGroup otherCategory = (VGroup) categoryEditPart.getModel();
+            if (object instanceof WalkerGroupEditPart) {
+                final WalkerGroupEditPart categoryEditPart = (WalkerGroupEditPart) object;
+                final WalkerGroup otherCategory = (WalkerGroup) categoryEditPart.getModel();
                 if (otherCategory == group) {
                     break;
                 }

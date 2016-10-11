@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.no
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.gef.EditPart;
@@ -59,7 +59,7 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
             if (object instanceof DiagramWalkerEditPart) {
                 DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) object;
 
-                if (nodeElementEditPart instanceof ERTableEditPart || nodeElementEditPart instanceof NoteEditPart) {
+                if (nodeElementEditPart instanceof ERTableEditPart || nodeElementEditPart instanceof WalkerNoteEditPart) {
                     return true;
                 }
             }

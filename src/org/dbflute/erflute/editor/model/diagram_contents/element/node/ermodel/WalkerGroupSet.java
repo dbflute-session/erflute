@@ -9,42 +9,42 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ObjectListModel;
 
-public class VGroupSet extends AbstractModel implements ObjectListModel, Iterable<VGroup> {
+public class WalkerGroupSet extends AbstractModel implements ObjectListModel, Iterable<WalkerGroup> {
 
     private static final long serialVersionUID = 5264397678674390103L;
 
-    public static final String PROPERTY_CHANGE_GROUP_SET = "GroupSet";
+    public static final String PROPERTY_CHANGE_WALKER_GROUP_SET = "GroupSet";
 
-    private List<VGroup> groupList;
+    private List<WalkerGroup> groupList;
 
-    public VGroupSet() {
-        this.groupList = new ArrayList<VGroup>();
+    public WalkerGroupSet() {
+        this.groupList = new ArrayList<WalkerGroup>();
     }
 
-    public void add(VGroup table) {
+    public void add(WalkerGroup table) {
         this.groupList.add(table);
-        this.firePropertyChange(PROPERTY_CHANGE_GROUP_SET, null, null);
+        this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
     }
 
-    public int remove(VGroup table) {
+    public int remove(WalkerGroup table) {
         int index = this.groupList.indexOf(table);
         this.groupList.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_GROUP_SET, null, null);
+        this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
 
         return index;
     }
 
     public void setDirty() {
-        this.firePropertyChange(PROPERTY_CHANGE_GROUP_SET, null, null);
+        this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
     }
 
-    public List<VGroup> getList() {
+    public List<WalkerGroup> getList() {
         Collections.sort(this.groupList);
 
         return this.groupList;
     }
 
-    public Iterator<VGroup> iterator() {
+    public Iterator<WalkerGroup> iterator() {
         Collections.sort(this.groupList);
 
         return this.groupList.iterator();
@@ -54,12 +54,12 @@ public class VGroupSet extends AbstractModel implements ObjectListModel, Iterabl
      * {@inheritDoc}
      */
     @Override
-    public VGroupSet clone() {
-        VGroupSet groupSet = (VGroupSet) super.clone();
-        List<VGroup> newTableList = new ArrayList<VGroup>();
+    public WalkerGroupSet clone() {
+        WalkerGroupSet groupSet = (WalkerGroupSet) super.clone();
+        List<WalkerGroup> newTableList = new ArrayList<WalkerGroup>();
 
-        for (VGroup table : this.groupList) {
-            VGroup newTable = (VGroup) table.clone();
+        for (WalkerGroup table : this.groupList) {
+            WalkerGroup newTable = (WalkerGroup) table.clone();
             newTableList.add(newTable);
         }
 

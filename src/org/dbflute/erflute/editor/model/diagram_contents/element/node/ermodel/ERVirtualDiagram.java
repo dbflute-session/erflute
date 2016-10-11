@@ -6,7 +6,7 @@ import java.util.List;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -23,14 +23,14 @@ public class ERVirtualDiagram extends DiagramWalker {
     private String name;
 
     private List<ERVirtualTable> tables;
-    private List<Note> notes;
-    private List<VGroup> groups;
+    private List<WalkerNote> notes;
+    private List<WalkerGroup> groups;
 
     public ERVirtualDiagram(ERDiagram diagram) {
         setDiagram(diagram);
         tables = new ArrayList<ERVirtualTable>();
-        notes = new ArrayList<Note>();
-        groups = new ArrayList<VGroup>();
+        notes = new ArrayList<WalkerNote>();
+        groups = new ArrayList<WalkerGroup>();
     }
 
     @Override
@@ -107,10 +107,10 @@ public class ERVirtualDiagram extends DiagramWalker {
     }
 
     public void addNewContent(DiagramWalker element) {
-        if (element instanceof Note) {
-            ((Note) element).setVirtualDiagram(this);
-        } else if (element instanceof VGroup) {
-            ((VGroup) element).setModel(this);
+        if (element instanceof WalkerNote) {
+            ((WalkerNote) element).setVirtualDiagram(this);
+        } else if (element instanceof WalkerGroup) {
+            ((WalkerGroup) element).setVirtualDiagram(this);
         } else {
             getDiagram().addContent(element);
         }
@@ -129,26 +129,26 @@ public class ERVirtualDiagram extends DiagramWalker {
         } else {
             element.setFontSize(getDiagram().getFontSize());
         }
-        if (element instanceof Note) {
-            notes.add((Note) element);
+        if (element instanceof WalkerNote) {
+            notes.add((WalkerNote) element);
             firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-        } else if (element instanceof VGroup) {
-            groups.add(((VGroup) element));
+        } else if (element instanceof WalkerGroup) {
+            groups.add(((WalkerGroup) element));
             firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
         }
     }
 
-    public void addGroup(VGroup group) {
+    public void addGroup(WalkerGroup group) {
         groups.add(group);
         firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
-    public void remove(VGroup element) {
+    public void remove(WalkerGroup element) {
         groups.remove(element);
         this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
-    public void remove(Note element) {
+    public void remove(WalkerNote element) {
         notes.remove(element);
         this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
@@ -197,19 +197,19 @@ public class ERVirtualDiagram extends DiagramWalker {
         this.tables = tables;
     }
 
-    public List<Note> getNotes() {
+    public List<WalkerNote> getNotes() {
         return notes;
     }
 
-    public void setNotes(List<Note> notes) { // when e.g. loading XML
+    public void setNotes(List<WalkerNote> notes) { // when e.g. loading XML
         this.notes = notes;
     }
 
-    public List<VGroup> getGroups() {
+    public List<WalkerGroup> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<VGroup> groups) {
+    public void setGroups(List<WalkerGroup> groups) {
         this.groups = groups;
         this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }

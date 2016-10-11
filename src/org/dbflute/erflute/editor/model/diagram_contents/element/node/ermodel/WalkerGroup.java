@@ -6,8 +6,8 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -15,36 +15,36 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERVie
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class VGroup extends DiagramWalker implements IResizable, Comparable<VGroup> {
+public class WalkerGroup extends DiagramWalker implements IResizable, Comparable<WalkerGroup> {
 
     private static final long serialVersionUID = 8251435120903384808L;
-    public static final String PROPERTY_CHANGE_VGROUP = "vgroup";
+    public static final String PROPERTY_CHANGE_WALKER_GROUP = "group";
 
     private String name;
-    private List<DiagramWalker> nodeElementList;
-    private ERVirtualDiagram model;
+    private List<DiagramWalker> walkerList;
+    private ERVirtualDiagram vdiagram;
 
-    public VGroup() {
-        this.nodeElementList = new ArrayList<DiagramWalker>();
+    public WalkerGroup() {
+        this.walkerList = new ArrayList<DiagramWalker>();
     }
 
     public void setContents(List<DiagramWalker> contetns) {
-        this.nodeElementList = contetns;
+        this.walkerList = contetns;
         if (this.getWidth() == 0) {
             int categoryX = 0;
             int categoryY = 0;
             int categoryWidth = 300;
             int categoryHeight = 400;
-            if (!nodeElementList.isEmpty()) {
-                categoryX = nodeElementList.get(0).getX();
-                categoryY = nodeElementList.get(0).getY();
-                categoryWidth = nodeElementList.get(0).getWidth();
-                categoryHeight = nodeElementList.get(0).getHeight();
-                for (final DiagramWalker nodeElement : nodeElementList) {
-                    final int x = nodeElement.getX();
-                    final int y = nodeElement.getY();
-                    int width = nodeElement.getWidth();
-                    int height = nodeElement.getHeight();
+            if (!walkerList.isEmpty()) {
+                categoryX = walkerList.get(0).getX();
+                categoryY = walkerList.get(0).getY();
+                categoryWidth = walkerList.get(0).getWidth();
+                categoryHeight = walkerList.get(0).getHeight();
+                for (final DiagramWalker walker : walkerList) {
+                    final int x = walker.getX();
+                    final int y = walker.getY();
+                    int width = walker.getWidth();
+                    int height = walker.getHeight();
                     if (categoryX > x) {
                         width += categoryX - x;
                         categoryX = x;
@@ -65,15 +65,15 @@ public class VGroup extends DiagramWalker implements IResizable, Comparable<VGro
         }
     }
 
-    public boolean contains(DiagramWalker nodeElement) {
-        return this.nodeElementList.contains(nodeElement);
+    public boolean contains(DiagramWalker walker) {
+        return this.walkerList.contains(walker);
     }
 
-    public boolean isVisible(DiagramWalker nodeElement, ERDiagram diagram) {
+    public boolean isVisible(DiagramWalker walker, ERDiagram diagram) {
         return true;
         //		boolean isVisible = false;
         //
-        //		if (this.contains(nodeElement)) {
+        //		if (this.contains(walker)) {
         //			isVisible = true;
         //
         //		} else {
@@ -81,7 +81,7 @@ public class VGroup extends DiagramWalker implements IResizable, Comparable<VGro
         //					.getSettings().getGroupSetting();
         //
         //			if (groupSettings.isShowReferredTables()) {
-        //				for (NodeElement referringElement : nodeElement.getReferringElementList()) {
+        //				for (NodeElement referringElement : walker.getReferringElementList()) {
         //					if (this.contains(referringElement)) {
         //						isVisible = true;
         //						break;
@@ -95,20 +95,18 @@ public class VGroup extends DiagramWalker implements IResizable, Comparable<VGro
 
     public List<ERTable> getTableContents() {
         final List<ERTable> tableList = new ArrayList<ERTable>();
-
-        for (final DiagramWalker nodeElement : this.nodeElementList) {
-            if (nodeElement instanceof ERTable) {
-                tableList.add((ERTable) nodeElement);
+        for (final DiagramWalker walker : this.walkerList) {
+            if (walker instanceof ERTable) {
+                tableList.add((ERTable) walker);
             }
         }
-
         return tableList;
     }
 
     public List<ERView> getViewContents() {
         final List<ERView> viewList = new ArrayList<ERView>();
 
-        for (final DiagramWalker nodeElement : this.nodeElementList) {
+        for (final DiagramWalker nodeElement : this.walkerList) {
             if (nodeElement instanceof ERView) {
                 viewList.add((ERView) nodeElement);
             }
@@ -119,7 +117,7 @@ public class VGroup extends DiagramWalker implements IResizable, Comparable<VGro
 
     public List<TableView> getTableViewContents() {
         final List<TableView> tableList = new ArrayList<TableView>();
-        for (final DiagramWalker nodeElement : this.nodeElementList) {
+        for (final DiagramWalker nodeElement : this.walkerList) {
             if (nodeElement instanceof TableView) {
                 tableList.add((TableView) nodeElement);
             }
@@ -172,13 +170,13 @@ public class VGroup extends DiagramWalker implements IResizable, Comparable<VGro
     //                                                                      Basic Override
     //                                                                      ==============
     @Override
-    public int compareTo(VGroup other) {
+    public int compareTo(WalkerGroup other) {
         return Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
     }
 
     @Override
-    public VGroup clone() {
-        final VGroup clone = (VGroup) super.clone();
+    public WalkerGroup clone() {
+        final WalkerGroup clone = (WalkerGroup) super.clone();
         return clone;
     }
 
@@ -187,18 +185,18 @@ public class VGroup extends DiagramWalker implements IResizable, Comparable<VGro
     //                                                                            ========
     public void setName(String name) {
         this.name = name;
-        this.firePropertyChange(PROPERTY_CHANGE_VGROUP, null, null);
+        this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP, null, null);
     }
 
-    public List<DiagramWalker> getContents() {
-        return nodeElementList;
+    public List<DiagramWalker> getDiagramWalkerList() {
+        return walkerList;
     }
 
-    public ERVirtualDiagram getModel() {
-        return model;
+    public ERVirtualDiagram getVirtualDiagram() {
+        return vdiagram;
     }
 
-    public void setModel(ERVirtualDiagram model) {
-        this.model = model;
+    public void setVirtualDiagram(ERVirtualDiagram vdiagram) {
+        this.vdiagram = vdiagram;
     }
 }

@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.c
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 
 public class CreateCommentConnectionCommand extends CreateConnectionCommand {
@@ -20,7 +20,7 @@ public class CreateCommentConnectionCommand extends CreateConnectionCommand {
             return false;
         }
 
-        if (!(this.getSourceModel() instanceof Note) && !(this.getTargetModel() instanceof Note)) {
+        if (!(this.getSourceModel() instanceof WalkerNote) && !(this.getTargetModel() instanceof WalkerNote)) {
             return false;
         }
 
@@ -43,8 +43,8 @@ public class CreateCommentConnectionCommand extends CreateConnectionCommand {
         connection.setSource(source);
         connection.setTarget(target);
 
-        if (source instanceof Note) {
-            Note note = (Note) source;
+        if (source instanceof WalkerNote) {
+            WalkerNote note = (WalkerNote) source;
             note.getVirtualDiagram().changeAll();
         }
     }

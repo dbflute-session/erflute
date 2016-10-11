@@ -12,7 +12,7 @@ import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-public class VGroupManageDialog extends AbstractDialog {
+public class WalkerGroupManageDialog extends AbstractDialog {
 
     private Table categoryTable = null;
 
@@ -48,11 +48,11 @@ public class VGroupManageDialog extends AbstractDialog {
 
     //	private CategorySetting categorySettings;
 
-    private Map<VGroup, TableEditor> categoryCheckMap;
+    private Map<WalkerGroup, TableEditor> categoryCheckMap;
 
     private Map<DiagramWalker, TableEditor> nodeCheckMap;
 
-    private VGroup targetCategory;
+    private WalkerGroup targetCategory;
 
     private Button upButton;
 
@@ -60,7 +60,7 @@ public class VGroupManageDialog extends AbstractDialog {
 
     private ERVirtualDiagram erModel;
 
-    public VGroupManageDialog(Shell parentShell, ERVirtualDiagram model) {
+    public WalkerGroupManageDialog(Shell parentShell, ERVirtualDiagram model) {
         super(parentShell, 2);
         this.erModel = model;
         //		this.diagram = diagram;
@@ -197,10 +197,10 @@ public class VGroupManageDialog extends AbstractDialog {
 
             this.categoryCheckMap.clear();
         } else {
-            this.categoryCheckMap = new HashMap<VGroup, TableEditor>();
+            this.categoryCheckMap = new HashMap<WalkerGroup, TableEditor>();
         }
 
-        for (VGroup group : erModel.getGroups()) {
+        for (WalkerGroup group : erModel.getGroups()) {
             TableItem tableItem = new TableItem(this.categoryTable, SWT.NONE);
 
             Button selectCheckButton = new Button(this.categoryTable, SWT.CHECK);
@@ -258,7 +258,7 @@ public class VGroupManageDialog extends AbstractDialog {
         }
     }
 
-    private void initNodeList(VGroup category) {
+    private void initNodeList(WalkerGroup category) {
         this.categoryNameText.setText(category.getName());
 
         for (DiagramWalker nodeElement : this.nodeCheckMap.keySet()) {
@@ -334,7 +334,7 @@ public class VGroupManageDialog extends AbstractDialog {
                     initNodeTable();
                 }
 
-                VGroup addCategory = new VGroup();
+                WalkerGroup addCategory = new WalkerGroup();
                 int[] color = erModel.getDiagram().getDefaultColor();
                 addCategory.setColor(color[0], color[1], color[2]);
                 addCategory.setName(name);
@@ -449,10 +449,10 @@ public class VGroupManageDialog extends AbstractDialog {
     }
 
     public void changeColumn(int index1, int index2) {
-        List<VGroup> allCategories = erModel.getGroups();
+        List<WalkerGroup> allCategories = erModel.getGroups();
 
-        VGroup category1 = allCategories.remove(index1);
-        VGroup category2 = null;
+        WalkerGroup category1 = allCategories.remove(index1);
+        WalkerGroup category2 = null;
 
         if (index1 < index2) {
             category2 = allCategories.remove(index2 - 1);
@@ -501,9 +501,9 @@ public class VGroupManageDialog extends AbstractDialog {
             targetCategory.setContents(selectedNodeElementList);
         }
 
-        List<VGroup> selectedCategories = new ArrayList<VGroup>();
+        List<WalkerGroup> selectedCategories = new ArrayList<WalkerGroup>();
 
-        for (VGroup category : erModel.getGroups()) {
+        for (WalkerGroup category : erModel.getGroups()) {
             Button button = (Button) this.categoryCheckMap.get(category).getEditor();
 
             if (button.getSelection()) {

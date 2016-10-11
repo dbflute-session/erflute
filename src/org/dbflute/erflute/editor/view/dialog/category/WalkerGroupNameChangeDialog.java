@@ -3,20 +3,20 @@ package org.dbflute.erflute.editor.view.dialog.category;
 import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class VGroupNameChangeDialog extends AbstractDialog {
+public class WalkerGroupNameChangeDialog extends AbstractDialog {
 
     private Text categoryNameText = null;
 
-    private VGroup targetCategory;
+    private WalkerGroup targetCategory;
 
     private String categoryName;
 
-    public VGroupNameChangeDialog(Shell parentShell, VGroup category) {
+    public WalkerGroupNameChangeDialog(Shell parentShell, WalkerGroup category) {
         super(parentShell, 2);
         this.targetCategory = category;
     }

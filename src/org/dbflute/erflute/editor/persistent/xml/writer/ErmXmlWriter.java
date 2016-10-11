@@ -11,9 +11,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
@@ -49,7 +49,7 @@ public class ErmXmlWriter {
     protected final WrittenTablespaceBuilder tablespaceBuilder;
     protected final WrittenIndexBuilder indexBuilder;
     protected final WrittenUniqueKeyBuilder uniqueKeyBuilder;
-    protected final WrittenNoteBuilder noteBuilder;
+    protected final WrittenWalkerNoteBuilder noteBuilder;
     protected final WrittenImageBuilder imageBuilder;
     protected final WrittenSequenceBuilder sequenceBuilder;
     protected final WrittenTriggerBuilder triggerBuilder;
@@ -71,7 +71,7 @@ public class ErmXmlWriter {
         this.tablespaceBuilder = new WrittenTablespaceBuilder(persistentXml, assistLogic);
         this.indexBuilder = new WrittenIndexBuilder(persistentXml, assistLogic);
         this.uniqueKeyBuilder = new WrittenUniqueKeyBuilder(persistentXml, assistLogic);
-        this.noteBuilder = new WrittenNoteBuilder(persistentXml, assistLogic, nodeElementBuilder);
+        this.noteBuilder = new WrittenWalkerNoteBuilder(persistentXml, assistLogic, nodeElementBuilder);
         this.imageBuilder = new WrittenImageBuilder(persistentXml, assistLogic, nodeElementBuilder);
         this.sequenceBuilder = new WrittenSequenceBuilder(persistentXml, assistLogic);
         this.triggerBuilder = new WrittenTriggerBuilder(persistentXml, assistLogic);
@@ -196,11 +196,11 @@ public class ErmXmlWriter {
                 subxml = buildTable((ERTable) content, context);
             } else if (content instanceof ERView) {
                 subxml = buildView((ERView) content, context);
-            } else if (content instanceof Note) {
-                subxml = noteBuilder.buildNote((Note) content, context);
+            } else if (content instanceof WalkerNote) {
+                subxml = noteBuilder.buildNote((WalkerNote) content, context);
             } else if (content instanceof InsertedImage) {
                 subxml = imageBuilder.buildImage((InsertedImage) content, context);
-            } else if (content instanceof VGroup) {
+            } else if (content instanceof WalkerGroup) {
                 continue; // not use here, saved in ermodel
             } else {
                 throw new IllegalStateException("*Unsupported contents: " + content);

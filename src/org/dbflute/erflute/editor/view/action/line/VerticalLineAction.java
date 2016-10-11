@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -61,7 +61,7 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
             List<DiagramWalkerEditPart> list = new ArrayList<DiagramWalkerEditPart>();
 
             for (Object object : this.getSelectedObjects()) {
-                if (object instanceof ERTableEditPart || object instanceof NoteEditPart) {
+                if (object instanceof ERTableEditPart || object instanceof WalkerNoteEditPart) {
                     list.add((DiagramWalkerEditPart) object);
                 }
             }

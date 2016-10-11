@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -90,7 +90,7 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
     }
 
     private boolean isNodeElementEditPart(final Object obj) {
-        return obj instanceof TableViewEditPart || obj instanceof NoteEditPart || obj instanceof ModelPropertiesEditPart;
+        return obj instanceof TableViewEditPart || obj instanceof WalkerNoteEditPart || obj instanceof ModelPropertiesEditPart;
     }
 
     private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram, final DiagramWalkerEditPart editPart,

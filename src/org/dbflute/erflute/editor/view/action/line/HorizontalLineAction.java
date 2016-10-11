@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.no
 import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
@@ -63,7 +63,7 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
         List<DiagramWalkerEditPart> list = new ArrayList<DiagramWalkerEditPart>();
 
         for (Object object : this.getSelectedObjects()) {
-            if (object instanceof ERTableEditPart || object instanceof NoteEditPart) {
+            if (object instanceof ERTableEditPart || object instanceof WalkerNoteEditPart) {
                 list.add((DiagramWalkerEditPart) object);
             }
         }

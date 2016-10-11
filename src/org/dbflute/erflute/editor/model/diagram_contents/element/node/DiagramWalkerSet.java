@@ -10,8 +10,8 @@ import java.util.TreeSet;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImageSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.NoteSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNoteSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -34,7 +34,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     //                                                                           =========
     private final TableSet tableSet;
     private final ViewSet viewSet;
-    private final NoteSet noteSet;
+    private final WalkerNoteSet noteSet;
     private final InsertedImageSet insertedImageSet;
     private final List<DiagramWalker> walkerList;
 
@@ -44,7 +44,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     public DiagramWalkerSet() {
         this.tableSet = new TableSet();
         this.viewSet = new ViewSet();
-        this.noteSet = new NoteSet();
+        this.noteSet = new WalkerNoteSet();
         this.insertedImageSet = new InsertedImageSet();
         this.walkerList = new ArrayList<DiagramWalker>();
     }
@@ -57,8 +57,8 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
             this.tableSet.add((ERTable) element);
         } else if (element instanceof ERView) {
             this.viewSet.add((ERView) element);
-        } else if (element instanceof Note) {
-            this.noteSet.add((Note) element);
+        } else if (element instanceof WalkerNote) {
+            this.noteSet.add((WalkerNote) element);
         } else if (element instanceof InsertedImage) {
             this.insertedImageSet.add((InsertedImage) element);
         } else {
@@ -73,8 +73,8 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
             this.tableSet.remove((ERTable) element);
         } else if (element instanceof ERView) {
             this.viewSet.remove((ERView) element);
-        } else if (element instanceof Note) {
-            this.noteSet.remove((Note) element);
+        } else if (element instanceof WalkerNote) {
+            this.noteSet.remove((WalkerNote) element);
         } else if (element instanceof InsertedImage) {
             this.insertedImageSet.remove((InsertedImage) element);
         } else {
@@ -151,7 +151,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         return viewSet;
     }
 
-    public NoteSet getNoteSet() {
+    public WalkerNoteSet getNoteSet() {
         return noteSet;
     }
 

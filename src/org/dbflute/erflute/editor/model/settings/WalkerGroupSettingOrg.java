@@ -2,7 +2,9 @@ package org.dbflute.erflute.editor.model.settings;
 
 import java.io.Serializable;
 
-public class VGroupSettingOrg implements Serializable, Cloneable {
+public class WalkerGroupSettingOrg implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 1L;
 
     //	private static final long serialVersionUID = -7691417386790834828L;
     //

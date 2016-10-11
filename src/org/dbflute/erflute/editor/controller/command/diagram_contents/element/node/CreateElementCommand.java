@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -63,8 +63,8 @@ public class CreateElementCommand extends AbstractCommand {
     @Override
     protected void doExecute() {
         final ERVirtualDiagram currentErmodel = diagram.getCurrentErmodel();
-        if (element instanceof VGroup) {
-            final VGroup group = (VGroup) element;
+        if (element instanceof WalkerGroup) {
+            final WalkerGroup group = (WalkerGroup) element;
             group.setName("Your Group");
             group.setContents(enclosedElementList);
             if (currentErmodel != null) {

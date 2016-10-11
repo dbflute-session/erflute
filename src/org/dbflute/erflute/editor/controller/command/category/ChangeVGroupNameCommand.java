@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.category;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 
 public class ChangeVGroupNameCommand extends AbstractCommand {
 
@@ -12,9 +12,9 @@ public class ChangeVGroupNameCommand extends AbstractCommand {
 
     private String newName;
 
-    private VGroup category;
+    private WalkerGroup category;
 
-    public ChangeVGroupNameCommand(ERDiagram diagram, VGroup category, String newName) {
+    public ChangeVGroupNameCommand(ERDiagram diagram, WalkerGroup category, String newName) {
         this.diagram = diagram;
         this.category = category;
         this.newName = newName;

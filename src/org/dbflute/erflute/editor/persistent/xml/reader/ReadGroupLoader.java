@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
@@ -34,8 +34,8 @@ public class ReadGroupLoader {
     // ===================================================================================
     //                                                                               Group
     //                                                                               =====
-    public VGroup loadGroup(ERVirtualDiagram model, Element node, LoadContext context) {
-        final VGroup group = new VGroup();
+    public WalkerGroup loadGroup(ERVirtualDiagram model, Element node, LoadContext context) {
+        final WalkerGroup group = new WalkerGroup();
         nodeElementLoader.loadNodeElement(group, node, context);
         group.setName(getStringValue(node, "name"));
         final List<ERVirtualTable> vtables = model.getTables();

@@ -1,13 +1,13 @@
 package org.dbflute.erflute.editor.persistent.xml.writer;
 
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class WrittenNoteBuilder {
+public class WrittenWalkerNoteBuilder {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -19,7 +19,7 @@ public class WrittenNoteBuilder {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenNoteBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder) {
+    public WrittenWalkerNoteBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementBuilder = nodeElementBuilder;
@@ -28,7 +28,7 @@ public class WrittenNoteBuilder {
     // ===================================================================================
     //                                                                              Note
     //                                                                             =======
-    public String buildNote(Note note, PersistentContext context) {
+    public String buildNote(WalkerNote note, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<note>\n");
         xml.append(tab(nodeElementBuilder.buildNodeElement(note, context)));

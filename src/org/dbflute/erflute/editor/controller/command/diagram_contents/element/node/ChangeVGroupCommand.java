@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 
 public class ChangeVGroupCommand extends AbstractCommand {
 
     private ERVirtualDiagram model;
 
-    private List<VGroup> oldVgroups;
+    private List<WalkerGroup> oldVgroups;
 
-    private List<VGroup> vgroups;
+    private List<WalkerGroup> vgroups;
 
-    public ChangeVGroupCommand(ERVirtualDiagram model, List<VGroup> vgroups) {
+    public ChangeVGroupCommand(ERVirtualDiagram model, List<WalkerGroup> vgroups) {
         this.model = model;
         this.oldVgroups = model.getGroups();
         this.vgroups = vgroups;

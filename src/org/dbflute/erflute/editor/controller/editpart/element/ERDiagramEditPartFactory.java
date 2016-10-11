@@ -8,8 +8,8 @@ import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPa
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.InsertedImageEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.VGroupEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ViewEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.GroupColumnEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.NormalColumnEditPart;
@@ -19,10 +19,10 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Comm
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -55,8 +55,8 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
             editPart = new ERDiagramEditPart();
         } else if (model instanceof Relationship) {
             editPart = new RelationEditPart();
-        } else if (model instanceof Note) {
-            editPart = new NoteEditPart();
+        } else if (model instanceof WalkerNote) {
+            editPart = new WalkerNoteEditPart();
         } else if (model instanceof ERIndex) {
             editPart = new IndexEditPart();
         } else if (model instanceof ModelProperties) {
@@ -71,8 +71,8 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
             editPart = new GroupColumnEditPart();
         } else if (model instanceof InsertedImage) {
             editPart = new InsertedImageEditPart();
-        } else if (model instanceof VGroup) {
-            editPart = new VGroupEditPart();
+        } else if (model instanceof WalkerGroup) {
+            editPart = new WalkerGroupEditPart();
         }
         if (editPart != null) {
             editPart.setModel(model);

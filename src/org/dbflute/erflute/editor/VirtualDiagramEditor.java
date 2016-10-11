@@ -7,7 +7,7 @@ import java.util.List;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualTableEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.VGroupEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVi
 import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
 import org.dbflute.erflute.editor.view.ERDiagramOnePopupMenuManager;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
-import org.dbflute.erflute.editor.view.action.ermodel.VGroupManageAction;
+import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
 import org.dbflute.erflute.editor.view.outline.ERDiagramOutlinePage;
 import org.dbflute.erflute.editor.view.outline.ERDiagramOutlinePopupMenuManager;
 import org.eclipse.gef.DefaultEditDomain;
@@ -70,7 +70,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
         super.createActions();
         final ActionRegistry registry = this.getActionRegistry();
         final List<IAction> actionList =
-                new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new VGroupManageAction(this), }));
+                new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new WalkerGroupManageAction(this), }));
         for (final IAction action : actionList) {
             registry.registerAction(action);
         }
@@ -130,7 +130,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
                     return;
                 }
             }
-            if (tableEditPart instanceof VGroupEditPart) {
+            if (tableEditPart instanceof WalkerGroupEditPart) {
                 // do nothing
                 //VGroupEditPart groupEditPart = (VGroupEditPart) tableEditPart;
                 //List children = groupEditPart.getChildren();

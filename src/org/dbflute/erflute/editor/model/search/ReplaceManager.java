@@ -6,7 +6,7 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
@@ -79,7 +79,7 @@ public class ReplaceManager {
             return null;
 
         } else if (type == SearchResultRow.TYPE_NOTE) {
-            Note note = (Note) object;
+            WalkerNote note = (WalkerNote) object;
             String original = note.getText();
 
             String str = replace(original, keyword, replaceWord);
@@ -385,7 +385,7 @@ public class ReplaceManager {
         } else if (type == SearchResultRow.TYPE_INDEX_COLUMN_NAME) {
 
         } else if (type == SearchResultRow.TYPE_NOTE) {
-            Note note = (Note) object;
+            WalkerNote note = (WalkerNote) object;
 
             note.setText(str);
 

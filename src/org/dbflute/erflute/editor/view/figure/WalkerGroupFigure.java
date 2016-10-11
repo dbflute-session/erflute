@@ -6,14 +6,14 @@ import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.ToolbarLayout;
 
-public class VGroupFigure extends RectangleFigure {
+public class WalkerGroupFigure extends RectangleFigure {
 
-    private Label label;
+    private final Label label;
 
-    public VGroupFigure(String name) {
+    public WalkerGroupFigure(String name) {
         this.setOpaque(true);
 
-        ToolbarLayout layout = new ToolbarLayout();
+        final ToolbarLayout layout = new ToolbarLayout();
         this.setLayoutManager(layout);
 
         this.label = new Label();
@@ -27,5 +27,4 @@ public class VGroupFigure extends RectangleFigure {
         graphics.setAlpha(100);
         super.fillShape(graphics);
     }
-
 }
