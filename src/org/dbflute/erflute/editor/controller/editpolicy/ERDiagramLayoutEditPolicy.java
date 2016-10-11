@@ -19,7 +19,7 @@ import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalk
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
@@ -106,7 +106,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
             for (final Object obj : editPart.getSourceConnections()) {
                 final AbstractConnectionEditPart connection = (AbstractConnectionEditPart) obj;
                 if (selectedEditParts.contains(connection.getTarget())) {
-                    final ConnectionElement connectionElement = (ConnectionElement) connection.getModel();
+                    final WalkerConnection connectionElement = (WalkerConnection) connection.getModel();
                     final List<Bendpoint> bendpointList = connectionElement.getBendpoints();
                     for (int index = 0; index < bendpointList.size(); index++) {
                         final Bendpoint bendPoint = bendpointList.get(index);

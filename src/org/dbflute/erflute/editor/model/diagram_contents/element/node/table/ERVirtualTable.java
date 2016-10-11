@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -23,105 +23,31 @@ public class ERVirtualTable extends ERTable {
 
     private static final long serialVersionUID = 1L;
 
-    private final ERVirtualDiagram model;
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    private final ERVirtualDiagram vdiagram;
     private ERTable rawTable;
 
-    public ERVirtualTable(ERVirtualDiagram model, ERTable rawTable) {
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
+    public ERVirtualTable(ERVirtualDiagram vdiagram, ERTable rawTable) {
         super();
-        this.model = model;
+        this.vdiagram = vdiagram;
         this.rawTable = rawTable;
-        //		setDiagram(rawTable.getDiagram());
-        //		this.tableViewProperties = DBManagerFactory.getDBManager(
-        //				this.getDiagram()).createTableProperties(
-        //				(TableProperties) this.tableViewProperties);
-        //
-        //		Dictionary dictionary = this.getDiagram().getDiagramContents()
-        //				.getDictionary();
-        //
-        //		setPhysicalName(rawTable.getPhysicalName());
-        //		setLogicalName(this.getLogicalName());
-        //		setDescription(this.getDescription());
-        //
-        //		for (NormalColumn toColumn : to.getNormalColumns()) {
-        //			dictionary.remove(toColumn);
-        //		}
-        //
-        //		List<Column> columns = new ArrayList<Column>();
-        //
-        //		List<NormalColumn> newPrimaryKeyColumns = new ArrayList<NormalColumn>();
-        //
-        //		for (Column fromColumn : this.getColumns()) {
-        //			if (fromColumn instanceof NormalColumn) {
-        //				CopyColumn copyColumn = (CopyColumn) fromColumn;
-        //
-        //				CopyWord copyWord = copyColumn.getWord();
-        //				if (copyColumn.isForeignKey()) {
-        //					copyWord = null;
-        //				}
-        //
-        //				if (copyWord != null) {
-        //					Word originalWord = copyColumn.getOriginalWord();
-        //					dictionary.copyTo(copyWord, originalWord);
-        //				}
-        //
-        //				NormalColumn restructuredColumn = copyColumn
-        //						.getRestructuredColumn();
-        //
-        //				restructuredColumn.setColumnHolder(this);
-        //				if (copyWord == null) {
-        //					restructuredColumn.setWord(null);
-        //				}
-        //				columns.add(restructuredColumn);
-        //
-        //				if (restructuredColumn.isPrimaryKey()) {
-        //					newPrimaryKeyColumns.add(restructuredColumn);
-        //				}
-        //
-        //				dictionary.add(restructuredColumn);
-        //
-        //			} else {
-        //				columns.add(fromColumn);
-        //			}
-        //		}
-        //
-        //		this.setTargetTableRelation(to, newPrimaryKeyColumns);
-        //
-        //		to.setColumns(columns);
-
-        //		rawTable.copyTableViewData(this).restructureData(this);
-        //		rawTable.clone().restructureData(this);
-        //		rawTable.restructureData(this);
-        //		restructureData(rawTable);
     }
 
-    // ---------------------------------------------------------------- Delegete Methods
-
-    @Override
-    public void setFontSize(int fontSize) {
-        super.setFontSize(fontSize);
+    // ===================================================================================
+    //                                                                        Change Table
+    //                                                                        ============
+    public void changeTable() {
+        firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
-    @Override
-    public int getFontSize() {
-        return super.getFontSize();
-    }
-
-    //	@Override
-    //	public int getFontSize() {
-    //		if (super.getFontSize() == 0) {
-    //			return super.getFontSize();
-    //		}
-    //		return rawTable.getFontSize();
-    //	}
-    //	
-    //	@Override
-    //	public String getFontName() {
-    //		if (super.getFontName() == null) {
-    //			return super.getFontName();
-    //		}
-    //		return rawTable.getFontName();
-    //	}
-
+    // ===================================================================================
+    //                                                               Delegate to Raw Table
+    //                                                               =====================
     @Override
     public void setColor(int red, int green, int blue) {
         rawTable.setColor(red, green, blue);
@@ -141,16 +67,6 @@ public class ERVirtualTable extends ERTable {
         this.setLocation(new Location(x, y, getWidth(), getHeight()));
     }
 
-    //	@Override
-    //	public int getX() {
-    //		return rawTable.getX();
-    //	}
-    //
-    //	@Override
-    //	public int getY() {
-    //		return rawTable.getY();
-    //	}
-
     @Override
     public int getWidth() {
         return rawTable.getWidth();
@@ -162,16 +78,15 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<ConnectionElement> getIncomings() {
-        final List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
-        final List<ERVirtualTable> modelTables = model.getTables();
-        for (final ConnectionElement el : rawTable.getIncomings()) {
-            final DiagramWalker findEl = el.getSource();
+    public List<WalkerConnection> getIncomings() {
+        final List<WalkerConnection> elements = new ArrayList<WalkerConnection>();
+        final List<ERVirtualTable> modelTables = vdiagram.getVirtualTables();
+        for (final WalkerConnection el : rawTable.getIncomings()) {
+            final DiagramWalker findEl = el.getWalkerSource();
             if (findEl instanceof WalkerNote) {
-                if (((WalkerNote) findEl).getVirtualDiagram().equals(model)) {
+                if (((WalkerNote) findEl).getVirtualDiagram().equals(vdiagram)) {
                     elements.add(el);
                 }
-                //				elements.add(el);
             } else {
                 for (final ERVirtualTable vtable : modelTables) {
                     if (vtable.getRawTable().equals(findEl)) {
@@ -185,13 +100,13 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<ConnectionElement> getOutgoings() {
-        final List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
-        final List<ERVirtualTable> modelTables = model.getTables();
-        for (final ConnectionElement el : rawTable.getOutgoings()) {
-            final DiagramWalker findEl = el.getTarget();
+    public List<WalkerConnection> getOutgoings() {
+        final List<WalkerConnection> elements = new ArrayList<WalkerConnection>();
+        final List<ERVirtualTable> modelTables = vdiagram.getVirtualTables();
+        for (final WalkerConnection el : rawTable.getOutgoings()) {
+            final DiagramWalker findEl = el.getWalkerTarget();
             if (findEl instanceof WalkerNote) {
-                if (((WalkerNote) findEl).getVirtualDiagram().equals(model)) {
+                if (((WalkerNote) findEl).getVirtualDiagram().equals(vdiagram)) {
                     elements.add(el);
                 }
                 elements.add(el);
@@ -265,9 +180,9 @@ public class ERVirtualTable extends ERTable {
     @Override
     public List<Relationship> getIncomingRelationshipList() {
         final List<Relationship> elements = new ArrayList<Relationship>();
-        final List<ERVirtualTable> modelTables = model.getTables();
+        final List<ERVirtualTable> modelTables = vdiagram.getVirtualTables();
         for (final Relationship el : rawTable.getIncomingRelationshipList()) {
-            final DiagramWalker findEl = el.getSource();
+            final DiagramWalker findEl = el.getWalkerSource();
             for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
                     elements.add(el);
@@ -276,15 +191,14 @@ public class ERVirtualTable extends ERTable {
             }
         }
         return elements;
-        //		return rawTable.getIncomingRelations();
     }
 
     @Override
     public List<Relationship> getOutgoingRelationshipList() {
         final List<Relationship> elements = new ArrayList<Relationship>();
-        final List<ERVirtualTable> modelTables = model.getTables();
+        final List<ERVirtualTable> modelTables = vdiagram.getVirtualTables();
         for (final Relationship el : rawTable.getOutgoingRelationshipList()) {
-            final DiagramWalker findEl = el.getSource();
+            final DiagramWalker findEl = el.getWalkerSource();
             for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
                     elements.add(el);
@@ -293,7 +207,6 @@ public class ERVirtualTable extends ERTable {
             }
         }
         return elements;
-        //		return rawTable.getOutgoingRelations();
     }
 
     @Override
@@ -359,17 +272,11 @@ public class ERVirtualTable extends ERTable {
         this.rawTable = rawTable;
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     @Override
     public String getObjectType() {
         return "vtable";
-    }
-
-    public void doChangeTable() {
-        firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
-    }
-
-    @Override
-    public void setLocation(Location location) {
-        super.setLocation(location);
     }
 }

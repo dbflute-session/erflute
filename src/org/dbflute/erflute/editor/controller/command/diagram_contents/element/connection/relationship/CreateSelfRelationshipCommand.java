@@ -37,7 +37,7 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
         ERTable sourceTable = (ERTable) this.source.getModel();
 
         for (Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
-            if (otherRelation.getSource() == otherRelation.getTarget()) {
+            if (otherRelation.getWalkerSource() == otherRelation.getWalkerTarget()) {
                 anotherSelfRelation = true;
                 break;
             }
@@ -63,7 +63,7 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         relation.addBendpoint(0, bendpoint0);
 
-        relation.setSource((ERTable) sourceTable);
+        relation.setSourceWalker((ERTable) sourceTable);
 
         ERDiagramEditPart.setUpdateable(true);
 
@@ -79,7 +79,7 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
 
-        relation.setSource(null);
+        relation.setSourceWalker(null);
 
         ERDiagramEditPart.setUpdateable(true);
 

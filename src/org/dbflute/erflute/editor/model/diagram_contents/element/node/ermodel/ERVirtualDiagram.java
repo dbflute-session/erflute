@@ -189,27 +189,27 @@ public class ERVirtualDiagram extends DiagramWalker {
         return ""; // unsupported here
     }
 
-    public List<ERVirtualTable> getTables() {
+    public List<ERVirtualTable> getVirtualTables() {
         return tables;
     }
 
-    public void setTables(List<ERVirtualTable> tables) { // when e.g. loading XML
+    public void setVirtualTables(List<ERVirtualTable> tables) { // when e.g. loading XML
         this.tables = tables;
     }
 
-    public List<WalkerNote> getNotes() {
+    public List<WalkerNote> getWalkerNotes() {
         return notes;
     }
 
-    public void setNotes(List<WalkerNote> notes) { // when e.g. loading XML
+    public void setWalkerNotes(List<WalkerNote> notes) { // when e.g. loading XML
         this.notes = notes;
     }
 
-    public List<WalkerGroup> getGroups() {
+    public List<WalkerGroup> getWalkerGroups() {
         return groups;
     }
 
-    public void setGroups(List<WalkerGroup> groups) {
+    public void setWalkerGroups(List<WalkerGroup> groups) {
         this.groups = groups;
         this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }

@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalker
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.image.ExportToImageWithProgressManager;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.eclipse.draw2d.Graphics;
@@ -257,8 +257,8 @@ public class ExportToImageAction extends AbstractExportAction {
             }
 
             for (DiagramWalker sourceElement : visibleElements.keySet()) {
-                for (ConnectionElement connection : sourceElement.getOutgoings()) {
-                    if (visibleElements.containsKey(connection.getTarget())) {
+                for (WalkerConnection connection : sourceElement.getOutgoings()) {
+                    if (visibleElements.containsKey(connection.getWalkerTarget())) {
                         for (Bendpoint bendpoint : connection.getBendpoints()) {
                             int x = bendpoint.getX();
                             int y = bendpoint.getY();

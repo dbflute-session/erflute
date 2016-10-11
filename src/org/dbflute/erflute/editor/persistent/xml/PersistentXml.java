@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
@@ -36,7 +36,7 @@ public class PersistentXml extends Persistent {
 
     public class PersistentContext {
         public final Map<DiagramWalker, String> walkerMap = new LinkedHashMap<DiagramWalker, String>();
-        public final Map<ConnectionElement, String> connectionMap = new LinkedHashMap<ConnectionElement, String>();
+        public final Map<WalkerConnection, String> connectionMap = new LinkedHashMap<WalkerConnection, String>();
         public final Map<ColumnGroup, Integer> columnGroupMap = new LinkedHashMap<ColumnGroup, Integer>();
         public final Map<ERColumn, String> columnMap = new LinkedHashMap<ERColumn, String>(); // column = ID
         public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new LinkedHashMap<ComplexUniqueKey, Integer>();
@@ -74,8 +74,8 @@ public class PersistentXml extends Persistent {
             }
             context.walkerMap.put(walker, nodeElementId);
             nodeElementNo++;
-            final List<ConnectionElement> connections = walker.getIncomings();
-            for (final ConnectionElement connection : connections) {
+            final List<WalkerConnection> connections = walker.getIncomings();
+            for (final WalkerConnection connection : connections) {
                 final String connectionId;
                 if (walker instanceof TableView && connection instanceof Relationship) {
                     // basically relationship's parent is table but just in case

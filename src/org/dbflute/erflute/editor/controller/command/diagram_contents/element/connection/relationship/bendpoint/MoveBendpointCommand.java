@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.c
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.eclipse.gef.ConnectionEditPart;
 
 public class MoveBendpointCommand extends AbstractCommand {
@@ -26,7 +26,7 @@ public class MoveBendpointCommand extends AbstractCommand {
      */
     @Override
     protected void doExecute() {
-        ConnectionElement connection = (ConnectionElement) editPart.getModel();
+        WalkerConnection connection = (WalkerConnection) editPart.getModel();
 
         this.oldBendpoint = connection.getBendpoints().get(index);
         connection.replaceBendpoint(index, this.bendPoint);
@@ -37,7 +37,7 @@ public class MoveBendpointCommand extends AbstractCommand {
      */
     @Override
     protected void doUndo() {
-        ConnectionElement connection = (ConnectionElement) editPart.getModel();
+        WalkerConnection connection = (WalkerConnection) editPart.getModel();
         connection.replaceBendpoint(index, this.oldBendpoint);
     }
 

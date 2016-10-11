@@ -30,11 +30,11 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
         ERDiagramEditPart.setUpdateable(false);
         final TableView sourceTable = (TableView) source.getModel();
         final TableView targetTable = (TableView) target.getModel();
-        relationship.setSource(sourceTable);
+        relationship.setSourceWalker(sourceTable);
         ERDiagramEditPart.setUpdateable(true);
         relationship.setTargetTableView(targetTable, this.foreignKeyColumnList);
-        if (relationship.getSource() instanceof ERTable || relationship.getTarget() instanceof ERTable) {
-            final ERVirtualDiagramSet modelSet = this.relationship.getSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+        if (relationship.getWalkerSource() instanceof ERTable || relationship.getWalkerTarget() instanceof ERTable) {
+            final ERVirtualDiagramSet modelSet = this.relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
             modelSet.createRelation(relationship);
         }
         final String foreignKeyName = provideDefaultForeignKeyName(sourceTable, targetTable);
@@ -48,7 +48,7 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
-        relationship.setSource(null);
+        relationship.setSourceWalker(null);
         ERDiagramEditPart.setUpdateable(true);
         relationship.setTargetTableView(null);
         final TableView targetTable = (TableView) this.target.getModel();

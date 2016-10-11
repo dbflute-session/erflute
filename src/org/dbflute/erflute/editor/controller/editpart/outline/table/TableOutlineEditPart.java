@@ -49,7 +49,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
         if (!quickMode) {
             for (Relationship relation : table.getIncomingRelationshipList()) {
-                if (category == null || category.contains(relation.getSource())) {
+                if (category == null || category.contains(relation.getWalkerSource())) {
                     children.add(relation);
                 }
             }

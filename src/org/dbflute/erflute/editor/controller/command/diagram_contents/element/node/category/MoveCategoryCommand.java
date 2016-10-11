@@ -9,7 +9,7 @@ import java.util.Map;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
@@ -29,7 +29,7 @@ public class MoveCategoryCommand extends MoveElementCommand {
 
     private int diffY;
 
-    private Map<ConnectionElement, List<Bendpoint>> bendpointListMap;
+    private Map<WalkerConnection, List<Bendpoint>> bendpointListMap;
 
     public MoveCategoryCommand(ERDiagram diagram, int x, int y, int width, int height, Category category, List<Category> otherCategories,
             boolean move) {
@@ -95,7 +95,7 @@ public class MoveCategoryCommand extends MoveElementCommand {
     @Override
     protected void doExecute() {
         if (this.move) {
-            this.bendpointListMap = new HashMap<ConnectionElement, List<Bendpoint>>();
+            this.bendpointListMap = new HashMap<WalkerConnection, List<Bendpoint>>();
 
             for (final DiagramWalker nodeElement : this.walkerList) {
                 nodeElement.setLocation(new Location(nodeElement.getX() + diffX, nodeElement.getY() + diffY, nodeElement.getWidth(),
@@ -126,8 +126,8 @@ public class MoveCategoryCommand extends MoveElementCommand {
     }
 
     private void moveBendpoints(DiagramWalker source) {
-        for (final ConnectionElement connectionElement : source.getOutgoings()) {
-            final DiagramWalker target = connectionElement.getTarget();
+        for (final WalkerConnection connectionElement : source.getOutgoings()) {
+            final DiagramWalker target = connectionElement.getWalkerTarget();
 
             if (this.category.contains(target)) {
                 final List<Bendpoint> bendpointList = connectionElement.getBendpoints();
@@ -153,7 +153,7 @@ public class MoveCategoryCommand extends MoveElementCommand {
     }
 
     private void restoreBendpoints() {
-        for (final ConnectionElement connectionElement : this.bendpointListMap.keySet()) {
+        for (final WalkerConnection connectionElement : this.bendpointListMap.keySet()) {
             final List<Bendpoint> oldBendpointList = this.bendpointListMap.get(connectionElement);
 
             for (int index = 0; index < oldBendpointList.size(); index++) {

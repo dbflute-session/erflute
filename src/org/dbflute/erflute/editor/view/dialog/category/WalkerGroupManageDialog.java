@@ -200,7 +200,7 @@ public class WalkerGroupManageDialog extends AbstractDialog {
             this.categoryCheckMap = new HashMap<WalkerGroup, TableEditor>();
         }
 
-        for (WalkerGroup group : erModel.getGroups()) {
+        for (WalkerGroup group : erModel.getWalkerGroups()) {
             TableItem tableItem = new TableItem(this.categoryTable, SWT.NONE);
 
             Button selectCheckButton = new Button(this.categoryTable, SWT.CHECK);
@@ -238,7 +238,7 @@ public class WalkerGroupManageDialog extends AbstractDialog {
 
         this.nodeCheckMap = new HashMap<DiagramWalker, TableEditor>();
 
-        for (ERVirtualTable vtable : erModel.getTables()) {
+        for (ERVirtualTable vtable : erModel.getVirtualTables()) {
             DiagramWalker nodeElement = vtable; //.getRawTable();
             TableItem tableItem = new TableItem(this.nodeTable, SWT.NONE);
 
@@ -310,7 +310,7 @@ public class WalkerGroupManageDialog extends AbstractDialog {
                     initNodeTable();
                 }
 
-                targetCategory = erModel.getGroups().get(index);
+                targetCategory = erModel.getWalkerGroups().get(index);
                 initNodeList(targetCategory);
             }
         });
@@ -449,7 +449,7 @@ public class WalkerGroupManageDialog extends AbstractDialog {
     }
 
     public void changeColumn(int index1, int index2) {
-        List<WalkerGroup> allCategories = erModel.getGroups();
+        List<WalkerGroup> allCategories = erModel.getWalkerGroups();
 
         WalkerGroup category1 = allCategories.remove(index1);
         WalkerGroup category2 = null;
@@ -503,7 +503,7 @@ public class WalkerGroupManageDialog extends AbstractDialog {
 
         List<WalkerGroup> selectedCategories = new ArrayList<WalkerGroup>();
 
-        for (WalkerGroup category : erModel.getGroups()) {
+        for (WalkerGroup category : erModel.getWalkerGroups()) {
             Button button = (Button) this.categoryCheckMap.get(category).getEditor();
 
             if (button.getSelection()) {

@@ -43,7 +43,7 @@ public class ReadWalkerGroupLoader {
             groupName = getStringValue(node, "walker_group_name"); // #for_erflute
         }
         group.setName(groupName);
-        final List<ERVirtualTable> vtables = model.getTables();
+        final List<ERVirtualTable> vtables = model.getVirtualTables();
         String[] keys = getTagValues(node, "node_element"); // migration from ERMaster
         if (keys == null || keys.length == 0) {
             keys = getTagValues(node, "diagram_walker"); // #for_erflute

@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class Relationship extends ConnectionElement implements Comparable<Relationship> {
+public class Relationship extends WalkerConnection implements Comparable<Relationship> {
 
     private static final long serialVersionUID = 4456694342537711599L;
 
@@ -63,11 +63,11 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
     //                                                                           TableView
     //                                                                           =========
     public TableView getSourceTableView() {
-        return (TableView) getSource();
+        return (TableView) getWalkerSource();
     }
 
     public TableView getTargetTableView() {
-        return (TableView) getTarget();
+        return (TableView) getWalkerTarget();
     }
 
     public void setTargetTableView(TableView target) {
@@ -78,9 +78,9 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         if (this.getTargetTableView() != null) {
             removeAllForeignKey();
         }
-        super.setTarget(target);
+        super.setTargetWalker(target);
         if (target != null) {
-            final TableView sourceTable = (TableView) this.getSource();
+            final TableView sourceTable = (TableView) this.getWalkerSource();
             int i = 0;
             if (this.isReferenceForPK()) {
                 for (final NormalColumn sourceColumn : ((ERTable) sourceTable).getPrimaryKeys()) {
@@ -118,12 +118,12 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
     //                                                                           FK Column
     //                                                                           =========
     public void setTargetWithoutForeignKey(TableView target) {
-        super.setTarget(target);
+        super.setTargetWalker(target);
     }
 
     public void setTargetTableWithExistingColumns(ERTable target, List<NormalColumn> referencedColumnList,
             List<NormalColumn> foreignKeyColumnList) {
-        super.setTarget(target);
+        super.setTargetWalker(target);
         this.firePropertyChange("target", null, target);
     }
 
@@ -171,8 +171,8 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         to.setChildCardinality(this.getChildCardinality());
         to.setParentCardinality(this.getParentCardinality());
 
-        to.source = this.getSourceTableView();
-        to.target = this.getTargetTableView();
+        to.sourceWalker = this.getSourceTableView();
+        to.targetWalker = this.getTargetTableView();
 
         return to;
     }
@@ -333,7 +333,7 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
 
     public void setChildCardinality(String childCardinality) {
         this.childCardinality = childCardinality;
-        firePropertyChange(ConnectionElement.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
+        firePropertyChange(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
     }
 
     public String getParentCardinality() {
@@ -342,7 +342,7 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
 
     public void setParentCardinality(String parentCardinality) {
         this.parentCardinality = parentCardinality;
-        firePropertyChange(ConnectionElement.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
+        firePropertyChange(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
     }
 
     public void setReferencedColumn(NormalColumn referencedColumn) {

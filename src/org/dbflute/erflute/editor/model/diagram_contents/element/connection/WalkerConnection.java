@@ -6,28 +6,29 @@ import java.util.List;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
-public abstract class ConnectionElement extends AbstractModel {
+public abstract class WalkerConnection extends AbstractModel {
 
     private static final long serialVersionUID = -5418951773059063716L;
     public static final String PROPERTY_CHANGE_CONNECTION = "connection";
     public static final String PROPERTY_CHANGE_BEND_POINT = "bendPoint";
     public static final String PROPERTY_CHANGE_CONNECTION_ATTRIBUTE = "connection_attribute";
 
-    protected DiagramWalker source;
-    protected DiagramWalker target;
+    protected DiagramWalker ownerWalker;
+    protected DiagramWalker sourceWalker;
+    protected DiagramWalker targetWalker;
     private List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
 
     public void delete() {
-        source.removeOutgoing(this);
-        target.removeIncoming(this);
+        sourceWalker.removeOutgoing(this);
+        targetWalker.removeIncoming(this);
     }
 
     public void connect() {
-        if (this.source != null) {
-            source.addOutgoing(this);
+        if (this.sourceWalker != null) {
+            sourceWalker.addOutgoing(this);
         }
-        if (this.target != null) {
-            target.addIncoming(this);
+        if (this.targetWalker != null) {
+            targetWalker.addIncoming(this);
         }
     }
 
@@ -59,8 +60,8 @@ public abstract class ConnectionElement extends AbstractModel {
     //                                                                      Basic Override
     //                                                                      ==============
     @Override
-    public ConnectionElement clone() {
-        final ConnectionElement clone = (ConnectionElement) super.clone();
+    public WalkerConnection clone() {
+        final WalkerConnection clone = (WalkerConnection) super.clone();
         final List<Bendpoint> cloneBendPoints = new ArrayList<Bendpoint>();
         for (final Bendpoint bendPoint : bendPoints) {
             cloneBendPoints.add((Bendpoint) bendPoint.clone());
@@ -72,39 +73,42 @@ public abstract class ConnectionElement extends AbstractModel {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public DiagramWalker getSource() {
-        return source;
+    public DiagramWalker getOwnerWalker() {
+        return ownerWalker;
     }
 
-    public void setSource(DiagramWalker source) {
-        if (this.source != null) {
-            this.source.removeOutgoing(this);
-        }
-        this.source = source;
-        if (this.source != null) {
-            this.source.addOutgoing(this);
-        }
-        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, source);
+    public void setOwnerWalker(DiagramWalker ownerWalker) {
+        this.ownerWalker = ownerWalker;
     }
 
-    public DiagramWalker getTarget() {
-        return target;
+    public DiagramWalker getWalkerSource() {
+        return sourceWalker;
     }
 
-    public void setTarget(DiagramWalker target) {
-        if (this.target != null) {
-            this.target.removeIncoming(this);
+    public void setSourceWalker(DiagramWalker sourceWalker) {
+        if (this.sourceWalker != null) {
+            this.sourceWalker.removeOutgoing(this);
         }
-        this.target = target;
-        if (this.target != null) {
-            this.target.addIncoming(this);
+        this.sourceWalker = sourceWalker;
+        if (this.sourceWalker != null) {
+            this.sourceWalker.addOutgoing(this);
         }
-        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, source);
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, sourceWalker);
     }
 
-    public void setSourceAndTarget(DiagramWalker source, DiagramWalker target) {
-        this.source = source;
-        this.target = target;
+    public DiagramWalker getWalkerTarget() {
+        return targetWalker;
+    }
+
+    public void setTargetWalker(DiagramWalker targetWalker) {
+        if (this.targetWalker != null) {
+            this.targetWalker.removeIncoming(this);
+        }
+        this.targetWalker = targetWalker;
+        if (this.targetWalker != null) {
+            this.targetWalker.addIncoming(this);
+        }
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, sourceWalker);
     }
 
     public List<Bendpoint> getBendpoints() {

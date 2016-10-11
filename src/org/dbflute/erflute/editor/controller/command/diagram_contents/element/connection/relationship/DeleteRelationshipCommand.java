@@ -55,9 +55,9 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
 
         this.relation.delete(this.removeForeignKey, dictionary);
 
-        if (this.relation.getSource() instanceof ERTable || this.relation.getTarget() instanceof ERTable) {
+        if (this.relation.getWalkerSource() instanceof ERTable || this.relation.getWalkerTarget() instanceof ERTable) {
             // �r���[���Ń����[�V�������������ꍇ�A�����ɂ�ERVirtualTable�łȂ�ERTable�ŗ���
-            ERVirtualDiagramSet modelSet = this.relation.getSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+            ERVirtualDiagramSet modelSet = this.relation.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
             modelSet.deleteRelation(relation);
 
         }

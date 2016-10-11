@@ -6,7 +6,7 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -136,7 +136,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
             final int selected = connectionEditPart.getSelected();
 
             if (selected == EditPart.SELECTED || selected == EditPart.SELECTED_PRIMARY) {
-                final ConnectionElement connectionElement = (ConnectionElement) connectionEditPart.getModel();
+                final WalkerConnection connectionElement = (WalkerConnection) connectionEditPart.getModel();
 
                 if (connectionElement instanceof Relationship) {
                     final Relationship relation = (Relationship) connectionElement;
@@ -168,7 +168,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
             final int selected = connectionEditPart.getSelected();
 
             if (selected == EditPart.SELECTED || selected == EditPart.SELECTED_PRIMARY) {
-                final ConnectionElement connectionElement = (ConnectionElement) connectionEditPart.getModel();
+                final WalkerConnection connectionElement = (WalkerConnection) connectionEditPart.getModel();
 
                 if (connectionElement instanceof Relationship) {
                     final Relationship relation = (Relationship) connectionElement;

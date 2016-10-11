@@ -10,7 +10,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.editor.model.ObjectModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -248,7 +248,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
 
     public List<Relationship> getIncomingRelationshipList() {
         final List<Relationship> relations = new ArrayList<Relationship>();
-        for (final ConnectionElement connection : getIncomings()) {
+        for (final WalkerConnection connection : getIncomings()) {
             if (connection instanceof Relationship) {
                 relations.add((Relationship) connection);
             }
@@ -258,7 +258,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
 
     public List<Relationship> getOutgoingRelationshipList() {
         final List<Relationship> relations = new ArrayList<Relationship>();
-        for (final ConnectionElement connection : getOutgoings()) {
+        for (final WalkerConnection connection : getOutgoings()) {
             if (connection instanceof Relationship) {
                 relations.add((Relationship) connection);
             }

@@ -6,7 +6,7 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
@@ -51,8 +51,8 @@ public class PasteCommand extends AbstractCommand {
                 final ERTable table = (ERTable) walker;
                 if (table instanceof ERVirtualTable) {
                     final ERTable rawTable = ((ERVirtualTable) table).getRawTable();
-                    rawTable.setIncoming(new ArrayList<ConnectionElement>());
-                    rawTable.setOutgoing(new ArrayList<ConnectionElement>());
+                    rawTable.setIncoming(new ArrayList<WalkerConnection>());
+                    rawTable.setOutgoing(new ArrayList<WalkerConnection>());
                     for (final ERColumn column : rawTable.getColumns()) {
                         if (column instanceof NormalColumn) {
                             ((NormalColumn) column).clearRelations();

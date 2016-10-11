@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.co
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.connection.RelationEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -29,7 +29,7 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
         if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_PHYSICAL_NAME)) {
             refreshVisuals();
 
-        } else if (evt.getPropertyName().equals(ConnectionElement.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE)) {
+        } else if (evt.getPropertyName().equals(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE)) {
             refreshVisuals();
 
         }

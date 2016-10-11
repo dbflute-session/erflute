@@ -6,7 +6,7 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -99,7 +99,8 @@ public class ReadDiagramWalkerLoader {
         loadConnectionElement(walker, element, context, connection);
     }
 
-    private void loadConnectionElement(DiagramWalker walker, Element element, LoadContext context, ConnectionElement connection) {
+    private void loadConnectionElement(DiagramWalker walker, Element element, LoadContext context, WalkerConnection connection) {
+        connection.setOwnerWalker(walker);
         final String source = getStringValue(element, "source");
         final String target = getStringValue(element, "target");
         String id = getStringValue(element, "id");

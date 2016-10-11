@@ -24,7 +24,7 @@ public class WalkerGroupManageAction extends AbstractBaseAction {
         final ERVirtualDiagram newModel = (ERVirtualDiagram) model.clone();
         final WalkerGroupManageDialog dialog = new WalkerGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), newModel);
         if (dialog.open() == IDialogConstants.OK_ID) {
-            execute(new ChangeVGroupCommand(model, newModel.getGroups()));
+            execute(new ChangeVGroupCommand(model, newModel.getWalkerGroups()));
             //			ChangeSettingsCommand command = new ChangeSettingsCommand(diagram,
             //					settings);
             //			this.execute(command);

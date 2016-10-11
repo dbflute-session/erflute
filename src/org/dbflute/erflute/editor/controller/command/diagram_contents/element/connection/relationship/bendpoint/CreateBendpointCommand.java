@@ -2,11 +2,11 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.c
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 
 public class CreateBendpointCommand extends AbstractCommand {
 
-    private ConnectionElement connection;
+    private WalkerConnection connection;
 
     int x;
 
@@ -14,7 +14,7 @@ public class CreateBendpointCommand extends AbstractCommand {
 
     private int index;
 
-    public CreateBendpointCommand(ConnectionElement connection, int x, int y, int index) {
+    public CreateBendpointCommand(WalkerConnection connection, int x, int y, int index) {
         this.connection = connection;
         this.x = x;
         this.y = y;

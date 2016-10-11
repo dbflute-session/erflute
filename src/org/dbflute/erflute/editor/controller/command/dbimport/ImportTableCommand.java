@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
@@ -102,9 +102,9 @@ public class ImportTableCommand extends AbstractCommand {
             }
 
             for (final DiagramWalker nodeElement : this.walkerList) {
-                for (final ConnectionElement outgoing : nodeElement.getOutgoings()) {
-                    final Node sourceNode = nodeElementNodeMap.get(outgoing.getSource());
-                    final Node targetNode = nodeElementNodeMap.get(outgoing.getTarget());
+                for (final WalkerConnection outgoing : nodeElement.getOutgoings()) {
+                    final Node sourceNode = nodeElementNodeMap.get(outgoing.getWalkerSource());
+                    final Node targetNode = nodeElementNodeMap.get(outgoing.getWalkerTarget());
                     if (sourceNode != targetNode) {
                         final Edge edge = new Edge(sourceNode, targetNode);
                         this.graph.edges.add(edge);
@@ -196,7 +196,7 @@ public class ImportTableCommand extends AbstractCommand {
             if (otherRelation == relation) {
                 continue;
             }
-            if (otherRelation.getSource() == otherRelation.getTarget()) {
+            if (otherRelation.getWalkerSource() == otherRelation.getWalkerTarget()) {
                 anotherSelfRelation = true;
                 break;
             }

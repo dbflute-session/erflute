@@ -186,14 +186,14 @@ public class ERDiagram extends ViewableModel {
         for (final ERVirtualDiagram model : getDiagramContents().getVirtualDiagramSet()) {
             final ERVirtualTable vtable = model.findVirtualTable(table);
             if (vtable != null) {
-                vtable.doChangeTable();
+                vtable.changeTable();
             }
         }
     }
 
     public ERVirtualDiagram findModelByTable(ERTable table) {
         for (final ERVirtualDiagram model : diagramContents.getVirtualDiagramSet()) {
-            for (final ERVirtualTable vtable : model.getTables()) {
+            for (final ERVirtualTable vtable : model.getVirtualTables()) {
                 if (vtable.getRawTable().equals(table)) {
                     return model;
                 }

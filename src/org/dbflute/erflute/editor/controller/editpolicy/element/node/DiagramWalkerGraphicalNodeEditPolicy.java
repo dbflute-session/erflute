@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalker
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.RelatedTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.RelationByExistingColumns;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
@@ -147,7 +147,7 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
      */
     @Override
     protected Command getReconnectSourceCommand(ReconnectRequest reconnectrequest) {
-        final ConnectionElement connection = (ConnectionElement) reconnectrequest.getConnectionEditPart().getModel();
+        final WalkerConnection connection = (WalkerConnection) reconnectrequest.getConnectionEditPart().getModel();
 
         if (!(connection instanceof Relationship)) {
             return null;
@@ -155,12 +155,12 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
 
         final Relationship relation = (Relationship) connection;
 
-        if (relation.getSource() == relation.getTarget()) {
+        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
             return null;
         }
 
         final DiagramWalker newSource = (DiagramWalker) reconnectrequest.getTarget().getModel();
-        if (!relation.getSource().equals(newSource)) {
+        if (!relation.getWalkerSource().equals(newSource)) {
             return null;
         }
 
@@ -195,7 +195,7 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
      */
     @Override
     protected Command getReconnectTargetCommand(ReconnectRequest reconnectrequest) {
-        final ConnectionElement connection = (ConnectionElement) reconnectrequest.getConnectionEditPart().getModel();
+        final WalkerConnection connection = (WalkerConnection) reconnectrequest.getConnectionEditPart().getModel();
 
         if (!(connection instanceof Relationship)) {
             return null;
@@ -203,12 +203,12 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
 
         final Relationship relation = (Relationship) connection;
 
-        if (relation.getSource() == relation.getTarget()) {
+        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
             return null;
         }
 
         final DiagramWalker newTarget = (DiagramWalker) reconnectrequest.getTarget().getModel();
-        if (!relation.getTarget().equals(newTarget)) {
+        if (!relation.getWalkerTarget().equals(newTarget)) {
             return null;
         }
 

@@ -46,7 +46,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         if (targetTable instanceof ERVirtualTable) {
             targetTable = ((ERVirtualTable) targetTable).getRawTable();
         }
-        this.relationship.setSource(sourceTable);
+        this.relationship.setSourceWalker(sourceTable);
         this.relationship.setTargetWithoutForeignKey(targetTable);
         for (int i = 0; i < foreignKeyColumnList.size(); i++) {
             final NormalColumn foreignKeyColumn = foreignKeyColumnList.get(i);
@@ -55,19 +55,19 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             foreignKeyColumn.addReference(referencedColumnList.get(i), this.relationship);
             foreignKeyColumn.setWord(null);
         }
-        if (this.relationship.getSource() instanceof ERTable || this.relationship.getTarget() instanceof ERTable) {
-            final ERVirtualDiagramSet modelSet = this.relationship.getSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+        if (this.relationship.getWalkerSource() instanceof ERTable || this.relationship.getWalkerTarget() instanceof ERTable) {
+            final ERVirtualDiagramSet modelSet = this.relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
             modelSet.createRelation(relationship);
         }
         targetTable.setDirty();
-        ERModelUtil.refreshDiagram(relationship.getSource().getDiagram(), sourceTable);
+        ERModelUtil.refreshDiagram(relationship.getWalkerSource().getDiagram(), sourceTable);
     }
 
     @Override
     protected void doUndo() {
         final ERTable sourceTable = (ERTable) source.getModel();
         final ERTable targetTable = (ERTable) target.getModel();
-        this.relationship.setSource(null);
+        this.relationship.setSourceWalker(null);
         this.relationship.setTargetWithoutForeignKey(null);
         for (int i = 0; i < foreignKeyColumnList.size(); i++) {
             final NormalColumn foreignKeyColumn = foreignKeyColumnList.get(i);

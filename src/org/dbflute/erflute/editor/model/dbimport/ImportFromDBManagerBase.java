@@ -945,7 +945,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         final Relationship relation = new Relationship(referenceForPK, referencedComplexUniqueKey, referencedColumn);
         relation.setForeignKeyName(representativeData.name);
-        relation.setSource(source);
+        relation.setSourceWalker(source);
         relation.setTargetWithoutForeignKey(target);
 
         String onUpdateAction = null;

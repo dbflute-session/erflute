@@ -48,7 +48,7 @@ public class WrittenVirtualDiagramBuilder {
             xml.append("\t\t<vdiagram_name>").append(vdiagram.getName()).append("</vdiagram_name>\n"); // #for_erflute
             xml.append(tab(tab(assistLogic.buildColor(vdiagram.getColor()))));
             xml.append("\t\t<vtables>\n");
-            for (final ERVirtualTable table : vdiagram.getTables()) {
+            for (final ERVirtualTable table : vdiagram.getVirtualTables()) {
                 xml.append("\t\t\t<vtable>\n");
                 final String tableId = context.walkerMap.get(table.getRawTable());
                 xml.append("\t\t\t\t<table_id>").append(tableId).append("</table_id>\n"); // #for_erflute
@@ -60,12 +60,12 @@ public class WrittenVirtualDiagramBuilder {
             }
             xml.append("\t\t</vtables>\n");
             xml.append("\t\t<walker_notes>\n");
-            for (final WalkerNote note : vdiagram.getNotes()) {
+            for (final WalkerNote note : vdiagram.getWalkerNotes()) {
                 xml.append(tab(tab(tab(noteBuilder.buildNote(note, context)))));
             }
             xml.append("\t\t</walker_notes>\n");
             xml.append("\t\t<walker_groups>\n");
-            for (final WalkerGroup group : vdiagram.getGroups()) {
+            for (final WalkerGroup group : vdiagram.getWalkerGroups()) {
                 xml.append(tab(tab(tab(buildWalkerGroup(group, context)))));
             }
             xml.append("\t\t</walker_groups>\n");

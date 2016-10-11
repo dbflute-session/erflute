@@ -2,17 +2,17 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.c
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 
 public class DeleteBendpointCommand extends AbstractCommand {
 
-    private ConnectionElement connection;
+    private WalkerConnection connection;
 
     private Bendpoint oldBendpoint;
 
     private int index;
 
-    public DeleteBendpointCommand(ConnectionElement connection, int index) {
+    public DeleteBendpointCommand(WalkerConnection connection, int index) {
         this.connection = connection;
         this.index = index;
     }

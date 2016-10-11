@@ -1,13 +1,13 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 
 public class DeleteConnectionCommand extends AbstractCommand {
 
-    private ConnectionElement connection;
+    private WalkerConnection connection;
 
-    public DeleteConnectionCommand(ConnectionElement connection) {
+    public DeleteConnectionCommand(WalkerConnection connection) {
         this.connection = connection;
     }
 

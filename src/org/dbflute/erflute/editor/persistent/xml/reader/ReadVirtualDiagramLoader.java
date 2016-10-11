@@ -71,7 +71,7 @@ public class ReadVirtualDiagramLoader {
                         tables.add(tableLoader.loadVirtualTable(vdiagram, tableElement, context));
                     }
                 }
-                vdiagram.setTables(tables);
+                vdiagram.setVirtualTables(tables);
                 loadWalkerNotes(context, modelElement, vdiagram, diagram);
                 loadWalkerGroups(context, modelElement, vdiagram);
                 final String id = vdiagram.buildVirtualDiagramId(); // #for_erflute
@@ -105,7 +105,7 @@ public class ReadVirtualDiagramLoader {
                 //diagram.getDiagramContents().getContents().addNodeElement(note);
             }
         }
-        vdiagram.setNotes(notes);
+        vdiagram.setWalkerNotes(notes);
     }
 
     private void loadWalkerGroups(LoadContext context, Element modelElement, ERVirtualDiagram vdiagram) {
@@ -129,7 +129,7 @@ public class ReadVirtualDiagramLoader {
                 }
             }
         }
-        vdiagram.setGroups(groups);
+        vdiagram.setWalkerGroups(groups);
     }
 
     // ===================================================================================

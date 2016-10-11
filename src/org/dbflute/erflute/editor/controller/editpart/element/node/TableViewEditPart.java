@@ -236,13 +236,13 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
             }
 
             final Relationship relation = (Relationship) connectionEditPart.getModel();
-            if (relation.getSource() == relation.getTarget()) {
+            if (relation.getWalkerSource() == relation.getWalkerTarget()) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
             final EditPart editPart = reconnectRequest.getTarget();
 
-            if (editPart == null || !editPart.getModel().equals(relation.getSource())) {
+            if (editPart == null || !editPart.getModel().equals(relation.getWalkerSource())) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
@@ -315,13 +315,13 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
             }
 
             final Relationship relation = (Relationship) connectionEditPart.getModel();
-            if (relation.getSource() == relation.getTarget()) {
+            if (relation.getWalkerSource() == relation.getWalkerTarget()) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
             final EditPart editPart = reconnectRequest.getTarget();
 
-            if (editPart == null || !editPart.getModel().equals(relation.getTarget())) {
+            if (editPart == null || !editPart.getModel().equals(relation.getWalkerTarget())) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 

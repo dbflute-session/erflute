@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -37,9 +38,9 @@ public class LoadContext {
     public final Map<String, ERVirtualDiagram> virtualDiagramMap;
     public final Map<Relationship, String> referencedColumnMap; // relationship = column ID
     public final Map<Relationship, String> referencedComplexUniqueKeyMap;
-    public final Map<ConnectionElement, String> connectionSourceMap;
-    public final Map<ConnectionElement, String> connectionTargetMap;
-    public final Map<String, ConnectionElement> connectionMap;
+    public final Map<WalkerConnection, String> connectionSourceMap;
+    public final Map<WalkerConnection, String> connectionTargetMap;
+    public final Map<String, WalkerConnection> connectionMap;
     public final Map<String, Tablespace> tablespaceMap;
     public final Map<String, Environment> environmentMap;
     public final Dictionary dictionary;
@@ -59,9 +60,9 @@ public class LoadContext {
         this.columnGroupMap = new LinkedHashMap<String, ColumnGroup>();
         this.referencedColumnMap = new LinkedHashMap<Relationship, String>();
         this.referencedComplexUniqueKeyMap = new LinkedHashMap<Relationship, String>();
-        this.connectionMap = new LinkedHashMap<String, ConnectionElement>();
-        this.connectionSourceMap = new LinkedHashMap<ConnectionElement, String>();
-        this.connectionTargetMap = new LinkedHashMap<ConnectionElement, String>();
+        this.connectionMap = new LinkedHashMap<String, WalkerConnection>();
+        this.connectionSourceMap = new LinkedHashMap<WalkerConnection, String>();
+        this.connectionTargetMap = new LinkedHashMap<WalkerConnection, String>();
         this.tablespaceMap = new LinkedHashMap<String, Tablespace>();
         this.environmentMap = new LinkedHashMap<String, Environment>();
         this.dictionary = dictionary;
@@ -74,25 +75,35 @@ public class LoadContext {
     //                                                                  Resolve ID Mapping
     //                                                                  ==================
     public void resolve() { // called by reader
-        // TODO jflute connection note (2016/10/11)
-        for (final ConnectionElement connection : connectionSourceMap.keySet()) {
-            final String id = connectionSourceMap.get(connection);
-            final DiagramWalker walker = walkerMap.get(id);
-            if (walker == null) { // what should I do? by jflute
-                System.out.println("*error, Not found the source ID: " + id + ", connection=" + connection + ", existingKeys="
-                        + walkerMap.keySet());
+        for (final Entry<WalkerConnection, String> entry : connectionSourceMap.entrySet()) {
+            final WalkerConnection connection = entry.getKey();
+            final String id = entry.getValue();
+            DiagramWalker sourceWalker = !"$$owner$$".equals(id) ? walkerMap.get(id) : null;
+            if (sourceWalker == null) { // owner or not-found
+                final DiagramWalker ownerWalker = connection.getOwnerWalker();
+                if (ownerWalker != null) { // e.g. walker note
+                    sourceWalker = ownerWalker;
+                } else {
+                    System.out.println("*error, Not found the source ID: " + id + ", connection=" + connection + ", existingKeys="
+                            + walkerMap.keySet());
+                }
             }
-            connection.setSource(walker);
+            connection.setSourceWalker(sourceWalker);
         }
-        for (final ConnectionElement connection : connectionTargetMap.keySet()) {
-            final String id = connectionTargetMap.get(connection);
+        for (final Entry<WalkerConnection, String> entry : connectionTargetMap.entrySet()) {
+            final WalkerConnection connection = entry.getKey();
+            final String id = entry.getValue();
             final DiagramWalker walker = walkerMap.get(id);
             if (walker == null) {
                 System.out.println("*error, Not found the target ID: " + id + ", connection=" + connection + ", existingKeys="
                         + walkerMap.keySet());
             }
-            connection.setTarget(walker);
+            connection.setTargetWalker(walker);
         }
+        doResolveRelationship();
+    }
+
+    private void doResolveRelationship() {
         for (final Relationship relation : referencedColumnMap.keySet()) {
             final String id = referencedColumnMap.get(relation);
             if (id != null && !id.equals("null")) { // null allowed when migration from ERMaster...?
@@ -112,11 +123,11 @@ public class LoadContext {
         final Set<NormalColumn> foreignKeyColumnSet = columnReferencedColumnMap.keySet();
         while (!foreignKeyColumnSet.isEmpty()) {
             final NormalColumn foreignKeyColumn = foreignKeyColumnSet.iterator().next();
-            reduce(foreignKeyColumnSet, foreignKeyColumn);
+            reduceRelationship(foreignKeyColumnSet, foreignKeyColumn);
         }
     }
 
-    private void reduce(Set<NormalColumn> foreignKeyColumnSet, NormalColumn foreignKeyColumn) {
+    private void reduceRelationship(Set<NormalColumn> foreignKeyColumnSet, NormalColumn foreignKeyColumn) {
         final String[] referencedColumnIds = columnReferencedColumnMap.get(foreignKeyColumn);
         final String[] relationIds = columnRelationMap.get(foreignKeyColumn);
         final List<NormalColumn> referencedColumnList = new ArrayList<NormalColumn>();
@@ -128,7 +139,7 @@ public class LoadContext {
                 }
                 referencedColumnList.add(referencedColumn);
                 if (foreignKeyColumnSet.contains(referencedColumn)) {
-                    reduce(foreignKeyColumnSet, referencedColumn);
+                    reduceRelationship(foreignKeyColumnSet, referencedColumn);
                 }
             }
         }

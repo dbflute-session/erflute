@@ -25,6 +25,5 @@ public class ERVirtualTableEditPart extends ERTableEditPart {
         ////			refreshVisuals();
         //		}
         super.doPropertyChange(event);
-
     }
 }

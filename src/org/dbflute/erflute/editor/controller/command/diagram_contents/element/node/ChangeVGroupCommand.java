@@ -16,7 +16,7 @@ public class ChangeVGroupCommand extends AbstractCommand {
 
     public ChangeVGroupCommand(ERVirtualDiagram model, List<WalkerGroup> vgroups) {
         this.model = model;
-        this.oldVgroups = model.getGroups();
+        this.oldVgroups = model.getWalkerGroups();
         this.vgroups = vgroups;
     }
 
@@ -25,7 +25,7 @@ public class ChangeVGroupCommand extends AbstractCommand {
      */
     @Override
     protected void doExecute() {
-        model.setGroups(vgroups);
+        model.setWalkerGroups(vgroups);
     }
 
     /**
@@ -33,7 +33,7 @@ public class ChangeVGroupCommand extends AbstractCommand {
      */
     @Override
     protected void doUndo() {
-        model.setGroups(oldVgroups);
+        model.setWalkerGroups(oldVgroups);
     }
 
 }

@@ -1,7 +1,8 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection;
 
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 
@@ -10,7 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVi
  */
 public class CreateCommentConnectionCommand extends CreateConnectionCommand {
 
-    public CreateCommentConnectionCommand(ConnectionElement connection) {
+    public CreateCommentConnectionCommand(WalkerConnection connection) {
         super(connection);
     }
 
@@ -35,12 +36,15 @@ public class CreateCommentConnectionCommand extends CreateConnectionCommand {
         if (target instanceof ERVirtualTable) {
             target = ((ERVirtualTable) target).getRawTable();
         }
-        connection.setSource(source);
-        connection.setTarget(target);
+        connection.setSourceWalker(source);
+        connection.setTargetWalker(target);
         if (source instanceof WalkerNote) {
             final WalkerNote note = (WalkerNote) source;
-            if (note != null) { // in virtual diagram
-                note.getVirtualDiagram().changeAll();
+            if (note != null) {
+                final ERVirtualDiagram vdiagram = note.getVirtualDiagram();
+                if (vdiagram != null) { // in virtual diagram
+                    vdiagram.changeAll();
+                }
             }
         }
     }

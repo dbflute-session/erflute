@@ -31,7 +31,7 @@ public class ChangeTableViewPropertyCommand extends AbstractCommand {
             // TableView.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
 
             // �T�u�r���[���X�V
-            vtable.doChangeTable();
+            vtable.changeTable();
 
             // �e�[�u���̍X�V�i�����܂߂��Đ����j
             this.tableView.getDiagram().changeTable(newCopyTableView);

@@ -8,7 +8,7 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.DefaultLineCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
@@ -39,7 +39,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
                 AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) obj;
 
                 if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
-                    commandList.add(new DefaultLineCommand(this.getDiagram(), (ConnectionElement) connectionEditPart.getModel()));
+                    commandList.add(new DefaultLineCommand(this.getDiagram(), (WalkerConnection) connectionEditPart.getModel()));
                 }
             }
 
@@ -47,7 +47,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
             AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) editPart;
 
             if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
-                commandList.add(new DefaultLineCommand(this.getDiagram(), (ConnectionElement) connectionEditPart.getModel()));
+                commandList.add(new DefaultLineCommand(this.getDiagram(), (WalkerConnection) connectionEditPart.getModel()));
             }
         }
 

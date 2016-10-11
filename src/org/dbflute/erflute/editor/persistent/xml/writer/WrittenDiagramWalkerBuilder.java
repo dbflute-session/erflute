@@ -5,8 +5,8 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
@@ -55,17 +55,17 @@ public class WrittenDiagramWalkerBuilder {
         xml.append("<x>").append(walker.getX()).append("</x>\n");
         xml.append("<y>").append(walker.getY()).append("</y>\n");
         xml.append(assistLogic.buildColor(walker.getColor()));
-        xml.append(buildConnections(walker.getIncomings(), context));
+        xml.append(buildConnections(walker.getPersistentConnections(), context));
         return xml.toString();
     }
 
     // ===================================================================================
     //                                                                         Connections
     //                                                                         ===========
-    private String buildConnections(List<ConnectionElement> incomings, PersistentContext context) {
+    private String buildConnections(List<WalkerConnection> incomings, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<connections>\n");
-        for (final ConnectionElement connection : incomings) {
+        for (final WalkerConnection connection : incomings) {
             if (connection instanceof Relationship) {
                 xml.append(tab(buildRelationship((Relationship) connection, context)));
             } else if (connection instanceof CommentConnection) {
@@ -152,13 +152,13 @@ public class WrittenDiagramWalkerBuilder {
     // ===================================================================================
     //                                                                  Connection Element
     //                                                                  ==================
-    private String buildConnectionElement(ConnectionElement connection, PersistentContext context) {
+    private String buildConnectionElement(WalkerConnection connection, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         // #for_erflute unneeded ID for connection
         //xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
-        final String sourceId = context.walkerMap.get(connection.getSource());
-        final String targetId = context.walkerMap.get(connection.getTarget());
-        xml.append("<source>").append(sourceId).append("</source>\n"); // e.g. MEMBER_STATUS
+        final String sourceId = context.walkerMap.get(connection.getWalkerSource());
+        final String targetId = context.walkerMap.get(connection.getWalkerTarget());
+        xml.append("<source>").append(sourceId != null ? sourceId : "$$owner$$").append("</source>\n"); // e.g. MEMBER_STATUS
         xml.append("<target>").append(targetId).append("</target>\n"); // e.g. MEMBER
         for (final Bendpoint bendpoint : connection.getBendpoints()) {
             xml.append(buildBendPoint(bendpoint));

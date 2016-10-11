@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.model.diagram_contents.element.node.note;
 import java.util.List;
 
 import org.dbflute.erflute.core.util.Format;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 
@@ -36,8 +36,8 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     @Override
     public List<DiagramWalker> getReferringElementList() {
         final List<DiagramWalker> referringElementList = super.getReferringElementList();
-        for (final ConnectionElement connectionElement : this.getIncomings()) {
-            final DiagramWalker sourceElement = connectionElement.getSource();
+        for (final WalkerConnection connectionElement : this.getIncomings()) {
+            final DiagramWalker sourceElement = connectionElement.getWalkerSource();
             referringElementList.add(sourceElement);
         }
         return referringElementList;
@@ -116,5 +116,10 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
 
     public void setVirtualDiagram(ERVirtualDiagram vdiagram) {
         this.vdiagram = vdiagram;
+    }
+
+    @Override
+    public List<WalkerConnection> getPersistentConnections() {
+        return this.outgoings;
     }
 }

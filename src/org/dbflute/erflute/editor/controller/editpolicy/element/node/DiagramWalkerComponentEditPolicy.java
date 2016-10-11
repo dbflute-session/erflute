@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.no
 import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
@@ -63,7 +63,7 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
             final CompoundCommand command = new CompoundCommand();
 
             if (virtualTable == null) {
-                for (final ConnectionElement connection : walker.getIncomings()) {
+                for (final WalkerConnection connection : walker.getIncomings()) {
                     if (connection instanceof Relationship) {
                         command.add(new DeleteRelationshipCommand((Relationship) connection, true));
 
@@ -72,9 +72,9 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                     }
                 }
 
-                for (final ConnectionElement connection : walker.getOutgoings()) {
+                for (final WalkerConnection connection : walker.getOutgoings()) {
 
-                    final DiagramWalker target = connection.getTarget();
+                    final DiagramWalker target = connection.getWalkerTarget();
 
                     if (!targets.contains(target)) {
                         if (connection instanceof Relationship) {

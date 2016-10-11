@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.connection.ERDiagr
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.ColumnEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerGraphicalNodeEditPolicy;
 import org.dbflute.erflute.editor.model.ViewableModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.settings.Settings;
@@ -88,7 +88,6 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     protected void setVisible() {
         final DiagramWalker element = (DiagramWalker) this.getModel();
         final Category category = this.getCurrentCategory();
-
         if (category != null) {
             this.figure.setVisible(category.isVisible(element, this.getDiagram()));
 
@@ -99,12 +98,9 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
 
     protected Font changeFont(IFigure figure) {
         this.disposeFont();
-
         final DiagramWalker nodeElement = (DiagramWalker) this.getModel();
-
         String fontName = nodeElement.getFontName();
         int fontSize = nodeElement.getFontSize();
-
         if (Check.isEmpty(fontName)) {
             final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
             fontName = fontData.getName();
@@ -114,9 +110,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
             fontSize = ViewableModel.DEFAULT_FONT_SIZE;
             nodeElement.setFontSize(fontSize);
         }
-
         this.font = new Font(Display.getCurrent(), fontName, fontSize, SWT.NORMAL);
-
         if (getDiagram().getDiagramContents().getSettings().getTitleFontEm() != null) {
             final int largeFontSize =
                     getDiagram().getDiagramContents()
@@ -126,18 +120,13 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
                             .intValue();
             this.largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
         }
-
         figure.setFont(this.font);
         if (figure instanceof TableFigure) {
             ((TableFigure) figure).setLargeFont(this.largeFont);
         }
-
         return font;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void refreshVisuals() {
         final DiagramWalker element = (DiagramWalker) this.getModel();
@@ -156,50 +145,38 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     public void refreshConnections() {
         for (final Object sourceConnection : this.getSourceConnections()) {
             final ConnectionEditPart editPart = (ConnectionEditPart) sourceConnection;
-            final ConnectionElement connectinoElement = (ConnectionElement) editPart.getModel();
+            final WalkerConnection connectinoElement = (WalkerConnection) editPart.getModel();
             connectinoElement.setParentMove();
         }
         for (final Object targetConnection : this.getTargetConnections()) {
             final ConnectionEditPart editPart = (ConnectionEditPart) targetConnection;
-            final ConnectionElement connectinoElement = (ConnectionElement) editPart.getModel();
-
+            final WalkerConnection connectinoElement = (WalkerConnection) editPart.getModel();
             connectinoElement.setParentMove();
         }
     }
 
     protected Rectangle getRectangle() {
         final DiagramWalker element = (DiagramWalker) this.getModel();
-
         final Point point = new Point(element.getX(), element.getY());
-
         final Dimension dimension = new Dimension(element.getWidth(), element.getHeight());
-
         final Dimension minimumSize = this.figure.getMinimumSize();
-
         if (dimension.width != -1 && dimension.width < minimumSize.width) {
             dimension.width = minimumSize.width;
         }
         if (dimension.height != -1 && dimension.height < minimumSize.height) {
             dimension.height = minimumSize.height;
         }
-
         return new Rectangle(point, dimension);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected List getModelSourceConnections() {
+    protected List<WalkerConnection> getModelSourceConnections() {
         final DiagramWalker element = (DiagramWalker) this.getModel();
         return element.getOutgoings();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected List getModelTargetConnections() {
+    protected List<WalkerConnection> getModelTargetConnections() {
         final DiagramWalker element = (DiagramWalker) this.getModel();
         return element.getIncomings();
     }

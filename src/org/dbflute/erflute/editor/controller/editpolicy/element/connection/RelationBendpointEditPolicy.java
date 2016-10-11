@@ -33,7 +33,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
         Relationship relation = (Relationship) getHost().getModel();
         RelationEditPart editPart = (RelationEditPart) this.getHost();
 
-        if (relation.getSource() == relation.getTarget()) {
+        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
             if (bendpointrequest.getIndex() != 1) {
                 return;
             }
@@ -95,7 +95,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
     protected void showCreateBendpointFeedback(BendpointRequest bendpointrequest) {
         Relationship relation = (Relationship) getHost().getModel();
 
-        if (relation.getSource() == relation.getTarget()) {
+        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
             return;
         }
         super.showCreateBendpointFeedback(bendpointrequest);
@@ -118,7 +118,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
         Relationship relation = (Relationship) getHost().getModel();
         RelationEditPart editPart = (RelationEditPart) this.getHost();
 
-        if (relation.getSource() == relation.getTarget()) {
+        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
             if (bendpointrequest.getIndex() != 1) {
                 return null;
 
@@ -173,7 +173,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
     protected List createSelectionHandles() {
         Relationship relation = (Relationship) getHost().getModel();
 
-        if (relation.getSource() == relation.getTarget()) {
+        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
             List<BendpointMoveHandle> list = new ArrayList<BendpointMoveHandle>();
 
             ConnectionEditPart connEP = (ConnectionEditPart) getHost();

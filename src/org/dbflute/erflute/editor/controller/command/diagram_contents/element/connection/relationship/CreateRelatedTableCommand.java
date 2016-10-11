@@ -71,10 +71,10 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
         this.diagram.addNewContent(this.relatedTable);
 
-        this.relation1.setSource((ERTable) this.source.getModel());
+        this.relation1.setSourceWalker((ERTable) this.source.getModel());
         this.relation1.setTargetTableView(this.relatedTable);
 
-        this.relation2.setSource((ERTable) this.target.getModel());
+        this.relation2.setSourceWalker((ERTable) this.target.getModel());
         this.relation2.setTargetTableView(this.relatedTable);
 
         ERDiagramEditPart.setUpdateable(true);
@@ -91,10 +91,10 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
         this.diagram.removeContent(this.relatedTable);
 
-        this.relation1.setSource(null);
+        this.relation1.setSourceWalker(null);
         this.relation1.setTargetTableView(null);
 
-        this.relation2.setSource(null);
+        this.relation2.setSourceWalker(null);
         this.relation2.setTargetTableView(null);
 
         ERDiagramEditPart.setUpdateable(true);
