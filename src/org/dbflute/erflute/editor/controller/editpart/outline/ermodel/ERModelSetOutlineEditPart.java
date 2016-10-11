@@ -11,13 +11,13 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 
 public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected List getModelChildren() {
-        ERModelSet modelSet = (ERModelSet) this.getModel();
+        ERVirtualDiagramSet modelSet = (ERVirtualDiagramSet) this.getModel();
 
         List<ERVirtualDiagram> list = new ArrayList<ERVirtualDiagram>();
         for (ERVirtualDiagram table : modelSet) {
@@ -43,7 +43,7 @@ public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(ERModelSet.PROPERTY_CHANGE_MODEL_SET)) {
+        if (evt.getPropertyName().equals(ERVirtualDiagramSet.PROPERTY_CHANGE_MODEL_SET)) {
             refresh();
         }
     }

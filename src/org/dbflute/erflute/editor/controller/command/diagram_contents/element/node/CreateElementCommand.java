@@ -62,7 +62,7 @@ public class CreateElementCommand extends AbstractCommand {
     //                                                                      ==============
     @Override
     protected void doExecute() {
-        final ERVirtualDiagram currentErmodel = diagram.getCurrentErmodel();
+        final ERVirtualDiagram currentErmodel = diagram.getCurrentVirtualDiagram();
         if (element instanceof WalkerGroup) {
             final WalkerGroup group = (WalkerGroup) element;
             group.setName("Your Group");

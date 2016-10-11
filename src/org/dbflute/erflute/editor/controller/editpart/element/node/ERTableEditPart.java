@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.Trigger;
@@ -55,7 +55,7 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
         final ERTable copyTable = table.copyData();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final EditPartViewer viewer = getViewer();
-        final GroupSet groups = diagram.getDiagramContents().getGroups();
+        final ColumnGroupSet groups = diagram.getDiagramContents().getColumnGroupSet();
         final TableDialog dialog = new TableDialog(shell, viewer, copyTable, groups);
         if (dialog.open() == IDialogConstants.OK_ID) {
             final CompoundCommand command = createChangeTablePropertyCommand(diagram, table, copyTable);

@@ -54,7 +54,7 @@ public class PlaceTableCommand extends AbstractCommand {
                 if (cantPlace)
                     continue;
 
-                ERVirtualDiagram model = curTable.getDiagram().getCurrentErmodel();
+                ERVirtualDiagram model = curTable.getDiagram().getCurrentVirtualDiagram();
 
                 virtualTable = new ERVirtualTable(model, curTable);
                 virtualTable.setPoint(point.x, point.y);
@@ -88,7 +88,7 @@ public class PlaceTableCommand extends AbstractCommand {
             point.x += canvas.getHorizontalBar().getSelection();
             point.y += canvas.getVerticalBar().getSelection();
 
-            ERVirtualDiagram model = curTable.getDiagram().getCurrentErmodel();
+            ERVirtualDiagram model = curTable.getDiagram().getCurrentVirtualDiagram();
 
             virtualTable = new ERVirtualTable(model, curTable);
             virtualTable.setPoint(point.x, point.y);
@@ -101,7 +101,7 @@ public class PlaceTableCommand extends AbstractCommand {
     @Override
     protected void doUndo() {
         if (orgTables != null) {
-            ERVirtualDiagram model = orgTables.get(0).getDiagram().getCurrentErmodel();
+            ERVirtualDiagram model = orgTables.get(0).getDiagram().getCurrentVirtualDiagram();
 
             for (ERVirtualTable vtable : virtualTables) {
                 model.remove(vtable);
@@ -110,7 +110,7 @@ public class PlaceTableCommand extends AbstractCommand {
             VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         } else {
-            ERVirtualDiagram model = orgTable.getDiagram().getCurrentErmodel();
+            ERVirtualDiagram model = orgTable.getDiagram().getCurrentVirtualDiagram();
             model.remove(virtualTable);
 
             VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTable.getDiagram().getEditor().getActiveEditor();

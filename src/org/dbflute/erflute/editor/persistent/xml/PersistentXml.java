@@ -104,7 +104,7 @@ public class PersistentXml extends Persistent {
 
     private void setupColumnGroup(DiagramContents diagramContents, final PersistentContext context) {
         int columnGroupNo = 1;
-        for (final ColumnGroup columnGroup : diagramContents.getGroups()) {
+        for (final ColumnGroup columnGroup : diagramContents.getColumnGroupSet()) {
             context.columnGroupMap.put(columnGroup, columnGroupNo);
             columnGroupNo++;
             for (final NormalColumn normalColumn : columnGroup.getColumns()) {
@@ -139,7 +139,7 @@ public class PersistentXml extends Persistent {
 
     private void setupVirtualModel(DiagramContents diagramContents, final PersistentContext context) {
         int virtualModelNo = 1;
-        for (final ERVirtualDiagram model : diagramContents.getModelSet()) {
+        for (final ERVirtualDiagram model : diagramContents.getVirtualDiagramSet()) {
             context.virtualDiagramMap.put(model, virtualModelNo);
             virtualModelNo++;
         }

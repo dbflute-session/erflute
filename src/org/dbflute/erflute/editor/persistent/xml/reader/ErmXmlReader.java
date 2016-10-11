@@ -16,7 +16,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Walke
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Document;
@@ -47,7 +47,7 @@ public class ErmXmlReader {
     protected final ReadTriggerLoader triggerLoader;
     protected final ReadColumnLoader columnLoader;
     protected final ReadSettingLoader settingLoader;
-    protected final ReadGroupLoader groupLoader;
+    protected final ReadWalkerGroupLoader groupLoader;
     protected final ReadTablespaceLoader tablespaceLoader;
     protected final ReadDictionaryLoader dictionaryLoader;
     protected final ReadIndexLoader indexLoader;
@@ -76,7 +76,7 @@ public class ErmXmlReader {
         this.triggerLoader = new ReadTriggerLoader(persistentXml, assistLogic);
         this.columnLoader = new ReadColumnLoader(persistentXml, assistLogic, sequenceLoader);
         this.settingLoader = new ReadSettingLoader(persistentXml, assistLogic, databaseLoader, tablePropertiesLoader, nodeElementLoader);
-        this.groupLoader = new ReadGroupLoader(persistentXml, assistLogic, nodeElementLoader);
+        this.groupLoader = new ReadWalkerGroupLoader(persistentXml, assistLogic, nodeElementLoader);
         this.tablespaceLoader = new ReadTablespaceLoader(persistentXml, assistLogic);
         this.dictionaryLoader = new ReadDictionaryLoader(persistentXml, assistLogic);
         this.indexLoader = new ReadIndexLoader(persistentXml, assistLogic);
@@ -143,11 +143,11 @@ public class ErmXmlReader {
         final Settings settings = diagramContents.getSettings();
         settingLoader.loadEnvironmentSetting(settings.getEnvironmentSetting(), parent, context);
         tablespaceLoader.loadTablespaceSet(diagramContents.getTablespaceSet(), parent, context, database);
-        final GroupSet columnGroups = diagramContents.getGroups();
+        final ColumnGroupSet columnGroups = diagramContents.getColumnGroupSet();
         columnGroups.clear();
         columnLoader.loadColumnGroups(columnGroups, parent, context, database);
         loadContents(diagramContents.getDiagramWalkers(), parent, context);
-        diagramContents.getModelSet().addModels(loadErmodels(parent, context));
+        diagramContents.getVirtualDiagramSet().addModels(loadErmodels(parent, context));
         sequenceLoader.loadSequenceSet(diagramContents.getSequenceSet(), parent);
         triggerLoader.loadTriggerSet(diagramContents.getTriggerSet(), parent);
         settingLoader.loadSettings(settings, parent, context);

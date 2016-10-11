@@ -14,11 +14,11 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 
 public class ChangeGroupCommand extends AbstractCommand {
 
-    private GroupSet groupSet;
+    private ColumnGroupSet groupSet;
 
     private List<CopyGroup> oldCopyGroups;
 
@@ -28,7 +28,7 @@ public class ChangeGroupCommand extends AbstractCommand {
 
     private ERDiagram diagram;
 
-    public ChangeGroupCommand(ERDiagram diagram, GroupSet groupSet, List<CopyGroup> newGroups) {
+    public ChangeGroupCommand(ERDiagram diagram, ColumnGroupSet groupSet, List<CopyGroup> newGroups) {
         this.diagram = diagram;
 
         this.groupSet = groupSet;

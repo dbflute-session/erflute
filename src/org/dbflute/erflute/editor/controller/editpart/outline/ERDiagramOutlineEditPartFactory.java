@@ -25,7 +25,7 @@ import org.dbflute.erflute.editor.controller.editpart.outline.view.ViewSetOutlin
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
@@ -35,7 +35,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ViewS
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -58,7 +58,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
 
         if (model instanceof ERVirtualDiagram) {
             editPart = new ERModelOutlineEditPart();
-        } else if (model instanceof ERModelSet) {
+        } else if (model instanceof ERVirtualDiagramSet) {
             editPart = new ERModelSetOutlineEditPart();
 
         } else if (model instanceof ERTable) {
@@ -80,7 +80,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
         } else if (model instanceof ColumnGroup) {
             editPart = new GroupOutlineEditPart();
 
-        } else if (model instanceof GroupSet) {
+        } else if (model instanceof ColumnGroupSet) {
             editPart = new GroupSetOutlineEditPart();
 
         } else if (model instanceof SequenceSet) {

@@ -8,7 +8,7 @@ import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.view.tab.AdvancedTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.view.tab.ViewAttributeTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.view.tab.DescriptionTabWrapper;
@@ -32,7 +32,7 @@ public class ViewDialog extends AbstractDialog {
 
     private List<ValidatableTabWrapper> tabWrapperList;
 
-    public ViewDialog(Shell parentShell, EditPartViewer viewer, ERView copyData, GroupSet columnGroups) {
+    public ViewDialog(Shell parentShell, EditPartViewer viewer, ERView copyData, ColumnGroupSet columnGroups) {
         super(parentShell);
 
         this.viewer = viewer;

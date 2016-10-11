@@ -17,8 +17,8 @@ public class GlobalGroupSet {
 
     private static final String COLUMN_GOURP_SETTINGS_FILENAME = "column_group.xml"; //$NON-NLS-1$
 
-    public static GroupSet load() {
-        GroupSet columnGroups = new GroupSet();
+    public static ColumnGroupSet load() {
+        ColumnGroupSet columnGroups = new ColumnGroupSet();
 
         try {
             IDialogSettings settings = new DialogSettings("column_group_list");
@@ -75,7 +75,7 @@ public class GlobalGroupSet {
         return columnGroups;
     }
 
-    public static void save(GroupSet columnGroups) {
+    public static void save(ColumnGroupSet columnGroups) {
         try {
             IDialogSettings settings = new DialogSettings("column_group_list");
 

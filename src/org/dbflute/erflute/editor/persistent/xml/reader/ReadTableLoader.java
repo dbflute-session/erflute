@@ -76,7 +76,7 @@ public class ReadTableLoader {
 
     public ERVirtualTable loadVirtualTable(ERVirtualDiagram model, Element element, LoadContext context) {
         final String tableId = getStringValue(element, "id");
-        final ERTable rawTable = (ERTable) context.nodeElementMap.get(tableId);
+        final ERTable rawTable = (ERTable) context.walkerMap.get(tableId);
         final ERVirtualTable vtable = new ERVirtualTable(model, rawTable);
         assistLogic.loadLocation(vtable, element);
         assistLogic.loadFont(vtable, element);

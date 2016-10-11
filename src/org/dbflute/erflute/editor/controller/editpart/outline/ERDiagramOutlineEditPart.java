@@ -34,10 +34,10 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
         if (quickMode) {
             modelChildren.add(diagramContents.getDiagramWalkers().getTableSet());
         } else {
-            modelChildren.add(diagramContents.getModelSet());
+            modelChildren.add(diagramContents.getVirtualDiagramSet());
             //			modelChildren.add(diagramContents.getContents().getErmodelSet());
             //			modelChildren.add(diagramContents.getDictionary());
-            modelChildren.add(diagramContents.getGroups());
+            modelChildren.add(diagramContents.getColumnGroupSet());
             modelChildren.add(diagramContents.getDiagramWalkers().getTableSet());
             modelChildren.add(diagramContents.getDiagramWalkers().getViewSet());
             modelChildren.add(diagramContents.getTriggerSet());

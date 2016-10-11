@@ -42,7 +42,7 @@ public class ERModelUtil {
         IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
         if (activeEditor instanceof VirtualDiagramEditor) {
             VirtualDiagramEditor editor = (VirtualDiagramEditor) activeEditor;
-            editor.setContents(diagram.getCurrentErmodel());
+            editor.setContents(diagram.getCurrentVirtualDiagram());
             diagram.changeAll();
             return true;
         }

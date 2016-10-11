@@ -53,7 +53,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
 
             ViewDialog dialog =
                     new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyView, diagram
-                            .getDiagramContents().getGroups());
+                            .getDiagramContents().getColumnGroupSet());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 CompoundCommand command = ViewEditPart.createChangeViewPropertyCommand(diagram, view, copyView);

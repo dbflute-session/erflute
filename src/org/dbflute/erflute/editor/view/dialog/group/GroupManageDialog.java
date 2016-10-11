@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.column.real.GroupColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableCompositeHolder;
@@ -65,7 +65,7 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
 
     private static final int GROUP_LIST_HEIGHT = 230;
 
-    public GroupManageDialog(Shell parentShell, GroupSet columnGroups, ERDiagram diagram, boolean globalGroup, int editTargetIndex) {
+    public GroupManageDialog(Shell parentShell, ColumnGroupSet columnGroups, ERDiagram diagram, boolean globalGroup, int editTargetIndex) {
         super(parentShell, 2);
 
         this.copyGroups = new ArrayList<CopyGroup>();
@@ -407,7 +407,7 @@ public class GroupManageDialog extends AbstractDialog implements ERTableComposit
                 if (messageBox.open() == SWT.OK) {
                     CopyGroup columnGroup = copyGroups.get(editTargetIndex);
 
-                    GroupSet columnGroups = GlobalGroupSet.load();
+                    ColumnGroupSet columnGroups = GlobalGroupSet.load();
 
                     columnGroups.add(columnGroup);
 

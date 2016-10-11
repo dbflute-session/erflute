@@ -1,10 +1,10 @@
 package org.dbflute.erflute.editor.model.diagram_contents;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.IndexSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.TablespaceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.TriggerSet;
@@ -19,28 +19,28 @@ public class DiagramContents {
     //                                                                           Attribute
     //                                                                           =========
     private Settings settings;
-    private DiagramWalkerSet walkers;
-    private GroupSet groups;
+    private DiagramWalkerSet walkerSet;
+    private ColumnGroupSet columnGroupSet;
     private Dictionary dictionary;
     private SequenceSet sequenceSet;
     private TriggerSet triggerSet;
     private IndexSet indexSet;
     private TablespaceSet tablespaceSet;
-    private ERModelSet modelSet;
+    private ERVirtualDiagramSet vdiagramSet;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public DiagramContents() {
         this.settings = new Settings();
-        this.walkers = new DiagramWalkerSet();
-        this.groups = new GroupSet();
+        this.walkerSet = new DiagramWalkerSet();
+        this.columnGroupSet = new ColumnGroupSet();
         this.dictionary = new Dictionary();
         this.sequenceSet = new SequenceSet();
         this.triggerSet = new TriggerSet();
         this.indexSet = new IndexSet();
         this.tablespaceSet = new TablespaceSet();
-        this.modelSet = new ERModelSet();
+        this.vdiagramSet = new ERVirtualDiagramSet();
     }
 
     // ===================================================================================
@@ -48,26 +48,26 @@ public class DiagramContents {
     //                                                                      ==============
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":{" + settings + ", " + walkers + "}";
+        return getClass().getSimpleName() + ":{" + settings + ", " + walkerSet + "}";
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     public DiagramWalkerSet getDiagramWalkers() {
-        return this.walkers;
+        return this.walkerSet;
     }
 
     public void setDiagramWalkers(DiagramWalkerSet walkers) {
-        this.walkers = walkers;
+        this.walkerSet = walkers;
     }
 
-    public GroupSet getGroups() {
-        return this.groups;
+    public ColumnGroupSet getColumnGroupSet() {
+        return this.columnGroupSet;
     }
 
-    public void setColumnGroups(GroupSet groups) {
-        this.groups = groups;
+    public void setColumnGroupSet(ColumnGroupSet columnGroupSet) {
+        this.columnGroupSet = columnGroupSet;
     }
 
     public Dictionary getDictionary() {
@@ -118,11 +118,11 @@ public class DiagramContents {
         this.tablespaceSet = tablespaceSet;
     }
 
-    public ERModelSet getModelSet() {
-        return modelSet;
+    public ERVirtualDiagramSet getVirtualDiagramSet() {
+        return vdiagramSet;
     }
 
-    public void setModelSet(ERModelSet modelSet) {
-        this.modelSet = modelSet;
+    public void setVirtualDiagramSet(ERVirtualDiagramSet modelSet) {
+        this.vdiagramSet = modelSet;
     }
 }

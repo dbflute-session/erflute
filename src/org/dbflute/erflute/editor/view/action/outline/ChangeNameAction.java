@@ -39,7 +39,7 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
                             "�_�C�A�O����������͂��ĉ������B", ermodel.getName(), null);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ermodel.setName(dialog.getValue());
-                diagram.getDiagramContents().getModelSet().changeModel(ermodel);
+                diagram.getDiagramContents().getVirtualDiagramSet().changeModel(ermodel);
                 ermodel.getDiagram().getEditor().setDirty(true);
                 //				ermodel.changeAll();
                 //				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());

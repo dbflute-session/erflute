@@ -5,7 +5,7 @@ import java.util.List;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname.DefaultForeignKeyNameProvider;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -34,7 +34,7 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
         ERDiagramEditPart.setUpdateable(true);
         relationship.setTargetTableView(targetTable, this.foreignKeyColumnList);
         if (relationship.getSource() instanceof ERTable || relationship.getTarget() instanceof ERTable) {
-            final ERModelSet modelSet = this.relationship.getSource().getDiagram().getDiagramContents().getModelSet();
+            final ERVirtualDiagramSet modelSet = this.relationship.getSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
             modelSet.createRelation(relationship);
         }
         final String foreignKeyName = provideDefaultForeignKeyName(sourceTable, targetTable);

@@ -21,13 +21,13 @@ public class GroupComponentEditPolicy extends NotElementComponentEditPolicy {
 
         List<CopyGroup> newColumnGroups = new ArrayList<CopyGroup>();
 
-        for (ColumnGroup columnGroup : diagram.getDiagramContents().getGroups()) {
+        for (ColumnGroup columnGroup : diagram.getDiagramContents().getColumnGroupSet()) {
             if (columnGroup != deleteColumnGroup) {
                 newColumnGroups.add(new CopyGroup(columnGroup));
             }
         }
 
-        return new ChangeGroupCommand(diagram, diagram.getDiagramContents().getGroups(), newColumnGroups);
+        return new ChangeGroupCommand(diagram, diagram.getDiagramContents().getColumnGroupSet(), newColumnGroups);
     }
 
 }

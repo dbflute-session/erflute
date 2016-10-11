@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
@@ -49,7 +49,7 @@ public class ERDiagram extends ViewableModel {
     private boolean disableSelectColumn;
     private Category currentCategory;
     private int currentCategoryIndex;
-    private ERVirtualDiagram currentErmodel;
+    private ERVirtualDiagram currentVirtualDiagram;
     private double zoom = 1.0d;
     private int x;
     private int y;
@@ -73,7 +73,7 @@ public class ERDiagram extends ViewableModel {
     //                                                                          Initialize
     //                                                                          ==========
     public void init() {
-        diagramContents.setColumnGroups(GlobalGroupSet.load());
+        diagramContents.setColumnGroupSet(GlobalGroupSet.load());
         final Settings settings = getDiagramContents().getSettings();
         settings.getModelProperties().init();
     }
@@ -104,9 +104,9 @@ public class ERDiagram extends ViewableModel {
         }
         if (element instanceof ERTable) {
             final ERTable table = (ERTable) element;
-            if (getCurrentErmodel() != null) {
+            if (getCurrentVirtualDiagram() != null) {
                 // ビュー上に仮想テーブルを追加する
-                final ERVirtualDiagram model = getCurrentErmodel();
+                final ERVirtualDiagram model = getCurrentVirtualDiagram();
                 final ERVirtualTable virtualTable = new ERVirtualTable(model, table);
                 virtualTable.setPoint(element.getX(), element.getY());
 
@@ -118,9 +118,9 @@ public class ERDiagram extends ViewableModel {
         }
         if (element instanceof ERVirtualTable) {
             final ERVirtualTable virtualTable = (ERVirtualTable) element;
-            if (getCurrentErmodel() != null) {
+            if (getCurrentVirtualDiagram() != null) {
                 // ビュー上に仮想テーブルを追加する
-                final ERVirtualDiagram model = getCurrentErmodel();
+                final ERVirtualDiagram model = getCurrentVirtualDiagram();
                 //ERVirtualTable virtualTable = new ERVirtualTable(model, table);
                 virtualTable.setPoint(element.getX(), element.getY());
 
@@ -136,16 +136,16 @@ public class ERDiagram extends ViewableModel {
     public void removeContent(DiagramWalker element) {
         if (element instanceof ERVirtualTable) {
             // メインビューのノードは残して仮想テーブルだけ削除
-            currentErmodel.remove((ERVirtualTable) element);
+            currentVirtualDiagram.remove((ERVirtualTable) element);
         } else if (element instanceof WalkerGroup) {
-            currentErmodel.remove((WalkerGroup) element);
+            currentVirtualDiagram.remove((WalkerGroup) element);
         } else if (element instanceof WalkerNote) {
-            currentErmodel.remove((WalkerNote) element);
+            currentVirtualDiagram.remove((WalkerNote) element);
         } else {
             this.diagramContents.getDiagramWalkers().remove(element);
             if (element instanceof ERTable) {
                 // メインビューのテーブルを削除したときは、ビューのノードも削除（線が消えずに残ってしまう）
-                for (final ERVirtualDiagram model : getDiagramContents().getModelSet()) {
+                for (final ERVirtualDiagram model : getDiagramContents().getVirtualDiagramSet()) {
                     final ERVirtualTable vtable = model.findVirtualTable((TableView) element);
                     model.remove(vtable);
                 }
@@ -169,7 +169,7 @@ public class ERDiagram extends ViewableModel {
     //                                                                   ER/Table Handling
     //                                                                   =================
     public void addErmodel(ERVirtualDiagram ermodel) {
-        diagramContents.getModelSet().add(ermodel);
+        diagramContents.getVirtualDiagramSet().add(ermodel);
         firePropertyChange(PROPERTY_CHANGE_ADD, null, ermodel);
     }
 
@@ -183,7 +183,7 @@ public class ERDiagram extends ViewableModel {
      * @param table テーブルビュー
      */
     public void doChangeTable(TableView table) {
-        for (final ERVirtualDiagram model : getDiagramContents().getModelSet()) {
+        for (final ERVirtualDiagram model : getDiagramContents().getVirtualDiagramSet()) {
             final ERVirtualTable vtable = model.findVirtualTable(table);
             if (vtable != null) {
                 vtable.doChangeTable();
@@ -192,7 +192,7 @@ public class ERDiagram extends ViewableModel {
     }
 
     public ERVirtualDiagram findModelByTable(ERTable table) {
-        for (final ERVirtualDiagram model : diagramContents.getModelSet()) {
+        for (final ERVirtualDiagram model : diagramContents.getVirtualDiagramSet()) {
             for (final ERVirtualTable vtable : model.getTables()) {
                 if (vtable.getRawTable().equals(table)) {
                     return model;
@@ -352,15 +352,15 @@ public class ERDiagram extends ViewableModel {
         this.tooltip = tooltip;
     }
 
-    public ERVirtualDiagram getCurrentErmodel() {
-        return currentErmodel;
+    public ERVirtualDiagram getCurrentVirtualDiagram() {
+        return currentVirtualDiagram;
     }
 
-    public void setCurrentErmodel(ERVirtualDiagram model, String defaultModelName) {
-        this.currentErmodel = model;
+    public void setCurrentVirtualDiagram(ERVirtualDiagram vdiagram, String defaultModelName) {
+        this.currentVirtualDiagram = vdiagram;
         this.defaultModelName = defaultModelName;
-        if (model != null) {
-            model.changeAll();
+        if (vdiagram != null) {
+            vdiagram.changeAll();
         }
     }
 

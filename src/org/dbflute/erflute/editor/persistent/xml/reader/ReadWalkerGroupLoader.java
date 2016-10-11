@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadGroupLoader {
+public class ReadWalkerGroupLoader {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -25,34 +25,34 @@ public class ReadGroupLoader {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadGroupLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader) {
+    public ReadWalkerGroupLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementLoader = nodeElementLoader;
     }
 
     // ===================================================================================
-    //                                                                               Group
-    //                                                                               =====
-    public WalkerGroup loadGroup(ERVirtualDiagram model, Element node, LoadContext context) {
+    //                                                                        Walker Group
+    //                                                                        ============
+    public WalkerGroup loadWalkerGroup(ERVirtualDiagram model, Element node, LoadContext context) {
         final WalkerGroup group = new WalkerGroup();
         nodeElementLoader.loadNodeElement(group, node, context);
         group.setName(getStringValue(node, "name"));
         final List<ERVirtualTable> vtables = model.getTables();
         final String[] keys = getTagValues(node, "node_element");
-        final List<DiagramWalker> nodeElementList = new ArrayList<DiagramWalker>();
+        final List<DiagramWalker> walkerList = new ArrayList<DiagramWalker>();
         for (final String key : keys) {
-            final DiagramWalker nodeElement = context.nodeElementMap.get(key);
-            if (nodeElement != null) {
+            final DiagramWalker walker = context.walkerMap.get(key);
+            if (walker != null) {
                 for (final ERVirtualTable vtable : vtables) {
-                    if (vtable.getRawTable().equals(nodeElement)) {
-                        nodeElementList.add(vtable);
+                    if (vtable.getRawTable().equals(walker)) {
+                        walkerList.add(vtable);
                         break;
                     }
                 }
             }
         }
-        group.setContents(nodeElementList);
+        group.setContents(walkerList);
         return group;
     }
 

@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
@@ -168,7 +168,7 @@ public class ReadColumnLoader {
     // ===================================================================================
     //                                                                       Column Groups
     //                                                                       =============
-    public void loadColumnGroups(GroupSet columnGroups, Element parent, LoadContext context, String database) {
+    public void loadColumnGroups(ColumnGroupSet columnGroups, Element parent, LoadContext context, String database) {
         final Element element = this.getElement(parent, "column_groups");
         final NodeList nodeList = element.getElementsByTagName("column_group");
         for (int i = 0; i < nodeList.getLength(); i++) {

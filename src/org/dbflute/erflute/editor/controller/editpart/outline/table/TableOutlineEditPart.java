@@ -156,7 +156,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
             TableDialog dialog =
                     new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyTable, diagram
-                            .getDiagramContents().getGroups());
+                            .getDiagramContents().getColumnGroupSet());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram, table, copyTable);

@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.persistent.xml.writer;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
@@ -36,7 +36,7 @@ public class WrittenVirtualDiagramBuilder {
     // ===================================================================================
     //                                                                      VirtualDiagram
     //                                                                      ==============
-    public String buildERModel(ERModelSet modelSet, PersistentContext context) {
+    public String buildERModel(ERVirtualDiagramSet modelSet, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<vdiagrams>\n");
         for (final ERVirtualDiagram vdiagram : modelSet) {

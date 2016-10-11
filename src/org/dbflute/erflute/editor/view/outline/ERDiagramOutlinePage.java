@@ -244,7 +244,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
             final Object model = ((TableOutlineEditPart) firstElement).getModel();
             final ERTable table = (ERTable) model;
 
-            if (diagram.getCurrentErmodel() == null) {
+            if (diagram.getCurrentVirtualDiagram() == null) {
                 final MainDiagramEditor editor = ((MainDiagramEditor) diagram.getEditor().getActiveEditor());
                 editor.reveal(table);
                 return;

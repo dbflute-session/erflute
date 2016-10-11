@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.group.GroupManageDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.PreferencePage;
@@ -41,7 +41,7 @@ public class PreferenceTopPage extends PreferencePage implements IWorkbenchPrefe
         button.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                final GroupSet columnGroups = GlobalGroupSet.load();
+                final ColumnGroupSet columnGroups = GlobalGroupSet.load();
                 final ERDiagram diagram = new ERDiagram(columnGroups.getDatabase());
 
                 final GroupManageDialog dialog =

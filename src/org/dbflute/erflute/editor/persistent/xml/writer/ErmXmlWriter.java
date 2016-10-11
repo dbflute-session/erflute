@@ -10,14 +10,14 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.TablespaceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.TriggerSet;
@@ -156,8 +156,8 @@ public class ErmXmlWriter {
         xml.append(buildDictionary(diagramContents.getDictionary(), context));
         xml.append(buildTablespace(diagramContents.getTablespaceSet(), context));
         xml.append(buildContents(diagramContents.getDiagramWalkers(), context));
-        xml.append(buildERModel(diagramContents.getModelSet(), context));
-        xml.append(buildColumnGroups(diagramContents.getGroups(), context));
+        xml.append(buildERModel(diagramContents.getVirtualDiagramSet(), context));
+        xml.append(buildColumnGroups(diagramContents.getColumnGroupSet(), context));
         xml.append(buildSequenceSet(diagramContents.getSequenceSet()));
         xml.append(buildTrigger(diagramContents.getTriggerSet()));
         return xml.toString();
@@ -216,7 +216,7 @@ public class ErmXmlWriter {
     // ===================================================================================
     //                                                                             ERModel
     //                                                                             =======
-    private String buildERModel(ERModelSet modelSet, PersistentContext context) {
+    private String buildERModel(ERVirtualDiagramSet modelSet, PersistentContext context) {
         return ermodelBuilder.buildERModel(modelSet, context);
     }
 
@@ -237,7 +237,7 @@ public class ErmXmlWriter {
     // ===================================================================================
     //                                                                       Column Groups
     //                                                                       =============
-    private String buildColumnGroups(GroupSet columnGroups, PersistentContext context) {
+    private String buildColumnGroups(ColumnGroupSet columnGroups, PersistentContext context) {
         return columnBuilder.buildColumnGroups(columnGroups, context);
     }
 

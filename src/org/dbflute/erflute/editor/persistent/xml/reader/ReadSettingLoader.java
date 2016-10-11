@@ -220,7 +220,7 @@ public class ReadSettingLoader {
             final String[] keys = this.getTagValues(categoryElement, "node_element");
             final List<DiagramWalker> nodeElementList = new ArrayList<DiagramWalker>();
             for (final String key : keys) {
-                final DiagramWalker nodeElement = context.nodeElementMap.get(key);
+                final DiagramWalker nodeElement = context.walkerMap.get(key);
                 if (nodeElement != null) {
                     nodeElementList.add(nodeElement);
                 }

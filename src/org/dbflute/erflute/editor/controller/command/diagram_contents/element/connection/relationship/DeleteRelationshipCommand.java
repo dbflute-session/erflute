@@ -8,7 +8,7 @@ import java.util.Set;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.DeleteConnectionCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -57,7 +57,7 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
 
         if (this.relation.getSource() instanceof ERTable || this.relation.getTarget() instanceof ERTable) {
             // �r���[���Ń����[�V�������������ꍇ�A�����ɂ�ERVirtualTable�łȂ�ERTable�ŗ���
-            ERModelSet modelSet = this.relation.getSource().getDiagram().getDiagramContents().getModelSet();
+            ERVirtualDiagramSet modelSet = this.relation.getSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
             modelSet.deleteRelation(relation);
 
         }

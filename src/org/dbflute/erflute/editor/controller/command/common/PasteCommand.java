@@ -16,7 +16,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVi
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 
@@ -26,7 +26,7 @@ public class PasteCommand extends AbstractCommand {
 
     private final GraphicalViewer viewer;
     private final DiagramWalkerSet walkers;
-    private final GroupSet columnGroups;
+    private final ColumnGroupSet columnGroups;
 
     public PasteCommand(MainDiagramEditor editor, DiagramWalkerSet walkers, int x, int y) {
         this.viewer = editor.getGraphicalViewer();
@@ -40,7 +40,7 @@ public class PasteCommand extends AbstractCommand {
 
         this.walkers = walkers;
 
-        this.columnGroups = new GroupSet();
+        this.columnGroups = new ColumnGroupSet();
 
         // 貼り付け対象に対して処理を繰り返します
         for (final DiagramWalker walker : walkers) {
@@ -68,7 +68,7 @@ public class PasteCommand extends AbstractCommand {
                         final ColumnGroup group = (ColumnGroup) column;
 
                         // この図のグループ列でない場合
-                        if (!diagram.getDiagramContents().getGroups().contains(group)) {
+                        if (!diagram.getDiagramContents().getColumnGroupSet().contains(group)) {
                             // 対象のグループ列に追加します。
                             columnGroups.add(group);
                         }
@@ -86,7 +86,7 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新をとめます。
         ERDiagramEditPart.setUpdateable(false);
 
-        final GroupSet columnGroupSet = this.diagram.getDiagramContents().getGroups();
+        final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
 
         // 図にノードを追加します。
         for (final DiagramWalker nodeElement : this.walkers) {
@@ -119,7 +119,7 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新をとめます。
         ERDiagramEditPart.setUpdateable(false);
 
-        final GroupSet columnGroupSet = this.diagram.getDiagramContents().getGroups();
+        final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
 
         // 図からノードを削除します。
         for (final DiagramWalker nodeElement : this.walkers) {

@@ -29,7 +29,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERVie
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -173,7 +173,7 @@ public class ImportFromFileAction extends AbstractImportAction {
             dbObjects.add(dbObject);
         }
 
-        for (ColumnGroup columnGroup : loadedDiagram.getDiagramContents().getGroups()) {
+        for (ColumnGroup columnGroup : loadedDiagram.getDiagramContents().getColumnGroupSet()) {
             DBObject dbObject = new DBObject(null, columnGroup.getName(), DBObject.TYPE_GROUP);
             dbObject.setModel(columnGroup);
             dbObjects.add(dbObject);
@@ -191,7 +191,7 @@ public class ImportFromFileAction extends AbstractImportAction {
 
         DiagramContents contents = loadedDiagram.getDiagramContents();
 
-        GroupSet columnGroupSet = contents.getGroups();
+        ColumnGroupSet columnGroupSet = contents.getColumnGroupSet();
 
         for (Iterator<ColumnGroup> iter = columnGroupSet.iterator(); iter.hasNext();) {
             ColumnGroup columnGroup = iter.next();
@@ -301,7 +301,7 @@ public class ImportFromFileAction extends AbstractImportAction {
         if (mergeGroup) {
             Map<String, ColumnGroup> groupMap = new HashMap<String, ColumnGroup>();
 
-            for (ColumnGroup columnGroup : this.getDiagram().getDiagramContents().getGroups()) {
+            for (ColumnGroup columnGroup : this.getDiagram().getDiagramContents().getColumnGroupSet()) {
                 groupMap.put(columnGroup.getGroupName(), columnGroup);
             }
 

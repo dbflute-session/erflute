@@ -25,13 +25,13 @@ public class ReadVirtualDiagramLoader {
     protected final ReadAssistLogic assistLogic;
     protected final ReadTableLoader tableLoader;
     protected final ReadWalkerNoteLoader noteLoader;
-    protected final ReadGroupLoader groupLoader;
+    protected final ReadWalkerGroupLoader groupLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public ReadVirtualDiagramLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadTableLoader tableLoader,
-            ReadWalkerNoteLoader noteLoader, ReadGroupLoader groupLoader) {
+            ReadWalkerNoteLoader noteLoader, ReadWalkerGroupLoader groupLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.tableLoader = tableLoader;
@@ -89,7 +89,7 @@ public class ReadVirtualDiagramLoader {
                 notes.add(note);
                 final String id = getStringValue(noteElement, "id");
                 if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster
-                    context.nodeElementMap.put(id, note);
+                    context.walkerMap.put(id, note);
                 }
                 // unneeded because note is independent on model by jflute
                 //diagram.getDiagramContents().getContents().addNodeElement(note);
@@ -105,11 +105,11 @@ public class ReadVirtualDiagramLoader {
             final NodeList groupEls = elGroups.getElementsByTagName("group");
             for (int k = 0; k < groupEls.getLength(); k++) {
                 final Element groupElement = (Element) groupEls.item(k);
-                final WalkerGroup group = groupLoader.loadGroup(model, groupElement, context);
+                final WalkerGroup group = groupLoader.loadWalkerGroup(model, groupElement, context);
                 groups.add(group);
                 final String id = getStringValue(groupElement, "id");
                 if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster
-                    context.nodeElementMap.put(id, group);
+                    context.walkerMap.put(id, group);
                 }
             }
         }

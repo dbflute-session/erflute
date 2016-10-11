@@ -11,7 +11,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname.DefaultForeignKeyNameProvider;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -56,7 +56,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             foreignKeyColumn.setWord(null);
         }
         if (this.relationship.getSource() instanceof ERTable || this.relationship.getTarget() instanceof ERTable) {
-            final ERModelSet modelSet = this.relationship.getSource().getDiagram().getDiagramContents().getModelSet();
+            final ERVirtualDiagramSet modelSet = this.relationship.getSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
             modelSet.createRelation(relationship);
         }
         targetTable.setDirty();

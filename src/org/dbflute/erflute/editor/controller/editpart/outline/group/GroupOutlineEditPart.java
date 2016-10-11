@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.controller.editpolicy.not_element.group.GroupC
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.group.GroupDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
@@ -47,7 +47,7 @@ public class GroupOutlineEditPart extends AbstractOutlineEditPart implements Del
         ColumnGroup columnGroup = (ColumnGroup) this.getModel();
         ERDiagram diagram = this.getDiagram();
 
-        GroupSet groupSet = diagram.getDiagramContents().getGroups();
+        ColumnGroupSet groupSet = diagram.getDiagramContents().getColumnGroupSet();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             GroupDialog dialog =

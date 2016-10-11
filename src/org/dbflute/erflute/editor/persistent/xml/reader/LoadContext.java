@@ -28,7 +28,7 @@ public class LoadContext {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    public final Map<String, DiagramWalker> nodeElementMap; // ID = node
+    public final Map<String, DiagramWalker> walkerMap; // ID = node
     public final Map<String, NormalColumn> columnMap; // ID = column
     public final Map<String, ComplexUniqueKey> complexUniqueKeyMap;
     public final Map<NormalColumn, String[]> columnRelationMap;
@@ -50,7 +50,7 @@ public class LoadContext {
     //                                                                         Constructor
     //                                                                         ===========
     public LoadContext(Dictionary dictionary) {
-        this.nodeElementMap = new LinkedHashMap<String, DiagramWalker>();
+        this.walkerMap = new LinkedHashMap<String, DiagramWalker>();
         this.columnMap = new LinkedHashMap<String, NormalColumn>();
         this.complexUniqueKeyMap = new LinkedHashMap<String, ComplexUniqueKey>();
         this.columnRelationMap = new LinkedHashMap<NormalColumn, String[]>();
@@ -76,19 +76,19 @@ public class LoadContext {
     public void resolve() { // called by reader
         for (final ConnectionElement connection : connectionSourceMap.keySet()) {
             final String id = connectionSourceMap.get(connection);
-            final DiagramWalker nodeElement = nodeElementMap.get(id);
+            final DiagramWalker nodeElement = walkerMap.get(id);
             if (nodeElement == null) { // what should I do? by jflute
                 System.out.println("*error, Not found the source ID: " + id + ", connection=" + connection + ", existingKeys="
-                        + nodeElementMap.keySet());
+                        + walkerMap.keySet());
             }
             connection.setSource(nodeElement);
         }
         for (final ConnectionElement connection : connectionTargetMap.keySet()) {
             final String id = connectionTargetMap.get(connection);
-            final DiagramWalker nodeElement = nodeElementMap.get(id);
+            final DiagramWalker nodeElement = walkerMap.get(id);
             if (nodeElement == null) {
                 System.out.println("*error, Not found the target ID: " + id + ", connection=" + connection + ", existingKeys="
-                        + nodeElementMap.keySet());
+                        + walkerMap.keySet());
             }
             connection.setTarget(nodeElement);
         }

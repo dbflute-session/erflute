@@ -49,7 +49,7 @@ public class ReadDiagramWalkerLoader {
         assistLogic.loadLocation(walker, element);
         assistLogic.loadColor(walker, element);
         assistLogic.loadFont(walker, element);
-        context.nodeElementMap.put(id, walker);
+        context.walkerMap.put(id, walker);
         loadConnections(walker, element, context);
     }
 

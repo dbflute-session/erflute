@@ -9,13 +9,13 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.eclipse.gef.EditPart;
 
 public class GroupSetOutlineEditPart extends AbstractOutlineEditPart {
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(GroupSet.PROPERTY_CHANGE_GROUP_SET)) {
+        if (evt.getPropertyName().equals(ColumnGroupSet.PROPERTY_CHANGE_GROUP_SET)) {
             refresh();
         }
     }
@@ -25,7 +25,7 @@ public class GroupSetOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     protected List getModelChildren() {
-        GroupSet columnGroupSet = (GroupSet) this.getModel();
+        ColumnGroupSet columnGroupSet = (ColumnGroupSet) this.getModel();
 
         List<ColumnGroup> columnGroupList = columnGroupSet.getGroupList();
 

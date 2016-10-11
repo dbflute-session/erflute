@@ -16,7 +16,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -39,7 +39,7 @@ public class ImportTableCommand extends AbstractCommand {
 
     private final TablespaceSet tablespaceSet;
 
-    private final GroupSet columnGroupSet;
+    private final ColumnGroupSet columnGroupSet;
 
     private final List<DiagramWalker> walkerList;
 
@@ -77,7 +77,7 @@ public class ImportTableCommand extends AbstractCommand {
         this.sequenceSet = diagramContents.getSequenceSet();
         this.triggerSet = diagramContents.getTriggerSet();
         this.tablespaceSet = diagramContents.getTablespaceSet();
-        this.columnGroupSet = diagramContents.getGroups();
+        this.columnGroupSet = diagramContents.getColumnGroupSet();
 
         this.decideLocation();
     }

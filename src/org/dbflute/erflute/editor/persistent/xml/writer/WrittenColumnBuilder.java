@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
@@ -234,7 +234,7 @@ public class WrittenColumnBuilder {
     // ===================================================================================
     //                                                                       Column Groups
     //                                                                       =============
-    public String buildColumnGroups(GroupSet columnGroups, PersistentContext context) {
+    public String buildColumnGroups(ColumnGroupSet columnGroups, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<column_groups>\n");
         for (final ColumnGroup columnGroup : columnGroups) {

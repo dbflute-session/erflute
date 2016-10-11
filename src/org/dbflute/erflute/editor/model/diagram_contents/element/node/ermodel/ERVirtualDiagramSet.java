@@ -12,14 +12,14 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ERModelSet extends AbstractModel implements Iterable<ERVirtualDiagram> {
+public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVirtualDiagram> {
 
     private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_MODEL_SET = "ModelSet";
 
     private final List<ERVirtualDiagram> ermodels;
 
-    public ERModelSet() {
+    public ERVirtualDiagramSet() {
         ermodels = new ArrayList<ERVirtualDiagram>();
     }
 

@@ -8,7 +8,7 @@ import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.column.real.GroupColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableCompositeHolder;
@@ -29,7 +29,7 @@ public class GroupDialog extends AbstractDialog implements ERTableCompositeHolde
 
     private ERDiagram diagram;
 
-    public GroupDialog(Shell parentShell, GroupSet columnGroups, ERDiagram diagram, int editTargetIndex) {
+    public GroupDialog(Shell parentShell, ColumnGroupSet columnGroups, ERDiagram diagram, int editTargetIndex) {
         super(parentShell, 2);
 
         this.copyColumnGroups = new ArrayList<CopyGroup>();

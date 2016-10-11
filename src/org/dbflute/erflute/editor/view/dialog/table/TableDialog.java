@@ -12,7 +12,7 @@ import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.table.tab.AdvancedTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.table.tab.TableAttributeTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.table.tab.ComplexUniqueKeyTabWrapper;
@@ -44,7 +44,7 @@ public class TableDialog extends AbstractDialog {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TableDialog(Shell parentShell, EditPartViewer viewer, ERTable copyData, GroupSet columnGroups) {
+    public TableDialog(Shell parentShell, EditPartViewer viewer, ERTable copyData, ColumnGroupSet columnGroups) {
         super(parentShell);
         this.viewer = viewer;
         this.copyData = copyData;
