@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.VirtualModelEditor;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.VirtualDiagramEditor;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.gef.EditPart;
@@ -28,8 +28,8 @@ public class ERModelUtil {
 
     public static ERDiagram getDiagram(EditPart editPart) {
         Object model = editPart.getModel();
-        if (model instanceof ERModel) {
-            return ((ERModel) model).getDiagram();
+        if (model instanceof ERVirtualDiagram) {
+            return ((ERVirtualDiagram) model).getDiagram();
 
         }
         return (ERDiagram) model;
@@ -40,8 +40,8 @@ public class ERModelUtil {
             return false;
         }
         IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
-        if (activeEditor instanceof VirtualModelEditor) {
-            VirtualModelEditor editor = (VirtualModelEditor) activeEditor;
+        if (activeEditor instanceof VirtualDiagramEditor) {
+            VirtualDiagramEditor editor = (VirtualDiagramEditor) activeEditor;
             editor.setContents(diagram.getCurrentErmodel());
             diagram.changeAll();
             return true;
@@ -49,12 +49,12 @@ public class ERModelUtil {
         return false;
     }
 
-    public static boolean refreshDiagram(ERDiagram diagram, NodeElement element) {
+    public static boolean refreshDiagram(ERDiagram diagram, DiagramWalker element) {
         if (refreshDiagram(diagram)) {
             if (element instanceof ERTable) {
                 IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
-                if (activeEditor instanceof VirtualModelEditor) {
-                    VirtualModelEditor editor = (VirtualModelEditor) activeEditor;
+                if (activeEditor instanceof VirtualDiagramEditor) {
+                    VirtualDiagramEditor editor = (VirtualDiagramEditor) activeEditor;
                     editor.reveal((ERTable) element);
                 }
             }

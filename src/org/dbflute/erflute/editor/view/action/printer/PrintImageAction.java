@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.view.action.printer;
 
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.print.PrintGraphicalViewerOperation;
 import org.eclipse.gef.ui.actions.PrintAction;
@@ -12,7 +12,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class PrintImageAction extends PrintAction {
 
-    public PrintImageAction(RealModelEditor part) {
+    public PrintImageAction(MainDiagramEditor part) {
         super((IWorkbenchPart) part);
     }
 

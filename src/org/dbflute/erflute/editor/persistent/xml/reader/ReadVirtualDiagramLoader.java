@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadERModelLoader {
+public class ReadVirtualDiagramLoader {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -30,7 +30,7 @@ public class ReadERModelLoader {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadERModelLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadTableLoader tableLoader,
+    public ReadVirtualDiagramLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadTableLoader tableLoader,
             ReadNoteLoader noteLoader, ReadGroupLoader groupLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
@@ -39,62 +39,46 @@ public class ReadERModelLoader {
         this.groupLoader = groupLoader;
     }
 
-    // #analyzed unused, virtual models in ermodels by jflute
-    //// ===================================================================================
-    ////                                                                             ERModel
-    ////                                                                             =======
-    //public ERModel loadErmodel(Element parent, LoadContext context, ERDiagram diagram) {
-    //    final ERModel model = new ERModel(diagram);
-    //    model.setName(getStringValue(parent, "name"));
-    //    final List<ERVirtualTable> tables = new ArrayList<ERVirtualTable>();
-    //    final Element vtables = getElement(parent, "vtables");
-    //    if (vtables != null) {
-    //        final NodeList tableEls = vtables.getElementsByTagName("vtable");
-    //        for (int k = 0; k < tableEls.getLength(); k++) {
-    //            final Element tableElement = (Element) tableEls.item(k);
-    //            tables.add(tableLoader.loadVirtualTable(model, tableElement, context));
-    //        }
-    //    }
-    //    model.setTables(tables);
-    //    final String id = getStringValue(parent, "id");
-    //    context.ermodelMap.put(id, model);
-    //    return model;
-    //}
-
     // ===================================================================================
-    //                                                                            ERModels
-    //                                                                            ========
-    public List<ERModel> loadErmodels(Element parent, LoadContext context, ERDiagram diagram) {
-        final List<ERModel> results = new ArrayList<ERModel>();
-        final Element element = getElement(parent, "ermodels");
+    //                                                                      VirtualDiagram
+    //                                                                      ==============
+    public List<ERVirtualDiagram> loadVirtualDiagram(Element parent, LoadContext context, ERDiagram diagram) {
+        final List<ERVirtualDiagram> results = new ArrayList<ERVirtualDiagram>();
+        Element element = getElement(parent, "ermodels"); // migration from ERMaster
+        if (element == null) {
+            element = getElement(parent, "vdiagrams"); // #for_erflute
+        }
         if (element != null) {
-            final NodeList nodeList = element.getElementsByTagName("ermodel");
+            NodeList nodeList = element.getElementsByTagName("ermodel"); // migration from ERMaster
+            if (nodeList.getLength() == 0) {
+                nodeList = element.getElementsByTagName("vdiagram"); // #for_erflute
+            }
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element modelElement = (Element) nodeList.item(i);
-                final ERModel model = new ERModel(diagram);
-                model.setName(getStringValue(modelElement, "name"));
-                assistLogic.loadColor(model, modelElement);
+                final ERVirtualDiagram vdiagram = new ERVirtualDiagram(diagram);
+                vdiagram.setName(getStringValue(modelElement, "name"));
+                assistLogic.loadColor(vdiagram, modelElement);
                 final List<ERVirtualTable> tables = new ArrayList<ERVirtualTable>();
                 final Element vtables = getElement(modelElement, "vtables");
                 if (vtables != null) {
                     final NodeList tableEls = vtables.getElementsByTagName("vtable");
                     for (int k = 0; k < tableEls.getLength(); k++) {
                         final Element tableElement = (Element) tableEls.item(k);
-                        tables.add(tableLoader.loadVirtualTable(model, tableElement, context));
+                        tables.add(tableLoader.loadVirtualTable(vdiagram, tableElement, context));
                     }
                 }
-                model.setTables(tables);
-                loadElementNotes(context, modelElement, model, diagram);
-                loadElementVGroups(context, modelElement, model);
-                final String id = getStringValue(modelElement, "id");
-                context.ermodelMap.put(id, model);
-                results.add(model);
+                vdiagram.setTables(tables);
+                loadElementNotes(context, modelElement, vdiagram, diagram);
+                loadElementVGroups(context, modelElement, vdiagram);
+                final String id = vdiagram.buildVirtualDiagramId(); // #for_erflute
+                context.virtualDiagramMap.put(id, vdiagram);
+                results.add(vdiagram);
             }
         }
         return results;
     }
 
-    private void loadElementNotes(LoadContext context, Element modelElement, ERModel model, ERDiagram diagram) {
+    private void loadElementNotes(LoadContext context, Element modelElement, ERVirtualDiagram model, ERDiagram diagram) {
         final List<Note> notes = new ArrayList<Note>();
         final Element elNotes = getElement(modelElement, "notes");
         if (elNotes != null) {
@@ -114,7 +98,7 @@ public class ReadERModelLoader {
         model.setNotes(notes);
     }
 
-    private void loadElementVGroups(LoadContext context, Element modelElement, ERModel model) {
+    private void loadElementVGroups(LoadContext context, Element modelElement, ERVirtualDiagram model) {
         final List<VGroup> groups = new ArrayList<VGroup>();
         final Element elGroups = getElement(modelElement, "groups");
         if (elGroups != null) {

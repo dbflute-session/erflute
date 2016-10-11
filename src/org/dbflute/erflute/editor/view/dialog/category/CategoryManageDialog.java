@@ -12,7 +12,7 @@ import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.settings.CategorySetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
@@ -52,7 +52,7 @@ public class CategoryManageDialog extends AbstractDialog {
 
     private Map<Category, TableEditor> categoryCheckMap;
 
-    private Map<NodeElement, TableEditor> nodeCheckMap;
+    private Map<DiagramWalker, TableEditor> nodeCheckMap;
 
     private Category targetCategory;
 
@@ -236,9 +236,9 @@ public class CategoryManageDialog extends AbstractDialog {
     private void initNodeTable() {
         this.nodeTable.removeAll();
 
-        this.nodeCheckMap = new HashMap<NodeElement, TableEditor>();
+        this.nodeCheckMap = new HashMap<DiagramWalker, TableEditor>();
 
-        for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+        for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
             TableItem tableItem = new TableItem(this.nodeTable, SWT.NONE);
 
             Button selectCheckButton = new Button(this.nodeTable, SWT.CHECK);
@@ -260,7 +260,7 @@ public class CategoryManageDialog extends AbstractDialog {
     private void initNodeList(Category category) {
         this.categoryNameText.setText(category.getName());
 
-        for (NodeElement nodeElement : this.nodeCheckMap.keySet()) {
+        for (DiagramWalker nodeElement : this.nodeCheckMap.keySet()) {
             Button selectCheckButton = (Button) this.nodeCheckMap.get(nodeElement).getEditor();
 
             if (category.contains(nodeElement)) {
@@ -485,9 +485,9 @@ public class CategoryManageDialog extends AbstractDialog {
 
     public void validatePage() {
         if (targetCategory != null) {
-            List<NodeElement> selectedNodeElementList = new ArrayList<NodeElement>();
+            List<DiagramWalker> selectedNodeElementList = new ArrayList<DiagramWalker>();
 
-            for (NodeElement table : this.nodeCheckMap.keySet()) {
+            for (DiagramWalker table : this.nodeCheckMap.keySet()) {
                 Button selectCheckButton = (Button) this.nodeCheckMap.get(table).getEditor();
 
                 if (selectCheckButton.getSelection()) {

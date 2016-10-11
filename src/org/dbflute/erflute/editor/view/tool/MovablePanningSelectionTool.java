@@ -6,12 +6,12 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.no
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPartViewer;
@@ -58,8 +58,8 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         final Object model = this.getCurrentViewer().getContents().getModel();
         AbstractGraphicalEditPart targetEditPart = null;
         ERDiagram diagram = null;
-        if (model instanceof ERModel) {
-            diagram = ((ERModel) model).getDiagram();
+        if (model instanceof ERVirtualDiagram) {
+            diagram = ((ERVirtualDiagram) model).getDiagram();
         }
         if (model instanceof ERDiagram) {
             diagram = (ERDiagram) model;
@@ -70,9 +70,9 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                 final CompoundCommand command = new CompoundCommand();
                 for (final Object obj : selectedObject) {
                     if (isNodeElementEditPart(obj)) {
-                        final NodeElementEditPart editPart = (NodeElementEditPart) obj;
+                        final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) obj;
                         targetEditPart = editPart;
-                        final NodeElement nodeElement = (NodeElement) editPart.getModel();
+                        final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
                         command.add(createMoveElementCommand(dx, dy, diagram, editPart, nodeElement));
                     } else if (obj instanceof RelationEditPart) {
                         final RelationEditPart editPart = (RelationEditPart) obj;
@@ -93,8 +93,8 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         return obj instanceof TableViewEditPart || obj instanceof NoteEditPart || obj instanceof ModelPropertiesEditPart;
     }
 
-    private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram, final NodeElementEditPart editPart,
-            final NodeElement nodeElement) {
+    private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram, final DiagramWalkerEditPart editPart,
+            final DiagramWalker nodeElement) {
         final Rectangle bounds = editPart.getFigure().getBounds();
         final int width = nodeElement.getWidth();
         final int height = nodeElement.getHeight();

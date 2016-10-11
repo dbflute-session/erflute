@@ -18,7 +18,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
@@ -43,7 +43,7 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
     @Override
     public EditPart createEditPart(EditPart context, Object model) {
         EditPart editPart = null;
-        if (model instanceof ERModel) {
+        if (model instanceof ERVirtualDiagram) {
             editPart = new ERModelEditPart();
         } else if (model instanceof ERVirtualTable) {
             editPart = new ERVirtualTableEditPart();

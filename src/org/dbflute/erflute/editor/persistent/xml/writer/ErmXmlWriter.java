@@ -8,8 +8,8 @@ import java.text.DateFormat;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
@@ -42,7 +42,7 @@ public class ErmXmlWriter {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenNodeElementBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
     protected final WrittenTablePropertiesBuilder tablePropertiesBuilder;
     protected final WrittenSettingBuilder settingBuilder;
     protected final WrittenDictionaryBuilder dictionaryBuilder;
@@ -56,7 +56,7 @@ public class ErmXmlWriter {
     protected final WrittenColumnBuilder columnBuilder;
     protected final WrittenViewBuilder viewBuilder;
     protected final WrittenTableBuilder tableBuilder;
-    protected final WrittenERModelBuilder ermodelBuilder;
+    protected final WrittenVirtualDiagramBuilder ermodelBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -64,7 +64,7 @@ public class ErmXmlWriter {
     public ErmXmlWriter(PersistentXml persistentXml) {
         this.persistentXml = persistentXml;
         this.assistLogic = new WrittenAssistLogic(persistentXml);
-        this.nodeElementBuilder = new WrittenNodeElementBuilder(persistentXml, assistLogic);
+        this.nodeElementBuilder = new WrittenDiagramWalkerBuilder(persistentXml, assistLogic);
         this.tablePropertiesBuilder = new WrittenTablePropertiesBuilder(persistentXml, assistLogic);
         this.settingBuilder = new WrittenSettingBuilder(persistentXml, assistLogic, nodeElementBuilder, tablePropertiesBuilder);
         this.dictionaryBuilder = new WrittenDictionaryBuilder(persistentXml, assistLogic);
@@ -80,7 +80,7 @@ public class ErmXmlWriter {
                 , assistLogic, nodeElementBuilder, columnBuilder //
                 , indexBuilder, uniqueKeyBuilder, tablePropertiesBuilder);
         this.viewBuilder = new WrittenViewBuilder(persistentXml, assistLogic, nodeElementBuilder, columnBuilder);
-        this.ermodelBuilder = new WrittenERModelBuilder(persistentXml, assistLogic, nodeElementBuilder, noteBuilder);
+        this.ermodelBuilder = new WrittenVirtualDiagramBuilder(persistentXml, assistLogic, nodeElementBuilder, noteBuilder);
     }
 
     // ===================================================================================
@@ -155,7 +155,7 @@ public class ErmXmlWriter {
         xml.append(buildSettings(diagramContents.getSettings(), context));
         xml.append(buildDictionary(diagramContents.getDictionary(), context));
         xml.append(buildTablespace(diagramContents.getTablespaceSet(), context));
-        xml.append(buildContents(diagramContents.getContents(), context));
+        xml.append(buildContents(diagramContents.getDiagramWalkers(), context));
         xml.append(buildERModel(diagramContents.getModelSet(), context));
         xml.append(buildColumnGroups(diagramContents.getGroups(), context));
         xml.append(buildSequenceSet(diagramContents.getSequenceSet()));
@@ -187,10 +187,10 @@ public class ErmXmlWriter {
     // ===================================================================================
     //                                                                            Contents
     //                                                                            ========
-    private String buildContents(NodeSet contents, PersistentContext context) {
+    private String buildContents(DiagramWalkerSet contents, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<contents>\n");
-        for (final NodeElement content : contents.getPersistentSet()) {
+        for (final DiagramWalker content : contents.getPersistentSet()) {
             final String subxml;
             if (content instanceof ERTable) {
                 subxml = buildTable((ERTable) content, context);

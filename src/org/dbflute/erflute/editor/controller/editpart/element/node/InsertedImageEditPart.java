@@ -6,7 +6,7 @@ import java.io.ByteArrayInputStream;
 import org.apache.commons.codec.binary.Base64;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.image.ChangeInsertedImagePropertyCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.view.dialog.image.InsertedImageDialog;
@@ -21,7 +21,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-public class InsertedImageEditPart extends NodeElementEditPart implements IResizable {
+public class InsertedImageEditPart extends DiagramWalkerEditPart implements IResizable {
 
     private Image image;
 
@@ -62,7 +62,7 @@ public class InsertedImageEditPart extends NodeElementEditPart implements IResiz
      */
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
 
         super.createEditPolicies();
     }

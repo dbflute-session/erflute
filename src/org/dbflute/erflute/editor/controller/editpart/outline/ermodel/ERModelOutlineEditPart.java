@@ -7,9 +7,9 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.controller.command.ermodel.OpenERModelCommand;
 import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -23,7 +23,7 @@ public class ERModelOutlineEditPart extends AbstractOutlineEditPart implements D
         //		if (evt.getPropertyName().equals(TableSet.PROPERTY_CHANGE_TABLE_SET)) {
         //			refresh();
         //		}
-        if (evt.getPropertyName().equals(ERModel.PROPERTY_CHANGE_VTABLES)) {
+        if (evt.getPropertyName().equals(ERVirtualDiagram.PROPERTY_CHANGE_VTABLES)) {
             refresh();
         }
     }
@@ -56,7 +56,7 @@ public class ERModelOutlineEditPart extends AbstractOutlineEditPart implements D
     }
 
     private void refreshName() {
-        ERModel model = (ERModel) this.getModel();
+        ERVirtualDiagram model = (ERVirtualDiagram) this.getModel();
         //		ERModelSet modelSet = (ERModelSet) this.getModel();
 
         //		ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
@@ -104,7 +104,7 @@ public class ERModelOutlineEditPart extends AbstractOutlineEditPart implements D
 
     @Override
     public void performRequest(Request request) {
-        ERModel model = (ERModel) this.getModel();
+        ERVirtualDiagram model = (ERVirtualDiagram) this.getModel();
         ERDiagram diagram = this.getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
@@ -117,7 +117,7 @@ public class ERModelOutlineEditPart extends AbstractOutlineEditPart implements D
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
     }
 
 }

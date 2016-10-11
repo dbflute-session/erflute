@@ -8,8 +8,8 @@ import java.util.Map;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -29,18 +29,18 @@ import org.dbflute.erflute.editor.model.settings.Settings;
 
 public class CopyManager {
 
-    private static NodeSet copyList = new NodeSet();
+    private static DiagramWalkerSet copyList = new DiagramWalkerSet();
 
     private static int numberOfCopy;
 
-    private Map<NodeElement, NodeElement> nodeElementMap;
+    private Map<DiagramWalker, DiagramWalker> nodeElementMap;
 
-    public static void copy(NodeSet nodeElementList) {
+    public static void copy(DiagramWalkerSet nodeElementList) {
         CopyManager copyManager = new CopyManager();
         copyList = copyManager.copyNodeElementList(nodeElementList);
     }
 
-    public static NodeSet paste() {
+    public static DiagramWalkerSet paste() {
         numberOfCopy++;
         CopyManager copyManager = new CopyManager();
         return copyManager.copyNodeElementList(copyList);
@@ -63,19 +63,19 @@ public class CopyManager {
         return numberOfCopy;
     }
 
-    public Map<NodeElement, NodeElement> getNodeElementMap() {
+    public Map<DiagramWalker, DiagramWalker> getNodeElementMap() {
         return nodeElementMap;
     }
 
-    public NodeSet copyNodeElementList(NodeSet nodeElementList) {
-        NodeSet copyList = new NodeSet();
+    public DiagramWalkerSet copyNodeElementList(DiagramWalkerSet nodeElementList) {
+        DiagramWalkerSet copyList = new DiagramWalkerSet();
 
-        this.nodeElementMap = new HashMap<NodeElement, NodeElement>();
+        this.nodeElementMap = new HashMap<DiagramWalker, DiagramWalker>();
         Map<ERColumn, ERColumn> columnMap = new HashMap<ERColumn, ERColumn>();
         Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, ComplexUniqueKey>();
 
         // �I������Ă���m�[�h��EditPart�ɑ΂��ď������J��Ԃ��܂�
-        for (NodeElement nodeElement : nodeElementList) {
+        for (DiagramWalker nodeElement : nodeElementList) {
 
             if (nodeElement instanceof ModelProperties) {
                 // ���f���v���p�e�B�̏ꍇ�A�������܂���
@@ -83,7 +83,7 @@ public class CopyManager {
             }
 
             // �m�[�h�𕡐����āA�R�s�[���ɒǉ����܂�
-            NodeElement cloneNodeElement = (NodeElement) nodeElement.clone();
+            DiagramWalker cloneNodeElement = (DiagramWalker) nodeElement.clone();
             copyList.addNodeElement(cloneNodeElement);
 
             nodeElementMap.put(nodeElement, cloneNodeElement);
@@ -104,15 +104,15 @@ public class CopyManager {
         Map<ConnectionElement, ConnectionElement> connectionElementMap = new HashMap<ConnectionElement, ConnectionElement>();
 
         // �ڑ��𒣂�Ȃ����܂�
-        for (NodeElement nodeElement : nodeElementMap.keySet()) {
-            NodeElement cloneNodeElement = nodeElementMap.get(nodeElement);
+        for (DiagramWalker nodeElement : nodeElementMap.keySet()) {
+            DiagramWalker cloneNodeElement = nodeElementMap.get(nodeElement);
 
             // �������m�[�h�ɓ����Ă���ڑ��𕡐���ɒ���Ȃ����܂�
             replaceIncoming(nodeElement, cloneNodeElement, connectionElementMap, nodeElementMap);
         }
 
         // �O���L�[�̎Q�Ƃ���蒼���܂�
-        for (NodeElement nodeElement : nodeElementMap.keySet()) {
+        for (DiagramWalker nodeElement : nodeElementMap.keySet()) {
 
             if (nodeElement instanceof ERTable) {
                 ERTable table = (ERTable) nodeElement;
@@ -187,16 +187,16 @@ public class CopyManager {
     /**
      * �������m�[�h�ɓ����Ă���ڑ��𕡐���ɒ���Ȃ����܂�
      */
-    private static void replaceIncoming(NodeElement from, NodeElement to, Map<ConnectionElement, ConnectionElement> connectionElementMap,
-            Map<NodeElement, NodeElement> nodeElementMap) {
+    private static void replaceIncoming(DiagramWalker from, DiagramWalker to, Map<ConnectionElement, ConnectionElement> connectionElementMap,
+            Map<DiagramWalker, DiagramWalker> nodeElementMap) {
         List<ConnectionElement> cloneIncomings = new ArrayList<ConnectionElement>();
 
         // �������m�[�h�ɓ����Ă���ڑ��ɑ΂��ď������J��Ԃ��܂�
         for (ConnectionElement incoming : from.getIncomings()) {
-            NodeElement oldSource = incoming.getSource();
+            DiagramWalker oldSource = incoming.getSource();
 
             // �ڑ����̕������擾���܂�
-            NodeElement newSource = nodeElementMap.get(oldSource);
+            DiagramWalker newSource = nodeElementMap.get(oldSource);
 
             // �ڑ�������������Ă���ꍇ
             if (newSource != null) {
@@ -322,8 +322,8 @@ public class CopyManager {
     public DiagramContents copy(DiagramContents originalDiagramContents) {
         DiagramContents copyDiagramContents = new DiagramContents();
 
-        copyDiagramContents.setContents(this.copyNodeElementList(originalDiagramContents.getContents()));
-        Map<NodeElement, NodeElement> nodeElementMap = this.getNodeElementMap();
+        copyDiagramContents.setDiagramWalkers(this.copyNodeElementList(originalDiagramContents.getDiagramWalkers()));
+        Map<DiagramWalker, DiagramWalker> nodeElementMap = this.getNodeElementMap();
 
         Settings settings = (Settings) originalDiagramContents.getSettings().clone();
         this.setSettings(nodeElementMap, settings);
@@ -340,10 +340,10 @@ public class CopyManager {
         return copyDiagramContents;
     }
 
-    private void setSettings(Map<NodeElement, NodeElement> nodeElementMap, Settings settings) {
+    private void setSettings(Map<DiagramWalker, DiagramWalker> nodeElementMap, Settings settings) {
         for (Category category : settings.getCategorySetting().getAllCategories()) {
-            List<NodeElement> newContents = new ArrayList<NodeElement>();
-            for (NodeElement nodeElement : category.getContents()) {
+            List<DiagramWalker> newContents = new ArrayList<DiagramWalker>();
+            for (DiagramWalker nodeElement : category.getContents()) {
                 newContents.add(nodeElementMap.get(nodeElement));
             }
 
@@ -362,7 +362,7 @@ public class CopyManager {
             columnGroupMap.put(columnGroup, newColumnGroup);
         }
 
-        for (TableView tableView : copyDiagramContents.getContents().getTableViewList()) {
+        for (TableView tableView : copyDiagramContents.getDiagramWalkers().getTableViewList()) {
             List<ERColumn> newColumns = new ArrayList<ERColumn>();
 
             for (ERColumn column : tableView.getColumns()) {
@@ -388,7 +388,7 @@ public class CopyManager {
             wordMap.put(word, newWord);
         }
 
-        for (TableView tableView : copyDiagramContents.getContents().getTableViewList()) {
+        for (TableView tableView : copyDiagramContents.getDiagramWalkers().getTableViewList()) {
             for (NormalColumn normalColumn : tableView.getNormalColumns()) {
                 Word oldWord = normalColumn.getWord();
                 if (oldWord != null) {
@@ -426,7 +426,7 @@ public class CopyManager {
             copyTablespaceSet.addTablespace(newTablespace);
         }
 
-        for (TableView tableView : copyDiagramContents.getContents().getTableViewList()) {
+        for (TableView tableView : copyDiagramContents.getDiagramWalkers().getTableViewList()) {
             TableViewProperties tableProperties = tableView.getTableViewProperties();
             Tablespace oldTablespace = tableProperties.getTableSpace();
 

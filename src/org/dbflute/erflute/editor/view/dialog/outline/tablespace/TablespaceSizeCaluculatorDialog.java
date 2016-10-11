@@ -124,7 +124,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
 
     public void init(ERDiagram diagram) {
         this.diagram = diagram;
-        this.tableList = new ArrayList<ERTable>(this.diagram.getDiagramContents().getContents().getTableSet().getList());
+        this.tableList = new ArrayList<ERTable>(this.diagram.getDiagramContents().getDiagramWalkers().getTableSet().getList());
         Collections.sort(this.tableList);
 
         this.tableNumMap = new HashMap<ERTable, Integer>();

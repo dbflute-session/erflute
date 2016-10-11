@@ -6,9 +6,9 @@ import java.util.List;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.edit.CopyManager;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -54,11 +54,11 @@ public class CopyAction extends SelectionAction {
             return;
         }
         CopyManager.clear();
-        final NodeSet nodeElementList = new NodeSet();
+        final DiagramWalkerSet nodeElementList = new DiagramWalkerSet();
         for (final Object object : getSelectedObjects()) {
-            if (object instanceof NodeElementEditPart) {
-                final NodeElementEditPart editPart = (NodeElementEditPart) object;
-                final NodeElement nodeElement = (NodeElement) editPart.getModel();
+            if (object instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) object;
+                final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
                 nodeElementList.addNodeElement(nodeElement);
             }
         }

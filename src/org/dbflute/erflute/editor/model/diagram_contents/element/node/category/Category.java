@@ -7,24 +7,24 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.settings.CategorySetting;
 
-public class Category extends NodeElement implements IResizable, Comparable<Category> {
+public class Category extends DiagramWalker implements IResizable, Comparable<Category> {
 
     private static final long serialVersionUID = -7691417386790834828L;
 
-    private List<NodeElement> nodeElementList;
+    private List<DiagramWalker> nodeElementList;
     private String name;
 
     public Category() {
-        this.nodeElementList = new ArrayList<NodeElement>();
+        this.nodeElementList = new ArrayList<DiagramWalker>();
     }
 
-    public void setContents(List<NodeElement> contetns) {
+    public void setContents(List<DiagramWalker> contetns) {
         this.nodeElementList = contetns;
         if (this.getWidth() == 0) {
             int categoryX = 0;
@@ -37,7 +37,7 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
                 categoryWidth = nodeElementList.get(0).getWidth();
                 categoryHeight = nodeElementList.get(0).getHeight();
 
-                for (final NodeElement nodeElement : nodeElementList) {
+                for (final DiagramWalker nodeElement : nodeElementList) {
                     final int x = nodeElement.getX();
                     final int y = nodeElement.getY();
                     int width = nodeElement.getWidth();
@@ -67,18 +67,18 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
         }
     }
 
-    public boolean contains(NodeElement nodeElement) {
+    public boolean contains(DiagramWalker nodeElement) {
         return this.nodeElementList.contains(nodeElement);
     }
 
-    public boolean isVisible(NodeElement nodeElement, ERDiagram diagram) {
+    public boolean isVisible(DiagramWalker nodeElement, ERDiagram diagram) {
         boolean isVisible = false;
         if (this.contains(nodeElement)) {
             isVisible = true;
         } else {
             final CategorySetting categorySettings = diagram.getDiagramContents().getSettings().getCategorySetting();
             if (categorySettings.isShowReferredTables()) {
-                for (final NodeElement referringElement : nodeElement.getReferringElementList()) {
+                for (final DiagramWalker referringElement : nodeElement.getReferringElementList()) {
                     if (this.contains(referringElement)) {
                         isVisible = true;
                         break;
@@ -98,13 +98,13 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
         this.name = name;
     }
 
-    public List<NodeElement> getContents() {
+    public List<DiagramWalker> getContents() {
         return nodeElementList;
     }
 
     public List<ERTable> getTableContents() {
         final List<ERTable> tableList = new ArrayList<ERTable>();
-        for (final NodeElement nodeElement : this.nodeElementList) {
+        for (final DiagramWalker nodeElement : this.nodeElementList) {
             if (nodeElement instanceof ERTable) {
                 tableList.add((ERTable) nodeElement);
             }
@@ -114,7 +114,7 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
 
     public List<ERView> getViewContents() {
         final List<ERView> viewList = new ArrayList<ERView>();
-        for (final NodeElement nodeElement : this.nodeElementList) {
+        for (final DiagramWalker nodeElement : this.nodeElementList) {
             if (nodeElement instanceof ERView) {
                 viewList.add((ERView) nodeElement);
             }
@@ -124,7 +124,7 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
 
     public List<TableView> getTableViewContents() {
         final List<TableView> tableList = new ArrayList<TableView>();
-        for (final NodeElement nodeElement : this.nodeElementList) {
+        for (final DiagramWalker nodeElement : this.nodeElementList) {
             if (nodeElement instanceof TableView) {
                 tableList.add((TableView) nodeElement);
             }

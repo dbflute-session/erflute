@@ -13,14 +13,14 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.no
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.category.MoveCategoryCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.CategoryEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.VGroupEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementSelectionEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerSelectionEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -60,15 +60,15 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
 
     @Override
     protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
-        if (!(child instanceof NodeElementEditPart)) {
+        if (!(child instanceof DiagramWalkerEditPart)) {
             return null;
         }
         try {
             final Rectangle rectangle = (Rectangle) constraint;
             @SuppressWarnings("unchecked")
             final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
-            final NodeElementEditPart editPart = (NodeElementEditPart) child;
-            final NodeElement nodeElement = (NodeElement) editPart.getModel();
+            final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
+            final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
             final Rectangle currentRectangle = editPart.getFigure().getBounds();
             boolean move = false;
             if (rectangle.width == currentRectangle.width && rectangle.height == currentRectangle.height) {
@@ -142,8 +142,8 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     @Override
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
         final Rectangle rectangle = (Rectangle) constraint;
-        final NodeElementEditPart editPart = (NodeElementEditPart) child;
-        final NodeElement nodeElement = (NodeElement) editPart.getModel();
+        final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
+        final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
         final Rectangle currentRectangle = editPart.getFigure().getBounds();
         boolean move = false;
         if (rectangle.width == currentRectangle.width && rectangle.height == currentRectangle.height) {
@@ -183,7 +183,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     private Category getOtherCategory(Category category) {
         final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
         final List<Category> selectedCategories = diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories();
-        for (final NodeElement nodeElement : category.getContents()) {
+        for (final DiagramWalker nodeElement : category.getContents()) {
             for (final Category otherCategory : selectedCategories) {
                 if (otherCategory != category && !isSelected(otherCategory)) {
                     if (otherCategory.contains(nodeElement)) {
@@ -252,8 +252,8 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
         @SuppressWarnings("unchecked")
         final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
         for (final Object object : selectedEditParts) {
-            if (object instanceof NodeElementEditPart) {
-                final NodeElementEditPart editPart = (NodeElementEditPart) object;
+            if (object instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) object;
                 if (editPart.getModel() == category) {
                     return true;
                 }
@@ -307,21 +307,21 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
         final AbstractModelEditPart editPart = (AbstractModelEditPart) this.getHost();
         final Point point = request.getLocation();
         editPart.getFigure().translateToRelative(point);
-        final NodeElement element = (NodeElement) request.getNewObject(); // e.g. table, note
+        final DiagramWalker element = (DiagramWalker) request.getNewObject(); // e.g. table, note
         final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
         Dimension size = request.getSize();
-        final List<NodeElement> enclosedElementList = new ArrayList<NodeElement>();
+        final List<DiagramWalker> enclosedElementList = new ArrayList<DiagramWalker>();
         if (size != null) {
             final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
             final double zoom = zoomManager.getZoom();
             size = new Dimension((int) (size.width / zoom), (int) (size.height / zoom));
             for (final Object child : editPart.getChildren()) {
-                if (child instanceof NodeElementEditPart) {
-                    final NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) child;
+                if (child instanceof DiagramWalkerEditPart) {
+                    final DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) child;
                     final Rectangle bounds = nodeElementEditPart.getFigure().getBounds();
                     if (bounds.x > point.x && bounds.x + bounds.width < point.x + size.width && bounds.y > point.y
                             && bounds.y + bounds.height < point.y + size.height) {
-                        enclosedElementList.add((NodeElement) nodeElementEditPart.getModel());
+                        enclosedElementList.add((DiagramWalker) nodeElementEditPart.getModel());
                     }
                 }
             }
@@ -331,7 +331,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
 
     @Override
     protected EditPolicy createChildEditPolicy(EditPart child) {
-        return new NodeElementSelectionEditPolicy();
+        return new DiagramWalkerSelectionEditPolicy();
     }
 
     @Override

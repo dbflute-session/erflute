@@ -119,10 +119,9 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
 /**
- * #analyze may be view diagram, created by ERFluteMultiPageEditor
  * @author modified by jflute (originated in ermaster)
  */
-public class RealModelEditor extends GraphicalEditorWithPalette {
+public class MainDiagramEditor extends GraphicalEditorWithPalette { // created by ERFluteMultiPageEditor
 
     // ===================================================================================
     //                                                                          Definition
@@ -148,7 +147,7 @@ public class RealModelEditor extends GraphicalEditorWithPalette {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public RealModelEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
+    public MainDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         this.setEditDomain(new DefaultEditDomain(this));
         this.diagram = diagram;

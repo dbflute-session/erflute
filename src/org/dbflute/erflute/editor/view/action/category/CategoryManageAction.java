@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.category;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.settings.Settings;
@@ -15,7 +15,7 @@ public class CategoryManageAction extends AbstractBaseAction {
 
     public static final String ID = CategoryManageAction.class.getName();
 
-    public CategoryManageAction(RealModelEditor editor) {
+    public CategoryManageAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.category.manage"), editor);
     }
 

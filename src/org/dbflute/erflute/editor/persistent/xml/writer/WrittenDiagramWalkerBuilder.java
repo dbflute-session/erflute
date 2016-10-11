@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bend
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class WrittenNodeElementBuilder {
+public class WrittenDiagramWalkerBuilder {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -26,7 +26,7 @@ public class WrittenNodeElementBuilder {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenNodeElementBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic) {
+    public WrittenDiagramWalkerBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
     }
@@ -34,28 +34,28 @@ public class WrittenNodeElementBuilder {
     // ===================================================================================
     //                                                                        Node Element
     //                                                                        ============
-    public String buildNodeElement(NodeElement nodeElement, PersistentContext context) {
+    public String buildNodeElement(DiagramWalker walker, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        if (nodeElement.isUsePersistentId()) {
-            final String id = context.nodeElementMap.get(nodeElement);
+        if (walker.isUsePersistentId()) {
+            final String id = context.diagramWalkerMap.get(walker);
             if (id != null) { // null allowed when e.g. modelProperties
                 xml.append("<id>").append(Format.toString(id)).append("</id>\n");
             }
         }
-        final int height = nodeElement.getHeight();
+        final int height = walker.getHeight();
         if (height >= 0) {
             xml.append("<height>").append(height).append("</height>\n");
         }
-        final int width = nodeElement.getWidth();
+        final int width = walker.getWidth();
         if (width >= 0) {
             xml.append("<width>").append(width).append("</width>\n");
         }
-        xml.append("<font_name>").append(escape(nodeElement.getFontName())).append("</font_name>\n");
-        xml.append("<font_size>").append(nodeElement.getFontSize()).append("</font_size>\n");
-        xml.append("<x>").append(nodeElement.getX()).append("</x>\n");
-        xml.append("<y>").append(nodeElement.getY()).append("</y>\n");
-        xml.append(assistLogic.buildColor(nodeElement.getColor()));
-        xml.append(buildConnections(nodeElement.getIncomings(), context));
+        xml.append("<font_name>").append(escape(walker.getFontName())).append("</font_name>\n");
+        xml.append("<font_size>").append(walker.getFontSize()).append("</font_size>\n");
+        xml.append("<x>").append(walker.getX()).append("</x>\n");
+        xml.append("<y>").append(walker.getY()).append("</y>\n");
+        xml.append(assistLogic.buildColor(walker.getColor()));
+        xml.append(buildConnections(walker.getIncomings(), context));
         return xml.toString();
     }
 
@@ -157,8 +157,8 @@ public class WrittenNodeElementBuilder {
         if (!(connection instanceof Relationship)) {
             xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
         }
-        final String sourceId = context.nodeElementMap.get(connection.getSource());
-        final String targetId = context.nodeElementMap.get(connection.getTarget());
+        final String sourceId = context.diagramWalkerMap.get(connection.getSource());
+        final String targetId = context.diagramWalkerMap.get(connection.getTarget());
         xml.append("<source>").append(sourceId).append("</source>\n"); // e.g. MEMBER_STATUS
         xml.append("<target>").append(targetId).append("</target>\n"); // e.g. MEMBER
         for (final Bendpoint bendpoint : connection.getBendpoints()) {

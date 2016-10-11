@@ -9,7 +9,7 @@ import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -74,7 +74,7 @@ public class ReadAssistLogic {
     // ===================================================================================
     //                                                                            Location
     //                                                                            ========
-    public void loadLocation(NodeElement nodeElement, Element element) {
+    public void loadLocation(DiagramWalker nodeElement, Element element) {
         final int x = getIntValue(element, "x");
         final int y = getIntValue(element, "y");
         final int width = getIntValue(element, "width", -1);

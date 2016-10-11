@@ -2,15 +2,15 @@ package org.dbflute.erflute.editor.controller.command.common;
 
 import java.util.ArrayList;
 
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -27,7 +27,7 @@ public class PasteCommand extends AbstractCommand {
     private GraphicalViewer viewer;
 
     // 貼り付け対象の一覧
-    private NodeSet nodeElements;
+    private DiagramWalkerSet nodeElements;
 
     // 貼り付け時に追加するグループ列の一覧
     private GroupSet columnGroups;
@@ -40,14 +40,14 @@ public class PasteCommand extends AbstractCommand {
      * @param x
      * @param y
      */
-    public PasteCommand(RealModelEditor editor, NodeSet nodeElements, int x, int y) {
+    public PasteCommand(MainDiagramEditor editor, DiagramWalkerSet nodeElements, int x, int y) {
         this.viewer = editor.getGraphicalViewer();
         Object model = viewer.getContents().getModel();
         if (model instanceof ERDiagram) {
             this.diagram = (ERDiagram) model;
         }
-        if (model instanceof ERModel) {
-            this.diagram = ((ERModel) model).getDiagram();
+        if (model instanceof ERVirtualDiagram) {
+            this.diagram = ((ERVirtualDiagram) model).getDiagram();
         }
 
         this.nodeElements = nodeElements;
@@ -55,7 +55,7 @@ public class PasteCommand extends AbstractCommand {
         this.columnGroups = new GroupSet();
 
         // 貼り付け対象に対して処理を繰り返します
-        for (NodeElement nodeElement : nodeElements) {
+        for (DiagramWalker nodeElement : nodeElements) {
             nodeElement.setLocation(new Location(nodeElement.getX() + x, nodeElement.getY() + y, nodeElement.getWidth(), nodeElement
                     .getHeight()));
 
@@ -104,7 +104,7 @@ public class PasteCommand extends AbstractCommand {
         GroupSet columnGroupSet = this.diagram.getDiagramContents().getGroups();
 
         // 図にノードを追加します。
-        for (NodeElement nodeElement : this.nodeElements) {
+        for (DiagramWalker nodeElement : this.nodeElements) {
             if (nodeElement instanceof ERVirtualTable) {
                 this.diagram.addContent(((ERVirtualTable) nodeElement).getRawTable());
             } else {
@@ -137,7 +137,7 @@ public class PasteCommand extends AbstractCommand {
         GroupSet columnGroupSet = this.diagram.getDiagramContents().getGroups();
 
         // 図からノードを削除します。
-        for (NodeElement nodeElement : this.nodeElements) {
+        for (DiagramWalker nodeElement : this.nodeElements) {
             this.diagram.removeContent(nodeElement);
         }
 
@@ -157,7 +157,7 @@ public class PasteCommand extends AbstractCommand {
      */
     private void setFocus() {
         // 貼り付けられたテーブルを選択状態にします。
-        for (NodeElement nodeElement : this.nodeElements) {
+        for (DiagramWalker nodeElement : this.nodeElements) {
             EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(nodeElement);
 
             if (editPart != null) {

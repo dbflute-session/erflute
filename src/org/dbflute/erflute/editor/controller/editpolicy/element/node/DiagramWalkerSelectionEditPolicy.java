@@ -16,7 +16,7 @@ import org.eclipse.gef.handles.NonResizableHandleKit;
 import org.eclipse.gef.handles.ResizableHandleKit;
 import org.eclipse.gef.handles.ResizeHandle;
 
-public class NodeElementSelectionEditPolicy extends ResizableEditPolicy {
+public class DiagramWalkerSelectionEditPolicy extends ResizableEditPolicy {
 
     @SuppressWarnings("unchecked")
     @Override

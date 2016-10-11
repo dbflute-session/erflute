@@ -14,12 +14,12 @@ public class ReadImageLoader {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
-    protected final ReadNodeElementLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader nodeElementLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadImageLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadNodeElementLoader nodeElementLoader) {
+    public ReadImageLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementLoader = nodeElementLoader;

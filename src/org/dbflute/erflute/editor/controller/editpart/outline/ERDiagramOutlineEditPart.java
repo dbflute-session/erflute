@@ -9,7 +9,7 @@ import java.util.Map;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
@@ -27,19 +27,19 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     protected List getModelChildren() {
-        List<AbstractModel> modelChildren = new ArrayList<AbstractModel>();
-        ERDiagram diagram = (ERDiagram) this.getModel();
-        DiagramContents diagramContents = diagram.getDiagramContents();
+        final List<AbstractModel> modelChildren = new ArrayList<AbstractModel>();
+        final ERDiagram diagram = (ERDiagram) this.getModel();
+        final DiagramContents diagramContents = diagram.getDiagramContents();
 
         if (quickMode) {
-            modelChildren.add(diagramContents.getContents().getTableSet());
+            modelChildren.add(diagramContents.getDiagramWalkers().getTableSet());
         } else {
             modelChildren.add(diagramContents.getModelSet());
             //			modelChildren.add(diagramContents.getContents().getErmodelSet());
             //			modelChildren.add(diagramContents.getDictionary());
             modelChildren.add(diagramContents.getGroups());
-            modelChildren.add(diagramContents.getContents().getTableSet());
-            modelChildren.add(diagramContents.getContents().getViewSet());
+            modelChildren.add(diagramContents.getDiagramWalkers().getTableSet());
+            modelChildren.add(diagramContents.getDiagramWalkers().getViewSet());
             modelChildren.add(diagramContents.getTriggerSet());
             modelChildren.add(diagramContents.getSequenceSet());
             //			modelChildren.add(diagramContents.getIndexSet());
@@ -49,6 +49,7 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
         return modelChildren;
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL) || evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
             refresh();
@@ -76,8 +77,8 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
      */
     @Override
     protected void refreshOutlineVisuals() {
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : this.getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }
@@ -85,31 +86,23 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
     @Override
     public EditPart getTargetEditPart(Request request) {
         if (request instanceof ChangeBoundsRequest) {
-            ChangeBoundsRequest breq = (ChangeBoundsRequest) request;
-
+            final ChangeBoundsRequest breq = (ChangeBoundsRequest) request;
         }
-        // TODO Auto-generated method stub
         return super.getTargetEditPart(request);
     }
 
-    private Map<NodeElement, EditPart> getModelToEditPart() {
-        Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
-        List children = getChildren();
-
+    private Map<DiagramWalker, EditPart> getModelToEditPart() {
+        final Map<DiagramWalker, EditPart> modelToEditPart = new HashMap<DiagramWalker, EditPart>();
+        final List children = getChildren();
         for (int i = 0; i < children.size(); i++) {
-            EditPart editPart = (EditPart) children.get(i);
-            modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
+            final EditPart editPart = (EditPart) children.get(i);
+            modelToEditPart.put((DiagramWalker) editPart.getModel(), editPart);
         }
 
         return modelToEditPart;
     }
 
-    /**
-     * quickMode��ݒ肵�܂��B
-     * @param quickMode quickMode
-     */
     public void setQuickMode(boolean quickMode) {
         this.quickMode = quickMode;
     }
-
 }

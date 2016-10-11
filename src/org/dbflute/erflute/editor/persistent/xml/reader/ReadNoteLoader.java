@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.persistent.xml.reader;
 
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
@@ -15,12 +15,12 @@ public class ReadNoteLoader {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
-    protected final ReadNodeElementLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader nodeElementLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadNoteLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadNodeElementLoader nodeElementLoader) {
+    public ReadNoteLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementLoader = nodeElementLoader;
@@ -33,15 +33,15 @@ public class ReadNoteLoader {
         return doLoadNote(element, context, null);
     }
 
-    public Note loadNote(Element element, LoadContext context, ERModel model) { // for virtual
+    public Note loadNote(Element element, LoadContext context, ERVirtualDiagram model) { // for virtual
         return doLoadNote(element, context, model);
     }
 
-    private Note doLoadNote(Element element, LoadContext context, ERModel model) {
+    private Note doLoadNote(Element element, LoadContext context, ERVirtualDiagram model) {
         final Note note = new Note();
         note.setText(getStringValue(element, "text"));
         if (model != null) {
-            note.setModel(model);
+            note.setVirtualDiagram(model);
         }
         nodeElementLoader.loadNodeElement(note, element, context);
         return note;

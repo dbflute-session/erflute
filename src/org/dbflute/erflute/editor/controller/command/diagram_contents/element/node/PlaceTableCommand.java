@@ -3,9 +3,9 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.n
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.editor.VirtualModelEditor;
+import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ErrorDialog;
@@ -35,7 +35,7 @@ public class PlaceTableCommand extends AbstractCommand {
 
         if (orgTables != null) {
             // �����z�u
-            VirtualModelEditor modelEditor = (VirtualModelEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
 
             Point cursorLocation = Display.getCurrent().getCursorLocation();
             Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
@@ -54,7 +54,7 @@ public class PlaceTableCommand extends AbstractCommand {
                 if (cantPlace)
                     continue;
 
-                ERModel model = curTable.getDiagram().getCurrentErmodel();
+                ERVirtualDiagram model = curTable.getDiagram().getCurrentErmodel();
 
                 virtualTable = new ERVirtualTable(model, curTable);
                 virtualTable.setPoint(point.x, point.y);
@@ -69,7 +69,7 @@ public class PlaceTableCommand extends AbstractCommand {
         } else {
             ERTable curTable = orgTable;
 
-            VirtualModelEditor modelEditor = (VirtualModelEditor) curTable.getDiagram().getEditor().getActiveEditor();
+            VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) curTable.getDiagram().getEditor().getActiveEditor();
 
             // ���Ƀr���[��ɓ���e�[�u������������u���Ȃ�
             for (ERVirtualTable vtable : modelEditor.getModel().getTables()) {
@@ -88,7 +88,7 @@ public class PlaceTableCommand extends AbstractCommand {
             point.x += canvas.getHorizontalBar().getSelection();
             point.y += canvas.getVerticalBar().getSelection();
 
-            ERModel model = curTable.getDiagram().getCurrentErmodel();
+            ERVirtualDiagram model = curTable.getDiagram().getCurrentErmodel();
 
             virtualTable = new ERVirtualTable(model, curTable);
             virtualTable.setPoint(point.x, point.y);
@@ -101,19 +101,19 @@ public class PlaceTableCommand extends AbstractCommand {
     @Override
     protected void doUndo() {
         if (orgTables != null) {
-            ERModel model = orgTables.get(0).getDiagram().getCurrentErmodel();
+            ERVirtualDiagram model = orgTables.get(0).getDiagram().getCurrentErmodel();
 
             for (ERVirtualTable vtable : virtualTables) {
                 model.remove(vtable);
             }
 
-            VirtualModelEditor modelEditor = (VirtualModelEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         } else {
-            ERModel model = orgTable.getDiagram().getCurrentErmodel();
+            ERVirtualDiagram model = orgTable.getDiagram().getCurrentErmodel();
             model.remove(virtualTable);
 
-            VirtualModelEditor modelEditor = (VirtualModelEditor) orgTable.getDiagram().getEditor().getActiveEditor();
+            VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTable.getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         }
     }

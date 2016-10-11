@@ -57,7 +57,7 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
     public List<TableView> getUsedTalbeList(ERDiagram diagram) {
         final List<TableView> usedTableList = new ArrayList<TableView>();
 
-        for (final TableView table : diagram.getDiagramContents().getContents().getTableViewList()) {
+        for (final TableView table : diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
             for (final ERColumn tableColumn : table.getColumns()) {
                 if (tableColumn == this) {
                     usedTableList.add(table);

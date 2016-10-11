@@ -12,8 +12,8 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -35,7 +35,7 @@ public class PersistentXml extends Persistent {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public class PersistentContext {
-        public final Map<NodeElement, String> nodeElementMap = new LinkedHashMap<NodeElement, String>();
+        public final Map<DiagramWalker, String> diagramWalkerMap = new LinkedHashMap<DiagramWalker, String>();
         public final Map<ConnectionElement, String> connectionMap = new LinkedHashMap<ConnectionElement, String>();
         public final Map<ColumnGroup, Integer> columnGroupMap = new LinkedHashMap<ColumnGroup, Integer>();
         public final Map<ERColumn, String> columnMap = new LinkedHashMap<ERColumn, String>(); // column = ID
@@ -43,7 +43,7 @@ public class PersistentXml extends Persistent {
         public final Map<Word, Integer> wordMap = new LinkedHashMap<Word, Integer>();
         public final Map<Tablespace, Integer> tablespaceMap = new LinkedHashMap<Tablespace, Integer>();
         public final Map<Environment, Integer> environmentMap = new LinkedHashMap<Environment, Integer>();
-        public final Map<ERModel, Integer> ermodelMap = new LinkedHashMap<ERModel, Integer>();
+        public final Map<ERVirtualDiagram, Integer> virtualDiagramMap = new LinkedHashMap<ERVirtualDiagram, Integer>();
     }
 
     public PersistentContext getCurrentContext(ERDiagram diagram) { // called by writer
@@ -65,19 +65,19 @@ public class PersistentXml extends Persistent {
         int nodeElementNo = 1;
         int connectionNo = 1;
         int complexUniqueKeyNo = 1;
-        for (final NodeElement nodeElement : diagramContents.getContents()) {
+        for (final DiagramWalker walker : diagramContents.getDiagramWalkers()) {
             final String nodeElementId;
-            if (nodeElement instanceof TableView) {
-                nodeElementId = ((TableView) nodeElement).buildTableViewId();
+            if (walker instanceof TableView) {
+                nodeElementId = ((TableView) walker).buildTableViewId();
             } else {
                 nodeElementId = String.valueOf(nodeElementNo);
             }
-            context.nodeElementMap.put(nodeElement, nodeElementId);
+            context.diagramWalkerMap.put(walker, nodeElementId);
             nodeElementNo++;
-            final List<ConnectionElement> connections = nodeElement.getIncomings();
+            final List<ConnectionElement> connections = walker.getIncomings();
             for (final ConnectionElement connection : connections) {
                 final String connectionId;
-                if (nodeElement instanceof TableView && connection instanceof Relationship) {
+                if (walker instanceof TableView && connection instanceof Relationship) {
                     // basically relationship's parent is table but just in case
                     connectionId = ((Relationship) connection).buildRelationshipId();
                 } else {
@@ -86,8 +86,8 @@ public class PersistentXml extends Persistent {
                 context.connectionMap.put(connection, connectionId);
                 connectionNo++;
             }
-            if (nodeElement instanceof ERTable) {
-                final ERTable table = (ERTable) nodeElement;
+            if (walker instanceof ERTable) {
+                final ERTable table = (ERTable) walker;
                 final List<ERColumn> columns = table.getColumns();
                 for (final ERColumn column : columns) {
                     if (column instanceof NormalColumn) {
@@ -139,8 +139,8 @@ public class PersistentXml extends Persistent {
 
     private void setupVirtualModel(DiagramContents diagramContents, final PersistentContext context) {
         int virtualModelNo = 1;
-        for (final ERModel model : diagramContents.getModelSet()) {
-            context.ermodelMap.put(model, virtualModelNo);
+        for (final ERVirtualDiagram model : diagramContents.getModelSet()) {
+            context.virtualDiagramMap.put(model, virtualModelNo);
             virtualModelNo++;
         }
     }

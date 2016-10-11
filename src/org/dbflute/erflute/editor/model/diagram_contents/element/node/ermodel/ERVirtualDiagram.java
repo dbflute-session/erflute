@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ERModel extends NodeElement {
+public class ERVirtualDiagram extends DiagramWalker {
 
     private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_VTABLES = "vtables";
@@ -26,7 +26,7 @@ public class ERModel extends NodeElement {
     private List<Note> notes;
     private List<VGroup> groups;
 
-    public ERModel(ERDiagram diagram) {
+    public ERVirtualDiagram(ERDiagram diagram) {
         setDiagram(diagram);
         tables = new ArrayList<ERVirtualTable>();
         notes = new ArrayList<Note>();
@@ -106,9 +106,9 @@ public class ERModel extends NodeElement {
         return false;
     }
 
-    public void addNewContent(NodeElement element) {
+    public void addNewContent(DiagramWalker element) {
         if (element instanceof Note) {
-            ((Note) element).setModel(this);
+            ((Note) element).setVirtualDiagram(this);
         } else if (element instanceof VGroup) {
             ((VGroup) element).setModel(this);
         } else {
@@ -166,6 +166,10 @@ public class ERModel extends NodeElement {
     @Override
     public boolean isIndenpendentOnModel() {
         return false;
+    }
+
+    public String buildVirtualDiagramId() {
+        return name + "_" + hashCode();
     }
 
     // ===================================================================================

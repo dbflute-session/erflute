@@ -1,10 +1,10 @@
 package org.dbflute.erflute.editor.view.action.ermodel;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.VirtualModelEditor;
+import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.ChangeVGroupCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.category.VGroupManageDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -15,7 +15,7 @@ public class VGroupManageAction extends AbstractBaseAction {
 
     public static final String ID = VGroupManageAction.class.getName();
 
-    public VGroupManageAction(VirtualModelEditor editor) {
+    public VGroupManageAction(VirtualDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.vgroup.manage"), editor);
     }
 
@@ -26,8 +26,8 @@ public class VGroupManageAction extends AbstractBaseAction {
     public void execute(Event event) {
         final ERDiagram diagram = this.getDiagram();
 
-        final ERModel model = ((VirtualModelEditor) getEditorPart()).getModel();
-        final ERModel newModel = (ERModel) model.clone();
+        final ERVirtualDiagram model = ((VirtualDiagramEditor) getEditorPart()).getModel();
+        final ERVirtualDiagram newModel = (ERVirtualDiagram) model.clone();
 
         final VGroupManageDialog dialog = new VGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), newModel);
 

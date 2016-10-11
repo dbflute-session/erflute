@@ -10,7 +10,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 
 public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
@@ -19,13 +19,13 @@ public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
     protected List getModelChildren() {
         ERModelSet modelSet = (ERModelSet) this.getModel();
 
-        List<ERModel> list = new ArrayList<ERModel>();
-        for (ERModel table : modelSet) {
+        List<ERVirtualDiagram> list = new ArrayList<ERVirtualDiagram>();
+        for (ERVirtualDiagram table : modelSet) {
             list.add(table);
         }
-        Collections.sort(list, new Comparator<ERModel>() {
+        Collections.sort(list, new Comparator<ERVirtualDiagram>() {
             @Override
-            public int compare(ERModel o1, ERModel o2) {
+            public int compare(ERVirtualDiagram o1, ERVirtualDiagram o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         });

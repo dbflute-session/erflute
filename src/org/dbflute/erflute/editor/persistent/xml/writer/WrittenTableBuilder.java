@@ -21,7 +21,7 @@ public class WrittenTableBuilder {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenNodeElementBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
     protected final WrittenColumnBuilder columnBuilder;
     protected final WrittenIndexBuilder indexBuilder;
     protected final WrittenUniqueKeyBuilder uniqueKeyBuilder;
@@ -30,7 +30,7 @@ public class WrittenTableBuilder {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenTableBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenNodeElementBuilder nodeElementBuilder,
+    public WrittenTableBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder,
             WrittenColumnBuilder columnBuilder, WrittenIndexBuilder indexBuilder, WrittenUniqueKeyBuilder uniqueKeyBuilder,
             WrittenTablePropertiesBuilder tablePropertiesBuilder) {
         this.persistentXml = persistentXml;

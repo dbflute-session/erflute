@@ -6,13 +6,13 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -23,7 +23,7 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
 
     public static final String ID = ResizeModelAction.class.getName();
 
-    public ResizeModelAction(RealModelEditor editor) {
+    public ResizeModelAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.auto.resize"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.RESIZE));
     }
@@ -36,10 +36,10 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
         List<Command> commandList = new ArrayList<Command>();
 
         if (editPart instanceof IResizable) {
-            NodeElement nodeElement = (NodeElement) editPart.getModel();
+            DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
 
             MoveElementCommand command =
-                    new MoveElementCommand(this.getDiagram(), ((NodeElementEditPart) editPart).getFigure().getBounds(), nodeElement.getX(),
+                    new MoveElementCommand(this.getDiagram(), ((DiagramWalkerEditPart) editPart).getFigure().getBounds(), nodeElement.getX(),
                             nodeElement.getY(), -1, -1, nodeElement);
 
             commandList.add(command);
@@ -56,8 +56,8 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
         GraphicalViewer viewer = this.getGraphicalViewer();
 
         for (Object object : viewer.getSelectedEditParts()) {
-            if (object instanceof NodeElementEditPart) {
-                NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) object;
+            if (object instanceof DiagramWalkerEditPart) {
+                DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) object;
 
                 if (nodeElementEditPart instanceof ERTableEditPart || nodeElementEditPart instanceof NoteEditPart) {
                     return true;

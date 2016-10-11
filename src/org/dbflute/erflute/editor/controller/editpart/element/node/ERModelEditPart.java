@@ -10,8 +10,8 @@ import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.editor.controller.editpolicy.ERDiagramLayoutEditPolicy;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.view.drag_drop.ERDiagramTransferDragSourceListener;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
@@ -21,12 +21,12 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.swt.graphics.Color;
 
-public class ERModelEditPart extends NodeElementEditPart {
+public class ERModelEditPart extends DiagramWalkerEditPart {
 
     @Override
     public void doPropertyChange(PropertyChangeEvent event) {
 
-        if (event.getPropertyName().equals(ERModel.PROPERTY_CHANGE_VTABLES)) {
+        if (event.getPropertyName().equals(ERVirtualDiagram.PROPERTY_CHANGE_VTABLES)) {
             this.refreshChildren();
             this.refresh();
         } else if (event.getPropertyName().equals(ConnectionElement.PROPERTY_CHANGE_CONNECTION)) {
@@ -52,7 +52,7 @@ public class ERModelEditPart extends NodeElementEditPart {
     @Override
     protected List getModelChildren() {
         final List<Object> modelChildren = new ArrayList<Object>();
-        final ERModel model = (ERModel) this.getModel();
+        final ERVirtualDiagram model = (ERVirtualDiagram) this.getModel();
         modelChildren.addAll(model.getGroups());
         modelChildren.addAll(model.getTables());
         modelChildren.addAll(model.getNotes());
@@ -83,7 +83,7 @@ public class ERModelEditPart extends NodeElementEditPart {
 
     @Override
     public void refreshVisuals() {
-        final ERModel element = (ERModel) this.getModel();
+        final ERVirtualDiagram element = (ERVirtualDiagram) this.getModel();
 
         final int[] color = element.getColor();
 
@@ -93,8 +93,8 @@ public class ERModelEditPart extends NodeElementEditPart {
         }
 
         for (final Object child : this.getChildren()) {
-            if (child instanceof NodeElementEditPart) {
-                final NodeElementEditPart part = (NodeElementEditPart) child;
+            if (child instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;
                 part.refreshVisuals();
             }
         }
@@ -113,20 +113,20 @@ public class ERModelEditPart extends NodeElementEditPart {
 
     public void refreshRelations() {
         for (final Object child : this.getChildren()) {
-            if (child instanceof NodeElementEditPart) {
-                final NodeElementEditPart part = (NodeElementEditPart) child;
+            if (child instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;
                 part.refreshConnections();
             }
         }
     }
 
-    private Map<NodeElement, EditPart> getModelToEditPart() {
-        final Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
+    private Map<DiagramWalker, EditPart> getModelToEditPart() {
+        final Map<DiagramWalker, EditPart> modelToEditPart = new HashMap<DiagramWalker, EditPart>();
         final List children = getChildren();
 
         for (int i = 0; i < children.size(); i++) {
             final EditPart editPart = (EditPart) children.get(i);
-            modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
+            modelToEditPart.put((DiagramWalker) editPart.getModel(), editPart);
         }
 
         return modelToEditPart;

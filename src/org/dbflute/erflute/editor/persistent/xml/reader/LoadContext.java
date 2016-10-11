@@ -8,8 +8,8 @@ import java.util.Set;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
@@ -28,13 +28,13 @@ public class LoadContext {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    public final Map<String, NodeElement> nodeElementMap; // ID = node
+    public final Map<String, DiagramWalker> nodeElementMap; // ID = node
     public final Map<String, NormalColumn> columnMap; // ID = column
     public final Map<String, ComplexUniqueKey> complexUniqueKeyMap;
     public final Map<NormalColumn, String[]> columnRelationMap;
     public final Map<NormalColumn, String[]> columnReferencedColumnMap;
     public final Map<String, ColumnGroup> columnGroupMap;
-    public final Map<String, ERModel> ermodelMap;
+    public final Map<String, ERVirtualDiagram> virtualDiagramMap;
     public final Map<Relationship, String> referencedColumnMap; // relationship = column ID
     public final Map<Relationship, String> referencedComplexUniqueKeyMap;
     public final Map<ConnectionElement, String> connectionSourceMap;
@@ -50,12 +50,12 @@ public class LoadContext {
     //                                                                         Constructor
     //                                                                         ===========
     public LoadContext(Dictionary dictionary) {
-        this.nodeElementMap = new LinkedHashMap<String, NodeElement>();
+        this.nodeElementMap = new LinkedHashMap<String, DiagramWalker>();
         this.columnMap = new LinkedHashMap<String, NormalColumn>();
         this.complexUniqueKeyMap = new LinkedHashMap<String, ComplexUniqueKey>();
         this.columnRelationMap = new LinkedHashMap<NormalColumn, String[]>();
         this.columnReferencedColumnMap = new LinkedHashMap<NormalColumn, String[]>();
-        this.ermodelMap = new LinkedHashMap<String, ERModel>();
+        this.virtualDiagramMap = new LinkedHashMap<String, ERVirtualDiagram>();
         this.columnGroupMap = new LinkedHashMap<String, ColumnGroup>();
         this.referencedColumnMap = new LinkedHashMap<Relationship, String>();
         this.referencedComplexUniqueKeyMap = new LinkedHashMap<Relationship, String>();
@@ -76,7 +76,7 @@ public class LoadContext {
     public void resolve() { // called by reader
         for (final ConnectionElement connection : connectionSourceMap.keySet()) {
             final String id = connectionSourceMap.get(connection);
-            final NodeElement nodeElement = nodeElementMap.get(id);
+            final DiagramWalker nodeElement = nodeElementMap.get(id);
             if (nodeElement == null) { // what should I do? by jflute
                 System.out.println("*error, Not found the source ID: " + id + ", connection=" + connection + ", existingKeys="
                         + nodeElementMap.keySet());
@@ -85,7 +85,7 @@ public class LoadContext {
         }
         for (final ConnectionElement connection : connectionTargetMap.keySet()) {
             final String id = connectionTargetMap.get(connection);
-            final NodeElement nodeElement = nodeElementMap.get(id);
+            final DiagramWalker nodeElement = nodeElementMap.get(id);
             if (nodeElement == null) {
                 System.out.println("*error, Not found the target ID: " + id + ", connection=" + connection + ", existingKeys="
                         + nodeElementMap.keySet());

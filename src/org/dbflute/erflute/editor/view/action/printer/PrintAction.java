@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.printer;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.eclipse.swt.printing.PrintDialog;
 import org.eclipse.swt.widgets.Event;
@@ -11,7 +11,7 @@ public class PrintAction extends AbstractBaseAction {
 
     public static final String ID = PrintAction.class.getName();
 
-    public PrintAction(RealModelEditor editor) {
+    public PrintAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.find"), editor);
         this.setActionDefinitionId("org.eclipse.ui.edit.findReplace");
     }

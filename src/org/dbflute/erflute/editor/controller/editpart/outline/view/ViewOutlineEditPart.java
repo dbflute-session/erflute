@@ -7,7 +7,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ViewEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.settings.Settings;
@@ -70,7 +70,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
      */
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
     }
 
     /**

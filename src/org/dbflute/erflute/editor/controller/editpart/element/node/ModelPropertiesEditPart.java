@@ -15,7 +15,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ModelPropertiesEditPart extends NodeElementEditPart implements IResizable {
+public class ModelPropertiesEditPart extends DiagramWalkerEditPart implements IResizable {
 
     public ModelPropertiesEditPart() { // used by stamp (menu "show stamp")
         super();

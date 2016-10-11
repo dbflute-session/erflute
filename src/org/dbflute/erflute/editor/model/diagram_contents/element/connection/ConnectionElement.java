@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.editor.model.AbstractModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
 public abstract class ConnectionElement extends AbstractModel {
 
@@ -13,8 +13,8 @@ public abstract class ConnectionElement extends AbstractModel {
     public static final String PROPERTY_CHANGE_BEND_POINT = "bendPoint";
     public static final String PROPERTY_CHANGE_CONNECTION_ATTRIBUTE = "connection_attribute";
 
-    protected NodeElement source;
-    protected NodeElement target;
+    protected DiagramWalker source;
+    protected DiagramWalker target;
     private List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
 
     public void delete() {
@@ -72,11 +72,11 @@ public abstract class ConnectionElement extends AbstractModel {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public NodeElement getSource() {
+    public DiagramWalker getSource() {
         return source;
     }
 
-    public void setSource(NodeElement source) {
+    public void setSource(DiagramWalker source) {
         if (this.source != null) {
             this.source.removeOutgoing(this);
         }
@@ -87,11 +87,11 @@ public abstract class ConnectionElement extends AbstractModel {
         firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, source);
     }
 
-    public NodeElement getTarget() {
+    public DiagramWalker getTarget() {
         return target;
     }
 
-    public void setTarget(NodeElement target) {
+    public void setTarget(DiagramWalker target) {
         if (this.target != null) {
             this.target.removeIncoming(this);
         }
@@ -102,7 +102,7 @@ public abstract class ConnectionElement extends AbstractModel {
         firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, source);
     }
 
-    public void setSourceAndTarget(NodeElement source, NodeElement target) {
+    public void setSourceAndTarget(DiagramWalker source, DiagramWalker target) {
         this.source = source;
         this.target = target;
     }

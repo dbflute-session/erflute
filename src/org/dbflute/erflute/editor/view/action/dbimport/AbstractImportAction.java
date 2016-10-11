@@ -2,10 +2,10 @@ package org.dbflute.erflute.editor.view.action.dbimport;
 
 import java.util.List;
 
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.dbimport.ImportTableCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 
 public abstract class AbstractImportAction extends AbstractBaseAction {
 
-    protected List<NodeElement> importedNodeElements;
+    protected List<DiagramWalker> importedNodeElements;
 
     protected List<Sequence> importedSequences;
 
@@ -24,7 +24,7 @@ public abstract class AbstractImportAction extends AbstractBaseAction {
 
     protected List<ColumnGroup> importedColumnGroups;
 
-    public AbstractImportAction(String id, String text, RealModelEditor editor) {
+    public AbstractImportAction(String id, String text, MainDiagramEditor editor) {
         super(id, text, editor);
     }
 

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.VirtualModelEditor;
+import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
@@ -19,9 +19,9 @@ import org.eclipse.ui.PlatformUI;
 public class PlaceTableAction extends AbstractBaseAction {
 
     public static final String ID = PlaceTableAction.class.getName();
-    private VirtualModelEditor oneEditor;
+    private VirtualDiagramEditor oneEditor;
 
-    public PlaceTableAction(VirtualModelEditor editor) {
+    public PlaceTableAction(VirtualDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.ermodel.place.table"), editor);
         this.oneEditor = editor;
     }
@@ -29,10 +29,10 @@ public class PlaceTableAction extends AbstractBaseAction {
     @Override
     public void execute(Event event) throws Exception {
         ERDiagram diagram = this.getDiagram();
-        ERModel model = oneEditor.getModel();
+        ERVirtualDiagram model = oneEditor.getModel();
 
         List<ERTable> input = new ArrayList<ERTable>();
-        input.addAll(diagram.getDiagramContents().getContents().getTableSet().getList());
+        input.addAll(diagram.getDiagramContents().getDiagramWalkers().getTableSet().getList());
 
         NodeSelectionDialog dialog = new NodeSelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 

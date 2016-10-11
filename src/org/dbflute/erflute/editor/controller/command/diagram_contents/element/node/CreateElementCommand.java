@@ -6,9 +6,9 @@ import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -23,13 +23,13 @@ public class CreateElementCommand extends AbstractCommand {
     //                                                                           Attribute
     //                                                                           =========
     private final ERDiagram diagram;
-    private final NodeElement element;
-    private final List<NodeElement> enclosedElementList;
+    private final DiagramWalker element;
+    private final List<DiagramWalker> enclosedElementList;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public CreateElementCommand(ERDiagram diagram, NodeElement element, int x, int y, Dimension size, List<NodeElement> enclosedElementList) {
+    public CreateElementCommand(ERDiagram diagram, DiagramWalker element, int x, int y, Dimension size, List<DiagramWalker> enclosedElementList) {
         this.diagram = diagram;
         this.element = element;
         prepareDefaultLocation(x, y, size);
@@ -45,7 +45,7 @@ public class CreateElementCommand extends AbstractCommand {
         }
     }
 
-    private void prepareDefaultState(NodeElement element) {
+    private void prepareDefaultState(DiagramWalker element) {
         if (element instanceof ERTable) {
             final ERTable table = (ERTable) element;
             table.setLogicalName(ERTable.NEW_LOGICAL_NAME);
@@ -62,7 +62,7 @@ public class CreateElementCommand extends AbstractCommand {
     //                                                                      ==============
     @Override
     protected void doExecute() {
-        final ERModel currentErmodel = diagram.getCurrentErmodel();
+        final ERVirtualDiagram currentErmodel = diagram.getCurrentErmodel();
         if (element instanceof VGroup) {
             final VGroup group = (VGroup) element;
             group.setName("Your Group");

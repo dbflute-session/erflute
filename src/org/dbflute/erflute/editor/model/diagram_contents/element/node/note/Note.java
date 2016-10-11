@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class Note extends NodeElement implements Comparable<Note> {
+public class Note extends DiagramWalker implements Comparable<Note> {
 
     // ===================================================================================
     //                                                                          Definition
@@ -22,7 +22,7 @@ public class Note extends NodeElement implements Comparable<Note> {
     //                                                                           Attribute
     //                                                                           =========
     private String text;
-    private ERModel model; // null allowed: when main model
+    private ERVirtualDiagram vdiagram; // null allowed: when main model
 
     // ===================================================================================
     //                                                                         Constructor
@@ -34,10 +34,10 @@ public class Note extends NodeElement implements Comparable<Note> {
     //                                                                   Referring Element
     //                                                                   =================
     @Override
-    public List<NodeElement> getReferringElementList() {
-        final List<NodeElement> referringElementList = super.getReferringElementList();
+    public List<DiagramWalker> getReferringElementList() {
+        final List<DiagramWalker> referringElementList = super.getReferringElementList();
         for (final ConnectionElement connectionElement : this.getIncomings()) {
-            final NodeElement sourceElement = connectionElement.getSource();
+            final DiagramWalker sourceElement = connectionElement.getSource();
             referringElementList.add(sourceElement);
         }
         return referringElementList;
@@ -110,11 +110,11 @@ public class Note extends NodeElement implements Comparable<Note> {
         this.firePropertyChange(PROPERTY_CHANGE_NOTE, null, null);
     }
 
-    public ERModel getModel() {
-        return model;
+    public ERVirtualDiagram getVirtualDiagram() {
+        return vdiagram;
     }
 
-    public void setModel(ERModel model) {
-        this.model = model;
+    public void setVirtualDiagram(ERVirtualDiagram vdiagram) {
+        this.vdiagram = vdiagram;
     }
 }

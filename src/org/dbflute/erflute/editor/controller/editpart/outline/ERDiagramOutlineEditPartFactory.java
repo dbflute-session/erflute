@@ -24,7 +24,7 @@ import org.dbflute.erflute.editor.controller.editpart.outline.view.ViewOutlineEd
 import org.dbflute.erflute.editor.controller.editpart.outline.view.ViewSetOutlineEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableSet;
@@ -56,7 +56,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
     public EditPart createEditPart(EditPart context, Object model) {
         EditPart editPart = null;
 
-        if (model instanceof ERModel) {
+        if (model instanceof ERVirtualDiagram) {
             editPart = new ERModelOutlineEditPart();
         } else if (model instanceof ERModelSet) {
             editPart = new ERModelSetOutlineEditPart();

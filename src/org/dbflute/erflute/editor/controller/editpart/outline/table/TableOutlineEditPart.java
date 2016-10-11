@@ -9,7 +9,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
@@ -139,7 +139,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
      */
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
         // this.installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
     }
 

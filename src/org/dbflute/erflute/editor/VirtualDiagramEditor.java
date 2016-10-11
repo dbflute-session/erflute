@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.node.ERModelEditPa
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.VGroupEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
@@ -33,17 +33,17 @@ import org.eclipse.swt.SWT;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class VirtualModelEditor extends RealModelEditor {
+public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFluteMultiPageEditor
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private ERModel model; // may be changed
+    private ERVirtualDiagram model; // may be changed
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public VirtualModelEditor(ERDiagram diagram, ERModel model, ERDiagramEditPartFactory editPartFactory,
+    public VirtualDiagramEditor(ERDiagram diagram, ERVirtualDiagram model, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         super(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
         this.model = model;
@@ -105,7 +105,7 @@ public class VirtualModelEditor extends RealModelEditor {
     // ===================================================================================
     //                                                                        Change Model
     //                                                                        ============
-    public void setContents(ERModel newModel) {
+    public void setContents(ERVirtualDiagram newModel) {
         model = newModel;
         getGraphicalViewer().setContents(newModel);
         newModel.changeAll();
@@ -141,7 +141,7 @@ public class VirtualModelEditor extends RealModelEditor {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public ERModel getModel() {
+    public ERVirtualDiagram getModel() {
         return model;
     }
 }

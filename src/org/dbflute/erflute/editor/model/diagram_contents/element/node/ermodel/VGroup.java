@@ -7,7 +7,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -15,20 +15,20 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERVie
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class VGroup extends NodeElement implements IResizable, Comparable<VGroup> {
+public class VGroup extends DiagramWalker implements IResizable, Comparable<VGroup> {
 
     private static final long serialVersionUID = 8251435120903384808L;
     public static final String PROPERTY_CHANGE_VGROUP = "vgroup";
 
     private String name;
-    private List<NodeElement> nodeElementList;
-    private ERModel model;
+    private List<DiagramWalker> nodeElementList;
+    private ERVirtualDiagram model;
 
     public VGroup() {
-        this.nodeElementList = new ArrayList<NodeElement>();
+        this.nodeElementList = new ArrayList<DiagramWalker>();
     }
 
-    public void setContents(List<NodeElement> contetns) {
+    public void setContents(List<DiagramWalker> contetns) {
         this.nodeElementList = contetns;
         if (this.getWidth() == 0) {
             int categoryX = 0;
@@ -40,7 +40,7 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
                 categoryY = nodeElementList.get(0).getY();
                 categoryWidth = nodeElementList.get(0).getWidth();
                 categoryHeight = nodeElementList.get(0).getHeight();
-                for (final NodeElement nodeElement : nodeElementList) {
+                for (final DiagramWalker nodeElement : nodeElementList) {
                     final int x = nodeElement.getX();
                     final int y = nodeElement.getY();
                     int width = nodeElement.getWidth();
@@ -65,11 +65,11 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
         }
     }
 
-    public boolean contains(NodeElement nodeElement) {
+    public boolean contains(DiagramWalker nodeElement) {
         return this.nodeElementList.contains(nodeElement);
     }
 
-    public boolean isVisible(NodeElement nodeElement, ERDiagram diagram) {
+    public boolean isVisible(DiagramWalker nodeElement, ERDiagram diagram) {
         return true;
         //		boolean isVisible = false;
         //
@@ -96,7 +96,7 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     public List<ERTable> getTableContents() {
         final List<ERTable> tableList = new ArrayList<ERTable>();
 
-        for (final NodeElement nodeElement : this.nodeElementList) {
+        for (final DiagramWalker nodeElement : this.nodeElementList) {
             if (nodeElement instanceof ERTable) {
                 tableList.add((ERTable) nodeElement);
             }
@@ -108,7 +108,7 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
     public List<ERView> getViewContents() {
         final List<ERView> viewList = new ArrayList<ERView>();
 
-        for (final NodeElement nodeElement : this.nodeElementList) {
+        for (final DiagramWalker nodeElement : this.nodeElementList) {
             if (nodeElement instanceof ERView) {
                 viewList.add((ERView) nodeElement);
             }
@@ -119,7 +119,7 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
 
     public List<TableView> getTableViewContents() {
         final List<TableView> tableList = new ArrayList<TableView>();
-        for (final NodeElement nodeElement : this.nodeElementList) {
+        for (final DiagramWalker nodeElement : this.nodeElementList) {
             if (nodeElement instanceof TableView) {
                 tableList.add((TableView) nodeElement);
             }
@@ -190,15 +190,15 @@ public class VGroup extends NodeElement implements IResizable, Comparable<VGroup
         this.firePropertyChange(PROPERTY_CHANGE_VGROUP, null, null);
     }
 
-    public List<NodeElement> getContents() {
+    public List<DiagramWalker> getContents() {
         return nodeElementList;
     }
 
-    public ERModel getModel() {
+    public ERVirtualDiagram getModel() {
         return model;
     }
 
-    public void setModel(ERModel model) {
+    public void setModel(ERVirtualDiagram model) {
         this.model = model;
     }
 }

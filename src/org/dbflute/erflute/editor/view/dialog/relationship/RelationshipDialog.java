@@ -311,7 +311,7 @@ public class RelationshipDialog extends AbstractDialog {
                 return "error.foreign.key.name.not.alphabet";
             }
             final ERDiagram diagram = relationship.getTargetTableView().getDiagram();
-            final List<TableView> tableViewList = diagram.getDiagramContents().getContents().getTableViewList();
+            final List<TableView> tableViewList = diagram.getDiagramContents().getDiagramWalkers().getTableViewList();
             for (final TableView tableView : tableViewList) {
                 final List<Relationship> relationshipList = tableView.getIncomingRelationshipList();
                 for (final Relationship currentRel : relationshipList) {

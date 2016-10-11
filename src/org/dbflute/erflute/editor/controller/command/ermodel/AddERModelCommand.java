@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.ermodel;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -20,7 +20,7 @@ public class AddERModelCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        final ERModel ermodel = new ERModel(diagram);
+        final ERVirtualDiagram ermodel = new ERVirtualDiagram(diagram);
         ermodel.setName(name);
         diagram.addErmodel(ermodel);
     }

@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.ddl.DDLCreator;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -79,7 +79,7 @@ public class SQLiteDDLCreator extends DDLCreator {
     protected Iterable<ERTable> getTablesForCreateDDL() {
         LinkedHashSet<ERTable> results = new LinkedHashSet<ERTable>();
 
-        for (ERTable table : this.getDiagram().getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : this.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet()) {
             if (!results.contains(table)) {
                 this.getReferedTables(results, table);
                 results.add(table);
@@ -90,7 +90,7 @@ public class SQLiteDDLCreator extends DDLCreator {
     }
 
     private void getReferedTables(LinkedHashSet<ERTable> referedTables, ERTable table) {
-        for (NodeElement nodeElement : table.getReferedElementList()) {
+        for (DiagramWalker nodeElement : table.getReferedElementList()) {
             if (nodeElement instanceof ERTable) {
                 if (nodeElement != table) {
                     ERTable referedTable = (ERTable) nodeElement;

@@ -513,7 +513,7 @@ public class IndexDialog extends AbstractDialog {
         if (!Check.isAlphabet(indexName)) {
             return "error.index.name.not.alphabet";
         }
-        final List<ERTable> tableList = table.getDiagram().getDiagramContents().getContents().getTableSet().getList();
+        final List<ERTable> tableList = table.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet().getList();
         for (final ERTable table : tableList) {
             final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
             for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {

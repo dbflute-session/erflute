@@ -12,22 +12,22 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ERModelSet extends AbstractModel implements Iterable<ERModel> {
+public class ERModelSet extends AbstractModel implements Iterable<ERVirtualDiagram> {
 
     private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_MODEL_SET = "ModelSet";
 
-    private final List<ERModel> ermodels;
+    private final List<ERVirtualDiagram> ermodels;
 
     public ERModelSet() {
-        ermodels = new ArrayList<ERModel>();
+        ermodels = new ArrayList<ERVirtualDiagram>();
     }
 
     @Override
-    public Iterator<ERModel> iterator() {
-        Collections.sort(ermodels, new Comparator<ERModel>() {
+    public Iterator<ERVirtualDiagram> iterator() {
+        Collections.sort(ermodels, new Comparator<ERVirtualDiagram>() {
             @Override
-            public int compare(ERModel o1, ERModel o2) {
+            public int compare(ERVirtualDiagram o1, ERVirtualDiagram o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         });
@@ -39,17 +39,17 @@ public class ERModelSet extends AbstractModel implements Iterable<ERModel> {
     //		this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     //	}
     //
-    public void addModels(List<ERModel> models) {
+    public void addModels(List<ERVirtualDiagram> models) {
         ermodels.addAll(models);
         this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public void add(ERModel ermodel) {
+    public void add(ERVirtualDiagram ermodel) {
         this.ermodels.add(ermodel);
         this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public int remove(ERModel ermodel) {
+    public int remove(ERVirtualDiagram ermodel) {
         final int index = this.ermodels.indexOf(ermodel);
         this.ermodels.remove(index);
         this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
@@ -57,12 +57,12 @@ public class ERModelSet extends AbstractModel implements Iterable<ERModel> {
         return index;
     }
 
-    public void changeModel(ERModel ermodel) {
+    public void changeModel(ERVirtualDiagram ermodel) {
         this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public ERModel getModel(String modelName) {
-        for (final ERModel model : ermodels) {
+    public ERVirtualDiagram getModel(String modelName) {
+        for (final ERVirtualDiagram model : ermodels) {
             if (model.getName().equals(modelName)) {
                 return model;
             }
@@ -71,13 +71,13 @@ public class ERModelSet extends AbstractModel implements Iterable<ERModel> {
     }
 
     public void deleteRelation(Relationship relation) {
-        for (final ERModel model : ermodels) {
+        for (final ERVirtualDiagram model : ermodels) {
             model.deleteRelation(relation);
         }
     }
 
     public void createRelation(Relationship relation) {
-        for (final ERModel model : ermodels) {
+        for (final ERVirtualDiagram model : ermodels) {
             model.createRelation(relation);
         }
     }

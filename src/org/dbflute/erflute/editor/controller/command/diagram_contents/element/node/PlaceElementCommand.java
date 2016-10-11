@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -17,15 +17,15 @@ public class PlaceElementCommand extends AbstractCommand {
 
     private ERDiagram diagram;
 
-    private NodeElement element;
+    private DiagramWalker element;
 
-    private List<NodeElement> enclosedElementList;
+    private List<DiagramWalker> enclosedElementList;
 
     /** Model or Diagram */
     private AbstractModelEditPart editPart;
 
-    public PlaceElementCommand(ERDiagram diagram, AbstractModelEditPart editPart, NodeElement element, int x, int y, Dimension size,
-            List<NodeElement> enclosedElementList) {
+    public PlaceElementCommand(ERDiagram diagram, AbstractModelEditPart editPart, DiagramWalker element, int x, int y, Dimension size,
+            List<DiagramWalker> enclosedElementList) {
         this.diagram = diagram;
         this.element = element;
         this.editPart = editPart;

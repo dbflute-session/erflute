@@ -8,12 +8,12 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -26,7 +26,7 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = VerticalLineAction.class.getName();
 
-    public VerticalLineAction(RealModelEditor editor) {
+    public VerticalLineAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.vertical.line"), editor);
 
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));
@@ -58,11 +58,11 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
     private Command createCommand() {
         Command command = null;
         try {
-            List<NodeElementEditPart> list = new ArrayList<NodeElementEditPart>();
+            List<DiagramWalkerEditPart> list = new ArrayList<DiagramWalkerEditPart>();
 
             for (Object object : this.getSelectedObjects()) {
                 if (object instanceof ERTableEditPart || object instanceof NoteEditPart) {
-                    list.add((NodeElementEditPart) object);
+                    list.add((DiagramWalkerEditPart) object);
                 }
             }
 
@@ -70,7 +70,7 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
                 return null;
             }
 
-            NodeElementEditPart firstEditPart = this.getFirstEditPart(list);
+            DiagramWalkerEditPart firstEditPart = this.getFirstEditPart(list);
             list.remove(firstEditPart);
 
             Collections.sort(list, comparator);
@@ -95,11 +95,11 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
         return command;
     }
 
-    private Command alignToStart(int start, List<NodeElementEditPart> list) {
+    private Command alignToStart(int start, List<DiagramWalkerEditPart> list) {
         CompoundCommand command = new CompoundCommand();
 
-        for (NodeElementEditPart editPart : list) {
-            NodeElement nodeElement = (NodeElement) editPart.getModel();
+        for (DiagramWalkerEditPart editPart : list) {
+            DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
 
             MoveElementCommand moveCommand =
                     new MoveElementCommand(this.getDiagram(), editPart.getFigure().getBounds(), nodeElement.getX(), start,
@@ -111,12 +111,12 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
         return command.unwrap();
     }
 
-    private Command adjustSpace(int start, int top, int bottom, List<NodeElementEditPart> list) {
+    private Command adjustSpace(int start, int top, int bottom, List<DiagramWalkerEditPart> list) {
         CompoundCommand command = new CompoundCommand();
 
         int totalHeight = 0;
 
-        for (NodeElementEditPart editPart : list) {
+        for (DiagramWalkerEditPart editPart : list) {
             totalHeight += editPart.getFigure().getBounds().height;
         }
 
@@ -124,8 +124,8 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
 
         int y = top;
 
-        for (NodeElementEditPart editPart : list) {
-            NodeElement nodeElement = (NodeElement) editPart.getModel();
+        for (DiagramWalkerEditPart editPart : list) {
+            DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
 
             y += space;
 
@@ -147,10 +147,10 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
         return command.unwrap();
     }
 
-    private NodeElementEditPart getFirstEditPart(List<NodeElementEditPart> list) {
-        NodeElementEditPart firstEditPart = null;
+    private DiagramWalkerEditPart getFirstEditPart(List<DiagramWalkerEditPart> list) {
+        DiagramWalkerEditPart firstEditPart = null;
 
-        for (NodeElementEditPart editPart : list) {
+        for (DiagramWalkerEditPart editPart : list) {
             if (firstEditPart == null) {
                 firstEditPart = editPart;
 
@@ -164,11 +164,11 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
         return firstEditPart;
     }
 
-    private static final Comparator<NodeElementEditPart> comparator = new NodeElementEditPartVerticalComparator();
+    private static final Comparator<DiagramWalkerEditPart> comparator = new NodeElementEditPartVerticalComparator();
 
-    private static class NodeElementEditPartVerticalComparator implements Comparator<NodeElementEditPart> {
+    private static class NodeElementEditPartVerticalComparator implements Comparator<DiagramWalkerEditPart> {
 
-        public int compare(NodeElementEditPart o1, NodeElementEditPart o2) {
+        public int compare(DiagramWalkerEditPart o1, DiagramWalkerEditPart o2) {
             if (o1 == null) {
                 return -1;
             }

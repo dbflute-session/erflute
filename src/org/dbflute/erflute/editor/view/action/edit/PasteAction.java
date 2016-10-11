@@ -2,12 +2,12 @@ package org.dbflute.erflute.editor.view.action.edit;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.PasteCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.edit.CopyManager;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -25,7 +25,7 @@ import org.eclipse.ui.actions.ActionFactory;
  */
 public class PasteAction extends SelectionAction {
 
-    private RealModelEditor editor;
+    private MainDiagramEditor editor;
 
     /**
      * �R���X�g���N�^
@@ -42,7 +42,7 @@ public class PasteAction extends SelectionAction {
 
         this.setId(ActionFactory.PASTE.getId());
 
-        RealModelEditor editor = (RealModelEditor) part;
+        MainDiagramEditor editor = (MainDiagramEditor) part;
 
         this.editor = editor;
     }
@@ -81,7 +81,7 @@ public class PasteAction extends SelectionAction {
         }
 
         // �\��t���Ώۂ̃m�[�h�ꗗ
-        NodeSet pasteList = CopyManager.paste();
+        DiagramWalkerSet pasteList = CopyManager.paste();
 
         int numberOfCopy = CopyManager.getNumberOfCopy();
 
@@ -90,7 +90,7 @@ public class PasteAction extends SelectionAction {
         int x = 0;
         int y = 0;
 
-        for (NodeElement nodeElement : pasteList) {
+        for (DiagramWalker nodeElement : pasteList) {
             if (first || x > nodeElement.getX()) {
                 x = nodeElement.getX();
             }
@@ -113,8 +113,8 @@ public class PasteAction extends SelectionAction {
 
             return command;
         }
-        if (model instanceof ERModel) {
-            ERModel erModel = (ERModel) model;
+        if (model instanceof ERVirtualDiagram) {
+            ERVirtualDiagram erModel = (ERVirtualDiagram) model;
             ERDiagram diagram = erModel.getDiagram();
 
             Command command =

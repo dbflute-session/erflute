@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 
@@ -29,8 +29,8 @@ public class CreateCommentConnectionCommand extends CreateConnectionCommand {
 
     @Override
     protected void doExecute() {
-        NodeElement source = (NodeElement) this.source.getModel();
-        NodeElement target = (NodeElement) this.target.getModel();
+        DiagramWalker source = (DiagramWalker) this.source.getModel();
+        DiagramWalker target = (DiagramWalker) this.target.getModel();
 
         // Table���m�̃����[�V�����́ATable <=> Table �Ōq��
         if (source instanceof ERVirtualTable) {
@@ -45,7 +45,7 @@ public class CreateCommentConnectionCommand extends CreateConnectionCommand {
 
         if (source instanceof Note) {
             Note note = (Note) source;
-            note.getModel().changeAll();
+            note.getVirtualDiagram().changeAll();
         }
     }
 

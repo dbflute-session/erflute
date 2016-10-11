@@ -10,7 +10,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.db.impl.standard_sql.StandardSQLDBManager;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
@@ -52,13 +52,13 @@ public class ReadSettingLoader {
     protected final ReadAssistLogic assistLogic;
     protected final ReadDatabaseLoader databaseLoader;
     protected final ReadTablePropertiesLoader tablePropertiesLoader;
-    protected final ReadNodeElementLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader nodeElementLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public ReadSettingLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDatabaseLoader databaseLoader,
-            ReadTablePropertiesLoader tablePropertiesLoader, ReadNodeElementLoader nodeElementLoader) {
+            ReadTablePropertiesLoader tablePropertiesLoader, ReadDiagramWalkerLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.databaseLoader = databaseLoader;
@@ -218,9 +218,9 @@ public class ReadSettingLoader {
             category.setName(this.getStringValue(categoryElement, "name"));
             final boolean isSelected = this.getBooleanValue(categoryElement, "selected");
             final String[] keys = this.getTagValues(categoryElement, "node_element");
-            final List<NodeElement> nodeElementList = new ArrayList<NodeElement>();
+            final List<DiagramWalker> nodeElementList = new ArrayList<DiagramWalker>();
             for (final String key : keys) {
-                final NodeElement nodeElement = context.nodeElementMap.get(key);
+                final DiagramWalker nodeElement = context.nodeElementMap.get(key);
                 if (nodeElement != null) {
                     nodeElementList.add(nodeElement);
                 }

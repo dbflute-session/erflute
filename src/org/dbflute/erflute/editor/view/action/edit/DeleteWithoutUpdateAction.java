@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.action.edit;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.WithoutUpdateCommandWrapper;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
@@ -15,9 +15,9 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class DeleteWithoutUpdateAction extends DeleteAction {
 
-    private RealModelEditor part;
+    private MainDiagramEditor part;
 
-    public DeleteWithoutUpdateAction(RealModelEditor part) {
+    public DeleteWithoutUpdateAction(MainDiagramEditor part) {
         super((IWorkbenchPart) part);
         this.part = part;
         this.setText(DisplayMessages.getMessage("action.title.delete"));

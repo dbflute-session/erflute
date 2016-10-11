@@ -14,12 +14,12 @@ public class WrittenImageBuilder {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenNodeElementBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenImageBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenNodeElementBuilder nodeElementBuilder) {
+    public WrittenImageBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementBuilder = nodeElementBuilder;

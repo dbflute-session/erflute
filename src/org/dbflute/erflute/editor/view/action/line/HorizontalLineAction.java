@@ -8,14 +8,14 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -28,7 +28,7 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = HorizontalLineAction.class.getName();
 
-    public HorizontalLineAction(RealModelEditor editor) {
+    public HorizontalLineAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.horizontal.line"), editor);
 
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.HORIZONTAL_LINE));
@@ -60,11 +60,11 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
     private Command createCommand() {
         Command command = null;
 
-        List<NodeElementEditPart> list = new ArrayList<NodeElementEditPart>();
+        List<DiagramWalkerEditPart> list = new ArrayList<DiagramWalkerEditPart>();
 
         for (Object object : this.getSelectedObjects()) {
             if (object instanceof ERTableEditPart || object instanceof NoteEditPart) {
-                list.add((NodeElementEditPart) object);
+                list.add((DiagramWalkerEditPart) object);
             }
         }
 
@@ -72,7 +72,7 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
             return null;
         }
 
-        NodeElementEditPart firstEditPart = this.getFirstEditPart(list);
+        DiagramWalkerEditPart firstEditPart = this.getFirstEditPart(list);
         list.remove(firstEditPart);
 
         Collections.sort(list, comparator);
@@ -94,13 +94,13 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
         return command;
     }
 
-    private Command alignToStart(int start, List<NodeElementEditPart> list) {
+    private Command alignToStart(int start, List<DiagramWalkerEditPart> list) {
         CompoundCommand command = new CompoundCommand();
 
         ERDiagram diagram = this.getDiagram();
 
         for (AbstractModelEditPart editPart : list) {
-            NodeElement nodeElement = (NodeElement) editPart.getModel();
+            DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
 
             MoveElementCommand moveCommand =
                     new MoveElementCommand(diagram, editPart.getFigure().getBounds(), start, nodeElement.getY(), nodeElement.getWidth(),
@@ -113,7 +113,7 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
         return command.unwrap();
     }
 
-    private Command adjustSpace(int start, int left, int right, List<NodeElementEditPart> list) {
+    private Command adjustSpace(int start, int left, int right, List<DiagramWalkerEditPart> list) {
         CompoundCommand command = new CompoundCommand();
 
         ERDiagram diagram = this.getDiagram();
@@ -129,7 +129,7 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
         int x = left;
 
         for (AbstractModelEditPart editPart : list) {
-            NodeElement nodeElement = (NodeElement) editPart.getModel();
+            DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
 
             x += space;
 
@@ -150,10 +150,10 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
         return command.unwrap();
     }
 
-    private NodeElementEditPart getFirstEditPart(List<NodeElementEditPart> list) {
-        NodeElementEditPart firstEditPart = null;
+    private DiagramWalkerEditPart getFirstEditPart(List<DiagramWalkerEditPart> list) {
+        DiagramWalkerEditPart firstEditPart = null;
 
-        for (NodeElementEditPart editPart : list) {
+        for (DiagramWalkerEditPart editPart : list) {
             if (firstEditPart == null) {
                 firstEditPart = editPart;
 

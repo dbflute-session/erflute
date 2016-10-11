@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.category;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.category.ChangeShowReferredTablesCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
@@ -12,7 +12,7 @@ public class ChangeShowReferredTablesAction extends AbstractBaseAction {
 
     public static final String ID = ChangeShowReferredTablesAction.class.getName();
 
-    public ChangeShowReferredTablesAction(RealModelEditor editor) {
+    public ChangeShowReferredTablesAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
         this.setText(DisplayMessages.getMessage("action.title.category.show.referred.tables"));
     }

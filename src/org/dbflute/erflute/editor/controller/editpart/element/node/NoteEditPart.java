@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.editpart.element.node;
 
 import java.beans.PropertyChangeEvent;
 
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.note.NoteDirectEditPolicy;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.view.editmanager.NoteCellEditor;
@@ -14,7 +14,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 
-public class NoteEditPart extends NodeElementEditPart implements IResizable {
+public class NoteEditPart extends DiagramWalkerEditPart implements IResizable {
 
     private NoteEditManager editManager = null;
 
@@ -47,7 +47,7 @@ public class NoteEditPart extends NodeElementEditPart implements IResizable {
      */
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
         this.installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new NoteDirectEditPolicy());
 
         super.createEditPolicies();

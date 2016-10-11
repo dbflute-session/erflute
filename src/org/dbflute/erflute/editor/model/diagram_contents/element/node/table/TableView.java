@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.ObjectModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ColumnHolder;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -27,7 +27,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public abstract class TableView extends NodeElement implements ObjectModel, ColumnHolder, Comparable<TableView> {
+public abstract class TableView extends DiagramWalker implements ObjectModel, ColumnHolder, Comparable<TableView> {
 
     // ===================================================================================
     //                                                                          Definition

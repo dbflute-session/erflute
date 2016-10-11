@@ -5,7 +5,7 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.Validator;
@@ -25,7 +25,7 @@ public class ExportToDBAction extends AbstractBaseAction {
 
     private Validator validator;
 
-    public ExportToDBAction(RealModelEditor editor) {
+    public ExportToDBAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.db"), editor);
 
         this.validator = new Validator();

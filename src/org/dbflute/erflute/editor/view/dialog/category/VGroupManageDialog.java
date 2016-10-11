@@ -10,8 +10,8 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.eclipse.swt.SWT;
@@ -50,7 +50,7 @@ public class VGroupManageDialog extends AbstractDialog {
 
     private Map<VGroup, TableEditor> categoryCheckMap;
 
-    private Map<NodeElement, TableEditor> nodeCheckMap;
+    private Map<DiagramWalker, TableEditor> nodeCheckMap;
 
     private VGroup targetCategory;
 
@@ -58,9 +58,9 @@ public class VGroupManageDialog extends AbstractDialog {
 
     private Button downButton;
 
-    private ERModel erModel;
+    private ERVirtualDiagram erModel;
 
-    public VGroupManageDialog(Shell parentShell, ERModel model) {
+    public VGroupManageDialog(Shell parentShell, ERVirtualDiagram model) {
         super(parentShell, 2);
         this.erModel = model;
         //		this.diagram = diagram;
@@ -236,10 +236,10 @@ public class VGroupManageDialog extends AbstractDialog {
     private void initNodeTable() {
         this.nodeTable.removeAll();
 
-        this.nodeCheckMap = new HashMap<NodeElement, TableEditor>();
+        this.nodeCheckMap = new HashMap<DiagramWalker, TableEditor>();
 
         for (ERVirtualTable vtable : erModel.getTables()) {
-            NodeElement nodeElement = vtable; //.getRawTable();
+            DiagramWalker nodeElement = vtable; //.getRawTable();
             TableItem tableItem = new TableItem(this.nodeTable, SWT.NONE);
 
             Button selectCheckButton = new Button(this.nodeTable, SWT.CHECK);
@@ -261,7 +261,7 @@ public class VGroupManageDialog extends AbstractDialog {
     private void initNodeList(VGroup category) {
         this.categoryNameText.setText(category.getName());
 
-        for (NodeElement nodeElement : this.nodeCheckMap.keySet()) {
+        for (DiagramWalker nodeElement : this.nodeCheckMap.keySet()) {
             Button selectCheckButton = (Button) this.nodeCheckMap.get(nodeElement).getEditor();
 
             if (category.contains(nodeElement)) {
@@ -488,9 +488,9 @@ public class VGroupManageDialog extends AbstractDialog {
 
     public void validatePage() {
         if (targetCategory != null) {
-            List<NodeElement> selectedNodeElementList = new ArrayList<NodeElement>();
+            List<DiagramWalker> selectedNodeElementList = new ArrayList<DiagramWalker>();
 
-            for (NodeElement table : this.nodeCheckMap.keySet()) {
+            for (DiagramWalker table : this.nodeCheckMap.keySet()) {
                 Button selectCheckButton = (Button) this.nodeCheckMap.get(table).getEditor();
 
                 if (selectCheckButton.getSelection()) {

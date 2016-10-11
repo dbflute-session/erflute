@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.view.action.option.notation.design;
 
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 
 public class ChangeDesignToFunnyAction extends AbstractChangeDesignAction {
 
@@ -8,7 +8,7 @@ public class ChangeDesignToFunnyAction extends AbstractChangeDesignAction {
 
     public static final String TYPE = "funny";
 
-    public ChangeDesignToFunnyAction(RealModelEditor editor) {
+    public ChangeDesignToFunnyAction(MainDiagramEditor editor) {
         super(ID, TYPE, editor);
     }
 

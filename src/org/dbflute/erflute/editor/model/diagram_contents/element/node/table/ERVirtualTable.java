@@ -7,8 +7,8 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -23,10 +23,10 @@ public class ERVirtualTable extends ERTable {
 
     private static final long serialVersionUID = 1L;
 
-    private final ERModel model;
+    private final ERVirtualDiagram model;
     private ERTable rawTable;
 
-    public ERVirtualTable(ERModel model, ERTable rawTable) {
+    public ERVirtualTable(ERVirtualDiagram model, ERTable rawTable) {
         super();
         this.model = model;
         this.rawTable = rawTable;
@@ -166,9 +166,9 @@ public class ERVirtualTable extends ERTable {
         final List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
         final List<ERVirtualTable> modelTables = model.getTables();
         for (final ConnectionElement el : rawTable.getIncomings()) {
-            final NodeElement findEl = el.getSource();
+            final DiagramWalker findEl = el.getSource();
             if (findEl instanceof Note) {
-                if (((Note) findEl).getModel().equals(model)) {
+                if (((Note) findEl).getVirtualDiagram().equals(model)) {
                     elements.add(el);
                 }
                 //				elements.add(el);
@@ -189,9 +189,9 @@ public class ERVirtualTable extends ERTable {
         final List<ConnectionElement> elements = new ArrayList<ConnectionElement>();
         final List<ERVirtualTable> modelTables = model.getTables();
         for (final ConnectionElement el : rawTable.getOutgoings()) {
-            final NodeElement findEl = el.getTarget();
+            final DiagramWalker findEl = el.getTarget();
             if (findEl instanceof Note) {
-                if (((Note) findEl).getModel().equals(model)) {
+                if (((Note) findEl).getVirtualDiagram().equals(model)) {
                     elements.add(el);
                 }
                 elements.add(el);
@@ -223,7 +223,7 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<NodeElement> getReferringElementList() {
+    public List<DiagramWalker> getReferringElementList() {
         return rawTable.getReferringElementList();
     }
 
@@ -238,7 +238,7 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<NodeElement> getReferedElementList() {
+    public List<DiagramWalker> getReferedElementList() {
         return rawTable.getReferedElementList();
     }
 
@@ -267,7 +267,7 @@ public class ERVirtualTable extends ERTable {
         final List<Relationship> elements = new ArrayList<Relationship>();
         final List<ERVirtualTable> modelTables = model.getTables();
         for (final Relationship el : rawTable.getIncomingRelationshipList()) {
-            final NodeElement findEl = el.getSource();
+            final DiagramWalker findEl = el.getSource();
             for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
                     elements.add(el);
@@ -284,7 +284,7 @@ public class ERVirtualTable extends ERTable {
         final List<Relationship> elements = new ArrayList<Relationship>();
         final List<ERVirtualTable> modelTables = model.getTables();
         for (final Relationship el : rawTable.getOutgoingRelationshipList()) {
-            final NodeElement findEl = el.getSource();
+            final DiagramWalker findEl = el.getSource();
             for (final ERVirtualTable vtable : modelTables) {
                 if (vtable.getRawTable().equals(findEl)) {
                     elements.add(el);

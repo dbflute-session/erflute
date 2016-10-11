@@ -47,7 +47,7 @@ public abstract class ViewRule extends BaseRule {
     public boolean validate(ERDiagram diagram) {
         this.database = diagram.getDatabase();
 
-        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
             if (!this.validate(view)) {
                 return false;
             }

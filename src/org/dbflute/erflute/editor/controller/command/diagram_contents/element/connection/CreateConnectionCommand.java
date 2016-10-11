@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 
 public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
@@ -19,8 +19,8 @@ public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
     @Override
     protected void doExecute() {
 
-        NodeElement sourceTable = (NodeElement) this.source.getModel();
-        NodeElement targetTable = (NodeElement) this.target.getModel();
+        DiagramWalker sourceTable = (DiagramWalker) this.source.getModel();
+        DiagramWalker targetTable = (DiagramWalker) this.target.getModel();
 
         // Table���m�̃����[�V�����́ATable <=> Table �Ōq��
 

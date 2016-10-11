@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.SelectAllAction;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -30,11 +30,11 @@ public class SelectAllContentsAction extends SelectAllAction {
         GraphicalViewer viewer = (GraphicalViewer) part.getAdapter(GraphicalViewer.class);
 
         if (viewer != null) {
-            List<NodeElementEditPart> children = new ArrayList<NodeElementEditPart>();
+            List<DiagramWalkerEditPart> children = new ArrayList<DiagramWalkerEditPart>();
 
             for (Object child : viewer.getContents().getChildren()) {
-                if (child instanceof NodeElementEditPart) {
-                    NodeElementEditPart editPart = (NodeElementEditPart) child;
+                if (child instanceof DiagramWalkerEditPart) {
+                    DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
                     if (editPart.getFigure().isVisible()) {
                         children.add(editPart);
                     }

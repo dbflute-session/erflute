@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementGraphicalNodeEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerGraphicalNodeEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -22,7 +22,7 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.widgets.Display;
 
-public class TableViewGraphicalNodeEditPolicy extends NodeElementGraphicalNodeEditPolicy {
+public class TableViewGraphicalNodeEditPolicy extends DiagramWalkerGraphicalNodeEditPolicy {
 
     @Override
     public void showTargetFeedback(Request request) {

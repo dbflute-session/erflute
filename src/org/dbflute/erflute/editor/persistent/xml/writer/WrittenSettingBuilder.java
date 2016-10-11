@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.writer;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.editor.model.dbexport.ddl.DDLTarget;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
@@ -27,13 +27,13 @@ public class WrittenSettingBuilder {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenNodeElementBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
     protected final WrittenTablePropertiesBuilder tablePropertiesBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenSettingBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenNodeElementBuilder nodeElementBuilder,
+    public WrittenSettingBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder,
             WrittenTablePropertiesBuilder tablePropertiesBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
@@ -174,8 +174,8 @@ public class WrittenSettingBuilder {
         xml.append(tab(nodeElementBuilder.buildNodeElement(category, context)));
         xml.append("\t<name>").append(escape(category.getName())).append("</name>\n");
         xml.append("\t<selected>").append(isSelected).append("</selected>\n");
-        for (final NodeElement nodeElement : category.getContents()) {
-            xml.append("\t<node_element>").append(context.nodeElementMap.get(nodeElement)).append("</node_element>\n");
+        for (final DiagramWalker nodeElement : category.getContents()) {
+            xml.append("\t<node_element>").append(context.diagramWalkerMap.get(nodeElement)).append("</node_element>\n");
         }
         xml.append("</category>\n");
         return xml.toString();

@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.outline;
 import java.util.List;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.ermodel.OpenERModelCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERModelOut
 import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERModelSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.table.TableOutlineEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.view.action.outline.ChangeNameAction;
 import org.dbflute.erflute.editor.view.action.outline.index.CreateIndexAction;
@@ -56,75 +56,45 @@ import org.eclipse.ui.actions.ActionFactory;
 
 public class ERDiagramOutlinePage extends ContentOutlinePage {
 
-    // �y�[�W���A�E�g���C���ƃT���l�C���ɕ�������R���|�W�b�g
     private SashForm sash;
-
-    private TreeViewer viewer;
-
-    private ERDiagram diagram;
-
+    private final TreeViewer viewer;
+    private final ERDiagram diagram;
     private LightweightSystem lws;
-
     private ScrollableThumbnail thumbnail;
-
     private GraphicalViewer graphicalViewer;
-
-    private ActionRegistry outlineActionRegistory;
-
+    private final ActionRegistry outlineActionRegistory;
     private ActionRegistry registry;
-
     private boolean quickMode;
-
     private ERDiagramOutlineEditPartFactory editPartFactory;
 
     public ERDiagramOutlinePage(ERDiagram diagram) {
-        // GEF�c���[�r���[�����g�p����
         super(new TreeViewer());
-
         this.viewer = (TreeViewer) this.getViewer();
         this.diagram = diagram;
-
         this.outlineActionRegistory = new ActionRegistry();
         this.registerAction(this.viewer, outlineActionRegistory);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void createControl(Composite parent) {
         this.sash = new SashForm(parent, SWT.VERTICAL);
-
-        // �R���X�g���N�^�Ŏw�肵���r���[���̍쐬
         this.viewer.createControl(this.sash);
-
         editPartFactory = new ERDiagramOutlineEditPartFactory();
         editPartFactory.setQuickMode(quickMode);
-
         this.viewer.setEditPartFactory(editPartFactory);
-
-        // �O���t�B�J���E�G�f�B�^�̃��[�g�E���f�����c���[�E�r���[���ɂ��ݒ�
         this.viewer.setContents(this.diagram);
-
         if (!quickMode) {
-            Canvas canvas = new Canvas(this.sash, SWT.BORDER);
-            // �T���l�C���E�t�B�M���A��z�u����ׂ� LightweightSystem
+            final Canvas canvas = new Canvas(this.sash, SWT.BORDER);
             this.lws = new LightweightSystem(canvas);
         }
-
         this.resetView(this.registry);
-
-        AbstractTransferDragSourceListener dragSourceListener =
+        final AbstractTransferDragSourceListener dragSourceListener =
                 new ERDiagramTransferDragSourceListener(this.viewer, TemplateTransfer.getInstance());
         this.viewer.addDragSourceListener(dragSourceListener);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Control getControl() {
-        // �A�E�g���C���E�r���[���A�N�e�B�u�ɂ������Ƀt�H�[�J�X���ݒ肳���R���g���[����Ԃ�
         return sash;
     }
 
@@ -132,22 +102,17 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         if (quickMode) {
             return;
         }
-        // RootEditPart�̃r���[���\�[�X�Ƃ��ăT���l�C�����쐬
-        ScalableFreeformRootEditPart editPart = (ScalableFreeformRootEditPart) this.graphicalViewer.getRootEditPart();
-
+        final ScalableFreeformRootEditPart editPart = (ScalableFreeformRootEditPart) this.graphicalViewer.getRootEditPart();
         if (this.thumbnail != null) {
             this.thumbnail.deactivate();
         }
-
         this.thumbnail = new ScrollableThumbnail((Viewport) editPart.getFigure());
         this.thumbnail.setSource(editPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
-
         this.lws.setContents(this.thumbnail);
-
     }
 
     private void initDropTarget() {
-        AbstractTransferDropTargetListener dropTargetListener =
+        final AbstractTransferDropTargetListener dropTargetListener =
                 new ERDiagramOutlineTransferDropTargetListener(this.graphicalViewer, TemplateTransfer.getInstance());
 
         this.graphicalViewer.addDropTargetListener(dropTargetListener);
@@ -171,7 +136,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         if (getSite() == null) {
             return;
         }
-        IActionBars bars = this.getSite().getActionBars();
+        final IActionBars bars = this.getSite().getActionBars();
 
         String id = ActionFactory.UNDO.getId();
         bars.setGlobalActionHandler(id, registry.getAction(id));
@@ -192,14 +157,13 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
     }
 
     private void registerAction(TreeViewer treeViewer, ActionRegistry actionRegistry) {
-        IAction[] actions =
+        final IAction[] actions =
                 { new CreateIndexAction(treeViewer), new CreateSequenceAction(treeViewer), new CreateTriggerAction(treeViewer),
                         new CreateTablespaceAction(treeViewer), new ChangeOutlineViewToPhysicalAction(treeViewer),
                         new ChangeOutlineViewToLogicalAction(treeViewer), new ChangeOutlineViewToBothAction(treeViewer),
                         new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
                         new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer), };
-
-        for (IAction action : actions) {
+        for (final IAction action : actions) {
             actionRegistry.registerAction(action);
         }
     }
@@ -229,10 +193,10 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
     public void setFilterText(String filterText) {
         editPartFactory.setFilterText(filterText);
         viewer.setContents(diagram);
-        Tree tree = (Tree) viewer.getControl();
-        TreeItem[] items = tree.getItems();
+        final Tree tree = (Tree) viewer.getControl();
+        final TreeItem[] items = tree.getItems();
         expand(items);
-        TreeItem[] tableItems = items[0].getItems();
+        final TreeItem[] tableItems = items[0].getItems();
         if (tableItems.length >= 1) {
             tree.setSelection(tableItems[0]);
         }
@@ -259,62 +223,52 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         }
     }
 
-    /**
-     * quickMode��ݒ肵�܂��B
-     * @param quickMode quickMode
-     */
     public void setQuickMode(boolean quickMode) {
         this.quickMode = quickMode;
     }
 
     public void selectSelection() {
-        IStructuredSelection sel = (IStructuredSelection) getViewer().getSelection();
+        final IStructuredSelection sel = (IStructuredSelection) getViewer().getSelection();
         Object firstElement = sel.getFirstElement();
         if (firstElement instanceof ERDiagramOutlineEditPart) {
-            Tree tree = (Tree) viewer.getControl();
-            TreeItem[] items = tree.getItems();
+            final Tree tree = (Tree) viewer.getControl();
+            final TreeItem[] items = tree.getItems();
             expand(items);
-            TreeItem[] tableItems = items[0].getItems();
+            final TreeItem[] tableItems = items[0].getItems();
             if (tableItems.length >= 1) {
-                Object data = tableItems[0].getData();
+                final Object data = tableItems[0].getData();
                 firstElement = data;
             }
         }
         if (firstElement instanceof TableOutlineEditPart) {
-            Object model = ((TableOutlineEditPart) firstElement).getModel();
-            ERTable table = (ERTable) model;
+            final Object model = ((TableOutlineEditPart) firstElement).getModel();
+            final ERTable table = (ERTable) model;
 
             if (diagram.getCurrentErmodel() == null) {
-                // �S�̃r���[
-                RealModelEditor editor = ((RealModelEditor) diagram.getEditor().getActiveEditor());
+                final MainDiagramEditor editor = ((MainDiagramEditor) diagram.getEditor().getActiveEditor());
                 editor.reveal(table);
                 return;
             }
-
-            ERModel erModel = table.getDiagram().findModelByTable(table);
+            final ERVirtualDiagram erModel = table.getDiagram().findModelByTable(table);
             if (erModel != null) {
-
-                OpenERModelCommand command = new OpenERModelCommand(diagram, erModel);
+                final OpenERModelCommand command = new OpenERModelCommand(diagram, erModel);
                 command.setTable(table);
                 this.getViewer().getEditDomain().getCommandStack().execute(command);
 
-                // �A�E�g���C���r���[�̗v�f��I��
-                ERDiagramOutlineEditPart contents =
+                final ERDiagramOutlineEditPart contents =
                         (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
                 if (contents != null) {
-                    List<ERModelOutlineEditPart> parts = ((ERModelSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
-                    for (ERModelOutlineEditPart part : parts) {
+                    final List<ERModelOutlineEditPart> parts = ((ERModelSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
+                    for (final ERModelOutlineEditPart part : parts) {
                         if (part.getModel().equals(erModel)) {
-                            ISelection selection = new StructuredSelection(part);
+                            final ISelection selection = new StructuredSelection(part);
                             diagram.getEditor().getOutlinePage().setSelection(selection);
                         }
                     }
                 }
-
             } else {
-                Activator.showMessageDialog(table.getPhysicalName() + " �e�[�u���͂��̃_�C�A�O�����ɂ��z�u����Ă��܂���B");
+                Activator.showMessageDialog(table.getPhysicalName());
             }
-
         }
     }
 

@@ -59,14 +59,14 @@ public abstract class PreTableExportManager {
     protected void prepareNewNames() {
         this.newTableNames = new HashSet<String>();
 
-        for (ERTable table : this.diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : this.diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
             this.newTableNames.add(this.dbSetting.getTableNameWithSchema(table.getPhysicalName(), table.getTableViewProperties()
                     .getSchema()));
         }
 
         this.newViewNames = new HashSet<String>();
 
-        for (ERView view : this.diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : this.diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
             this.newViewNames.add(this.dbSetting.getTableNameWithSchema(view.getPhysicalName(), view.getTableViewProperties().getSchema()));
         }
 

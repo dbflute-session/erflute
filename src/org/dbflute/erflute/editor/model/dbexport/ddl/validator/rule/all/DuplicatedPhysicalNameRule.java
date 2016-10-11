@@ -20,7 +20,7 @@ public class DuplicatedPhysicalNameRule extends BaseRule {
     public boolean validate(ERDiagram diagram) {
         Set<String> nameSet = new HashSet<String>();
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
 
             String name = table.getNameWithSchema(diagram.getDatabase()).toLowerCase();
 
@@ -70,7 +70,7 @@ public class DuplicatedPhysicalNameRule extends BaseRule {
             nameSet.add(name);
         }
 
-        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
             String name = view.getNameWithSchema(diagram.getDatabase()).toLowerCase();
 
             if (nameSet.contains(name)) {

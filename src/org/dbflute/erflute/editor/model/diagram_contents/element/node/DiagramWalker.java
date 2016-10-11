@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Conn
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public abstract class NodeElement extends ViewableModel implements ObjectModel {
+public abstract class DiagramWalker extends ViewableModel implements ObjectModel {
 
     private static final long serialVersionUID = -5143984125818569247L;
 
@@ -26,31 +26,31 @@ public abstract class NodeElement extends ViewableModel implements ObjectModel {
 
     public abstract boolean needsUpdateOtherModel();
 
-    public NodeElement() {
+    public DiagramWalker() {
         this.location = new Location(0, 0, 0, 0);
     }
 
-    public List<NodeElement> getReferringElementList() {
-        final List<NodeElement> referringElementList = new ArrayList<NodeElement>();
+    public List<DiagramWalker> getReferringElementList() {
+        final List<DiagramWalker> referringElementList = new ArrayList<DiagramWalker>();
         for (final ConnectionElement connectionElement : this.getOutgoings()) {
-            final NodeElement targetElement = connectionElement.getTarget();
+            final DiagramWalker targetElement = connectionElement.getTarget();
             referringElementList.add(targetElement);
         }
         return referringElementList;
     }
 
-    public List<NodeElement> getReferedElementList() {
-        final List<NodeElement> referedElementList = new ArrayList<NodeElement>();
+    public List<DiagramWalker> getReferedElementList() {
+        final List<DiagramWalker> referedElementList = new ArrayList<DiagramWalker>();
         for (final ConnectionElement connectionElement : this.getIncomings()) {
-            final NodeElement sourceElement = connectionElement.getSource();
+            final DiagramWalker sourceElement = connectionElement.getSource();
             referedElementList.add(sourceElement);
         }
         return referedElementList;
     }
 
     @Override
-    public NodeElement clone() {
-        final NodeElement clone = (NodeElement) super.clone();
+    public DiagramWalker clone() {
+        final DiagramWalker clone = (DiagramWalker) super.clone();
         clone.location = this.location.clone();
         clone.setIncoming(new ArrayList<ConnectionElement>());
         clone.setOutgoing(new ArrayList<ConnectionElement>());

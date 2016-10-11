@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.model.diagram_contents;
 
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModelSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.IndexSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
@@ -19,7 +19,7 @@ public class DiagramContents {
     //                                                                           Attribute
     //                                                                           =========
     private Settings settings;
-    private NodeSet contents;
+    private DiagramWalkerSet walkers;
     private GroupSet groups;
     private Dictionary dictionary;
     private SequenceSet sequenceSet;
@@ -33,7 +33,7 @@ public class DiagramContents {
     //                                                                         ===========
     public DiagramContents() {
         this.settings = new Settings();
-        this.contents = new NodeSet();
+        this.walkers = new DiagramWalkerSet();
         this.groups = new GroupSet();
         this.dictionary = new Dictionary();
         this.sequenceSet = new SequenceSet();
@@ -48,18 +48,18 @@ public class DiagramContents {
     //                                                                      ==============
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":{" + settings + ", " + contents + "}";
+        return getClass().getSimpleName() + ":{" + settings + ", " + walkers + "}";
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public NodeSet getContents() {
-        return this.contents;
+    public DiagramWalkerSet getDiagramWalkers() {
+        return this.walkers;
     }
 
-    public void setContents(NodeSet contents) {
-        this.contents = contents;
+    public void setDiagramWalkers(DiagramWalkerSet walkers) {
+        this.walkers = walkers;
     }
 
     public GroupSet getGroups() {

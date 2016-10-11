@@ -11,8 +11,8 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.co
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.CreateSelfRelationshipCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.ReconnectSourceCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.ReconnectTargetCommand;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
@@ -20,7 +20,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.RelationByExistingColumns;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.SelfRelation;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -31,49 +31,36 @@ import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
-public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
+public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
-        AbstractCreateConnectionCommand command = (AbstractCreateConnectionCommand) request.getStartCommand();
-
-        NodeElementEditPart targetEditPart = (NodeElementEditPart) request.getTargetEditPart();
-
+        final AbstractCreateConnectionCommand command = (AbstractCreateConnectionCommand) request.getStartCommand();
+        final DiagramWalkerEditPart targetEditPart = (DiagramWalkerEditPart) request.getTargetEditPart();
         if (command instanceof AbstractCreateRelationshipCommand) {
             if (!(targetEditPart instanceof TableViewEditPart)) {
                 return null;
             }
         }
-
-        String validatedMessage = command.validate();
+        final String validatedMessage = command.validate();
         if (validatedMessage != null) {
             Activator.showErrorDialog(validatedMessage);
-
             return null;
         }
-
         command.setTarget(targetEditPart);
-
         if (!command.canExecute()) {
             return null;
         }
-
         return command;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-        EditPart editPart = request.getTargetEditPart();
-        Object object = request.getNewObject();
+        final EditPart editPart = request.getTargetEditPart();
+        final Object object = request.getNewObject();
 
         if (editPart instanceof ERTableEditPart) {
-            Command command = this.getRelationCreateCommand(request, object);
+            final Command command = this.getRelationCreateCommand(request, object);
 
             if (command != null) {
                 return command;
@@ -81,9 +68,9 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
         }
 
         if (object instanceof CommentConnection) {
-            CommentConnection connection = (CommentConnection) object;
+            final CommentConnection connection = (CommentConnection) object;
 
-            CreateConnectionCommand command = new CreateCommentConnectionCommand(connection);
+            final CreateConnectionCommand command = new CreateCommentConnectionCommand(connection);
 
             command.setSource(request.getTargetEditPart());
             request.setStartCommand(command);
@@ -96,15 +83,15 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
 
     private Command getRelationCreateCommand(CreateConnectionRequest request, Object object) {
         if (object instanceof Relationship) {
-            Relationship relation = (Relationship) object;
-            CreateRelationshipByNewColumnCommand command = new CreateRelationshipByNewColumnCommand(relation);
+            final Relationship relation = (Relationship) object;
+            final CreateRelationshipByNewColumnCommand command = new CreateRelationshipByNewColumnCommand(relation);
 
-            EditPart source = request.getTargetEditPart();
+            final EditPart source = request.getTargetEditPart();
             command.setSource(source);
 
-            ERTable sourceTable = (ERTable) source.getModel();
+            final ERTable sourceTable = (ERTable) source.getModel();
 
-            Relationship temp = sourceTable.createRelation();
+            final Relationship temp = sourceTable.createRelation();
             relation.setReferenceForPK(temp.isReferenceForPK());
             relation.setReferencedComplexUniqueKey(temp.getReferencedComplexUniqueKey());
             relation.setReferencedColumn(temp.getReferencedColumn());
@@ -114,14 +101,14 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
             return command;
 
         } else if (object instanceof RelatedTable) {
-            CreateRelatedTableCommand command = new CreateRelatedTableCommand();
+            final CreateRelatedTableCommand command = new CreateRelatedTableCommand();
 
-            ERTableEditPart sourceEditPart = (ERTableEditPart) request.getTargetEditPart();
+            final ERTableEditPart sourceEditPart = (ERTableEditPart) request.getTargetEditPart();
 
             command.setSource(sourceEditPart);
 
             if (sourceEditPart != null) {
-                Point point = sourceEditPart.getFigure().getBounds().getCenter();
+                final Point point = sourceEditPart.getFigure().getBounds().getCenter();
                 command.setSourcePoint(point.x, point.y);
             }
 
@@ -130,10 +117,10 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
             return command;
 
         } else if (object instanceof SelfRelation) {
-            ERTableEditPart sourceEditPart = (ERTableEditPart) request.getTargetEditPart();
-            ERTable sourceTable = (ERTable) sourceEditPart.getModel();
+            final ERTableEditPart sourceEditPart = (ERTableEditPart) request.getTargetEditPart();
+            final ERTable sourceTable = (ERTable) sourceEditPart.getModel();
 
-            CreateSelfRelationshipCommand command = new CreateSelfRelationshipCommand(sourceTable.createRelation());
+            final CreateSelfRelationshipCommand command = new CreateSelfRelationshipCommand(sourceTable.createRelation());
 
             command.setSource(sourceEditPart);
 
@@ -142,9 +129,9 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
             return command;
 
         } else if (object instanceof RelationByExistingColumns) {
-            CreateRelationshipByExistingColumnsCommand command = new CreateRelationshipByExistingColumnsCommand();
+            final CreateRelationshipByExistingColumnsCommand command = new CreateRelationshipByExistingColumnsCommand();
 
-            EditPart source = request.getTargetEditPart();
+            final EditPart source = request.getTargetEditPart();
             command.setSource(source);
 
             request.setStartCommand(command);
@@ -160,45 +147,45 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
      */
     @Override
     protected Command getReconnectSourceCommand(ReconnectRequest reconnectrequest) {
-        ConnectionElement connection = (ConnectionElement) reconnectrequest.getConnectionEditPart().getModel();
+        final ConnectionElement connection = (ConnectionElement) reconnectrequest.getConnectionEditPart().getModel();
 
         if (!(connection instanceof Relationship)) {
             return null;
         }
 
-        Relationship relation = (Relationship) connection;
+        final Relationship relation = (Relationship) connection;
 
         if (relation.getSource() == relation.getTarget()) {
             return null;
         }
 
-        NodeElement newSource = (NodeElement) reconnectrequest.getTarget().getModel();
+        final DiagramWalker newSource = (DiagramWalker) reconnectrequest.getTarget().getModel();
         if (!relation.getSource().equals(newSource)) {
             return null;
         }
 
-        NodeElementEditPart sourceEditPart = (NodeElementEditPart) reconnectrequest.getConnectionEditPart().getSource();
+        final DiagramWalkerEditPart sourceEditPart = (DiagramWalkerEditPart) reconnectrequest.getConnectionEditPart().getSource();
 
-        Point location = new Point(reconnectrequest.getLocation());
+        final Point location = new Point(reconnectrequest.getLocation());
 
-        IFigure sourceFigure = sourceEditPart.getFigure();
+        final IFigure sourceFigure = sourceEditPart.getFigure();
         sourceFigure.translateToRelative(location);
 
         int xp = -1;
         int yp = -1;
 
-        Rectangle bounds = sourceFigure.getBounds();
+        final Rectangle bounds = sourceFigure.getBounds();
 
-        Rectangle centerRectangle =
+        final Rectangle centerRectangle =
                 new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
         if (!centerRectangle.contains(location)) {
-            Point point = ERTableEditPart.getIntersectionPoint(location, sourceFigure);
+            final Point point = ERTableEditPart.getIntersectionPoint(location, sourceFigure);
             xp = 100 * (point.x - bounds.x) / bounds.width;
             yp = 100 * (point.y - bounds.y) / bounds.height;
         }
 
-        ReconnectSourceCommand command = new ReconnectSourceCommand(relation, xp, yp);
+        final ReconnectSourceCommand command = new ReconnectSourceCommand(relation, xp, yp);
 
         return command;
     }
@@ -208,45 +195,45 @@ public class NodeElementGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy 
      */
     @Override
     protected Command getReconnectTargetCommand(ReconnectRequest reconnectrequest) {
-        ConnectionElement connection = (ConnectionElement) reconnectrequest.getConnectionEditPart().getModel();
+        final ConnectionElement connection = (ConnectionElement) reconnectrequest.getConnectionEditPart().getModel();
 
         if (!(connection instanceof Relationship)) {
             return null;
         }
 
-        Relationship relation = (Relationship) connection;
+        final Relationship relation = (Relationship) connection;
 
         if (relation.getSource() == relation.getTarget()) {
             return null;
         }
 
-        NodeElement newTarget = (NodeElement) reconnectrequest.getTarget().getModel();
+        final DiagramWalker newTarget = (DiagramWalker) reconnectrequest.getTarget().getModel();
         if (!relation.getTarget().equals(newTarget)) {
             return null;
         }
 
-        NodeElementEditPart targetEditPart = (NodeElementEditPart) reconnectrequest.getConnectionEditPart().getTarget();
+        final DiagramWalkerEditPart targetEditPart = (DiagramWalkerEditPart) reconnectrequest.getConnectionEditPart().getTarget();
 
-        Point location = new Point(reconnectrequest.getLocation());
+        final Point location = new Point(reconnectrequest.getLocation());
 
-        IFigure targetFigure = targetEditPart.getFigure();
+        final IFigure targetFigure = targetEditPart.getFigure();
         targetFigure.translateToRelative(location);
 
         int xp = -1;
         int yp = -1;
 
-        Rectangle bounds = targetFigure.getBounds();
+        final Rectangle bounds = targetFigure.getBounds();
 
-        Rectangle centerRectangle =
+        final Rectangle centerRectangle =
                 new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
         if (!centerRectangle.contains(location)) {
-            Point point = ERTableEditPart.getIntersectionPoint(location, targetFigure);
+            final Point point = ERTableEditPart.getIntersectionPoint(location, targetFigure);
 
             xp = 100 * (point.x - bounds.x) / bounds.width;
             yp = 100 * (point.y - bounds.y) / bounds.height;
         }
-        ReconnectTargetCommand command = new ReconnectTargetCommand(relation, xp, yp);
+        final ReconnectTargetCommand command = new ReconnectTargetCommand(relation, xp, yp);
 
         return command;
     }

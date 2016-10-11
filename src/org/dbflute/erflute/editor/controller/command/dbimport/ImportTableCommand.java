@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bend
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -41,7 +41,7 @@ public class ImportTableCommand extends AbstractCommand {
 
     private GroupSet columnGroupSet;
 
-    private List<NodeElement> nodeElementList;
+    private List<DiagramWalker> nodeElementList;
 
     private List<Sequence> sequences;
 
@@ -63,7 +63,7 @@ public class ImportTableCommand extends AbstractCommand {
 
     private static final int SIZE_X = 6;
 
-    public ImportTableCommand(ERDiagram diagram, List<NodeElement> nodeElementList, List<Sequence> sequences, List<Trigger> triggers,
+    public ImportTableCommand(ERDiagram diagram, List<DiagramWalker> nodeElementList, List<Sequence> sequences, List<Trigger> triggers,
             List<Tablespace> tablespaces, List<ColumnGroup> columnGroups) {
         this.diagram = diagram;
         this.nodeElementList = nodeElementList;
@@ -87,13 +87,13 @@ public class ImportTableCommand extends AbstractCommand {
         this.graph = new DirectedGraph();
 
         if (this.nodeElementList.size() < AUTO_GRAPH_LIMIT) {
-            Map<NodeElement, Node> nodeElementNodeMap = new HashMap<NodeElement, Node>();
+            Map<DiagramWalker, Node> nodeElementNodeMap = new HashMap<DiagramWalker, Node>();
 
             int fontSize = this.diagram.getFontSize();
 
             Insets insets = new Insets(5 * fontSize, 10 * fontSize, 35 * fontSize, 20 * fontSize);
 
-            for (NodeElement nodeElement : this.nodeElementList) {
+            for (DiagramWalker nodeElement : this.nodeElementList) {
                 Node node = new Node();
 
                 node.setPadding(insets);
@@ -101,7 +101,7 @@ public class ImportTableCommand extends AbstractCommand {
                 nodeElementNodeMap.put(nodeElement, node);
             }
 
-            for (NodeElement nodeElement : this.nodeElementList) {
+            for (DiagramWalker nodeElement : this.nodeElementList) {
                 for (ConnectionElement outgoing : nodeElement.getOutgoings()) {
                     Node sourceNode = nodeElementNodeMap.get(outgoing.getSource());
                     Node targetNode = nodeElementNodeMap.get(outgoing.getTarget());
@@ -116,7 +116,7 @@ public class ImportTableCommand extends AbstractCommand {
 
             layout.visit(this.graph);
 
-            for (NodeElement nodeElement : nodeElementNodeMap.keySet()) {
+            for (DiagramWalker nodeElement : nodeElementNodeMap.keySet()) {
                 Node node = nodeElementNodeMap.get(nodeElement);
 
                 if (nodeElement.getWidth() == 0) {
@@ -128,7 +128,7 @@ public class ImportTableCommand extends AbstractCommand {
             int x = ORIGINAL_X;
             int y = ORIGINAL_Y;
 
-            for (NodeElement nodeElement : this.nodeElementList) {
+            for (DiagramWalker nodeElement : this.nodeElementList) {
                 if (nodeElement.getWidth() == 0) {
                     nodeElement.setLocation(new Location(x, y, -1, -1));
 
@@ -155,7 +155,7 @@ public class ImportTableCommand extends AbstractCommand {
 
         ERDiagramEditPart.setUpdateable(false);
 
-        for (NodeElement nodeElement : this.nodeElementList) {
+        for (DiagramWalker nodeElement : this.nodeElementList) {
             this.diagram.addNewContent(nodeElement);
 
             if (nodeElement instanceof TableView) {
@@ -230,7 +230,7 @@ public class ImportTableCommand extends AbstractCommand {
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
 
-        for (NodeElement nodeElement : this.nodeElementList) {
+        for (DiagramWalker nodeElement : this.nodeElementList) {
             this.diagram.removeContent(nodeElement);
 
             if (nodeElement instanceof TableView) {

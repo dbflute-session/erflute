@@ -21,14 +21,14 @@ public class ReadViewLoader {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
-    protected final ReadNodeElementLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader nodeElementLoader;
     protected final ReadColumnLoader columnLoader;
     protected final ReadViewPropertiesLoader viewPropertiesLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadViewLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadNodeElementLoader nodeElementLoader,
+    public ReadViewLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader,
             ReadColumnLoader columnLoader, ReadViewPropertiesLoader viewPropertiesLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;

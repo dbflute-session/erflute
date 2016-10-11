@@ -9,7 +9,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
@@ -35,8 +35,8 @@ public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart im
 
     protected ERDiagram getDiagram() {
         final Object model = this.getRoot().getContents().getModel();
-        if (model instanceof ERModel) {
-            return ((ERModel) model).getDiagram();
+        if (model instanceof ERVirtualDiagram) {
+            return ((ERVirtualDiagram) model).getDiagram();
         }
         return (ERDiagram) model;
     }

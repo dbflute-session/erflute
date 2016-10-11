@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.List;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -25,7 +25,7 @@ public class ReadTableLoader {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
-    protected final ReadNodeElementLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader nodeElementLoader;
     protected final ReadColumnLoader columnLoader;
     protected final ReadIndexLoader indexLoader;
     protected final ReadUniqueKeyLoader uniqueKeyLoader;
@@ -34,7 +34,7 @@ public class ReadTableLoader {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadTableLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadNodeElementLoader nodeElementLoader,
+    public ReadTableLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDiagramWalkerLoader nodeElementLoader,
             ReadColumnLoader columnLoader, ReadIndexLoader indexLoader, ReadUniqueKeyLoader uniqueKeyLoader,
             ReadTablePropertiesLoader tablePropertiesLoader) {
         this.persistentXml = persistentXml;
@@ -74,7 +74,7 @@ public class ReadTableLoader {
         return table;
     }
 
-    public ERVirtualTable loadVirtualTable(ERModel model, Element element, LoadContext context) {
+    public ERVirtualTable loadVirtualTable(ERVirtualDiagram model, Element element, LoadContext context) {
         final String tableId = getStringValue(element, "id");
         final ERTable rawTable = (ERTable) context.nodeElementMap.get(tableId);
         final ERVirtualTable vtable = new ERVirtualTable(model, rawTable);

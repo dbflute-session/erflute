@@ -7,7 +7,7 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -184,7 +184,7 @@ public class SearchManager {
                 break;
             }
 
-            for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+            for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                 if (skip) {
                     if (nodeElement != this.currentTarget) {
                         continue;
@@ -224,7 +224,7 @@ public class SearchManager {
             }
 
             if (this.relationCheckBox) {
-                for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+                for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                     if (nodeElement instanceof ERTable) {
                         ERTable table = (ERTable) nodeElement;
 
@@ -358,7 +358,7 @@ public class SearchManager {
                 break;
             }
 
-            for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+            for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                 if (skip) {
                     if (nodeElement != this.currentTarget) {
                         continue;
@@ -398,7 +398,7 @@ public class SearchManager {
             }
 
             if (this.relationCheckBox) {
-                for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+                for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                     if (nodeElement instanceof ERTable) {
                         ERTable table = (ERTable) nodeElement;
 

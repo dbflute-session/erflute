@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.view.action.option.notation.design;
 
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 
 public class ChangeDesignToFrameAction extends AbstractChangeDesignAction {
 
@@ -8,7 +8,7 @@ public class ChangeDesignToFrameAction extends AbstractChangeDesignAction {
 
     public static final String TYPE = "frame";
 
-    public ChangeDesignToFrameAction(RealModelEditor editor) {
+    public ChangeDesignToFrameAction(MainDiagramEditor editor) {
         super(ID, TYPE, editor);
     }
 

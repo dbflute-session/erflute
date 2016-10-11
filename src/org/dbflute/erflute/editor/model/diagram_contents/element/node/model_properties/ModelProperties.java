@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ModelProperties extends NodeElement implements Cloneable {
+public class ModelProperties extends DiagramWalker implements Cloneable {
 
     private static final long serialVersionUID = 5311013351131568260L;
     public static final String PROPERTY_CHANGE_MODEL_PROPERTIES = "model_properties";

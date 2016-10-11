@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.RightAngleLineCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.draw2d.geometry.Point;
@@ -25,7 +25,7 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = RightAngleLineAction.class.getName();
 
-    public RightAngleLineAction(RealModelEditor editor) {
+    public RightAngleLineAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.right.angle.line"), editor);
     }
 
@@ -33,7 +33,7 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
     protected List<Command> getCommand(EditPart editPart, Event event) {
         final List<Command> commandList = new ArrayList<Command>();
         if (editPart instanceof IResizable) {
-            final NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) editPart;
+            final DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) editPart;
             for (final Object obj : nodeElementEditPart.getSourceConnections()) {
                 final AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) obj;
                 if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
@@ -71,13 +71,13 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
             }
         }
         if (sourceX == -1) {
-            final NodeElementEditPart sourceEditPart = (NodeElementEditPart) connectionEditPart.getSource();
+            final DiagramWalkerEditPart sourceEditPart = (DiagramWalkerEditPart) connectionEditPart.getSource();
             final Point sourcePoint = sourceEditPart.getFigure().getBounds().getCenter();
             sourceX = sourcePoint.x;
             sourceY = sourcePoint.y;
         }
         if (targetX == -1) {
-            final NodeElementEditPart targetEditPart = (NodeElementEditPart) connectionEditPart.getTarget();
+            final DiagramWalkerEditPart targetEditPart = (DiagramWalkerEditPart) connectionEditPart.getTarget();
             final Point targetPoint = targetEditPart.getFigure().getBounds().getCenter();
             targetX = targetPoint.x;
             targetY = targetPoint.y;
@@ -92,8 +92,8 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
         for (final Object object : viewer.getSelectedEditParts()) {
             if (object instanceof ConnectionEditPart) {
                 return true;
-            } else if (object instanceof NodeElementEditPart) {
-                final NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) object;
+            } else if (object instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) object;
                 if (!nodeElementEditPart.getSourceConnections().isEmpty()) {
                     return true;
                 }

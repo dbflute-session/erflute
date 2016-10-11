@@ -29,7 +29,7 @@ public class ChangeNotationExpandGroupCommand extends AbstractCommand {
     protected void doExecute() {
         this.settings.setNotationExpandGroup(this.newNotationExpandGroup);
 
-        for (TableView tableView : this.diagram.getDiagramContents().getContents().getTableViewList()) {
+        for (TableView tableView : this.diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
             tableView.setDirty();
         }
     }
@@ -40,7 +40,7 @@ public class ChangeNotationExpandGroupCommand extends AbstractCommand {
     @Override
     protected void doUndo() {
         this.settings.setNotationExpandGroup(this.oldNotationExpandGroup);
-        for (TableView tableView : this.diagram.getDiagramContents().getContents().getTableViewList()) {
+        for (TableView tableView : this.diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
             tableView.setDirty();
         }
     }

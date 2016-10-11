@@ -210,7 +210,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
             Activator.showErrorDialog("error.unique.key.name.not.alphabet");
             return false;
         }
-        final List<ERTable> tableList = table.getDiagram().getDiagramContents().getContents().getTableSet().getList();
+        final List<ERTable> tableList = table.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet().getList();
         for (final ERTable table : tableList) {
             final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
             for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
@@ -309,7 +309,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
             if (!Check.isAlphabet(uniqueKeyName)) {
                 throw new InputException("error.unique.key.name.not.alphabet");
             }
-            final List<ERTable> tableList = table.getDiagram().getDiagramContents().getContents().getTableSet().getList();
+            final List<ERTable> tableList = table.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet().getList();
             for (final ERTable table : tableList) {
                 final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
                 for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {

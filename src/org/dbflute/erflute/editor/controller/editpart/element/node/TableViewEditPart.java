@@ -43,7 +43,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
-public abstract class TableViewEditPart extends NodeElementEditPart implements IResizable {
+public abstract class TableViewEditPart extends DiagramWalkerEditPart implements IResizable {
 
     private Font titleFont;
 

@@ -295,7 +295,7 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
                 throw new InputException("error.view.physical.name.not.alphabet");
             }
         }
-        final List<TableView> tableViewList = view.getDiagram().getDiagramContents().getContents().getTableViewList();
+        final List<TableView> tableViewList = view.getDiagram().getDiagramContents().getDiagramWalkers().getTableViewList();
         for (final TableView tableView : tableViewList) {
             final String currentName = tableView.getPhysicalName();
             if (previousPhysicalName != null && !previousPhysicalName.equalsIgnoreCase(currentName)) { // other tables

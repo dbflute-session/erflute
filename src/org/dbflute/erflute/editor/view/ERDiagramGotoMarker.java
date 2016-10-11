@@ -1,15 +1,15 @@
 package org.dbflute.erflute.editor.view;
 
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.ide.IGotoMarker;
 
 public class ERDiagramGotoMarker implements IGotoMarker {
 
-    private RealModelEditor editor;
+    private MainDiagramEditor editor;
 
-    public ERDiagramGotoMarker(RealModelEditor editor) {
+    public ERDiagramGotoMarker(MainDiagramEditor editor) {
         this.editor = editor;
     }
 

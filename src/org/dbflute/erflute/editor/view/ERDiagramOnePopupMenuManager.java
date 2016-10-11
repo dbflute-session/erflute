@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view;
 import java.math.BigDecimal;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.settings.CategorySetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.view.action.category.CategoryManageAction;
@@ -59,9 +59,9 @@ import org.eclipse.ui.actions.ActionFactory;
 public class ERDiagramOnePopupMenuManager extends MenuManager {
 
     private final ActionRegistry actionRegistry;
-    private final ERModel erModel;
+    private final ERVirtualDiagram erModel;
 
-    public ERDiagramOnePopupMenuManager(ActionRegistry actionRegistry, final ERModel erModel) {
+    public ERDiagramOnePopupMenuManager(ActionRegistry actionRegistry, final ERVirtualDiagram erModel) {
         this.erModel = erModel;
 
         final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();

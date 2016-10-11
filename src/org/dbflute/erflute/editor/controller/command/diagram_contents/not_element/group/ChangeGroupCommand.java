@@ -65,7 +65,7 @@ public class ChangeGroupCommand extends AbstractCommand {
             this.groupSet.add(newCopyColumnGroup.restructure(diagram));
         }
 
-        for (TableView tableView : this.diagram.getDiagramContents().getContents().getTableViewList()) {
+        for (TableView tableView : this.diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
             List<ERColumn> columns = tableView.getColumns();
             List<ERColumn> oldColumns = new ArrayList<ERColumn>(columns);
 

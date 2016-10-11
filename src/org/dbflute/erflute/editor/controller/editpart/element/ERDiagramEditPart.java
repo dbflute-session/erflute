@@ -11,13 +11,13 @@ import java.util.Set;
 import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.db.DBManagerFactory;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.ERDiagramLayoutEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ViewableModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.view.property_source.ERDiagramPropertySource;
@@ -70,8 +70,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         //				.getCategorySetting().getSelectedCategories());
 
         modelChildren.add(diagram.getDiagramContents().getSettings().getModelProperties());
-        final List<NodeElement> nodeElementList = diagram.getDiagramContents().getContents().getNodeElementList();
-        for (final NodeElement element : nodeElementList) {
+        final List<DiagramWalker> nodeElementList = diagram.getDiagramContents().getDiagramWalkers().getDiagramWalkerList();
+        for (final DiagramWalker element : nodeElementList) {
             modelChildren.add(element);
         }
         return modelChildren;
@@ -83,26 +83,26 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         if ("consumed".equals(event.getPropagationId())) {
             return;
         }
-        if (event.getPropertyName().equals(NodeSet.PROPERTY_CHANGE_CONTENTS)) {
+        if (event.getPropertyName().equals(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS)) {
             refreshChildren();
-        } else if (event.getPropertyName().equals(ERModel.PROPERTY_CHANGE_VTABLES)) {
+        } else if (event.getPropertyName().equals(ERVirtualDiagram.PROPERTY_CHANGE_VTABLES)) {
             refresh();
             refreshRelations();
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL)) {
             this.refresh();
             this.refreshRelations();
-            final List<NodeElement> nodeElementList = (List<NodeElement>) event.getNewValue();
+            final List<DiagramWalker> nodeElementList = (List<DiagramWalker>) event.getNewValue();
             if (nodeElementList != null) {
                 this.getViewer().deselectAll();
                 final SelectionManager selectionManager = this.getViewer().getSelectionManager();
-                final Map<NodeElement, EditPart> modelToEditPart = getModelToEditPart();
-                for (final NodeElement nodeElement : nodeElementList) {
+                final Map<DiagramWalker, EditPart> modelToEditPart = getModelToEditPart();
+                for (final DiagramWalker nodeElement : nodeElementList) {
                     selectionManager.appendSelection(modelToEditPart.get(nodeElement));
                 }
             }
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ADD)) {
             final Object newValue = event.getNewValue();
-            if (newValue instanceof ERModel) {
+            if (newValue instanceof ERVirtualDiagram) {
                 refresh();
                 refreshVisuals();
             }
@@ -122,8 +122,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
     }
 
     private void internalRefreshTable(ERTable table) {
-        final Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
-        for (final Entry<NodeElement, EditPart> entry : entrySet) {
+        final Set<Entry<DiagramWalker, EditPart>> entrySet = getModelToEditPart().entrySet();
+        for (final Entry<DiagramWalker, EditPart> entry : entrySet) {
             if (entry.getKey().equals(table)) {
                 entry.getValue().refresh();
             }
@@ -135,8 +135,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 
     public void refreshRelations() {
         for (final Object child : this.getChildren()) {
-            if (child instanceof NodeElementEditPart) {
-                final NodeElementEditPart part = (NodeElementEditPart) child;
+            if (child instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;
                 part.refreshConnections();
             }
         }
@@ -151,8 +151,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
             this.getViewer().getControl().setBackground(bgColor);
         }
         for (final Object child : this.getChildren()) {
-            if (child instanceof NodeElementEditPart) {
-                final NodeElementEditPart part = (NodeElementEditPart) child;
+            if (child instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;
                 part.refreshVisuals();
             }
         }
@@ -162,8 +162,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         final ERDiagram diagram = (ERDiagram) getModel();
         final Settings settings = diagram.getDiagramContents().getSettings();
         for (final Object child : getChildren()) {
-            if (child instanceof NodeElementEditPart) {
-                final NodeElementEditPart part = (NodeElementEditPart) child;
+            if (child instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;
                 part.changeSettings(settings);
             }
         }
@@ -182,13 +182,13 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         }
     }
 
-    private Map<NodeElement, EditPart> getModelToEditPart() {
-        final Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
+    private Map<DiagramWalker, EditPart> getModelToEditPart() {
+        final Map<DiagramWalker, EditPart> modelToEditPart = new HashMap<DiagramWalker, EditPart>();
         @SuppressWarnings("unchecked")
         final List<Object> children = getChildren();
         for (int i = 0; i < children.size(); i++) {
             final EditPart editPart = (EditPart) children.get(i);
-            modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
+            modelToEditPart.put((DiagramWalker) editPart.getModel(), editPart);
         }
         return modelToEditPart;
     }

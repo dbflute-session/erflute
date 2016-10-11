@@ -7,14 +7,14 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeBackgroundColorCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.NormalColumnEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.ViewableModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
@@ -88,11 +88,11 @@ public class ChangeBackgroundColorAction extends SelectionAction {
     private void setRGB(RGB rgb) {
         this.rgb = rgb;
 
-        EditPart editPart = ((RealModelEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
+        EditPart editPart = ((MainDiagramEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
 
-        if (editPart.getModel() instanceof ERModel) {
+        if (editPart.getModel() instanceof ERVirtualDiagram) {
             // �r���[�̔w�i�F�ύX
-            ERModel model = (ERModel) editPart.getModel();
+            ERVirtualDiagram model = (ERVirtualDiagram) editPart.getModel();
             model.setDefaultColor(this.rgb.red, this.rgb.green, this.rgb.blue);
         } else {
             // �S�̃r���[�̔w�i�F�ύX

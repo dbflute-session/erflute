@@ -7,9 +7,9 @@ import java.io.InputStream;
 import org.apache.commons.codec.binary.Base64;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.io.IOUtils;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
-public class InsertedImage extends NodeElement {
+public class InsertedImage extends DiagramWalker {
 
     private static final long serialVersionUID = -2035035973213266486L;
     public static final String PROPERTY_CHANGE_IMAGE = "image";

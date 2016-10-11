@@ -9,8 +9,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -42,7 +42,7 @@ public class ErmXmlReader {
     protected final ReadDatabaseLoader databaseLoader;
     protected final ReadTablePropertiesLoader tablePropertiesLoader;
     protected final ReadViewPropertiesLoader viewPropertiesLoader;
-    protected final ReadNodeElementLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader nodeElementLoader;
     protected final ReadSequenceLoader sequenceLoader;
     protected final ReadTriggerLoader triggerLoader;
     protected final ReadColumnLoader columnLoader;
@@ -56,7 +56,7 @@ public class ErmXmlReader {
     protected final ReadImageLoader imageLoader;
     protected final ReadTableLoader tableLoader;
     protected final ReadViewLoader viewLoader;
-    protected final ReadERModelLoader ermodelLoader;
+    protected final ReadVirtualDiagramLoader ermodelLoader;
 
     // state
     protected ERDiagram diagram;
@@ -71,7 +71,7 @@ public class ErmXmlReader {
         this.databaseLoader = new ReadDatabaseLoader(persistentXml, assistLogic);
         this.tablePropertiesLoader = new ReadTablePropertiesLoader(persistentXml, assistLogic);
         this.viewPropertiesLoader = new ReadViewPropertiesLoader(persistentXml, assistLogic);
-        this.nodeElementLoader = new ReadNodeElementLoader(persistentXml, assistLogic);
+        this.nodeElementLoader = new ReadDiagramWalkerLoader(persistentXml, assistLogic);
         this.sequenceLoader = new ReadSequenceLoader(persistentXml, assistLogic);
         this.triggerLoader = new ReadTriggerLoader(persistentXml, assistLogic);
         this.columnLoader = new ReadColumnLoader(persistentXml, assistLogic, sequenceLoader);
@@ -87,7 +87,7 @@ public class ErmXmlReader {
                 new ReadTableLoader(persistentXml, assistLogic, nodeElementLoader, columnLoader, indexLoader, uniqueKeyLoader,
                         tablePropertiesLoader);
         this.viewLoader = new ReadViewLoader(persistentXml, assistLogic, nodeElementLoader, columnLoader, viewPropertiesLoader);
-        this.ermodelLoader = new ReadERModelLoader(persistentXml, assistLogic, tableLoader, noteLoader, groupLoader);
+        this.ermodelLoader = new ReadVirtualDiagramLoader(persistentXml, assistLogic, tableLoader, noteLoader, groupLoader);
     }
 
     // ===================================================================================
@@ -146,7 +146,7 @@ public class ErmXmlReader {
         final GroupSet columnGroups = diagramContents.getGroups();
         columnGroups.clear();
         columnLoader.loadColumnGroups(columnGroups, parent, context, database);
-        loadContents(diagramContents.getContents(), parent, context);
+        loadContents(diagramContents.getDiagramWalkers(), parent, context);
         diagramContents.getModelSet().addModels(loadErmodels(parent, context));
         sequenceLoader.loadSequenceSet(diagramContents.getSequenceSet(), parent);
         triggerLoader.loadTriggerSet(diagramContents.getTriggerSet(), parent);
@@ -157,7 +157,7 @@ public class ErmXmlReader {
     // ===================================================================================
     //                                                                            Contents
     //                                                                            ========
-    private void loadContents(NodeSet contents, Element parent, LoadContext context) {
+    private void loadContents(DiagramWalkerSet contents, Element parent, LoadContext context) {
         final Element element = getElement(parent, "contents");
         final NodeList nodeList = element.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -192,8 +192,8 @@ public class ErmXmlReader {
     // ===================================================================================
     //                                                                            ERModels
     //                                                                            ========
-    private List<ERModel> loadErmodels(Element parent, LoadContext context) {
-        return ermodelLoader.loadErmodels(parent, context, diagram);
+    private List<ERVirtualDiagram> loadErmodels(Element parent, LoadContext context) {
+        return ermodelLoader.loadVirtualDiagram(parent, context, diagram);
     }
 
     // ===================================================================================

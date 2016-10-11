@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.DefaultLineCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.gef.ConnectionEditPart;
@@ -21,7 +21,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
 
     public static final String ID = DefaultLineAction.class.getName();
 
-    public DefaultLineAction(RealModelEditor editor) {
+    public DefaultLineAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.default"), editor);
     }
 
@@ -33,7 +33,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
         List<Command> commandList = new ArrayList<Command>();
 
         if (editPart instanceof IResizable) {
-            NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) editPart;
+            DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) editPart;
 
             for (Object obj : nodeElementEditPart.getSourceConnections()) {
                 AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) obj;
@@ -62,8 +62,8 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
             if (object instanceof ConnectionEditPart) {
                 return true;
 
-            } else if (object instanceof NodeElementEditPart) {
-                NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) object;
+            } else if (object instanceof DiagramWalkerEditPart) {
+                DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) object;
 
                 if (!nodeElementEditPart.getSourceConnections().isEmpty()) {
                     return true;

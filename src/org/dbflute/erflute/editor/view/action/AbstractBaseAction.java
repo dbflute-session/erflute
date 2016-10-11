@@ -1,10 +1,10 @@
 package org.dbflute.erflute.editor.view.action;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -20,13 +20,13 @@ import org.eclipse.ui.IFileEditorInput;
 
 public abstract class AbstractBaseAction extends Action {
 
-    private RealModelEditor editor;
+    private MainDiagramEditor editor;
 
-    public AbstractBaseAction(String id, String text, RealModelEditor editor) {
+    public AbstractBaseAction(String id, String text, MainDiagramEditor editor) {
         this(id, text, SWT.NONE, editor);
     }
 
-    public AbstractBaseAction(String id, String text, int style, RealModelEditor editor) {
+    public AbstractBaseAction(String id, String text, int style, MainDiagramEditor editor) {
         super(text, style);
         this.setId(id);
 
@@ -51,7 +51,7 @@ public abstract class AbstractBaseAction extends Action {
         if (model instanceof ERDiagram) {
             return (ERDiagram) model;
         }
-        return ((ERModel) model).getDiagram();
+        return ((ERVirtualDiagram) model).getDiagram();
     }
 
     protected GraphicalViewer getGraphicalViewer() {
@@ -90,7 +90,7 @@ public abstract class AbstractBaseAction extends Action {
         return null;
     }
 
-    protected RealModelEditor getEditorPart() {
+    protected MainDiagramEditor getEditorPart() {
         return this.editor;
     }
 }

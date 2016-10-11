@@ -28,20 +28,10 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
     public ERDiagramPaletteRoot() {
         final PaletteGroup group = new PaletteGroup("");
 
-        final PanningSelectionToolEntry selectionToolEntry = new PanningSelectionToolEntry(DisplayMessages.getMessage("label.select"));
-        selectionToolEntry.setToolClass(MovablePanningSelectionTool.class);
-        selectionToolEntry.setLargeIcon(Activator.getImageDescriptor(ImageKey.ARROW));
-        selectionToolEntry.setSmallIcon(Activator.getImageDescriptor(ImageKey.ARROW));
-
-        group.add(selectionToolEntry);
+        final PanningSelectionToolEntry selectionToolEntry = setupSelectionTool(group);
         // group.add(new MarqueeToolEntry());
 
-        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.table"), DisplayMessages.getMessage("label.create.table"),
-                new SimpleFactory(ERTable.class), Activator.getImageDescriptor(ImageKey.TABLE_NEW),
-                Activator.getImageDescriptor(ImageKey.TABLE_NEW)));
-
-        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.view"), DisplayMessages.getMessage("label.create.view"),
-                new SimpleFactory(ERView.class), Activator.getImageDescriptor(ImageKey.VIEW), Activator.getImageDescriptor(ImageKey.VIEW)));
+        setupTableViewTool(group);
 
         final ConnectionCreationToolEntry toolEntry1 =
                 new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.one.to.many"),
@@ -72,24 +62,10 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
         seflRelationshipToolEntry.setToolClass(SelfRelationCreationTool.class);
         group.add(seflRelationshipToolEntry);
 
-        group.add(new PaletteSeparator());
-
-        final CreationToolEntry noteToolEntry =
-                new CreationToolEntry(DisplayMessages.getMessage("label.note"), DisplayMessages.getMessage("label.create.note"),
-                        new SimpleFactory(Note.class), Activator.getImageDescriptor(ImageKey.NOTE),
-                        Activator.getImageDescriptor(ImageKey.NOTE));
-        group.add(noteToolEntry);
-
-        final ConnectionCreationToolEntry commentConnectionToolEntry =
-                new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.note"),
-                        DisplayMessages.getMessage("label.create.relation.note"), new SimpleFactory(CommentConnection.class),
-                        Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION),
-                        Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION));
-        group.add(commentConnectionToolEntry);
-        group.add(new PaletteSeparator());
-        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.vgroup"), DisplayMessages.getMessage("label.vgroup"),
-                new SimpleFactory(VGroup.class), Activator.getImageDescriptor(ImageKey.CATEGORY),
-                Activator.getImageDescriptor(ImageKey.CATEGORY)));
+        setupSeparator(group);
+        setupNoteTool(group);
+        setupSeparator(group);
+        setupDomainGroupTool(group);
 
         //		group.add(new CreationToolEntry(ResourceString
         //				.getResourceString("label.category"), ResourceString
@@ -98,9 +74,56 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
         //				.getImageDescriptor(ImageKey.CATEGORY), Activator
         //				.getImageDescriptor(ImageKey.CATEGORY)));
 
-        group.add(new PaletteSeparator());
+        setupSeparator(group);
+        setupImageTool(group);
+        add(group);
+
+        setDefaultEntry(selectionToolEntry);
+    }
+
+    private void setupTableViewTool(final PaletteGroup group) {
+        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.table"), DisplayMessages.getMessage("label.create.table"),
+                new SimpleFactory(ERTable.class), Activator.getImageDescriptor(ImageKey.TABLE_NEW),
+                Activator.getImageDescriptor(ImageKey.TABLE_NEW)));
+
+        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.view"), DisplayMessages.getMessage("label.create.view"),
+                new SimpleFactory(ERView.class), Activator.getImageDescriptor(ImageKey.VIEW), Activator.getImageDescriptor(ImageKey.VIEW)));
+    }
+
+    private PanningSelectionToolEntry setupSelectionTool(final PaletteGroup group) {
+        final PanningSelectionToolEntry entry = new PanningSelectionToolEntry(DisplayMessages.getMessage("label.select"));
+        entry.setToolClass(MovablePanningSelectionTool.class);
+        entry.setLargeIcon(Activator.getImageDescriptor(ImageKey.ARROW));
+        entry.setSmallIcon(Activator.getImageDescriptor(ImageKey.ARROW));
+        group.add(entry);
+        return entry;
+    }
+
+    private void setupNoteTool(final PaletteGroup group) {
+        final CreationToolEntry noteToolEntry =
+                new CreationToolEntry(DisplayMessages.getMessage("label.note"), DisplayMessages.getMessage("label.create.note"),
+                        new SimpleFactory(Note.class), Activator.getImageDescriptor(ImageKey.NOTE),
+                        Activator.getImageDescriptor(ImageKey.NOTE));
+        group.add(noteToolEntry);
+        final ConnectionCreationToolEntry relationNoteTool =
+                new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.note"),
+                        DisplayMessages.getMessage("label.create.relation.note"), new SimpleFactory(CommentConnection.class),
+                        Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION),
+                        Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION));
+        group.add(relationNoteTool);
+    }
+
+    private void setupDomainGroupTool(final PaletteGroup group) {
+        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.vgroup"), DisplayMessages.getMessage("label.vgroup"),
+                new SimpleFactory(VGroup.class), Activator.getImageDescriptor(ImageKey.CATEGORY),
+                Activator.getImageDescriptor(ImageKey.CATEGORY)));
+    }
+
+    private void setupImageTool(final PaletteGroup group) {
         group.add(new InsertImageTool());
-        this.add(group);
-        this.setDefaultEntry(selectionToolEntry);
+    }
+
+    private void setupSeparator(final PaletteGroup group) {
+        group.add(new PaletteSeparator());
     }
 }

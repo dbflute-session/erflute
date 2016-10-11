@@ -8,7 +8,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bend
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadNodeElementLoader {
+public class ReadDiagramWalkerLoader {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -29,7 +29,7 @@ public class ReadNodeElementLoader {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadNodeElementLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic) {
+    public ReadDiagramWalkerLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
     }
@@ -37,23 +37,23 @@ public class ReadNodeElementLoader {
     // ===================================================================================
     //                                                                        Node Element
     //                                                                        ============
-    public void loadNodeElement(NodeElement nodeElement, Element element, LoadContext context) {
+    public void loadNodeElement(DiagramWalker walker, Element element, LoadContext context) {
         String id = getStringValue(element, "id");
         if (Srl.is_Null_or_TrimmedEmpty(id)) {
-            if (nodeElement instanceof TableView) {
-                id = ((TableView) nodeElement).buildTableViewId(); // #for_erflute
+            if (walker instanceof TableView) {
+                id = ((TableView) walker).buildTableViewId(); // #for_erflute
             } else {
-                id = nodeElement.getClass().getSimpleName() + "_" + nodeElement.hashCode();
+                id = walker.getClass().getSimpleName() + "_" + walker.hashCode();
             }
         }
-        assistLogic.loadLocation(nodeElement, element);
-        assistLogic.loadColor(nodeElement, element);
-        assistLogic.loadFont(nodeElement, element);
-        context.nodeElementMap.put(id, nodeElement);
-        loadConnections(nodeElement, element, context);
+        assistLogic.loadLocation(walker, element);
+        assistLogic.loadColor(walker, element);
+        assistLogic.loadFont(walker, element);
+        context.nodeElementMap.put(id, walker);
+        loadConnections(walker, element, context);
     }
 
-    private void loadConnections(NodeElement nodeElement, Element parent, LoadContext context) {
+    private void loadConnections(DiagramWalker walker, Element parent, LoadContext context) {
         final Element element = getElement(parent, "connections");
         if (element != null) {
             final NodeList nodeList = element.getChildNodes();
@@ -63,17 +63,17 @@ public class ReadNodeElementLoader {
                 }
                 final Element connectionElement = (Element) nodeList.item(i);
                 if ("relation".equals(connectionElement.getTagName())) { // migration from ERMaster
-                    loadRelationship(nodeElement, connectionElement, context);
+                    loadRelationship(walker, connectionElement, context);
                 } else if ("relationship".equals(connectionElement.getTagName())) { // #for_erflute rename to relationship
-                    loadRelationship(nodeElement, connectionElement, context);
+                    loadRelationship(walker, connectionElement, context);
                 } else if ("comment_connection".equals(connectionElement.getTagName())) {
-                    loadCommentConnection(nodeElement, connectionElement, context);
+                    loadCommentConnection(walker, connectionElement, context);
                 }
             }
         }
     }
 
-    private void loadRelationship(NodeElement nodeElement, Element element, LoadContext context) {
+    private void loadRelationship(DiagramWalker walker, Element element, LoadContext context) {
         final boolean referenceForPK = getBooleanValue(element, "reference_for_pk");
         final Relationship connection = new Relationship(referenceForPK, null, null);
         connection.setForeignKeyName(getStringValue(element, "name"));
@@ -91,21 +91,21 @@ public class ReadNodeElementLoader {
         if (referencedComplexUniqueKeyId != null) {
             context.referencedComplexUniqueKeyMap.put(connection, referencedComplexUniqueKeyId);
         }
-        loadConnectionElement(nodeElement, element, context, connection);
+        loadConnectionElement(walker, element, context, connection);
     }
 
-    private void loadCommentConnection(NodeElement nodeElement, Element element, LoadContext context) {
+    private void loadCommentConnection(DiagramWalker walker, Element element, LoadContext context) {
         final CommentConnection connection = new CommentConnection();
-        loadConnectionElement(nodeElement, element, context, connection);
+        loadConnectionElement(walker, element, context, connection);
     }
 
-    private void loadConnectionElement(NodeElement nodeElement, Element element, LoadContext context, ConnectionElement connection) {
+    private void loadConnectionElement(DiagramWalker walker, Element element, LoadContext context, ConnectionElement connection) {
         final String source = getStringValue(element, "source");
         final String target = getStringValue(element, "target");
         String id = getStringValue(element, "id");
         if (Srl.is_Null_or_TrimmedEmpty(id)) {
-            if (nodeElement instanceof TableView && connection instanceof Relationship) { // table determination just in case
-                id = buildRelationshipId((TableView) nodeElement, element, context, (Relationship) connection);
+            if (walker instanceof TableView && connection instanceof Relationship) { // table determination just in case
+                id = buildRelationshipId((TableView) walker, element, context, (Relationship) connection);
             } else {
                 id = "#error:unknownId_for_" + target + "_to_" + source;
             }

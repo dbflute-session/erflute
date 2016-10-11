@@ -10,7 +10,7 @@ import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
 import org.dbflute.erflute.editor.view.dialog.table.tab.AdvancedTabWrapper;
@@ -121,7 +121,7 @@ public class TableDialog extends AbstractDialog {
             return;
         }
         final String prefix = physicalName.substring(0, prefixPos + 1);
-        final NodeSet nodeSet = copyData.getDiagram().getDiagramContents().getContents();
+        final DiagramWalkerSet nodeSet = copyData.getDiagram().getDiagramContents().getDiagramWalkers();
         final Map<MyColor, Integer> colors = new HashMap<MyColor, Integer>();
         int sum = 0;
         for (final ERTable table : nodeSet.getTableSet()) {

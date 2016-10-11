@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.view.action.ermodel;
 
-import org.dbflute.erflute.editor.RealModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.ermodel.AddERModelCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
@@ -17,7 +17,7 @@ public class VirtualModelAddAction extends AbstractBaseAction {
 
     public static final String ID = VirtualModelAddAction.class.getName();
 
-    public VirtualModelAddAction(RealModelEditor editor) {
+    public VirtualModelAddAction(MainDiagramEditor editor) {
         super(ID, "new VirtualModel()", editor);
     }
 

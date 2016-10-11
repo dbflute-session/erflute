@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.eclipse.swt.graphics.Rectangle;
 
@@ -18,9 +18,9 @@ public class MoveVGroupCommand extends MoveElementCommand {
 
     private boolean move;
 
-    private List<NodeElement> nodeElementList;
+    private List<DiagramWalker> nodeElementList;
 
-    private Map<NodeElement, Rectangle> nodeElementOldLocationMap;
+    private Map<DiagramWalker, Rectangle> nodeElementOldLocationMap;
 
     private VGroup category;
 
@@ -34,12 +34,12 @@ public class MoveVGroupCommand extends MoveElementCommand {
             boolean move) {
         super(diagram, null, x, y, width, height, category);
 
-        this.nodeElementList = new ArrayList<NodeElement>(category.getContents());
+        this.nodeElementList = new ArrayList<DiagramWalker>(category.getContents());
         this.category = category;
         this.move = move;
 
         if (!this.move) {
-            for (NodeElement nodeElement : this.nodeElementList) {
+            for (DiagramWalker nodeElement : this.nodeElementList) {
                 int nodeElementX = nodeElement.getX();
                 int nodeElementY = nodeElement.getY();
                 int nodeElementWidth = nodeElement.getWidth();
@@ -67,12 +67,12 @@ public class MoveVGroupCommand extends MoveElementCommand {
             this.setNewRectangle(x, y, width, height);
 
         } else {
-            this.nodeElementOldLocationMap = new HashMap<NodeElement, Rectangle>();
+            this.nodeElementOldLocationMap = new HashMap<DiagramWalker, Rectangle>();
             this.diffX = x - category.getX();
             this.diffY = y - category.getY();
 
-            for (Iterator<NodeElement> iter = this.nodeElementList.iterator(); iter.hasNext();) {
-                NodeElement nodeElement = iter.next();
+            for (Iterator<DiagramWalker> iter = this.nodeElementList.iterator(); iter.hasNext();) {
+                DiagramWalker nodeElement = iter.next();
                 for (VGroup otherCategory : otherCategories) {
                     if (otherCategory.contains(nodeElement)) {
                         iter.remove();
@@ -81,7 +81,7 @@ public class MoveVGroupCommand extends MoveElementCommand {
                 }
             }
 
-            for (NodeElement nodeElement : this.nodeElementList) {
+            for (DiagramWalker nodeElement : this.nodeElementList) {
                 this.nodeElementOldLocationMap.put(nodeElement,
                         new Rectangle(nodeElement.getX(), nodeElement.getY(), nodeElement.getWidth(), nodeElement.getHeight()));
             }
@@ -96,7 +96,7 @@ public class MoveVGroupCommand extends MoveElementCommand {
         if (this.move) {
             this.bendpointListMap = new HashMap<ConnectionElement, List<Bendpoint>>();
 
-            for (NodeElement nodeElement : this.nodeElementList) {
+            for (DiagramWalker nodeElement : this.nodeElementList) {
                 nodeElement.setLocation(new Location(nodeElement.getX() + diffX, nodeElement.getY() + diffY, nodeElement.getWidth(),
                         nodeElement.getHeight()));
                 this.moveBendpoints(nodeElement);
@@ -113,7 +113,7 @@ public class MoveVGroupCommand extends MoveElementCommand {
     @Override
     protected void doUndo() {
         if (this.move) {
-            for (NodeElement nodeElement : this.nodeElementList) {
+            for (DiagramWalker nodeElement : this.nodeElementList) {
                 Rectangle rectangle = this.nodeElementOldLocationMap.get(nodeElement);
                 nodeElement.setLocation(new Location(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
             }
@@ -124,9 +124,9 @@ public class MoveVGroupCommand extends MoveElementCommand {
         super.doUndo();
     }
 
-    private void moveBendpoints(NodeElement source) {
+    private void moveBendpoints(DiagramWalker source) {
         for (ConnectionElement connectionElement : source.getOutgoings()) {
-            NodeElement target = connectionElement.getTarget();
+            DiagramWalker target = connectionElement.getTarget();
 
             if (this.category.contains(target)) {
                 List<Bendpoint> bendpointList = connectionElement.getBendpoints();

@@ -11,10 +11,10 @@ import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.ERDiagramConnectionEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.ColumnEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementGraphicalNodeEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerGraphicalNodeEditPolicy;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.view.figure.connection.ERDiagramConnection;
@@ -37,7 +37,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
-public abstract class NodeElementEditPart extends AbstractModelEditPart implements NodeEditPart, DeleteableEditPart {
+public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implements NodeEditPart, DeleteableEditPart {
 
     private Font font;
     private Font largeFont;
@@ -56,7 +56,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
 
     @Override
     public void doPropertyChange(PropertyChangeEvent event) {
-        if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_RECTANGLE)) {
+        if (event.getPropertyName().equals(DiagramWalker.PROPERTY_CHANGE_RECTANGLE)) {
             refreshVisuals();
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
             refreshVisuals();
@@ -69,24 +69,24 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
             //				refreshVisuals();
             //			}
             //
-        } else if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_INCOMING)) {
+        } else if (event.getPropertyName().equals(DiagramWalker.PROPERTY_CHANGE_INCOMING)) {
             refreshTargetConnections();
-        } else if (event.getPropertyName().equals(NodeElement.PROPERTY_CHANGE_OUTGOING)) {
+        } else if (event.getPropertyName().equals(DiagramWalker.PROPERTY_CHANGE_OUTGOING)) {
             refreshSourceConnections();
         }
     }
 
-    public NodeElement getNodeModel() {
-        return (NodeElement) super.getModel();
+    public DiagramWalker getNodeModel() {
+        return (DiagramWalker) super.getModel();
     }
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new NodeElementGraphicalNodeEditPolicy());
+        this.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new DiagramWalkerGraphicalNodeEditPolicy());
     }
 
     protected void setVisible() {
-        final NodeElement element = (NodeElement) this.getModel();
+        final DiagramWalker element = (DiagramWalker) this.getModel();
         final Category category = this.getCurrentCategory();
 
         if (category != null) {
@@ -100,7 +100,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
     protected Font changeFont(IFigure figure) {
         this.disposeFont();
 
-        final NodeElement nodeElement = (NodeElement) this.getModel();
+        final DiagramWalker nodeElement = (DiagramWalker) this.getModel();
 
         String fontName = nodeElement.getFontName();
         int fontSize = nodeElement.getFontSize();
@@ -140,7 +140,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
      */
     @Override
     public void refreshVisuals() {
-        final NodeElement element = (NodeElement) this.getModel();
+        final DiagramWalker element = (DiagramWalker) this.getModel();
         this.setVisible();
         final Rectangle rectangle = this.getRectangle();
         final GraphicalEditPart parent = (GraphicalEditPart) this.getParent();
@@ -168,7 +168,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
     }
 
     protected Rectangle getRectangle() {
-        final NodeElement element = (NodeElement) this.getModel();
+        final DiagramWalker element = (DiagramWalker) this.getModel();
 
         final Point point = new Point(element.getX(), element.getY());
 
@@ -191,7 +191,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
      */
     @Override
     protected List getModelSourceConnections() {
-        final NodeElement element = (NodeElement) this.getModel();
+        final DiagramWalker element = (DiagramWalker) this.getModel();
         return element.getOutgoings();
     }
 
@@ -200,7 +200,7 @@ public abstract class NodeElementEditPart extends AbstractModelEditPart implemen
      */
     @Override
     protected List getModelTargetConnections() {
-        final NodeElement element = (NodeElement) this.getModel();
+        final DiagramWalker element = (DiagramWalker) this.getModel();
         return element.getIncomings();
     }
 

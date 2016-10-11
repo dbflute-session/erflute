@@ -3,10 +3,10 @@ package org.dbflute.erflute.editor.controller.editpart.element.node;
 import java.beans.PropertyChangeEvent;
 
 import org.dbflute.erflute.editor.controller.command.category.ChangeVGroupNameCommand;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
 import org.dbflute.erflute.editor.view.figure.VGroupFigure;
 import org.eclipse.draw2d.IFigure;
@@ -17,7 +17,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.ui.PlatformUI;
 
-public class VGroupEditPart extends NodeElementEditPart implements IResizable {
+public class VGroupEditPart extends DiagramWalkerEditPart implements IResizable {
 
     public VGroupEditPart() {
         super();
@@ -57,10 +57,10 @@ public class VGroupEditPart extends NodeElementEditPart implements IResizable {
         //		ERDiagramEditPart rootEditPart = (ERDiagramEditPart) this.getRoot().getContents();
 
         for (Object child : rootEditPart.getChildren()) {
-            if (child instanceof NodeElementEditPart) {
-                NodeElementEditPart editPart = (NodeElementEditPart) child;
+            if (child instanceof DiagramWalkerEditPart) {
+                DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
 
-                if (group.contains((NodeElement) editPart.getModel())) {
+                if (group.contains((DiagramWalker) editPart.getModel())) {
                     Rectangle bounds = editPart.getFigure().getBounds();
 
                     if (bounds.x + bounds.width > rectangle.x + rectangle.width) {
@@ -85,7 +85,7 @@ public class VGroupEditPart extends NodeElementEditPart implements IResizable {
      */
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
 
         super.createEditPolicies();
     }

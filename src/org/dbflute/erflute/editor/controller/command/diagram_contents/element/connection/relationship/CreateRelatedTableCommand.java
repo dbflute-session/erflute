@@ -79,7 +79,7 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.getDiagramContents().getContents().getTableSet().setDirty();
+        this.diagram.getDiagramContents().getDiagramWalkers().getTableSet().setDirty();
     }
 
     /**
@@ -99,7 +99,7 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.getDiagramContents().getContents().getTableSet().setDirty();
+        this.diagram.getDiagramContents().getDiagramWalkers().getTableSet().setDirty();
     }
 
     private void init() {

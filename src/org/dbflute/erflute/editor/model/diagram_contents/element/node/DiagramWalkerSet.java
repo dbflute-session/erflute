@@ -21,7 +21,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ViewS
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
+public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramWalker> {
 
     // ===================================================================================
     //                                                                          Definition
@@ -36,23 +36,23 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
     private final ViewSet viewSet;
     private final NoteSet noteSet;
     private final InsertedImageSet insertedImageSet;
-    private final List<NodeElement> nodeElementList;
+    private final List<DiagramWalker> walkerList;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public NodeSet() {
+    public DiagramWalkerSet() {
         this.tableSet = new TableSet();
         this.viewSet = new ViewSet();
         this.noteSet = new NoteSet();
         this.insertedImageSet = new InsertedImageSet();
-        this.nodeElementList = new ArrayList<NodeElement>();
+        this.walkerList = new ArrayList<DiagramWalker>();
     }
 
     // ===================================================================================
     //                                                                            Add Node
     //                                                                            ========
-    public void addNodeElement(NodeElement element) {
+    public void addNodeElement(DiagramWalker element) {
         if (element instanceof ERTable) {
             this.tableSet.add((ERTable) element);
         } else if (element instanceof ERView) {
@@ -64,11 +64,11 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         } else {
             System.out.println("*Unsupported node element: " + element);
         }
-        nodeElementList.add(element);
+        walkerList.add(element);
         firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
-    public void remove(NodeElement element) {
+    public void remove(DiagramWalker element) {
         if (element instanceof ERTable) {
             this.tableSet.remove((ERTable) element);
         } else if (element instanceof ERView) {
@@ -80,12 +80,12 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         } else {
             System.out.println("*Unsupported node element: " + element);
         }
-        nodeElementList.remove(element);
+        walkerList.remove(element);
         firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
     }
 
-    public boolean contains(NodeElement nodeElement) {
-        return this.nodeElementList.contains(nodeElement);
+    public boolean contains(DiagramWalker nodeElement) {
+        return this.walkerList.contains(nodeElement);
     }
 
     public void clear() {
@@ -93,15 +93,15 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         this.viewSet.getList().clear();
         this.noteSet.getList().clear();
         this.insertedImageSet.getList().clear();
-        this.nodeElementList.clear();
+        this.walkerList.clear();
     }
 
     public boolean isEmpty() {
-        return nodeElementList.isEmpty();
+        return walkerList.isEmpty();
     }
 
-    public List<NodeElement> getNodeElementList() {
-        return nodeElementList;
+    public List<DiagramWalker> getDiagramWalkerList() {
+        return walkerList;
     }
 
     public List<TableView> getTableViewList() {
@@ -111,11 +111,11 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
         return nodeElementList;
     }
 
-    public Set<NodeElement> getPersistentSet() { // #for_erflute
-        final List<NodeElement> elementList = getNodeElementList();
-        final TreeSet<NodeElement> treeSet = new TreeSet<NodeElement>(new Comparator<NodeElement>() {
+    public Set<DiagramWalker> getPersistentSet() { // #for_erflute
+        final List<DiagramWalker> elementList = getDiagramWalkerList();
+        final TreeSet<DiagramWalker> treeSet = new TreeSet<DiagramWalker>(new Comparator<DiagramWalker>() {
             @Override
-            public int compare(NodeElement o1, NodeElement o2) {
+            public int compare(DiagramWalker o1, DiagramWalker o2) {
                 if (o1.getPersistentOrder() != o2.getPersistentOrder()) {
                     return o1.getPersistentOrder() - o2.getPersistentOrder();
                 } else {
@@ -132,8 +132,8 @@ public class NodeSet extends AbstractModel implements Iterable<NodeElement> {
     }
 
     @Override
-    public Iterator<NodeElement> iterator() { // not sorted so cannot use for persistent
-        return this.getNodeElementList().iterator();
+    public Iterator<DiagramWalker> iterator() { // not sorted so cannot use for persistent
+        return this.getDiagramWalkerList().iterator();
     }
 
     // ===================================================================================

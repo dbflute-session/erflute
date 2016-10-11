@@ -18,13 +18,13 @@ public class WrittenViewBuilder {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenNodeElementBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
     protected final WrittenColumnBuilder columnBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenViewBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenNodeElementBuilder nodeElementBuilder,
+    public WrittenViewBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder nodeElementBuilder,
             WrittenColumnBuilder columnBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
