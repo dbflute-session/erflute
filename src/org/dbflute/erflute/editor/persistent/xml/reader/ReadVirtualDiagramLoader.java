@@ -9,7 +9,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ER
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
+import org.dbflute.erflute.editor.persistent.xml.reader.ReadWalkerGroupLoader.WalkerGroupedTableViewProvider;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -24,19 +26,19 @@ public class ReadVirtualDiagramLoader {
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
     protected final ReadTableLoader tableLoader;
-    protected final ReadWalkerNoteLoader noteLoader;
-    protected final ReadWalkerGroupLoader groupLoader;
+    protected final ReadWalkerNoteLoader walkerNoteLoader;
+    protected final ReadWalkerGroupLoader walkerGroupLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public ReadVirtualDiagramLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadTableLoader tableLoader,
-            ReadWalkerNoteLoader noteLoader, ReadWalkerGroupLoader groupLoader) {
+            ReadWalkerNoteLoader walkerNoteLoader, ReadWalkerGroupLoader walkerGroupLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.tableLoader = tableLoader;
-        this.noteLoader = noteLoader;
-        this.groupLoader = groupLoader;
+        this.walkerNoteLoader = walkerNoteLoader;
+        this.walkerGroupLoader = walkerGroupLoader;
     }
 
     // ===================================================================================
@@ -95,7 +97,7 @@ public class ReadVirtualDiagramLoader {
             }
             for (int i = 0; i < noteNodeList.getLength(); i++) {
                 final Element noteElement = (Element) noteNodeList.item(i);
-                final WalkerNote note = noteLoader.loadNote(noteElement, context, vdiagram);
+                final WalkerNote note = walkerNoteLoader.loadNote(noteElement, context, vdiagram);
                 notes.add(note);
                 final String id = getStringValue(noteElement, "id");
                 if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster
@@ -108,7 +110,7 @@ public class ReadVirtualDiagramLoader {
         vdiagram.setWalkerNotes(notes);
     }
 
-    private void loadWalkerGroups(LoadContext context, Element modelElement, ERVirtualDiagram vdiagram) {
+    private void loadWalkerGroups(LoadContext context, Element modelElement, final ERVirtualDiagram vdiagram) {
         final List<WalkerGroup> groups = new ArrayList<WalkerGroup>();
         Element groupsElement = getElement(modelElement, "groups"); // migration from ERMaster
         if (groupsElement == null) {
@@ -121,7 +123,12 @@ public class ReadVirtualDiagramLoader {
             }
             for (int k = 0; k < groupNoteList.getLength(); k++) {
                 final Element groupElement = (Element) groupNoteList.item(k);
-                final WalkerGroup group = groupLoader.loadWalkerGroup(vdiagram, groupElement, context);
+                final WalkerGroup group = walkerGroupLoader.loadGroup(groupElement, context, new WalkerGroupedTableViewProvider() {
+                    @Override
+                    public List<? extends TableView> provide() {
+                        return vdiagram.getVirtualTables();
+                    }
+                });
                 groups.add(group);
                 final String id = getStringValue(groupElement, "id");
                 if (Srl.is_NotNull_and_NotTrimmedEmpty(id)) { // for compatible with ERMaster

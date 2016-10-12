@@ -11,14 +11,17 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
+import org.dbflute.erflute.editor.persistent.xml.reader.ReadWalkerGroupLoader.WalkerGroupedTableViewProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -179,7 +182,13 @@ public class ErmXmlReader {
                 final WalkerNote note = walkerNoteLoader.loadNote((Element) walkerNode, context);
                 contents.addDiagramWalker(note);
             } else if ("walker_group".equals(walkerName) || "group".equals(walkerName)) { // #for_erflute
-                continue; // not use here, saved in ermodel
+                final WalkerGroup group = walkerGroupLoader.loadGroup((Element) walkerNode, context, new WalkerGroupedTableViewProvider() {
+                    @Override
+                    public List<? extends TableView> provide() {
+                        return diagram.getDiagramContents().getDiagramWalkers().getTableViewList();
+                    }
+                });
+                contents.addDiagramWalker(group);
             } else if ("inserted_image".equals(walkerName) || "image".equals(walkerName)) { // #for_erflute
                 final InsertedImage insertedImage = insertedImageLoader.loadInsertedImage((Element) walkerNode, context);
                 contents.addDiagramWalker(insertedImage);

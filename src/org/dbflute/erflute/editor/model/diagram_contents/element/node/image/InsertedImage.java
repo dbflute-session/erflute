@@ -47,7 +47,7 @@ public class InsertedImage extends DiagramWalker {
 
     @Override
     public int getPersistentOrder() {
-        return 14;
+        return 16;
     }
 
     @Override

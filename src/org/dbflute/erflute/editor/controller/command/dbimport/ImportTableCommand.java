@@ -156,7 +156,7 @@ public class ImportTableCommand extends AbstractCommand {
         ERDiagramEditPart.setUpdateable(false);
 
         for (final DiagramWalker nodeElement : this.walkerList) {
-            this.diagram.addNewContent(nodeElement);
+            this.diagram.addNewWalker(nodeElement);
 
             if (nodeElement instanceof TableView) {
                 for (final NormalColumn normalColumn : ((TableView) nodeElement).getNormalColumns()) {

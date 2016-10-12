@@ -277,7 +277,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                         new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
                         new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new VirtualModelAddAction(this),
                         new ERModelQuickOutlineAction(this), }));
-        Activator.debug(this, "createActions()", "...Preparing diagram actions: ");
+        Activator.debug(this, "createActions()", "...Preparing diagram actions: " + actionList.size());
         actionList.addAll(extensionLoader.createExtendedActions());
         for (final IAction action : actionList) {
             if (action instanceof SelectionAction) {

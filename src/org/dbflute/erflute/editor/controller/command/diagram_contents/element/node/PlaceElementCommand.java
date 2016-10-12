@@ -56,7 +56,7 @@ public class PlaceElementCommand extends AbstractCommand {
     @Override
     protected void doExecute() {
         if (!(this.element instanceof Category)) {
-            this.diagram.addNewContent(this.element);
+            this.diagram.addNewWalker(this.element);
 
         } else {
             Category category = (Category) this.element;

@@ -69,7 +69,7 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
         this.init();
 
-        this.diagram.addNewContent(this.relatedTable);
+        this.diagram.addNewWalker(this.relatedTable);
 
         this.relation1.setSourceWalker((ERTable) this.source.getModel());
         this.relation1.setTargetTableView(this.relatedTable);

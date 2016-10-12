@@ -2,6 +2,7 @@ package org.dbflute.erflute.editor.model;
 
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -80,56 +81,57 @@ public class ERDiagram extends ViewableModel {
     // ===================================================================================
     //                                                                    Content Handling
     //                                                                    ================
-    public void addNewContent(DiagramWalker element) {
-        element.setColor(defaultColor[0], defaultColor[1], defaultColor[2]);
-        element.setFontName(getFontName());
-        element.setFontSize(getFontSize());
-        addContent(element);
+    public void addNewWalker(DiagramWalker walker) {
+        Activator.debug(this, "addNewWalker()", "...Adding new walker: " + walker);
+        walker.setColor(defaultColor[0], defaultColor[1], defaultColor[2]);
+        walker.setFontName(getFontName());
+        walker.setFontSize(getFontSize());
+        addWalkerPlainly(walker);
     }
 
-    public void addContent(DiagramWalker element) {
-        element.setDiagram(this);
-        diagramContents.getDiagramWalkers().addDiagramWalker(element);
+    public void addWalkerPlainly(DiagramWalker walker) {
+        walker.setDiagram(this);
+        diagramContents.getDiagramWalkers().addDiagramWalker(walker);
         if (editor != null) {
             final Category category = editor.getCurrentPageCategory();
             if (category != null) {
-                category.getContents().add(element);
+                category.getContents().add(walker);
             }
         }
-        if (element instanceof TableView) {
-            for (final NormalColumn normalColumn : ((TableView) element).getNormalColumns()) {
+        if (walker instanceof TableView) {
+            for (final NormalColumn normalColumn : ((TableView) walker).getNormalColumns()) {
                 getDiagramContents().getDictionary().add(normalColumn);
             }
         }
-        if (element instanceof ERTable) {
-            final ERTable table = (ERTable) element;
+        if (walker instanceof ERTable) {
+            final ERTable table = (ERTable) walker;
             if (getCurrentVirtualDiagram() != null) {
                 // ビュー上に仮想テーブルを追加する
                 final ERVirtualDiagram model = getCurrentVirtualDiagram();
                 final ERVirtualTable virtualTable = new ERVirtualTable(model, table);
-                virtualTable.setPoint(element.getX(), element.getY());
+                virtualTable.setPoint(walker.getX(), walker.getY());
 
                 // メインビュー上では左上に配置
-                element.setLocation(new Location(0, 0, element.getWidth(), element.getHeight()));
+                walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
 
                 model.addTable(virtualTable);
             }
         }
-        if (element instanceof ERVirtualTable) {
-            final ERVirtualTable virtualTable = (ERVirtualTable) element;
+        if (walker instanceof ERVirtualTable) {
+            final ERVirtualTable virtualTable = (ERVirtualTable) walker;
             if (getCurrentVirtualDiagram() != null) {
                 // ビュー上に仮想テーブルを追加する
                 final ERVirtualDiagram model = getCurrentVirtualDiagram();
                 //ERVirtualTable virtualTable = new ERVirtualTable(model, table);
-                virtualTable.setPoint(element.getX(), element.getY());
+                virtualTable.setPoint(walker.getX(), walker.getY());
 
                 // メインビュー上では左上に配置
-                element.setLocation(new Location(0, 0, element.getWidth(), element.getHeight()));
+                walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
 
                 model.addTable(virtualTable);
             }
         }
-        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void removeContent(DiagramWalker element) {
@@ -156,12 +158,12 @@ public class ERDiagram extends ViewableModel {
         for (final Category category : this.diagramContents.getSettings().getCategorySetting().getAllCategories()) {
             category.getContents().remove(element);
         }
-        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void replaceContents(DiagramContents newDiagramContents) {
         this.diagramContents = newDiagramContents;
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     // ===================================================================================
@@ -232,18 +234,18 @@ public class ERDiagram extends ViewableModel {
         category.setColor(this.defaultColor[0], this.defaultColor[1], this.defaultColor[2]);
         this.getDiagramContents().getSettings().getCategorySetting().addCategoryAsSelected(category);
         this.editor.initCategoryPages();
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void removeCategory(Category category) {
         this.getDiagramContents().getSettings().getCategorySetting().removeCategory(category);
         this.editor.initCategoryPages();
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void restoreCategories() {
         this.editor.initCategoryPages();
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     // ===================================================================================
@@ -266,7 +268,7 @@ public class ERDiagram extends ViewableModel {
         this.editor.initCategoryPages();
 
         this.firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     //	/**

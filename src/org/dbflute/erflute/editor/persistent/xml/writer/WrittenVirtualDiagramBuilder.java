@@ -19,24 +19,27 @@ public class WrittenVirtualDiagramBuilder {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
-    protected final WrittenWalkerNoteBuilder noteBuilder;
+    protected final WrittenDiagramWalkerBuilder walkerBuilder;
+    protected final WrittenWalkerNoteBuilder walkerNoteBuilder;
+    protected final WrittenWalkerGroupBuilder walkerGroupBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public WrittenVirtualDiagramBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic,
-            WrittenDiagramWalkerBuilder nodeElementBuilder, WrittenWalkerNoteBuilder noteBuilder) {
+            WrittenDiagramWalkerBuilder walkerBuilder, WrittenWalkerNoteBuilder walkerNoteBuilder,
+            WrittenWalkerGroupBuilder walkerGroupBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
-        this.nodeElementBuilder = nodeElementBuilder;
-        this.noteBuilder = noteBuilder;
+        this.walkerBuilder = walkerBuilder;
+        this.walkerNoteBuilder = walkerNoteBuilder;
+        this.walkerGroupBuilder = walkerGroupBuilder;
     }
 
     // ===================================================================================
     //                                                                      VirtualDiagram
     //                                                                      ==============
-    public String buildERModel(ERVirtualDiagramSet modelSet, PersistentContext context) {
+    public String buildVirtualDiagram(ERVirtualDiagramSet modelSet, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<vdiagrams>\n");
         for (final ERVirtualDiagram vdiagram : modelSet) {
@@ -61,7 +64,7 @@ public class WrittenVirtualDiagramBuilder {
             xml.append("\t\t</vtables>\n");
             xml.append("\t\t<walker_notes>\n");
             for (final WalkerNote note : vdiagram.getWalkerNotes()) {
-                xml.append(tab(tab(tab(noteBuilder.buildNote(note, context)))));
+                xml.append(tab(tab(tab(walkerNoteBuilder.buildNote(note, context)))));
             }
             xml.append("\t\t</walker_notes>\n");
             xml.append("\t\t<walker_groups>\n");
@@ -81,10 +84,10 @@ public class WrittenVirtualDiagramBuilder {
     private String buildWalkerGroup(WalkerGroup group, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<walker_group>\n");
-        xml.append(tab(nodeElementBuilder.buildWalker(group, context)));
+        xml.append(tab(walkerBuilder.buildWalker(group, context)));
         xml.append("\t<walker_group_name>").append(escape(group.getName())).append("</walker_group_name>\n");
-        for (final DiagramWalker nodeElement : group.getDiagramWalkerList()) {
-            final String nodeId = context.walkerMap.get(((ERVirtualTable) nodeElement).getRawTable());
+        for (final DiagramWalker walker : group.getDiagramWalkerList()) {
+            final String nodeId = context.walkerMap.get(((ERVirtualTable) walker).getRawTable());
             xml.append("\t<diagram_walker>").append(nodeId).append("</diagram_walker>\n");
         }
         xml.append("</walker_group>\n");

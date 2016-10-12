@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.model.diagram_contents.element.node.note;
 import java.util.List;
 
 import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
@@ -16,7 +17,7 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     //                                                                          Definition
     //                                                                          ==========
     private static final long serialVersionUID = -8810455349879962852L;
-    public static final String PROPERTY_CHANGE_WALKER_NOTE = "note";
+    public static final String PROPERTY_CHANGE_WALKER_NOTE = "walker_note";
 
     // ===================================================================================
     //                                                                           Attribute
@@ -48,7 +49,7 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     //                                                                        ============
     @Override
     public String getObjectType() {
-        return "note";
+        return "walker_note";
     }
 
     @Override
@@ -102,6 +103,11 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
         return Format.null2blank(this.noteText).compareTo(Format.null2blank(other.noteText));
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + Srl.cut(noteText, 10, "...") + ", " + vdiagram + "}";
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
@@ -124,6 +130,6 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
 
     @Override
     public List<WalkerConnection> getPersistentConnections() {
-        return this.outgoings;
+        return outgoings;
     }
 }

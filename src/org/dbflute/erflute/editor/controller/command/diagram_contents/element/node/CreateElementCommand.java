@@ -5,8 +5,8 @@ import java.util.List;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
@@ -23,25 +23,26 @@ public class CreateElementCommand extends AbstractCommand {
     //                                                                           Attribute
     //                                                                           =========
     private final ERDiagram diagram;
-    private final DiagramWalker element;
-    private final List<DiagramWalker> enclosedElementList;
+    private final DiagramWalker walker;
+    private final List<DiagramWalker> enclosedWalkerList;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public CreateElementCommand(ERDiagram diagram, DiagramWalker element, int x, int y, Dimension size, List<DiagramWalker> enclosedElementList) {
+    public CreateElementCommand(ERDiagram diagram, DiagramWalker element, int x, int y, Dimension size,
+            List<DiagramWalker> enclosedElementList) {
         this.diagram = diagram;
-        this.element = element;
+        this.walker = element;
         prepareDefaultLocation(x, y, size);
         prepareDefaultState(element);
-        this.enclosedElementList = enclosedElementList;
+        this.enclosedWalkerList = enclosedElementList;
     }
 
     private void prepareDefaultLocation(int x, int y, Dimension size) {
-        if (element instanceof Category && size != null) {
-            element.setLocation(new Location(x, y, size.width, size.height));
+        if (walker instanceof Category && size != null) {
+            walker.setLocation(new Location(x, y, size.width, size.height));
         } else {
-            element.setLocation(new Location(x, y, ERTable.DEFAULT_WIDTH, ERTable.DEFAULT_HEIGHT));
+            walker.setLocation(new Location(x, y, ERTable.DEFAULT_WIDTH, ERTable.DEFAULT_HEIGHT));
         }
     }
 
@@ -62,34 +63,34 @@ public class CreateElementCommand extends AbstractCommand {
     //                                                                      ==============
     @Override
     protected void doExecute() {
-        final ERVirtualDiagram currentErmodel = diagram.getCurrentVirtualDiagram();
-        if (element instanceof WalkerGroup) {
-            final WalkerGroup group = (WalkerGroup) element;
-            group.setName("Your Group");
-            group.setContents(enclosedElementList);
-            if (currentErmodel != null) {
-                currentErmodel.addGroup(group);
+        final ERVirtualDiagram vdiagram = diagram.getCurrentVirtualDiagram();
+        if (walker instanceof WalkerGroup) {
+            final WalkerGroup group = (WalkerGroup) walker;
+            group.setName("Your Group"); // as default
+            group.setWalkers(enclosedWalkerList);
+            if (vdiagram != null) {
+                vdiagram.addGroup(group);
             } else { // Main Model
-                diagram.addNewContent(group);
+                diagram.addNewWalker(group);
             }
         } else { // e.g. table, note
-            if (currentErmodel != null) {
-                currentErmodel.addNewContent(element);
+            if (vdiagram != null) {
+                vdiagram.addNewContent(walker);
             } else {
-                diagram.addNewContent(element);
+                diagram.addNewWalker(walker);
             }
         }
-        if (currentErmodel != null) {
-            ERModelUtil.refreshDiagram(diagram, element);
+        if (vdiagram != null) {
+            ERModelUtil.refreshDiagram(diagram, walker);
         }
     }
 
     @Override
     protected void doUndo() {
-        if (!(element instanceof Category)) {
-            diagram.removeContent(element);
+        if (!(walker instanceof Category)) {
+            diagram.removeContent(walker);
         } else {
-            final Category category = (Category) element;
+            final Category category = (Category) walker;
             category.getContents().clear();
             diagram.removeCategory(category);
         }
@@ -97,7 +98,7 @@ public class CreateElementCommand extends AbstractCommand {
 
     @Override
     public boolean canExecute() {
-        if (element instanceof Category) {
+        if (walker instanceof Category) {
             if (diagram.getCurrentCategory() != null) {
                 return false;
             }

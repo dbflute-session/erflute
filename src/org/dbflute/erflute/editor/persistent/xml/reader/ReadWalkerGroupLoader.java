@@ -5,9 +5,8 @@ import java.util.List;
 
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 
@@ -35,7 +34,7 @@ public class ReadWalkerGroupLoader {
     // ===================================================================================
     //                                                                        Walker Group
     //                                                                        ============
-    public WalkerGroup loadWalkerGroup(ERVirtualDiagram model, Element node, LoadContext context) {
+    public WalkerGroup loadGroup(Element node, LoadContext context, WalkerGroupedTableViewProvider tablesProvider) {
         final WalkerGroup group = new WalkerGroup();
         nodeElementLoader.loadWalker(group, node, context);
         String groupName = getStringValue(node, "name"); // migration from ERMaster
@@ -43,25 +42,30 @@ public class ReadWalkerGroupLoader {
             groupName = getStringValue(node, "walker_group_name"); // #for_erflute
         }
         group.setName(groupName);
-        final List<ERVirtualTable> vtables = model.getVirtualTables();
         String[] keys = getTagValues(node, "node_element"); // migration from ERMaster
         if (keys == null || keys.length == 0) {
             keys = getTagValues(node, "diagram_walker"); // #for_erflute
         }
+        final List<? extends TableView> tableList = tablesProvider.provide();
         final List<DiagramWalker> walkerList = new ArrayList<DiagramWalker>();
         for (final String key : keys) {
             final DiagramWalker walker = context.walkerMap.get(key);
             if (walker != null) {
-                for (final ERVirtualTable vtable : vtables) {
-                    if (vtable.getRawTable().equals(walker)) {
-                        walkerList.add(vtable);
+                for (final TableView table : tableList) {
+                    if (table.equals(walker)) {
+                        walkerList.add(table);
                         break;
                     }
                 }
             }
         }
-        group.setContents(walkerList);
+        group.setWalkers(walkerList);
         return group;
+    }
+
+    public static interface WalkerGroupedTableViewProvider {
+
+        List<? extends TableView> provide();
     }
 
     // ===================================================================================

@@ -42,21 +42,22 @@ public class ErmXmlWriter {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder walkerBuilder;
     protected final WrittenTablePropertiesBuilder tablePropertiesBuilder;
     protected final WrittenSettingBuilder settingBuilder;
     protected final WrittenDictionaryBuilder dictionaryBuilder;
     protected final WrittenTablespaceBuilder tablespaceBuilder;
     protected final WrittenIndexBuilder indexBuilder;
     protected final WrittenUniqueKeyBuilder uniqueKeyBuilder;
-    protected final WrittenWalkerNoteBuilder noteBuilder;
+    protected final WrittenWalkerNoteBuilder walkerNoteBuilder;
+    protected final WrittenWalkerGroupBuilder walkerGroupBuilder;
     protected final WrittenInsertedImageBuilder imageBuilder;
     protected final WrittenSequenceBuilder sequenceBuilder;
     protected final WrittenTriggerBuilder triggerBuilder;
     protected final WrittenColumnBuilder columnBuilder;
     protected final WrittenViewBuilder viewBuilder;
     protected final WrittenTableBuilder tableBuilder;
-    protected final WrittenVirtualDiagramBuilder ermodelBuilder;
+    protected final WrittenVirtualDiagramBuilder virtualDiagramBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -64,23 +65,25 @@ public class ErmXmlWriter {
     public ErmXmlWriter(PersistentXml persistentXml) {
         this.persistentXml = persistentXml;
         this.assistLogic = new WrittenAssistLogic(persistentXml);
-        this.nodeElementBuilder = new WrittenDiagramWalkerBuilder(persistentXml, assistLogic);
+        this.walkerBuilder = new WrittenDiagramWalkerBuilder(persistentXml, assistLogic);
         this.tablePropertiesBuilder = new WrittenTablePropertiesBuilder(persistentXml, assistLogic);
-        this.settingBuilder = new WrittenSettingBuilder(persistentXml, assistLogic, nodeElementBuilder, tablePropertiesBuilder);
+        this.settingBuilder = new WrittenSettingBuilder(persistentXml, assistLogic, walkerBuilder, tablePropertiesBuilder);
         this.dictionaryBuilder = new WrittenDictionaryBuilder(persistentXml, assistLogic);
         this.tablespaceBuilder = new WrittenTablespaceBuilder(persistentXml, assistLogic);
         this.indexBuilder = new WrittenIndexBuilder(persistentXml, assistLogic);
         this.uniqueKeyBuilder = new WrittenUniqueKeyBuilder(persistentXml, assistLogic);
-        this.noteBuilder = new WrittenWalkerNoteBuilder(persistentXml, assistLogic, nodeElementBuilder);
-        this.imageBuilder = new WrittenInsertedImageBuilder(persistentXml, assistLogic, nodeElementBuilder);
+        this.walkerNoteBuilder = new WrittenWalkerNoteBuilder(persistentXml, assistLogic, walkerBuilder);
+        this.walkerGroupBuilder = new WrittenWalkerGroupBuilder(persistentXml, assistLogic, walkerBuilder);
+        this.imageBuilder = new WrittenInsertedImageBuilder(persistentXml, assistLogic, walkerBuilder);
         this.sequenceBuilder = new WrittenSequenceBuilder(persistentXml, assistLogic);
         this.triggerBuilder = new WrittenTriggerBuilder(persistentXml, assistLogic);
         this.columnBuilder = new WrittenColumnBuilder(persistentXml, assistLogic, sequenceBuilder);
         this.tableBuilder = new WrittenTableBuilder(persistentXml //
-                , assistLogic, nodeElementBuilder, columnBuilder //
+                , assistLogic, walkerBuilder, columnBuilder //
                 , indexBuilder, uniqueKeyBuilder, tablePropertiesBuilder);
-        this.viewBuilder = new WrittenViewBuilder(persistentXml, assistLogic, nodeElementBuilder, columnBuilder);
-        this.ermodelBuilder = new WrittenVirtualDiagramBuilder(persistentXml, assistLogic, nodeElementBuilder, noteBuilder);
+        this.viewBuilder = new WrittenViewBuilder(persistentXml, assistLogic, walkerBuilder, columnBuilder);
+        this.virtualDiagramBuilder =
+                new WrittenVirtualDiagramBuilder(persistentXml, assistLogic, walkerBuilder, walkerNoteBuilder, walkerGroupBuilder);
     }
 
     // ===================================================================================
@@ -197,11 +200,11 @@ public class ErmXmlWriter {
             } else if (content instanceof ERView) {
                 subxml = buildView((ERView) content, context);
             } else if (content instanceof WalkerNote) {
-                subxml = noteBuilder.buildNote((WalkerNote) content, context);
+                subxml = walkerNoteBuilder.buildNote((WalkerNote) content, context);
+            } else if (content instanceof WalkerGroup) {
+                subxml = walkerGroupBuilder.buildGroup((WalkerGroup) content, context);
             } else if (content instanceof InsertedImage) {
                 subxml = imageBuilder.buildInsertedImage((InsertedImage) content, context);
-            } else if (content instanceof WalkerGroup) {
-                continue; // not use here, saved in ermodel
             } else {
                 throw new IllegalStateException("*Unsupported contents: " + content);
             }
@@ -217,7 +220,7 @@ public class ErmXmlWriter {
     //                                                                             ERModel
     //                                                                             =======
     private String buildVirtualDiagram(ERVirtualDiagramSet modelSet, PersistentContext context) {
-        return ermodelBuilder.buildERModel(modelSet, context);
+        return virtualDiagramBuilder.buildVirtualDiagram(modelSet, context);
     }
 
     // ===================================================================================

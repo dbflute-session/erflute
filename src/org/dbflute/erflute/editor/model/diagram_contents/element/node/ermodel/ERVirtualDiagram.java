@@ -112,7 +112,7 @@ public class ERVirtualDiagram extends DiagramWalker {
         } else if (element instanceof WalkerGroup) {
             ((WalkerGroup) element).setVirtualDiagram(this);
         } else {
-            getDiagram().addContent(element);
+            getDiagram().addWalkerPlainly(element);
         }
         int[] color = defaultColor;
         if (color == null) {
@@ -170,6 +170,14 @@ public class ERVirtualDiagram extends DiagramWalker {
 
     public String buildVirtualDiagramId() {
         return name + "_" + hashCode();
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + name + ", tables=" + (tables != null ? tables.size() : null) + "}";
     }
 
     // ===================================================================================

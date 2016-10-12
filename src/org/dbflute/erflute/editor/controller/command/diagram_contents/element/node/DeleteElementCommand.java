@@ -31,6 +31,6 @@ public class DeleteElementCommand extends AbstractCommand {
      */
     @Override
     protected void doUndo() {
-        this.container.addContent(this.element);
+        this.container.addWalkerPlainly(this.element);
     }
 }

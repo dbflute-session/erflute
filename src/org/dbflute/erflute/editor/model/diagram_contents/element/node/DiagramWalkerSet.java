@@ -29,7 +29,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     //                                                                          Definition
     //                                                                          ==========
     private static final long serialVersionUID = -120487815554383179L;
-    public static final String PROPERTY_CHANGE_CONTENTS = "diagram_walkers";
+    public static final String PROPERTY_CHANGE_DIAGRAM_WALKER = "diagram_walkers";
 
     // ===================================================================================
     //                                                                           Attribute
@@ -61,17 +61,17 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
             this.tableSet.add((ERTable) walker);
         } else if (walker instanceof ERView) {
             this.viewSet.add((ERView) walker);
-        } else if (walker instanceof WalkerGroup) {
-            this.walkerGroupSet.add((WalkerGroup) walker);
         } else if (walker instanceof WalkerNote) {
             this.walkerNoteSet.add((WalkerNote) walker);
+        } else if (walker instanceof WalkerGroup) {
+            this.walkerGroupSet.add((WalkerGroup) walker);
         } else if (walker instanceof InsertedImage) {
             this.insertedImageSet.add((InsertedImage) walker);
         } else {
             System.out.println("*Unsupported diagram walker: " + walker);
         }
         walkerList.add(walker);
-        firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
+        firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void remove(DiagramWalker element) {
@@ -89,7 +89,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
             System.out.println("*Unsupported diagram walker: " + element);
         }
         walkerList.remove(element);
-        firePropertyChange(PROPERTY_CHANGE_CONTENTS, null, null);
+        firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public boolean contains(DiagramWalker nodeElement) {

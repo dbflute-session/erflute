@@ -40,7 +40,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
     private Text categoryNameText;
     private Map<WalkerGroup, TableEditor> categoryCheckMap;
     private Map<DiagramWalker, TableEditor> nodeCheckMap;
-    private WalkerGroup targetCategory;
+    private WalkerGroup walkerGroup;
     private Button upButton;
     private Button downButton;
 
@@ -192,12 +192,12 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
             //				selectCheckButton.setSelection(true);
             //			}
             this.categoryCheckMap.put(group, editor);
-            if (this.targetCategory == group) {
+            if (this.walkerGroup == group) {
                 categoryTable.setSelection(tableItem);
             }
         }
-        if (this.targetCategory != null) {
-            initNodeList(targetCategory);
+        if (this.walkerGroup != null) {
+            initNodeList(walkerGroup);
         } else {
             deleteNodeList();
         }
@@ -255,11 +255,11 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
                     return;
                 }
                 validatePage();
-                if (targetCategory == null) {
+                if (walkerGroup == null) {
                     initNodeTable();
                 }
-                targetCategory = getWalkerGroups().get(index);
-                initNodeList(targetCategory);
+                walkerGroup = getWalkerGroups().get(index);
+                initNodeList(walkerGroup);
             }
         });
         this.addCategoryButton.addSelectionListener(new SelectionAdapter() {
@@ -270,15 +270,13 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
                     return;
                 }
                 validatePage();
-                if (targetCategory == null) {
+                if (walkerGroup == null) {
                     initNodeTable();
                 }
-                final WalkerGroup walkerGroup = new WalkerGroup();
+                walkerGroup = new WalkerGroup();
                 final int[] color = getDefaultColor();
-                walkerGroup.setColor(color[0], color[1], color[2]);
                 walkerGroup.setName(name);
-                //categorySettings.addCategoryAsSelected(addCategory);
-                targetCategory = walkerGroup;
+                walkerGroup.setColor(color[0], color[1], color[2]);
                 initCategoryTable();
             }
         });
@@ -290,7 +288,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
                     return;
                 }
                 validatePage();
-                targetCategory.setName(name);
+                walkerGroup.setName(name);
                 initCategoryTable();
             }
         });
@@ -391,7 +389,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
     }
 
     public void validatePage() {
-        if (targetCategory != null) {
+        if (walkerGroup != null) {
             final List<DiagramWalker> selectedNodeElementList = new ArrayList<DiagramWalker>();
             for (final DiagramWalker table : this.nodeCheckMap.keySet()) {
                 final Button selectCheckButton = (Button) this.nodeCheckMap.get(table).getEditor();
@@ -399,7 +397,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
                     selectedNodeElementList.add(table);
                 }
             }
-            targetCategory.setContents(selectedNodeElementList);
+            walkerGroup.setWalkers(selectedNodeElementList);
         }
         final List<WalkerGroup> selectedCategories = new ArrayList<WalkerGroup>();
         for (final WalkerGroup category : getWalkerGroups()) {

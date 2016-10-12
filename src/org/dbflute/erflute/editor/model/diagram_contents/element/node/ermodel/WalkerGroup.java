@@ -18,7 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERVie
 public class WalkerGroup extends DiagramWalker implements IResizable, Comparable<WalkerGroup> {
 
     private static final long serialVersionUID = 8251435120903384808L;
-    public static final String PROPERTY_CHANGE_WALKER_GROUP = "group";
+    public static final String PROPERTY_CHANGE_WALKER_GROUP = "walker_group";
 
     private String name;
     private List<DiagramWalker> walkerList;
@@ -28,7 +28,7 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
         this.walkerList = new ArrayList<DiagramWalker>();
     }
 
-    public void setContents(List<DiagramWalker> walkerList) {
+    public void setWalkers(List<DiagramWalker> walkerList) {
         this.walkerList = walkerList;
         if (getWidth() == 0) {
             int categoryX = 0;
@@ -115,7 +115,7 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
 
     @Override
     public String getObjectType() {
-        return "vgroup";
+        return "walker_group";
     }
 
     @Override
@@ -129,11 +129,11 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     }
 
     // ===================================================================================
-    //                                                                     as Node Element
-    //                                                                     ===============
+    //                                                                           as Walker
+    //                                                                           =========
     @Override
     public int getPersistentOrder() {
-        return 16;
+        return 14;
     }
 
     @Override
@@ -162,6 +162,11 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     public WalkerGroup clone() {
         final WalkerGroup clone = (WalkerGroup) super.clone();
         return clone;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + name + ", " + walkerList + ", " + vdiagram + "}";
     }
 
     // ===================================================================================

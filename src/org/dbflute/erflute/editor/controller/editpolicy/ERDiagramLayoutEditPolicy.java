@@ -143,40 +143,36 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
         final Rectangle rectangle = (Rectangle) constraint;
         final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
-        final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
+        final DiagramWalker walker = (DiagramWalker) editPart.getModel();
         final Rectangle currentRectangle = editPart.getFigure().getBounds();
         boolean move = false;
         if (rectangle.width == currentRectangle.width && rectangle.height == currentRectangle.height) {
             move = true;
         }
-        if (nodeElement instanceof Category) {
-            final Category category = (Category) nodeElement;
+        if (walker instanceof Category) {
+            final Category category = (Category) walker;
             List<Category> otherCategories = null;
             if (move) {
-                if (this.getOtherCategory((Category) nodeElement) != null) {
+                if (getOtherCategory((Category) walker) != null) {
                     return null;
                 }
-                otherCategories = this.getOtherSelectedCategories(category);
+                otherCategories = getOtherSelectedCategories(category);
             }
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
             return new MoveCategoryCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, category, otherCategories,
                     move);
-        } else if (nodeElement instanceof WalkerGroup) {
-            final WalkerGroup vgroup = (WalkerGroup) nodeElement;
+        } else if (walker instanceof WalkerGroup) {
+            final WalkerGroup walkerGroup = (WalkerGroup) walker;
             List<WalkerGroup> otherGroups = null;
             if (move) {
-                //				if (this.getOtherCategory((VGroup) nodeElement) != null) {
-                //					return null;
-                //				}
-                otherGroups = getOtherSelectedGroups(vgroup);
+                otherGroups = getOtherSelectedGroups(walkerGroup);
             }
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-            return new MoveWalkerGroupCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, vgroup, otherGroups, move);
-
+            return new MoveWalkerGroupCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, walkerGroup,
+                    otherGroups, move);
         } else {
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-            return new MoveElementCommand(diagram, currentRectangle, rectangle.x, rectangle.y, rectangle.width, rectangle.height,
-                    nodeElement);
+            return new MoveElementCommand(diagram, currentRectangle, rectangle.x, rectangle.y, rectangle.width, rectangle.height, walker);
         }
     }
 
@@ -307,7 +303,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
         final AbstractModelEditPart editPart = (AbstractModelEditPart) this.getHost();
         final Point point = request.getLocation();
         editPart.getFigure().translateToRelative(point);
-        final DiagramWalker element = (DiagramWalker) request.getNewObject(); // e.g. table, note
+        final DiagramWalker walker = (DiagramWalker) request.getNewObject(); // e.g. table, note, group
         final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
         Dimension size = request.getSize();
         final List<DiagramWalker> enclosedElementList = new ArrayList<DiagramWalker>();
@@ -326,7 +322,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 }
             }
         }
-        return new CreateElementCommand(diagram, element, point.x, point.y, size, enclosedElementList);
+        return new CreateElementCommand(diagram, walker, point.x, point.y, size, enclosedElementList);
     }
 
     @Override

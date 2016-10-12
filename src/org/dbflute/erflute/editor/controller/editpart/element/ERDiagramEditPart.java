@@ -83,7 +83,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         if ("consumed".equals(event.getPropagationId())) {
             return;
         }
-        if (event.getPropertyName().equals(DiagramWalkerSet.PROPERTY_CHANGE_CONTENTS)) {
+        if (event.getPropertyName().equals(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER)) {
             refreshChildren();
         } else if (event.getPropertyName().equals(ERVirtualDiagram.PROPERTY_CHANGE_VTABLES)) {
             refresh();
