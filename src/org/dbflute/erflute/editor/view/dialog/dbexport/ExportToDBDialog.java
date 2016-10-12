@@ -101,7 +101,7 @@ public class ExportToDBDialog extends AbstractDialog {
             throw e;
 
         } catch (Exception e) {
-            Activator.log(e);
+            Activator.error(e);
             Throwable cause = e.getCause();
 
             if (cause instanceof UnknownHostException) {

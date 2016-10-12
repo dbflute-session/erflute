@@ -22,7 +22,6 @@ import org.dbflute.erflute.editor.model.settings.Settings;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * #analyzed is one ERD
  * @author modified by jflute (originated in ermaster)
  */
 public class ERDiagram extends ViewableModel {

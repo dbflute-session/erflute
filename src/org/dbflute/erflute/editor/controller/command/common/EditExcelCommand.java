@@ -72,7 +72,7 @@ public class EditExcelCommand extends AbstractCommand {
                     }
 
                 } catch (CoreException e) {
-                    Activator.log(e);
+                    Activator.error(e);
                 }
 
             }

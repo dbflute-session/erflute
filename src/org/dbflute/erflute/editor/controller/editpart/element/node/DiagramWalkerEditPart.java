@@ -37,6 +37,9 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implements NodeEditPart, DeleteableEditPart {
 
     private Font font;
@@ -142,19 +145,6 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
         parent.setLayoutConstraint(this, figure, rectangle);
     }
 
-    public void refreshConnections() {
-        for (final Object sourceConnection : this.getSourceConnections()) {
-            final ConnectionEditPart editPart = (ConnectionEditPart) sourceConnection;
-            final WalkerConnection connectinoElement = (WalkerConnection) editPart.getModel();
-            connectinoElement.setParentMove();
-        }
-        for (final Object targetConnection : this.getTargetConnections()) {
-            final ConnectionEditPart editPart = (ConnectionEditPart) targetConnection;
-            final WalkerConnection connectinoElement = (WalkerConnection) editPart.getModel();
-            connectinoElement.setParentMove();
-        }
-    }
-
     protected Rectangle getRectangle() {
         final DiagramWalker element = (DiagramWalker) this.getModel();
         final Point point = new Point(element.getX(), element.getY());
@@ -169,15 +159,31 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
         return new Rectangle(point, dimension);
     }
 
+    // ===================================================================================
+    //                                                                          Connection
+    //                                                                          ==========
+    public void refreshConnections() {
+        for (final Object sourceConnection : getSourceConnections()) {
+            final ConnectionEditPart editPart = (ConnectionEditPart) sourceConnection;
+            final WalkerConnection connectinoElement = (WalkerConnection) editPart.getModel();
+            connectinoElement.setParentMove();
+        }
+        for (final Object targetConnection : getTargetConnections()) {
+            final ConnectionEditPart editPart = (ConnectionEditPart) targetConnection;
+            final WalkerConnection connectinoElement = (WalkerConnection) editPart.getModel();
+            connectinoElement.setParentMove();
+        }
+    }
+
     @Override
     protected List<WalkerConnection> getModelSourceConnections() {
-        final DiagramWalker element = (DiagramWalker) this.getModel();
+        final DiagramWalker element = (DiagramWalker) getModel();
         return element.getOutgoings();
     }
 
     @Override
     protected List<WalkerConnection> getModelTargetConnections() {
-        final DiagramWalker element = (DiagramWalker) this.getModel();
+        final DiagramWalker element = (DiagramWalker) getModel();
         return element.getIncomings();
     }
 
@@ -201,6 +207,9 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
         return new ChopboxAnchor(this.getFigure());
     }
 
+    // ===================================================================================
+    //                                                                     Change Settings
+    //                                                                     ===============
     public void changeSettings(Settings settings) {
         this.refresh();
         for (final Object object : this.getSourceConnections()) {
@@ -211,6 +220,9 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
         }
     }
 
+    // ===================================================================================
+    //                                                                    Various Override
+    //                                                                    ================
     @Override
     public boolean isDeleteable() {
         return true;

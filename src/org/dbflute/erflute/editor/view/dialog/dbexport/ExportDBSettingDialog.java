@@ -113,7 +113,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
             Exception e = exportToDBManager.getException();
             if (e != null) {
-                Activator.log(e);
+                Activator.error(e);
                 String message = e.getMessage();
                 String errorSql = exportToDBManager.getErrorSql();
 
@@ -132,7 +132,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
             throw e;
 
         } catch (Exception e) {
-            Activator.log(e);
+            Activator.error(e);
             Throwable cause = e.getCause();
 
             if (cause instanceof UnknownHostException) {

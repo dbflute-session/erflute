@@ -70,7 +70,7 @@ public class ERModelUtil {
         try {
             Runtime.getRuntime().exec(target);
         } catch (IOException e) {
-            Activator.log(e);
+            Activator.error(e);
         }
     }
 

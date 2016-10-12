@@ -63,7 +63,7 @@ public class PasteAction extends SelectionAction {
         try {
             execute(createCommand());
         } catch (Exception e) {
-            Activator.log(e);
+            Activator.error(e);
         }
     }
 

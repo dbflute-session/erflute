@@ -29,6 +29,9 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERTableEditPart extends TableViewEditPart implements IResizable {
 
     public ERTableEditPart() {

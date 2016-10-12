@@ -5,7 +5,11 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public abstract class WalkerConnection extends AbstractModel {
 
     private static final long serialVersionUID = -5418951773059063716L;
@@ -13,9 +17,9 @@ public abstract class WalkerConnection extends AbstractModel {
     public static final String PROPERTY_CHANGE_BEND_POINT = "bendPoint";
     public static final String PROPERTY_CHANGE_CONNECTION_ATTRIBUTE = "connection_attribute";
 
-    protected DiagramWalker ownerWalker;
-    protected DiagramWalker sourceWalker;
-    protected DiagramWalker targetWalker;
+    protected DiagramWalker ownerWalker; // e.g. ERTable, WalkerNote
+    protected DiagramWalker sourceWalker; // e.g. MEMBER_STATUS, note
+    protected DiagramWalker targetWalker; // e.g. MEMBER, noted table
     private List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
 
     public void delete() {
@@ -54,6 +58,13 @@ public abstract class WalkerConnection extends AbstractModel {
 
     public void setParentMove() {
         firePropertyChange(PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
+    }
+
+    // ===================================================================================
+    //                                                                       Determination
+    //                                                                       =============
+    public boolean isVirtualDiagramOnly() {
+        return ownerWalker instanceof WalkerNote && ((WalkerNote) ownerWalker).isVirtualDiagramNote();
     }
 
     // ===================================================================================

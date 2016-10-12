@@ -399,7 +399,7 @@ public class CategoryManageDialog extends AbstractDialog {
                     initCategoryTable();
 
                 } catch (Exception e) {
-                    Activator.log(e);
+                    Activator.error(e);
                 }
             }
         });

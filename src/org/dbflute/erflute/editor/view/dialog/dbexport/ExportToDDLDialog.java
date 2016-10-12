@@ -355,7 +355,7 @@ public class ExportToDDLDialog extends AbstractDialog {
             out.println(ddlCreator.getCreateDDL(this.diagram));
 
         } catch (final Exception e) {
-            Activator.log(e);
+            Activator.error(e);
             Activator.showMessageDialog(e.getMessage());
 
         } finally {

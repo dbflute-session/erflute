@@ -90,6 +90,10 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
         return true;
     }
 
+    public boolean isVirtualDiagramNote() {
+        return vdiagram != null;
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============

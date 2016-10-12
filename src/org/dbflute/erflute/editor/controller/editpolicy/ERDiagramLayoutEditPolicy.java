@@ -134,7 +134,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
             }
             return compoundCommand;
         } catch (final Exception e) {
-            Activator.log(e);
+            Activator.error(e);
             return null;
         }
     }

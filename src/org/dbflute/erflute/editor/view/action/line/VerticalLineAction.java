@@ -89,7 +89,7 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
                 command = this.adjustSpace(start, top, bottom, list);
             }
         } catch (Exception e) {
-            Activator.log(e);
+            Activator.error(e);
         }
 
         return command;

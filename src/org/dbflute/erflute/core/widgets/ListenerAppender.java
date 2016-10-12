@@ -220,7 +220,7 @@ public class ListenerAppender {
                         createEditor(table, tableItem, tableEditor, xy, editableTable);
                     }
                 } catch (Exception e) {
-                    Activator.log(e);
+                    Activator.error(e);
                 }
             }
 
@@ -232,7 +232,7 @@ public class ListenerAppender {
                         editableTable.onDoubleClicked(xy);
                     }
                 } catch (Exception e) {
-                    Activator.log(e);
+                    Activator.error(e);
                 }
             }
         });

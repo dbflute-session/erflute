@@ -1,6 +1,8 @@
 package org.dbflute.erflute;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.core.DisplayMessages;
@@ -98,7 +100,7 @@ public class Activator extends AbstractUIPlugin {
     //                                                                              ======
     public static void showExceptionDialog(Throwable e) {
         final IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.toString(), e);
-        Activator.log(e);
+        Activator.error(e);
         ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                 DisplayMessages.getMessage("dialog.title.error"), DisplayMessages.getMessage("error.plugin.error.message"), status);
     }
@@ -190,7 +192,14 @@ public class Activator extends AbstractUIPlugin {
         return dialog.open();
     }
 
-    public static void log(Throwable e) {
+    public static void debug(Object caller, String methodName, String msg) {
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+        final String currentDate = format.format(new Date());
+        final String className = caller.getClass().getSimpleName();
+        System.out.println(currentDate + " (" + className + "@" + methodName + ") - " + msg);
+    }
+
+    public static void error(Throwable e) {
         e.printStackTrace();
         Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.getMessage(), e));
     }

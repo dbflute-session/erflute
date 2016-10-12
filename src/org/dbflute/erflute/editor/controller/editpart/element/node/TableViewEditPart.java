@@ -17,6 +17,7 @@ import org.dbflute.erflute.editor.controller.editpolicy.element.node.table_view.
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.table_view.TableViewGraphicalNodeEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -43,6 +44,9 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public abstract class TableViewEditPart extends DiagramWalkerEditPart implements IResizable {
 
     private Font titleFont;
@@ -50,8 +54,8 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
     @Override
     protected List<Object> getModelChildren() {
         final List<Object> modelChildren = new ArrayList<Object>();
-        final TableView tableView = (TableView) this.getModel();
-        final ERDiagram diagram = this.getDiagram();
+        final TableView tableView = (TableView) getModel();
+        final ERDiagram diagram = getDiagram();
         if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {
             modelChildren.addAll(tableView.getExpandedColumns());
         } else {
@@ -60,7 +64,42 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         if (tableView instanceof ERTable) {
             modelChildren.addAll(((ERTable) tableView).getIndexes());
         }
+        Activator.debug(this, "getModelChildren()", "...Preparing model children: " + modelChildren.size());
         return modelChildren;
+    }
+
+    @Override
+    protected List<WalkerConnection> getModelSourceConnections() {
+        final List<WalkerConnection> filteredList = filterConnections(super.getModelSourceConnections());
+        Activator.debug(this, "getModelSourceConnections()", "...Preparing model source connections: " + filteredList.size());
+        return filteredList;
+    }
+
+    @Override
+    protected List<WalkerConnection> getModelTargetConnections() {
+        final List<WalkerConnection> filteredList = filterConnections(super.getModelTargetConnections());
+        Activator.debug(this, "getModelTargetConnections()", "...Preparing model target connections: " + filteredList.size());
+        return filteredList;
+    }
+
+    protected List<WalkerConnection> filterConnections(final List<WalkerConnection> connections) {
+        final List<WalkerConnection> filteredList = new ArrayList<WalkerConnection>();
+        for (final WalkerConnection connection : connections) { // #for_erflute
+            if (isVirtualDiagram()) {
+                if (connection.isVirtualDiagramOnly()) {
+                    filteredList.add(connection);
+                }
+            } else {
+                if (!connection.isVirtualDiagramOnly()) {
+                    filteredList.add(connection);
+                }
+            }
+        }
+        return filteredList;
+    }
+
+    protected boolean isVirtualDiagram() {
+        return false;
     }
 
     @Override

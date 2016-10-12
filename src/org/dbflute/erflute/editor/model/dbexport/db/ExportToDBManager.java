@@ -77,7 +77,7 @@ public class ExportToDBManager implements IRunnableWithProgress {
             stmt.execute(ddl);
 
         } catch (SQLException e) {
-            Activator.log(e);
+            Activator.error(e);
             this.errorSql = ddl;
             throw e;
 
