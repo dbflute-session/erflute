@@ -297,7 +297,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":{" + foreignKeyName + ", " + referencedColumn + "}";
+        return getClass().getSimpleName() + ":{" + foreignKeyName + (referencedColumn != null ? ", " + referencedColumn : "") + "}";
     }
 
     // ===================================================================================

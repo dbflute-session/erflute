@@ -27,13 +27,12 @@ public class ERVirtualTable extends ERTable {
     //                                                                           Attribute
     //                                                                           =========
     private final ERVirtualDiagram vdiagram;
-    private ERTable rawTable;
+    private final ERTable rawTable;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public ERVirtualTable(ERVirtualDiagram vdiagram, ERTable rawTable) {
-        super();
         this.vdiagram = vdiagram;
         this.rawTable = rawTable;
     }
@@ -79,47 +78,46 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<WalkerConnection> getIncomings() {
-        final List<WalkerConnection> elements = new ArrayList<WalkerConnection>();
-        final List<ERVirtualTable> modelTables = vdiagram.getVirtualTables();
-        for (final WalkerConnection el : rawTable.getIncomings()) {
-            final DiagramWalker findEl = el.getWalkerSource();
-            if (findEl instanceof WalkerNote) {
-                if (((WalkerNote) findEl).getVirtualDiagram().equals(vdiagram)) {
-                    elements.add(el);
+        final List<WalkerConnection> connectionList = new ArrayList<WalkerConnection>();
+        final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
+        for (final WalkerConnection connection : rawTable.getIncomings()) {
+            final DiagramWalker walker = connection.getWalkerSource();
+            if (walker instanceof WalkerNote) {
+                if (((WalkerNote) walker).getVirtualDiagram().equals(vdiagram)) {
+                    connectionList.add(connection);
                 }
             } else {
-                for (final ERVirtualTable vtable : modelTables) {
-                    if (vtable.getRawTable().equals(findEl)) {
-                        elements.add(el);
+                for (final ERVirtualTable vtable : vtables) {
+                    if (vtable.getRawTable().equals(walker)) {
+                        connectionList.add(connection);
                         break;
                     }
                 }
             }
         }
-        return elements;
+        return connectionList;
     }
 
     @Override
     public List<WalkerConnection> getOutgoings() {
-        final List<WalkerConnection> elements = new ArrayList<WalkerConnection>();
-        final List<ERVirtualTable> modelTables = vdiagram.getVirtualTables();
-        for (final WalkerConnection el : rawTable.getOutgoings()) {
-            final DiagramWalker findEl = el.getWalkerTarget();
-            if (findEl instanceof WalkerNote) {
-                if (((WalkerNote) findEl).getVirtualDiagram().equals(vdiagram)) {
-                    elements.add(el);
+        final List<WalkerConnection> connectionList = new ArrayList<WalkerConnection>();
+        final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
+        for (final WalkerConnection connection : rawTable.getOutgoings()) {
+            final DiagramWalker walker = connection.getWalkerTarget();
+            if (walker instanceof WalkerNote) {
+                if (((WalkerNote) walker).getVirtualDiagram().equals(vdiagram)) {
+                    connectionList.add(connection);
                 }
-                elements.add(el);
             } else {
-                for (final ERVirtualTable vtable : modelTables) {
-                    if (vtable.getRawTable().equals(findEl)) {
-                        elements.add(el);
+                for (final ERVirtualTable vtable : vtables) {
+                    if (vtable.getRawTable().equals(walker)) {
+                        connectionList.add(connection);
                         break;
                     }
                 }
             }
         }
-        return elements;
+        return connectionList;
     }
 
     @Override
@@ -179,34 +177,34 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relationship> getIncomingRelationshipList() {
-        final List<Relationship> elements = new ArrayList<Relationship>();
-        final List<ERVirtualTable> modelTables = vdiagram.getVirtualTables();
-        for (final Relationship el : rawTable.getIncomingRelationshipList()) {
-            final DiagramWalker findEl = el.getWalkerSource();
-            for (final ERVirtualTable vtable : modelTables) {
-                if (vtable.getRawTable().equals(findEl)) {
-                    elements.add(el);
+        final List<Relationship> relationships = new ArrayList<Relationship>();
+        final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
+        for (final Relationship relationship : rawTable.getIncomingRelationshipList()) {
+            final DiagramWalker walker = relationship.getWalkerSource();
+            for (final ERVirtualTable vtable : vtables) {
+                if (vtable.getRawTable().equals(walker)) {
+                    relationships.add(relationship);
                     break;
                 }
             }
         }
-        return elements;
+        return relationships;
     }
 
     @Override
     public List<Relationship> getOutgoingRelationshipList() {
-        final List<Relationship> elements = new ArrayList<Relationship>();
-        final List<ERVirtualTable> modelTables = vdiagram.getVirtualTables();
-        for (final Relationship el : rawTable.getOutgoingRelationshipList()) {
-            final DiagramWalker findEl = el.getWalkerSource();
-            for (final ERVirtualTable vtable : modelTables) {
-                if (vtable.getRawTable().equals(findEl)) {
-                    elements.add(el);
+        final List<Relationship> relationships = new ArrayList<Relationship>();
+        final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
+        for (final Relationship relationship : rawTable.getOutgoingRelationshipList()) {
+            final DiagramWalker walker = relationship.getWalkerSource();
+            for (final ERVirtualTable vtable : vtables) {
+                if (vtable.getRawTable().equals(walker)) {
+                    relationships.add(relationship);
                     break;
                 }
             }
         }
-        return elements;
+        return relationships;
     }
 
     @Override
@@ -264,19 +262,19 @@ public class ERVirtualTable extends ERTable {
         return rawTable.getNameWithSchema(database);
     }
 
-    public ERTable getRawTable() {
-        return rawTable;
-    }
-
-    public void setRawTable(ERTable rawTable) {
-        this.rawTable = rawTable;
-    }
-
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     @Override
     public String getObjectType() {
         return "vtable";
+    }
+
+    public ERVirtualDiagram getVirtualDiagram() {
+        return vdiagram;
+    }
+
+    public ERTable getRawTable() {
+        return rawTable;
     }
 }

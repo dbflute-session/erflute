@@ -10,10 +10,10 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.editor.model.ObjectModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ColumnHolder;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.CopyColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -64,10 +64,10 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     public void setLocation(Location location) {
         super.setLocation(location);
         if (this.getDiagram() != null) {
-            for (final Relationship relation : this.getOutgoingRelationshipList()) {
-                relation.setParentMove();
+            for (final Relationship relationship : getOutgoingRelationshipList()) {
+                relationship.setParentMove();
             }
-            for (final Relationship relation : this.getIncomingRelationshipList()) {
+            for (final Relationship relation : getIncomingRelationshipList()) {
                 relation.setParentMove();
             }
         }
@@ -199,10 +199,10 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     //                                                                        Relationship
     //                                                                        ============
     private void setTargetTableRelation(TableView sourceTable, List<NormalColumn> newPrimaryKeyColumns) {
-        for (final Relationship relation : sourceTable.getOutgoingRelationshipList()) {
-            if (relation.isReferenceForPK()) {
-                final TableView targetTable = relation.getTargetTableView();
-                final List<NormalColumn> foreignKeyColumns = relation.getForeignKeyColumns();
+        for (final Relationship relationship : sourceTable.getOutgoingRelationshipList()) {
+            if (relationship.isReferenceForPK()) {
+                final TableView targetTable = relationship.getTargetTableView();
+                final List<NormalColumn> foreignKeyColumns = relationship.getForeignKeyColumns();
                 boolean isPrimary = true;
                 boolean isPrimaryChanged = false;
                 for (final NormalColumn primaryKeyColumn : newPrimaryKeyColumns) {
@@ -227,7 +227,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
                         if (isPrimary) {
                             isPrimaryChanged = true;
                         }
-                        final NormalColumn foreignKeyColumn = new NormalColumn(primaryKeyColumn, primaryKeyColumn, relation, isPrimary);
+                        final NormalColumn foreignKeyColumn = new NormalColumn(primaryKeyColumn, primaryKeyColumn, relationship, isPrimary);
                         targetTable.addColumn(foreignKeyColumn);
                     }
                 }

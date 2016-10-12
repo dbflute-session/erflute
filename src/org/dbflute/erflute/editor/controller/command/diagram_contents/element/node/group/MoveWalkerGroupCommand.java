@@ -38,7 +38,6 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
                 final int nodeElementY = nodeElement.getY();
                 int nodeElementWidth = nodeElement.getWidth();
                 int nodeElementHeight = nodeElement.getHeight();
-
                 if (x > nodeElementX) {
                     nodeElementWidth += x - nodeElementX;
                     x = nodeElementX;
@@ -47,24 +46,18 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
                     nodeElementHeight += y - nodeElementY;
                     y = nodeElementY;
                 }
-
                 if (nodeElementX - x + nodeElementWidth > width) {
                     width = nodeElementX - x + nodeElementWidth;
                 }
-
                 if (nodeElementY - y + nodeElementHeight > height) {
                     height = nodeElementY - y + nodeElementHeight;
                 }
-
             }
-
             this.setNewRectangle(x, y, width, height);
-
         } else {
             this.walkerOldLocationMap = new HashMap<DiagramWalker, Rectangle>();
             this.diffX = x - walkerGroup.getX();
             this.diffY = y - walkerGroup.getY();
-
             for (final Iterator<DiagramWalker> iter = this.walkerList.iterator(); iter.hasNext();) {
                 final DiagramWalker nodeElement = iter.next();
                 for (final WalkerGroup otherCategory : otherCategories) {
@@ -74,7 +67,6 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
                     }
                 }
             }
-
             for (final DiagramWalker nodeElement : this.walkerList) {
                 this.walkerOldLocationMap.put(nodeElement, new Rectangle(nodeElement.getX(), nodeElement.getY(), nodeElement.getWidth(),
                         nodeElement.getHeight()));

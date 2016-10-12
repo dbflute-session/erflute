@@ -83,7 +83,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         } catch (final PartInitException e) {
             Activator.showExceptionDialog(e);
         }
-        initCategoryPages();
+        initVirtualPages();
         initStartPage();
         addMouseListenerToTabFolder();
         validate();
@@ -113,7 +113,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         diagram.setEditor(this);
     }
 
-    public void initCategoryPages() { // called by ERDiagram
+    public void initVirtualPages() { // called by ERDiagram
         final String modelName = diagram.getDefaultModelName();
         if (modelName != null) {
             try {
@@ -121,8 +121,8 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
                 diagram.setCurrentVirtualDiagram(vdiagram, vdiagram.getName());
                 final VirtualDiagramEditor modelEditor =
                         new VirtualDiagramEditor(diagram, vdiagram, editPartFactory, zoomComboContributionItem, outlinePage);
-                final int pageNo = addPage(modelEditor, this.getEditorInput()); // as view
-                this.setPageText(pageNo, Format.null2blank(vdiagram.getName()));
+                final int pageNo = addPage(modelEditor, getEditorInput()); // as view
+                setPageText(pageNo, Format.null2blank(vdiagram.getName()));
             } catch (final PartInitException e) {
                 Activator.showExceptionDialog(e);
             }

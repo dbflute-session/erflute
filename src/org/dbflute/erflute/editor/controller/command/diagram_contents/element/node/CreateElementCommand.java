@@ -80,9 +80,7 @@ public class CreateElementCommand extends AbstractCommand {
                 diagram.addNewWalker(walker);
             }
         }
-        if (vdiagram != null) {
-            ERModelUtil.refreshDiagram(diagram, walker);
-        }
+        ERModelUtil.refreshDiagram(diagram, walker);
     }
 
     @Override

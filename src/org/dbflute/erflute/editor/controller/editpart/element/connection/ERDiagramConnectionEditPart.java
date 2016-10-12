@@ -2,8 +2,6 @@ package org.dbflute.erflute.editor.controller.editpart.element.connection;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.model.AbstractModel;
@@ -17,9 +15,6 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
  * @author modified by jflute (originated in ermaster)
  */
 public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEditPart implements PropertyChangeListener {
-
-    private static final Logger logger = Logger.getLogger(ERDiagramConnectionEditPart.class.getName());
-    private static final boolean DEBUG = false;
 
     @Override
     public void activate() {
@@ -38,9 +33,6 @@ public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEdit
     @Override
     public void propertyChange(PropertyChangeEvent event) {
         try {
-            if (DEBUG) {
-                logger.log(Level.INFO, this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
-            }
             if (event.getPropertyName().equals(WalkerConnection.PROPERTY_CHANGE_BEND_POINT)) {
                 this.refreshBendpoints();
             } else if (event.getPropertyName().equals(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE)) {

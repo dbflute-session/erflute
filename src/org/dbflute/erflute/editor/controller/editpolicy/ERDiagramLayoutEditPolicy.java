@@ -47,17 +47,79 @@ import org.eclipse.gef.requests.DirectEditRequest;
  */
 public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
 
+    // ===================================================================================
+    //                                                                              Create
+    //                                                                              ======
     @Override
-    protected void showSizeOnDropFeedback(CreateRequest request) {
-        final Point p = new Point(request.getLocation().getCopy());
-        final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-        final double zoom = zoomManager.getZoom();
-        final IFigure feedback = getSizeOnDropFeedback(request);
-        final Dimension size = request.getSize().getCopy();
-        feedback.translateToRelative(size);
-        feedback.setBounds(new Rectangle((int) (p.x * zoom), (int) (p.y * zoom), size.width, size.height).expand(getCreationFeedbackOffset(request)));
+    protected Command getCreateCommand(CreateRequest request) {
+        // #willanalyze what is this? by jflute
+        //		if (getHost() instanceof ERModelEditPart) {
+        //			ERModelEditPart editPart = (ERModelEditPart) this.getHost();
+        //
+        //			Point point = request.getLocation();
+        //			editPart.getFigure().translateToRelative(point);
+        //
+        //			NodeElement element = (NodeElement) request.getNewObject();
+        //			ERDiagram diagram = (ERDiagram) editPart.getModel();
+        //
+        //			Dimension size = request.getSize();
+        //			List<NodeElement> enclosedElementList = new ArrayList<NodeElement>();
+        //
+        //			if (size != null) {
+        //				ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this
+        //						.getHost().getRoot()).getZoomManager();
+        //				double zoom = zoomManager.getZoom();
+        //				size = new Dimension((int) (size.width / zoom),
+        //						(int) (size.height / zoom));
+        //
+        //				for (Object child : editPart.getChildren()) {
+        //					if (child instanceof NodeElementEditPart) {
+        //						NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) child;
+        //						Rectangle bounds = nodeElementEditPart.getFigure()
+        //								.getBounds();
+        //
+        //						if (bounds.x > point.x
+        //								&& bounds.x + bounds.width < point.x + size.width
+        //								&& bounds.y > point.y
+        //								&& bounds.y + bounds.height < point.y + size.height) {
+        //							enclosedElementList
+        //									.add((NodeElement) nodeElementEditPart
+        //											.getModel());
+        //						}
+        //					}
+        //				}
+        //			}
+        //			return new CreateElementCommand(diagram, element, point.x, point.y,
+        //					size, enclosedElementList);
+        //		}
+        final AbstractModelEditPart editPart = (AbstractModelEditPart) this.getHost();
+        final Point point = request.getLocation();
+        editPart.getFigure().translateToRelative(point);
+        final DiagramWalker walker = (DiagramWalker) request.getNewObject(); // e.g. table, note, group
+        final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
+        Dimension size = request.getSize();
+        final List<DiagramWalker> enclosedElementList = new ArrayList<DiagramWalker>();
+        if (size != null) {
+            final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
+            final double zoom = zoomManager.getZoom();
+            size = new Dimension((int) (size.width / zoom), (int) (size.height / zoom));
+            for (final Object child : editPart.getChildren()) {
+                if (child instanceof DiagramWalkerEditPart) {
+                    final DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) child;
+                    final Rectangle bounds = nodeElementEditPart.getFigure().getBounds();
+                    if (bounds.x > point.x && bounds.x + bounds.width < point.x + size.width && bounds.y > point.y
+                            && bounds.y + bounds.height < point.y + size.height) {
+                        enclosedElementList.add((DiagramWalker) nodeElementEditPart.getModel());
+                    }
+                }
+            }
+        }
+        return new CreateElementCommand(diagram, walker, point.x, point.y, size, enclosedElementList);
     }
 
+    // ===================================================================================
+    //                                                                              Change
+    //                                                                              ======
     @Override
     protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
         if (!(child instanceof DiagramWalkerEditPart)) {
@@ -80,7 +142,6 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                     if (selectedEditPart instanceof CategoryEditPart) {
                         final CategoryEditPart categoryEditPart = (CategoryEditPart) selectedEditPart;
                         final Category category = (Category) categoryEditPart.getModel();
-
                         if (category.contains(nodeElement)) {
                             nothingToDo = true;
                         }
@@ -208,25 +269,6 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
         return otherCategories;
     }
 
-    //	private Category getOtherGroup(VGroup vgroup) {
-    //		ERModel model = (ERModel) getHost().getModel();
-    //
-    //		List<VGroup> selectedCategories = diagram.getDiagramContents()
-    //				.getSettings().getCategorySetting().getSelectedCategories();
-    //
-    //		for (NodeElement nodeElement : vgroup.getContents()) {
-    //			for (VGroup otherCategory : selectedCategories) {
-    //				if (otherCategory != vgroup && !isSelected(otherCategory)) {
-    //					if (otherCategory.contains(nodeElement)) {
-    //						return otherCategory;
-    //					}
-    //				}
-    //			}
-    //		}
-    //
-    //		return null;
-    //	}
-
     private List<WalkerGroup> getOtherSelectedGroups(WalkerGroup group) {
         final List<WalkerGroup> otherCategories = new ArrayList<WalkerGroup>();
         @SuppressWarnings("unchecked")
@@ -258,73 +300,23 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
         return false;
     }
 
+    // ===================================================================================
+    //                                                                       Drop Feedback
+    //                                                                       =============
     @Override
-    protected Command getCreateCommand(CreateRequest request) {
-        // #willanalyze what is this? by jflute
-        //		if (getHost() instanceof ERModelEditPart) {
-        //			ERModelEditPart editPart = (ERModelEditPart) this.getHost();
-        //
-        //			Point point = request.getLocation();
-        //			editPart.getFigure().translateToRelative(point);
-        //
-        //			NodeElement element = (NodeElement) request.getNewObject();
-        //			ERDiagram diagram = (ERDiagram) editPart.getModel();
-        //
-        //			Dimension size = request.getSize();
-        //			List<NodeElement> enclosedElementList = new ArrayList<NodeElement>();
-        //
-        //			if (size != null) {
-        //				ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this
-        //						.getHost().getRoot()).getZoomManager();
-        //				double zoom = zoomManager.getZoom();
-        //				size = new Dimension((int) (size.width / zoom),
-        //						(int) (size.height / zoom));
-        //
-        //				for (Object child : editPart.getChildren()) {
-        //					if (child instanceof NodeElementEditPart) {
-        //						NodeElementEditPart nodeElementEditPart = (NodeElementEditPart) child;
-        //						Rectangle bounds = nodeElementEditPart.getFigure()
-        //								.getBounds();
-        //
-        //						if (bounds.x > point.x
-        //								&& bounds.x + bounds.width < point.x + size.width
-        //								&& bounds.y > point.y
-        //								&& bounds.y + bounds.height < point.y + size.height) {
-        //							enclosedElementList
-        //									.add((NodeElement) nodeElementEditPart
-        //											.getModel());
-        //						}
-        //					}
-        //				}
-        //			}
-        //			return new CreateElementCommand(diagram, element, point.x, point.y,
-        //					size, enclosedElementList);
-        //		}
-        final AbstractModelEditPart editPart = (AbstractModelEditPart) this.getHost();
-        final Point point = request.getLocation();
-        editPart.getFigure().translateToRelative(point);
-        final DiagramWalker walker = (DiagramWalker) request.getNewObject(); // e.g. table, note, group
-        final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
-        Dimension size = request.getSize();
-        final List<DiagramWalker> enclosedElementList = new ArrayList<DiagramWalker>();
-        if (size != null) {
-            final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-            final double zoom = zoomManager.getZoom();
-            size = new Dimension((int) (size.width / zoom), (int) (size.height / zoom));
-            for (final Object child : editPart.getChildren()) {
-                if (child instanceof DiagramWalkerEditPart) {
-                    final DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) child;
-                    final Rectangle bounds = nodeElementEditPart.getFigure().getBounds();
-                    if (bounds.x > point.x && bounds.x + bounds.width < point.x + size.width && bounds.y > point.y
-                            && bounds.y + bounds.height < point.y + size.height) {
-                        enclosedElementList.add((DiagramWalker) nodeElementEditPart.getModel());
-                    }
-                }
-            }
-        }
-        return new CreateElementCommand(diagram, walker, point.x, point.y, size, enclosedElementList);
+    protected void showSizeOnDropFeedback(CreateRequest request) {
+        final Point p = new Point(request.getLocation().getCopy());
+        final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
+        final double zoom = zoomManager.getZoom();
+        final IFigure feedback = getSizeOnDropFeedback(request);
+        final Dimension size = request.getSize().getCopy();
+        feedback.translateToRelative(size);
+        feedback.setBounds(new Rectangle((int) (p.x * zoom), (int) (p.y * zoom), size.width, size.height).expand(getCreationFeedbackOffset(request)));
     }
 
+    // ===================================================================================
+    //                                                                       Core Override
+    //                                                                       =============
     @Override
     protected EditPolicy createChildEditPolicy(EditPart child) {
         return new DiagramWalkerSelectionEditPolicy();

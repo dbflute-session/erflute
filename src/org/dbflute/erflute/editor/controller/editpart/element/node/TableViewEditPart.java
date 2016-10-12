@@ -85,15 +85,10 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
     protected List<WalkerConnection> filterConnections(final List<WalkerConnection> connections) {
         final List<WalkerConnection> filteredList = new ArrayList<WalkerConnection>();
         for (final WalkerConnection connection : connections) { // #for_erflute
-            if (isVirtualDiagram()) {
-                if (connection.isVirtualDiagramOnly()) {
-                    filteredList.add(connection);
-                }
-            } else {
-                if (!connection.isVirtualDiagramOnly()) {
-                    filteredList.add(connection);
-                }
+            if (!isVirtualDiagram() && connection.isVirtualDiagramOnly()) { // e.g. note
+                continue;
             }
+            filteredList.add(connection);
         }
         return filteredList;
     }

@@ -233,18 +233,18 @@ public class ERDiagram extends ViewableModel {
     public void addCategory(Category category) {
         category.setColor(this.defaultColor[0], this.defaultColor[1], this.defaultColor[2]);
         this.getDiagramContents().getSettings().getCategorySetting().addCategoryAsSelected(category);
-        this.editor.initCategoryPages();
+        this.editor.initVirtualPages();
         this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void removeCategory(Category category) {
         this.getDiagramContents().getSettings().getCategorySetting().removeCategory(category);
-        this.editor.initCategoryPages();
+        this.editor.initVirtualPages();
         this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void restoreCategories() {
-        this.editor.initCategoryPages();
+        this.editor.initVirtualPages();
         this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
@@ -265,7 +265,7 @@ public class ERDiagram extends ViewableModel {
 
     public void setSettings(Settings settings) {
         this.getDiagramContents().setSettings(settings);
-        this.editor.initCategoryPages();
+        this.editor.initVirtualPages();
 
         this.firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
         this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);

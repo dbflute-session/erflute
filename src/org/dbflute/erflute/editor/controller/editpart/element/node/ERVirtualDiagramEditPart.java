@@ -61,7 +61,7 @@ public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
 
     @Override
     public void refreshVisuals() {
-        final ERVirtualDiagram element = (ERVirtualDiagram) this.getModel();
+        final ERVirtualDiagram element = (ERVirtualDiagram) getModel();
         final int[] color = element.getColor();
         if (color != null) {
             final Color bgColor = DesignResources.getColor(color);

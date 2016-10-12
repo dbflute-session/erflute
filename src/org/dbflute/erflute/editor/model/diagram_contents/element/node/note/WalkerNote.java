@@ -105,7 +105,8 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":{" + Srl.cut(noteText, 10, "...") + ", " + vdiagram + "}";
+        final String textExp = noteText != null ? Srl.cut(noteText, 10, "...") : "";
+        return getClass().getSimpleName() + ":{" + textExp + ", " + vdiagram + "}";
     }
 
     // ===================================================================================

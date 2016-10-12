@@ -28,10 +28,10 @@ public abstract class WalkerConnection extends AbstractModel {
     }
 
     public void connect() {
-        if (this.sourceWalker != null) {
+        if (sourceWalker != null) {
             sourceWalker.addOutgoing(this);
         }
-        if (this.targetWalker != null) {
+        if (targetWalker != null) {
             targetWalker.addIncoming(this);
         }
     }

@@ -11,7 +11,6 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Self
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.PaletteGroup;
@@ -87,8 +86,9 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
                 new SimpleFactory(ERTable.class), Activator.getImageDescriptor(ImageKey.TABLE_NEW),
                 Activator.getImageDescriptor(ImageKey.TABLE_NEW)));
 
-        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.view"), DisplayMessages.getMessage("label.create.view"),
-                new SimpleFactory(ERView.class), Activator.getImageDescriptor(ImageKey.VIEW), Activator.getImageDescriptor(ImageKey.VIEW)));
+        // #deleted unsupported, view is unneeded in ERD tool by jflute
+        //group.add(new CreationToolEntry(DisplayMessages.getMessage("label.view"), DisplayMessages.getMessage("label.create.view"),
+        //        new SimpleFactory(ERView.class), Activator.getImageDescriptor(ImageKey.VIEW), Activator.getImageDescriptor(ImageKey.VIEW)));
     }
 
     private PanningSelectionToolEntry setupSelectionTool(final PaletteGroup group) {

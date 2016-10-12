@@ -130,7 +130,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
         setVisible();
         final Rectangle rectangle = getRectangle();
         final GraphicalEditPart parent = (GraphicalEditPart) getParent();
-        final IFigure figure = this.getFigure();
+        final IFigure figure = getFigure();
         final int[] color = element.getColor();
         if (color != null) {
             final Color bgColor = DesignResources.getColor(color);
@@ -159,13 +159,13 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     public void refreshConnections() {
         for (final Object sourceConnection : getSourceConnections()) {
             final ConnectionEditPart editPart = (ConnectionEditPart) sourceConnection;
-            final WalkerConnection connectinoElement = (WalkerConnection) editPart.getModel();
-            connectinoElement.setParentMove();
+            final WalkerConnection conn = (WalkerConnection) editPart.getModel();
+            conn.setParentMove();
         }
         for (final Object targetConnection : getTargetConnections()) {
             final ConnectionEditPart editPart = (ConnectionEditPart) targetConnection;
-            final WalkerConnection connectinoElement = (WalkerConnection) editPart.getModel();
-            connectinoElement.setParentMove();
+            final WalkerConnection conn = (WalkerConnection) editPart.getModel();
+            conn.setParentMove();
         }
     }
 
@@ -206,7 +206,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     //                                                                     ===============
     public void changeSettings(Settings settings) {
         this.refresh();
-        for (final Object object : this.getSourceConnections()) {
+        for (final Object object : getSourceConnections()) {
             final ERDiagramConnectionEditPart editPart = (ERDiagramConnectionEditPart) object;
             final ERDiagramConnection connection = (ERDiagramConnection) editPart.getFigure();
             connection.setBezier(settings.isUseBezierCurve());

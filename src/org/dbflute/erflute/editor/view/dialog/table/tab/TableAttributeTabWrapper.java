@@ -14,8 +14,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.view.dialog.column.real.ColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
@@ -316,8 +316,8 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         table.setLogicalName(logicalName);
 
         boolean needPrimaryKey = false;
-        for (final Relationship relation : table.getOutgoingRelationshipList()) {
-            if (relation.isReferenceForPK()) {
+        for (final Relationship relationship : table.getOutgoingRelationshipList()) {
+            if (relationship.isReferenceForPK()) {
                 needPrimaryKey = true;
                 break;
             }
