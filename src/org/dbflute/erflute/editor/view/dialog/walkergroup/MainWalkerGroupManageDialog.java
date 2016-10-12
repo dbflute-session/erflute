@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.category;
+package org.dbflute.erflute.editor.view.dialog.walkergroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +10,9 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
+import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -30,46 +29,26 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-public class WalkerGroupManageDialog extends AbstractDialog {
+public class MainWalkerGroupManageDialog extends AbstractDialog {
 
-    private Table categoryTable = null;
-
-    private Table nodeTable = null;
-
+    private final ERDiagram diagram;
+    private Table categoryTable;
+    private Table nodeTable;
     private Button addCategoryButton;
-
     private Button updateCategoryButton;
-
     private Button deleteCategoryButton;
-
-    private Text categoryNameText = null;
-
-    //	private ERDiagram diagram;
-
-    //	private CategorySetting categorySettings;
-
+    private Text categoryNameText;
     private Map<WalkerGroup, TableEditor> categoryCheckMap;
-
     private Map<DiagramWalker, TableEditor> nodeCheckMap;
-
     private WalkerGroup targetCategory;
-
     private Button upButton;
-
     private Button downButton;
 
-    private ERVirtualDiagram erModel;
-
-    public WalkerGroupManageDialog(Shell parentShell, ERVirtualDiagram model) {
+    public MainWalkerGroupManageDialog(Shell parentShell, ERDiagram diagram) {
         super(parentShell, 2);
-        this.erModel = model;
-        //		this.diagram = diagram;
-        //		this.categorySettings = settings.getCategorySetting();
+        this.diagram = diagram;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initialize(Composite composite) {
         this.createCategoryGroup(composite);
@@ -77,16 +56,16 @@ public class WalkerGroupManageDialog extends AbstractDialog {
     }
 
     private void createCategoryGroup(Composite composite) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 4;
 
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setText(DisplayMessages.getMessage("label.category.message"));
         group.setLayout(gridLayout);
 
         CompositeFactory.filler(group, 4);
 
-        GridData tableGridData = new GridData();
+        final GridData tableGridData = new GridData();
         tableGridData.heightHint = 200;
         tableGridData.horizontalSpan = 3;
         tableGridData.verticalSpan = 2;
@@ -96,13 +75,13 @@ public class WalkerGroupManageDialog extends AbstractDialog {
         this.categoryTable.setLayoutData(tableGridData);
         this.categoryTable.setLinesVisible(true);
 
-        GridData upButtonGridData = new GridData();
+        final GridData upButtonGridData = new GridData();
         upButtonGridData.grabExcessHorizontalSpace = false;
         upButtonGridData.verticalAlignment = GridData.END;
         upButtonGridData.grabExcessVerticalSpace = true;
         upButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
-        GridData downButtonGridData = new GridData();
+        final GridData downButtonGridData = new GridData();
         downButtonGridData.grabExcessVerticalSpace = true;
         downButtonGridData.verticalAlignment = GridData.BEGINNING;
         downButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
@@ -115,13 +94,13 @@ public class WalkerGroupManageDialog extends AbstractDialog {
         this.downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
         this.downButton.setLayoutData(downButtonGridData);
 
-        GridData textGridData = new GridData();
+        final GridData textGridData = new GridData();
         textGridData.widthHint = 150;
 
         this.categoryNameText = new Text(group, SWT.BORDER);
         this.categoryNameText.setLayoutData(textGridData);
 
-        GridData buttonGridData = new GridData();
+        final GridData buttonGridData = new GridData();
         buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.addCategoryButton = new Button(group, SWT.NONE);
@@ -136,28 +115,28 @@ public class WalkerGroupManageDialog extends AbstractDialog {
         this.deleteCategoryButton.setLayoutData(buttonGridData);
         this.deleteCategoryButton.setText(DisplayMessages.getMessage("label.button.delete"));
 
-        TableColumn tableColumn = new TableColumn(categoryTable, SWT.NONE);
+        final TableColumn tableColumn = new TableColumn(categoryTable, SWT.NONE);
         tableColumn.setWidth(30);
         tableColumn.setResizable(false);
-        TableColumn tableColumn1 = new TableColumn(categoryTable, SWT.NONE);
+        final TableColumn tableColumn1 = new TableColumn(categoryTable, SWT.NONE);
         tableColumn1.setWidth(230);
         tableColumn1.setResizable(false);
         tableColumn1.setText(DisplayMessages.getMessage("label.category.name"));
     }
 
     private void createNodeGroup(Composite composite) {
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setLayout(new GridLayout());
         group.setText(DisplayMessages.getMessage("label.category.object.message"));
 
-        GridData gridData1 = new GridData();
+        final GridData gridData1 = new GridData();
         gridData1.heightHint = 15;
 
         Label label = new Label(group, SWT.NONE);
         label.setText("");
         label.setLayoutData(gridData1);
 
-        GridData tableGridData = new GridData();
+        final GridData tableGridData = new GridData();
         tableGridData.heightHint = 200;
 
         this.nodeTable = new Table(group, SWT.BORDER | SWT.HIDE_SELECTION);
@@ -165,22 +144,22 @@ public class WalkerGroupManageDialog extends AbstractDialog {
         this.nodeTable.setLayoutData(tableGridData);
         this.nodeTable.setLinesVisible(true);
 
-        GridData gridData2 = new GridData();
+        final GridData gridData2 = new GridData();
         gridData2.heightHint = 22;
 
         label = new Label(group, SWT.NONE);
         label.setText("");
         label.setLayoutData(gridData2);
 
-        TableColumn tableColumn2 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn2 = new TableColumn(this.nodeTable, SWT.NONE);
         tableColumn2.setWidth(30);
         tableColumn2.setResizable(false);
         tableColumn2.setText("");
-        TableColumn tableColumn3 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn3 = new TableColumn(this.nodeTable, SWT.NONE);
         tableColumn3.setWidth(80);
         tableColumn3.setResizable(false);
         tableColumn3.setText(DisplayMessages.getMessage("label.object.type"));
-        TableColumn tableColumn4 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn4 = new TableColumn(this.nodeTable, SWT.NONE);
         tableColumn4.setWidth(200);
         tableColumn4.setResizable(false);
         tableColumn4.setText(DisplayMessages.getMessage("label.object.name"));
@@ -190,7 +169,7 @@ public class WalkerGroupManageDialog extends AbstractDialog {
         this.categoryTable.removeAll();
 
         if (this.categoryCheckMap != null) {
-            for (TableEditor editor : this.categoryCheckMap.values()) {
+            for (final TableEditor editor : this.categoryCheckMap.values()) {
                 editor.getEditor().dispose();
                 editor.dispose();
             }
@@ -200,34 +179,25 @@ public class WalkerGroupManageDialog extends AbstractDialog {
             this.categoryCheckMap = new HashMap<WalkerGroup, TableEditor>();
         }
 
-        for (WalkerGroup group : erModel.getWalkerGroups()) {
-            TableItem tableItem = new TableItem(this.categoryTable, SWT.NONE);
-
-            Button selectCheckButton = new Button(this.categoryTable, SWT.CHECK);
+        for (final WalkerGroup group : getWalkerGroups()) {
+            final TableItem tableItem = new TableItem(this.categoryTable, SWT.NONE);
+            final Button selectCheckButton = new Button(this.categoryTable, SWT.CHECK);
             selectCheckButton.pack();
-
-            TableEditor editor = new TableEditor(this.categoryTable);
-
+            final TableEditor editor = new TableEditor(this.categoryTable);
             editor.minimumWidth = selectCheckButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(selectCheckButton, tableItem, 0);
-
             tableItem.setText(1, group.getName());
-
             //			if (categorySettings.isSelected(group)) {
             //				selectCheckButton.setSelection(true);
             //			}
-
             this.categoryCheckMap.put(group, editor);
-
             if (this.targetCategory == group) {
                 categoryTable.setSelection(tableItem);
             }
         }
-
         if (this.targetCategory != null) {
             initNodeList(targetCategory);
-
         } else {
             deleteNodeList();
         }
@@ -235,38 +205,27 @@ public class WalkerGroupManageDialog extends AbstractDialog {
 
     private void initNodeTable() {
         this.nodeTable.removeAll();
-
         this.nodeCheckMap = new HashMap<DiagramWalker, TableEditor>();
-
-        for (ERVirtualTable vtable : erModel.getVirtualTables()) {
-            DiagramWalker nodeElement = vtable; //.getRawTable();
-            TableItem tableItem = new TableItem(this.nodeTable, SWT.NONE);
-
-            Button selectCheckButton = new Button(this.nodeTable, SWT.CHECK);
+        for (final DiagramWalker walker : getTableWalkers()) {
+            final TableItem tableItem = new TableItem(this.nodeTable, SWT.NONE);
+            final Button selectCheckButton = new Button(this.nodeTable, SWT.CHECK);
             selectCheckButton.pack();
-
-            TableEditor editor = new TableEditor(this.nodeTable);
-
+            final TableEditor editor = new TableEditor(this.nodeTable);
             editor.minimumWidth = selectCheckButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(selectCheckButton, tableItem, 0);
-
-            tableItem.setText(1, DisplayMessages.getMessage("label.object.type." + nodeElement.getObjectType()));
-            tableItem.setText(2, nodeElement.getName());
-
-            this.nodeCheckMap.put(nodeElement, editor);
+            tableItem.setText(1, DisplayMessages.getMessage("label.object.type." + walker.getObjectType()));
+            tableItem.setText(2, walker.getName());
+            this.nodeCheckMap.put(walker, editor);
         }
     }
 
     private void initNodeList(WalkerGroup category) {
         this.categoryNameText.setText(category.getName());
-
-        for (DiagramWalker nodeElement : this.nodeCheckMap.keySet()) {
-            Button selectCheckButton = (Button) this.nodeCheckMap.get(nodeElement).getEditor();
-
+        for (final DiagramWalker nodeElement : this.nodeCheckMap.keySet()) {
+            final Button selectCheckButton = (Button) this.nodeCheckMap.get(nodeElement).getEditor();
             if (category.contains(nodeElement)) {
                 selectCheckButton.setSelection(true);
-
             } else {
                 selectCheckButton.setSelection(false);
             }
@@ -275,15 +234,12 @@ public class WalkerGroupManageDialog extends AbstractDialog {
 
     private void deleteNodeList() {
         this.categoryNameText.setText("");
-
         this.nodeTable.removeAll();
-
         if (this.nodeCheckMap != null) {
-            for (TableEditor editor : this.nodeCheckMap.values()) {
+            for (final TableEditor editor : this.nodeCheckMap.values()) {
                 editor.getEditor().dispose();
                 editor.dispose();
             }
-
             this.nodeCheckMap.clear();
         }
     }
@@ -291,89 +247,56 @@ public class WalkerGroupManageDialog extends AbstractDialog {
     @Override
     protected void addListener() {
         super.addListener();
-
         this.categoryTable.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = categoryTable.getSelectionIndex();
+                final int index = categoryTable.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
-
                 validatePage();
-
                 if (targetCategory == null) {
                     initNodeTable();
                 }
-
-                targetCategory = erModel.getWalkerGroups().get(index);
+                targetCategory = getWalkerGroups().get(index);
                 initNodeList(targetCategory);
             }
         });
-
         this.addCategoryButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String name = categoryNameText.getText().trim();
-
+                final String name = categoryNameText.getText().trim();
                 if (name.equals("")) {
                     return;
                 }
-
                 validatePage();
-
                 if (targetCategory == null) {
                     initNodeTable();
                 }
-
-                WalkerGroup addCategory = new WalkerGroup();
-                int[] color = erModel.getDiagram().getDefaultColor();
-                addCategory.setColor(color[0], color[1], color[2]);
-                addCategory.setName(name);
-                //				categorySettings.addCategoryAsSelected(addCategory);
-                targetCategory = addCategory;
-
+                final WalkerGroup walkerGroup = new WalkerGroup();
+                final int[] color = getDefaultColor();
+                walkerGroup.setColor(color[0], color[1], color[2]);
+                walkerGroup.setName(name);
+                //categorySettings.addCategoryAsSelected(addCategory);
+                targetCategory = walkerGroup;
                 initCategoryTable();
             }
-
         });
-
         this.updateCategoryButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String name = categoryNameText.getText().trim();
-
+                final String name = categoryNameText.getText().trim();
                 if (name.equals("")) {
                     return;
                 }
-
                 validatePage();
-
                 targetCategory.setName(name);
-
                 initCategoryTable();
             }
-
         });
 
-        // TODO �폜�͖�����
+        // what is this? by jflute
         //		this.deleteCategoryButton.addSelectionListener(new SelectionAdapter() {
-        //
-        //			/**
-        //			 * {@inheritDoc}
-        //			 */
         //			@Override
         //			public void widgetSelected(SelectionEvent event) {
         //				try {
@@ -406,59 +329,40 @@ public class WalkerGroupManageDialog extends AbstractDialog {
         //				}
         //			}
         //		});
-
         this.upButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = categoryTable.getSelectionIndex();
-
+                final int index = categoryTable.getSelectionIndex();
                 if (index == -1 || index == 0) {
                     return;
                 }
-
                 validatePage();
                 changeColumn(index - 1, index);
                 initCategoryTable();
             }
-
         });
-
         this.downButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = categoryTable.getSelectionIndex();
-
+                final int index = categoryTable.getSelectionIndex();
                 if (index == -1 || index == categoryTable.getItemCount() - 1) {
                     return;
                 }
-
                 validatePage();
                 changeColumn(index, index + 1);
                 initCategoryTable();
             }
-
         });
     }
 
     public void changeColumn(int index1, int index2) {
-        List<WalkerGroup> allCategories = erModel.getWalkerGroups();
-
-        WalkerGroup category1 = allCategories.remove(index1);
+        final List<WalkerGroup> allCategories = getWalkerGroups();
+        final WalkerGroup category1 = allCategories.remove(index1);
         WalkerGroup category2 = null;
-
         if (index1 < index2) {
             category2 = allCategories.remove(index2 - 1);
             allCategories.add(index1, category2);
             allCategories.add(index2, category1);
-
         } else if (index1 > index2) {
             category2 = allCategories.remove(index2);
             allCategories.add(index1 - 1, category2);
@@ -488,29 +392,37 @@ public class WalkerGroupManageDialog extends AbstractDialog {
 
     public void validatePage() {
         if (targetCategory != null) {
-            List<DiagramWalker> selectedNodeElementList = new ArrayList<DiagramWalker>();
-
-            for (DiagramWalker table : this.nodeCheckMap.keySet()) {
-                Button selectCheckButton = (Button) this.nodeCheckMap.get(table).getEditor();
-
+            final List<DiagramWalker> selectedNodeElementList = new ArrayList<DiagramWalker>();
+            for (final DiagramWalker table : this.nodeCheckMap.keySet()) {
+                final Button selectCheckButton = (Button) this.nodeCheckMap.get(table).getEditor();
                 if (selectCheckButton.getSelection()) {
                     selectedNodeElementList.add(table);
                 }
             }
-
             targetCategory.setContents(selectedNodeElementList);
         }
-
-        List<WalkerGroup> selectedCategories = new ArrayList<WalkerGroup>();
-
-        for (WalkerGroup category : erModel.getWalkerGroups()) {
-            Button button = (Button) this.categoryCheckMap.get(category).getEditor();
+        final List<WalkerGroup> selectedCategories = new ArrayList<WalkerGroup>();
+        for (final WalkerGroup category : getWalkerGroups()) {
+            final Button button = (Button) this.categoryCheckMap.get(category).getEditor();
 
             if (button.getSelection()) {
                 selectedCategories.add(category);
             }
         }
+    }
 
-        //		categorySettings.setSelectedCategories(selectedCategories);
+    // ===================================================================================
+    //                                                                   Diagram Resources
+    //                                                                   =================
+    protected List<WalkerGroup> getWalkerGroups() {
+        return diagram.getDiagramContents().getDiagramWalkers().getWalkerGroupSet().getList();
+    }
+
+    protected List<? extends DiagramWalker> getTableWalkers() {
+        return diagram.getDiagramContents().getDiagramWalkers().getTableSet().getList();
+    }
+
+    protected int[] getDefaultColor() {
+        return diagram.getDefaultColor();
     }
 }

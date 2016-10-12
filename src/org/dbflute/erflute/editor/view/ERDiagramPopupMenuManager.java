@@ -2,13 +2,10 @@ package org.dbflute.erflute.editor.view;
 
 import java.math.BigDecimal;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.action.category.CategoryManageAction;
-import org.dbflute.erflute.editor.view.action.category.ChangeFreeLayoutAction;
-import org.dbflute.erflute.editor.view.action.category.ChangeShowReferredTablesAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToImageAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
@@ -59,10 +56,10 @@ public class ERDiagramPopupMenuManager extends MenuManager {
     private final ActionRegistry actionRegistry;
 
     public ERDiagramPopupMenuManager(ActionRegistry actionRegistry, final ERDiagram diagram) {
-        final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-
         this.actionRegistry = actionRegistry;
+        Activator.debug(this, "constructor()", "...Preparing pop-up menu: actionRegistry=" + actionRegistry);
 
+        final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         final IAction changeViewToPhysicalAction = getAction(ChangeViewToPhysicalAction.ID);
         final IAction changeViewToLogicalAction = getAction(ChangeViewToLogicalAction.ID);
         final IAction changeViewToBothAction = getAction(ChangeViewToBothAction.ID);
@@ -87,8 +84,9 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         final IAction changeTitleFontSizeAction = getAction(ChangeTitleFontSizeAction.ID);
         final IAction changeStampAction = getAction(ChangeStampAction.ID);
 
-        final IAction changeFreeLayoutAction = getAction(ChangeFreeLayoutAction.ID);
-        final IAction changeShowReferredTablesAction = getAction(ChangeShowReferredTablesAction.ID);
+        // #deleted category
+        //final IAction changeFreeLayoutAction = getAction(ChangeFreeLayoutAction.ID);
+        //final IAction changeShowReferredTablesAction = getAction(ChangeShowReferredTablesAction.ID);
 
         final IAction undoAction = this.getAction(ActionFactory.UNDO);
         undoAction.setActionDefinitionId("org.eclipse.ui.edit.undo");
@@ -164,9 +162,8 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         displayMenu.add(changeTitleFontSizeAction);
         displayMenu.add(changeStampAction);
 
-        this.add(displayMenu);
-
-        this.add(new Separator());
+        add(displayMenu);
+        add(new Separator());
 
         final MenuManager importMenu =
                 new MenuManager(DisplayMessages.getMessage("action.title.import"), sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"),
@@ -175,7 +172,7 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         importMenu.add(this.getAction(ImportFromDBAction.ID));
         importMenu.add(this.getAction(ImportFromFileAction.ID));
 
-        this.add(importMenu);
+        add(importMenu);
 
         final MenuManager exportMenu =
                 new MenuManager(DisplayMessages.getMessage("action.title.export"), sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"),
@@ -190,8 +187,9 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         this.add(this.getAction(PageSettingAction.ID));
 
         final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
-        categoryMenu.add(this.getAction(CategoryManageAction.ID));
-        categoryMenu.add(changeShowReferredTablesAction);
+        // #deleted category
+        //categoryMenu.add(this.getAction(CategoryManageAction.ID));
+        //categoryMenu.add(changeShowReferredTablesAction);
 
         this.add(categoryMenu);
         this.add(this.getAction(VirtualModelAddAction.ID));
@@ -212,10 +210,8 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getViewMode() == Settings.VIEW_MODE_PHYSICAL) {
                     changeViewToPhysicalAction.setChecked(true);
-
                 } else if (settings.getViewMode() == Settings.VIEW_MODE_LOGICAL) {
                     changeViewToLogicalAction.setChecked(true);
-
                 } else {
                     changeViewToBothAction.setChecked(true);
                 }
@@ -225,7 +221,6 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
                 if (Settings.NOTATION_IDEF1X.equals(settings.getNotation())) {
                     changeToIDEF1XNotationAction.setChecked(true);
-
                 } else {
                     changeToIENotationAction.setChecked(true);
                 }
@@ -239,61 +234,50 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_TITLE) {
                     changeNotationLevelToOnlyTitleAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_COLUMN) {
                     changeNotationLevelToColumnAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_KEY) {
                     changeNotationLevelToOnlyKeyAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_NAME_AND_KEY) {
                     changeNotationLevelToNameAndKeyAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_EXCLUDE_TYPE) {
                     changeNotationLevelToExcludeTypeAction.setChecked(true);
-
                 } else {
                     changeNotationLevelToDetailAction.setChecked(true);
                 }
-
                 if (settings.isNotationExpandGroup()) {
                     changeNotationExpandGroupAction.setChecked(true);
                 }
-
                 changeDesignToFunnyAction.setChecked(false);
                 changeDesignToFrameAction.setChecked(false);
                 changeDesignToSimpleAction.setChecked(false);
 
                 if (settings.getTableStyle().equals(ChangeDesignToFrameAction.TYPE)) {
                     changeDesignToFrameAction.setChecked(true);
-
                 } else if (settings.getTableStyle().equals(ChangeDesignToSimpleAction.TYPE)) {
                     changeDesignToSimpleAction.setChecked(true);
-
                 } else {
                     changeDesignToFunnyAction.setChecked(true);
                 }
-
                 if (settings.isCapital()) {
                     changeCapitalAction.setChecked(true);
                 }
                 if (new BigDecimal("1.5").equals(settings.getTitleFontEm())) {
                     changeTitleFontSizeAction.setChecked(true);
                 }
-
                 if (settings.getModelProperties().isDisplay()) {
                     changeStampAction.setChecked(true);
                 }
 
-                final CategorySetting categorySettings = settings.getCategorySetting();
-                if (categorySettings.isFreeLayout()) {
-                    changeFreeLayoutAction.setChecked(true);
-                }
-                if (categorySettings.isShowReferredTables()) {
-                    changeShowReferredTablesAction.setChecked(true);
-                }
+                // #deleted category
+                //final CategorySetting categorySettings = settings.getCategorySetting();
+                //if (categorySettings.isFreeLayout()) {
+                //    changeFreeLayoutAction.setChecked(true);
+                //}
+                //if (categorySettings.isShowReferredTables()) {
+                //    changeShowReferredTablesAction.setChecked(true);
+                //}
             }
-
         });
     }
 

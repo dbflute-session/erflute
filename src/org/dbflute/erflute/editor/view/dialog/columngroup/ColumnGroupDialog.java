@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.group;
+package org.dbflute.erflute.editor.view.dialog.columngroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-public class GroupDialog extends AbstractDialog implements ERTableCompositeHolder {
+public class ColumnGroupDialog extends AbstractDialog implements ERTableCompositeHolder {
 
     private Text groupNameText;
 
@@ -29,7 +29,7 @@ public class GroupDialog extends AbstractDialog implements ERTableCompositeHolde
 
     private ERDiagram diagram;
 
-    public GroupDialog(Shell parentShell, ColumnGroupSet columnGroups, ERDiagram diagram, int editTargetIndex) {
+    public ColumnGroupDialog(Shell parentShell, ColumnGroupSet columnGroups, ERDiagram diagram, int editTargetIndex) {
         super(parentShell, 2);
 
         this.copyColumnGroups = new ArrayList<CopyGroup>();

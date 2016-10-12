@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.column.real.ColumnDialog;
-import org.dbflute.erflute.editor.view.dialog.group.GroupManageDialog;
+import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableCompositeHolder;
 import org.dbflute.erflute.editor.view.dialog.table.TableDialog;
@@ -211,8 +211,8 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
             public void widgetSelected(SelectionEvent e) {
                 final ColumnGroupSet groupSet = getColumnGroups();
 
-                final GroupManageDialog dialog =
-                        new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet,
+                final ColumnGroupManageDialog dialog =
+                        new ColumnGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet,
                                 table.getDiagram(), false, -1);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {

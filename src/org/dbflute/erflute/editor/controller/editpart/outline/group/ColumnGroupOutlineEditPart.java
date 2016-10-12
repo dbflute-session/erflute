@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
-import org.dbflute.erflute.editor.view.dialog.group.GroupDialog;
+import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -47,7 +47,7 @@ public class ColumnGroupOutlineEditPart extends AbstractOutlineEditPart implemen
         final ColumnGroupSet groupSet = diagram.getDiagramContents().getColumnGroupSet();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-            final GroupDialog dialog = new GroupDialog(shell, groupSet, diagram, groupSet.indexOf(columnGroup));
+            final ColumnGroupDialog dialog = new ColumnGroupDialog(shell, groupSet, diagram, groupSet.indexOf(columnGroup));
             if (dialog.open() == IDialogConstants.OK_ID) {
                 final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
                 final Command command = new ChangeGroupCommand(diagram, groupSet, newColumnGroups);

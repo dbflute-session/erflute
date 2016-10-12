@@ -29,6 +29,7 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
         final PaletteGroup group = new PaletteGroup("");
 
         final PanningSelectionToolEntry selectionToolEntry = setupSelectionTool(group);
+        // what is this? by jflute
         // group.add(new MarqueeToolEntry());
 
         setupTableViewTool(group);
@@ -65,7 +66,7 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
         setupSeparator(group);
         setupNoteTool(group);
         setupSeparator(group);
-        setupDomainGroupTool(group);
+        setupWalkerGroupTool(group);
 
         //		group.add(new CreationToolEntry(ResourceString
         //				.getResourceString("label.category"), ResourceString
@@ -113,7 +114,7 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
         group.add(relationNoteTool);
     }
 
-    private void setupDomainGroupTool(final PaletteGroup group) {
+    private void setupWalkerGroupTool(final PaletteGroup group) {
         group.add(new CreationToolEntry(DisplayMessages.getMessage("label.vgroup"), DisplayMessages.getMessage("label.vgroup"),
                 new SimpleFactory(WalkerGroup.class), Activator.getImageDescriptor(ImageKey.CATEGORY),
                 Activator.getImageDescriptor(ImageKey.CATEGORY)));

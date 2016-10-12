@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.view.dialog.category;
+package org.dbflute.erflute.editor.view.dialog.walkergroup;
 
 import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;

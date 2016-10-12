@@ -4,13 +4,14 @@ import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.settings.Settings;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ChangeSettingsCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
-
-    private Settings oldSettings;
-
-    private Settings settings;
+    private final ERDiagram diagram;
+    private final Settings oldSettings;
+    private final Settings settings;
 
     public ChangeSettingsCommand(ERDiagram diagram, Settings settings) {
         this.diagram = diagram;
@@ -18,20 +19,13 @@ public class ChangeSettingsCommand extends AbstractCommand {
         this.settings = settings;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.diagram.setSettings(settings);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.diagram.setSettings(oldSettings);
     }
-
 }

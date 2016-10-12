@@ -9,10 +9,12 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ObjectListModel;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class WalkerGroupSet extends AbstractModel implements ObjectListModel, Iterable<WalkerGroup> {
 
     private static final long serialVersionUID = 5264397678674390103L;
-
     public static final String PROPERTY_CHANGE_WALKER_GROUP_SET = "GroupSet";
 
     private List<WalkerGroup> groupList;
@@ -27,7 +29,7 @@ public class WalkerGroupSet extends AbstractModel implements ObjectListModel, It
     }
 
     public int remove(WalkerGroup table) {
-        int index = this.groupList.indexOf(table);
+        final int index = this.groupList.indexOf(table);
         this.groupList.remove(index);
         this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
 
@@ -40,67 +42,50 @@ public class WalkerGroupSet extends AbstractModel implements ObjectListModel, It
 
     public List<WalkerGroup> getList() {
         Collections.sort(this.groupList);
-
         return this.groupList;
     }
 
+    @Override
     public Iterator<WalkerGroup> iterator() {
-        Collections.sort(this.groupList);
-
+        Collections.sort(groupList);
         return this.groupList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    public void overrideAll(List<WalkerGroup> newList) {
+        groupList.clear();
+        groupList.addAll(newList);
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
     @Override
     public WalkerGroupSet clone() {
-        WalkerGroupSet groupSet = (WalkerGroupSet) super.clone();
-        List<WalkerGroup> newTableList = new ArrayList<WalkerGroup>();
-
-        for (WalkerGroup table : this.groupList) {
-            WalkerGroup newTable = (WalkerGroup) table.clone();
+        final WalkerGroupSet groupSet = (WalkerGroupSet) super.clone();
+        final List<WalkerGroup> newTableList = new ArrayList<WalkerGroup>();
+        for (final WalkerGroup table : this.groupList) {
+            final WalkerGroup newTable = table.clone();
             newTableList.add(newTable);
         }
-
         groupSet.groupList = newTableList;
-
         return groupSet;
     }
 
-    //	public List<String> getAutoSequenceNames(String database) {
-    //		List<String> autoSequenceNames = new ArrayList<String>();
-    //
-    //		for (VGroup group : this.groupList) {
-    //			String prefix = group.getNameWithSchema(database) + "_";
-    //
-    //			for (NormalColumn column : group.getNormalColumns()) {
-    //				SqlType sqlType = column.getType();
-    //
-    //				if (SqlType.valueOfId(SqlType.SQL_TYPE_ID_SERIAL).equals(
-    //						sqlType)
-    //						|| SqlType.valueOfId(SqlType.SQL_TYPE_ID_BIG_SERIAL)
-    //								.equals(sqlType)) {
-    //					autoSequenceNames
-    //							.add((prefix + column.getPhysicalName() + "_seq")
-    //									.toUpperCase());
-    //				}
-    //			}
-    //		}
-    //
-    //		return autoSequenceNames;
-    //	}
-
-    public String getDescription() {
-        return "";
-    }
-
-    public String getName() {
-        return DisplayMessages.getMessage("label.object.type.table_list");
-    }
-
+    // ===================================================================================
+    //                                                                        Object Model
+    //                                                                        ============
+    @Override
     public String getObjectType() {
         return "list";
     }
 
+    @Override
+    public String getName() {
+        return DisplayMessages.getMessage("label.object.type.table_list");
+    }
+
+    @Override
+    public String getDescription() {
+        return "";
+    }
 }

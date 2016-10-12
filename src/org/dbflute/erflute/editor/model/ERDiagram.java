@@ -167,7 +167,7 @@ public class ERDiagram extends ViewableModel {
     // ===================================================================================
     //                                                                   ER/Table Handling
     //                                                                   =================
-    public void addErmodel(ERVirtualDiagram ermodel) {
+    public void addVirtualDiagram(ERVirtualDiagram ermodel) {
         diagramContents.getVirtualDiagramSet().add(ermodel);
         firePropertyChange(PROPERTY_CHANGE_ADD, null, ermodel);
     }

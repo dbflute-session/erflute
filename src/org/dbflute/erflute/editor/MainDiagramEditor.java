@@ -18,7 +18,6 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
 import org.dbflute.erflute.editor.view.ERDiagramPopupMenuManager;
-import org.dbflute.erflute.editor.view.action.category.CategoryManageAction;
 import org.dbflute.erflute.editor.view.action.category.ChangeFreeLayoutAction;
 import org.dbflute.erflute.editor.view.action.category.ChangeShowReferredTablesAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToDBAction;
@@ -168,19 +167,19 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     //                                                                            ========
     @Override
     public void dispose() {
-        this.getSelectionSynchronizer().removeViewer(this.outlinePage.getViewer());
+        getSelectionSynchronizer().removeViewer(outlinePage.getViewer());
         super.dispose();
     }
 
     @Override
     public void doSave(IProgressMonitor monitor) {
-        this.getCommandStack().markSaveLocation();
+        getCommandStack().markSaveLocation();
         this.isDirty = false;
     }
 
     @Override
     public void commandStackChanged(EventObject eventObject) {
-        this.firePropertyChange(IEditorPart.PROP_DIRTY);
+        firePropertyChange(IEditorPart.PROP_DIRTY);
         super.commandStackChanged(eventObject);
     }
 
@@ -247,10 +246,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     @SuppressWarnings("unchecked")
     protected void createActions() {
         super.createActions();
-
-        final ActionRegistry registry = this.getActionRegistry();
-        final List<String> selectionActionList = this.getSelectionActions();
-
+        final ActionRegistry registry = getActionRegistry();
+        final List<String> selectionActionList = getSelectionActions();
         final List<IAction> actionList =
                 new ArrayList<IAction>(Arrays.asList(new IAction[] { new ChangeViewToLogicalAction(this),
                         new ChangeViewToPhysicalAction(this), new ChangeViewToBothAction(this), new ChangeToIENotationAction(this),
@@ -261,7 +258,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                         new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
                         new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
                         new GroupManageAction(this), /* #deleted new ChangeTrackingAction(this) , */new OptionSettingAction(this),
-                        new CategoryManageAction(this), new ChangeFreeLayoutAction(this), new ChangeShowReferredTablesAction(this),
+                        /* #deleted new CategoryManageAction(this) , */new ChangeFreeLayoutAction(this),
+                        new ChangeShowReferredTablesAction(this),
                         /* #deleted new TranslationManageAction(this), */
                         /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
                         new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
@@ -279,8 +277,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                         new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
                         new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new VirtualModelAddAction(this),
                         new ERModelQuickOutlineAction(this), }));
-
-        actionList.addAll(this.extensionLoader.createExtendedActions());
+        Activator.debug(this, "createActions()", "...Preparing diagram actions: ");
+        actionList.addAll(extensionLoader.createExtendedActions());
         for (final IAction action : actionList) {
             if (action instanceof SelectionAction) {
                 final IAction originalAction = registry.getAction(action.getId());
@@ -431,6 +429,10 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
+    public ERDiagram getDiagram() {
+        return diagram;
+    }
+
     @Override
     public GraphicalViewer getGraphicalViewer() {
         return super.getGraphicalViewer();

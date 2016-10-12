@@ -2,11 +2,11 @@ package org.dbflute.erflute.editor.view;
 
 import java.math.BigDecimal;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.settings.CategorySetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.action.category.CategoryManageAction;
 import org.dbflute.erflute.editor.view.action.category.ChangeFreeLayoutAction;
 import org.dbflute.erflute.editor.view.action.category.ChangeShowReferredTablesAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
@@ -15,8 +15,8 @@ import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromFileAction;
 import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
-import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
 import org.dbflute.erflute.editor.view.action.ermodel.VirtualModelAddAction;
+import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ResizeModelAction;
 import org.dbflute.erflute.editor.view.action.line.RightAngleLineAction;
@@ -56,17 +56,19 @@ import org.eclipse.ui.actions.ActionFactory;
  * @author ermaster
  * @author jflute
  */
-public class ERDiagramOnePopupMenuManager extends MenuManager {
+public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
     private final ActionRegistry actionRegistry;
-    private final ERVirtualDiagram erModel;
+    @SuppressWarnings("unused")
+    private final ERVirtualDiagram virtualDiagram;
 
-    public ERDiagramOnePopupMenuManager(ActionRegistry actionRegistry, final ERVirtualDiagram erModel) {
-        this.erModel = erModel;
+    public ERVirtualDiagramPopupMenuManager(ActionRegistry actionRegistry, final ERVirtualDiagram virtualDiagram) {
+        this.actionRegistry = actionRegistry;
+        this.virtualDiagram = virtualDiagram;
+        Activator.debug(this, "constructor()", "...Preparing pop-up menu: actionRegistry=" + actionRegistry + ", virtualDiagram="
+                + virtualDiagram.getName());
 
         final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-
-        this.actionRegistry = actionRegistry;
 
         final IAction changeViewToPhysicalAction = getAction(ChangeViewToPhysicalAction.ID);
         final IAction changeViewToLogicalAction = getAction(ChangeViewToLogicalAction.ID);
@@ -187,10 +189,11 @@ public class ERDiagramOnePopupMenuManager extends MenuManager {
         this.add(new Separator());
         this.add(this.getAction(PageSettingAction.ID));
 
-        final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
-        categoryMenu.add(this.getAction(CategoryManageAction.ID));
-        categoryMenu.add(changeShowReferredTablesAction);
-        this.add(categoryMenu);
+        // #deleted category
+        //final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
+        //categoryMenu.add(this.getAction(CategoryManageAction.ID));
+        //categoryMenu.add(changeShowReferredTablesAction);
+        //this.add(categoryMenu);
 
         final MenuManager vgroupMenu = new MenuManager(DisplayMessages.getMessage("label.vgroup"));
         vgroupMenu.add(this.getAction(WalkerGroupManageAction.ID));
@@ -207,7 +210,7 @@ public class ERDiagramOnePopupMenuManager extends MenuManager {
                 undoAction.setText(DisplayMessages.getMessage("action.title.undo"));
                 redoAction.setText(DisplayMessages.getMessage("action.title.redo"));
 
-                final Settings settings = erModel.getDiagram().getDiagramContents().getSettings();
+                final Settings settings = virtualDiagram.getDiagram().getDiagramContents().getSettings();
 
                 changeViewToPhysicalAction.setChecked(false);
                 changeViewToLogicalAction.setChecked(false);

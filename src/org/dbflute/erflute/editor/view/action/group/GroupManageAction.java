@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
-import org.dbflute.erflute.editor.view.dialog.group.GroupManageDialog;
+import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
@@ -31,8 +31,8 @@ public class GroupManageAction extends AbstractBaseAction {
         ERDiagram diagram = this.getDiagram();
         ColumnGroupSet groupSet = diagram.getDiagramContents().getColumnGroupSet();
 
-        GroupManageDialog dialog =
-                new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, diagram, false, -1);
+        ColumnGroupManageDialog dialog =
+                new ColumnGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, diagram, false, -1);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();

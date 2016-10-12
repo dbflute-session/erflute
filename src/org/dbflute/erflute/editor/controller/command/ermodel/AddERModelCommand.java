@@ -22,7 +22,7 @@ public class AddERModelCommand extends AbstractCommand {
     protected void doExecute() {
         final ERVirtualDiagram ermodel = new ERVirtualDiagram(diagram);
         ermodel.setName(name);
-        diagram.addErmodel(ermodel);
+        diagram.addVirtualDiagram(ermodel);
     }
 
     @Override

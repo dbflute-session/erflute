@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.controller.command.diagram_contents.element.node;
+package org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.group;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;

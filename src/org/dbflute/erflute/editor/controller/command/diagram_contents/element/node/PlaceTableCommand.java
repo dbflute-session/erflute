@@ -46,7 +46,7 @@ public class PlaceTableCommand extends AbstractCommand {
             virtualTables = new ArrayList<ERVirtualTable>();
             for (ERTable curTable : orgTables) {
                 boolean cantPlace = false;
-                for (ERVirtualTable vtable : modelEditor.getModel().getVirtualTables()) {
+                for (ERVirtualTable vtable : modelEditor.getVirtualDiagram().getVirtualTables()) {
                     if (vtable.getRawTable().equals(curTable)) {
                         cantPlace = true;
                     }
@@ -72,7 +72,7 @@ public class PlaceTableCommand extends AbstractCommand {
             VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) curTable.getDiagram().getEditor().getActiveEditor();
 
             // ���Ƀr���[��ɓ���e�[�u������������u���Ȃ�
-            for (ERVirtualTable vtable : modelEditor.getModel().getVirtualTables()) {
+            for (ERVirtualTable vtable : modelEditor.getVirtualDiagram().getVirtualTables()) {
                 if (vtable.getRawTable().equals(curTable)) {
                     ErrorDialog dialog =
                             new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),

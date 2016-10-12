@@ -64,21 +64,21 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         if (tableView instanceof ERTable) {
             modelChildren.addAll(((ERTable) tableView).getIndexes());
         }
-        Activator.debug(this, "getModelChildren()", "...Preparing model children: " + modelChildren.size());
+        Activator.trace(this, "getModelChildren()", "...Preparing model children: " + modelChildren.size());
         return modelChildren;
     }
 
     @Override
     protected List<WalkerConnection> getModelSourceConnections() {
         final List<WalkerConnection> filteredList = filterConnections(super.getModelSourceConnections());
-        Activator.debug(this, "getModelSourceConnections()", "...Preparing model source connections: " + filteredList.size());
+        Activator.trace(this, "getModelSourceConnections()", "...Preparing model source connections: " + filteredList.size());
         return filteredList;
     }
 
     @Override
     protected List<WalkerConnection> getModelTargetConnections() {
         final List<WalkerConnection> filteredList = filterConnections(super.getModelTargetConnections());
-        Activator.debug(this, "getModelTargetConnections()", "...Preparing model target connections: " + filteredList.size());
+        Activator.trace(this, "getModelTargetConnections()", "...Preparing model target connections: " + filteredList.size());
         return filteredList;
     }
 

@@ -15,26 +15,25 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
-    private static Logger logger = Logger.getLogger(AbstractModelEditPart.class.getName());
-
+    private static final Logger logger = Logger.getLogger(AbstractModelEditPart.class.getName());
     private static final boolean DEBUG = false;
 
     @Override
     public void activate() {
         super.activate();
-        final AbstractModel model = (AbstractModel) this.getModel();
+        final AbstractModel model = (AbstractModel) getModel();
         model.addPropertyChangeListener(this);
     }
 
     @Override
     public void deactivate() {
-        final AbstractModel model = (AbstractModel) this.getModel();
+        final AbstractModel model = (AbstractModel) getModel();
         model.removePropertyChangeListener(this);
         super.deactivate();
     }
 
     protected ERDiagram getDiagram() {
-        final Object model = this.getRoot().getContents().getModel();
+        final Object model = getRoot().getContents().getModel();
         if (model instanceof ERVirtualDiagram) {
             return ((ERVirtualDiagram) model).getDiagram();
         }

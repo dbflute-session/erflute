@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ER
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
-import org.dbflute.erflute.editor.view.ERDiagramOnePopupMenuManager;
+import org.dbflute.erflute.editor.view.ERVirtualDiagramPopupMenuManager;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
 import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
 import org.dbflute.erflute.editor.view.outline.ERDiagramOutlinePage;
@@ -38,7 +38,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private ERVirtualDiagram model; // may be changed
+    private ERVirtualDiagram vdiagram; // may be changed
 
     // ===================================================================================
     //                                                                         Constructor
@@ -46,7 +46,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     public VirtualDiagramEditor(ERDiagram diagram, ERVirtualDiagram model, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         super(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
-        this.model = model;
+        this.vdiagram = model;
     }
 
     // ===================================================================================
@@ -68,7 +68,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     @Override
     protected void createActions() {
         super.createActions();
-        final ActionRegistry registry = this.getActionRegistry();
+        final ActionRegistry registry = getActionRegistry();
         final List<IAction> actionList =
                 new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new WalkerGroupManageAction(this), }));
         for (final IAction action : actionList) {
@@ -92,10 +92,10 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
 
-        final MenuManager menuMgr = new ERDiagramOnePopupMenuManager(this.getActionRegistry(), this.model);
+        final MenuManager menuMgr = new ERVirtualDiagramPopupMenuManager(this.getActionRegistry(), this.vdiagram);
         this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
         viewer.setContextMenu(menuMgr);
-        viewer.setContents(model);
+        viewer.setContents(vdiagram);
         this.outlineMenuMgr =
                 new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
                         this.outlinePage.getViewer());
@@ -105,14 +105,14 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     // ===================================================================================
     //                                                                        Change Model
     //                                                                        ============
-    public void setContents(ERVirtualDiagram newModel) {
-        model = newModel;
-        getGraphicalViewer().setContents(newModel);
-        newModel.changeAll();
+    public void setContents(ERVirtualDiagram vdiagram) {
+        this.vdiagram = vdiagram;
+        getGraphicalViewer().setContents(vdiagram);
+        vdiagram.changeAll();
     }
 
     public void refresh() {
-        model.changeAll();
+        vdiagram.changeAll();
     }
 
     // ===================================================================================
@@ -141,7 +141,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public ERVirtualDiagram getModel() {
-        return model;
+    public ERVirtualDiagram getVirtualDiagram() {
+        return vdiagram;
     }
 }

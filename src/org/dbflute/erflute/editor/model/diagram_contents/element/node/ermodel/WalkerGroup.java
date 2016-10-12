@@ -28,9 +28,9 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
         this.walkerList = new ArrayList<DiagramWalker>();
     }
 
-    public void setContents(List<DiagramWalker> contetns) {
-        this.walkerList = contetns;
-        if (this.getWidth() == 0) {
+    public void setContents(List<DiagramWalker> walkerList) {
+        this.walkerList = walkerList;
+        if (getWidth() == 0) {
             int categoryX = 0;
             int categoryY = 0;
             int categoryWidth = 300;
@@ -66,31 +66,11 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     }
 
     public boolean contains(DiagramWalker walker) {
-        return this.walkerList.contains(walker);
+        return walkerList.contains(walker);
     }
 
     public boolean isVisible(DiagramWalker walker, ERDiagram diagram) {
         return true;
-        //		boolean isVisible = false;
-        //
-        //		if (this.contains(walker)) {
-        //			isVisible = true;
-        //
-        //		} else {
-        //			VGroupSetting groupSettings = diagram.getDiagramContents()
-        //					.getSettings().getGroupSetting();
-        //
-        //			if (groupSettings.isShowReferredTables()) {
-        //				for (NodeElement referringElement : walker.getReferringElementList()) {
-        //					if (this.contains(referringElement)) {
-        //						isVisible = true;
-        //						break;
-        //					}
-        //				}
-        //			}
-        //		}
-        //
-        //		return isVisible;
     }
 
     public List<ERTable> getTableContents() {
@@ -166,6 +146,10 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
         return true;
     }
 
+    public boolean isVirtualDiagramGroup() {
+        return vdiagram != null;
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
@@ -185,7 +169,7 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     //                                                                            ========
     public void setName(String name) {
         this.name = name;
-        this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP, null, null);
+        firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP, null, null);
     }
 
     public List<DiagramWalker> getDiagramWalkerList() {

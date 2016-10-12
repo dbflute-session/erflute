@@ -47,34 +47,29 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
 
     @Override
     public void deactivate() {
-        this.disposeFont();
+        disposeFont();
         super.deactivate();
     }
 
     protected void disposeFont() {
-        if (this.font != null) {
-            this.font.dispose();
+        if (font != null) {
+            font.dispose();
         }
     }
 
     @Override
     public void doPropertyChange(PropertyChangeEvent event) {
-        if (event.getPropertyName().equals(DiagramWalker.PROPERTY_CHANGE_RECTANGLE)) {
+        final String propertyName = event.getPropertyName();
+        if (propertyName.equals(DiagramWalker.PROPERTY_CHANGE_RECTANGLE)) {
             refreshVisuals();
-        } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
+        } else if (propertyName.equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
             refreshVisuals();
-        } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_FONT)) {
-            this.changeFont(this.figure);
+        } else if (propertyName.equals(ViewableModel.PROPERTY_CHANGE_FONT)) {
+            changeFont(figure);
             refreshVisuals();
-            //			if (getNodeModel().needsUpdateOtherModel()) {
-            //				getNodeModel().getDiagram().refreshAllModel(event, getNodeModel());
-            //			} else {
-            //				refreshVisuals();
-            //			}
-            //
-        } else if (event.getPropertyName().equals(DiagramWalker.PROPERTY_CHANGE_INCOMING)) {
+        } else if (propertyName.equals(DiagramWalker.PROPERTY_CHANGE_INCOMING)) {
             refreshTargetConnections();
-        } else if (event.getPropertyName().equals(DiagramWalker.PROPERTY_CHANGE_OUTGOING)) {
+        } else if (propertyName.equals(DiagramWalker.PROPERTY_CHANGE_OUTGOING)) {
             refreshSourceConnections();
         }
     }
@@ -89,19 +84,18 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     }
 
     protected void setVisible() {
-        final DiagramWalker element = (DiagramWalker) this.getModel();
-        final Category category = this.getCurrentCategory();
+        final DiagramWalker element = (DiagramWalker) getModel();
+        final Category category = getCurrentCategory();
         if (category != null) {
-            this.figure.setVisible(category.isVisible(element, this.getDiagram()));
-
+            figure.setVisible(category.isVisible(element, getDiagram()));
         } else {
-            this.figure.setVisible(true);
+            figure.setVisible(true);
         }
     }
 
     protected Font changeFont(IFigure figure) {
-        this.disposeFont();
-        final DiagramWalker nodeElement = (DiagramWalker) this.getModel();
+        disposeFont();
+        final DiagramWalker nodeElement = (DiagramWalker) getModel();
         String fontName = nodeElement.getFontName();
         int fontSize = nodeElement.getFontSize();
         if (Check.isEmpty(fontName)) {
@@ -113,7 +107,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
             fontSize = ViewableModel.DEFAULT_FONT_SIZE;
             nodeElement.setFontSize(fontSize);
         }
-        this.font = new Font(Display.getCurrent(), fontName, fontSize, SWT.NORMAL);
+        font = new Font(Display.getCurrent(), fontName, fontSize, SWT.NORMAL);
         if (getDiagram().getDiagramContents().getSettings().getTitleFontEm() != null) {
             final int largeFontSize =
                     getDiagram().getDiagramContents()
@@ -121,7 +115,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
                             .getTitleFontEm()
                             .multiply(new BigDecimal(nodeElement.getFontSize()))
                             .intValue();
-            this.largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
+            largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
         }
         figure.setFont(this.font);
         if (figure instanceof TableFigure) {
@@ -132,10 +126,10 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
 
     @Override
     public void refreshVisuals() {
-        final DiagramWalker element = (DiagramWalker) this.getModel();
-        this.setVisible();
-        final Rectangle rectangle = this.getRectangle();
-        final GraphicalEditPart parent = (GraphicalEditPart) this.getParent();
+        final DiagramWalker element = (DiagramWalker) getModel();
+        setVisible();
+        final Rectangle rectangle = getRectangle();
+        final GraphicalEditPart parent = (GraphicalEditPart) getParent();
         final IFigure figure = this.getFigure();
         final int[] color = element.getColor();
         if (color != null) {
@@ -146,7 +140,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     }
 
     protected Rectangle getRectangle() {
-        final DiagramWalker element = (DiagramWalker) this.getModel();
+        final DiagramWalker element = (DiagramWalker) getModel();
         final Point point = new Point(element.getX(), element.getY());
         final Dimension dimension = new Dimension(element.getWidth(), element.getHeight());
         final Dimension minimumSize = this.figure.getMinimumSize();
@@ -189,22 +183,22 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
 
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
-        return new ChopboxAnchor(this.getFigure());
+        return new ChopboxAnchor(getFigure());
     }
 
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
-        return new ChopboxAnchor(this.getFigure());
+        return new ChopboxAnchor(getFigure());
     }
 
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
-        return new ChopboxAnchor(this.getFigure());
+        return new ChopboxAnchor(getFigure());
     }
 
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
-        return new ChopboxAnchor(this.getFigure());
+        return new ChopboxAnchor(getFigure());
     }
 
     // ===================================================================================

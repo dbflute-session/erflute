@@ -192,11 +192,34 @@ public class Activator extends AbstractUIPlugin {
         return dialog.open();
     }
 
+    // ===================================================================================
+    //                                                                             Logging
+    //                                                                             =======
     public static void debug(Object caller, String methodName, String msg) {
+        if (isDebugEnabled()) {
+            doLog("DEBUG", caller, methodName, msg);
+        }
+    }
+
+    public static void trace(Object caller, String methodName, String msg) {
+        if (isTraceEnabled()) {
+            doLog("TRACE", caller, methodName, msg);
+        }
+    }
+
+    private static void doLog(String logLevel, Object caller, String methodName, String msg) {
         final SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
         final String currentDate = format.format(new Date());
         final String className = caller.getClass().getSimpleName();
-        System.out.println(currentDate + " (" + className + "@" + methodName + ") - " + msg);
+        System.out.println(currentDate + " " + logLevel + " (" + className + "@" + methodName + ") - " + msg);
+    }
+
+    private static boolean isDebugEnabled() {
+        return true; // change if debug
+    }
+
+    private static boolean isTraceEnabled() {
+        return false; // change if trace
     }
 
     public static void error(Throwable e) {

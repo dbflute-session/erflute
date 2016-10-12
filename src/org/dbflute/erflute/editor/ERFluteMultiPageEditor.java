@@ -338,7 +338,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         selectedEditor.changeCategory();
         if (selectedEditor instanceof VirtualDiagramEditor) { // sub editor
             final VirtualDiagramEditor editor = (VirtualDiagramEditor) selectedEditor;
-            this.diagram.setCurrentVirtualDiagram(editor.getModel(), editor.getModel().getName());
+            this.diagram.setCurrentVirtualDiagram(editor.getVirtualDiagram(), editor.getVirtualDiagram().getName());
         } else { // main editor
             this.diagram.setCurrentVirtualDiagram(null, null);
             this.diagram.changeAll();

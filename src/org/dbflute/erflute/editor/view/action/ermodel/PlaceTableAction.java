@@ -29,7 +29,7 @@ public class PlaceTableAction extends AbstractBaseAction {
     @Override
     public void execute(Event event) throws Exception {
         ERDiagram diagram = this.getDiagram();
-        ERVirtualDiagram model = oneEditor.getModel();
+        ERVirtualDiagram model = oneEditor.getVirtualDiagram();
 
         List<ERTable> input = new ArrayList<ERTable>();
         input.addAll(diagram.getDiagramContents().getDiagramWalkers().getTableSet().getList());
