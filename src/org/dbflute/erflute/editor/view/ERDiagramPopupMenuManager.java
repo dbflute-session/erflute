@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.view.action.dbexport.ExportToImageAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromFileAction;
 import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
-import org.dbflute.erflute.editor.view.action.ermodel.VirtualModelAddAction;
+import org.dbflute.erflute.editor.view.action.ermodel.VirtualDiagramAddAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ResizeModelAction;
 import org.dbflute.erflute.editor.view.action.line.RightAngleLineAction;
@@ -165,38 +165,23 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         add(displayMenu);
         add(new Separator());
 
-        final MenuManager importMenu =
-                new MenuManager(DisplayMessages.getMessage("action.title.import"), sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"),
-                        "Import");
+        add(prepareImportMenu(sharedImages));
+        add(prepareExportMenu(sharedImages));
+        add(new Separator());
 
-        importMenu.add(this.getAction(ImportFromDBAction.ID));
-        importMenu.add(this.getAction(ImportFromFileAction.ID));
+        add(getAction(VirtualDiagramAddAction.ID));
+        add(new Separator());
 
-        add(importMenu);
-
-        final MenuManager exportMenu =
-                new MenuManager(DisplayMessages.getMessage("action.title.export"), sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"),
-                        "Export");
-
-        exportMenu.add(this.getAction(ExportToDDLAction.ID));
-        exportMenu.add(this.getAction(ExportToImageAction.ID));
-        exportMenu.add(new GroupMarker("export"));
-
-        this.add(exportMenu);
-        this.add(new Separator());
-        this.add(this.getAction(PageSettingAction.ID));
-
-        final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
         // #deleted category
+        //final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
         //categoryMenu.add(this.getAction(CategoryManageAction.ID));
         //categoryMenu.add(changeShowReferredTablesAction);
+        //add(categoryMenu);
 
-        this.add(categoryMenu);
-        this.add(this.getAction(VirtualModelAddAction.ID));
-        this.add(this.getAction(OptionSettingAction.ID));
+        add(getAction(PageSettingAction.ID));
+        add(getAction(OptionSettingAction.ID));
 
-        this.addMenuListener(new IMenuListener() {
-
+        addMenuListener(new IMenuListener() {
             @Override
             public void menuAboutToShow(IMenuManager manager) {
                 undoAction.setText(DisplayMessages.getMessage("action.title.undo"));
@@ -281,12 +266,31 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         });
     }
 
+    private MenuManager prepareImportMenu(final ISharedImages sharedImages) {
+        final String message = "Import";
+        final MenuManager importMenu = new MenuManager(message, sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"), "Import");
+        importMenu.add(this.getAction(ImportFromDBAction.ID));
+        importMenu.add(this.getAction(ImportFromFileAction.ID));
+        return importMenu;
+    }
+
+    private MenuManager prepareExportMenu(final ISharedImages sharedImages) {
+        final String message = "Export";
+        final MenuManager exportMenu = new MenuManager(message, sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"), "Export");
+        exportMenu.add(this.getAction(ExportToDDLAction.ID));
+        exportMenu.add(this.getAction(ExportToImageAction.ID));
+        exportMenu.add(new GroupMarker("export"));
+        return exportMenu;
+    }
+
+    // ===================================================================================
+    //                                                                              Action
+    //                                                                              ======
     private IAction getAction(ActionFactory actionFactory) {
-        return this.actionRegistry.getAction(actionFactory.getId());
+        return actionRegistry.getAction(actionFactory.getId());
     }
 
     private IAction getAction(String id) {
-        return this.actionRegistry.getAction(id);
+        return actionRegistry.getAction(id);
     }
-
 }

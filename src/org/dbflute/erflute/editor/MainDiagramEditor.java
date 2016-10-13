@@ -32,8 +32,8 @@ import org.dbflute.erflute.editor.view.action.edit.EditExcelAction;
 import org.dbflute.erflute.editor.view.action.edit.PasteAction;
 import org.dbflute.erflute.editor.view.action.edit.SelectAllContentsAction;
 import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
-import org.dbflute.erflute.editor.view.action.ermodel.VirtualModelAddAction;
-import org.dbflute.erflute.editor.view.action.group.GroupManageAction;
+import org.dbflute.erflute.editor.view.action.ermodel.VirtualDiagramAddAction;
+import org.dbflute.erflute.editor.view.action.group.ColumnGroupManageAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ERDiagramAlignmentAction;
 import org.dbflute.erflute.editor.view.action.line.ERDiagramMatchHeightAction;
@@ -193,12 +193,13 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, true);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
-        final MenuManager menuMgr = new ERDiagramPopupMenuManager(this.getActionRegistry(), this.diagram);
-        this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
+        final ActionRegistry actionRegistry = getActionRegistry();
+        final MenuManager menuMgr = new ERDiagramPopupMenuManager(actionRegistry, this.diagram);
+        this.extensionLoader.addERDiagramPopupMenu(menuMgr, actionRegistry);
         viewer.setContextMenu(menuMgr);
+        final ActionRegistry outlineActionRegistory = outlinePage.getOutlineActionRegistory();
         this.outlineMenuMgr =
-                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
-                        this.outlinePage.getViewer());
+                new ERDiagramOutlinePopupMenuManager(diagram, actionRegistry, outlineActionRegistory, outlinePage.getViewer());
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
@@ -257,7 +258,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                         new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
                         new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
                         new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
-                        new GroupManageAction(this), /* #deleted new ChangeTrackingAction(this) , */new OptionSettingAction(this),
+                        new ColumnGroupManageAction(this), /* #deleted new ChangeTrackingAction(this) , */new OptionSettingAction(this),
                         /* #deleted new CategoryManageAction(this) , */new ChangeFreeLayoutAction(this),
                         new ChangeShowReferredTablesAction(this),
                         /* #deleted new TranslationManageAction(this), */
@@ -275,7 +276,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                         new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
                         new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
                         new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
-                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new VirtualModelAddAction(this),
+                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new VirtualDiagramAddAction(this),
                         new ERModelQuickOutlineAction(this), }));
         Activator.debug(this, "createActions()", "...Preparing diagram actions: " + actionList.size());
         actionList.addAll(extensionLoader.createExtendedActions());

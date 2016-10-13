@@ -7,9 +7,9 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.ermodel.OpenERModelCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
-import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERVirtualDiagramOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERModelSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.table.TableOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramSetOutlineEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -258,7 +258,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 final ERDiagramOutlineEditPart contents =
                         (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
                 if (contents != null) {
-                    final List<ERVirtualDiagramOutlineEditPart> parts = ((ERModelSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
+                    final List<ERVirtualDiagramOutlineEditPart> parts = ((ERVirtualDiagramSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
                     for (final ERVirtualDiagramOutlineEditPart part : parts) {
                         if (part.getModel().equals(erModel)) {
                             final ISelection selection = new StructuredSelection(part);

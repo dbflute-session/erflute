@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.ermodel;
 
 import org.dbflute.erflute.editor.MainDiagramEditor;
-import org.dbflute.erflute.editor.controller.command.ermodel.AddERModelCommand;
+import org.dbflute.erflute.editor.controller.command.ermodel.AddVirtualDiagramCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -13,12 +13,12 @@ import org.eclipse.ui.PlatformUI;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class VirtualModelAddAction extends AbstractBaseAction {
+public class VirtualDiagramAddAction extends AbstractBaseAction {
 
-    public static final String ID = VirtualModelAddAction.class.getName();
+    public static final String ID = VirtualDiagramAddAction.class.getName();
 
-    public VirtualModelAddAction(MainDiagramEditor editor) {
-        super(ID, "new VirtualModel()", editor);
+    public VirtualDiagramAddAction(MainDiagramEditor editor) {
+        super(ID, "new VirtualDiagram()", editor);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class VirtualModelAddAction extends AbstractBaseAction {
         final String dialogMessage = "input name for new Virtual Model";
         final InputDialog dialog = new InputDialog(shell, dialogTitle, dialogMessage, "", null);
         if (dialog.open() == IDialogConstants.OK_ID) {
-            final AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());
+            final AddVirtualDiagramCommand command = new AddVirtualDiagramCommand(diagram, dialog.getValue());
             execute(command);
         }
     }

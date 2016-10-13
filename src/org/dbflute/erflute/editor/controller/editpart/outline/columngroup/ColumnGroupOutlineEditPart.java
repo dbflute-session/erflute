@@ -1,11 +1,11 @@
-package org.dbflute.erflute.editor.controller.editpart.outline.group;
+package org.dbflute.erflute.editor.controller.editpart.outline.columngroup;
 
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeColumnGroupCommand;
 import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.not_element.group.GroupComponentEditPolicy;
@@ -50,7 +50,7 @@ public class ColumnGroupOutlineEditPart extends AbstractOutlineEditPart implemen
             final ColumnGroupDialog dialog = new ColumnGroupDialog(shell, groupSet, diagram, groupSet.indexOf(columnGroup));
             if (dialog.open() == IDialogConstants.OK_ID) {
                 final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
-                final Command command = new ChangeGroupCommand(diagram, groupSet, newColumnGroups);
+                final Command command = new ChangeColumnGroupCommand(diagram, groupSet, newColumnGroups);
                 execute(command);
             }
         }

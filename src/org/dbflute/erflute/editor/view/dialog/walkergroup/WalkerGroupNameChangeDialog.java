@@ -8,25 +8,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class WalkerGroupNameChangeDialog extends AbstractDialog {
 
-    private Text categoryNameText = null;
-
-    private WalkerGroup targetCategory;
-
+    private final WalkerGroup walkerGroup;
+    private Text categoryNameText;
     private String categoryName;
 
-    public WalkerGroupNameChangeDialog(Shell parentShell, WalkerGroup category) {
+    public WalkerGroupNameChangeDialog(Shell parentShell, WalkerGroup walkerGroup) {
         super(parentShell, 2);
-        this.targetCategory = category;
+        this.walkerGroup = walkerGroup;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initialize(Composite composite) {
-        this.categoryNameText = CompositeFactory.createText(this, composite, "label.vgroup.name", true);
+        this.categoryNameText = CompositeFactory.createText(this, composite, "Table Group Name", true);
     }
 
     @Override
@@ -40,19 +38,16 @@ public class WalkerGroupNameChangeDialog extends AbstractDialog {
 
     @Override
     protected void setData() {
-        this.categoryNameText.setText(this.targetCategory.getName());
+        this.categoryNameText.setText(this.walkerGroup.getName());
     }
 
     @Override
     protected String doValidate() {
-        String text = categoryNameText.getText().trim();
-
+        final String text = categoryNameText.getText().trim();
         if ("".equals(text)) {
             return "error.category.name.empty";
         }
-
         this.categoryName = text;
-
         return null;
     }
 

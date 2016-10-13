@@ -4,9 +4,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.RelatedTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.RelationByExistingColumns;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.SelfRelation;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
@@ -33,48 +31,43 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
 
         setupTableViewTool(group);
 
-        final ConnectionCreationToolEntry toolEntry1 =
-                new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.one.to.many"),
-                        DisplayMessages.getMessage("label.create.relation.one.to.many"), new SimpleFactory(Relationship.class),
-                        Activator.getImageDescriptor(ImageKey.RELATION_1_N), Activator.getImageDescriptor(ImageKey.RELATION_1_N));
-        toolEntry1.setToolClass(RelationCreationTool.class);
-        group.add(toolEntry1);
+        // #deleted relationship creating new column is implemented as option of "1:n relationship"
+        //final ConnectionCreationToolEntry toolEntry1 =
+        //        new ConnectionCreationToolEntry("1:n new column", DisplayMessages.getMessage("label.create.relation.one.to.many"),
+        //                new SimpleFactory(Relationship.class), Activator.getImageDescriptor(ImageKey.RELATION_1_N),
+        //                Activator.getImageDescriptor(ImageKey.RELATION_1_N));
+        //toolEntry1.setToolClass(RelationCreationTool.class);
+        //group.add(toolEntry1);
 
         final ConnectionCreationToolEntry toolEntry2 =
-                new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.by.existing.columns"),
-                        DisplayMessages.getMessage("label.create.relation.by.existing.columns"), new SimpleFactory(
-                                RelationByExistingColumns.class), Activator.getImageDescriptor(ImageKey.RELATION_1_N),
+                new ConnectionCreationToolEntry("1:n Relationship", "Make relationship of tables", new SimpleFactory(
+                        RelationByExistingColumns.class), Activator.getImageDescriptor(ImageKey.RELATION_1_N),
                         Activator.getImageDescriptor(ImageKey.RELATION_1_N));
         toolEntry2.setToolClass(RelationByExistingColumnsCreationTool.class);
         group.add(toolEntry2);
 
-        final ConnectionCreationToolEntry toolEntry3 =
-                new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.many.to.many"),
-                        DisplayMessages.getMessage("label.create.relation.many.to.many"), new SimpleFactory(RelatedTable.class),
-                        Activator.getImageDescriptor(ImageKey.RELATION_N_N), Activator.getImageDescriptor(ImageKey.RELATION_N_N));
-        toolEntry3.setToolClass(RelatedTableCreationTool.class);
-        group.add(toolEntry3);
+        // #deleted unneeded by jflute
+        //final ConnectionCreationToolEntry toolEntry3 =
+        //        new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.many.to.many"),
+        //                DisplayMessages.getMessage("label.create.relation.many.to.many"), new SimpleFactory(RelatedTable.class),
+        //                Activator.getImageDescriptor(ImageKey.RELATION_N_N), Activator.getImageDescriptor(ImageKey.RELATION_N_N));
+        //toolEntry3.setToolClass(RelatedTableCreationTool.class);
+        //group.add(toolEntry3);
 
         final ConnectionCreationToolEntry seflRelationshipToolEntry =
-                new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.self"),
-                        DisplayMessages.getMessage("label.create.relation.self"), new SimpleFactory(SelfRelation.class),
-                        Activator.getImageDescriptor(ImageKey.RELATION_SELF), Activator.getImageDescriptor(ImageKey.RELATION_SELF));
+                new ConnectionCreationToolEntry("Self Relationship", "Make relationship in same table", new SimpleFactory(
+                        SelfRelation.class), Activator.getImageDescriptor(ImageKey.RELATION_SELF),
+                        Activator.getImageDescriptor(ImageKey.RELATION_SELF));
         seflRelationshipToolEntry.setToolClass(SelfRelationCreationTool.class);
         group.add(seflRelationshipToolEntry);
-
         setupSeparator(group);
+
         setupNoteTool(group);
         setupSeparator(group);
+
         setupWalkerGroupTool(group);
-
-        //		group.add(new CreationToolEntry(ResourceString
-        //				.getResourceString("label.category"), ResourceString
-        //				.getResourceString("label.category"), new SimpleFactory(
-        //				Category.class), Activator
-        //				.getImageDescriptor(ImageKey.CATEGORY), Activator
-        //				.getImageDescriptor(ImageKey.CATEGORY)));
-
         setupSeparator(group);
+
         setupImageTool(group);
         add(group);
 
@@ -82,9 +75,8 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
     }
 
     private void setupTableViewTool(final PaletteGroup group) {
-        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.table"), DisplayMessages.getMessage("label.create.table"),
-                new SimpleFactory(ERTable.class), Activator.getImageDescriptor(ImageKey.TABLE_NEW),
-                Activator.getImageDescriptor(ImageKey.TABLE_NEW)));
+        group.add(new CreationToolEntry("Table", "Make new table object", new SimpleFactory(ERTable.class),
+                Activator.getImageDescriptor(ImageKey.TABLE_NEW), Activator.getImageDescriptor(ImageKey.TABLE_NEW)));
 
         // #deleted unsupported, view is unneeded in ERD tool by jflute
         //group.add(new CreationToolEntry(DisplayMessages.getMessage("label.view"), DisplayMessages.getMessage("label.create.view"),
@@ -102,22 +94,19 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
 
     private void setupNoteTool(final PaletteGroup group) {
         final CreationToolEntry noteToolEntry =
-                new CreationToolEntry(DisplayMessages.getMessage("label.note"), DisplayMessages.getMessage("label.create.note"),
-                        new SimpleFactory(WalkerNote.class), Activator.getImageDescriptor(ImageKey.NOTE),
-                        Activator.getImageDescriptor(ImageKey.NOTE));
+                new CreationToolEntry("Note", "Make new note for tables", new SimpleFactory(WalkerNote.class),
+                        Activator.getImageDescriptor(ImageKey.NOTE), Activator.getImageDescriptor(ImageKey.NOTE));
         group.add(noteToolEntry);
         final ConnectionCreationToolEntry relationNoteTool =
-                new ConnectionCreationToolEntry(DisplayMessages.getMessage("label.relation.note"),
-                        DisplayMessages.getMessage("label.create.relation.note"), new SimpleFactory(CommentConnection.class),
+                new ConnectionCreationToolEntry("Note Connection", "Connect note to tables", new SimpleFactory(CommentConnection.class),
                         Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION),
                         Activator.getImageDescriptor(ImageKey.COMMENT_CONNECTION));
         group.add(relationNoteTool);
     }
 
     private void setupWalkerGroupTool(final PaletteGroup group) {
-        group.add(new CreationToolEntry(DisplayMessages.getMessage("label.vgroup"), DisplayMessages.getMessage("label.vgroup"),
-                new SimpleFactory(WalkerGroup.class), Activator.getImageDescriptor(ImageKey.CATEGORY),
-                Activator.getImageDescriptor(ImageKey.CATEGORY)));
+        group.add(new CreationToolEntry("Table Group", "Make new group for tables by border", new SimpleFactory(WalkerGroup.class),
+                Activator.getImageDescriptor(ImageKey.CATEGORY), Activator.getImageDescriptor(ImageKey.CATEGORY)));
     }
 
     private void setupImageTool(final PaletteGroup group) {

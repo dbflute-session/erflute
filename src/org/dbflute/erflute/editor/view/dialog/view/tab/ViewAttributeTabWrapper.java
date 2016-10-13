@@ -8,7 +8,7 @@ import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeColumnGroupCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -234,7 +234,7 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
                 final ColumnGroupManageDialog dialog = new ColumnGroupManageDialog(shell, groupSet, view.getDiagram(), false, -1);
                 if (dialog.open() == IDialogConstants.OK_ID) {
                     final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
-                    final Command command = new ChangeGroupCommand(viewDialog.getDiagram(), groupSet, newColumnGroups);
+                    final Command command = new ChangeColumnGroupCommand(viewDialog.getDiagram(), groupSet, newColumnGroups);
                     viewDialog.getViewer().getEditDomain().getCommandStack().execute(command);
                     restructGroup();
                     groupAddButton.setEnabled(false);

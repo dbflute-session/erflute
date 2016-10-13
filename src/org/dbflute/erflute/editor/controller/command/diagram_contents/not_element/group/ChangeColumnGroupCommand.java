@@ -16,7 +16,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 
-public class ChangeGroupCommand extends AbstractCommand {
+public class ChangeColumnGroupCommand extends AbstractCommand {
 
     private ColumnGroupSet groupSet;
 
@@ -28,7 +28,7 @@ public class ChangeGroupCommand extends AbstractCommand {
 
     private ERDiagram diagram;
 
-    public ChangeGroupCommand(ERDiagram diagram, ColumnGroupSet groupSet, List<CopyGroup> newGroups) {
+    public ChangeColumnGroupCommand(ERDiagram diagram, ColumnGroupSet groupSet, List<CopyGroup> newGroups) {
         this.diagram = diagram;
 
         this.groupSet = groupSet;

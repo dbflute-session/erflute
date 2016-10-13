@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromFileAction;
 import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
-import org.dbflute.erflute.editor.view.action.ermodel.VirtualModelAddAction;
+import org.dbflute.erflute.editor.view.action.ermodel.VirtualDiagramAddAction;
 import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ResizeModelAction;
@@ -195,11 +195,11 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         //categoryMenu.add(changeShowReferredTablesAction);
         //this.add(categoryMenu);
 
-        final MenuManager vgroupMenu = new MenuManager(DisplayMessages.getMessage("label.vgroup"));
+        final MenuManager vgroupMenu = new MenuManager("Table Group");
         vgroupMenu.add(this.getAction(WalkerGroupManageAction.ID));
         this.add(vgroupMenu);
 
-        this.add(this.getAction(VirtualModelAddAction.ID));
+        this.add(this.getAction(VirtualDiagramAddAction.ID));
         this.add(this.getAction(PlaceTableAction.ID));
         this.add(this.getAction(OptionSettingAction.ID));
 

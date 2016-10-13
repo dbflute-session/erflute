@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.controller.editpart.outline.ermodel;
+package org.dbflute.erflute.editor.controller.editpart.outline.vdiagram;
 
 import java.beans.PropertyChangeEvent;
 

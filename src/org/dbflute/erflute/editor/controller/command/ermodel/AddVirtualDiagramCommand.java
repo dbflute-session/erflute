@@ -7,22 +7,21 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ER
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class AddERModelCommand extends AbstractCommand {
+public class AddVirtualDiagramCommand extends AbstractCommand {
 
     private final String name;
     private final ERDiagram diagram;
 
-    public AddERModelCommand(ERDiagram diagram, String name) {
-        super();
+    public AddVirtualDiagramCommand(ERDiagram diagram, String name) {
         this.diagram = diagram;
         this.name = name;
     }
 
     @Override
     protected void doExecute() {
-        final ERVirtualDiagram ermodel = new ERVirtualDiagram(diagram);
-        ermodel.setName(name);
-        diagram.addVirtualDiagram(ermodel);
+        final ERVirtualDiagram vdiagram = new ERVirtualDiagram(diagram);
+        vdiagram.setName(name);
+        diagram.addVirtualDiagram(vdiagram);
     }
 
     @Override

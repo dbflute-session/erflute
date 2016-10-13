@@ -1,6 +1,5 @@
 package org.dbflute.erflute.editor.view.action.ermodel;
 
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
@@ -16,7 +15,7 @@ public class ERModelQuickOutlineAction extends AbstractBaseAction {
     public static final String ID = ERModelQuickOutlineAction.class.getName();
 
     public ERModelQuickOutlineAction(MainDiagramEditor editor) {
-        super(ID, DisplayMessages.getMessage("action.title.ermodel.outline"), editor);
+        super(ID, "Quick Outline", editor);
         setActionDefinitionId("org.dbflute.erflute.quickOutline"); // synchronized with plugin.xml
         setAccelerator(SWT.CTRL | 'O');
     }

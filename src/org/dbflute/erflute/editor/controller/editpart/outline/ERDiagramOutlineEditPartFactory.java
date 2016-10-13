@@ -3,12 +3,10 @@ package org.dbflute.erflute.editor.controller.editpart.outline;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.dbflute.erflute.editor.controller.editpart.outline.columngroup.ColumnGroupOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.columngroup.GroupSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.dictionary.DictionaryOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.dictionary.WordOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERVirtualDiagramOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERModelSetOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.group.ColumnGroupOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.group.GroupSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.index.IndexOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.index.IndexSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.sequence.SequenceOutlineEditPart;
@@ -20,6 +18,8 @@ import org.dbflute.erflute.editor.controller.editpart.outline.tablespace.Tablesp
 import org.dbflute.erflute.editor.controller.editpart.outline.tablespace.TablespaceSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.trigger.TriggerOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.trigger.TriggerSetOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.view.ViewOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.view.ViewSetOutlineEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -59,7 +59,7 @@ public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
         if (model instanceof ERVirtualDiagram) {
             editPart = new ERVirtualDiagramOutlineEditPart();
         } else if (model instanceof ERVirtualDiagramSet) {
-            editPart = new ERModelSetOutlineEditPart();
+            editPart = new ERVirtualDiagramSetOutlineEditPart();
 
         } else if (model instanceof ERTable) {
             editPart = new TableOutlineEditPart(quickMode);

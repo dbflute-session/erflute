@@ -1,4 +1,4 @@
-package org.dbflute.erflute.editor.controller.editpart.outline.ermodel;
+package org.dbflute.erflute.editor.controller.editpart.outline.vdiagram;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -7,13 +7,15 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 
-public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public class ERVirtualDiagramSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected List<ERVirtualDiagram> getModelChildren() {
@@ -48,7 +50,7 @@ public class ERModelSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(DisplayMessages.getMessage("label.ermodel") + " (" + this.getModelChildren().size() + ")");
+        this.setWidgetText("Virtual Diagram" + " (" + getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 

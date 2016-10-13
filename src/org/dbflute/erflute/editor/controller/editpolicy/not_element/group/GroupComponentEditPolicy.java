@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.controller.editpolicy.not_element.group;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeGroupCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeColumnGroupCommand;
 import org.dbflute.erflute.editor.controller.editpolicy.not_element.NotElementComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -27,7 +27,7 @@ public class GroupComponentEditPolicy extends NotElementComponentEditPolicy {
             }
         }
 
-        return new ChangeGroupCommand(diagram, diagram.getDiagramContents().getColumnGroupSet(), newColumnGroups);
+        return new ChangeColumnGroupCommand(diagram, diagram.getDiagramContents().getColumnGroupSet(), newColumnGroups);
     }
 
 }
