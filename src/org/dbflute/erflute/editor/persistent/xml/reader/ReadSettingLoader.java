@@ -218,14 +218,14 @@ public class ReadSettingLoader {
             category.setName(this.getStringValue(categoryElement, "name"));
             final boolean isSelected = this.getBooleanValue(categoryElement, "selected");
             final String[] keys = this.getTagValues(categoryElement, "node_element");
-            final List<DiagramWalker> nodeElementList = new ArrayList<DiagramWalker>();
+            final List<DiagramWalker> walkerList = new ArrayList<DiagramWalker>();
             for (final String key : keys) {
-                final DiagramWalker nodeElement = context.walkerMap.get(key);
-                if (nodeElement != null) {
-                    nodeElementList.add(nodeElement);
+                final DiagramWalker walker = context.walkerMap.get(key);
+                if (walker != null) {
+                    walkerList.add(walker);
                 }
             }
-            category.setContents(nodeElementList);
+            category.setContents(walkerList);
             categorySetting.addCategory(category);
             if (isSelected) {
                 selectedCategories.add(category);

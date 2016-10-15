@@ -23,7 +23,7 @@ public class SQLiteDDLCreator extends DDLCreator {
 
     @Override
     protected String getColulmnDDL(NormalColumn normalColumn) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         ddl.append(super.getColulmnDDL(normalColumn));
 
@@ -36,14 +36,14 @@ public class SQLiteDDLCreator extends DDLCreator {
 
     @Override
     protected String getPrimaryKeyDDL(ERTable table) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
-        for (Relationship relation : table.getIncomingRelationshipList()) {
+        for (final Relationship relation : table.getIncomingRelationshipList()) {
             ddl.append(",\r\n\tFOREIGN KEY (");
 
             boolean first = true;
 
-            for (NormalColumn column : relation.getForeignKeyColumns()) {
+            for (final NormalColumn column : relation.getForeignKeyColumns()) {
                 if (!first) {
                     ddl.append(", ");
 
@@ -59,7 +59,7 @@ public class SQLiteDDLCreator extends DDLCreator {
 
             first = true;
 
-            for (NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
+            for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
                 if (!first) {
                     ddl.append(", ");
 
@@ -77,9 +77,9 @@ public class SQLiteDDLCreator extends DDLCreator {
 
     @Override
     protected Iterable<ERTable> getTablesForCreateDDL() {
-        LinkedHashSet<ERTable> results = new LinkedHashSet<ERTable>();
+        final LinkedHashSet<ERTable> results = new LinkedHashSet<ERTable>();
 
-        for (ERTable table : this.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet()) {
+        for (final ERTable table : this.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet()) {
             if (!results.contains(table)) {
                 this.getReferedTables(results, table);
                 results.add(table);
@@ -90,10 +90,10 @@ public class SQLiteDDLCreator extends DDLCreator {
     }
 
     private void getReferedTables(LinkedHashSet<ERTable> referedTables, ERTable table) {
-        for (DiagramWalker nodeElement : table.getReferedElementList()) {
-            if (nodeElement instanceof ERTable) {
-                if (nodeElement != table) {
-                    ERTable referedTable = (ERTable) nodeElement;
+        for (final DiagramWalker walker : table.getReferedElementList()) {
+            if (walker instanceof ERTable) {
+                if (walker != table) {
+                    final ERTable referedTable = (ERTable) walker;
                     if (!referedTables.contains(referedTable)) {
                         this.getReferedTables(referedTables, referedTable);
                         referedTables.add(referedTable);

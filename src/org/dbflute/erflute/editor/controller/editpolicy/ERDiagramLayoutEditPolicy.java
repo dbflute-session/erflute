@@ -130,7 +130,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
             @SuppressWarnings("unchecked")
             final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
             final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
-            final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
+            final DiagramWalker walker = (DiagramWalker) editPart.getModel();
             final Rectangle currentRectangle = editPart.getFigure().getBounds();
             boolean move = false;
             if (rectangle.width == currentRectangle.width && rectangle.height == currentRectangle.height) {
@@ -142,7 +142,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                     if (selectedEditPart instanceof CategoryEditPart) {
                         final CategoryEditPart categoryEditPart = (CategoryEditPart) selectedEditPart;
                         final Category category = (Category) categoryEditPart.getModel();
-                        if (category.contains(nodeElement)) {
+                        if (category.contains(walker)) {
                             nothingToDo = true;
                         }
                     }
@@ -153,15 +153,15 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                     if (selectedEditPart instanceof WalkerGroupEditPart) {
                         final WalkerGroupEditPart categoryEditPart = (WalkerGroupEditPart) selectedEditPart;
                         final WalkerGroup category = (WalkerGroup) categoryEditPart.getModel();
-                        if (category.contains(nodeElement)) {
+                        if (category.contains(walker)) {
                             nothingToDo = true;
                         }
                     }
                 }
             }
             final List<Command> bendpointMoveCommandList = new ArrayList<Command>();
-            final int oldX = nodeElement.getX();
-            final int oldY = nodeElement.getY();
+            final int oldX = walker.getX();
+            final int oldY = walker.getY();
             final int diffX = rectangle.x - oldX;
             final int diffY = rectangle.y - oldY;
             for (final Object obj : editPart.getSourceConnections()) {
@@ -240,10 +240,10 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     private Category getOtherCategory(Category category) {
         final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
         final List<Category> selectedCategories = diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories();
-        for (final DiagramWalker nodeElement : category.getContents()) {
+        for (final DiagramWalker walker : category.getContents()) {
             for (final Category otherCategory : selectedCategories) {
                 if (otherCategory != category && !isSelected(otherCategory)) {
-                    if (otherCategory.contains(nodeElement)) {
+                    if (otherCategory.contains(walker)) {
                         return otherCategory;
                     }
                 }

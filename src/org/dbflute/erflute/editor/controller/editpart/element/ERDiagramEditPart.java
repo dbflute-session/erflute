@@ -96,8 +96,8 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
                 this.getViewer().deselectAll();
                 final SelectionManager selectionManager = this.getViewer().getSelectionManager();
                 final Map<DiagramWalker, EditPart> modelToEditPart = getModelToEditPart();
-                for (final DiagramWalker nodeElement : nodeElementList) {
-                    selectionManager.appendSelection(modelToEditPart.get(nodeElement));
+                for (final DiagramWalker walker : nodeElementList) {
+                    selectionManager.appendSelection(modelToEditPart.get(walker));
                 }
             }
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ADD)) {

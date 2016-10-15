@@ -33,7 +33,7 @@ public class CopyManager {
 
     private static int numberOfCopy;
 
-    private Map<DiagramWalker, DiagramWalker> nodeElementMap;
+    private Map<DiagramWalker, DiagramWalker> walkerMap;
 
     public static void copy(DiagramWalkerSet nodeElementList) {
         final CopyManager copyManager = new CopyManager();
@@ -64,90 +64,51 @@ public class CopyManager {
     }
 
     public Map<DiagramWalker, DiagramWalker> getNodeElementMap() {
-        return nodeElementMap;
+        return walkerMap;
     }
 
     public DiagramWalkerSet copyNodeElementList(DiagramWalkerSet nodeElementList) {
         final DiagramWalkerSet copyList = new DiagramWalkerSet();
-
-        this.nodeElementMap = new HashMap<DiagramWalker, DiagramWalker>();
+        this.walkerMap = new HashMap<DiagramWalker, DiagramWalker>();
         final Map<ERColumn, ERColumn> columnMap = new HashMap<ERColumn, ERColumn>();
         final Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, ComplexUniqueKey>();
-
-        // �I������Ă���m�[�h��EditPart�ɑ΂��ď������J��Ԃ��܂�
-        for (final DiagramWalker nodeElement : nodeElementList) {
-
-            if (nodeElement instanceof ModelProperties) {
-                // ���f���v���p�e�B�̏ꍇ�A�������܂���
+        for (final DiagramWalker walker : nodeElementList) {
+            if (walker instanceof ModelProperties) {
                 continue;
             }
-
-            // �m�[�h�𕡐����āA�R�s�[���ɒǉ����܂�
-            final DiagramWalker cloneNodeElement = nodeElement.clone();
+            final DiagramWalker cloneNodeElement = walker.clone();
             copyList.addDiagramWalker(cloneNodeElement);
-
-            nodeElementMap.put(nodeElement, cloneNodeElement);
-
-            if (nodeElement instanceof ERTable) {
-                // �m�[�h���e�[�u���̏ꍇ
-                // ��ƃC���f�b�N�X�ƕ�����ӃL�[�𕡐����܂��B
-                copyColumnAndIndex((ERTable) nodeElement, (ERTable) cloneNodeElement, columnMap, complexUniqueKeyMap);
-
-            } else if (nodeElement instanceof ERView) {
-                // �m�[�h���r���[�̏ꍇ
-                // ��𕡐����܂��B
-                copyColumn((ERView) nodeElement, (ERView) cloneNodeElement, columnMap);
+            walkerMap.put(walker, cloneNodeElement);
+            if (walker instanceof ERTable) {
+                copyColumnAndIndex((ERTable) walker, (ERTable) cloneNodeElement, columnMap, complexUniqueKeyMap);
+            } else if (walker instanceof ERView) {
+                copyColumn((ERView) walker, (ERView) cloneNodeElement, columnMap);
             }
         }
-
-        // ������̃m�[�h�ɑ΂��āA�ڑ������Ȃ����܂�
         final Map<WalkerConnection, WalkerConnection> connectionElementMap = new HashMap<WalkerConnection, WalkerConnection>();
-
-        // �ڑ��𒣂�Ȃ����܂�
-        for (final DiagramWalker nodeElement : nodeElementMap.keySet()) {
-            final DiagramWalker cloneNodeElement = nodeElementMap.get(nodeElement);
-
-            // �������m�[�h�ɓ����Ă���ڑ��𕡐���ɒ���Ȃ����܂�
-            replaceIncoming(nodeElement, cloneNodeElement, connectionElementMap, nodeElementMap);
+        for (final DiagramWalker walker : walkerMap.keySet()) {
+            final DiagramWalker cloneWalker = walkerMap.get(walker);
+            replaceIncoming(walker, cloneWalker, connectionElementMap, walkerMap);
         }
 
-        // �O���L�[�̎Q�Ƃ���蒼���܂�
-        for (final DiagramWalker nodeElement : nodeElementMap.keySet()) {
-
-            if (nodeElement instanceof ERTable) {
-                final ERTable table = (ERTable) nodeElement;
-
-                // �������e�[�u���̗�ɑ΂��ď������J��Ԃ��܂�
+        for (final DiagramWalker walker : walkerMap.keySet()) {
+            if (walker instanceof ERTable) {
+                final ERTable table = (ERTable) walker;
                 for (final ERColumn column : table.getColumns()) {
                     if (column instanceof NormalColumn) {
                         final NormalColumn oldColumn = (NormalColumn) column;
-
-                        // �O���L�[�̏ꍇ
                         if (oldColumn.isForeignKey()) {
                             final NormalColumn newColumn = (NormalColumn) columnMap.get(oldColumn);
                             newColumn.renewRelationList();
-
                             for (final Relationship oldRelation : oldColumn.getRelationshipList()) {
-
-                                // �������ꂽ�֘A�̎擾
                                 final Relationship newRelation = (Relationship) connectionElementMap.get(oldRelation);
-
                                 if (newRelation != null) {
-                                    // �֘A����������Ă���ꍇ
-
                                     final NormalColumn oldReferencedColumn = newRelation.getReferencedColumn();
-
-                                    // ���j�[�N�L�[���Q�Ƃ��Ă���ꍇ
                                     if (oldReferencedColumn != null) {
                                         final NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(oldReferencedColumn);
-
                                         newRelation.setReferencedColumn(newReferencedColumn);
-
                                     }
-
                                     final ComplexUniqueKey oldReferencedComplexUniqueKey = newRelation.getReferencedComplexUniqueKey();
-
-                                    // �������j�[�N�L�[���Q�Ƃ��Ă���ꍇ
                                     if (oldReferencedComplexUniqueKey != null) {
                                         final ComplexUniqueKey newReferencedComplexUniqueKey =
                                                 complexUniqueKeyMap.get(oldReferencedComplexUniqueKey);

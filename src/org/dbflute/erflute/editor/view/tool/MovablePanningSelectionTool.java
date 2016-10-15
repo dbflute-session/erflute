@@ -8,6 +8,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.connection.Relatio
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -72,13 +73,13 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                     if (isDiagramWalkerEditPart(obj)) {
                         final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) obj;
                         targetEditPart = editPart;
-                        final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
-                        command.add(createMoveElementCommand(dx, dy, diagram, editPart, nodeElement));
+                        final DiagramWalker walker = (DiagramWalker) editPart.getModel();
+                        command.add(createMoveElementCommand(dx, dy, diagram, editPart, walker));
                     } else if (obj instanceof RelationEditPart) {
                         final RelationEditPart editPart = (RelationEditPart) obj;
                         targetEditPart = editPart;
                         // #thining needed? by jflute
-                        //final NodeElement nodeElement = (NodeElement) editPart.getModel();
+                        //final DiagramWalker walker = (NodeElement) editPart.getModel();
                         //command.add(createMoveElementCommand(dx, dy, diagram, editPart, nodeElement));
                     }
                 }
@@ -90,7 +91,8 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
     }
 
     private boolean isDiagramWalkerEditPart(final Object obj) {
-        return obj instanceof TableViewEditPart || obj instanceof WalkerNoteEditPart || obj instanceof ModelPropertiesEditPart;
+        return obj instanceof TableViewEditPart || obj instanceof WalkerNoteEditPart || obj instanceof WalkerGroupEditPart
+                || obj instanceof ModelPropertiesEditPart;
     }
 
     private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram, final DiagramWalkerEditPart editPart,

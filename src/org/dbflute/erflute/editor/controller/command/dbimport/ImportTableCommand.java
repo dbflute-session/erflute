@@ -9,8 +9,8 @@ import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -88,21 +88,17 @@ public class ImportTableCommand extends AbstractCommand {
 
         if (this.walkerList.size() < AUTO_GRAPH_LIMIT) {
             final Map<DiagramWalker, Node> nodeElementNodeMap = new HashMap<DiagramWalker, Node>();
-
             final int fontSize = this.diagram.getFontSize();
-
             final Insets insets = new Insets(5 * fontSize, 10 * fontSize, 35 * fontSize, 20 * fontSize);
-
-            for (final DiagramWalker nodeElement : this.walkerList) {
+            for (final DiagramWalker walker : this.walkerList) {
                 final Node node = new Node();
-
                 node.setPadding(insets);
                 this.graph.nodes.add(node);
-                nodeElementNodeMap.put(nodeElement, node);
+                nodeElementNodeMap.put(walker, node);
             }
 
-            for (final DiagramWalker nodeElement : this.walkerList) {
-                for (final WalkerConnection outgoing : nodeElement.getOutgoings()) {
+            for (final DiagramWalker walker : this.walkerList) {
+                for (final WalkerConnection outgoing : walker.getOutgoings()) {
                     final Node sourceNode = nodeElementNodeMap.get(outgoing.getWalkerSource());
                     final Node targetNode = nodeElementNodeMap.get(outgoing.getWalkerTarget());
                     if (sourceNode != targetNode) {
@@ -111,19 +107,14 @@ public class ImportTableCommand extends AbstractCommand {
                     }
                 }
             }
-
             final DirectedGraphLayout layout = new DirectedGraphLayout();
-
             layout.visit(this.graph);
-
-            for (final DiagramWalker nodeElement : nodeElementNodeMap.keySet()) {
-                final Node node = nodeElementNodeMap.get(nodeElement);
-
-                if (nodeElement.getWidth() == 0) {
-                    nodeElement.setLocation(new Location(node.x, node.y, -1, -1));
+            for (final DiagramWalker walker : nodeElementNodeMap.keySet()) {
+                final Node node = nodeElementNodeMap.get(walker);
+                if (walker.getWidth() == 0) {
+                    walker.setLocation(new Location(node.x, node.y, -1, -1));
                 }
             }
-
         } else {
             int x = ORIGINAL_X;
             int y = ORIGINAL_Y;
@@ -155,14 +146,13 @@ public class ImportTableCommand extends AbstractCommand {
 
         ERDiagramEditPart.setUpdateable(false);
 
-        for (final DiagramWalker nodeElement : this.walkerList) {
-            this.diagram.addNewWalker(nodeElement);
-
-            if (nodeElement instanceof TableView) {
-                for (final NormalColumn normalColumn : ((TableView) nodeElement).getNormalColumns()) {
+        for (final DiagramWalker walker : this.walkerList) {
+            this.diagram.addNewWalker(walker);
+            if (walker instanceof TableView) {
+                for (final NormalColumn normalColumn : ((TableView) walker).getNormalColumns()) {
                     if (normalColumn.isForeignKey()) {
                         for (final Relationship relation : normalColumn.getRelationshipList()) {
-                            if (relation.getSourceTableView() == nodeElement) {
+                            if (relation.getSourceTableView() == walker) {
                                 this.setSelfRelation(relation);
                             }
                         }
@@ -229,37 +219,29 @@ public class ImportTableCommand extends AbstractCommand {
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
-
-        for (final DiagramWalker nodeElement : this.walkerList) {
-            this.diagram.removeContent(nodeElement);
-
-            if (nodeElement instanceof TableView) {
-                for (final NormalColumn normalColumn : ((TableView) nodeElement).getNormalColumns()) {
+        for (final DiagramWalker walker : this.walkerList) {
+            this.diagram.removeContent(walker);
+            if (walker instanceof TableView) {
+                for (final NormalColumn normalColumn : ((TableView) walker).getNormalColumns()) {
                     this.diagram.getDiagramContents().getDictionary().remove(normalColumn);
                 }
             }
         }
-
         for (final Sequence sequence : sequences) {
             this.sequenceSet.remove(sequence);
         }
-
         for (final Trigger trigger : triggers) {
             this.triggerSet.remove(trigger);
         }
-
         for (final Tablespace tablespace : tablespaces) {
             this.tablespaceSet.remove(tablespace);
         }
-
         if (this.columnGroups != null) {
             for (final ColumnGroup columnGroup : columnGroups) {
                 this.columnGroupSet.remove(columnGroup);
             }
         }
-
         ERDiagramEditPart.setUpdateable(true);
-
         this.diagram.changeAll();
     }
 }

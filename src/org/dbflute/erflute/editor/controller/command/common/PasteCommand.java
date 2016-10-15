@@ -89,11 +89,11 @@ public class PasteCommand extends AbstractCommand {
         final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
 
         // 図にノードを追加します。
-        for (final DiagramWalker nodeElement : this.walkers) {
-            if (nodeElement instanceof ERVirtualTable) {
-                this.diagram.addWalkerPlainly(((ERVirtualTable) nodeElement).getRawTable());
+        for (final DiagramWalker walker : this.walkers) {
+            if (walker instanceof ERVirtualTable) {
+                this.diagram.addWalkerPlainly(((ERVirtualTable) walker).getRawTable());
             } else {
-                this.diagram.addWalkerPlainly(nodeElement);
+                this.diagram.addWalkerPlainly(walker);
             }
         }
 
@@ -122,8 +122,8 @@ public class PasteCommand extends AbstractCommand {
         final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
 
         // 図からノードを削除します。
-        for (final DiagramWalker nodeElement : this.walkers) {
-            this.diagram.removeContent(nodeElement);
+        for (final DiagramWalker walker : this.walkers) {
+            this.diagram.removeContent(walker);
         }
 
         // グループ列を削除します。
@@ -142,8 +142,8 @@ public class PasteCommand extends AbstractCommand {
      */
     private void setFocus() {
         // 貼り付けられたテーブルを選択状態にします。
-        for (final DiagramWalker nodeElement : this.walkers) {
-            final EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(nodeElement);
+        for (final DiagramWalker walker : this.walkers) {
+            final EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(walker);
 
             if (editPart != null) {
                 this.viewer.getSelectionManager().appendSelection(editPart);

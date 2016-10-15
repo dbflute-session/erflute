@@ -222,9 +222,9 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
 
     private void initNodeList(WalkerGroup category) {
         this.categoryNameText.setText(category.getName());
-        for (final DiagramWalker nodeElement : this.nodeCheckMap.keySet()) {
-            final Button selectCheckButton = (Button) this.nodeCheckMap.get(nodeElement).getEditor();
-            if (category.contains(nodeElement)) {
+        for (final DiagramWalker walker : this.nodeCheckMap.keySet()) {
+            final Button selectCheckButton = (Button) this.nodeCheckMap.get(walker).getEditor();
+            if (category.contains(walker)) {
                 selectCheckButton.setSelection(true);
             } else {
                 selectCheckButton.setSelection(false);

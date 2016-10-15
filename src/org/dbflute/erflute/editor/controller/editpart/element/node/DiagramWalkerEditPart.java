@@ -95,17 +95,17 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
 
     protected Font changeFont(IFigure figure) {
         disposeFont();
-        final DiagramWalker nodeElement = (DiagramWalker) getModel();
-        String fontName = nodeElement.getFontName();
-        int fontSize = nodeElement.getFontSize();
+        final DiagramWalker walker = (DiagramWalker) getModel();
+        String fontName = walker.getFontName();
+        int fontSize = walker.getFontSize();
         if (Check.isEmpty(fontName)) {
             final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
             fontName = fontData.getName();
-            nodeElement.setFontName(fontName);
+            walker.setFontName(fontName);
         }
         if (fontSize <= 0) {
             fontSize = ViewableModel.DEFAULT_FONT_SIZE;
-            nodeElement.setFontSize(fontSize);
+            walker.setFontSize(fontSize);
         }
         font = new Font(Display.getCurrent(), fontName, fontSize, SWT.NORMAL);
         if (getDiagram().getDiagramContents().getSettings().getTitleFontEm() != null) {
@@ -113,7 +113,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
                     getDiagram().getDiagramContents()
                             .getSettings()
                             .getTitleFontEm()
-                            .multiply(new BigDecimal(nodeElement.getFontSize()))
+                            .multiply(new BigDecimal(walker.getFontSize()))
                             .intValue();
             largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
         }

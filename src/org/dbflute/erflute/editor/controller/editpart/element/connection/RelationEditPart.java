@@ -45,11 +45,9 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
         final boolean bezier = this.getDiagram().getDiagramContents().getSettings().isUseBezierCurve();
         final PolylineConnection connection = new ERDiagramConnection(bezier);
         connection.setConnectionRouter(new BendpointConnectionRouter());
-
         final ConnectionEndpointLocator targetLocator = new ConnectionEndpointLocator(connection, true);
         this.targetLabel = new Label("");
         connection.add(targetLabel, targetLocator);
-
         return connection;
     }
 
@@ -71,64 +69,49 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
 
             for (final Bendpoint bendPoint : relation.getBendpoints()) {
                 if (bendPoint.isRelative()) {
-
                     final ERTableEditPart tableEditPart = (ERTableEditPart) this.getSource();
                     if (tableEditPart != null) {
                         Rectangle bounds = tableEditPart.getFigure().getBounds();
                         int width = bounds.width;
                         int height = bounds.height;
-
                         if (width == 0) {
                             // tableEditPart.getFigure().getUpdateManager()
                             // .performUpdate();
-
                             bounds = tableEditPart.getFigure().getBounds();
                             width = bounds.width;
                             height = bounds.height;
                         }
-
                         RelativeBendpoint point = new RelativeBendpoint();
-
                         final int xp = relation.getTargetXp();
                         int x;
-
                         if (xp == -1) {
                             x = bounds.x + bounds.width;
                         } else {
                             x = bounds.x + (bounds.width * xp / 100);
                         }
-
                         point.setRelativeDimensions(new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x, 0),
                                 new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x, 0));
                         point.setWeight(0);
                         point.setConnection(this.getConnectionFigure());
-
                         constraint.add(point);
-
                         point = new RelativeBendpoint();
                         point.setRelativeDimensions(new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x, height
                                 * bendPoint.getY() / 100), new Dimension(width * bendPoint.getX() / 100 - bounds.x - bounds.width + x,
                                 height * bendPoint.getY() / 100));
                         point.setWeight(0);
                         point.setConnection(this.getConnectionFigure());
-
                         constraint.add(point);
-
                         point = new RelativeBendpoint();
                         point.setRelativeDimensions(new Dimension(x - bounds.x - bounds.width, height * bendPoint.getY() / 100),
                                 new Dimension(x - bounds.x - bounds.width, height * bendPoint.getY() / 100));
                         point.setWeight(0);
                         point.setConnection(this.getConnectionFigure());
-
                         constraint.add(point);
                     }
-
                 } else {
                     constraint.add(new AbsoluteBendpoint(bendPoint.getX(), bendPoint.getY()));
                 }
-
             }
-
             this.getConnectionFigure().setRoutingConstraint(constraint);
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);

@@ -86,9 +86,9 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     public List<ERView> getViewContents() {
         final List<ERView> viewList = new ArrayList<ERView>();
 
-        for (final DiagramWalker nodeElement : this.walkerList) {
-            if (nodeElement instanceof ERView) {
-                viewList.add((ERView) nodeElement);
+        for (final DiagramWalker walker : this.walkerList) {
+            if (walker instanceof ERView) {
+                viewList.add((ERView) walker);
             }
         }
 
@@ -97,9 +97,9 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
 
     public List<TableView> getTableViewContents() {
         final List<TableView> tableList = new ArrayList<TableView>();
-        for (final DiagramWalker nodeElement : this.walkerList) {
-            if (nodeElement instanceof TableView) {
-                tableList.add((TableView) nodeElement);
+        for (final DiagramWalker walker : this.walkerList) {
+            if (walker instanceof TableView) {
+                tableList.add((TableView) walker);
             }
         }
         return tableList;

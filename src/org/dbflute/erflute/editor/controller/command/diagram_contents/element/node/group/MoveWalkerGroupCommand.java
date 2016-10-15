@@ -33,24 +33,24 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
         this.move = move;
 
         if (!this.move) {
-            for (final DiagramWalker nodeElement : this.walkerList) {
-                final int nodeElementX = nodeElement.getX();
-                final int nodeElementY = nodeElement.getY();
-                int nodeElementWidth = nodeElement.getWidth();
-                int nodeElementHeight = nodeElement.getHeight();
-                if (x > nodeElementX) {
-                    nodeElementWidth += x - nodeElementX;
-                    x = nodeElementX;
+            for (final DiagramWalker walker : this.walkerList) {
+                final int walkerX = walker.getX();
+                final int walkerY = walker.getY();
+                int walkerWidth = walker.getWidth();
+                int walkerHeight = walker.getHeight();
+                if (x > walkerX) {
+                    walkerWidth += x - walkerX;
+                    x = walkerX;
                 }
-                if (y > nodeElementY) {
-                    nodeElementHeight += y - nodeElementY;
-                    y = nodeElementY;
+                if (y > walkerY) {
+                    walkerHeight += y - walkerY;
+                    y = walkerY;
                 }
-                if (nodeElementX - x + nodeElementWidth > width) {
-                    width = nodeElementX - x + nodeElementWidth;
+                if (walkerX - x + walkerWidth > width) {
+                    width = walkerX - x + walkerWidth;
                 }
-                if (nodeElementY - y + nodeElementHeight > height) {
-                    height = nodeElementY - y + nodeElementHeight;
+                if (walkerY - y + walkerHeight > height) {
+                    height = walkerY - y + walkerHeight;
                 }
             }
             this.setNewRectangle(x, y, width, height);
@@ -59,17 +59,16 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
             this.diffX = x - walkerGroup.getX();
             this.diffY = y - walkerGroup.getY();
             for (final Iterator<DiagramWalker> iter = this.walkerList.iterator(); iter.hasNext();) {
-                final DiagramWalker nodeElement = iter.next();
+                final DiagramWalker walker = iter.next();
                 for (final WalkerGroup otherCategory : otherCategories) {
-                    if (otherCategory.contains(nodeElement)) {
+                    if (otherCategory.contains(walker)) {
                         iter.remove();
                         break;
                     }
                 }
             }
-            for (final DiagramWalker nodeElement : this.walkerList) {
-                this.walkerOldLocationMap.put(nodeElement, new Rectangle(nodeElement.getX(), nodeElement.getY(), nodeElement.getWidth(),
-                        nodeElement.getHeight()));
+            for (final DiagramWalker walker : this.walkerList) {
+                this.walkerOldLocationMap.put(walker, new Rectangle(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
             }
         }
     }

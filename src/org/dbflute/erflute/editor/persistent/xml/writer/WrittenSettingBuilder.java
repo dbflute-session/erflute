@@ -174,8 +174,8 @@ public class WrittenSettingBuilder {
         xml.append(tab(nodeElementBuilder.buildWalker(category, context)));
         xml.append("\t<name>").append(escape(category.getName())).append("</name>\n");
         xml.append("\t<selected>").append(isSelected).append("</selected>\n");
-        for (final DiagramWalker nodeElement : category.getContents()) {
-            xml.append("\t<category_contents>").append(context.walkerMap.get(nodeElement)).append("</category_contents>\n");
+        for (final DiagramWalker walker : category.getContents()) {
+            xml.append("\t<category_contents>").append(context.walkerMap.get(walker)).append("</category_contents>\n");
         }
         xml.append("</category>\n");
         return xml.toString();

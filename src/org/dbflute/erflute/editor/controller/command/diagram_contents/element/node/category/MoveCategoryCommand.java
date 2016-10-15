@@ -82,35 +82,24 @@ public class MoveCategoryCommand extends MoveElementCommand {
                 }
             }
 
-            for (final DiagramWalker nodeElement : this.walkerList) {
-                this.walkerOldLocationMap.put(nodeElement, new Rectangle(nodeElement.getX(), nodeElement.getY(), nodeElement.getWidth(),
-                        nodeElement.getHeight()));
+            for (final DiagramWalker walker : this.walkerList) {
+                this.walkerOldLocationMap.put(walker, new Rectangle(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
             }
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         if (this.move) {
             this.bendpointListMap = new HashMap<WalkerConnection, List<Bendpoint>>();
-
-            for (final DiagramWalker nodeElement : this.walkerList) {
-                nodeElement.setLocation(new Location(nodeElement.getX() + diffX, nodeElement.getY() + diffY, nodeElement.getWidth(),
-                        nodeElement.getHeight()));
-                this.moveBendpoints(nodeElement);
-
+            for (final DiagramWalker walker : this.walkerList) {
+                walker.setLocation(new Location(walker.getX() + diffX, walker.getY() + diffY, walker.getWidth(), walker.getHeight()));
+                this.moveBendpoints(walker);
             }
         }
-
         super.doExecute();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         if (this.move) {
@@ -118,10 +107,8 @@ public class MoveCategoryCommand extends MoveElementCommand {
                 final Rectangle rectangle = this.walkerOldLocationMap.get(nodeElement);
                 nodeElement.setLocation(new Location(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
             }
-
             this.restoreBendpoints();
         }
-
         super.doUndo();
     }
 
