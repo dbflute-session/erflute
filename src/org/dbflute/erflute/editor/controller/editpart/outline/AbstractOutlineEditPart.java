@@ -9,6 +9,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.C
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart implements PropertyChangeListener, FilteringEditPart {
 
     private String filterText;
@@ -18,18 +21,12 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart imple
         this.filterText = filterText;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void activate() {
         super.activate();
         ((AbstractModel) getModel()).addPropertyChangeListener(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void deactivate() {
         ((AbstractModel) getModel()).removePropertyChangeListener(this);
@@ -44,16 +41,13 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart imple
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     final public void refreshVisuals() {
         if (ERDiagramEditPart.isUpdateable()) {
             this.refreshOutlineVisuals();
 
-            for (Object child : this.getChildren()) {
-                AbstractOutlineEditPart part = (AbstractOutlineEditPart) child;
+            for (final Object child : this.getChildren()) {
+                final AbstractOutlineEditPart part = (AbstractOutlineEditPart) child;
                 part.refreshVisuals();
             }
         }
@@ -73,10 +67,6 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart imple
         this.getViewer().getEditDomain().getCommandStack().execute(command);
     }
 
-    /**
-     * filterText���擾���܂��B
-     * @return filterText
-     */
     public String getFilterText() {
         return filterText;
     }

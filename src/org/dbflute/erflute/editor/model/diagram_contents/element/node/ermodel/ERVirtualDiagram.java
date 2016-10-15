@@ -106,7 +106,7 @@ public class ERVirtualDiagram extends DiagramWalker {
         return false;
     }
 
-    public void addNewContent(DiagramWalker element) {
+    public void addNewWalker(DiagramWalker element) {
         if (element instanceof WalkerNote) {
             ((WalkerNote) element).setVirtualDiagram(this);
         } else if (element instanceof WalkerGroup) {
@@ -138,7 +138,7 @@ public class ERVirtualDiagram extends DiagramWalker {
         }
     }
 
-    public void addGroup(WalkerGroup group) {
+    public void addWalkerGroup(WalkerGroup group) {
         groups.add(group);
         firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }

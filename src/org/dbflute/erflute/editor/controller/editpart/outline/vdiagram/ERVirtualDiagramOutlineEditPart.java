@@ -17,6 +17,9 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERVirtualDiagramOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
     @Override

@@ -45,102 +45,75 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.Tri
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramOutlineEditPartFactory implements EditPartFactory {
 
     public static Map<String, EditPart> tableParts = new HashMap<String, EditPart>();
 
     private String filterText;
-
     private boolean quickMode;
 
+    @Override
     public EditPart createEditPart(EditPart context, Object model) {
         EditPart editPart = null;
-
         if (model instanceof ERVirtualDiagram) {
             editPart = new ERVirtualDiagramOutlineEditPart();
         } else if (model instanceof ERVirtualDiagramSet) {
             editPart = new ERVirtualDiagramSetOutlineEditPart();
-
         } else if (model instanceof ERTable) {
             editPart = new TableOutlineEditPart(quickMode);
             tableParts.put(((ERTable) model).getLogicalName(), editPart);
-
         } else if (model instanceof ERDiagram) {
             editPart = new ERDiagramOutlineEditPart(quickMode);
-
         } else if (model instanceof Relationship) {
             editPart = new RelationOutlineEditPart();
-
         } else if (model instanceof Word) {
             editPart = new WordOutlineEditPart();
-
         } else if (model instanceof Dictionary) {
             editPart = new DictionaryOutlineEditPart();
-
         } else if (model instanceof ColumnGroup) {
             editPart = new ColumnGroupOutlineEditPart();
-
         } else if (model instanceof ColumnGroupSet) {
             editPart = new GroupSetOutlineEditPart();
-
         } else if (model instanceof SequenceSet) {
             editPart = new SequenceSetOutlineEditPart();
-
         } else if (model instanceof Sequence) {
             editPart = new SequenceOutlineEditPart();
-
         } else if (model instanceof ViewSet) {
             editPart = new ViewSetOutlineEditPart();
-
         } else if (model instanceof ERView) {
             editPart = new ViewOutlineEditPart();
-
         } else if (model instanceof TriggerSet) {
             editPart = new TriggerSetOutlineEditPart();
-
         } else if (model instanceof Trigger) {
             editPart = new TriggerOutlineEditPart();
-
         } else if (model instanceof TablespaceSet) {
             editPart = new TablespaceSetOutlineEditPart();
-
         } else if (model instanceof Tablespace) {
             editPart = new TablespaceOutlineEditPart();
-
         } else if (model instanceof TableSet) {
             editPart = new TableSetOutlineEditPart();
-
         } else if (model instanceof IndexSet) {
             editPart = new IndexSetOutlineEditPart();
-
         } else if (model instanceof ERIndex) {
             editPart = new IndexOutlineEditPart();
         }
-
         if (editPart != null) {
             editPart.setModel(model);
             ((FilteringEditPart) editPart).setFilterText(filterText);
         } else {
             System.out.println("error");
         }
-
         return editPart;
     }
 
-    /**
-     * filterText��ݒ肵�܂��B
-     * @param filterText filterText
-     */
     public void setFilterText(String filterText) {
         this.filterText = filterText;
     }
 
-    /**
-     * quickMode��ݒ肵�܂��B
-     * @param quickMode quickMode
-     */
     public void setQuickMode(boolean quickMode) {
         this.quickMode = quickMode;
     }
-
 }

@@ -69,14 +69,14 @@ public class CreateElementCommand extends AbstractCommand {
             group.setName("Your Group"); // as default
             group.setWalkers(enclosedWalkerList);
             if (vdiagram != null) {
-                vdiagram.addGroup(group);
-            } else { // Main Model
+                vdiagram.addWalkerGroup(group);
+            } else { // main diagram
                 diagram.addNewWalker(group);
             }
         } else { // e.g. table, note
             if (vdiagram != null) {
-                vdiagram.addNewContent(walker);
-            } else {
+                vdiagram.addNewWalker(walker);
+            } else { // main diagram
                 diagram.addNewWalker(walker);
             }
         }

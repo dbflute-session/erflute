@@ -54,6 +54,9 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionFactory;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramOutlinePage extends ContentOutlinePage {
 
     private SashForm sash;
@@ -114,7 +117,6 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
     private void initDropTarget() {
         final AbstractTransferDropTargetListener dropTargetListener =
                 new ERDiagramOutlineTransferDropTargetListener(this.graphicalViewer, TemplateTransfer.getInstance());
-
         this.graphicalViewer.addDropTargetListener(dropTargetListener);
     }
 
@@ -122,7 +124,6 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         this.graphicalViewer = graphicalViewer;
         this.viewer.setContextMenu(outlineMenuMgr);
 
-        // �G�f�B�b�g�E�h���C���̐ݒ�
         this.viewer.setEditDomain(editDomain);
         this.registry = registry;
 
@@ -132,7 +133,6 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
     }
 
     private void resetAction(ActionRegistry registry) {
-        // �A�E�g���C���E�y�[�W�ŗL���ɂ���A�N�V����
         if (getSite() == null) {
             return;
         }
@@ -258,7 +258,9 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 final ERDiagramOutlineEditPart contents =
                         (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
                 if (contents != null) {
-                    final List<ERVirtualDiagramOutlineEditPart> parts = ((ERVirtualDiagramSetOutlineEditPart) contents.getChildren().get(0)).getChildren();
+                    final ERVirtualDiagramSetOutlineEditPart virtualDiagramSetOutlineEditPart =
+                            (ERVirtualDiagramSetOutlineEditPart) contents.getChildren().get(0);
+                    final List<ERVirtualDiagramOutlineEditPart> parts = virtualDiagramSetOutlineEditPart.getChildren();
                     for (final ERVirtualDiagramOutlineEditPart part : parts) {
                         if (part.getModel().equals(erModel)) {
                             final ISelection selection = new StructuredSelection(part);

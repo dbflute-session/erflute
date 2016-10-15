@@ -5,10 +5,10 @@ import java.util.List;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
@@ -69,7 +69,7 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
             if (!selectedObject.isEmpty()) {
                 final CompoundCommand command = new CompoundCommand();
                 for (final Object obj : selectedObject) {
-                    if (isNodeElementEditPart(obj)) {
+                    if (isDiagramWalkerEditPart(obj)) {
                         final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) obj;
                         targetEditPart = editPart;
                         final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
@@ -89,7 +89,7 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         return super.handleKeyDown(event);
     }
 
-    private boolean isNodeElementEditPart(final Object obj) {
+    private boolean isDiagramWalkerEditPart(final Object obj) {
         return obj instanceof TableViewEditPart || obj instanceof WalkerNoteEditPart || obj instanceof ModelPropertiesEditPart;
     }
 
