@@ -31,7 +31,7 @@ import org.dbflute.erflute.editor.view.action.edit.DeleteWithoutUpdateAction;
 import org.dbflute.erflute.editor.view.action.edit.EditExcelAction;
 import org.dbflute.erflute.editor.view.action.edit.PasteAction;
 import org.dbflute.erflute.editor.view.action.edit.SelectAllContentsAction;
-import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
+import org.dbflute.erflute.editor.view.action.ermodel.ERDiagramQuickOutlineAction;
 import org.dbflute.erflute.editor.view.action.ermodel.VirtualDiagramAddAction;
 import org.dbflute.erflute.editor.view.action.group.ColumnGroupManageAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
@@ -277,7 +277,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                         new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
                         new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
                         new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new VirtualDiagramAddAction(this),
-                        new ERModelQuickOutlineAction(this), }));
+                        new ERDiagramQuickOutlineAction(this), }));
         Activator.debug(this, "createActions()", "...Preparing diagram actions: " + actionList.size());
         actionList.addAll(extensionLoader.createExtendedActions());
         for (final IAction action : actionList) {
@@ -291,7 +291,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             registry.registerAction(action);
         }
         this.addKeyHandler(registry.getAction(SearchAction.ID));
-        this.addKeyHandler(registry.getAction(ERModelQuickOutlineAction.ID));
+        this.addKeyHandler(registry.getAction(ERDiagramQuickOutlineAction.ID));
     }
 
     @SuppressWarnings("unchecked")

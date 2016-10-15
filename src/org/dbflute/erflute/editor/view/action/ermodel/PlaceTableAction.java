@@ -3,7 +3,6 @@ package org.dbflute.erflute.editor.view.action.ermodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
@@ -19,33 +18,34 @@ import org.eclipse.ui.PlatformUI;
 public class PlaceTableAction extends AbstractBaseAction {
 
     public static final String ID = PlaceTableAction.class.getName();
-    private VirtualDiagramEditor oneEditor;
+    private final VirtualDiagramEditor oneEditor;
 
     public PlaceTableAction(VirtualDiagramEditor editor) {
-        super(ID, DisplayMessages.getMessage("action.title.ermodel.place.table"), editor);
+        super(ID, "Locate Table", editor);
         this.oneEditor = editor;
     }
 
     @Override
     public void execute(Event event) throws Exception {
-        ERDiagram diagram = this.getDiagram();
-        ERVirtualDiagram model = oneEditor.getVirtualDiagram();
+        final ERDiagram diagram = this.getDiagram();
+        final ERVirtualDiagram model = oneEditor.getVirtualDiagram();
 
-        List<ERTable> input = new ArrayList<ERTable>();
+        final List<ERTable> input = new ArrayList<ERTable>();
         input.addAll(diagram.getDiagramContents().getDiagramWalkers().getTableSet().getList());
 
-        NodeSelectionDialog dialog = new NodeSelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
+        final NodeSelectionDialog dialog =
+                new NodeSelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
 
-        FigureCanvas canvas = (FigureCanvas) oneEditor.getGraphicalViewer().getControl();
-        Point point =
+        final FigureCanvas canvas = (FigureCanvas) oneEditor.getGraphicalViewer().getControl();
+        final Point point =
                 new Point(canvas.getHorizontalBar().getSelection() + canvas.getClientArea().width / 2, canvas.getVerticalBar()
                         .getSelection() + canvas.getClientArea().height / 2);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
-            Object[] results = dialog.getResult();
-            for (Object result : results) {
-                ERTable curTable = (ERTable) result;
-                ERVirtualTable virtualTable = new ERVirtualTable(model, curTable);
+            final Object[] results = dialog.getResult();
+            for (final Object result : results) {
+                final ERTable curTable = (ERTable) result;
+                final ERVirtualTable virtualTable = new ERVirtualTable(model, curTable);
                 virtualTable.setPoint(point.x, point.y);
                 model.addTable(virtualTable);
                 //				oneEditor.setContents(model);

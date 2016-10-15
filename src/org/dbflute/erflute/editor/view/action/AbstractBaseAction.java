@@ -32,17 +32,14 @@ public abstract class AbstractBaseAction extends Action {
     public AbstractBaseAction(String id, String text, int style, MainDiagramEditor editor) {
         super(text, style);
         this.setId(id);
-
         this.editor = editor;
     }
 
     protected void refreshProject() {
         final IFile iFile = ((IFileEditorInput) this.getEditorPart().getEditorInput()).getFile();
         final IProject project = iFile.getProject();
-
         try {
             project.refreshLocal(IResource.DEPTH_INFINITE, null);
-
         } catch (final CoreException e) {
             Activator.showExceptionDialog(e);
         }
@@ -53,31 +50,25 @@ public abstract class AbstractBaseAction extends Action {
         final Object model = editPart.getModel();
         if (model instanceof ERDiagram) {
             return (ERDiagram) model;
+        } else { // should be virtual diagram
+            return ((ERVirtualDiagram) model).getDiagram();
         }
-        return ((ERVirtualDiagram) model).getDiagram();
     }
 
     protected GraphicalViewer getGraphicalViewer() {
         return this.editor.getGraphicalViewer();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final void runWithEvent(Event event) {
         try {
             execute(event);
-
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
-
         } finally {
             final Settings newSettings = this.getChangedSettings();
-
             if (newSettings != null && !this.getDiagram().getDiagramContents().getSettings().equals(newSettings)) {
                 final ChangeSettingsCommand command = new ChangeSettingsCommand(this.getDiagram(), newSettings);
-
                 this.execute(command);
             }
         }

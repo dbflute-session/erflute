@@ -14,12 +14,12 @@ import org.eclipse.ui.texteditor.IElementStateListener;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ErfluteElementStateListener implements IElementStateListener {
+public class ERDiagramElementStateListener implements IElementStateListener {
 
     private final ERFluteMultiPageEditor editorPart;
     private IDocumentProvider documentProvider; // may be disposed
 
-    public ErfluteElementStateListener(ERFluteMultiPageEditor editorPart) {
+    public ERDiagramElementStateListener(ERFluteMultiPageEditor editorPart) {
         this.editorPart = editorPart;
         documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorPart.getEditorInput());
         documentProvider.addElementStateListener(this);

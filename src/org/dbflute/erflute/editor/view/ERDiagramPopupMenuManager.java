@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToImageAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromFileAction;
-import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
+import org.dbflute.erflute.editor.view.action.ermodel.ERDiagramQuickOutlineAction;
 import org.dbflute.erflute.editor.view.action.ermodel.VirtualDiagramAddAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ResizeModelAction;
@@ -105,19 +105,19 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         pasteAction.setActionDefinitionId("org.eclipse.ui.edit.paste");
         this.add(pasteAction);
 
-        this.add(this.getAction(ActionFactory.DELETE));
-        this.add(this.getAction(ActionFactory.SELECT_ALL));
+        this.add(getAction(ActionFactory.DELETE));
+        this.add(getAction(ActionFactory.SELECT_ALL));
 
         this.add(new Separator());
 
-        this.add(this.getAction(ResizeModelAction.ID));
-        this.add(this.getAction(RightAngleLineAction.ID));
-        this.add(this.getAction(DefaultLineAction.ID));
+        this.add(getAction(ResizeModelAction.ID));
+        this.add(getAction(RightAngleLineAction.ID));
+        this.add(getAction(DefaultLineAction.ID));
 
         this.add(new Separator());
 
-        this.add(this.getAction(SearchAction.ID));
-        this.add(this.getAction(ERModelQuickOutlineAction.ID));
+        this.add(getAction(SearchAction.ID));
+        this.add(getAction(ERDiagramQuickOutlineAction.ID));
 
         this.add(new Separator());
 
@@ -151,13 +151,10 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         displayMenu.add(notationLevelMenu);
 
         final MenuManager designMenu = new MenuManager(DisplayMessages.getMessage("label.design"));
-
         designMenu.add(changeDesignToFunnyAction);
         designMenu.add(changeDesignToFrameAction);
         designMenu.add(changeDesignToSimpleAction);
-
         displayMenu.add(designMenu);
-
         displayMenu.add(changeCapitalAction);
         displayMenu.add(changeTitleFontSizeAction);
         displayMenu.add(changeStampAction);

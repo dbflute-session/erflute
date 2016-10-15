@@ -64,7 +64,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
     private ERDiagramEditPartFactory editPartFactory;
     private ERDiagramOutlinePage outlinePage;
     private ZoomComboContributionItem zoomComboContributionItem;
-    private ErfluteElementStateListener elementStateListener;
+    private ERDiagramElementStateListener elementStateListener;
     private boolean dirty;
 
     // ===================================================================================
@@ -363,7 +363,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
     @Override
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
         super.init(site, input);
-        this.elementStateListener = new ErfluteElementStateListener(this);
+        this.elementStateListener = new ERDiagramElementStateListener(this);
     }
 
     @Override

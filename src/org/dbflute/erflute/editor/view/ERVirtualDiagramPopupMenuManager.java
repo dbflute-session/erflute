@@ -12,11 +12,8 @@ import org.dbflute.erflute.editor.view.action.category.ChangeShowReferredTablesA
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToImageAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
-import org.dbflute.erflute.editor.view.action.dbimport.ImportFromFileAction;
-import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
-import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
+import org.dbflute.erflute.editor.view.action.ermodel.ERDiagramQuickOutlineAction;
 import org.dbflute.erflute.editor.view.action.ermodel.VirtualDiagramAddAction;
-import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ResizeModelAction;
 import org.dbflute.erflute.editor.view.action.line.RightAngleLineAction;
@@ -97,36 +94,36 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         final IAction changeFreeLayoutAction = getAction(ChangeFreeLayoutAction.ID);
         final IAction changeShowReferredTablesAction = getAction(ChangeShowReferredTablesAction.ID);
 
-        final IAction undoAction = this.getAction(ActionFactory.UNDO);
+        final IAction undoAction = getAction(ActionFactory.UNDO);
         undoAction.setActionDefinitionId("org.eclipse.ui.edit.undo");
 
-        final IAction redoAction = this.getAction(ActionFactory.REDO);
+        final IAction redoAction = getAction(ActionFactory.REDO);
         redoAction.setActionDefinitionId("org.eclipse.ui.edit.redo");
 
         this.add(undoAction);
         this.add(redoAction);
 
-        final IAction copyAction = this.getAction(ActionFactory.COPY);
+        final IAction copyAction = getAction(ActionFactory.COPY);
         copyAction.setActionDefinitionId("org.eclipse.ui.edit.copy");
         this.add(copyAction);
 
-        final IAction pasteAction = this.getAction(ActionFactory.PASTE);
+        final IAction pasteAction = getAction(ActionFactory.PASTE);
         pasteAction.setActionDefinitionId("org.eclipse.ui.edit.paste");
         this.add(pasteAction);
 
-        this.add(this.getAction(ActionFactory.DELETE));
-        this.add(this.getAction(ActionFactory.SELECT_ALL));
+        this.add(getAction(ActionFactory.DELETE));
+        this.add(getAction(ActionFactory.SELECT_ALL));
 
         this.add(new Separator());
 
-        this.add(this.getAction(ResizeModelAction.ID));
-        this.add(this.getAction(RightAngleLineAction.ID));
-        this.add(this.getAction(DefaultLineAction.ID));
+        this.add(getAction(ResizeModelAction.ID));
+        this.add(getAction(RightAngleLineAction.ID));
+        this.add(getAction(DefaultLineAction.ID));
 
         this.add(new Separator());
 
-        this.add(this.getAction(SearchAction.ID));
-        this.add(this.getAction(ERModelQuickOutlineAction.ID));
+        this.add(getAction(SearchAction.ID));
+        this.add(getAction(ERDiagramQuickOutlineAction.ID));
 
         this.add(new Separator());
 
@@ -152,42 +149,27 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         notationLevelMenu.add(changeNotationLevelToNameAndKeyAction);
         notationLevelMenu.add(changeNotationLevelToExcludeTypeAction);
         notationLevelMenu.add(changeNotationLevelToDetailAction);
-
         notationLevelMenu.add(new Separator());
-
         notationLevelMenu.add(changeNotationExpandGroupAction);
-
         displayMenu.add(notationLevelMenu);
 
         final MenuManager designMenu = new MenuManager(DisplayMessages.getMessage("label.design"));
-
         designMenu.add(changeDesignToFunnyAction);
         designMenu.add(changeDesignToFrameAction);
         designMenu.add(changeDesignToSimpleAction);
-
         displayMenu.add(designMenu);
-
         displayMenu.add(changeCapitalAction);
         displayMenu.add(changeTitleFontSizeAction);
         displayMenu.add(changeStampAction);
-
         this.add(displayMenu);
 
         this.add(new Separator());
 
-        final MenuManager importMenu =
-                new MenuManager(DisplayMessages.getMessage("action.title.import"), sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"),
-                        "Import");
+        add(prepareImportMenu(sharedImages));
+        add(prepareExportMenu(sharedImages));
 
-        importMenu.add(this.getAction(ImportFromDBAction.ID));
-        importMenu.add(this.getAction(ImportFromFileAction.ID));
-
-        this.add(importMenu);
-
-        prepareExportMenu(sharedImages);
-
+        add(getAction(VirtualDiagramAddAction.ID));
         this.add(new Separator());
-        this.add(this.getAction(PageSettingAction.ID));
 
         // #deleted category
         //final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
@@ -195,16 +177,18 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         //categoryMenu.add(changeShowReferredTablesAction);
         //this.add(categoryMenu);
 
-        final MenuManager vgroupMenu = new MenuManager("Table Group");
-        vgroupMenu.add(this.getAction(WalkerGroupManageAction.ID));
-        this.add(vgroupMenu);
+        // #thinking unused for now, needed? by jflute
+        //final MenuManager vgroupMenu = new MenuManager("Table Group");
+        //vgroupMenu.add(this.getAction(WalkerGroupManageAction.ID));
+        //this.add(vgroupMenu);
 
-        this.add(this.getAction(VirtualDiagramAddAction.ID));
-        this.add(this.getAction(PlaceTableAction.ID));
-        this.add(this.getAction(OptionSettingAction.ID));
+        // #thinking unused for now, needed? by jflute
+        //this.add(this.getAction(PlaceTableAction.ID));
+
+        this.add(getAction(PageSettingAction.ID));
+        add(getAction(OptionSettingAction.ID));
 
         this.addMenuListener(new IMenuListener() {
-
             @Override
             public void menuAboutToShow(IMenuManager manager) {
                 undoAction.setText(DisplayMessages.getMessage("action.title.undo"));
@@ -218,10 +202,8 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getViewMode() == Settings.VIEW_MODE_PHYSICAL) {
                     changeViewToPhysicalAction.setChecked(true);
-
                 } else if (settings.getViewMode() == Settings.VIEW_MODE_LOGICAL) {
                     changeViewToLogicalAction.setChecked(true);
-
                 } else {
                     changeViewToBothAction.setChecked(true);
                 }
@@ -231,7 +213,6 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
                 if (Settings.NOTATION_IDEF1X.equals(settings.getNotation())) {
                     changeToIDEF1XNotationAction.setChecked(true);
-
                 } else {
                     changeToIENotationAction.setChecked(true);
                 }
@@ -304,9 +285,21 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
     }
 
     // ===================================================================================
+    //                                                                              Import
+    //                                                                              ======
+    private MenuManager prepareImportMenu(final ISharedImages sharedImages) {
+        final MenuManager importMenu = new MenuManager("Import", sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"), "Import");
+        importMenu.add(this.getAction(ImportFromDBAction.ID));
+
+        // #deleted only from DB
+        //importMenu.add(getAction(ImportFromFileAction.ID));
+        return importMenu;
+    }
+
+    // ===================================================================================
     //                                                                              Export
     //                                                                              ======
-    protected void prepareExportMenu(ISharedImages sharedImages) {
+    protected MenuManager prepareExportMenu(ISharedImages sharedImages) {
         final MenuManager exportMenu =
                 new MenuManager(DisplayMessages.getMessage("action.title.export"), sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"),
                         "Export");
@@ -324,9 +317,12 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
         exportMenu.add(new GroupMarker("export"));
 
-        this.add(exportMenu);
+        return exportMenu;
     }
 
+    // ===================================================================================
+    //                                                                              Action
+    //                                                                              ======
     private IAction getAction(ActionFactory actionFactory) {
         return this.actionRegistry.getAction(actionFactory.getId());
     }
@@ -334,5 +330,4 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
     private IAction getAction(String id) {
         return this.actionRegistry.getAction(id);
     }
-
 }

@@ -35,7 +35,7 @@ public class ERVirtualDiagram extends DiagramWalker {
 
     @Override
     public String getObjectType() {
-        return "ermodel";
+        return "virtual_diagram";
     }
 
     public boolean containsTable(ERTable table) {
