@@ -12,7 +12,7 @@ public class SqlServer2008DDLCreator extends SqlServerDDLCreator {
     }
 
     @Override
-    public String getDropDDL(ERIndex index, ERTable table) {
+    public String doBuildDropIndex(ERIndex index, ERTable table) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP INDEX ");

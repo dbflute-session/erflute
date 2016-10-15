@@ -13,7 +13,7 @@ public class AccessDDLCreator extends DDLCreator {
     }
 
     @Override
-    public String getDropDDL(ERIndex index, ERTable table) {
+    public String doBuildDropIndex(ERIndex index, ERTable table) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP INDEX ");
@@ -30,7 +30,7 @@ public class AccessDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getDDL(Tablespace object) {
+    protected String doBuildCreateTablespace(Tablespace object) {
         return null;
     }
 

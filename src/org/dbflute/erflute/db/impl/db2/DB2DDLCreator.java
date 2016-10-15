@@ -19,10 +19,10 @@ public class DB2DDLCreator extends DDLCreator {
      * {@inheritDoc}
      */
     @Override
-    protected String getColulmnDDL(NormalColumn normalColumn) {
+    protected String buildColumnPart(NormalColumn normalColumn) {
         StringBuilder ddl = new StringBuilder();
 
-        ddl.append(super.getColulmnDDL(normalColumn));
+        ddl.append(super.buildColumnPart(normalColumn));
 
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" GENERATED ALWAYS AS IDENTITY ");
@@ -51,7 +51,7 @@ public class DB2DDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getDDL(Tablespace tablespace) {
+    protected String doBuildCreateTablespace(Tablespace tablespace) {
         DB2TablespaceProperties tablespaceProperties =
                 (DB2TablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
@@ -105,7 +105,7 @@ public class DB2DDLCreator extends DDLCreator {
     }
 
     @Override
-    public String getDDL(Sequence sequence) {
+    public String doBuildCreateSequence(Sequence sequence) {
         StringBuilder ddl = new StringBuilder();
 
         String description = sequence.getDescription();

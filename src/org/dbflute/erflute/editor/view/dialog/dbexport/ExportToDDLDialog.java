@@ -314,63 +314,44 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.exportSetting.setOpenAfterSaved(openAfterSaved);
 
         final Validator validator = new Validator();
-
         final List<ValidateResult> errorList = validator.validate(this.diagram);
-
         if (!errorList.isEmpty()) {
             final ExportWarningDialog dialog =
                     new ExportWarningDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), errorList);
-
             if (dialog.open() != IDialogConstants.OK_ID) {
                 return;
             }
         }
-
         final Category currentCategory = this.diagram.getCurrentCategory();
         final int currentCategoryIndex = this.diagram.getCurrentCategoryIndex();
-
         setCurrentCategory();
-
         PrintWriter out = null;
-
         IFile file = null;
-
         try {
             final DDLCreator ddlCreator = DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, true);
-
             final int index = this.environmentCombo.getSelectionIndex();
             final Environment environment =
                     this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
-
             ddlCreator.init(environment, ddlTarget);
-
             file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(saveFilePath));
             final String absoluteFilePath = file.getLocation().toString();
-
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath), getEncoding())));
-
             file.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
-
-            out.println(ddlCreator.getDropDDL(this.diagram));
-            out.println(ddlCreator.getCreateDDL(this.diagram));
-
+            out.println(ddlCreator.prepareDropDDL(this.diagram));
+            out.println(ddlCreator.prepareCreateDDL(this.diagram));
         } catch (final Exception e) {
             Activator.error(e);
             Activator.showMessageDialog(e.getMessage());
-
         } finally {
             this.diagram.setCurrentCategory(currentCategory, currentCategoryIndex);
-
             if (out != null) {
                 out.close();
             }
         }
-
         if (openAfterSaved && file != null) {
             try {
                 final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                 IDE.openEditor(page, file);
-
             } catch (final Exception e) {
                 Activator.showExceptionDialog(e);
             }
@@ -382,7 +363,6 @@ public class ExportToDDLDialog extends AbstractDialog {
             this.diagram.setCurrentCategory(null, 0);
             return;
         }
-
         final Category currentCategory =
                 this.diagram.getDiagramContents()
                         .getSettings()
