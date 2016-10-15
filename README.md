@@ -12,7 +12,7 @@ ERD Modeling Tool for Startup & Incremental Development as Eclipse Plugin
 
 ```
 dropins
- |-erflute
+ |-ERFlute
     |-eclipse
        |-plugins
           |-org.dbflute.erflute_0.4.0.jar
