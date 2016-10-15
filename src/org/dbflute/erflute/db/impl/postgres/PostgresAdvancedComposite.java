@@ -2,7 +2,7 @@ package org.dbflute.erflute.db.impl.postgres;
 
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.exception.InputException;
-import org.dbflute.erflute.editor.view.dialog.element.table.tab.AdvancedComposite;
+import org.dbflute.erflute.editor.view.dialog.table.tab.AdvancedComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;

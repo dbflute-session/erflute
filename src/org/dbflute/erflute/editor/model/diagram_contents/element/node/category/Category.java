@@ -6,47 +6,42 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.settings.CategorySetting;
 
-public class Category extends NodeElement implements IResizable, Comparable<Category> {
+public class Category extends DiagramWalker implements IResizable, Comparable<Category> {
 
     private static final long serialVersionUID = -7691417386790834828L;
 
-    private List<NodeElement> nodeElementList;
-
+    private List<DiagramWalker> walkerList;
     private String name;
 
     public Category() {
-        this.nodeElementList = new ArrayList<NodeElement>();
+        this.walkerList = new ArrayList<DiagramWalker>();
     }
 
-    public void setContents(List<NodeElement> contetns) {
-        this.nodeElementList = contetns;
-
+    public void setContents(List<DiagramWalker> contetns) {
+        this.walkerList = contetns;
         if (this.getWidth() == 0) {
-
             int categoryX = 0;
             int categoryY = 0;
-
             int categoryWidth = 300;
             int categoryHeight = 400;
+            if (!walkerList.isEmpty()) {
+                categoryX = walkerList.get(0).getX();
+                categoryY = walkerList.get(0).getY();
+                categoryWidth = walkerList.get(0).getWidth();
+                categoryHeight = walkerList.get(0).getHeight();
 
-            if (!nodeElementList.isEmpty()) {
-                categoryX = nodeElementList.get(0).getX();
-                categoryY = nodeElementList.get(0).getY();
-                categoryWidth = nodeElementList.get(0).getWidth();
-                categoryHeight = nodeElementList.get(0).getHeight();
-
-                for (NodeElement nodeElement : nodeElementList) {
-                    int x = nodeElement.getX();
-                    int y = nodeElement.getY();
-                    int width = nodeElement.getWidth();
-                    int height = nodeElement.getHeight();
+                for (final DiagramWalker walker : walkerList) {
+                    final int x = walker.getX();
+                    final int y = walker.getY();
+                    int width = walker.getWidth();
+                    int height = walker.getHeight();
 
                     if (categoryX > x) {
                         width += categoryX - x;
@@ -72,21 +67,18 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
         }
     }
 
-    public boolean contains(NodeElement nodeElement) {
-        return this.nodeElementList.contains(nodeElement);
+    public boolean contains(DiagramWalker nodeElement) {
+        return this.walkerList.contains(nodeElement);
     }
 
-    public boolean isVisible(NodeElement nodeElement, ERDiagram diagram) {
+    public boolean isVisible(DiagramWalker nodeElement, ERDiagram diagram) {
         boolean isVisible = false;
-
         if (this.contains(nodeElement)) {
             isVisible = true;
-
         } else {
-            CategorySetting categorySettings = diagram.getDiagramContents().getSettings().getCategorySetting();
-
+            final CategorySetting categorySettings = diagram.getDiagramContents().getSettings().getCategorySetting();
             if (categorySettings.isShowReferredTables()) {
-                for (NodeElement referringElement : nodeElement.getReferringElementList()) {
+                for (final DiagramWalker referringElement : nodeElement.getReferringElementList()) {
                     if (this.contains(referringElement)) {
                         isVisible = true;
                         break;
@@ -94,10 +86,10 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
                 }
             }
         }
-
         return isVisible;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -106,74 +98,78 @@ public class Category extends NodeElement implements IResizable, Comparable<Cate
         this.name = name;
     }
 
-    public List<NodeElement> getContents() {
-        return nodeElementList;
+    public List<DiagramWalker> getContents() {
+        return walkerList;
     }
 
     public List<ERTable> getTableContents() {
-        List<ERTable> tableList = new ArrayList<ERTable>();
-
-        for (NodeElement nodeElement : this.nodeElementList) {
-            if (nodeElement instanceof ERTable) {
-                tableList.add((ERTable) nodeElement);
+        final List<ERTable> tableList = new ArrayList<ERTable>();
+        for (final DiagramWalker walker : this.walkerList) {
+            if (walker instanceof ERTable) {
+                tableList.add((ERTable) walker);
             }
         }
-
         return tableList;
     }
 
     public List<ERView> getViewContents() {
-        List<ERView> viewList = new ArrayList<ERView>();
-
-        for (NodeElement nodeElement : this.nodeElementList) {
-            if (nodeElement instanceof ERView) {
-                viewList.add((ERView) nodeElement);
+        final List<ERView> viewList = new ArrayList<ERView>();
+        for (final DiagramWalker walker : this.walkerList) {
+            if (walker instanceof ERView) {
+                viewList.add((ERView) walker);
             }
         }
-
         return viewList;
     }
 
     public List<TableView> getTableViewContents() {
-        List<TableView> tableList = new ArrayList<TableView>();
-
-        for (NodeElement nodeElement : this.nodeElementList) {
-            if (nodeElement instanceof TableView) {
-                tableList.add((TableView) nodeElement);
+        final List<TableView> tableList = new ArrayList<TableView>();
+        for (final DiagramWalker walker : this.walkerList) {
+            if (walker instanceof TableView) {
+                tableList.add((TableView) walker);
             }
         }
-
         return tableList;
     }
 
+    @Override
     public int compareTo(Category other) {
-        int compareTo = 0;
-
-        compareTo = Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
-
-        return compareTo;
+        return Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Category clone() {
-        Category clone = (Category) super.clone();
-
+        final Category clone = (Category) super.clone();
         return clone;
     }
 
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getObjectType() {
         return "category";
     }
 
     @Override
     public boolean needsUpdateOtherModel() {
+        return false;
+    }
+
+    @Override
+    public int getPersistentOrder() {
+        return 10;
+    }
+
+    @Override
+    public boolean isUsePersistentId() {
+        return true;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
         return false;
     }
 }

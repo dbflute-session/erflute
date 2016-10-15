@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.printer;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.printer.PageSettingDialog;
@@ -13,7 +13,7 @@ public class PageSettingAction extends AbstractBaseAction {
 
     public static final String ID = PageSettingAction.class.getName();
 
-    public PageSettingAction(MainModelEditor editor) {
+    public PageSettingAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.page.setting"), editor);
     }
 

@@ -13,14 +13,14 @@ import java.util.Set;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbimport.DBObject;
 import org.dbflute.erflute.editor.model.dbimport.DBObjectSet;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -29,7 +29,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERVie
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -60,7 +60,7 @@ public class ImportFromFileAction extends AbstractImportAction {
 
     private ERDiagram loadedDiagram;
 
-    public ImportFromFileAction(MainModelEditor editor) {
+    public ImportFromFileAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.file"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.TABLE));
     }
@@ -135,13 +135,13 @@ public class ImportFromFileAction extends AbstractImportAction {
     private DBObjectSet getAllObjects(ERDiagram loadedDiagram) {
         DBObjectSet dbObjects = new DBObjectSet();
 
-        for (ERTable table : loadedDiagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : loadedDiagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
             DBObject dbObject = new DBObject(table.getTableViewProperties().getSchema(), table.getName(), DBObject.TYPE_TABLE);
             dbObject.setModel(table);
             dbObjects.add(dbObject);
         }
 
-        for (ERView view : loadedDiagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : loadedDiagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
             DBObject dbObject = new DBObject(view.getTableViewProperties().getSchema(), view.getName(), DBObject.TYPE_VIEW);
             dbObject.setModel(view);
             dbObjects.add(dbObject);
@@ -173,7 +173,7 @@ public class ImportFromFileAction extends AbstractImportAction {
             dbObjects.add(dbObject);
         }
 
-        for (ColumnGroup columnGroup : loadedDiagram.getDiagramContents().getGroups()) {
+        for (ColumnGroup columnGroup : loadedDiagram.getDiagramContents().getColumnGroupSet()) {
             DBObject dbObject = new DBObject(null, columnGroup.getName(), DBObject.TYPE_GROUP);
             dbObject.setModel(columnGroup);
             dbObjects.add(dbObject);
@@ -191,7 +191,7 @@ public class ImportFromFileAction extends AbstractImportAction {
 
         DiagramContents contents = loadedDiagram.getDiagramContents();
 
-        GroupSet columnGroupSet = contents.getGroups();
+        ColumnGroupSet columnGroupSet = contents.getColumnGroupSet();
 
         for (Iterator<ColumnGroup> iter = columnGroupSet.iterator(); iter.hasNext();) {
             ColumnGroup columnGroup = iter.next();
@@ -239,18 +239,18 @@ public class ImportFromFileAction extends AbstractImportAction {
 
         this.importedTablespaces = tablespaceSet.getTablespaceList();
 
-        NodeSet nodeSet = contents.getContents();
-        List<NodeElement> nodeElementList = nodeSet.getNodeElementList();
+        DiagramWalkerSet nodeSet = contents.getDiagramWalkers();
+        List<DiagramWalker> nodeElementList = nodeSet.getDiagramWalkerList();
 
-        for (Iterator<NodeElement> iter = nodeElementList.iterator(); iter.hasNext();) {
-            NodeElement nodeElement = iter.next();
+        for (Iterator<DiagramWalker> iter = nodeElementList.iterator(); iter.hasNext();) {
+            DiagramWalker nodeElement = iter.next();
 
             if (!selectedSets.contains(nodeElement)) {
                 iter.remove();
             }
         }
 
-        NodeSet selectedNodeSet = new NodeSet();
+        DiagramWalkerSet selectedNodeSet = new DiagramWalkerSet();
 
         Map<UniqueWord, Word> dictionary = new HashMap<UniqueWord, Word>();
 
@@ -260,7 +260,7 @@ public class ImportFromFileAction extends AbstractImportAction {
             }
         }
 
-        for (NodeElement nodeElement : nodeElementList) {
+        for (DiagramWalker nodeElement : nodeElementList) {
             if (mergeWord) {
                 if (nodeElement instanceof TableView) {
                     TableView tableView = (TableView) nodeElement;
@@ -279,10 +279,10 @@ public class ImportFromFileAction extends AbstractImportAction {
                 }
             }
 
-            selectedNodeSet.addNodeElement(nodeElement);
+            selectedNodeSet.addDiagramWalker(nodeElement);
         }
 
-        for (NodeElement nodeElement : selectedNodeSet) {
+        for (DiagramWalker nodeElement : selectedNodeSet) {
             if (nodeElement instanceof TableView) {
                 TableView tableView = (TableView) nodeElement;
 
@@ -301,7 +301,7 @@ public class ImportFromFileAction extends AbstractImportAction {
         if (mergeGroup) {
             Map<String, ColumnGroup> groupMap = new HashMap<String, ColumnGroup>();
 
-            for (ColumnGroup columnGroup : this.getDiagram().getDiagramContents().getGroups()) {
+            for (ColumnGroup columnGroup : this.getDiagram().getDiagramContents().getColumnGroupSet()) {
                 groupMap.put(columnGroup.getGroupName(), columnGroup);
             }
 
@@ -313,7 +313,7 @@ public class ImportFromFileAction extends AbstractImportAction {
                 if (replaceColumnGroup != null) {
                     iter.remove();
 
-                    for (NodeElement nodeElement : selectedNodeSet) {
+                    for (DiagramWalker nodeElement : selectedNodeSet) {
                         if (nodeElement instanceof TableView) {
                             TableView tableView = (TableView) nodeElement;
                             tableView.replaceColumnGroup(columnGroup, replaceColumnGroup);
@@ -324,9 +324,9 @@ public class ImportFromFileAction extends AbstractImportAction {
         }
 
         CopyManager copyManager = new CopyManager();
-        NodeSet copyList = copyManager.copyNodeElementList(selectedNodeSet);
+        DiagramWalkerSet copyList = copyManager.copyNodeElementList(selectedNodeSet);
 
-        this.importedNodeElements = copyList.getNodeElementList();
+        this.importedNodeElements = copyList.getDiagramWalkerList();
     }
 
     /**

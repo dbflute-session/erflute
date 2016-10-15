@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.view.dialog.common.AbstractDBSettingDialog;
+import org.dbflute.erflute.editor.view.dialog.dbsetting.AbstractDBSettingDialog;
 import org.dbflute.erflute.preference.PreferenceInitializer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -31,7 +31,7 @@ public class ImportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         this.setCurrentSetting();
 
         Connection con = null;
@@ -43,7 +43,7 @@ public class ImportDBSettingDialog extends AbstractDBSettingDialog {
             throw e;
 
         } catch (Exception e) {
-            Activator.log(e);
+            Activator.error(e);
             Throwable cause = e.getCause();
 
             if (cause instanceof UnknownHostException) {

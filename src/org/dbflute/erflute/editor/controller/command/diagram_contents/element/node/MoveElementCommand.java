@@ -8,7 +8,7 @@ import java.util.Map;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -30,7 +30,7 @@ public class MoveElementCommand extends AbstractCommand {
 
     protected int oldHeight;
 
-    private NodeElement element;
+    private DiagramWalker element;
 
     private Map<Category, Rectangle> oldCategoryRectangleMap;
 
@@ -44,7 +44,7 @@ public class MoveElementCommand extends AbstractCommand {
 
     private Rectangle bounds;
 
-    public MoveElementCommand(ERDiagram diagram, Rectangle bounds, int x, int y, int width, int height, NodeElement element) {
+    public MoveElementCommand(ERDiagram diagram, Rectangle bounds, int x, int y, int width, int height, DiagramWalker element) {
         this.element = element;
         this.setNewRectangle(x, y, width, height);
 

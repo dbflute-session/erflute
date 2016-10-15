@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.option.notation;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.notation.ChangeStampCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
@@ -12,20 +12,15 @@ public class ChangeStampAction extends AbstractBaseAction {
 
     public static final String ID = ChangeStampAction.class.getName();
 
-    public ChangeStampAction(MainModelEditor editor) {
+    public ChangeStampAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
         this.setText(DisplayMessages.getMessage("action.title.display.stamp"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeStampCommand command = new ChangeStampCommand(diagram, this.isChecked());
-
+        final ERDiagram diagram = this.getDiagram();
+        final ChangeStampCommand command = new ChangeStampCommand(diagram, this.isChecked());
         this.execute(command);
     }
 }

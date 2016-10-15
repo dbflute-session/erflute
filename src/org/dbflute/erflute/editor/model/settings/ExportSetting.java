@@ -5,8 +5,7 @@ import java.io.Serializable;
 import org.dbflute.erflute.editor.model.dbexport.ddl.DDLTarget;
 
 /**
- * @author ermaster
- * @author jflute
+ * @author modified by jflute (originated in ermaster)
  */
 public class ExportSetting implements Serializable, Cloneable {
 
@@ -26,11 +25,6 @@ public class ExportSetting implements Serializable, Cloneable {
     private boolean putERDiagramOnExcel;
     private boolean openAfterSaved;
     private String categoryNameToExport;
-
-    // #deleted
-    //private ExportJavaSetting exportJavaSetting = new ExportJavaSetting();
-    //private ExportTestDataSetting exportTestDataSetting = new ExportTestDataSetting();
-
     private DDLTarget ddlTarget = new DDLTarget();
 
     // ===================================================================================
@@ -44,7 +38,7 @@ public class ExportSetting implements Serializable, Cloneable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ExportSetting other = (ExportSetting) obj;
+        final ExportSetting other = (ExportSetting) obj;
         if (categoryNameToExport == null) {
             if (other.categoryNameToExport != null)
                 return false;
@@ -68,23 +62,13 @@ public class ExportSetting implements Serializable, Cloneable {
         if (excelTemplate == null) {
             if (other.excelTemplate != null)
                 return false;
-        } else if (!excelTemplate.equals(other.excelTemplate))
+        } else if (!excelTemplate.equals(other.excelTemplate)) {
             return false;
-
-        // #deleted
-        //if (exportJavaSetting == null) {
-        //    if (other.exportJavaSetting != null)
-        //        return false;
-        //} else if (!exportJavaSetting.equals(other.exportJavaSetting))
-        //    return false;
-        //if (exportTestDataSetting == null) {
-        //    if (other.exportTestDataSetting != null)
-        //        return false;
-        //} else if (!exportTestDataSetting.equals(other.exportTestDataSetting))
-        //    return false;
+        }
         if (imageOutput == null) {
-            if (other.imageOutput != null)
+            if (other.imageOutput != null) {
                 return false;
+            }
         } else if (!imageOutput.equals(other.imageOutput))
             return false;
         if (openAfterSaved != other.openAfterSaved)
@@ -96,21 +80,13 @@ public class ExportSetting implements Serializable, Cloneable {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ExportSetting clone() {
         try {
-            ExportSetting setting = (ExportSetting) super.clone();
-
+            final ExportSetting setting = (ExportSetting) super.clone();
             setting.setDdlTarget(this.ddlTarget.clone());
-            // #deleted
-            //setting.setExportJavaSetting(this.exportJavaSetting.clone());
-            //setting.setExportTestDataSetting(this.exportTestDataSetting.clone());
             return setting;
-
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             return null;
         }
     }

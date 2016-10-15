@@ -34,7 +34,7 @@ public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
         ERDiagram diagram = this.getDiagram();
         Category category = this.getCurrentCategory();
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
             if (category == null || category.contains(table)) {
                 children.addAll(table.getIndexes());
             }

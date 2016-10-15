@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.action.dbexport;
 import java.io.File;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -19,7 +19,7 @@ import org.eclipse.ui.PlatformUI;
 
 public abstract class AbstractExportAction extends AbstractBaseAction {
 
-    public AbstractExportAction(String id, String label, MainModelEditor editor) {
+    public AbstractExportAction(String id, String label, MainDiagramEditor editor) {
         super(id, label, editor);
     }
 

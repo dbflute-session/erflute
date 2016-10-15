@@ -2,8 +2,8 @@ package org.dbflute.erflute.db.impl.db2;
 
 import org.dbflute.erflute.db.EclipseDBManagerBase;
 import org.dbflute.erflute.db.impl.db2.tablespace.DB2TablespaceDialog;
-import org.dbflute.erflute.editor.view.dialog.element.table.tab.AdvancedComposite;
 import org.dbflute.erflute.editor.view.dialog.outline.tablespace.TablespaceDialog;
+import org.dbflute.erflute.editor.view.dialog.table.tab.AdvancedComposite;
 import org.eclipse.swt.widgets.Composite;
 
 public class DB2EclipseDBManager extends EclipseDBManagerBase {

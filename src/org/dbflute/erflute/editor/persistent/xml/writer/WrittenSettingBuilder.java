@@ -1,11 +1,9 @@
 package org.dbflute.erflute.editor.persistent.xml.writer;
 
-import java.text.DateFormat;
-
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.editor.model.dbexport.ddl.DDLTarget;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
@@ -29,14 +27,14 @@ public class WrittenSettingBuilder {
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final WrittenAssistLogic assistLogic;
-    protected final WrittenNodeElementBuilder nodeElementBuilder;
+    protected final WrittenDiagramWalkerBuilder nodeElementBuilder;
     protected final WrittenTablePropertiesBuilder tablePropertiesBuilder;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenSettingBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenNodeElementBuilder nodeElementBuilder,
-            WrittenTablePropertiesBuilder tablePropertiesBuilder) {
+    public WrittenSettingBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic,
+            WrittenDiagramWalkerBuilder nodeElementBuilder, WrittenTablePropertiesBuilder tablePropertiesBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.nodeElementBuilder = nodeElementBuilder;
@@ -173,11 +171,11 @@ public class WrittenSettingBuilder {
     private String doBuildCategory(Category category, boolean isSelected, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<category>\n");
-        xml.append(tab(nodeElementBuilder.buildNodeElement(category, context)));
+        xml.append(tab(nodeElementBuilder.buildWalker(category, context)));
         xml.append("\t<name>").append(escape(category.getName())).append("</name>\n");
         xml.append("\t<selected>").append(isSelected).append("</selected>\n");
-        for (final NodeElement nodeElement : category.getContents()) {
-            xml.append("\t<node_element>").append(context.nodeElementMap.get(nodeElement)).append("</node_element>\n");
+        for (final DiagramWalker walker : category.getContents()) {
+            xml.append("\t<category_contents>").append(context.walkerMap.get(walker)).append("</category_contents>\n");
         }
         xml.append("</category>\n");
         return xml.toString();
@@ -189,11 +187,8 @@ public class WrittenSettingBuilder {
     private String buildModelProperties(ModelProperties modelProperties, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<model_properties>\n");
-        xml.append(tab(nodeElementBuilder.buildNodeElement(modelProperties, context)));
+        xml.append(tab(nodeElementBuilder.buildWalker(modelProperties, context)));
         xml.append("\t<display>").append(modelProperties.isDisplay()).append("</display>\n");
-        final DateFormat dateFormat = assistLogic.getDateFormat();
-        xml.append("\t<creation_date>").append(dateFormat.format(modelProperties.getCreationDate())).append("</creation_date>\n");
-        xml.append("\t<updated_date>").append(dateFormat.format(modelProperties.getUpdatedDate())).append("</updated_date>\n");
         for (final NameValue property : modelProperties.getProperties()) {
             xml.append(tab(doBuildModelProperty(property, context)));
         }

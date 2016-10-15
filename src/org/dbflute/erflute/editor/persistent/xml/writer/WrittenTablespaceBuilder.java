@@ -48,10 +48,10 @@ public class WrittenTablespaceBuilder {
     private String doBuildTablespace(Tablespace tablespace, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<tablespace>\n");
+        xml.append("\t<name>").append(escape(tablespace.getName())).append("</name>\n");
         if (context != null) {
             xml.append("\t<id>").append(context.tablespaceMap.get(tablespace)).append("</id>\n");
         }
-        xml.append("\t<name>").append(escape(tablespace.getName())).append("</name>\n");
         for (final Map.Entry<Environment, TablespaceProperties> entry : tablespace.getPropertiesMap().entrySet()) {
             final Environment environment = entry.getKey();
             final TablespaceProperties tablespaceProperties = entry.getValue();

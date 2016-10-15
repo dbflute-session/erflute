@@ -6,7 +6,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.table_view.AddColumnGroupCommand;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.table_view.AddWordCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -19,7 +19,7 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.requests.DirectEditRequest;
 
-public class TableViewComponentEditPolicy extends NodeElementComponentEditPolicy {
+public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPolicy {
 
     @Override
     public void showTargetFeedback(Request request) {

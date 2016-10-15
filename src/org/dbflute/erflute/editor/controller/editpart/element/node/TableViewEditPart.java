@@ -17,6 +17,7 @@ import org.dbflute.erflute.editor.controller.editpolicy.element.node.table_view.
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.table_view.TableViewGraphicalNodeEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -43,28 +44,57 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
-public abstract class TableViewEditPart extends NodeElementEditPart implements IResizable {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public abstract class TableViewEditPart extends DiagramWalkerEditPart implements IResizable {
 
     private Font titleFont;
 
     @Override
-    protected List getModelChildren() {
+    protected List<Object> getModelChildren() {
         final List<Object> modelChildren = new ArrayList<Object>();
-
-        final TableView tableView = (TableView) this.getModel();
-
-        final ERDiagram diagram = this.getDiagram();
+        final TableView tableView = (TableView) getModel();
+        final ERDiagram diagram = getDiagram();
         if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {
             modelChildren.addAll(tableView.getExpandedColumns());
         } else {
             modelChildren.addAll(tableView.getColumns());
         }
-
         if (tableView instanceof ERTable) {
             modelChildren.addAll(((ERTable) tableView).getIndexes());
         }
-
+        Activator.trace(this, "getModelChildren()", "...Preparing model children: " + modelChildren.size());
         return modelChildren;
+    }
+
+    @Override
+    protected List<WalkerConnection> getModelSourceConnections() {
+        final List<WalkerConnection> filteredList = filterConnections(super.getModelSourceConnections());
+        Activator.trace(this, "getModelSourceConnections()", "...Preparing model source connections: " + filteredList.size());
+        return filteredList;
+    }
+
+    @Override
+    protected List<WalkerConnection> getModelTargetConnections() {
+        final List<WalkerConnection> filteredList = filterConnections(super.getModelTargetConnections());
+        Activator.trace(this, "getModelTargetConnections()", "...Preparing model target connections: " + filteredList.size());
+        return filteredList;
+    }
+
+    protected List<WalkerConnection> filterConnections(final List<WalkerConnection> connections) {
+        final List<WalkerConnection> filteredList = new ArrayList<WalkerConnection>();
+        for (final WalkerConnection connection : connections) { // #for_erflute
+            if (!isVirtualDiagram() && connection.isVirtualDiagramOnly()) { // e.g. note
+                continue;
+            }
+            filteredList.add(connection);
+        }
+        return filteredList;
+    }
+
+    protected boolean isVirtualDiagram() {
+        return false;
     }
 
     @Override
@@ -73,12 +103,10 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             refreshVisuals();
         } else if (event.getPropertyName().equals(TableView.PROPERTY_CHANGE_LOGICAL_NAME)) {
             refreshVisuals();
-
         } else if (event.getPropertyName().equals(TableView.PROPERTY_CHANGE_COLUMNS)) {
             this.refreshChildren();
             refreshVisuals();
         }
-
         super.doPropertyChange(event);
         this.refreshConnections();
     }
@@ -242,13 +270,13 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             }
 
             final Relationship relation = (Relationship) connectionEditPart.getModel();
-            if (relation.getSource() == relation.getTarget()) {
+            if (relation.getWalkerSource() == relation.getWalkerTarget()) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
             final EditPart editPart = reconnectRequest.getTarget();
 
-            if (editPart == null || !editPart.getModel().equals(relation.getSource())) {
+            if (editPart == null || !editPart.getModel().equals(relation.getWalkerSource())) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
@@ -321,13 +349,13 @@ public abstract class TableViewEditPart extends NodeElementEditPart implements I
             }
 
             final Relationship relation = (Relationship) connectionEditPart.getModel();
-            if (relation.getSource() == relation.getTarget()) {
+            if (relation.getWalkerSource() == relation.getWalkerTarget()) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 
             final EditPart editPart = reconnectRequest.getTarget();
 
-            if (editPart == null || !editPart.getModel().equals(relation.getTarget())) {
+            if (editPart == null || !editPart.getModel().equals(relation.getWalkerTarget())) {
                 return new XYChopboxAnchor(this.getFigure());
             }
 

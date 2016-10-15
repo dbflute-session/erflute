@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.util.Check;
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 
 /**
@@ -18,8 +21,11 @@ public class NormalColumn extends ERColumn {
 
     private static final long serialVersionUID = -3177788331933357906L;
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private Word word;
-    private String foreignKeyPhysicalName;
+    private String foreignKeyPhysicalName; // #willanalyze unused? by jflute
     private String foreignKeyLogicalName;
     private String foreignKeyDescription;
     private boolean notNull;
@@ -29,12 +35,15 @@ public class NormalColumn extends ERColumn {
     private String defaultValue;
     private String constraint;
     private String uniqueKeyName;
-    private Sequence autoIncrementSetting;
     private String characterSet;
     private String collation;
     private List<NormalColumn> referencedColumnList = new ArrayList<NormalColumn>();
     private List<Relationship> relationshipList = new ArrayList<Relationship>();
+    private Sequence autoIncrementSetting; // same as sequence
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public NormalColumn(Word word, boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement, String defaultValue,
             String constraint, String uniqueKeyName, String characterSet, String collation) {
         this.word = word;
@@ -77,6 +86,9 @@ public class NormalColumn extends ERColumn {
         this.collation = collation;
     }
 
+    // ===================================================================================
+    //                                                                        Relationship
+    //                                                                        ============
     public NormalColumn getFirstReferencedColumn() {
         if (this.referencedColumnList.isEmpty()) {
             return null;
@@ -93,15 +105,286 @@ public class NormalColumn extends ERColumn {
         return null;
     }
 
-    public String getLogicalName() {
-        if (this.getFirstReferencedColumn() != null) {
-            if (!Check.isEmpty(this.foreignKeyLogicalName)) {
-                return this.foreignKeyLogicalName;
-            } else {
-                return this.getFirstReferencedColumn().getLogicalName();
+    public NormalColumn getRootReferencedColumn() {
+        NormalColumn root = this.getFirstReferencedColumn();
+        if (root != null) {
+            while (root.getFirstReferencedColumn() != null) {
+                root = root.getFirstReferencedColumn();
             }
         }
-        return this.word.getLogicalName();
+        return root;
+    }
+
+    public List<Relationship> getOutgoingRelationList() {
+        final List<Relationship> outgoingRelationList = new ArrayList<Relationship>();
+        final ColumnHolder columnHolder = this.getColumnHolder();
+        if (columnHolder instanceof ERTable) {
+            final ERTable table = (ERTable) columnHolder;
+            for (final Relationship relation : table.getOutgoingRelationshipList()) {
+                if (relation.isReferenceForPK()) {
+                    if (this.isPrimaryKey()) {
+                        outgoingRelationList.add(relation);
+                    }
+                } else {
+                    if (this == relation.getReferencedColumn()) {
+                        outgoingRelationList.add(relation);
+                    }
+                }
+            }
+        }
+        return outgoingRelationList;
+    }
+
+    public List<NormalColumn> getForeignKeyList() {
+        final List<NormalColumn> foreignKeyList = new ArrayList<NormalColumn>();
+        final ColumnHolder columnHolder = this.getColumnHolder();
+        if (columnHolder instanceof ERTable) {
+            final ERTable table = (ERTable) columnHolder;
+            for (final Relationship relation : table.getOutgoingRelationshipList()) {
+                boolean found = false;
+                for (final NormalColumn column : relation.getTargetTableView().getNormalColumns()) {
+                    if (column.isForeignKey()) {
+                        for (final NormalColumn referencedColumn : column.referencedColumnList) {
+                            if (referencedColumn == this) {
+                                foreignKeyList.add(column);
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return foreignKeyList;
+    }
+
+    public List<Relationship> getRelationshipList() {
+        return relationshipList;
+    }
+
+    public void addReference(NormalColumn referencedColumn, Relationship relation) {
+        this.foreignKeyDescription = this.getDescription();
+        this.foreignKeyLogicalName = this.getLogicalName();
+        this.foreignKeyPhysicalName = this.getPhysicalName();
+        this.referencedColumnList.add(referencedColumn);
+        this.relationshipList.add(relation);
+        copyData(this, this);
+        this.word = null;
+    }
+
+    public void renewRelationList() {
+        final List<Relationship> newRelationList = new ArrayList<Relationship>();
+        newRelationList.addAll(this.relationshipList);
+        this.relationshipList = newRelationList;
+    }
+
+    public void removeReference(Relationship relation) {
+        this.relationshipList.remove(relation);
+        if (relationshipList.isEmpty()) {
+            NormalColumn temp = this.getFirstReferencedColumn();
+            while (temp.isForeignKey()) {
+                temp = temp.getFirstReferencedColumn();
+            }
+            this.word = temp.getWord();
+            if (this.getPhysicalName() != this.word.getPhysicalName() || this.getLogicalName() != this.word.getLogicalName()
+                    || this.getDescription() != this.word.getDescription()) {
+                this.word = new Word(this.word);
+                this.word.setPhysicalName(this.getPhysicalName());
+                this.word.setLogicalName(this.getLogicalName());
+                this.word.setDescription(this.getDescription());
+            }
+            this.foreignKeyDescription = null;
+            this.foreignKeyLogicalName = null;
+            this.foreignKeyPhysicalName = null;
+            this.referencedColumnList.clear();
+            copyData(this, this);
+        } else {
+            for (final NormalColumn referencedColumn : this.referencedColumnList) {
+                if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
+                    this.referencedColumnList.remove(referencedColumn);
+                    break;
+                }
+            }
+        }
+    }
+
+    public boolean isForeignKey() {
+        if (!this.relationshipList.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isRefered() {
+        if (!(this.getColumnHolder() instanceof ERTable)) {
+            return false;
+        }
+        boolean isRefered = false;
+        final ERTable table = (ERTable) this.getColumnHolder();
+        for (final Relationship relation : table.getOutgoingRelationshipList()) {
+            if (!relation.isReferenceForPK()) {
+                for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
+                    for (final NormalColumn referencedColumn : foreignKeyColumn.referencedColumnList) {
+                        if (referencedColumn == this) {
+                            isRefered = true;
+                            break;
+                        }
+                    }
+                    if (isRefered) {
+                        break;
+                    }
+                }
+                if (isRefered) {
+                    break;
+                }
+            }
+        }
+        return isRefered;
+    }
+
+    public boolean isReferedStrictly() {
+        if (!(this.getColumnHolder() instanceof ERTable)) {
+            return false;
+        }
+        boolean isRefered = false;
+        final ERTable table = (ERTable) this.getColumnHolder();
+        for (final Relationship relation : table.getOutgoingRelationshipList()) {
+            if (!relation.isReferenceForPK()) {
+                for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
+                    for (final NormalColumn referencedColumn : foreignKeyColumn.referencedColumnList) {
+                        if (referencedColumn == this) {
+                            isRefered = true;
+                            break;
+                        }
+                    }
+                    if (isRefered) {
+                        break;
+                    }
+                }
+                if (isRefered) {
+                    break;
+                }
+            } else {
+                if (this.isPrimaryKey()) {
+                    isRefered = true;
+                    break;
+                }
+            }
+        }
+        return isRefered;
+    }
+
+    public Word getWord() {
+        return this.word;
+    }
+
+    public boolean isFullTextIndexable() {
+        return this.getType().isFullTextIndexable();
+    }
+
+    public static void copyData(NormalColumn from, NormalColumn to) {
+        to.init(from.isNotNull(), from.isPrimaryKey(), from.isUniqueKey(), from.isAutoIncrement(), from.getDefaultValue(),
+                from.getConstraint(), from.uniqueKeyName, from.characterSet, from.collation);
+        to.autoIncrementSetting = (Sequence) from.autoIncrementSetting.clone();
+        if (to.isForeignKey()) {
+            final NormalColumn firstReferencedColumn = to.getFirstReferencedColumn();
+            if (firstReferencedColumn.getPhysicalName() == null) {
+                to.foreignKeyPhysicalName = from.getPhysicalName();
+            } else {
+                if (from.foreignKeyPhysicalName != null && !firstReferencedColumn.getPhysicalName().equals(from.foreignKeyPhysicalName)) {
+                    to.foreignKeyPhysicalName = from.foreignKeyPhysicalName;
+                } else if (!firstReferencedColumn.getPhysicalName().equals(from.getPhysicalName())) {
+                    to.foreignKeyPhysicalName = from.getPhysicalName();
+
+                } else {
+                    to.foreignKeyPhysicalName = null;
+                }
+            }
+            if (firstReferencedColumn.getLogicalName() == null) {
+                to.foreignKeyLogicalName = from.getLogicalName();
+            } else {
+                if (from.foreignKeyLogicalName != null && !firstReferencedColumn.getLogicalName().equals(from.foreignKeyLogicalName)) {
+                    to.foreignKeyLogicalName = from.foreignKeyLogicalName;
+
+                } else if (!firstReferencedColumn.getLogicalName().equals(from.getLogicalName())) {
+                    to.foreignKeyLogicalName = from.getLogicalName();
+
+                } else {
+                    to.foreignKeyLogicalName = null;
+                }
+            }
+            if (firstReferencedColumn.getDescription() == null) {
+                to.foreignKeyDescription = from.getDescription();
+            } else {
+                if (from.foreignKeyDescription != null && !firstReferencedColumn.getDescription().equals(from.foreignKeyDescription)) {
+                    to.foreignKeyDescription = from.foreignKeyDescription;
+                } else if (!firstReferencedColumn.getDescription().equals(from.getDescription())) {
+                    to.foreignKeyDescription = from.getDescription();
+                } else {
+                    to.foreignKeyDescription = null;
+                }
+            }
+        } else {
+            from.word.copyTo(to.word);
+        }
+        to.setColumnHolder(from.getColumnHolder());
+    }
+
+    // ===================================================================================
+    //                                                                           Column ID
+    //                                                                           =========
+    public String buildColumnId(TableView table) {
+        return table.buildTableViewId() + "." + getResolvedPhysicalName();
+    }
+
+    public String buildColumnIdAsGroup(ColumnGroup group) {
+        return "columnGroup." + group.getGroupName() + "." + getResolvedPhysicalName();
+    }
+
+    private String getResolvedPhysicalName() {
+        final String physicalName = getPhysicalName();
+        if (Srl.is_NotNull_and_NotEmpty(physicalName)) {
+            return physicalName;
+        } else {
+            final NormalColumn firstReferencedColumn = getFirstReferencedColumn();
+            if (firstReferencedColumn != null) {
+                return firstReferencedColumn.getPhysicalName();
+            } else { // no way? by jflute
+                return "Unknown";
+            }
+        }
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public NormalColumn clone() {
+        final NormalColumn clone = (NormalColumn) super.clone();
+        clone.relationshipList = new ArrayList<Relationship>(this.relationshipList);
+        clone.referencedColumnList = new ArrayList<NormalColumn>(this.referencedColumnList);
+        return clone;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append(":{");
+        sb.append("physicalName=" + getPhysicalName());
+        sb.append(", logicalName=" + getLogicalName());
+        sb.append("}");
+        return sb.toString();
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    @Override
+    public String getName() {
+        return getPhysicalName(); // #for_erflute change logical to physical for fixed sort
     }
 
     public String getPhysicalName() {
@@ -115,16 +398,25 @@ public class NormalColumn extends ERColumn {
         return this.word.getPhysicalName();
     }
 
+    public String getLogicalName() {
+        if (this.getFirstReferencedColumn() != null) {
+            if (!Check.isEmpty(this.foreignKeyLogicalName)) {
+                return this.foreignKeyLogicalName;
+            } else {
+                return this.getFirstReferencedColumn().getLogicalName();
+            }
+        }
+        return this.word.getLogicalName();
+    }
+
     public String getDescription() {
         if (this.getFirstReferencedColumn() != null) {
             if (!Check.isEmpty(this.foreignKeyDescription)) {
                 return this.foreignKeyDescription;
-
             } else {
                 return this.getFirstReferencedColumn().getDescription();
             }
         }
-
         return this.word.getDescription();
     }
 
@@ -143,16 +435,13 @@ public class NormalColumn extends ERColumn {
     public SqlType getType() {
         if (this.getFirstReferencedColumn() != null) {
             final SqlType type = this.getFirstReferencedColumn().getType();
-
             if (SqlType.valueOfId(SqlType.SQL_TYPE_ID_SERIAL).equals(type)) {
                 return SqlType.valueOfId(SqlType.SQL_TYPE_ID_INTEGER);
             } else if (SqlType.valueOfId(SqlType.SQL_TYPE_ID_BIG_SERIAL).equals(type)) {
                 return SqlType.valueOfId(SqlType.SQL_TYPE_ID_BIG_INT);
             }
-
             return type;
         }
-
         return word.getType();
     }
 
@@ -160,7 +449,6 @@ public class NormalColumn extends ERColumn {
         if (this.getFirstReferencedColumn() != null) {
             return getFirstReferencedColumn().getTypeData();
         }
-
         return this.word.getTypeData();
     }
 
@@ -208,300 +496,6 @@ public class NormalColumn extends ERColumn {
         this.collation = collation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return this.getLogicalName();
-    }
-
-    public NormalColumn getRootReferencedColumn() {
-        NormalColumn root = this.getFirstReferencedColumn();
-
-        if (root != null) {
-            while (root.getFirstReferencedColumn() != null) {
-                root = root.getFirstReferencedColumn();
-            }
-        }
-
-        return root;
-    }
-
-    public List<Relationship> getOutgoingRelationList() {
-        final List<Relationship> outgoingRelationList = new ArrayList<Relationship>();
-
-        final ColumnHolder columnHolder = this.getColumnHolder();
-
-        if (columnHolder instanceof ERTable) {
-            final ERTable table = (ERTable) columnHolder;
-
-            for (final Relationship relation : table.getOutgoingRelations()) {
-                if (relation.isReferenceForPK()) {
-                    if (this.isPrimaryKey()) {
-                        outgoingRelationList.add(relation);
-                    }
-                } else {
-                    if (this == relation.getReferencedColumn()) {
-                        outgoingRelationList.add(relation);
-                    }
-                }
-            }
-        }
-
-        return outgoingRelationList;
-    }
-
-    public List<NormalColumn> getForeignKeyList() {
-        final List<NormalColumn> foreignKeyList = new ArrayList<NormalColumn>();
-
-        final ColumnHolder columnHolder = this.getColumnHolder();
-
-        if (columnHolder instanceof ERTable) {
-            final ERTable table = (ERTable) columnHolder;
-
-            for (final Relationship relation : table.getOutgoingRelations()) {
-                boolean found = false;
-                for (final NormalColumn column : relation.getTargetTableView().getNormalColumns()) {
-                    if (column.isForeignKey()) {
-                        for (final NormalColumn referencedColumn : column.referencedColumnList) {
-                            if (referencedColumn == this) {
-                                foreignKeyList.add(column);
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if (found) {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        return foreignKeyList;
-    }
-
-    public List<Relationship> getRelationshipList() {
-        return relationshipList;
-    }
-
-    public void addReference(NormalColumn referencedColumn, Relationship relation) {
-        this.foreignKeyDescription = this.getDescription();
-        this.foreignKeyLogicalName = this.getLogicalName();
-        this.foreignKeyPhysicalName = this.getPhysicalName();
-        this.referencedColumnList.add(referencedColumn);
-        this.relationshipList.add(relation);
-        copyData(this, this);
-        this.word = null;
-    }
-
-    public void renewRelationList() {
-        final List<Relationship> newRelationList = new ArrayList<Relationship>();
-        newRelationList.addAll(this.relationshipList);
-        this.relationshipList = newRelationList;
-    }
-
-    public void removeReference(Relationship relation) {
-        this.relationshipList.remove(relation);
-        if (relationshipList.isEmpty()) {
-            NormalColumn temp = this.getFirstReferencedColumn();
-            while (temp.isForeignKey()) {
-                temp = temp.getFirstReferencedColumn();
-            }
-
-            this.word = temp.getWord();
-            if (this.getPhysicalName() != this.word.getPhysicalName() || this.getLogicalName() != this.word.getLogicalName()
-                    || this.getDescription() != this.word.getDescription()) {
-                this.word = new Word(this.word);
-
-                this.word.setPhysicalName(this.getPhysicalName());
-                this.word.setLogicalName(this.getLogicalName());
-                this.word.setDescription(this.getDescription());
-            }
-
-            this.foreignKeyDescription = null;
-            this.foreignKeyLogicalName = null;
-            this.foreignKeyPhysicalName = null;
-
-            this.referencedColumnList.clear();
-
-            copyData(this, this);
-
-        } else {
-            for (final NormalColumn referencedColumn : this.referencedColumnList) {
-                if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
-                    this.referencedColumnList.remove(referencedColumn);
-                    break;
-                }
-            }
-        }
-    }
-
-    public boolean isForeignKey() {
-        if (!this.relationshipList.isEmpty()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean isRefered() {
-        if (!(this.getColumnHolder() instanceof ERTable)) {
-            return false;
-        }
-
-        boolean isRefered = false;
-
-        final ERTable table = (ERTable) this.getColumnHolder();
-
-        for (final Relationship relation : table.getOutgoingRelations()) {
-            if (!relation.isReferenceForPK()) {
-                for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
-
-                    for (final NormalColumn referencedColumn : foreignKeyColumn.referencedColumnList) {
-                        if (referencedColumn == this) {
-                            isRefered = true;
-                            break;
-                        }
-                    }
-
-                    if (isRefered) {
-                        break;
-                    }
-                }
-
-                if (isRefered) {
-                    break;
-                }
-
-            }
-        }
-
-        return isRefered;
-    }
-
-    public boolean isReferedStrictly() {
-        if (!(this.getColumnHolder() instanceof ERTable)) {
-            return false;
-        }
-
-        boolean isRefered = false;
-
-        final ERTable table = (ERTable) this.getColumnHolder();
-
-        for (final Relationship relation : table.getOutgoingRelations()) {
-            if (!relation.isReferenceForPK()) {
-                for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
-
-                    for (final NormalColumn referencedColumn : foreignKeyColumn.referencedColumnList) {
-                        if (referencedColumn == this) {
-                            isRefered = true;
-                            break;
-                        }
-                    }
-
-                    if (isRefered) {
-                        break;
-                    }
-                }
-
-                if (isRefered) {
-                    break;
-                }
-
-            } else {
-                if (this.isPrimaryKey()) {
-                    isRefered = true;
-                    break;
-                }
-            }
-        }
-
-        return isRefered;
-    }
-
-    public Word getWord() {
-        return this.word;
-    }
-
-    public boolean isFullTextIndexable() {
-        return this.getType().isFullTextIndexable();
-    }
-
-    public static void copyData(NormalColumn from, NormalColumn to) {
-        to.init(from.isNotNull(), from.isPrimaryKey(), from.isUniqueKey(), from.isAutoIncrement(), from.getDefaultValue(),
-                from.getConstraint(), from.uniqueKeyName, from.characterSet, from.collation);
-
-        to.autoIncrementSetting = (Sequence) from.autoIncrementSetting.clone();
-
-        if (to.isForeignKey()) {
-            final NormalColumn firstReferencedColumn = to.getFirstReferencedColumn();
-
-            if (firstReferencedColumn.getPhysicalName() == null) {
-                to.foreignKeyPhysicalName = from.getPhysicalName();
-
-            } else {
-                if (from.foreignKeyPhysicalName != null && !firstReferencedColumn.getPhysicalName().equals(from.foreignKeyPhysicalName)) {
-                    to.foreignKeyPhysicalName = from.foreignKeyPhysicalName;
-
-                } else if (!firstReferencedColumn.getPhysicalName().equals(from.getPhysicalName())) {
-                    to.foreignKeyPhysicalName = from.getPhysicalName();
-
-                } else {
-                    to.foreignKeyPhysicalName = null;
-                }
-            }
-
-            if (firstReferencedColumn.getLogicalName() == null) {
-                to.foreignKeyLogicalName = from.getLogicalName();
-
-            } else {
-                if (from.foreignKeyLogicalName != null && !firstReferencedColumn.getLogicalName().equals(from.foreignKeyLogicalName)) {
-                    to.foreignKeyLogicalName = from.foreignKeyLogicalName;
-
-                } else if (!firstReferencedColumn.getLogicalName().equals(from.getLogicalName())) {
-                    to.foreignKeyLogicalName = from.getLogicalName();
-
-                } else {
-                    to.foreignKeyLogicalName = null;
-
-                }
-            }
-
-            if (firstReferencedColumn.getDescription() == null) {
-                to.foreignKeyDescription = from.getDescription();
-
-            } else {
-                if (from.foreignKeyDescription != null && !firstReferencedColumn.getDescription().equals(from.foreignKeyDescription)) {
-                    to.foreignKeyDescription = from.foreignKeyDescription;
-
-                } else if (!firstReferencedColumn.getDescription().equals(from.getDescription())) {
-                    to.foreignKeyDescription = from.getDescription();
-
-                } else {
-                    to.foreignKeyDescription = null;
-                }
-            }
-
-        } else {
-            from.word.copyTo(to.word);
-        }
-
-        to.setColumnHolder(from.getColumnHolder());
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(super.toString());
-        sb.append(", physicalName:" + this.getPhysicalName());
-        sb.append(", logicalName:" + this.getLogicalName());
-
-        return sb.toString();
-    }
-
     public void setForeignKeyPhysicalName(String physicalName) {
         this.foreignKeyPhysicalName = physicalName;
     }
@@ -546,14 +540,6 @@ public class NormalColumn extends ERColumn {
         this.word = word;
     }
 
-    public Sequence getAutoIncrementSetting() {
-        return autoIncrementSetting;
-    }
-
-    public void setAutoIncrementSetting(Sequence autoIncrementSetting) {
-        this.autoIncrementSetting = autoIncrementSetting;
-    }
-
     public void copyForeikeyData(NormalColumn to) {
         to.setConstraint(this.getConstraint());
         to.setForeignKeyDescription(this.getForeignKeyDescription());
@@ -571,18 +557,15 @@ public class NormalColumn extends ERColumn {
         return referencedColumnList;
     }
 
-    @Override
-    public NormalColumn clone() {
-        final NormalColumn clone = (NormalColumn) super.clone();
-
-        clone.relationshipList = new ArrayList<Relationship>(this.relationshipList);
-        clone.referencedColumnList = new ArrayList<NormalColumn>(this.referencedColumnList);
-
-        return clone;
-    }
-
     public void clearRelations() {
         relationshipList = new ArrayList<Relationship>();
     }
 
+    public Sequence getAutoIncrementSetting() {
+        return autoIncrementSetting;
+    }
+
+    public void setAutoIncrementSetting(Sequence autoIncrementSetting) {
+        this.autoIncrementSetting = autoIncrementSetting;
+    }
 }

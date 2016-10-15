@@ -1,8 +1,8 @@
 package org.dbflute.erflute.editor.view.information;
 
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
-import org.dbflute.erflute.editor.MainModelEditor;
-import org.dbflute.erflute.editor.SubModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
+import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.view.outline.ERDiagramOutlinePage;
@@ -110,11 +110,11 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
         outline.setQuickMode(true);
 
         IEditorPart activeEditor = ((ERFluteMultiPageEditor) ERModelUtil.getActiveEditor()).getActiveEditor();
-        if (activeEditor instanceof SubModelEditor) {
-            SubModelEditor editor = (SubModelEditor) activeEditor;
+        if (activeEditor instanceof VirtualDiagramEditor) {
+            VirtualDiagramEditor editor = (VirtualDiagramEditor) activeEditor;
             outline.setCategory(editor.getDefaultEditDomain(), editor.getGraphicalViewer(), null, editor.getDefaultActionRegistry());
         } else {
-            MainModelEditor editor = (MainModelEditor) activeEditor;
+            MainDiagramEditor editor = (MainDiagramEditor) activeEditor;
             outline.setCategory(editor.getDefaultEditDomain(), editor.getGraphicalViewer(), null, editor.getDefaultActionRegistry());
         }
 

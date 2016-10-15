@@ -7,51 +7,57 @@ import java.io.InputStream;
 import org.apache.commons.codec.binary.Base64;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.io.IOUtils;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
-public class InsertedImage extends NodeElement {
+public class InsertedImage extends DiagramWalker {
 
     private static final long serialVersionUID = -2035035973213266486L;
-
     public static final String PROPERTY_CHANGE_IMAGE = "image";
 
     private String base64EncodedData;
-
-    /** 0�@�`�@360 */
     private int hue;
-
-    /** -100�@�`�@+100 */
     private int saturation;
-
-    /** -100�@�`�@+100 */
     private int brightness;
-
     private int alpha;
-
     private boolean fixAspectRatio;
 
     public InsertedImage() {
         this.alpha = 255;
     }
 
-    public String getBase64EncodedData() {
-        return base64EncodedData;
+    @Override
+    public String getObjectType() {
+        return "image";
     }
 
-    public void setBase64EncodedData(String base64EncodedData) {
-        this.base64EncodedData = base64EncodedData;
-    }
-
-    public String getDescription() {
-        return null;
-    }
-
+    @Override
     public String getName() {
         return null;
     }
 
-    public String getObjectType() {
-        return "image";
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public boolean needsUpdateOtherModel() {
+        return true;
+    }
+
+    @Override
+    public int getPersistentOrder() {
+        return 16;
+    }
+
+    @Override
+    public boolean isUsePersistentId() {
+        return true;
+    }
+
+    @Override
+    public boolean isIndenpendentOnModel() {
+        return true;
     }
 
     public void setImageFilePath(String imageFilePath) {
@@ -60,23 +66,38 @@ public class InsertedImage extends NodeElement {
         try {
             in = new BufferedInputStream(new FileInputStream(imageFilePath));
 
-            byte[] data = IOUtils.toByteArray(in);
+            final byte[] data = IOUtils.toByteArray(in);
 
-            String encodedData = new String(Base64.encodeBase64(data));
+            final String encodedData = new String(Base64.encodeBase64(data));
             this.setBase64EncodedData(encodedData);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
 
         } finally {
             if (in != null) {
                 try {
                     in.close();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     Activator.showExceptionDialog(e);
                 }
             }
         }
+    }
+
+    public void setDirty() {
+        this.firePropertyChange(PROPERTY_CHANGE_IMAGE, null, null);
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public String getBase64EncodedData() {
+        return base64EncodedData;
+    }
+
+    public void setBase64EncodedData(String base64EncodedData) {
+        this.base64EncodedData = base64EncodedData;
     }
 
     public int getHue() {
@@ -117,14 +138,5 @@ public class InsertedImage extends NodeElement {
 
     public void setFixAspectRatio(boolean fixAspectRatio) {
         this.fixAspectRatio = fixAspectRatio;
-    }
-
-    public void setDirty() {
-        this.firePropertyChange(PROPERTY_CHANGE_IMAGE, null, null);
-    }
-
-    @Override
-    public boolean needsUpdateOtherModel() {
-        return true; // �s��
     }
 }

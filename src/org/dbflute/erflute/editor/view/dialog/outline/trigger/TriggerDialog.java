@@ -42,7 +42,7 @@ public class TriggerDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String text = nameText.getText().trim();
         if (text.equals("")) {
             return "error.trigger.name.empty";
@@ -71,7 +71,7 @@ public class TriggerDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         this.result = new Trigger();
 
         this.result.setName(this.nameText.getText().trim());

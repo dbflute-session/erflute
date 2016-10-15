@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.view.contributor;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -15,7 +15,7 @@ public class ERFluteMultiPageEditorActionBarContributor extends MultiPageEditorA
 
     @Override
     public void setActivePage(IEditorPart activeEditor) {
-        final MainModelEditor editor = (MainModelEditor) activeEditor;
+        final MainDiagramEditor editor = (MainDiagramEditor) activeEditor;
         final ERDiagramActionBarContributor actionBarContributor = editor.getActionBarContributor();
         final IActionBars actionBars = this.getActionBars();
         actionBars.clearGlobalActionHandlers();

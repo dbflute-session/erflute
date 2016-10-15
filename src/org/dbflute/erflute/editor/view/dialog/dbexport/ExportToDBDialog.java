@@ -49,7 +49,7 @@ public class ExportToDBDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         if ("".equals(this.textArea.getText().trim())) {
             return "";
         }
@@ -63,7 +63,7 @@ public class ExportToDBDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         String executeDDL = this.textArea.getSelectionText();
         if (Check.isEmpty(executeDDL)) {
             executeDDL = this.textArea.getText();
@@ -101,7 +101,7 @@ public class ExportToDBDialog extends AbstractDialog {
             throw e;
 
         } catch (Exception e) {
-            Activator.log(e);
+            Activator.error(e);
             Throwable cause = e.getCause();
 
             if (cause instanceof UnknownHostException) {

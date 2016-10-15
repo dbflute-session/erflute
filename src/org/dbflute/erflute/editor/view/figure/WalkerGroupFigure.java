@@ -1,0 +1,30 @@
+package org.dbflute.erflute.editor.view.figure;
+
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.ToolbarLayout;
+
+public class WalkerGroupFigure extends RectangleFigure {
+
+    private final Label label;
+
+    public WalkerGroupFigure(String name) {
+        this.setOpaque(true);
+
+        final ToolbarLayout layout = new ToolbarLayout();
+        this.setLayoutManager(layout);
+
+        this.label = new Label();
+        this.label.setText(name);
+        this.label.setBorder(new MarginBorder(7));
+        this.add(this.label);
+    }
+
+    @Override
+    protected void fillShape(Graphics graphics) {
+        graphics.setAlpha(100);
+        super.fillShape(graphics);
+    }
+}

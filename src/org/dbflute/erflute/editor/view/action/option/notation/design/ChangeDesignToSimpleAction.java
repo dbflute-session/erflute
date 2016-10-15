@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.view.action.option.notation.design;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 
 public class ChangeDesignToSimpleAction extends AbstractChangeDesignAction {
 
@@ -8,7 +8,7 @@ public class ChangeDesignToSimpleAction extends AbstractChangeDesignAction {
 
     public static final String TYPE = "simple";
 
-    public ChangeDesignToSimpleAction(MainModelEditor editor) {
+    public ChangeDesignToSimpleAction(MainDiagramEditor editor) {
         super(ID, TYPE, editor);
     }
 

@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.eclipse.gef.EditPart;
 
 public abstract class AbstractCreateConnectionCommand extends AbstractCommand {
@@ -22,12 +22,12 @@ public abstract class AbstractCreateConnectionCommand extends AbstractCommand {
         this.target = target;
     }
 
-    public NodeElement getSourceModel() {
-        return (NodeElement) this.source.getModel();
+    public DiagramWalker getSourceModel() {
+        return (DiagramWalker) this.source.getModel();
     }
 
-    public NodeElement getTargetModel() {
-        return (NodeElement) this.target.getModel();
+    public DiagramWalker getTargetModel() {
+        return (DiagramWalker) this.target.getModel();
     }
 
     /**

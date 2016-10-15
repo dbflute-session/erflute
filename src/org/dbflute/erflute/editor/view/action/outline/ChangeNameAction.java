@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -31,15 +31,15 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
         List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
         EditPart editPart = (EditPart) selectedEditParts.get(0);
         Object model = editPart.getModel();
-        if (model instanceof ERModel) {
-            ERModel ermodel = (ERModel) model;
+        if (model instanceof ERVirtualDiagram) {
+            ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
 
             InputDialog dialog =
                     new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "���O�ύX",
                             "�_�C�A�O����������͂��ĉ������B", ermodel.getName(), null);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ermodel.setName(dialog.getValue());
-                diagram.getDiagramContents().getModelSet().changeModel(ermodel);
+                diagram.getDiagramContents().getVirtualDiagramSet().changeModel(ermodel);
                 ermodel.getDiagram().getEditor().setDirty(true);
                 //				ermodel.changeAll();
                 //				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());

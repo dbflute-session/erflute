@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -29,20 +29,20 @@ import org.dbflute.erflute.editor.model.settings.Settings;
 
 public class CopyManager {
 
-    private static NodeSet copyList = new NodeSet();
+    private static DiagramWalkerSet copyList = new DiagramWalkerSet();
 
     private static int numberOfCopy;
 
-    private Map<NodeElement, NodeElement> nodeElementMap;
+    private Map<DiagramWalker, DiagramWalker> walkerMap;
 
-    public static void copy(NodeSet nodeElementList) {
-        CopyManager copyManager = new CopyManager();
+    public static void copy(DiagramWalkerSet nodeElementList) {
+        final CopyManager copyManager = new CopyManager();
         copyList = copyManager.copyNodeElementList(nodeElementList);
     }
 
-    public static NodeSet paste() {
+    public static DiagramWalkerSet paste() {
         numberOfCopy++;
-        CopyManager copyManager = new CopyManager();
+        final CopyManager copyManager = new CopyManager();
         return copyManager.copyNodeElementList(copyList);
     }
 
@@ -63,94 +63,55 @@ public class CopyManager {
         return numberOfCopy;
     }
 
-    public Map<NodeElement, NodeElement> getNodeElementMap() {
-        return nodeElementMap;
+    public Map<DiagramWalker, DiagramWalker> getNodeElementMap() {
+        return walkerMap;
     }
 
-    public NodeSet copyNodeElementList(NodeSet nodeElementList) {
-        NodeSet copyList = new NodeSet();
-
-        this.nodeElementMap = new HashMap<NodeElement, NodeElement>();
-        Map<ERColumn, ERColumn> columnMap = new HashMap<ERColumn, ERColumn>();
-        Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, ComplexUniqueKey>();
-
-        // �I������Ă���m�[�h��EditPart�ɑ΂��ď������J��Ԃ��܂�
-        for (NodeElement nodeElement : nodeElementList) {
-
-            if (nodeElement instanceof ModelProperties) {
-                // ���f���v���p�e�B�̏ꍇ�A�������܂���
+    public DiagramWalkerSet copyNodeElementList(DiagramWalkerSet nodeElementList) {
+        final DiagramWalkerSet copyList = new DiagramWalkerSet();
+        this.walkerMap = new HashMap<DiagramWalker, DiagramWalker>();
+        final Map<ERColumn, ERColumn> columnMap = new HashMap<ERColumn, ERColumn>();
+        final Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, ComplexUniqueKey>();
+        for (final DiagramWalker walker : nodeElementList) {
+            if (walker instanceof ModelProperties) {
                 continue;
             }
-
-            // �m�[�h�𕡐����āA�R�s�[���ɒǉ����܂�
-            NodeElement cloneNodeElement = (NodeElement) nodeElement.clone();
-            copyList.addNodeElement(cloneNodeElement);
-
-            nodeElementMap.put(nodeElement, cloneNodeElement);
-
-            if (nodeElement instanceof ERTable) {
-                // �m�[�h���e�[�u���̏ꍇ
-                // ��ƃC���f�b�N�X�ƕ�����ӃL�[�𕡐����܂��B
-                copyColumnAndIndex((ERTable) nodeElement, (ERTable) cloneNodeElement, columnMap, complexUniqueKeyMap);
-
-            } else if (nodeElement instanceof ERView) {
-                // �m�[�h���r���[�̏ꍇ
-                // ��𕡐����܂��B
-                copyColumn((ERView) nodeElement, (ERView) cloneNodeElement, columnMap);
+            final DiagramWalker cloneNodeElement = walker.clone();
+            copyList.addDiagramWalker(cloneNodeElement);
+            walkerMap.put(walker, cloneNodeElement);
+            if (walker instanceof ERTable) {
+                copyColumnAndIndex((ERTable) walker, (ERTable) cloneNodeElement, columnMap, complexUniqueKeyMap);
+            } else if (walker instanceof ERView) {
+                copyColumn((ERView) walker, (ERView) cloneNodeElement, columnMap);
             }
         }
-
-        // ������̃m�[�h�ɑ΂��āA�ڑ������Ȃ����܂�
-        Map<ConnectionElement, ConnectionElement> connectionElementMap = new HashMap<ConnectionElement, ConnectionElement>();
-
-        // �ڑ��𒣂�Ȃ����܂�
-        for (NodeElement nodeElement : nodeElementMap.keySet()) {
-            NodeElement cloneNodeElement = nodeElementMap.get(nodeElement);
-
-            // �������m�[�h�ɓ����Ă���ڑ��𕡐���ɒ���Ȃ����܂�
-            replaceIncoming(nodeElement, cloneNodeElement, connectionElementMap, nodeElementMap);
+        final Map<WalkerConnection, WalkerConnection> connectionElementMap = new HashMap<WalkerConnection, WalkerConnection>();
+        for (final DiagramWalker walker : walkerMap.keySet()) {
+            final DiagramWalker cloneWalker = walkerMap.get(walker);
+            replaceIncoming(walker, cloneWalker, connectionElementMap, walkerMap);
         }
 
-        // �O���L�[�̎Q�Ƃ���蒼���܂�
-        for (NodeElement nodeElement : nodeElementMap.keySet()) {
-
-            if (nodeElement instanceof ERTable) {
-                ERTable table = (ERTable) nodeElement;
-
-                // �������e�[�u���̗�ɑ΂��ď������J��Ԃ��܂�
-                for (ERColumn column : table.getColumns()) {
+        for (final DiagramWalker walker : walkerMap.keySet()) {
+            if (walker instanceof ERTable) {
+                final ERTable table = (ERTable) walker;
+                for (final ERColumn column : table.getColumns()) {
                     if (column instanceof NormalColumn) {
-                        NormalColumn oldColumn = (NormalColumn) column;
-
-                        // �O���L�[�̏ꍇ
+                        final NormalColumn oldColumn = (NormalColumn) column;
                         if (oldColumn.isForeignKey()) {
-                            NormalColumn newColumn = (NormalColumn) columnMap.get(oldColumn);
+                            final NormalColumn newColumn = (NormalColumn) columnMap.get(oldColumn);
                             newColumn.renewRelationList();
-
-                            for (Relationship oldRelation : oldColumn.getRelationshipList()) {
-
-                                // �������ꂽ�֘A�̎擾
-                                Relationship newRelation = (Relationship) connectionElementMap.get(oldRelation);
-
+                            for (final Relationship oldRelation : oldColumn.getRelationshipList()) {
+                                final Relationship newRelation = (Relationship) connectionElementMap.get(oldRelation);
                                 if (newRelation != null) {
-                                    // �֘A����������Ă���ꍇ
-
-                                    NormalColumn oldReferencedColumn = newRelation.getReferencedColumn();
-
-                                    // ���j�[�N�L�[���Q�Ƃ��Ă���ꍇ
+                                    final NormalColumn oldReferencedColumn = newRelation.getReferencedColumn();
                                     if (oldReferencedColumn != null) {
-                                        NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(oldReferencedColumn);
-
+                                        final NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(oldReferencedColumn);
                                         newRelation.setReferencedColumn(newReferencedColumn);
-
                                     }
-
-                                    ComplexUniqueKey oldReferencedComplexUniqueKey = newRelation.getReferencedComplexUniqueKey();
-
-                                    // �������j�[�N�L�[���Q�Ƃ��Ă���ꍇ
+                                    final ComplexUniqueKey oldReferencedComplexUniqueKey = newRelation.getReferencedComplexUniqueKey();
                                     if (oldReferencedComplexUniqueKey != null) {
-                                        ComplexUniqueKey newReferencedComplexUniqueKey =
-                                                (ComplexUniqueKey) complexUniqueKeyMap.get(oldReferencedComplexUniqueKey);
+                                        final ComplexUniqueKey newReferencedComplexUniqueKey =
+                                                complexUniqueKeyMap.get(oldReferencedComplexUniqueKey);
                                         if (newReferencedComplexUniqueKey != null) {
                                             newRelation.setReferencedComplexUniqueKey(newReferencedComplexUniqueKey);
                                         }
@@ -158,13 +119,13 @@ public class CopyManager {
 
                                     NormalColumn targetReferencedColumn = null;
 
-                                    for (NormalColumn referencedColumn : oldColumn.getReferencedColumnList()) {
+                                    for (final NormalColumn referencedColumn : oldColumn.getReferencedColumnList()) {
                                         if (referencedColumn.getColumnHolder() == oldRelation.getSourceTableView()) {
                                             targetReferencedColumn = referencedColumn;
                                             break;
                                         }
                                     }
-                                    NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(targetReferencedColumn);
+                                    final NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(targetReferencedColumn);
 
                                     newColumn.removeReference(oldRelation);
                                     newColumn.addReference(newReferencedColumn, newRelation);
@@ -184,49 +145,24 @@ public class CopyManager {
         return copyList;
     }
 
-    /**
-     * �������m�[�h�ɓ����Ă���ڑ��𕡐���ɒ���Ȃ����܂�
-     */
-    private static void replaceIncoming(NodeElement from, NodeElement to, Map<ConnectionElement, ConnectionElement> connectionElementMap,
-            Map<NodeElement, NodeElement> nodeElementMap) {
-        List<ConnectionElement> cloneIncomings = new ArrayList<ConnectionElement>();
-
-        // �������m�[�h�ɓ����Ă���ڑ��ɑ΂��ď������J��Ԃ��܂�
-        for (ConnectionElement incoming : from.getIncomings()) {
-            NodeElement oldSource = incoming.getSource();
-
-            // �ڑ����̕������擾���܂�
-            NodeElement newSource = nodeElementMap.get(oldSource);
-
-            // �ڑ�������������Ă���ꍇ
+    private static void replaceIncoming(DiagramWalker from, DiagramWalker to, Map<WalkerConnection, WalkerConnection> connectionElementMap,
+            Map<DiagramWalker, DiagramWalker> nodeElementMap) {
+        final List<WalkerConnection> cloneIncomings = new ArrayList<WalkerConnection>();
+        for (final WalkerConnection incoming : from.getIncomings()) {
+            final DiagramWalker oldSource = incoming.getWalkerSource();
+            final DiagramWalker newSource = nodeElementMap.get(oldSource);
             if (newSource != null) {
-
-                // �ڑ��𕡐����܂��B
-                ConnectionElement cloneIncoming = (ConnectionElement) incoming.clone();
-
-                cloneIncoming.setSourceAndTarget(newSource, to);
-
+                final WalkerConnection cloneIncoming = incoming.clone();
+                cloneIncoming.setSourceWalker(newSource);
+                cloneIncoming.setTargetWalker(to);
                 connectionElementMap.put(incoming, cloneIncoming);
-
                 cloneIncomings.add(cloneIncoming);
-
                 newSource.addOutgoing(cloneIncoming);
             }
         }
-
         to.setIncoming(cloneIncomings);
     }
 
-    /**
-     * ��ƃC���f�b�N�X�̏��𕡐����܂��B
-     * 
-     * @param from
-     *            ���̃e�[�u��
-     * @param to
-     *            �������ꂽ�e�[�u��
-     * @param columnMap
-     *            �L�[�F���̗�A�l�F������̗�
-     */
     private static void copyColumnAndIndex(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap,
             Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap) {
         copyColumn(from, to, columnMap);
@@ -235,22 +171,12 @@ public class CopyManager {
     }
 
     private static void copyColumn(TableView from, TableView to, Map<ERColumn, ERColumn> columnMap) {
-        // ������̗�̈ꗗ
-        List<ERColumn> cloneColumns = new ArrayList<ERColumn>();
-
-        // ���̃e�[�u���̗�ɑ΂��āA�������J��Ԃ��܂��B
-        for (ERColumn column : from.getColumns()) {
-
+        final List<ERColumn> cloneColumns = new ArrayList<ERColumn>();
+        for (final ERColumn column : from.getColumns()) {
             ERColumn cloneColumn = null;
-
             if (column instanceof ColumnGroup) {
-                // �O���[�v��̏ꍇ
-                // �����͓��ɂ��܂���B
                 cloneColumn = column;
-
             } else {
-                // ���ʂ̗�̏ꍇ
-                // ��𕡐����܂��B
                 cloneColumn = (NormalColumn) column.clone();
             }
 
@@ -265,19 +191,19 @@ public class CopyManager {
 
     private static void copyComplexUniqueKey(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap,
             Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap) {
-        List<ComplexUniqueKey> cloneComplexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
+        final List<ComplexUniqueKey> cloneComplexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
 
         // ���̃e�[�u���̕�����ӃL�[�ɑ΂��āA�������J��Ԃ��܂��B
-        for (ComplexUniqueKey complexUniqueKey : from.getComplexUniqueKeyList()) {
+        for (final ComplexUniqueKey complexUniqueKey : from.getComplexUniqueKeyList()) {
 
             // ������ӃL�[�𕡐����܂��B
-            ComplexUniqueKey cloneComplexUniqueKey = (ComplexUniqueKey) complexUniqueKey.clone();
+            final ComplexUniqueKey cloneComplexUniqueKey = (ComplexUniqueKey) complexUniqueKey.clone();
             complexUniqueKeyMap.put(complexUniqueKey, cloneComplexUniqueKey);
 
-            List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();
+            final List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();
 
             // ������̕�����ӃL�[�̗�ɑ΂��āA�������J��Ԃ��܂��B
-            for (NormalColumn column : cloneComplexUniqueKey.getColumnList()) {
+            for (final NormalColumn column : cloneComplexUniqueKey.getColumnList()) {
                 // ������̗���擾���āA������̕�����ӃL�[�̗�ꗗ�ɒǉ����܂��B
                 cloneColumns.add((NormalColumn) columnMap.get(column));
             }
@@ -293,18 +219,18 @@ public class CopyManager {
     }
 
     private static void copyIndex(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap) {
-        List<ERIndex> cloneIndexes = new ArrayList<ERIndex>();
+        final List<ERIndex> cloneIndexes = new ArrayList<ERIndex>();
 
         // ���̃e�[�u���̃C���f�b�N�X�ɑ΂��āA�������J��Ԃ��܂��B
-        for (ERIndex index : from.getIndexes()) {
+        for (final ERIndex index : from.getIndexes()) {
 
             // �C���f�b�N�X�𕡐����܂��B
-            ERIndex cloneIndex = (ERIndex) index.clone();
+            final ERIndex cloneIndex = index.clone();
 
-            List<NormalColumn> cloneIndexColumns = new ArrayList<NormalColumn>();
+            final List<NormalColumn> cloneIndexColumns = new ArrayList<NormalColumn>();
 
             // ������̃C���f�b�N�X�̗�ɑ΂��āA�������J��Ԃ��܂��B
-            for (NormalColumn indexColumn : cloneIndex.getColumns()) {
+            for (final NormalColumn indexColumn : cloneIndex.getColumns()) {
                 // ������̗���擾���āA������̃C���f�b�N�X��ꗗ�ɒǉ����܂��B
                 cloneIndexColumns.add((NormalColumn) columnMap.get(indexColumn));
             }
@@ -320,12 +246,12 @@ public class CopyManager {
     }
 
     public DiagramContents copy(DiagramContents originalDiagramContents) {
-        DiagramContents copyDiagramContents = new DiagramContents();
+        final DiagramContents copyDiagramContents = new DiagramContents();
 
-        copyDiagramContents.setContents(this.copyNodeElementList(originalDiagramContents.getContents()));
-        Map<NodeElement, NodeElement> nodeElementMap = this.getNodeElementMap();
+        copyDiagramContents.setDiagramWalkers(this.copyNodeElementList(originalDiagramContents.getDiagramWalkers()));
+        final Map<DiagramWalker, DiagramWalker> nodeElementMap = this.getNodeElementMap();
 
-        Settings settings = (Settings) originalDiagramContents.getSettings().clone();
+        final Settings settings = (Settings) originalDiagramContents.getSettings().clone();
         this.setSettings(nodeElementMap, settings);
         copyDiagramContents.setSettings(settings);
 
@@ -340,10 +266,10 @@ public class CopyManager {
         return copyDiagramContents;
     }
 
-    private void setSettings(Map<NodeElement, NodeElement> nodeElementMap, Settings settings) {
-        for (Category category : settings.getCategorySetting().getAllCategories()) {
-            List<NodeElement> newContents = new ArrayList<NodeElement>();
-            for (NodeElement nodeElement : category.getContents()) {
+    private void setSettings(Map<DiagramWalker, DiagramWalker> nodeElementMap, Settings settings) {
+        for (final Category category : settings.getCategorySetting().getAllCategories()) {
+            final List<DiagramWalker> newContents = new ArrayList<DiagramWalker>();
+            for (final DiagramWalker nodeElement : category.getContents()) {
                 newContents.add(nodeElementMap.get(nodeElement));
             }
 
@@ -353,21 +279,21 @@ public class CopyManager {
 
     private void setColumnGroup(DiagramContents copyDiagramContents, DiagramContents originalDiagramContents) {
 
-        Map<ColumnGroup, ColumnGroup> columnGroupMap = new HashMap<ColumnGroup, ColumnGroup>();
+        final Map<ColumnGroup, ColumnGroup> columnGroupMap = new HashMap<ColumnGroup, ColumnGroup>();
 
-        for (ColumnGroup columnGroup : originalDiagramContents.getGroups()) {
-            ColumnGroup newColumnGroup = (ColumnGroup) columnGroup.clone();
-            copyDiagramContents.getGroups().add(newColumnGroup);
+        for (final ColumnGroup columnGroup : originalDiagramContents.getColumnGroupSet()) {
+            final ColumnGroup newColumnGroup = columnGroup.clone();
+            copyDiagramContents.getColumnGroupSet().add(newColumnGroup);
 
             columnGroupMap.put(columnGroup, newColumnGroup);
         }
 
-        for (TableView tableView : copyDiagramContents.getContents().getTableViewList()) {
-            List<ERColumn> newColumns = new ArrayList<ERColumn>();
+        for (final TableView tableView : copyDiagramContents.getDiagramWalkers().getTableViewList()) {
+            final List<ERColumn> newColumns = new ArrayList<ERColumn>();
 
-            for (ERColumn column : tableView.getColumns()) {
+            for (final ERColumn column : tableView.getColumns()) {
                 if (column instanceof ColumnGroup) {
-                    newColumns.add(columnGroupMap.get((ColumnGroup) column));
+                    newColumns.add(columnGroupMap.get(column));
 
                 } else {
                     newColumns.add(column);
@@ -380,19 +306,19 @@ public class CopyManager {
 
     private void setWord(DiagramContents copyDiagramContents, DiagramContents originalDiagramContents) {
 
-        Map<Word, Word> wordMap = new HashMap<Word, Word>();
-        Dictionary copyDictionary = copyDiagramContents.getDictionary();
+        final Map<Word, Word> wordMap = new HashMap<Word, Word>();
+        final Dictionary copyDictionary = copyDiagramContents.getDictionary();
 
-        for (Word word : originalDiagramContents.getDictionary().getWordList()) {
-            Word newWord = (Word) word.clone();
+        for (final Word word : originalDiagramContents.getDictionary().getWordList()) {
+            final Word newWord = (Word) word.clone();
             wordMap.put(word, newWord);
         }
 
-        for (TableView tableView : copyDiagramContents.getContents().getTableViewList()) {
-            for (NormalColumn normalColumn : tableView.getNormalColumns()) {
-                Word oldWord = normalColumn.getWord();
+        for (final TableView tableView : copyDiagramContents.getDiagramWalkers().getTableViewList()) {
+            for (final NormalColumn normalColumn : tableView.getNormalColumns()) {
+                final Word oldWord = normalColumn.getWord();
                 if (oldWord != null) {
-                    Word newWord = wordMap.get(oldWord);
+                    final Word newWord = wordMap.get(oldWord);
                     normalColumn.setWord(newWord);
 
                     copyDictionary.add(normalColumn);
@@ -400,11 +326,11 @@ public class CopyManager {
             }
         }
 
-        for (ColumnGroup columnGroup : copyDiagramContents.getGroups()) {
-            for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                Word oldWord = normalColumn.getWord();
+        for (final ColumnGroup columnGroup : copyDiagramContents.getColumnGroupSet()) {
+            for (final NormalColumn normalColumn : columnGroup.getColumns()) {
+                final Word oldWord = normalColumn.getWord();
                 if (oldWord != null) {
-                    Word newWord = wordMap.get(oldWord);
+                    final Word newWord = wordMap.get(oldWord);
                     normalColumn.setWord(newWord);
 
                     copyDictionary.add(normalColumn);
@@ -416,28 +342,28 @@ public class CopyManager {
 
     private void setTablespace(DiagramContents copyDiagramContents, DiagramContents originalDiagramContents) {
 
-        Map<Tablespace, Tablespace> tablespaceMap = new HashMap<Tablespace, Tablespace>();
-        TablespaceSet copyTablespaceSet = copyDiagramContents.getTablespaceSet();
+        final Map<Tablespace, Tablespace> tablespaceMap = new HashMap<Tablespace, Tablespace>();
+        final TablespaceSet copyTablespaceSet = copyDiagramContents.getTablespaceSet();
 
-        for (Tablespace tablespace : originalDiagramContents.getTablespaceSet()) {
-            Tablespace newTablespace = (Tablespace) tablespace.clone();
+        for (final Tablespace tablespace : originalDiagramContents.getTablespaceSet()) {
+            final Tablespace newTablespace = tablespace.clone();
             tablespaceMap.put(tablespace, newTablespace);
 
             copyTablespaceSet.addTablespace(newTablespace);
         }
 
-        for (TableView tableView : copyDiagramContents.getContents().getTableViewList()) {
-            TableViewProperties tableProperties = tableView.getTableViewProperties();
-            Tablespace oldTablespace = tableProperties.getTableSpace();
+        for (final TableView tableView : copyDiagramContents.getDiagramWalkers().getTableViewList()) {
+            final TableViewProperties tableProperties = tableView.getTableViewProperties();
+            final Tablespace oldTablespace = tableProperties.getTableSpace();
 
-            Tablespace newTablespace = tablespaceMap.get(oldTablespace);
+            final Tablespace newTablespace = tablespaceMap.get(oldTablespace);
             tableProperties.setTableSpace(newTablespace);
         }
 
-        TableViewProperties defaultTableProperties = copyDiagramContents.getSettings().getTableViewProperties();
-        Tablespace oldDefaultTablespace = defaultTableProperties.getTableSpace();
+        final TableViewProperties defaultTableProperties = copyDiagramContents.getSettings().getTableViewProperties();
+        final Tablespace oldDefaultTablespace = defaultTableProperties.getTableSpace();
 
-        Tablespace newDefaultTablespace = tablespaceMap.get(oldDefaultTablespace);
+        final Tablespace newDefaultTablespace = tablespaceMap.get(oldDefaultTablespace);
         defaultTableProperties.setTableSpace(newDefaultTablespace);
     }
 }

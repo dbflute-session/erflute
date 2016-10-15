@@ -47,7 +47,7 @@ public abstract class TableRule extends BaseRule {
     public boolean validate(ERDiagram diagram) {
         this.database = diagram.getDatabase();
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
             if (!this.validate(table)) {
                 return false;
             }

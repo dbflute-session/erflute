@@ -2,15 +2,15 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.db.impl.standard_sql.StandardSQLDBManager;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
@@ -22,6 +22,7 @@ import org.dbflute.erflute.editor.model.settings.ExportSetting;
 import org.dbflute.erflute.editor.model.settings.PageSetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
+import org.dbflute.erflute.editor.view.dialog.dbexport.ExportToDDLDialog;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -32,19 +33,32 @@ import org.w3c.dom.NodeList;
 public class ReadSettingLoader {
 
     // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    private static final Map<String, String> defaultModelPropertyMigrationMap; // #for_erflute
+    static {
+        final Map<String, String> map = new HashMap<String, String>();
+        map.put("\u4f5c\u6210\u8005", "author");
+        map.put("\u4f1a\u793e\u540d", "company name");
+        map.put("\u30e2\u30c7\u30eb\u540d", "model name");
+        map.put("\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u540d", "project name");
+        defaultModelPropertyMigrationMap = map;
+    }
+
+    // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     protected final PersistentXml persistentXml;
     protected final ReadAssistLogic assistLogic;
     protected final ReadDatabaseLoader databaseLoader;
     protected final ReadTablePropertiesLoader tablePropertiesLoader;
-    protected final ReadNodeElementLoader nodeElementLoader;
+    protected final ReadDiagramWalkerLoader nodeElementLoader;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public ReadSettingLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDatabaseLoader databaseLoader,
-            ReadTablePropertiesLoader tablePropertiesLoader, ReadNodeElementLoader nodeElementLoader) {
+            ReadTablePropertiesLoader tablePropertiesLoader, ReadDiagramWalkerLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.databaseLoader = databaseLoader;
@@ -141,7 +155,11 @@ public class ReadSettingLoader {
         final Element element = this.getElement(parent, "export_setting");
 
         if (element != null) {
-            exportSetting.setCategoryNameToExport(this.getStringValue(element, "category_name_to_export"));
+            String categoryNameToExport = getStringValue(element, "category_name_to_export");
+            if ("\u5168\u4f53".equals(categoryNameToExport)) { // Japanese "all" (zentai) as KANJI
+                categoryNameToExport = ExportToDDLDialog.DEFAULT_CATEGORY;
+            }
+            exportSetting.setCategoryNameToExport(categoryNameToExport);
             exportSetting.setDdlOutput(this.getStringValue(element, "ddl_output"));
             exportSetting.setExcelOutput(this.getStringValue(element, "excel_output"));
             exportSetting.setExcelTemplate(this.getStringValue(element, "excel_template"));
@@ -196,18 +214,18 @@ public class ReadSettingLoader {
             }
             final Element categoryElement = (Element) nodeList.item(i);
             final Category category = new Category();
-            nodeElementLoader.loadNodeElement(category, categoryElement, context);
+            nodeElementLoader.loadWalker(category, categoryElement, context);
             category.setName(this.getStringValue(categoryElement, "name"));
             final boolean isSelected = this.getBooleanValue(categoryElement, "selected");
             final String[] keys = this.getTagValues(categoryElement, "node_element");
-            final List<NodeElement> nodeElementList = new ArrayList<NodeElement>();
+            final List<DiagramWalker> walkerList = new ArrayList<DiagramWalker>();
             for (final String key : keys) {
-                final NodeElement nodeElement = context.nodeElementMap.get(key);
-                if (nodeElement != null) {
-                    nodeElementList.add(nodeElement);
+                final DiagramWalker walker = context.walkerMap.get(key);
+                if (walker != null) {
+                    walkerList.add(walker);
                 }
             }
-            category.setContents(nodeElementList);
+            category.setContents(walkerList);
             categorySetting.addCategory(category);
             if (isSelected) {
                 selectedCategories.add(category);
@@ -220,28 +238,30 @@ public class ReadSettingLoader {
     //                                                                    Model Properties
     //                                                                    ================
     private void loadModelProperties(ModelProperties modelProperties, Element parent) {
-        final Element element = this.getElement(parent, "model_properties");
+        final Element element = getElement(parent, "model_properties");
         assistLogic.loadLocation(modelProperties, element);
         assistLogic.loadColor(modelProperties, element);
-        modelProperties.setDisplay(this.getBooleanValue(element, "display"));
-        modelProperties.setCreationDate(this.getDateValue(element, "creation_date"));
-        modelProperties.setUpdatedDate(this.getDateValue(element, "updated_date"));
+        modelProperties.setDisplay(getBooleanValue(element, "display"));
         final NodeList nodeList = element.getElementsByTagName("model_property");
         for (int i = 0; i < nodeList.getLength(); i++) {
             final Element propertyElement = (Element) nodeList.item(i);
-            final NameValue nameValue =
-                    new NameValue(this.getStringValue(propertyElement, "name"), this.getStringValue(propertyElement, "value"));
+            final String name = getStringValue(propertyElement, "name");
+            final String migratedName = defaultModelPropertyMigrationMap.get(name);
+            final String realName = migratedName != null ? migratedName : name;
+            final String value = getStringValue(propertyElement, "value");
+            final NameValue nameValue = new NameValue(realName, value);
             modelProperties.addProperty(nameValue);
         }
     }
 
     // ===================================================================================
-    //                                                                         Environment
-    //                                                                         ===========
+    //                                                              Tablespace Environment
+    //                                                              ======================
     public void loadEnvironmentSetting(EnvironmentSetting environmentSetting, Element parent, LoadContext context) {
         final Element settingElement = this.getElement(parent, "settings");
         final Element element = this.getElement(settingElement, "environment_setting");
         final List<Environment> environmentList = new ArrayList<Environment>();
+        final String defaultExpression = "Default";
         if (element != null) {
             final NodeList nodeList = element.getChildNodes();
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -249,16 +269,18 @@ public class ReadSettingLoader {
                     continue;
                 }
                 final Element environmentElement = (Element) nodeList.item(i);
-                final String id = this.getStringValue(environmentElement, "id");
-                final String name = this.getStringValue(environmentElement, "name");
+                final String id = getStringValue(environmentElement, "id");
+                String name = getStringValue(environmentElement, "name");
+                if ("\u30c7\u30d5\u30a9\u30eb\u30c8".equals(name)) { // Japanese "default" as Katakana
+                    name = defaultExpression; // #for_erflute use English only
+                }
                 final Environment environment = new Environment(name);
                 environmentList.add(environment);
                 context.environmentMap.put(id, environment);
             }
         }
         if (environmentList.isEmpty()) {
-            final String message = DisplayMessages.getMessage("label.default");
-            final Environment environment = new Environment(message);
+            final Environment environment = new Environment(defaultExpression); // #for_erflute use English only
             environmentList.add(environment);
             context.environmentMap.put("", environment);
         }
@@ -282,10 +304,6 @@ public class ReadSettingLoader {
 
     private int getIntValue(Element element, String tagname) {
         return assistLogic.getIntValue(element, tagname);
-    }
-
-    private Date getDateValue(Element element, String tagname) {
-        return assistLogic.getDateValue(element, tagname);
     }
 
     private String[] getTagValues(Element element, String tagname) {

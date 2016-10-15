@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ReplaceCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -131,11 +131,11 @@ public class SearchDialog extends Dialog {
     // ��������
     private Table resultTable;
 
-    private GraphicalViewer viewer;
+    private final GraphicalViewer viewer;
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private SearchManager searchManager;
+    private final SearchManager searchManager;
 
     private SearchResult searchResult;
 
@@ -143,7 +143,7 @@ public class SearchDialog extends Dialog {
 
     private TabFolder tabFolder;
 
-    public SearchDialog(Shell parentShell, GraphicalViewer viewer, MainModelEditor erDiagramEditor, ERDiagram diagram) {
+    public SearchDialog(Shell parentShell, GraphicalViewer viewer, MainDiagramEditor erDiagramEditor, ERDiagram diagram) {
         super(parentShell);
 
         this.setShellStyle(SWT.CLOSE | SWT.MODELESS | SWT.BORDER | SWT.TITLE);
@@ -174,7 +174,7 @@ public class SearchDialog extends Dialog {
     }
 
     private void initialize(Composite parent) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
         gridLayout.verticalSpacing = 15;
 
@@ -182,7 +182,7 @@ public class SearchDialog extends Dialog {
 
         createReplaceCombo(parent);
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.horizontalSpan = 3;
         gridData.grabExcessHorizontalSpace = true;
@@ -199,19 +199,19 @@ public class SearchDialog extends Dialog {
     }
 
     private void createRegionGroup(TabFolder tabFolder) {
-        TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
+        final TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
         tabItem.setText(DisplayMessages.getMessage("label.search.range"));
 
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
 
-        Composite group = new Composite(tabFolder, SWT.NONE);
+        final Composite group = new Composite(tabFolder, SWT.NONE);
         group.setLayout(gridLayout);
 
         allCheckBox = new Button(group, SWT.CHECK);
         allCheckBox.setText(DisplayMessages.getMessage("label.search.range.all"));
 
-        GridData allCheckBoxGridData = new GridData();
+        final GridData allCheckBoxGridData = new GridData();
         allCheckBoxGridData.horizontalAlignment = GridData.FILL;
         allCheckBoxGridData.horizontalSpan = 3;
         allCheckBoxGridData.grabExcessHorizontalSpace = true;
@@ -287,12 +287,12 @@ public class SearchDialog extends Dialog {
     }
 
     private void createWordCheckboxGroup(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 4;
 
-        Group group = new Group(parent, SWT.NONE);
+        final Group group = new Group(parent, SWT.NONE);
         group.setLayout(gridLayout);
         group.setLayoutData(gridData);
 
@@ -316,12 +316,12 @@ public class SearchDialog extends Dialog {
     }
 
     private void createTableCheckboxGroup(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 4;
 
-        Group group = new Group(parent, SWT.NONE);
+        final Group group = new Group(parent, SWT.NONE);
         group.setLayout(gridLayout);
         group.setLayoutData(gridData);
 
@@ -359,12 +359,12 @@ public class SearchDialog extends Dialog {
     }
 
     private void createGroupCheckboxGroup(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 4;
 
-        Group group = new Group(parent, SWT.NONE);
+        final Group group = new Group(parent, SWT.NONE);
         group.setLayoutData(gridData);
         group.setLayout(gridLayout);
 
@@ -486,14 +486,14 @@ public class SearchDialog extends Dialog {
         Label label = new Label(parent, SWT.NONE);
         label.setText(DisplayMessages.getMessage("label.search.keyword"));
 
-        GridData fillerGridData = new GridData();
+        final GridData fillerGridData = new GridData();
         fillerGridData.widthHint = 10;
 
         label = new Label(parent, SWT.NONE);
         label.setText("");
         label.setLayoutData(fillerGridData);
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.widthHint = 200;
 
         keywordCombo = new Combo(parent, SWT.NONE);
@@ -507,14 +507,14 @@ public class SearchDialog extends Dialog {
         Label label = new Label(parent, SWT.NONE);
         label.setText(DisplayMessages.getMessage("label.search.replace.word"));
 
-        GridData fillerGridData = new GridData();
+        final GridData fillerGridData = new GridData();
         fillerGridData.widthHint = 10;
 
         label = new Label(parent, SWT.NONE);
         label.setText("");
         label.setLayoutData(fillerGridData);
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.widthHint = 200;
 
         replaceCombo = new Combo(parent, SWT.NONE);
@@ -527,7 +527,7 @@ public class SearchDialog extends Dialog {
     private void initKeywordCombo() {
         this.keywordCombo.removeAll();
 
-        for (String str : SearchManager.getKeywordList()) {
+        for (final String str : SearchManager.getKeywordList()) {
             this.keywordCombo.add(str);
         }
     }
@@ -535,26 +535,26 @@ public class SearchDialog extends Dialog {
     private void initReplaceWordCombo() {
         this.replaceCombo.removeAll();
 
-        for (String str : ReplaceManager.getReplaceWordList()) {
+        for (final String str : ReplaceManager.getReplaceWordList()) {
             this.replaceCombo.add(str);
         }
     }
 
     private SearchResultRow searchResultRow;
 
-    private GraphicalViewer allViewer;
+    private final GraphicalViewer allViewer;
 
     private void createResultGroup(TabFolder tabFolder) {
-        TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
+        final TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
         tabItem.setText(DisplayMessages.getMessage("label.search.result"));
 
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 4;
 
-        Composite resultGroup = new Composite(tabFolder, SWT.NONE);
+        final Composite resultGroup = new Composite(tabFolder, SWT.NONE);
         resultGroup.setLayout(layout);
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.widthHint = -1;
         gridData.grabExcessVerticalSpace = true;
         gridData.verticalAlignment = SWT.FILL;
@@ -572,10 +572,10 @@ public class SearchDialog extends Dialog {
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = resultTable.getSelectionIndex();
+                final int index = resultTable.getSelectionIndex();
 
                 searchResultRow = searchResult.getRows().get(index);
-                Object object = searchResultRow.getTargetNode();
+                final Object object = searchResultRow.getTargetNode();
 
                 if (object != null) {
                     focus(object);
@@ -586,11 +586,10 @@ public class SearchDialog extends Dialog {
         this.resultTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseDoubleClick(MouseEvent e) {
-                System.out.println("double");
                 if (searchResultRow != null) {
                     close();
 
-                    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                    final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
                     ERTable table = null;
                     if (searchResultRow.getTargetNode() instanceof ERTable) {
@@ -599,21 +598,18 @@ public class SearchDialog extends Dialog {
                     if (table != null) {
 
                         try {
-                            IViewPart view = page.showView("org.eclipse.ui.views.ContentOutline");
-                            System.out.println(view);
-                            ContentOutline outlineView = (ContentOutline) view;
+                            final IViewPart view = page.showView("org.eclipse.ui.views.ContentOutline");
+                            final ContentOutline outlineView = (ContentOutline) view;
                             outlineView.getSelection();
 
-                            EditPart editpart = ERDiagramOutlineEditPartFactory.tableParts.get(table.getLogicalName());
-                            ISelection selection = new StructuredSelection(editpart);
+                            final EditPart editpart = ERDiagramOutlineEditPartFactory.tableParts.get(table.getLogicalName());
+                            final ISelection selection = new StructuredSelection(editpart);
                             outlineView.setSelection(selection);
 
-                            IContributedContentsView v = (IContributedContentsView) outlineView.getAdapter(IContributedContentsView.class);
-                            IWorkbenchPart contributingPart = v.getContributingPart();
-                            System.out.println(contributingPart);
-
-                        } catch (PartInitException e1) {
-                            // TODO Auto-generated catch block
+                            final IContributedContentsView v =
+                                    (IContributedContentsView) outlineView.getAdapter(IContributedContentsView.class);
+                            final IWorkbenchPart contributingPart = v.getContributingPart();
+                        } catch (final PartInitException e1) {
                             e1.printStackTrace();
                         }
 
@@ -637,22 +633,22 @@ public class SearchDialog extends Dialog {
             }
         });
 
-        TableColumn tableColumn0 = new TableColumn(resultTable, SWT.LEFT);
+        final TableColumn tableColumn0 = new TableColumn(resultTable, SWT.LEFT);
         tableColumn0.setWidth(250);
         tableColumn0.setText(DisplayMessages.getMessage("label.search.result.table.path"));
         tableColumn0.addSelectionListener(new SearchResultSortListener(SearchResult.SORT_TYPE_PATH));
 
-        TableColumn tableColumn1 = new TableColumn(resultTable, SWT.LEFT);
+        final TableColumn tableColumn1 = new TableColumn(resultTable, SWT.LEFT);
         tableColumn1.setWidth(100);
         tableColumn1.setText(DisplayMessages.getMessage("label.search.result.table.type"));
         tableColumn1.addSelectionListener(new SearchResultSortListener(SearchResult.SORT_TYPE_TYPE));
 
-        TableColumn tableColumn2 = new TableColumn(resultTable, SWT.LEFT);
+        final TableColumn tableColumn2 = new TableColumn(resultTable, SWT.LEFT);
         tableColumn2.setWidth(100);
         tableColumn2.setText(DisplayMessages.getMessage("label.search.result.table.name"));
         tableColumn2.addSelectionListener(new SearchResultSortListener(SearchResult.SORT_TYPE_NAME));
 
-        TableColumn tableColumn3 = new TableColumn(resultTable, SWT.LEFT);
+        final TableColumn tableColumn3 = new TableColumn(resultTable, SWT.LEFT);
         tableColumn3.setWidth(200);
         tableColumn3.setText(DisplayMessages.getMessage("label.search.result.table.value"));
         tableColumn3.addSelectionListener(new SearchResultSortListener(SearchResult.SORT_TYPE_VALUE));
@@ -692,7 +688,7 @@ public class SearchDialog extends Dialog {
                 this.all = true;
             }
 
-            String keyword = this.keywordCombo.getText();
+            final String keyword = this.keywordCombo.getText();
             this.searchResult =
                     this.searchManager.search(keyword, this.all, this.physicalWordNameCheckBox.getSelection(),
                             this.logicalWordNameCheckBox.getSelection(), this.wordTypeCheckBox.getSelection(),
@@ -720,19 +716,20 @@ public class SearchDialog extends Dialog {
         } else if (buttonId == REPLACE_ID) {
             this.tabFolder.setSelection(1);
 
-            List<SearchResultRow> replaceRows = getReplaceRows();
+            final List<SearchResultRow> replaceRows = getReplaceRows();
 
             if (replaceRows.isEmpty()) {
                 return;
             }
 
-            CompoundCommand command = new CompoundCommand();
+            final CompoundCommand command = new CompoundCommand();
 
-            String keyword = this.keywordCombo.getText();
-            String replaceWord = this.replaceCombo.getText();
+            final String keyword = this.keywordCombo.getText();
+            final String replaceWord = this.replaceCombo.getText();
 
-            for (SearchResultRow row : replaceRows) {
-                ReplaceCommand replaceCommand = new ReplaceCommand(this.diagram, row.getType(), row.getTarget(), keyword, replaceWord);
+            for (final SearchResultRow row : replaceRows) {
+                final ReplaceCommand replaceCommand =
+                        new ReplaceCommand(this.diagram, row.getType(), row.getTarget(), keyword, replaceWord);
                 command.add(replaceCommand);
             }
 
@@ -757,7 +754,7 @@ public class SearchDialog extends Dialog {
         if (this.searchResult != null) {
             this.setResultRowData(this.searchResult.getRows());
 
-            Object object = this.searchResult.getResultObject();
+            final Object object = this.searchResult.getResultObject();
             if (object != null) {
                 this.focus(object);
             }
@@ -768,7 +765,7 @@ public class SearchDialog extends Dialog {
     }
 
     private void focus(Object object) {
-        EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(object);
+        final EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(object);
 
         if (editPart != null) {
             this.viewer.select(editPart);
@@ -779,11 +776,11 @@ public class SearchDialog extends Dialog {
     private void setResultRowData(List<SearchResultRow> rows) {
         this.resultTable.removeAll();
 
-        for (SearchResultRow row : rows) {
-            String type = DisplayMessages.getMessage("search.result.row.type." + row.getType());
-            String name = DisplayMessages.getMessage("search.result.row.name." + row.getType());
+        for (final SearchResultRow row : rows) {
+            final String type = DisplayMessages.getMessage("search.result.row.type." + row.getType());
+            final String name = DisplayMessages.getMessage("search.result.row.name." + row.getType());
 
-            TableItem tableItem = new TableItem(this.resultTable, SWT.NONE);
+            final TableItem tableItem = new TableItem(this.resultTable, SWT.NONE);
 
             String path = row.getPath();
             if (path == null) {
@@ -801,18 +798,18 @@ public class SearchDialog extends Dialog {
     }
 
     private List<SearchResultRow> getReplaceRows() {
-        List<SearchResultRow> replaceRows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> replaceRows = new ArrayList<SearchResultRow>();
 
         if (this.searchResult == null) {
             return replaceRows;
         }
 
-        List<SearchResultRow> rows = this.searchResult.getRows();
+        final List<SearchResultRow> rows = this.searchResult.getRows();
         if (rows == null) {
             return replaceRows;
         }
 
-        int[] indexes = this.resultTable.getSelectionIndices();
+        final int[] indexes = this.resultTable.getSelectionIndices();
         if (indexes != null) {
             for (int i = 0; i < indexes.length; i++) {
                 replaceRows.add(rows.get(indexes[i]));
@@ -823,7 +820,7 @@ public class SearchDialog extends Dialog {
     }
 
     private class SearchResultSortListener extends SelectionAdapter {
-        private int sortType;
+        private final int sortType;
 
         private SearchResultSortListener(int sortType) {
             this.sortType = sortType;

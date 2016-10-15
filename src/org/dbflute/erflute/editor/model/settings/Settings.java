@@ -9,6 +9,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TablePropertiesHolder;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class Settings implements Serializable, Cloneable, TablePropertiesHolder {
 
     private static final long serialVersionUID = -3921093777077765516L;

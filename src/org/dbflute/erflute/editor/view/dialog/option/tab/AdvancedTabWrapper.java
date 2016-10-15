@@ -6,8 +6,8 @@ import org.dbflute.erflute.db.EclipseDBManagerFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.element.table.tab.AdvancedComposite;
 import org.dbflute.erflute.editor.view.dialog.option.OptionSettingDialog;
+import org.dbflute.erflute.editor.view.dialog.table.tab.AdvancedComposite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
 

@@ -19,7 +19,7 @@ public class DuplicatedLogicalNameRule extends BaseRule {
     public boolean validate(ERDiagram diagram) {
         Set<String> nameSet = new HashSet<String>();
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
             String name = table.getLogicalName().toLowerCase();
 
             if (nameSet.contains(name)) {
@@ -67,7 +67,7 @@ public class DuplicatedLogicalNameRule extends BaseRule {
             nameSet.add(name);
         }
 
-        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
             String name = view.getName().toLowerCase();
 
             if (nameSet.contains(name)) {

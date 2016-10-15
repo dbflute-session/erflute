@@ -20,8 +20,8 @@ public class SelectImportedObjectFromDBDialog extends AbstractSelectImportedObje
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
-        super.perfomeOK();
+    protected void performOK() throws InputException {
+        super.performOK();
 
         this.resultUseCommentAsLogicalName = this.useCommentAsLogicalNameButton.getSelection();
     }

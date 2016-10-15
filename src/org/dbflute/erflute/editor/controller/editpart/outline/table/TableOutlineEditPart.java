@@ -9,7 +9,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpolicy.element.node.NodeElementComponentEditPolicy;
+import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.C
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.IndexSet;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.element.table.TableDialog;
+import org.dbflute.erflute.editor.view.dialog.table.TableDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -48,8 +48,8 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         Category category = this.getCurrentCategory();
 
         if (!quickMode) {
-            for (Relationship relation : table.getIncomingRelations()) {
-                if (category == null || category.contains(relation.getSource())) {
+            for (Relationship relation : table.getIncomingRelationshipList()) {
+                if (category == null || category.contains(relation.getWalkerSource())) {
                     children.add(relation);
                 }
             }
@@ -139,7 +139,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
      */
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeElementComponentEditPolicy());
+        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
         // this.installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
     }
 
@@ -156,7 +156,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
             TableDialog dialog =
                     new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyTable, diagram
-                            .getDiagramContents().getGroups());
+                            .getDiagramContents().getColumnGroupSet());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram, table, copyTable);

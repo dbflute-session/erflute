@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.eclipse.gef.EditPart;
@@ -18,13 +18,13 @@ import org.eclipse.ui.IEditorPart;
 
 public abstract class AbstractBaseSelectionAction extends SelectionAction {
 
-    private MainModelEditor editor;
+    private MainDiagramEditor editor;
 
-    public AbstractBaseSelectionAction(String id, String text, MainModelEditor editor) {
+    public AbstractBaseSelectionAction(String id, String text, MainDiagramEditor editor) {
         this(id, text, SWT.NONE, editor);
     }
 
-    public AbstractBaseSelectionAction(String id, String text, int style, MainModelEditor editor) {
+    public AbstractBaseSelectionAction(String id, String text, int style, MainDiagramEditor editor) {
         super(editor, style);
         this.setId(id);
         this.setText(text);

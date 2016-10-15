@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 
@@ -21,7 +21,7 @@ public class RightAngleLineCommand extends AbstractCommand {
 
     private int targetY;
 
-    private ConnectionElement connection;
+    private WalkerConnection connection;
 
     private List<Bendpoint> oldBendpointList;
 
@@ -32,7 +32,7 @@ public class RightAngleLineCommand extends AbstractCommand {
         this.sourceY = sourceY;
         this.targetX = targetX;
         this.targetY = targetY;
-        this.connection = (ConnectionElement) connectionEditPart.getModel();
+        this.connection = (WalkerConnection) connectionEditPart.getModel();
 
         this.oldBendpointList = this.connection.getBendpoints();
 
@@ -96,10 +96,10 @@ public class RightAngleLineCommand extends AbstractCommand {
 
         } else {
             if (this.sourceX != this.targetX && this.sourceY != this.targetY) {
-                NodeElementEditPart sourceEditPart = (NodeElementEditPart) connectionEditPart.getSource();
+                DiagramWalkerEditPart sourceEditPart = (DiagramWalkerEditPart) connectionEditPart.getSource();
                 Rectangle sourceRectangle = sourceEditPart.getFigure().getBounds();
 
-                NodeElementEditPart targetEditPart = (NodeElementEditPart) connectionEditPart.getTarget();
+                DiagramWalkerEditPart targetEditPart = (DiagramWalkerEditPart) connectionEditPart.getTarget();
                 Rectangle targetRectangle = targetEditPart.getFigure().getBounds();
 
                 if (sourceRectangle.y - SPACE < targetY && sourceRectangle.y + sourceRectangle.height + SPACE > targetRectangle.y) {

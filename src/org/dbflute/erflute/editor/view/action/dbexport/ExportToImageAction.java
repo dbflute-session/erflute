@@ -6,13 +6,13 @@ import java.util.Map;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
-import org.dbflute.erflute.editor.MainModelEditor;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NodeElementEditPart;
+import org.dbflute.erflute.editor.MainDiagramEditor;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.image.ExportToImageWithProgressManager;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -38,7 +38,7 @@ public class ExportToImageAction extends AbstractExportAction {
 
     public static final String ID = ExportToImageAction.class.getName();
 
-    public ExportToImageAction(MainModelEditor editor) {
+    public ExportToImageAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.image"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_IMAGE));
     }
@@ -227,11 +227,11 @@ public class ExportToImageAction extends AbstractExportAction {
             int maxX = rootFigureBounds.x;
             int maxY = rootFigureBounds.y;
 
-            Map<NodeElement, IFigure> visibleElements = new HashMap<NodeElement, IFigure>();
+            Map<DiagramWalker, IFigure> visibleElements = new HashMap<DiagramWalker, IFigure>();
 
             for (Object child : rootEditPart.getContents().getChildren()) {
-                NodeElementEditPart editPart = (NodeElementEditPart) child;
-                NodeElement nodeElement = (NodeElement) editPart.getModel();
+                DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
+                DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
 
                 if (category.isVisible(nodeElement, diagram)) {
                     IFigure figure = editPart.getFigure();
@@ -256,9 +256,9 @@ public class ExportToImageAction extends AbstractExportAction {
                 }
             }
 
-            for (NodeElement sourceElement : visibleElements.keySet()) {
-                for (ConnectionElement connection : sourceElement.getOutgoings()) {
-                    if (visibleElements.containsKey(connection.getTarget())) {
+            for (DiagramWalker sourceElement : visibleElements.keySet()) {
+                for (WalkerConnection connection : sourceElement.getOutgoings()) {
+                    if (visibleElements.containsKey(connection.getWalkerTarget())) {
                         for (Bendpoint bendpoint : connection.getBendpoints()) {
                             int x = bendpoint.getX();
                             int y = bendpoint.getY();

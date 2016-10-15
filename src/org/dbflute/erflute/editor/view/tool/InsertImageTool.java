@@ -1,7 +1,6 @@
 package org.dbflute.erflute.editor.view.tool;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.eclipse.gef.Tool;
@@ -15,14 +14,13 @@ import org.eclipse.ui.PlatformUI;
 public class InsertImageTool extends CreationToolEntry {
 
     public InsertImageTool() {
-        super(DisplayMessages.getMessage("label.image.insert"), DisplayMessages.getMessage("label.image.insert"),
-                new SimpleFactory(InsertedImage.class), Activator.getImageDescriptor(ImageKey.IMAGE), Activator
-                        .getImageDescriptor(ImageKey.IMAGE));
+        super("Image on Diagram", "Insert image on diagram", new SimpleFactory(InsertedImage.class),
+                Activator.getImageDescriptor(ImageKey.IMAGE), Activator.getImageDescriptor(ImageKey.IMAGE));
     }
 
     @Override
     public Tool createTool() {
-        InsertedImageTool tool = new InsertedImageTool();
+        final InsertedImageTool tool = new InsertedImageTool();
         tool.setProperties(getToolProperties());
 
         return tool;
@@ -32,10 +30,10 @@ public class InsertImageTool extends CreationToolEntry {
 
         @Override
         protected void performCreation(int button) {
-            String path = getLoadFilePath();
+            final String path = getLoadFilePath();
 
             if (path != null) {
-                InsertedImage insertedImage = (InsertedImage) this.getCreateRequest().getNewObject();
+                final InsertedImage insertedImage = (InsertedImage) this.getCreateRequest().getNewObject();
                 insertedImage.setImageFilePath(path);
 
                 super.performCreation(button);
@@ -44,9 +42,9 @@ public class InsertImageTool extends CreationToolEntry {
 
         private String getLoadFilePath() {
 
-            FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
+            final FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
 
-            String[] filterExtensions = { "*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.tif;*.tiff" };
+            final String[] filterExtensions = { "*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.tif;*.tiff" };
 
             fileDialog.setFilterExtensions(filterExtensions);
 

@@ -4,7 +4,7 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.no
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.element.view.ViewDialog;
+import org.dbflute.erflute.editor.view.dialog.view.ViewDialog;
 import org.dbflute.erflute.editor.view.figure.view.ViewFigure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -40,7 +40,7 @@ public class ViewEditPart extends TableViewEditPart {
 
         ViewDialog dialog =
                 new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyView, diagram
-                        .getDiagramContents().getGroups());
+                        .getDiagramContents().getColumnGroupSet());
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             CompoundCommand command = createChangeViewPropertyCommand(diagram, view, copyView);

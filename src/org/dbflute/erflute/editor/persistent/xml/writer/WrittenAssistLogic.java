@@ -51,19 +51,22 @@ public class WrittenAssistLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     public String tab(String str) {
+        if (str == null || str.trim().isEmpty()) {
+            return str;
+        }
         str = str.replaceAll("\n\t", "\n\t\t");
         str = str.replaceAll("\n<", "\n\t<");
         return "\t" + str;
     }
 
-    public String escape(String s) {
-        if (s == null) {
+    public String escape(Object obj) {
+        if (obj == null) {
             return "";
         }
-
-        final StringBuilder result = new StringBuilder(s.length() + 10);
-        for (int i = 0; i < s.length(); ++i) {
-            appendEscapedChar(result, s.charAt(i));
+        final String str = obj.toString();
+        final StringBuilder result = new StringBuilder(str.length() + 10);
+        for (int i = 0; i < str.length(); ++i) {
+            appendEscapedChar(result, str.charAt(i));
         }
         return result.toString();
     }

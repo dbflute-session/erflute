@@ -108,7 +108,7 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         Object[] selectedNodes = this.viewer.getCheckedElements();
 
         this.resultSelectedSchemas.clear();
@@ -125,7 +125,7 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         if (this.viewer.getCheckedElements().length == 0) {
             return "error.import.schema.empty";
         }

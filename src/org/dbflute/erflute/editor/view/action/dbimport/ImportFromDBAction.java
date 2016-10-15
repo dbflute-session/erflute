@@ -11,12 +11,12 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbimport.DBObjectSet;
 import org.dbflute.erflute.editor.model.dbimport.ImportFromDBManagerBase;
 import org.dbflute.erflute.editor.model.dbimport.PreImportFromDBManager;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.settings.DBSetting;
 import org.dbflute.erflute.editor.view.dialog.dbimport.AbstractSelectImportedObjectDialog;
 import org.dbflute.erflute.editor.view.dialog.dbimport.ImportDBSettingDialog;
@@ -33,7 +33,7 @@ public class ImportFromDBAction extends AbstractImportAction {
 
     private DBSetting dbSetting;
 
-    public ImportFromDBAction(MainModelEditor editor) {
+    public ImportFromDBAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.db"), editor);
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.DATABASE));
     }
@@ -125,7 +125,7 @@ public class ImportFromDBAction extends AbstractImportAction {
                                 throw e1;
 
                             } else {
-                                this.importedNodeElements = new ArrayList<NodeElement>();
+                                this.importedNodeElements = new ArrayList<DiagramWalker>();
 
                                 this.importedNodeElements.addAll(tableImportManager.getImportedTables());
                                 this.importedNodeElements.addAll(tableImportManager.getImportedViews());

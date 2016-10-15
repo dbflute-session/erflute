@@ -6,7 +6,7 @@ import java.util.List;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 
 public class DefaultLineCommand extends AbstractCommand {
@@ -19,11 +19,11 @@ public class DefaultLineCommand extends AbstractCommand {
 
     private int targetYp;
 
-    private ConnectionElement connection;
+    private WalkerConnection connection;
 
     private List<Bendpoint> oldBendpointList;
 
-    public DefaultLineCommand(ERDiagram diagram, ConnectionElement connection) {
+    public DefaultLineCommand(ERDiagram diagram, WalkerConnection connection) {
         if (connection instanceof Relationship) {
             Relationship relation = (Relationship) connection;
 

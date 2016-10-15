@@ -3,13 +3,13 @@ package org.dbflute.erflute.editor.controller.editpart.element;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.CommentConnectionEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.CategoryEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERModelEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualTableEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.InsertedImageEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.NoteEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.VGroupEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ViewEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.GroupColumnEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.NormalColumnEditPart;
@@ -18,11 +18,11 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.InsertedImage;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -43,8 +43,8 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
     @Override
     public EditPart createEditPart(EditPart context, Object model) {
         EditPart editPart = null;
-        if (model instanceof ERModel) {
-            editPart = new ERModelEditPart();
+        if (model instanceof ERVirtualDiagram) {
+            editPart = new ERVirtualDiagramEditPart();
         } else if (model instanceof ERVirtualTable) {
             editPart = new ERVirtualTableEditPart();
         } else if (model instanceof ERTable) {
@@ -55,8 +55,8 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
             editPart = new ERDiagramEditPart();
         } else if (model instanceof Relationship) {
             editPart = new RelationEditPart();
-        } else if (model instanceof Note) {
-            editPart = new NoteEditPart();
+        } else if (model instanceof WalkerNote) {
+            editPart = new WalkerNoteEditPart();
         } else if (model instanceof ERIndex) {
             editPart = new IndexEditPart();
         } else if (model instanceof ModelProperties) {
@@ -71,8 +71,8 @@ public class ERDiagramEditPartFactory implements EditPartFactory {
             editPart = new GroupColumnEditPart();
         } else if (model instanceof InsertedImage) {
             editPart = new InsertedImageEditPart();
-        } else if (model instanceof VGroup) {
-            editPart = new VGroupEditPart();
+        } else if (model instanceof WalkerGroup) {
+            editPart = new WalkerGroupEditPart();
         }
         if (editPart != null) {
             editPart.setModel(model);

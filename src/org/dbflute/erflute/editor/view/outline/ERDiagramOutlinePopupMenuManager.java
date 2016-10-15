@@ -8,15 +8,15 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
-import org.dbflute.erflute.editor.controller.editpart.outline.ermodel.ERModelOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.group.GroupSetOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.columngroup.GroupSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.sequence.SequenceSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.table.TableOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.tablespace.TablespaceSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.trigger.TriggerSetOutlineEditPart;
+import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.action.group.GroupManageAction;
+import org.dbflute.erflute.editor.view.action.group.ColumnGroupManageAction;
 import org.dbflute.erflute.editor.view.action.outline.ChangeNameAction;
 import org.dbflute.erflute.editor.view.action.outline.index.CreateIndexAction;
 import org.dbflute.erflute.editor.view.action.outline.notation.type.ChangeOutlineViewToBothAction;
@@ -38,21 +38,23 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramOutlinePopupMenuManager extends MenuManager {
 
-    private static Map<Class, String> ACTION_MAP = new HashMap<Class, String>();
+    private static final Map<Class<?>, String> ACTION_MAP = new HashMap<Class<?>, String>();
 
     static {
         ACTION_MAP.put(SequenceSetOutlineEditPart.class, CreateSequenceAction.ID);
         ACTION_MAP.put(TriggerSetOutlineEditPart.class, CreateTriggerAction.ID);
-        ACTION_MAP.put(GroupSetOutlineEditPart.class, GroupManageAction.ID);
+        ACTION_MAP.put(GroupSetOutlineEditPart.class, ColumnGroupManageAction.ID);
         ACTION_MAP.put(TableOutlineEditPart.class, CreateIndexAction.ID);
         ACTION_MAP.put(TablespaceSetOutlineEditPart.class, CreateTablespaceAction.ID);
-        ACTION_MAP.put(ERModelOutlineEditPart.class, ChangeNameAction.ID);
+        ACTION_MAP.put(ERVirtualDiagramOutlineEditPart.class, ChangeNameAction.ID);
     }
 
     private ActionRegistry actionRegistry;
-
     private ActionRegistry outlineActionRegistry;
 
     public ERDiagramOutlinePopupMenuManager(final ERDiagram diagram, ActionRegistry actionRegistry, ActionRegistry outlineActionRegistry,
@@ -62,21 +64,21 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
             this.outlineActionRegistry = outlineActionRegistry;
 
             this.add(this.getAction(ChangeNameAction.ID));
-            this.add(this.getAction(GroupManageAction.ID));
-            this.add(this.getAction(CreateTriggerAction.ID));
+            this.add(this.getAction(ColumnGroupManageAction.ID));
             this.add(this.getAction(CreateSequenceAction.ID));
+            this.add(this.getAction(CreateTriggerAction.ID));
             this.add(this.getAction(CreateIndexAction.ID));
             this.add(this.getAction(CreateTablespaceAction.ID));
 
             this.add(new Separator());
 
-            MenuManager viewModeMenu = new MenuManager(DisplayMessages.getMessage("label.outline.view.mode"));
+            final MenuManager viewModeMenu = new MenuManager(DisplayMessages.getMessage("label.outline.view.mode"));
             viewModeMenu.add(this.getAction(ChangeOutlineViewToPhysicalAction.ID));
             viewModeMenu.add(this.getAction(ChangeOutlineViewToLogicalAction.ID));
             viewModeMenu.add(this.getAction(ChangeOutlineViewToBothAction.ID));
             this.add(viewModeMenu);
 
-            MenuManager orderByMenu = new MenuManager(DisplayMessages.getMessage("label.order.by"));
+            final MenuManager orderByMenu = new MenuManager(DisplayMessages.getMessage("label.order.by"));
             orderByMenu.add(this.getAction(ChangeOutlineViewOrderByPhysicalNameAction.ID));
             orderByMenu.add(this.getAction(ChangeOutlineViewOrderByLogicalNameAction.ID));
             this.add(orderByMenu);
@@ -85,12 +87,13 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
             this.add(this.getAction(ActionFactory.DELETE));
 
             this.addMenuListener(new IMenuListener() {
-
+                @Override
                 public void menuAboutToShow(IMenuManager manager) {
                     try {
-                        List selectedEditParts = editPartViewer.getSelectedEditParts();
+                        @SuppressWarnings("unchecked")
+                        final List<EditPart> selectedEditParts = editPartViewer.getSelectedEditParts();
                         if (selectedEditParts.isEmpty()) {
-                            for (IContributionItem menuItem : getItems()) {
+                            for (final IContributionItem menuItem : getItems()) {
                                 if (menuItem.getId() != null && !menuItem.getId().equals(ChangeOutlineViewToPhysicalAction.ID)
                                         && !menuItem.getId().equals(ChangeOutlineViewToLogicalAction.ID)
                                         && !menuItem.getId().equals(ChangeOutlineViewToBothAction.ID)
@@ -100,72 +103,57 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
                                     // menuItem.setVisible(false);
                                 }
                             }
-
                         } else {
-                            EditPart editPart = (EditPart) selectedEditParts.get(0);
-                            for (Class clazz : ACTION_MAP.keySet()) {
-                                String actionId = ACTION_MAP.get(clazz);
-
+                            final EditPart editPart = selectedEditParts.get(0);
+                            for (final Class<?> clazz : ACTION_MAP.keySet()) {
+                                final String actionId = ACTION_MAP.get(clazz);
                                 if (!clazz.isInstance(editPart)) {
                                     enabled(actionId, false);
-
                                 } else {
                                     if (CreateSequenceAction.ID.equals(actionId)
                                             && !DBManagerFactory.getDBManager(diagram).isSupported(DBManager.SUPPORT_SEQUENCE)) {
                                         enabled(actionId, false);
-
                                     } else {
                                         enabled(actionId, true);
-
                                     }
                                 }
                             }
                         }
 
-                        Settings settings = diagram.getDiagramContents().getSettings();
+                        final Settings settings = diagram.getDiagramContents().getSettings();
 
                         IAction action0 = getAction(ChangeOutlineViewToPhysicalAction.ID);
                         IAction action1 = getAction(ChangeOutlineViewToLogicalAction.ID);
-                        IAction action2 = getAction(ChangeOutlineViewToBothAction.ID);
-
+                        final IAction action2 = getAction(ChangeOutlineViewToBothAction.ID);
                         if (settings.getOutlineViewMode() == Settings.VIEW_MODE_PHYSICAL) {
                             action0.setChecked(true);
                             action1.setChecked(false);
                             action2.setChecked(false);
-
                         } else if (settings.getOutlineViewMode() == Settings.VIEW_MODE_LOGICAL) {
                             action0.setChecked(false);
                             action1.setChecked(true);
                             action2.setChecked(false);
-
                         } else {
                             action0.setChecked(false);
                             action1.setChecked(false);
                             action2.setChecked(true);
                         }
-
                         action0 = getAction(ChangeOutlineViewOrderByPhysicalNameAction.ID);
                         action1 = getAction(ChangeOutlineViewOrderByLogicalNameAction.ID);
-
                         if (settings.getViewOrderBy() == Settings.VIEW_MODE_PHYSICAL) {
                             action0.setChecked(true);
                             action1.setChecked(false);
-
                         } else {
                             action0.setChecked(false);
                             action1.setChecked(true);
                         }
-
                         manager.update(true);
-
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         Activator.showExceptionDialog(e);
                     }
                 }
-
             });
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }
@@ -185,7 +173,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
     }
 
     private void enabled(String id, boolean enabled) {
-        IAction action = getAction(id);
+        final IAction action = getAction(id);
         action.setEnabled(enabled);
 
         // for (IContributionItem menuItem : getItems()) {

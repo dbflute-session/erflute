@@ -60,7 +60,7 @@ public abstract class TablespaceDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         String text = this.nameText.getText().trim();
         if (text.equals("")) {
             return "error.tablespace.name.empty";
@@ -79,7 +79,7 @@ public abstract class TablespaceDialog extends AbstractDialog {
     }
 
     @Override
-    protected void perfomeOK() {
+    protected void performOK() {
         this.result.setName(this.nameText.getText().trim());
 
         TablespaceProperties tablespaceProperties = this.setTablespaceProperties();
@@ -141,7 +141,7 @@ public abstract class TablespaceDialog extends AbstractDialog {
              */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                perfomeOK();
+                performOK();
                 setPropertiesData();
             }
 

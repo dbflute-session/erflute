@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.option.notation;
 
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.eclipse.jface.action.IAction;
@@ -11,7 +11,7 @@ public class ToggleMainColumnAction extends AbstractBaseAction {
 
     public static final String ID = ToggleMainColumnAction.class.getName();
 
-    public ToggleMainColumnAction(MainModelEditor editor) {
+    public ToggleMainColumnAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
         this.setText(DisplayMessages.getMessage("action.title.display.mainColumn"));
     }

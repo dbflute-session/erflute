@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
@@ -66,7 +67,10 @@ public class ReadIndexLoader {
                 continue;
             }
             final Element columnElement = (Element) nodeList.item(i);
-            final String id = getStringValue(columnElement, "id");
+            String id = getStringValue(columnElement, "id"); // migration from ERMaster
+            if (Srl.is_Null_or_TrimmedEmpty(id)) {
+                id = getStringValue(columnElement, "column_id"); // #for_erflute
+            }
             final NormalColumn column = context.columnMap.get(id);
             final Boolean desc = new Boolean(getBooleanValue(columnElement, "desc"));
             index.addColumn(column);

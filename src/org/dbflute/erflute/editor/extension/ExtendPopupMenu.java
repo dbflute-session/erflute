@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.extension;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -38,7 +38,7 @@ public class ExtendPopupMenu {
         return path;
     }
 
-    public static ExtendPopupMenu createExtendPopupMenu(IConfigurationElement configurationElement, MainModelEditor editor)
+    public static ExtendPopupMenu createExtendPopupMenu(IConfigurationElement configurationElement, MainDiagramEditor editor)
             throws CoreException {
         ExtendPopupMenu menu = null;
 
@@ -66,7 +66,7 @@ public class ExtendPopupMenu {
      * 
      * @throws CoreException
      */
-    public static List<ExtendPopupMenu> loadExtensions(MainModelEditor editor) throws CoreException {
+    public static List<ExtendPopupMenu> loadExtensions(MainDiagramEditor editor) throws CoreException {
         List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<ExtendPopupMenu>();
 
         IExtensionRegistry registry = Platform.getExtensionRegistry();

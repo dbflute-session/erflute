@@ -1,13 +1,13 @@
 package org.dbflute.erflute.editor.view.action.option.notation.level;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.settings.Settings;
 
 public class ChangeNotationLevelToColumnAction extends AbstractChangeNotationLevelAction {
 
     public static final String ID = ChangeNotationLevelToColumnAction.class.getName();
 
-    public ChangeNotationLevelToColumnAction(MainModelEditor editor) {
+    public ChangeNotationLevelToColumnAction(MainDiagramEditor editor) {
         super(ID, editor);
     }
 

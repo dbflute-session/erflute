@@ -6,8 +6,8 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
-import org.dbflute.erflute.editor.view.dialog.group.GroupManageDialog;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
+import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -41,11 +41,11 @@ public class PreferenceTopPage extends PreferencePage implements IWorkbenchPrefe
         button.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                final GroupSet columnGroups = GlobalGroupSet.load();
+                final ColumnGroupSet columnGroups = GlobalGroupSet.load();
                 final ERDiagram diagram = new ERDiagram(columnGroups.getDatabase());
 
-                final GroupManageDialog dialog =
-                        new GroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), columnGroups, diagram, true,
+                final ColumnGroupManageDialog dialog =
+                        new ColumnGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), columnGroups, diagram, true,
                                 -1);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {

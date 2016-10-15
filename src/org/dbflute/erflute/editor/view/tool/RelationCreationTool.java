@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.tool;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.CreateRelationCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.CreateRelationshipByNewColumnCommand;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.eclipse.gef.tools.ConnectionCreationTool;
@@ -13,7 +13,7 @@ public class RelationCreationTool extends ConnectionCreationTool {
      */
     @Override
     protected boolean handleCreateConnection() {
-        CreateRelationCommand command = (CreateRelationCommand) this.getCommand();
+        CreateRelationshipByNewColumnCommand command = (CreateRelationshipByNewColumnCommand) this.getCommand();
 
         if (command == null) {
             return false;

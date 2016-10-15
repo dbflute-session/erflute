@@ -2,21 +2,21 @@ package org.dbflute.erflute.editor.controller.command.common;
 
 import java.util.ArrayList;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 
@@ -24,51 +24,36 @@ public class PasteCommand extends AbstractCommand {
 
     private ERDiagram diagram;
 
-    private GraphicalViewer viewer;
+    private final GraphicalViewer viewer;
+    private final DiagramWalkerSet walkers;
+    private final ColumnGroupSet columnGroups;
 
-    // 貼り付け対象の一覧
-    private NodeSet nodeElements;
-
-    // 貼り付け時に追加するグループ列の一覧
-    private GroupSet columnGroups;
-
-    /**
-     * 貼り付けコマンドを作成します。
-     *
-     * @param editor
-     * @param nodeElements
-     * @param x
-     * @param y
-     */
-    public PasteCommand(MainModelEditor editor, NodeSet nodeElements, int x, int y) {
+    public PasteCommand(MainDiagramEditor editor, DiagramWalkerSet walkers, int x, int y) {
         this.viewer = editor.getGraphicalViewer();
-        Object model = viewer.getContents().getModel();
+        final Object model = viewer.getContents().getModel();
         if (model instanceof ERDiagram) {
             this.diagram = (ERDiagram) model;
         }
-        if (model instanceof ERModel) {
-            this.diagram = ((ERModel) model).getDiagram();
+        if (model instanceof ERVirtualDiagram) {
+            this.diagram = ((ERVirtualDiagram) model).getDiagram();
         }
 
-        this.nodeElements = nodeElements;
+        this.walkers = walkers;
 
-        this.columnGroups = new GroupSet();
+        this.columnGroups = new ColumnGroupSet();
 
         // 貼り付け対象に対して処理を繰り返します
-        for (NodeElement nodeElement : nodeElements) {
-            nodeElement.setLocation(new Location(nodeElement.getX() + x, nodeElement.getY() + y, nodeElement.getWidth(), nodeElement
-                    .getHeight()));
+        for (final DiagramWalker walker : walkers) {
+            walker.setLocation(new Location(walker.getX() + x, walker.getY() + y, walker.getWidth(), walker.getHeight()));
 
             // 貼り付け対象がテーブルの場合
-            if (nodeElement instanceof ERTable) {
-
-                ERTable table = (ERTable) nodeElement;
-
+            if (walker instanceof ERTable) {
+                final ERTable table = (ERTable) walker;
                 if (table instanceof ERVirtualTable) {
-                    ERTable rawTable = ((ERVirtualTable) table).getRawTable();
-                    rawTable.setIncoming(new ArrayList<ConnectionElement>());
-                    rawTable.setOutgoing(new ArrayList<ConnectionElement>());
-                    for (ERColumn column : rawTable.getColumns()) {
+                    final ERTable rawTable = ((ERVirtualTable) table).getRawTable();
+                    rawTable.setIncoming(new ArrayList<WalkerConnection>());
+                    rawTable.setOutgoing(new ArrayList<WalkerConnection>());
+                    for (final ERColumn column : rawTable.getColumns()) {
                         if (column instanceof NormalColumn) {
                             ((NormalColumn) column).clearRelations();
                         }
@@ -76,14 +61,14 @@ public class PasteCommand extends AbstractCommand {
                 }
 
                 // 列に対して処理を繰り返します
-                for (ERColumn column : table.getColumns()) {
+                for (final ERColumn column : table.getColumns()) {
 
                     // 列がグループ列の場合
                     if (column instanceof ColumnGroup) {
-                        ColumnGroup group = (ColumnGroup) column;
+                        final ColumnGroup group = (ColumnGroup) column;
 
                         // この図のグループ列でない場合
-                        if (!diagram.getDiagramContents().getGroups().contains(group)) {
+                        if (!diagram.getDiagramContents().getColumnGroupSet().contains(group)) {
                             // 対象のグループ列に追加します。
                             columnGroups.add(group);
                         }
@@ -101,19 +86,19 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新をとめます。
         ERDiagramEditPart.setUpdateable(false);
 
-        GroupSet columnGroupSet = this.diagram.getDiagramContents().getGroups();
+        final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
 
         // 図にノードを追加します。
-        for (NodeElement nodeElement : this.nodeElements) {
-            if (nodeElement instanceof ERVirtualTable) {
-                this.diagram.addContent(((ERVirtualTable) nodeElement).getRawTable());
+        for (final DiagramWalker walker : this.walkers) {
+            if (walker instanceof ERVirtualTable) {
+                this.diagram.addWalkerPlainly(((ERVirtualTable) walker).getRawTable());
             } else {
-                this.diagram.addContent(nodeElement);
+                this.diagram.addWalkerPlainly(walker);
             }
         }
 
         // グループ列を追加します。
-        for (ColumnGroup columnGroup : this.columnGroups) {
+        for (final ColumnGroup columnGroup : this.columnGroups) {
             columnGroupSet.add(columnGroup);
         }
 
@@ -134,15 +119,15 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新をとめます。
         ERDiagramEditPart.setUpdateable(false);
 
-        GroupSet columnGroupSet = this.diagram.getDiagramContents().getGroups();
+        final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
 
         // 図からノードを削除します。
-        for (NodeElement nodeElement : this.nodeElements) {
-            this.diagram.removeContent(nodeElement);
+        for (final DiagramWalker walker : this.walkers) {
+            this.diagram.removeContent(walker);
         }
 
         // グループ列を削除します。
-        for (ColumnGroup columnGroup : this.columnGroups) {
+        for (final ColumnGroup columnGroup : this.columnGroups) {
             columnGroupSet.remove(columnGroup);
         }
 
@@ -157,8 +142,8 @@ public class PasteCommand extends AbstractCommand {
      */
     private void setFocus() {
         // 貼り付けられたテーブルを選択状態にします。
-        for (NodeElement nodeElement : this.nodeElements) {
-            EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(nodeElement);
+        for (final DiagramWalker walker : this.walkers) {
+            final EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(walker);
 
             if (editPart != null) {
                 this.viewer.getSelectionManager().appendSelection(editPart);

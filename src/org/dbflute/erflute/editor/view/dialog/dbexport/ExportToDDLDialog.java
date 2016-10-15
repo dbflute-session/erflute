@@ -54,132 +54,92 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ExportToDDLDialog extends AbstractDialog {
 
+    public static final String DEFAULT_CATEGORY = "All";
+
     private Combo environmentCombo;
-
     private FileText outputFileText;
-
     private Combo fileEncodingCombo;
-
     private Combo categoryCombo;
-
     private Button inlineTableComment;
-
     private Button inlineColumnComment;
-
-    private ERDiagram diagram;
-
-    private IEditorPart editorPart;
-
+    private final ERDiagram diagram;
+    private final IEditorPart editorPart;
     private Button dropTablespace;
-
     private Button dropSequence;
-
     private Button dropTrigger;
-
     private Button dropView;
-
     private Button dropIndex;
-
     private Button dropTable;
-
     private Button createTablespace;
-
     private Button createSequence;
-
     private Button createTrigger;
-
     private Button createView;
-
     private Button createIndex;
-
     private Button createTable;
-
     private Button createForeignKey;
-
     private Button createComment;
-
     private Button commentValueDescription;
-
     private Button commentValueLogicalName;
-
     private Button commentValueLogicalNameDescription;
-
     private Button commentReplaceLineFeed;
-
     private Text commentReplaceString;
-
     private Button openAfterSavedButton;
-
     private ExportSetting exportSetting;
 
     public ExportToDDLDialog(Shell parentShell, ERDiagram diagram, IEditorPart editorPart, GraphicalViewer viewer) {
         super(parentShell, 3);
-
         this.diagram = diagram;
         this.editorPart = editorPart;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initLayout(GridLayout layout) {
         super.initLayout(layout);
-
         layout.verticalSpacing = 15;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initialize(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.widthHint = 200;
-
         this.environmentCombo = CompositeFactory.createReadOnlyCombo(this, parent, "label.tablespace.environment", 2, -1);
-
         CompositeFactory.createLabel(parent, "label.output.file");
         this.outputFileText = new FileText(parent, SWT.BORDER, ".sql");
         this.outputFileText.setLayoutData(gridData);
-
         this.fileEncodingCombo = CompositeFactory.createFileEncodingCombo(this.editorPart, this, parent, "label.output.file.encoding", 2);
-
         this.categoryCombo = CompositeFactory.createReadOnlyCombo(this, parent, "label.category", 2, -1);
         this.initCategoryCombo();
-
         this.createCheckboxComposite(parent);
-
         this.createCommentComposite(parent);
-
-        GridData optionCheckGridData = new GridData();
+        final GridData optionCheckGridData = new GridData();
         optionCheckGridData.horizontalSpan = 3;
-
         this.openAfterSavedButton = new Button(parent, SWT.CHECK);
         this.openAfterSavedButton.setText(DisplayMessages.getMessage("label.open.after.saved"));
         this.openAfterSavedButton.setLayoutData(optionCheckGridData);
     }
 
     private void initCategoryCombo() {
-        this.categoryCombo.add(DisplayMessages.getMessage("label.all"));
-
-        for (Category category : this.diagram.getDiagramContents().getSettings().getCategorySetting().getAllCategories()) {
-            this.categoryCombo.add(category.getName());
+        categoryCombo.add(DEFAULT_CATEGORY); // #for_erflute use English only
+        for (final Category category : diagram.getDiagramContents().getSettings().getCategorySetting().getAllCategories()) {
+            categoryCombo.add(category.getName());
         }
     }
 
     private void createCheckboxComposite(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 3;
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        Composite composite = new Composite(parent, SWT.NONE);
+        final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(gridData);
 
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 2;
         composite.setLayout(layout);
 
@@ -188,8 +148,8 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     private void createDropCheckboxGroup(Composite parent) {
-        Group group = new Group(parent, SWT.NONE);
-        GridData gridData = new GridData();
+        final Group group = new Group(parent, SWT.NONE);
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
         gridData.verticalAlignment = GridData.FILL;
@@ -198,7 +158,7 @@ public class ExportToDDLDialog extends AbstractDialog {
 
         group.setText("DROP");
 
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 2;
         group.setLayout(layout);
 
@@ -211,8 +171,8 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     private void createCreateCheckboxGroup(Composite parent) {
-        Group group = new Group(parent, SWT.NONE);
-        GridData gridData = new GridData();
+        final Group group = new Group(parent, SWT.NONE);
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
         gridData.verticalAlignment = GridData.FILL;
@@ -221,7 +181,7 @@ public class ExportToDDLDialog extends AbstractDialog {
 
         group.setText("CREATE");
 
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 2;
         group.setLayout(layout);
 
@@ -236,35 +196,35 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     private void createCommentComposite(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 3;
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        Composite composite = new Composite(parent, SWT.NONE);
+        final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(gridData);
 
-        GridLayout compositeLayout = new GridLayout();
+        final GridLayout compositeLayout = new GridLayout();
         composite.setLayout(compositeLayout);
 
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gridData);
         group.setText(DisplayMessages.getMessage("label.comment"));
 
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 3;
         group.setLayout(layout);
 
-        GridData commentValueGridData = new GridData();
+        final GridData commentValueGridData = new GridData();
         commentValueGridData.horizontalSpan = 3;
         commentValueGridData.horizontalAlignment = GridData.FILL;
         commentValueGridData.grabExcessHorizontalSpace = true;
 
-        Group commentValueGroup = new Group(group, SWT.NONE);
+        final Group commentValueGroup = new Group(group, SWT.NONE);
         commentValueGroup.setLayoutData(commentValueGridData);
         commentValueGroup.setText(DisplayMessages.getMessage("label.comment.value"));
 
-        GridLayout commentValueLayout = new GridLayout();
+        final GridLayout commentValueLayout = new GridLayout();
         commentValueLayout.numColumns = 1;
         commentValueGroup.setLayout(commentValueLayout);
 
@@ -280,30 +240,21 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.inlineColumnComment = CompositeFactory.createCheckbox(this, group, "label.comment.inline.column", 4);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addListener() {
         super.addListener();
-
         this.environmentCombo.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 validate();
             }
         });
-
         this.outputFileText.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 validate();
             }
         });
-
         this.fileEncodingCombo.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -313,27 +264,24 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         if (isBlank(this.environmentCombo)) {
             return "error.tablespace.environment.empty";
         }
-
         if (this.outputFileText.isBlank()) {
             return "error.output.file.is.empty";
         }
-
         if (!Charset.isSupported(this.fileEncodingCombo.getText())) {
             return "error.file.encoding.is.not.supported";
         }
-
         return null;
     }
 
     @Override
-    protected void perfomeOK() throws InputException {
-        String saveFilePath = this.outputFileText.getFilePath();
+    protected void performOK() throws InputException {
+        final String saveFilePath = this.outputFileText.getFilePath();
 
-        DDLTarget ddlTarget = new DDLTarget();
+        final DDLTarget ddlTarget = new DDLTarget();
         ddlTarget.dropTablespace = this.dropTablespace.getSelection();
         ddlTarget.dropSequence = this.dropSequence.getSelection();
         ddlTarget.dropTrigger = this.dropTrigger.getSelection();
@@ -356,7 +304,7 @@ public class ExportToDDLDialog extends AbstractDialog {
         ddlTarget.commentValueLogicalName = this.commentValueLogicalName.getSelection();
         ddlTarget.commentValueLogicalNameDescription = this.commentValueLogicalNameDescription.getSelection();
 
-        boolean openAfterSaved = this.openAfterSavedButton.getSelection();
+        final boolean openAfterSaved = this.openAfterSavedButton.getSelection();
 
         this.exportSetting = this.diagram.getDiagramContents().getSettings().getExportSetting().clone();
 
@@ -365,12 +313,12 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.exportSetting.setCategoryNameToExport(this.categoryCombo.getText());
         this.exportSetting.setOpenAfterSaved(openAfterSaved);
 
-        Validator validator = new Validator();
+        final Validator validator = new Validator();
 
-        List<ValidateResult> errorList = validator.validate(this.diagram);
+        final List<ValidateResult> errorList = validator.validate(this.diagram);
 
         if (!errorList.isEmpty()) {
-            ExportWarningDialog dialog =
+            final ExportWarningDialog dialog =
                     new ExportWarningDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), errorList);
 
             if (dialog.open() != IDialogConstants.OK_ID) {
@@ -378,8 +326,8 @@ public class ExportToDDLDialog extends AbstractDialog {
             }
         }
 
-        Category currentCategory = this.diagram.getCurrentCategory();
-        int currentCategoryIndex = this.diagram.getCurrentCategoryIndex();
+        final Category currentCategory = this.diagram.getCurrentCategory();
+        final int currentCategoryIndex = this.diagram.getCurrentCategoryIndex();
 
         setCurrentCategory();
 
@@ -388,15 +336,16 @@ public class ExportToDDLDialog extends AbstractDialog {
         IFile file = null;
 
         try {
-            DDLCreator ddlCreator = DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, true);
+            final DDLCreator ddlCreator = DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, true);
 
-            int index = this.environmentCombo.getSelectionIndex();
-            Environment environment = this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
+            final int index = this.environmentCombo.getSelectionIndex();
+            final Environment environment =
+                    this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
 
             ddlCreator.init(environment, ddlTarget);
 
             file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(saveFilePath));
-            String absoluteFilePath = file.getLocation().toString();
+            final String absoluteFilePath = file.getLocation().toString();
 
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath), getEncoding())));
 
@@ -405,8 +354,8 @@ public class ExportToDDLDialog extends AbstractDialog {
             out.println(ddlCreator.getDropDDL(this.diagram));
             out.println(ddlCreator.getCreateDDL(this.diagram));
 
-        } catch (Exception e) {
-            Activator.log(e);
+        } catch (final Exception e) {
+            Activator.error(e);
             Activator.showMessageDialog(e.getMessage());
 
         } finally {
@@ -419,10 +368,10 @@ public class ExportToDDLDialog extends AbstractDialog {
 
         if (openAfterSaved && file != null) {
             try {
-                IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                 IDE.openEditor(page, file);
 
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 Activator.showExceptionDialog(e);
             }
         }
@@ -434,37 +383,31 @@ public class ExportToDDLDialog extends AbstractDialog {
             return;
         }
 
-        Category currentCategory =
-                this.diagram.getDiagramContents().getSettings().getCategorySetting().getAllCategories()
+        final Category currentCategory =
+                this.diagram.getDiagramContents()
+                        .getSettings()
+                        .getCategorySetting()
+                        .getAllCategories()
                         .get(this.categoryCombo.getSelectionIndex() - 1);
 
         this.diagram.setCurrentCategory(currentCategory, this.categoryCombo.getSelectionIndex());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void setData() {
-        Settings settings = this.diagram.getDiagramContents().getSettings();
-
-        for (Environment environment : settings.getEnvironmentSetting().getEnvironments()) {
+        final Settings settings = this.diagram.getDiagramContents().getSettings();
+        for (final Environment environment : settings.getEnvironmentSetting().getEnvironments()) {
             this.environmentCombo.add(environment.getName());
         }
         this.environmentCombo.select(0);
-
-        ExportSetting exportSetting = settings.getExportSetting();
-
+        final ExportSetting exportSetting = settings.getExportSetting();
         String outputFile = Format.null2blank(exportSetting.getDdlOutput());
-
         if (Check.isEmpty(outputFile)) {
-            IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
+            final IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
             outputFile = file.getLocation().toOSString();
             outputFile = outputFile.substring(0, outputFile.lastIndexOf(".")) + ".sql";
         }
-
         this.outputFileText.setText(outputFile);
-
         this.categoryCombo.select(0);
 
         // set previous selected category
@@ -476,9 +419,7 @@ public class ExportToDDLDialog extends AbstractDialog {
                 }
             }
         }
-
-        DDLTarget ddlTarget = exportSetting.getDdlTarget();
-
+        final DDLTarget ddlTarget = exportSetting.getDdlTarget();
         this.dropIndex.setSelection(ddlTarget.dropIndex);
         this.dropSequence.setSelection(ddlTarget.dropSequence);
         this.dropTable.setSelection(ddlTarget.dropTable);
@@ -500,28 +441,17 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.commentValueDescription.setSelection(ddlTarget.commentValueDescription);
         this.commentValueLogicalName.setSelection(ddlTarget.commentValueLogicalName);
         this.commentValueLogicalNameDescription.setSelection(ddlTarget.commentValueLogicalNameDescription);
-
         if (!ddlTarget.commentValueDescription && !ddlTarget.commentValueLogicalName && !ddlTarget.commentValueLogicalNameDescription) {
             this.commentValueDescription.setSelection(true);
         }
-
         this.openAfterSavedButton.setSelection(exportSetting.isOpenAfterSaved());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getTitle() {
         return "dialog.title.export.ddl";
     }
 
-    /**
-     * Get DDL file encoding.
-     *
-     * @return
-     * @throws CoreException
-     */
     private String getEncoding() throws CoreException {
         return this.fileEncodingCombo.getText();
     }

@@ -122,7 +122,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
             if (first) {
                 ddl.append("\r\n/* Drop Views */\r\n\r\n");
                 first = false;
@@ -166,7 +166,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
 
             if (diagram.getCurrentCategory() != null && !diagram.getCurrentCategory().contains(table)) {
                 continue;
@@ -197,7 +197,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
 
             if (diagram.getCurrentCategory() != null && !diagram.getCurrentCategory().contains(table)) {
                 continue;
@@ -283,7 +283,7 @@ public abstract class DDLCreator {
     abstract protected String getDDL(Tablespace object);
 
     protected Iterable<ERTable> getTablesForCreateDDL() {
-        return diagram.getDiagramContents().getContents().getTableSet();
+        return diagram.getDiagramContents().getDiagramWalkers().getTableSet();
     }
 
     private String getCreateTables(ERDiagram diagram) {
@@ -317,13 +317,13 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
 
             if (diagram.getCurrentCategory() != null && !diagram.getCurrentCategory().contains(table)) {
                 continue;
             }
 
-            for (Relationship relation : table.getOutgoingRelations()) {
+            for (Relationship relation : table.getOutgoingRelationshipList()) {
                 if (first) {
                     ddl.append("\r\n/* Create Foreign Keys */\r\n\r\n");
                     first = false;
@@ -343,7 +343,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
 
             if (diagram.getCurrentCategory() != null && !diagram.getCurrentCategory().contains(table)) {
                 continue;
@@ -372,7 +372,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
 
             if (first) {
                 ddl.append("\r\n/* Create Views */\r\n\r\n");
@@ -419,7 +419,7 @@ public abstract class DDLCreator {
         boolean first = true;
 
         List<String> autoSequenceNames =
-                diagram.getDiagramContents().getContents().getTableSet().getAutoSequenceNames(diagram.getDatabase());
+                diagram.getDiagramContents().getDiagramWalkers().getTableSet().getAutoSequenceNames(diagram.getDatabase());
 
         for (Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
             String sequenceName = this.getNameWithSchema(sequence.getSchema(), sequence.getName()).toUpperCase();
@@ -448,7 +448,7 @@ public abstract class DDLCreator {
 
         boolean first = true;
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
 
             if (diagram.getCurrentCategory() != null && !diagram.getCurrentCategory().contains(table)) {
                 continue;
@@ -775,9 +775,9 @@ public abstract class DDLCreator {
         ddl.append(filter(relation.getTargetTableView().getNameWithSchema(diagram.getDatabase())));
         ddl.append("\r\n");
         ddl.append("\tADD ");
-        if (relation.getName() != null && !relation.getName().trim().equals("")) {
+        if (relation.getForeignKeyName() != null && !relation.getForeignKeyName().trim().equals("")) {
             ddl.append("CONSTRAINT ");
-            ddl.append(filter(relation.getName()));
+            ddl.append(filter(relation.getForeignKeyName()));
             ddl.append(" ");
         }
         ddl.append("FOREIGN KEY (");
@@ -934,7 +934,7 @@ public abstract class DDLCreator {
 
         doneTables.add(table);
 
-        for (Relationship relation : table.getOutgoingRelations()) {
+        for (Relationship relation : table.getOutgoingRelationshipList()) {
             TableView targetTableView = relation.getTargetTableView();
             if (!doneTables.contains(targetTableView)) {
                 doneTables.add(targetTableView);

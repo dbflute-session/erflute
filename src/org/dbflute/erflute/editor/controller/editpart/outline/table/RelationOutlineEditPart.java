@@ -5,16 +5,16 @@ import java.beans.PropertyChangeEvent;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.core.util.Format;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relation.ChangeRelationPropertyCommand;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.ChangeRelationshipPropertyCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.connection.RelationEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.ConnectionElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.element.relation.RelationDialog;
+import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -29,7 +29,7 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
         if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_PHYSICAL_NAME)) {
             refreshVisuals();
 
-        } else if (evt.getPropertyName().equals(ConnectionElement.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE)) {
+        } else if (evt.getPropertyName().equals(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE)) {
             refreshVisuals();
 
         }
@@ -92,10 +92,10 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             Relationship copy = relation.copy();
 
-            RelationDialog dialog = new RelationDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
+            RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                ChangeRelationPropertyCommand command = new ChangeRelationPropertyCommand(relation, copy);
+                ChangeRelationshipPropertyCommand command = new ChangeRelationshipPropertyCommand(relation, copy);
                 this.execute(command);
             }
         }

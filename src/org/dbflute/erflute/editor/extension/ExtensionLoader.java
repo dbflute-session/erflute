@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.extension;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dbflute.erflute.editor.MainModelEditor;
+import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
@@ -13,7 +13,7 @@ public class ExtensionLoader {
 
     private List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<ExtendPopupMenu>();;
 
-    public ExtensionLoader(MainModelEditor editor) throws CoreException {
+    public ExtensionLoader(MainDiagramEditor editor) throws CoreException {
         this.extendPopupMenuList = ExtendPopupMenu.loadExtensions(editor);
     }
 

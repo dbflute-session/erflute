@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.not_elemen
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.view.action.outline.AbstractOutlineBaseAction;
-import org.dbflute.erflute.editor.view.dialog.element.table.sub.IndexDialog;
+import org.dbflute.erflute.editor.view.dialog.table.sub.IndexDialog;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;

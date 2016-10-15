@@ -2,5 +2,5 @@ eclipse.preferences.version=1
 encoding//src/org/dbflute/erflute/editor/controller/command/common/PasteCommand.java=UTF-8
 encoding//src/org/dbflute/erflute/editor/controller/editpart/element/node/ERTableEditPart.java=UTF-8
 encoding//src/org/dbflute/erflute/editor/model/dbimport/ImportFromDBManagerBase.java=UTF-8
-encoding//src/org/dbflute/erflute/editor/view/dialog/common/ERTableComposite.java=UTF-8
+encoding//src/org/dbflute/erflute/editor/view/dialog/table/ERTableComposite.java=UTF-8
 encoding/<project>=UTF-8

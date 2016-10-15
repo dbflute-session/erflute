@@ -2,18 +2,18 @@ package org.dbflute.erflute.editor.controller.editpart.outline;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
 
     private boolean quickMode;
@@ -22,37 +22,32 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
         this.quickMode = quickMode;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected List getModelChildren() {
-        List<AbstractModel> modelChildren = new ArrayList<AbstractModel>();
-        ERDiagram diagram = (ERDiagram) this.getModel();
-        DiagramContents diagramContents = diagram.getDiagramContents();
-
+    protected List<AbstractModel> getModelChildren() {
+        final List<AbstractModel> modelChildren = new ArrayList<AbstractModel>();
+        final ERDiagram diagram = (ERDiagram) this.getModel();
+        final DiagramContents diagramContents = diagram.getDiagramContents();
         if (quickMode) {
-            modelChildren.add(diagramContents.getContents().getTableSet());
+            modelChildren.add(diagramContents.getDiagramWalkers().getTableSet());
         } else {
-            modelChildren.add(diagramContents.getModelSet());
-            //			modelChildren.add(diagramContents.getContents().getErmodelSet());
-            //			modelChildren.add(diagramContents.getDictionary());
-            modelChildren.add(diagramContents.getGroups());
-            modelChildren.add(diagramContents.getContents().getTableSet());
-            modelChildren.add(diagramContents.getContents().getViewSet());
-            modelChildren.add(diagramContents.getTriggerSet());
-            modelChildren.add(diagramContents.getSequenceSet());
-            //			modelChildren.add(diagramContents.getIndexSet());
+            modelChildren.add(diagramContents.getVirtualDiagramSet());
+            modelChildren.add(diagramContents.getDiagramWalkers().getTableSet());
+            modelChildren.add(diagramContents.getColumnGroupSet());
             modelChildren.add(diagramContents.getTablespaceSet());
+            modelChildren.add(diagramContents.getSequenceSet());
+            // #deleted view and trigger
+            //modelChildren.add(diagramContents.getDiagramWalkers().getViewSet());
+            //modelChildren.add(diagramContents.getTriggerSet());
         }
-
         return modelChildren;
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL) || evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
             refresh();
         }
+        // what is this? by jflute
         //		if (evt.getPropertyName().equals(ERModelSet.PROPERTY_CHANGE_MODEL_SET)) {
         //			Object newValue = evt.getNewValue();
         //			if (newValue != null) {
@@ -60,7 +55,6 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
         //				Set<Entry<NodeElement, EditPart>> entrySet = getModelToEditPart().entrySet();
         //				for (Entry<NodeElement, EditPart> entry : entrySet) {
         //					if (entry.getKey().equals(newValue)) {
-        //						// �G�������g�̍X�V
         //						entry.getValue().refresh();
         //					}
         //				}
@@ -71,13 +65,21 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
         //		}
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    //private Map<DiagramWalker, EditPart> getModelToEditPart() {
+    //    final Map<DiagramWalker, EditPart> modelToEditPart = new HashMap<DiagramWalker, EditPart>();
+    //    @SuppressWarnings("unchecked")
+    //    final List<EditPart> children = getChildren();
+    //    for (int i = 0; i < children.size(); i++) {
+    //        final EditPart editPart = children.get(i);
+    //        modelToEditPart.put((DiagramWalker) editPart.getModel(), editPart);
+    //    }
+    //    return modelToEditPart;
+    //}
+
     @Override
     protected void refreshOutlineVisuals() {
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : this.getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }
@@ -85,31 +87,12 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
     @Override
     public EditPart getTargetEditPart(Request request) {
         if (request instanceof ChangeBoundsRequest) {
-            ChangeBoundsRequest breq = (ChangeBoundsRequest) request;
-
+            final ChangeBoundsRequest breq = (ChangeBoundsRequest) request;
         }
-        // TODO Auto-generated method stub
         return super.getTargetEditPart(request);
     }
 
-    private Map<NodeElement, EditPart> getModelToEditPart() {
-        Map<NodeElement, EditPart> modelToEditPart = new HashMap<NodeElement, EditPart>();
-        List children = getChildren();
-
-        for (int i = 0; i < children.size(); i++) {
-            EditPart editPart = (EditPart) children.get(i);
-            modelToEditPart.put((NodeElement) editPart.getModel(), editPart);
-        }
-
-        return modelToEditPart;
-    }
-
-    /**
-     * quickMode��ݒ肵�܂��B
-     * @param quickMode quickMode
-     */
     public void setQuickMode(boolean quickMode) {
         this.quickMode = quickMode;
     }
-
 }

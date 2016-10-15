@@ -7,9 +7,9 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.util.NameValue;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -184,7 +184,7 @@ public class SearchManager {
                 break;
             }
 
-            for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+            for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                 if (skip) {
                     if (nodeElement != this.currentTarget) {
                         continue;
@@ -202,8 +202,8 @@ public class SearchManager {
                 if (nodeElement instanceof ERTable) {
                     rows.addAll(this.search((ERTable) nodeElement, this.currentKeyword));
 
-                } else if (nodeElement instanceof Note) {
-                    rows.addAll(this.search((Note) nodeElement, this.currentKeyword));
+                } else if (nodeElement instanceof WalkerNote) {
+                    rows.addAll(this.search((WalkerNote) nodeElement, this.currentKeyword));
 
                 } else if (nodeElement instanceof ModelProperties) {
                     rows.addAll(this.search((ModelProperties) nodeElement, this.currentKeyword));
@@ -224,11 +224,11 @@ public class SearchManager {
             }
 
             if (this.relationCheckBox) {
-                for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+                for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                     if (nodeElement instanceof ERTable) {
                         ERTable table = (ERTable) nodeElement;
 
-                        for (Relationship relation : table.getIncomingRelations()) {
+                        for (Relationship relation : table.getIncomingRelationshipList()) {
                             if (skip) {
                                 if (relation != this.currentTarget) {
                                     continue;
@@ -266,7 +266,7 @@ public class SearchManager {
                 break;
             }
 
-            for (ColumnGroup columnGroup : this.diagram.getDiagramContents().getGroups()) {
+            for (ColumnGroup columnGroup : this.diagram.getDiagramContents().getColumnGroupSet()) {
                 if (skip) {
                     if (columnGroup != this.currentTarget) {
                         continue;
@@ -358,7 +358,7 @@ public class SearchManager {
                 break;
             }
 
-            for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+            for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                 if (skip) {
                     if (nodeElement != this.currentTarget) {
                         continue;
@@ -376,8 +376,8 @@ public class SearchManager {
                 if (nodeElement instanceof ERTable) {
                     rows.addAll(this.search((ERTable) nodeElement, this.currentKeyword));
 
-                } else if (nodeElement instanceof Note) {
-                    rows.addAll(this.search((Note) nodeElement, this.currentKeyword));
+                } else if (nodeElement instanceof WalkerNote) {
+                    rows.addAll(this.search((WalkerNote) nodeElement, this.currentKeyword));
 
                 } else if (nodeElement instanceof ModelProperties) {
                     rows.addAll(this.search((ModelProperties) nodeElement, this.currentKeyword));
@@ -398,11 +398,11 @@ public class SearchManager {
             }
 
             if (this.relationCheckBox) {
-                for (NodeElement nodeElement : this.diagram.getDiagramContents().getContents()) {
+                for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                     if (nodeElement instanceof ERTable) {
                         ERTable table = (ERTable) nodeElement;
 
-                        for (Relationship relation : table.getIncomingRelations()) {
+                        for (Relationship relation : table.getIncomingRelationshipList()) {
                             if (skip) {
                                 if (relation != this.currentTarget) {
                                     continue;
@@ -440,7 +440,7 @@ public class SearchManager {
                 break;
             }
 
-            for (ColumnGroup columnGroup : this.diagram.getDiagramContents().getGroups()) {
+            for (ColumnGroup columnGroup : this.diagram.getDiagramContents().getColumnGroupSet()) {
                 if (skip) {
                     if (columnGroup != this.currentTarget) {
                         continue;
@@ -528,15 +528,15 @@ public class SearchManager {
         return rows;
     }
 
-    private List<SearchResultRow> search(Note note, String keyword) {
+    private List<SearchResultRow> search(WalkerNote note, String keyword) {
         List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
 
         if (this.noteCheckBox) {
 
             String path = null;
 
-            if (this.search(note.getText(), keyword)) {
-                rows.add(new SearchResultRow(SearchResultRow.TYPE_NOTE, note.getText(), path, note, note));
+            if (this.search(note.getNoteText(), keyword)) {
+                rows.add(new SearchResultRow(SearchResultRow.TYPE_NOTE, note.getNoteText(), path, note, note));
             }
         }
 
@@ -677,9 +677,9 @@ public class SearchManager {
     private List<SearchResultRow> search(Relationship relation, String keyword) {
         List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
 
-        if (this.search(relation.getName(), keyword)) {
-            String path = relation.getName();
-            rows.add(new SearchResultRow(SearchResultRow.TYPE_RELATION_NAME, relation.getName(), path, relation, relation));
+        if (this.search(relation.getForeignKeyName(), keyword)) {
+            String path = relation.getForeignKeyName();
+            rows.add(new SearchResultRow(SearchResultRow.TYPE_RELATION_NAME, relation.getForeignKeyName(), path, relation, relation));
 
         }
 

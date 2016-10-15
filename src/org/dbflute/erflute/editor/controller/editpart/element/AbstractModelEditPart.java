@@ -9,42 +9,33 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 
-    private static Logger logger = Logger.getLogger(AbstractModelEditPart.class.getName());
-
+    private static final Logger logger = Logger.getLogger(AbstractModelEditPart.class.getName());
     private static final boolean DEBUG = false;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void activate() {
         super.activate();
-
-        AbstractModel model = (AbstractModel) this.getModel();
+        final AbstractModel model = (AbstractModel) getModel();
         model.addPropertyChangeListener(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void deactivate() {
-        AbstractModel model = (AbstractModel) this.getModel();
+        final AbstractModel model = (AbstractModel) getModel();
         model.removePropertyChangeListener(this);
-
         super.deactivate();
     }
 
     protected ERDiagram getDiagram() {
-        Object model = this.getRoot().getContents().getModel();
-        if (model instanceof ERModel) {
-            return ((ERModel) model).getDiagram();
+        final Object model = getRoot().getContents().getModel();
+        if (model instanceof ERVirtualDiagram) {
+            return ((ERVirtualDiagram) model).getDiagram();
         }
         return (ERDiagram) model;
     }
@@ -57,20 +48,18 @@ public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart im
         this.getViewer().getEditDomain().getCommandStack().execute(command);
     }
 
+    @Override
     public final void propertyChange(PropertyChangeEvent event) {
         try {
             if (DEBUG) {
                 logger.log(Level.INFO, this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
             }
-
             this.doPropertyChange(event);
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }
 
     protected void doPropertyChange(PropertyChangeEvent event) {
     }
-
 }

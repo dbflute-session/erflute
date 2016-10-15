@@ -2,20 +2,16 @@ package org.dbflute.erflute.editor.view;
 
 import java.math.BigDecimal;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.action.category.CategoryManageAction;
-import org.dbflute.erflute.editor.view.action.category.ChangeFreeLayoutAction;
-import org.dbflute.erflute.editor.view.action.category.ChangeShowReferredTablesAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToImageAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromFileAction;
-import org.dbflute.erflute.editor.view.action.edit.EditAllAttributesAction;
-import org.dbflute.erflute.editor.view.action.ermodel.ERModelAddAction;
-import org.dbflute.erflute.editor.view.action.ermodel.ERModelQuickOutlineAction;
+import org.dbflute.erflute.editor.view.action.ermodel.ERDiagramQuickOutlineAction;
+import org.dbflute.erflute.editor.view.action.ermodel.VirtualDiagramAddAction;
 import org.dbflute.erflute.editor.view.action.line.DefaultLineAction;
 import org.dbflute.erflute.editor.view.action.line.ResizeModelAction;
 import org.dbflute.erflute.editor.view.action.line.RightAngleLineAction;
@@ -60,10 +56,10 @@ public class ERDiagramPopupMenuManager extends MenuManager {
     private final ActionRegistry actionRegistry;
 
     public ERDiagramPopupMenuManager(ActionRegistry actionRegistry, final ERDiagram diagram) {
-        final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-
         this.actionRegistry = actionRegistry;
+        Activator.debug(this, "constructor()", "...Preparing pop-up menu: actionRegistry=" + actionRegistry);
 
+        final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         final IAction changeViewToPhysicalAction = getAction(ChangeViewToPhysicalAction.ID);
         final IAction changeViewToLogicalAction = getAction(ChangeViewToLogicalAction.ID);
         final IAction changeViewToBothAction = getAction(ChangeViewToBothAction.ID);
@@ -88,8 +84,9 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         final IAction changeTitleFontSizeAction = getAction(ChangeTitleFontSizeAction.ID);
         final IAction changeStampAction = getAction(ChangeStampAction.ID);
 
-        final IAction changeFreeLayoutAction = getAction(ChangeFreeLayoutAction.ID);
-        final IAction changeShowReferredTablesAction = getAction(ChangeShowReferredTablesAction.ID);
+        // #deleted category
+        //final IAction changeFreeLayoutAction = getAction(ChangeFreeLayoutAction.ID);
+        //final IAction changeShowReferredTablesAction = getAction(ChangeShowReferredTablesAction.ID);
 
         final IAction undoAction = this.getAction(ActionFactory.UNDO);
         undoAction.setActionDefinitionId("org.eclipse.ui.edit.undo");
@@ -108,20 +105,19 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         pasteAction.setActionDefinitionId("org.eclipse.ui.edit.paste");
         this.add(pasteAction);
 
-        this.add(this.getAction(ActionFactory.DELETE));
-        this.add(this.getAction(ActionFactory.SELECT_ALL));
-        this.add(this.getAction(EditAllAttributesAction.ID));
+        this.add(getAction(ActionFactory.DELETE));
+        this.add(getAction(ActionFactory.SELECT_ALL));
 
         this.add(new Separator());
 
-        this.add(this.getAction(ResizeModelAction.ID));
-        this.add(this.getAction(RightAngleLineAction.ID));
-        this.add(this.getAction(DefaultLineAction.ID));
+        this.add(getAction(ResizeModelAction.ID));
+        this.add(getAction(RightAngleLineAction.ID));
+        this.add(getAction(DefaultLineAction.ID));
 
         this.add(new Separator());
 
-        this.add(this.getAction(SearchAction.ID));
-        this.add(this.getAction(ERModelQuickOutlineAction.ID));
+        this.add(getAction(SearchAction.ID));
+        this.add(getAction(ERDiagramQuickOutlineAction.ID));
 
         this.add(new Separator());
 
@@ -155,52 +151,34 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         displayMenu.add(notationLevelMenu);
 
         final MenuManager designMenu = new MenuManager(DisplayMessages.getMessage("label.design"));
-
         designMenu.add(changeDesignToFunnyAction);
         designMenu.add(changeDesignToFrameAction);
         designMenu.add(changeDesignToSimpleAction);
-
         displayMenu.add(designMenu);
-
         displayMenu.add(changeCapitalAction);
         displayMenu.add(changeTitleFontSizeAction);
         displayMenu.add(changeStampAction);
 
-        this.add(displayMenu);
+        add(displayMenu);
+        add(new Separator());
 
-        this.add(new Separator());
+        add(prepareImportMenu(sharedImages));
+        add(prepareExportMenu(sharedImages));
+        add(new Separator());
 
-        final MenuManager importMenu =
-                new MenuManager(DisplayMessages.getMessage("action.title.import"), sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"),
-                        "Import");
+        add(getAction(VirtualDiagramAddAction.ID));
+        add(new Separator());
 
-        importMenu.add(this.getAction(ImportFromDBAction.ID));
-        importMenu.add(this.getAction(ImportFromFileAction.ID));
+        // #deleted category
+        //final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
+        //categoryMenu.add(this.getAction(CategoryManageAction.ID));
+        //categoryMenu.add(changeShowReferredTablesAction);
+        //add(categoryMenu);
 
-        this.add(importMenu);
+        add(getAction(PageSettingAction.ID));
+        add(getAction(OptionSettingAction.ID));
 
-        final MenuManager exportMenu =
-                new MenuManager(DisplayMessages.getMessage("action.title.export"), sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"),
-                        "Export");
-
-        exportMenu.add(this.getAction(ExportToDDLAction.ID));
-        exportMenu.add(this.getAction(ExportToImageAction.ID));
-        exportMenu.add(new GroupMarker("export"));
-
-        this.add(exportMenu);
-        this.add(new Separator());
-        this.add(this.getAction(PageSettingAction.ID));
-
-        final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
-        categoryMenu.add(this.getAction(CategoryManageAction.ID));
-        categoryMenu.add(changeShowReferredTablesAction);
-
-        this.add(categoryMenu);
-        this.add(this.getAction(ERModelAddAction.ID));
-        this.add(this.getAction(OptionSettingAction.ID));
-
-        this.addMenuListener(new IMenuListener() {
-
+        addMenuListener(new IMenuListener() {
             @Override
             public void menuAboutToShow(IMenuManager manager) {
                 undoAction.setText(DisplayMessages.getMessage("action.title.undo"));
@@ -214,10 +192,8 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getViewMode() == Settings.VIEW_MODE_PHYSICAL) {
                     changeViewToPhysicalAction.setChecked(true);
-
                 } else if (settings.getViewMode() == Settings.VIEW_MODE_LOGICAL) {
                     changeViewToLogicalAction.setChecked(true);
-
                 } else {
                     changeViewToBothAction.setChecked(true);
                 }
@@ -227,7 +203,6 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
                 if (Settings.NOTATION_IDEF1X.equals(settings.getNotation())) {
                     changeToIDEF1XNotationAction.setChecked(true);
-
                 } else {
                     changeToIENotationAction.setChecked(true);
                 }
@@ -241,70 +216,78 @@ public class ERDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_TITLE) {
                     changeNotationLevelToOnlyTitleAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_COLUMN) {
                     changeNotationLevelToColumnAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_KEY) {
                     changeNotationLevelToOnlyKeyAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_NAME_AND_KEY) {
                     changeNotationLevelToNameAndKeyAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_EXCLUDE_TYPE) {
                     changeNotationLevelToExcludeTypeAction.setChecked(true);
-
                 } else {
                     changeNotationLevelToDetailAction.setChecked(true);
                 }
-
                 if (settings.isNotationExpandGroup()) {
                     changeNotationExpandGroupAction.setChecked(true);
                 }
-
                 changeDesignToFunnyAction.setChecked(false);
                 changeDesignToFrameAction.setChecked(false);
                 changeDesignToSimpleAction.setChecked(false);
 
                 if (settings.getTableStyle().equals(ChangeDesignToFrameAction.TYPE)) {
                     changeDesignToFrameAction.setChecked(true);
-
                 } else if (settings.getTableStyle().equals(ChangeDesignToSimpleAction.TYPE)) {
                     changeDesignToSimpleAction.setChecked(true);
-
                 } else {
                     changeDesignToFunnyAction.setChecked(true);
                 }
-
                 if (settings.isCapital()) {
                     changeCapitalAction.setChecked(true);
                 }
                 if (new BigDecimal("1.5").equals(settings.getTitleFontEm())) {
                     changeTitleFontSizeAction.setChecked(true);
                 }
-
                 if (settings.getModelProperties().isDisplay()) {
                     changeStampAction.setChecked(true);
                 }
 
-                final CategorySetting categorySettings = settings.getCategorySetting();
-                if (categorySettings.isFreeLayout()) {
-                    changeFreeLayoutAction.setChecked(true);
-                }
-                if (categorySettings.isShowReferredTables()) {
-                    changeShowReferredTablesAction.setChecked(true);
-                }
+                // #deleted category
+                //final CategorySetting categorySettings = settings.getCategorySetting();
+                //if (categorySettings.isFreeLayout()) {
+                //    changeFreeLayoutAction.setChecked(true);
+                //}
+                //if (categorySettings.isShowReferredTables()) {
+                //    changeShowReferredTablesAction.setChecked(true);
+                //}
             }
-
         });
     }
 
+    private MenuManager prepareImportMenu(final ISharedImages sharedImages) {
+        final String message = "Import";
+        final MenuManager importMenu = new MenuManager(message, sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"), "Import");
+        importMenu.add(this.getAction(ImportFromDBAction.ID));
+        importMenu.add(this.getAction(ImportFromFileAction.ID));
+        return importMenu;
+    }
+
+    private MenuManager prepareExportMenu(final ISharedImages sharedImages) {
+        final String message = "Export";
+        final MenuManager exportMenu = new MenuManager(message, sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"), "Export");
+        exportMenu.add(this.getAction(ExportToDDLAction.ID));
+        exportMenu.add(this.getAction(ExportToImageAction.ID));
+        exportMenu.add(new GroupMarker("export"));
+        return exportMenu;
+    }
+
+    // ===================================================================================
+    //                                                                              Action
+    //                                                                              ======
     private IAction getAction(ActionFactory actionFactory) {
-        return this.actionRegistry.getAction(actionFactory.getId());
+        return actionRegistry.getAction(actionFactory.getId());
     }
 
     private IAction getAction(String id) {
-        return this.actionRegistry.getAction(id);
+        return actionRegistry.getAction(id);
     }
-
 }

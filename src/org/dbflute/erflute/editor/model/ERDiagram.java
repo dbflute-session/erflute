@@ -2,15 +2,16 @@ package org.dbflute.erflute.editor.model;
 
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeElement;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.NodeSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.VGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Note;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -22,7 +23,6 @@ import org.dbflute.erflute.editor.model.settings.Settings;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * #analyzed is one ERD
  * @author modified by jflute (originated in ermaster)
  */
 public class ERDiagram extends ViewableModel {
@@ -49,7 +49,7 @@ public class ERDiagram extends ViewableModel {
     private boolean disableSelectColumn;
     private Category currentCategory;
     private int currentCategoryIndex;
-    private ERModel currentErmodel;
+    private ERVirtualDiagram currentVirtualDiagram;
     private double zoom = 1.0d;
     private int x;
     private int y;
@@ -73,106 +73,104 @@ public class ERDiagram extends ViewableModel {
     //                                                                          Initialize
     //                                                                          ==========
     public void init() {
-        diagramContents.setColumnGroups(GlobalGroupSet.load());
-        final Settings settings = this.getDiagramContents().getSettings();
+        diagramContents.setColumnGroupSet(GlobalGroupSet.load());
+        final Settings settings = getDiagramContents().getSettings();
         settings.getModelProperties().init();
     }
 
     // ===================================================================================
     //                                                                    Content Handling
     //                                                                    ================
-    public void addNewContent(NodeElement element) {
-        element.setColor(this.defaultColor[0], this.defaultColor[1], this.defaultColor[2]);
-        element.setFontName(this.getFontName());
-        element.setFontSize(this.getFontSize());
-        addContent(element);
+    public void addNewWalker(DiagramWalker walker) {
+        Activator.debug(this, "addNewWalker()", "...Adding new walker: " + walker);
+        walker.setColor(defaultColor[0], defaultColor[1], defaultColor[2]);
+        walker.setFontName(getFontName());
+        walker.setFontSize(getFontSize());
+        addWalkerPlainly(walker);
     }
 
-    public void addContent(NodeElement element) {
-        element.setDiagram(this);
-        this.diagramContents.getContents().addNodeElement(element);
-        if (this.editor != null) {
-            final Category category = this.editor.getCurrentPageCategory();
+    public void addWalkerPlainly(DiagramWalker walker) {
+        walker.setDiagram(this);
+        diagramContents.getDiagramWalkers().addDiagramWalker(walker);
+        if (editor != null) {
+            final Category category = editor.getCurrentPageCategory();
             if (category != null) {
-                category.getContents().add(element);
+                category.getContents().add(walker);
             }
         }
-        if (element instanceof TableView) {
-            for (final NormalColumn normalColumn : ((TableView) element).getNormalColumns()) {
-                this.getDiagramContents().getDictionary().add(normalColumn);
+        if (walker instanceof TableView) {
+            for (final NormalColumn normalColumn : ((TableView) walker).getNormalColumns()) {
+                getDiagramContents().getDictionary().add(normalColumn);
             }
         }
-        if (element instanceof ERTable) {
-            final ERTable table = (ERTable) element;
-            if (getCurrentErmodel() != null) {
+        if (walker instanceof ERTable) {
+            final ERTable table = (ERTable) walker;
+            if (getCurrentVirtualDiagram() != null) {
                 // ビュー上に仮想テーブルを追加する
-                final ERModel model = getCurrentErmodel();
+                final ERVirtualDiagram model = getCurrentVirtualDiagram();
                 final ERVirtualTable virtualTable = new ERVirtualTable(model, table);
-                virtualTable.setPoint(element.getX(), element.getY());
+                virtualTable.setPoint(walker.getX(), walker.getY());
 
                 // メインビュー上では左上に配置
-                element.setLocation(new Location(0, 0, element.getWidth(), element.getHeight()));
+                walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
 
                 model.addTable(virtualTable);
             }
         }
-        if (element instanceof ERVirtualTable) {
-            final ERVirtualTable virtualTable = (ERVirtualTable) element;
-            if (getCurrentErmodel() != null) {
+        if (walker instanceof ERVirtualTable) {
+            final ERVirtualTable virtualTable = (ERVirtualTable) walker;
+            if (getCurrentVirtualDiagram() != null) {
                 // ビュー上に仮想テーブルを追加する
-                final ERModel model = getCurrentErmodel();
+                final ERVirtualDiagram model = getCurrentVirtualDiagram();
                 //ERVirtualTable virtualTable = new ERVirtualTable(model, table);
-                virtualTable.setPoint(element.getX(), element.getY());
+                virtualTable.setPoint(walker.getX(), walker.getY());
 
                 // メインビュー上では左上に配置
-                element.setLocation(new Location(0, 0, element.getWidth(), element.getHeight()));
+                walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
 
                 model.addTable(virtualTable);
             }
         }
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
-    public void removeContent(NodeElement element) {
+    public void removeContent(DiagramWalker element) {
         if (element instanceof ERVirtualTable) {
             // メインビューのノードは残して仮想テーブルだけ削除
-            currentErmodel.remove((ERVirtualTable) element);
-        } else if (element instanceof VGroup) {
-            currentErmodel.remove((VGroup) element);
-        } else if (element instanceof Note) {
-            currentErmodel.remove((Note) element);
+            currentVirtualDiagram.remove((ERVirtualTable) element);
+        } else if (element instanceof WalkerGroup) {
+            currentVirtualDiagram.remove((WalkerGroup) element);
+        } else if (element instanceof WalkerNote) {
+            currentVirtualDiagram.remove((WalkerNote) element);
         } else {
-            this.diagramContents.getContents().remove(element);
+            this.diagramContents.getDiagramWalkers().remove(element);
             if (element instanceof ERTable) {
                 // メインビューのテーブルを削除したときは、ビューのノードも削除（線が消えずに残ってしまう）
-                for (final ERModel model : getDiagramContents().getModelSet()) {
+                for (final ERVirtualDiagram model : getDiagramContents().getVirtualDiagramSet()) {
                     final ERVirtualTable vtable = model.findVirtualTable((TableView) element);
                     model.remove(vtable);
                 }
             }
         }
-
         if (element instanceof TableView) {
             this.diagramContents.getDictionary().remove((TableView) element);
         }
-
         for (final Category category : this.diagramContents.getSettings().getCategorySetting().getAllCategories()) {
             category.getContents().remove(element);
         }
-
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void replaceContents(DiagramContents newDiagramContents) {
         this.diagramContents = newDiagramContents;
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     // ===================================================================================
     //                                                                   ER/Table Handling
     //                                                                   =================
-    public void addErmodel(ERModel ermodel) {
-        diagramContents.getModelSet().add(ermodel);
+    public void addVirtualDiagram(ERVirtualDiagram ermodel) {
+        diagramContents.getVirtualDiagramSet().add(ermodel);
         firePropertyChange(PROPERTY_CHANGE_ADD, null, ermodel);
     }
 
@@ -186,17 +184,17 @@ public class ERDiagram extends ViewableModel {
      * @param table テーブルビュー
      */
     public void doChangeTable(TableView table) {
-        for (final ERModel model : getDiagramContents().getModelSet()) {
+        for (final ERVirtualDiagram model : getDiagramContents().getVirtualDiagramSet()) {
             final ERVirtualTable vtable = model.findVirtualTable(table);
             if (vtable != null) {
-                vtable.doChangeTable();
+                vtable.changeTable();
             }
         }
     }
 
-    public ERModel findModelByTable(ERTable table) {
-        for (final ERModel model : diagramContents.getModelSet()) {
-            for (final ERVirtualTable vtable : model.getTables()) {
+    public ERVirtualDiagram findModelByTable(ERTable table) {
+        for (final ERVirtualDiagram model : diagramContents.getVirtualDiagramSet()) {
+            for (final ERVirtualTable vtable : model.getVirtualTables()) {
                 if (vtable.getRawTable().equals(table)) {
                     return model;
                 }
@@ -235,19 +233,19 @@ public class ERDiagram extends ViewableModel {
     public void addCategory(Category category) {
         category.setColor(this.defaultColor[0], this.defaultColor[1], this.defaultColor[2]);
         this.getDiagramContents().getSettings().getCategorySetting().addCategoryAsSelected(category);
-        this.editor.initCategoryPages();
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.editor.initVirtualPages();
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void removeCategory(Category category) {
         this.getDiagramContents().getSettings().getCategorySetting().removeCategory(category);
-        this.editor.initCategoryPages();
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.editor.initVirtualPages();
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void restoreCategories() {
-        this.editor.initCategoryPages();
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.editor.initVirtualPages();
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     // ===================================================================================
@@ -261,16 +259,16 @@ public class ERDiagram extends ViewableModel {
         this.firePropertyChange(PROPERTY_CHANGE_ALL, null, null);
     }
 
-    public void changeAll(List<NodeElement> nodeElementList) {
+    public void changeAll(List<DiagramWalker> nodeElementList) {
         this.firePropertyChange(PROPERTY_CHANGE_ALL, null, nodeElementList);
     }
 
     public void setSettings(Settings settings) {
         this.getDiagramContents().setSettings(settings);
-        this.editor.initCategoryPages();
+        this.editor.initVirtualPages();
 
         this.firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
-        this.firePropertyChange(NodeSet.PROPERTY_CHANGE_CONTENTS, null, null);
+        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     //	/**
@@ -315,7 +313,7 @@ public class ERDiagram extends ViewableModel {
     //                                                                            Accessor
     //                                                                            ========
     public DiagramContents getDiagramContents() {
-        return this.diagramContents;
+        return diagramContents;
     }
 
     public void setEditor(ERFluteMultiPageEditor editor) {
@@ -355,15 +353,15 @@ public class ERDiagram extends ViewableModel {
         this.tooltip = tooltip;
     }
 
-    public ERModel getCurrentErmodel() {
-        return currentErmodel;
+    public ERVirtualDiagram getCurrentVirtualDiagram() {
+        return currentVirtualDiagram;
     }
 
-    public void setCurrentErmodel(ERModel model, String defaultModelName) {
-        this.currentErmodel = model;
+    public void setCurrentVirtualDiagram(ERVirtualDiagram vdiagram, String defaultModelName) {
+        this.currentVirtualDiagram = vdiagram;
         this.defaultModelName = defaultModelName;
-        if (model != null) {
-            model.changeAll();
+        if (vdiagram != null) {
+            vdiagram.changeAll();
         }
     }
 
@@ -412,13 +410,10 @@ public class ERDiagram extends ViewableModel {
         if (str == null) {
             return str;
         }
-
         final Settings settings = this.getDiagramContents().getSettings();
-
         if (settings.isCapital()) {
             return str.toUpperCase();
         }
-
         return str;
     }
 

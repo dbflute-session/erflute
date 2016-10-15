@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.db.PreTableExportManager;
 import org.dbflute.erflute.editor.model.settings.Environment;
 import org.dbflute.erflute.editor.model.settings.Settings;
-import org.dbflute.erflute.editor.view.dialog.common.AbstractDBSettingDialog;
+import org.dbflute.erflute.editor.view.dialog.dbsetting.AbstractDBSettingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -70,7 +70,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected String getErrorMessage() {
+    protected String doValidate() {
         if (this.settingAddButton != null) {
             this.settingAddButton.setEnabled(false);
         }
@@ -83,14 +83,14 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
             return "error.database.not.correct";
         }
 
-        return super.getErrorMessage();
+        return super.doValidate();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void perfomeOK() throws InputException {
+    protected void performOK() throws InputException {
         this.setCurrentSetting();
 
         String db = this.getDBSName();
@@ -113,7 +113,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
             Exception e = exportToDBManager.getException();
             if (e != null) {
-                Activator.log(e);
+                Activator.error(e);
                 String message = e.getMessage();
                 String errorSql = exportToDBManager.getErrorSql();
 
@@ -132,7 +132,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
             throw e;
 
         } catch (Exception e) {
-            Activator.log(e);
+            Activator.error(e);
             Throwable cause = e.getCause();
 
             if (cause instanceof UnknownHostException) {

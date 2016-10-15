@@ -18,7 +18,7 @@ public class ReservedNameRule extends BaseRule {
     public boolean validate(ERDiagram diagram) {
         DBManager dbManager = DBManagerFactory.getDBManager(diagram);
 
-        for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
+        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
 
             for (ERIndex index : table.getIndexes()) {
                 String indexName = index.getName().toLowerCase();
@@ -50,7 +50,7 @@ public class ReservedNameRule extends BaseRule {
             }
         }
 
-        for (ERView view : diagram.getDiagramContents().getContents().getViewSet()) {
+        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
             String name = view.getName().toLowerCase();
 
             if (dbManager.isReservedWord(name)) {

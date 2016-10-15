@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -14,11 +15,14 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class Relationship extends ConnectionElement implements Comparable<Relationship> {
+public class Relationship extends WalkerConnection implements Comparable<Relationship> {
 
     private static final long serialVersionUID = 4456694342537711599L;
 
-    private String name;
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    private String foreignKeyName; // null allowed (not required)
     private String onUpdateAction;
     private String onDeleteAction;
     private String parentCardinality;
@@ -31,6 +35,9 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
     private int targetXp;
     private int targetYp;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public Relationship() {
         this(false, null, null);
     }
@@ -52,12 +59,15 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         this.childCardinality = "0..n";
     }
 
+    // ===================================================================================
+    //                                                                           TableView
+    //                                                                           =========
     public TableView getSourceTableView() {
-        return (TableView) this.getSource();
+        return (TableView) getWalkerSource();
     }
 
     public TableView getTargetTableView() {
-        return (TableView) this.getTarget();
+        return (TableView) getWalkerTarget();
     }
 
     public void setTargetTableView(TableView target) {
@@ -65,109 +75,240 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
     }
 
     public void setTargetTableView(TableView target, List<NormalColumn> foreignKeyColumnList) {
-
         if (this.getTargetTableView() != null) {
             removeAllForeignKey();
         }
-
-        super.setTarget(target);
-
+        super.setTargetWalker(target);
         if (target != null) {
-            final TableView sourceTable = (TableView) this.getSource();
-
+            final TableView sourceTable = (TableView) this.getWalkerSource();
             int i = 0;
-
             if (this.isReferenceForPK()) {
                 for (final NormalColumn sourceColumn : ((ERTable) sourceTable).getPrimaryKeys()) {
                     final NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
-
                     target.addColumn(foreignKeyColumn);
                 }
-
             } else if (this.referencedComplexUniqueKey != null) {
                 for (final NormalColumn sourceColumn : referencedComplexUniqueKey.getColumnList()) {
                     final NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
-
                     target.addColumn(foreignKeyColumn);
                 }
-
             } else {
                 for (final NormalColumn sourceColumn : sourceTable.getNormalColumns()) {
                     if (sourceColumn == this.referencedColumn) {
                         final NormalColumn foreignKeyColumn = this.createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
-
                         target.addColumn(foreignKeyColumn);
                         break;
                     }
                 }
             }
         }
-
-        this.firePropertyChange("target", null, target);
+        firePropertyChange("target", null, target);
     }
 
     private NormalColumn createForeiKeyColumn(NormalColumn referencedColumn, List<NormalColumn> foreignKeyColumnList, int index) {
         final NormalColumn foreignKeyColumn = new NormalColumn(referencedColumn, referencedColumn, this, false);
-
         if (foreignKeyColumnList != null) {
             final NormalColumn data = foreignKeyColumnList.get(index);
             data.copyForeikeyData(foreignKeyColumn);
         }
-
         return foreignKeyColumn;
     }
 
+    // ===================================================================================
+    //                                                                           FK Column
+    //                                                                           =========
     public void setTargetWithoutForeignKey(TableView target) {
-        super.setTarget(target);
+        super.setTargetWalker(target);
     }
 
     public void setTargetTableWithExistingColumns(ERTable target, List<NormalColumn> referencedColumnList,
             List<NormalColumn> foreignKeyColumnList) {
-
-        super.setTarget(target);
-
+        super.setTargetWalker(target);
         this.firePropertyChange("target", null, target);
     }
 
-    public void delete(boolean removeForeignKey, Dictionary dictionary) {
-        super.delete();
-
-        for (final NormalColumn foreignKeyColumn : this.getForeignKeyColumns()) {
-            foreignKeyColumn.removeReference(this);
-
-            if (removeForeignKey) {
-                if (foreignKeyColumn.getRelationshipList().isEmpty()) {
-                    this.getTargetTableView().removeColumn(foreignKeyColumn);
-                }
-
-            } else {
-                dictionary.add(foreignKeyColumn);
-            }
-        }
-    }
-
     public List<NormalColumn> getForeignKeyColumns() {
-        final List<NormalColumn> list = new ArrayList<NormalColumn>();
-
-        if (this.getTargetTableView() != null) {
+        final List<NormalColumn> columnList = new ArrayList<NormalColumn>();
+        if (getTargetTableView() != null) {
             for (final NormalColumn column : this.getTargetTableView().getNormalColumns()) {
                 if (column.isForeignKey()) {
                     final NormalColumn foreignKeyColumn = column;
                     for (final Relationship relation : foreignKeyColumn.getRelationshipList()) {
                         if (relation == this) {
-                            list.add(column);
+                            columnList.add(column);
                             break;
                         }
                     }
                 }
             }
         }
-
-        return list;
+        return columnList;
     }
 
-    public String getName() {
-        return name;
+    // ===================================================================================
+    //                                                                              Delete
+    //                                                                              ======
+    public void delete(boolean removeForeignKey, Dictionary dictionary) {
+        super.delete();
+        for (final NormalColumn foreignKeyColumn : this.getForeignKeyColumns()) {
+            foreignKeyColumn.removeReference(this);
+            if (removeForeignKey) {
+                if (foreignKeyColumn.getRelationshipList().isEmpty()) {
+                    this.getTargetTableView().removeColumn(foreignKeyColumn);
+                }
+            } else {
+                dictionary.add(foreignKeyColumn);
+            }
+        }
+    }
+
+    public Relationship copy() {
+        final Relationship to = new Relationship(this.isReferenceForPK(), this.getReferencedComplexUniqueKey(), this.getReferencedColumn());
+
+        to.setForeignKeyName(this.getForeignKeyName());
+        to.setOnDeleteAction(this.getOnDeleteAction());
+        to.setOnUpdateAction(this.getOnUpdateAction());
+        to.setChildCardinality(this.getChildCardinality());
+        to.setParentCardinality(this.getParentCardinality());
+
+        to.sourceWalker = this.getSourceTableView();
+        to.targetWalker = this.getTargetTableView();
+
+        return to;
+    }
+
+    public Relationship restructureRelationData(Relationship to) {
+        to.setForeignKeyName(this.getForeignKeyName());
+        to.setOnDeleteAction(this.getOnDeleteAction());
+        to.setOnUpdateAction(this.getOnUpdateAction());
+        to.setChildCardinality(this.getChildCardinality());
+        to.setParentCardinality(this.getParentCardinality());
+
+        return to;
+    }
+
+    public boolean isReferenceForPK() {
+        return this.referenceForPK;
+    }
+
+    public void setReferenceForPK(boolean referenceForPK) {
+        this.referenceForPK = referenceForPK;
+    }
+
+    public void setForeignKeyColumn(NormalColumn sourceColumn) {
+        if (this.referencedColumn == sourceColumn) {
+            return;
+        }
+        this.removeAllForeignKey();
+        final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
+        this.getTargetTableView().addColumn(foreignKeyColumn);
+        this.referenceForPK = false;
+        this.referencedColumn = sourceColumn;
+        this.referencedComplexUniqueKey = null;
+    }
+
+    public void setForeignKeyForComplexUniqueKey(ComplexUniqueKey complexUniqueKey) {
+        if (this.referencedComplexUniqueKey == complexUniqueKey) {
+            return;
+        }
+        this.removeAllForeignKey();
+        for (final NormalColumn sourceColumn : complexUniqueKey.getColumnList()) {
+            final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
+            this.getTargetTableView().addColumn(foreignKeyColumn);
+        }
+        this.referenceForPK = false;
+        this.referencedColumn = null;
+        this.referencedComplexUniqueKey = complexUniqueKey;
+    }
+
+    public void setForeignKeyColumnForPK() {
+        if (this.referenceForPK) {
+            return;
+        }
+        this.removeAllForeignKey();
+        for (final NormalColumn sourceColumn : ((ERTable) this.getSourceTableView()).getPrimaryKeys()) {
+            final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
+            this.getTargetTableView().addColumn(foreignKeyColumn);
+        }
+        this.referenceForPK = true;
+        this.referencedColumn = null;
+        this.referencedComplexUniqueKey = null;
+    }
+
+    private void removeAllForeignKey() {
+        for (final Iterator<ERColumn> iter = getTargetTableView().getColumns().iterator(); iter.hasNext();) {
+            final ERColumn column = iter.next();
+            if (column instanceof NormalColumn) {
+                final NormalColumn normalColumn = (NormalColumn) column;
+                if (normalColumn.isForeignKey()) {
+                    if (normalColumn.getRelationshipList().size() == 1 && normalColumn.getRelationshipList().get(0) == this) {
+                        iter.remove();
+                    }
+                }
+            }
+        }
+        this.getTargetTableView().setDirty();
+    }
+
+    public String buildRelationshipId() { // for complete state e.g. when writing
+        final TableView targetTableView = getTargetTableView();
+        final List<NormalColumn> foreignKeyColumns = getForeignKeyColumns();
+        final List<String> physicalColumnNameList = new ArrayList<String>();
+        for (final NormalColumn column : foreignKeyColumns) {
+            physicalColumnNameList.add(column.getPhysicalName());
+        }
+        return doBuildRelationshipId(targetTableView.getPhysicalName(), physicalColumnNameList);
+    }
+
+    public String buildRelationshipId(String tableName, List<String> physicalColumnNameList) { // for making state e.g. when reading
+        return doBuildRelationshipId(tableName, physicalColumnNameList);
+    }
+
+    private String doBuildRelationshipId(String tableName, List<String> physicalColumnNameList) {
+        if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyName)) { // e.g. FK_MEMBER_MEMBER_STATUS
+            return foreignKeyName; // should be unique
+        } else { // when no name FK
+            // while FK constraint name should be required as possible
+            final String pk = referenceForPK ? "PK" : "UQ"; // to be unique
+            final StringBuilder sb = new StringBuilder();
+            for (final String fkColumn : physicalColumnNameList) {
+                if (sb.length() > 0) {
+                    sb.append("/");
+                }
+                sb.append(fkColumn);
+            }
+            return tableName + "." + "[" + sb.toString() + "]." + pk;
+        }
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public Relationship clone() {
+        final Relationship clone = (Relationship) super.clone();
+        return clone;
+    }
+
+    @Override
+    public int compareTo(Relationship otherRelation) {
+        return this.getTargetTableView().compareTo(otherRelation.getTargetTableView());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":{" + foreignKeyName + (referencedColumn != null ? ", " + referencedColumn : "") + "}";
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public String getForeignKeyName() {
+        return foreignKeyName;
+    }
+
+    public void setForeignKeyName(String foreignKeyName) {
+        this.foreignKeyName = foreignKeyName;
     }
 
     public String getOnDeleteAction() {
@@ -192,7 +333,7 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
 
     public void setChildCardinality(String childCardinality) {
         this.childCardinality = childCardinality;
-        firePropertyChange(ConnectionElement.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
+        firePropertyChange(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
     }
 
     public String getParentCardinality() {
@@ -201,114 +342,7 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
 
     public void setParentCardinality(String parentCardinality) {
         this.parentCardinality = parentCardinality;
-        firePropertyChange(ConnectionElement.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Relationship copy() {
-        final Relationship to = new Relationship(this.isReferenceForPK(), this.getReferencedComplexUniqueKey(), this.getReferencedColumn());
-
-        to.setName(this.getName());
-        to.setOnDeleteAction(this.getOnDeleteAction());
-        to.setOnUpdateAction(this.getOnUpdateAction());
-        to.setChildCardinality(this.getChildCardinality());
-        to.setParentCardinality(this.getParentCardinality());
-
-        to.source = this.getSourceTableView();
-        to.target = this.getTargetTableView();
-
-        return to;
-    }
-
-    public Relationship restructureRelationData(Relationship to) {
-        to.setName(this.getName());
-        to.setOnDeleteAction(this.getOnDeleteAction());
-        to.setOnUpdateAction(this.getOnUpdateAction());
-        to.setChildCardinality(this.getChildCardinality());
-        to.setParentCardinality(this.getParentCardinality());
-
-        return to;
-    }
-
-    public boolean isReferenceForPK() {
-        return this.referenceForPK;
-    }
-
-    public void setReferenceForPK(boolean referenceForPK) {
-        this.referenceForPK = referenceForPK;
-    }
-
-    public void setForeignKeyColumn(NormalColumn sourceColumn) {
-        if (this.referencedColumn == sourceColumn) {
-            return;
-        }
-
-        this.removeAllForeignKey();
-
-        final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
-
-        this.getTargetTableView().addColumn(foreignKeyColumn);
-
-        this.referenceForPK = false;
-        this.referencedColumn = sourceColumn;
-        this.referencedComplexUniqueKey = null;
-    }
-
-    public void setForeignKeyForComplexUniqueKey(ComplexUniqueKey complexUniqueKey) {
-        if (this.referencedComplexUniqueKey == complexUniqueKey) {
-            return;
-        }
-
-        this.removeAllForeignKey();
-
-        for (final NormalColumn sourceColumn : complexUniqueKey.getColumnList()) {
-            final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
-
-            this.getTargetTableView().addColumn(foreignKeyColumn);
-        }
-
-        this.referenceForPK = false;
-        this.referencedColumn = null;
-        this.referencedComplexUniqueKey = complexUniqueKey;
-    }
-
-    public void setForeignKeyColumnForPK() {
-        if (this.referenceForPK) {
-            return;
-        }
-
-        this.removeAllForeignKey();
-
-        for (final NormalColumn sourceColumn : ((ERTable) this.getSourceTableView()).getPrimaryKeys()) {
-            final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
-
-            this.getTargetTableView().addColumn(foreignKeyColumn);
-        }
-
-        this.referenceForPK = true;
-        this.referencedColumn = null;
-        this.referencedComplexUniqueKey = null;
-    }
-
-    private void removeAllForeignKey() {
-        for (final Iterator iter = this.getTargetTableView().getColumns().iterator(); iter.hasNext();) {
-            final ERColumn column = (ERColumn) iter.next();
-
-            if (column instanceof NormalColumn) {
-                final NormalColumn normalColumn = (NormalColumn) column;
-
-                if (normalColumn.isForeignKey()) {
-                    if (normalColumn.getRelationshipList().size() == 1 && normalColumn.getRelationshipList().get(0) == this) {
-                        iter.remove();
-                    }
-                }
-            }
-        }
-
-        this.getTargetTableView().setDirty();
+        firePropertyChange(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
     }
 
     public void setReferencedColumn(NormalColumn referencedColumn) {
@@ -361,20 +395,5 @@ public class Relationship extends ConnectionElement implements Comparable<Relati
         }
 
         return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Relationship clone() {
-        final Relationship clone = (Relationship) super.clone();
-
-        return clone;
-    }
-
-    @Override
-    public int compareTo(Relationship otherRelation) {
-        return this.getTargetTableView().compareTo(otherRelation.getTargetTableView());
     }
 }

@@ -32,8 +32,9 @@ public class ReadDictionaryLoader {
     //                                                                          Dictionary
     //                                                                          ==========
     public void loadDictionary(Dictionary dictionary, Element parent, LoadContext context, String database) {
+        // needs to migrate from ERMaster-b
         final Element element = this.getElement(parent, "dictionary");
-        if (element != null) {
+        if (element != null) { // always false after ERFlute
             final NodeList nodeList = element.getElementsByTagName("word");
             for (int i = 0; i < nodeList.getLength(); i++) {
                 final Element wordElement = (Element) nodeList.item(i);
@@ -43,8 +44,8 @@ public class ReadDictionaryLoader {
     }
 
     private Word loadWord(Element element, LoadContext context, String database) {
-        final String id = this.getStringValue(element, "id");
-        final String type = this.getStringValue(element, "type");
+        final String id = getStringValue(element, "id");
+        final String type = getStringValue(element, "type");
         final Integer length = getIntegerValue(element, "length");
         final Integer decimal = getIntegerValue(element, "decimal");
         final boolean array = getBooleanValue(element, "array");
