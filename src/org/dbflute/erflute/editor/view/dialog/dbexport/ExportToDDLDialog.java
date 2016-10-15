@@ -280,7 +280,6 @@ public class ExportToDDLDialog extends AbstractDialog {
     @Override
     protected void performOK() throws InputException {
         final String saveFilePath = this.outputFileText.getFilePath();
-
         final DDLTarget ddlTarget = new DDLTarget();
         ddlTarget.dropTablespace = this.dropTablespace.getSelection();
         ddlTarget.dropSequence = this.dropSequence.getSelection();
@@ -303,16 +302,12 @@ public class ExportToDDLDialog extends AbstractDialog {
         ddlTarget.commentValueDescription = this.commentValueDescription.getSelection();
         ddlTarget.commentValueLogicalName = this.commentValueLogicalName.getSelection();
         ddlTarget.commentValueLogicalNameDescription = this.commentValueLogicalNameDescription.getSelection();
-
         final boolean openAfterSaved = this.openAfterSavedButton.getSelection();
-
         this.exportSetting = this.diagram.getDiagramContents().getSettings().getExportSetting().clone();
-
         this.exportSetting.setDdlOutput(saveFilePath);
         this.exportSetting.setDdlTarget(ddlTarget);
         this.exportSetting.setCategoryNameToExport(this.categoryCombo.getText());
         this.exportSetting.setOpenAfterSaved(openAfterSaved);
-
         final Validator validator = new Validator();
         final List<ValidateResult> errorList = validator.validate(this.diagram);
         if (!errorList.isEmpty()) {
@@ -322,23 +317,25 @@ public class ExportToDDLDialog extends AbstractDialog {
                 return;
             }
         }
-        final Category currentCategory = this.diagram.getCurrentCategory();
-        final int currentCategoryIndex = this.diagram.getCurrentCategoryIndex();
+        final Category currentCategory = diagram.getCurrentCategory();
+        final int currentCategoryIndex = diagram.getCurrentCategoryIndex();
         setCurrentCategory();
         PrintWriter out = null;
         IFile file = null;
         try {
-            final DDLCreator ddlCreator = DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, true);
-            final int index = this.environmentCombo.getSelectionIndex();
-            final Environment environment =
-                    this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
+            final DDLCreator ddlCreator = DBManagerFactory.getDBManager(diagram).getDDLCreator(this.diagram, true);
+            final int index = environmentCombo.getSelectionIndex();
+            final Environment environment = diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
             ddlCreator.init(environment, ddlTarget);
             file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(saveFilePath));
             final String absoluteFilePath = file.getLocation().toString();
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath), getEncoding())));
             file.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
-            out.println(ddlCreator.prepareDropDDL(this.diagram));
-            out.println(ddlCreator.prepareCreateDDL(this.diagram));
+            // #for_erflute don't use system line separator to be immobilize DDL
+            out.print(ddlCreator.prepareDropDDL(diagram));
+            out.print(DDLCreator.LN);
+            out.print(ddlCreator.prepareCreateDDL(diagram));
+            out.print(DDLCreator.LN);
         } catch (final Exception e) {
             Activator.error(e);
             Activator.showMessageDialog(e.getMessage());
