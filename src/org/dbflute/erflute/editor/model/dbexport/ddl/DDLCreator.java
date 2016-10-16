@@ -758,7 +758,7 @@ public abstract class DDLCreator {
             if (!first) {
                 ddl.append(", ");
             }
-            ddl.append(filter(foreignKeyColumn.getReferencedColumn(relationship).getPhysicalName()));
+            ddl.append(filter(foreignKeyColumn.getReferredColumn(relationship).getPhysicalName()));
             first = false;
         }
         ddl.append(")\r\n");

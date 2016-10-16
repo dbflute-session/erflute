@@ -85,17 +85,17 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         }
         final ERTable sourceTable = (ERTable) this.source.getModel();
         final TableView targetTable = (TableView) this.target.getModel();
-        final Map<NormalColumn, List<NormalColumn>> referencedMap = new HashMap<NormalColumn, List<NormalColumn>>();
+        final Map<NormalColumn, List<NormalColumn>> referredMap = new HashMap<NormalColumn, List<NormalColumn>>();
         final Map<Relationship, Set<NormalColumn>> foreignKeySetMap = new HashMap<Relationship, Set<NormalColumn>>();
         for (final NormalColumn normalColumn : targetTable.getNormalColumns()) {
-            final NormalColumn rootReferencedColumn = normalColumn.getRootReferencedColumn();
-            if (rootReferencedColumn != null) {
-                List<NormalColumn> foreignKeyList = referencedMap.get(rootReferencedColumn);
-                if (foreignKeyList == null) {
-                    foreignKeyList = new ArrayList<NormalColumn>();
-                    referencedMap.put(rootReferencedColumn, foreignKeyList);
+            final NormalColumn rootReferredColumn = normalColumn.getRootReferredColumn();
+            if (rootReferredColumn != null) {
+                List<NormalColumn> foreignKeyColumnList = referredMap.get(rootReferredColumn);
+                if (foreignKeyColumnList == null) {
+                    foreignKeyColumnList = new ArrayList<NormalColumn>();
+                    referredMap.put(rootReferredColumn, foreignKeyColumnList);
                 }
-                foreignKeyList.add(normalColumn);
+                foreignKeyColumnList.add(normalColumn);
                 for (final Relationship relationship : normalColumn.getRelationshipList()) {
                     Set<NormalColumn> foreignKeySet = foreignKeySetMap.get(relationship);
                     if (foreignKeySet == null) {
@@ -118,7 +118,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         }
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final RelationshipByExistingColumnsDialog dialog =
-                new RelationshipByExistingColumnsDialog(shell, sourceTable, candidateForeignKeyColumns, referencedMap, foreignKeySetMap);
+                new RelationshipByExistingColumnsDialog(shell, sourceTable, candidateForeignKeyColumns, referredMap, foreignKeySetMap);
         if (dialog.open() == IDialogConstants.OK_ID) {
             this.relationship =
                     new Relationship(dialog.isReferenceForPK(), dialog.getReferencedComplexUniqueKey(), dialog.getReferencedColumn());

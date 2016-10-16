@@ -33,11 +33,11 @@ public class LoadContext {
     public final Map<String, NormalColumn> columnMap; // ID = column
     public final Map<String, ComplexUniqueKey> complexUniqueKeyMap;
     public final Map<NormalColumn, String[]> columnRelationMap;
-    public final Map<NormalColumn, String[]> columnReferencedColumnMap;
+    public final Map<NormalColumn, String[]> columnReferredColumnMap;
     public final Map<String, ColumnGroup> columnGroupMap;
     public final Map<String, ERVirtualDiagram> virtualDiagramMap;
-    public final Map<Relationship, String> referencedColumnMap; // relationship = column ID
-    public final Map<Relationship, String> referencedComplexUniqueKeyMap;
+    public final Map<Relationship, String> referredColumnMap; // relationship = column ID
+    public final Map<Relationship, String> referredComplexUniqueKeyMap;
     public final Map<WalkerConnection, String> connectionSourceMap;
     public final Map<WalkerConnection, String> connectionTargetMap;
     public final Map<String, WalkerConnection> connectionMap;
@@ -55,11 +55,11 @@ public class LoadContext {
         this.columnMap = new LinkedHashMap<String, NormalColumn>();
         this.complexUniqueKeyMap = new LinkedHashMap<String, ComplexUniqueKey>();
         this.columnRelationMap = new LinkedHashMap<NormalColumn, String[]>();
-        this.columnReferencedColumnMap = new LinkedHashMap<NormalColumn, String[]>();
+        this.columnReferredColumnMap = new LinkedHashMap<NormalColumn, String[]>();
         this.virtualDiagramMap = new LinkedHashMap<String, ERVirtualDiagram>();
         this.columnGroupMap = new LinkedHashMap<String, ColumnGroup>();
-        this.referencedColumnMap = new LinkedHashMap<Relationship, String>();
-        this.referencedComplexUniqueKeyMap = new LinkedHashMap<Relationship, String>();
+        this.referredColumnMap = new LinkedHashMap<Relationship, String>();
+        this.referredComplexUniqueKeyMap = new LinkedHashMap<Relationship, String>();
         this.connectionMap = new LinkedHashMap<String, WalkerConnection>();
         this.connectionSourceMap = new LinkedHashMap<WalkerConnection, String>();
         this.connectionTargetMap = new LinkedHashMap<WalkerConnection, String>();
@@ -104,8 +104,8 @@ public class LoadContext {
     }
 
     private void doResolveRelationship() {
-        for (final Relationship relation : referencedColumnMap.keySet()) {
-            final String id = referencedColumnMap.get(relation);
+        for (final Relationship relation : referredColumnMap.keySet()) {
+            final String id = referredColumnMap.get(relation);
             if (id != null && !id.equals("null")) { // null allowed when migration from ERMaster...?
                 final NormalColumn column = columnMap.get(id);
                 if (column == null) {
@@ -115,12 +115,12 @@ public class LoadContext {
                 relation.setReferencedColumn(column);
             }
         }
-        for (final Relationship relation : referencedComplexUniqueKeyMap.keySet()) {
-            final String id = referencedComplexUniqueKeyMap.get(relation);
+        for (final Relationship relation : referredComplexUniqueKeyMap.keySet()) {
+            final String id = referredComplexUniqueKeyMap.get(relation);
             final ComplexUniqueKey complexUniqueKey = complexUniqueKeyMap.get(id);
             relation.setReferencedComplexUniqueKey(complexUniqueKey);
         }
-        final Set<NormalColumn> foreignKeyColumnSet = columnReferencedColumnMap.keySet();
+        final Set<NormalColumn> foreignKeyColumnSet = columnReferredColumnMap.keySet();
         while (!foreignKeyColumnSet.isEmpty()) {
             final NormalColumn foreignKeyColumn = foreignKeyColumnSet.iterator().next();
             reduceRelationship(foreignKeyColumnSet, foreignKeyColumn);
@@ -128,7 +128,7 @@ public class LoadContext {
     }
 
     private void reduceRelationship(Set<NormalColumn> foreignKeyColumnSet, NormalColumn foreignKeyColumn) {
-        final String[] referencedColumnIds = columnReferencedColumnMap.get(foreignKeyColumn);
+        final String[] referencedColumnIds = columnReferredColumnMap.get(foreignKeyColumn);
         final String[] relationIds = columnRelationMap.get(foreignKeyColumn);
         final List<NormalColumn> referencedColumnList = new ArrayList<NormalColumn>();
         if (referencedColumnIds != null) {

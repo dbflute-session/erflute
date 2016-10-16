@@ -173,7 +173,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 for (final NormalColumn referencedPrimaryKey : ((ERTable) referencedTableView).getPrimaryKeys()) {
                     for (final NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
                         if (oldTableColumn.isForeignKey()) {
-                            if (oldTableColumn.getReferencedColumn(oldRelation) == referencedPrimaryKey) {
+                            if (oldTableColumn.getReferredColumn(oldRelation) == referencedPrimaryKey) {
                                 oldForeignKeyColumnList.add(oldTableColumn);
                                 break;
                             }
@@ -184,7 +184,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                 for (final NormalColumn referencedColumn : oldRelation.getReferencedComplexUniqueKey().getColumnList()) {
                     for (final NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
                         if (oldTableColumn.isForeignKey()) {
-                            if (oldTableColumn.getReferencedColumn(oldRelation) == referencedColumn) {
+                            if (oldTableColumn.getReferredColumn(oldRelation) == referencedColumn) {
                                 oldForeignKeyColumnList.add(oldTableColumn);
                                 break;
                             }

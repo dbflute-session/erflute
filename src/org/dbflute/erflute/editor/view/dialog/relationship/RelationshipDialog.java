@@ -39,15 +39,15 @@ public class RelationshipDialog extends AbstractDialog {
     private Combo childCardinalityCombo;
     private Combo onUpdateCombo;
     private Combo onDeleteCombo;
-    private RelationshipColumnState relationshipColumnState;
+    private ReferredColumnState relationshipColumnState;
 
-    public static class RelationshipColumnState {
+    public static class ReferredColumnState {
         public List<NormalColumn> candidateColumns;
         public int complexUniqueKeyStartIndex;
         public int columnStartIndex;
         public boolean candidatePK;
 
-        public RelationshipColumnState() {
+        public ReferredColumnState() {
             candidateColumns = new ArrayList<NormalColumn>();
         }
     }
@@ -144,7 +144,7 @@ public class RelationshipDialog extends AbstractDialog {
         parentTableNameText.setLayoutData(gridData);
 
         final Label label2 = new Label(upperComposite, SWT.NONE);
-        label2.setText(DisplayMessages.getMessage("label.reference.column"));
+        label2.setText("Referred Column");
         this.createColumnCombo(upperComposite);
         this.createParentMandatoryGroup(group);
         upperComposite.pack();
@@ -186,11 +186,11 @@ public class RelationshipDialog extends AbstractDialog {
         columnCombo = new Combo(parent, SWT.READ_ONLY);
         columnCombo.setLayoutData(gridData);
         columnCombo.setVisibleItemCount(20);
-        relationshipColumnState = setReferencedColumnComboData(columnCombo, (ERTable) relationship.getSourceTableView());
+        relationshipColumnState = setupReferencedColumnComboData(columnCombo, (ERTable) relationship.getSourceTableView());
     }
 
-    public static RelationshipColumnState setReferencedColumnComboData(Combo columnCombo, ERTable table) {
-        final RelationshipColumnState info = new RelationshipColumnState();
+    public static ReferredColumnState setupReferencedColumnComboData(Combo columnCombo, ERTable table) {
+        final ReferredColumnState info = new ReferredColumnState();
         final int primaryKeySize = table.getPrimaryKeySize();
         if (primaryKeySize != 0) {
             columnCombo.add("PRIMARY KEY");
@@ -353,7 +353,8 @@ public class RelationshipDialog extends AbstractDialog {
             this.relationship.setReferencedComplexUniqueKey(complexUniqueKey);
             this.relationship.setReferencedColumn(null);
         } else {
-            final NormalColumn sourceColumn = this.relationshipColumnState.candidateColumns.get(index - this.relationshipColumnState.columnStartIndex);
+            final NormalColumn sourceColumn =
+                    this.relationshipColumnState.candidateColumns.get(index - this.relationshipColumnState.columnStartIndex);
             this.relationship.setReferenceForPK(false);
             this.relationship.setReferencedComplexUniqueKey(null);
             this.relationship.setReferencedColumn(sourceColumn);

@@ -148,10 +148,13 @@ public class ReadColumnLoader {
         if (relationIds != null) { // unneeded if? (getTagValues() cannot return null) by jflute
             context.columnRelationMap.put(normalColumn, relationIds);
         }
-        final String[] referencedColumnIds = getTagValues(element, "referenced_column");
+        String[] referredColumnIds = getTagValues(element, "referenced_column"); // migration from ERMaster
+        if (referredColumnIds == null || referredColumnIds.length == 0) {
+            referredColumnIds = getTagValues(element, "referred_column"); // #for_erflute rename to 'referred'
+        }
         boolean isForeignKey = false;
-        if (referencedColumnIds.length != 0) {
-            context.columnReferencedColumnMap.put(normalColumn, referencedColumnIds);
+        if (referredColumnIds.length != 0) {
+            context.columnReferredColumnMap.put(normalColumn, referredColumnIds);
             isForeignKey = true;
         }
         return isForeignKey;

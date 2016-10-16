@@ -130,11 +130,11 @@ public class WrittenDiagramWalkerBuilder {
         // not write if empty or false to slim XML
         final String referencecdColumnId = context.columnMap.get(relation.getReferencedColumn());
         if (referencecdColumnId != null) {
-            xml.append("\t<referenced_column>").append(referencecdColumnId).append("</referenced_column>\n");
+            xml.append("\t<referred_column>").append(referencecdColumnId).append("</referred_column>\n"); // #for_erflute rename to 'referred'
         }
         final Integer complexUniqueKeyId = context.complexUniqueKeyMap.get(relation.getReferencedComplexUniqueKey());
         if (complexUniqueKeyId != null) {
-            xml.append("\t<referenced_complex_unique_key>").append(complexUniqueKeyId).append("</referenced_complex_unique_key>\n");
+            xml.append("\t<referred_complex_unique_key>").append(complexUniqueKeyId).append("</referred_complex_unique_key>\n"); // #for_erflute rename to 'referred'
         }
     }
 

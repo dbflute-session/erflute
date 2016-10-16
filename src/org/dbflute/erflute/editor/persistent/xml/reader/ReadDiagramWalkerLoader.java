@@ -6,8 +6,8 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
@@ -83,13 +83,19 @@ public class ReadDiagramWalkerLoader {
         connection.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
         connection.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
         connection.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
-        final String referencedColumnId = getStringValue(element, "referenced_column"); // needed? (in relation) by jflute
-        if (referencedColumnId != null) {
-            context.referencedColumnMap.put(connection, referencedColumnId);
+        String referencedColumnId = getStringValue(element, "referenced_column"); // needed? (in relationship) by jflute
+        if (Srl.is_Null_or_Empty(referencedColumnId)) {
+            referencedColumnId = getStringValue(element, "referred_column"); // #for_erflute rename to 'referred'
         }
-        final String referencedComplexUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
-        if (referencedComplexUniqueKeyId != null) {
-            context.referencedComplexUniqueKeyMap.put(connection, referencedComplexUniqueKeyId);
+        if (referencedColumnId != null) {
+            context.referredColumnMap.put(connection, referencedColumnId);
+        }
+        String referredComplexUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
+        if (Srl.is_Null_or_Empty(referredComplexUniqueKeyId)) {
+            referredComplexUniqueKeyId = getStringValue(element, "referred_complex_unique_key"); // #for_erflute rename to 'referred'
+        }
+        if (referredComplexUniqueKeyId != null) {
+            context.referredComplexUniqueKeyMap.put(connection, referredComplexUniqueKeyId);
         }
         loadConnectionElement(walker, element, context, connection);
     }

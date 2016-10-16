@@ -105,7 +105,7 @@ public class WrittenColumnBuilder {
         if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyPhysicalName)) {
             return foreignKeyPhysicalName;
         }
-        final NormalColumn firstReferencedColumn = normalColumn.getFirstReferencedColumn();
+        final NormalColumn firstReferencedColumn = normalColumn.getFirstReferredColumn();
         if (firstReferencedColumn != null) {
             return firstReferencedColumn.getPhysicalName();
         } else { // no way but you can save
@@ -173,7 +173,7 @@ public class WrittenColumnBuilder {
     private void setupRelationship(NormalColumn normalColumn, PersistentContext context, final StringBuilder xml) {
         for (final NormalColumn referencedColumn : normalColumn.getReferencedColumnList()) {
             final String columnId = Format.toString(context.columnMap.get(referencedColumn));
-            xml.append("\t<referenced_column>").append(columnId).append("</referenced_column>\n");
+            xml.append("\t<referred_column>").append(columnId).append("</referred_column>\n"); // #for_erflute rename to 'referred'
         }
         for (final Relationship relation : normalColumn.getRelationshipList()) {
             final String relationId = context.connectionMap.get(relation);

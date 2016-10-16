@@ -65,7 +65,7 @@ public class SQLiteDDLCreator extends DDLCreator {
 
                 }
 
-                ddl.append(filter(foreignKeyColumn.getReferencedColumn(relation).getPhysicalName()));
+                ddl.append(filter(foreignKeyColumn.getReferredColumn(relation).getPhysicalName()));
                 first = false;
             }
 
