@@ -247,12 +247,13 @@ public class WrittenColumnBuilder {
     private String doBuildColumnGroup(ColumnGroup columnGroup, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<column_group>\n");
-        final Integer groupId = context.columnGroupMap.get(columnGroup);
-        xml.append("\t<column_group_id>").append(groupId).append("</column_group_id>\n"); // #for_erflute change id to group_id
+        // #for_erflute column group name is unique by validator
+        //final String groupId = context.columnGroupMap.get(columnGroup);
+        //xml.append("\t<column_group_id>").append(groupId).append("</column_group_id>\n");
         xml.append("\t<column_group_name>").append(escape(columnGroup.getGroupName())).append("</column_group_name>\n"); // me too
         xml.append("\t<columns>\n");
-        for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-            xml.append(tab(tab(setupNormalColumn(normalColumn, context))));
+        for (final NormalColumn column : columnGroup.getColumns()) {
+            xml.append(tab(tab(setupNormalColumn(column, context))));
         }
         xml.append("\t</columns>\n");
         xml.append("</column_group>\n");

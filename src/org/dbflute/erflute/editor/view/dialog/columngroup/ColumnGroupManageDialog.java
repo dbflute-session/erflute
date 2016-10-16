@@ -10,9 +10,9 @@ import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.column.real.GroupColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableCompositeHolder;
@@ -31,80 +31,57 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCompositeHolder {
 
-    private Text groupNameText;
-
-    private org.eclipse.swt.widgets.List groupList;
-
-    private Button groupUpdateButton;
-
-    private Button groupCancelButton;
-
-    private Button groupAddButton;
-
-    private Button groupEditButton;
-
-    private Button groupDeleteButton;
-
-    private Button addToGlobalGroupButton;
-
-    private List<CopyGroup> copyGroups;
-
-    private int editTargetIndex = -1;
-
-    private CopyGroup copyData;
-
-    private ERDiagram diagram;
-
-    private boolean globalGroup;
-
-    private ERTableComposite tableComposite;
-
     private static final int HEIGHT = 360;
-
     private static final int GROUP_LIST_HEIGHT = 230;
 
-    public ColumnGroupManageDialog(Shell parentShell, ColumnGroupSet columnGroups, ERDiagram diagram, boolean globalGroup, int editTargetIndex) {
+    private Text groupNameText;
+    private org.eclipse.swt.widgets.List groupList;
+    private Button groupUpdateButton;
+    private Button groupCancelButton;
+    private Button groupAddButton;
+    private Button groupEditButton;
+    private Button groupDeleteButton;
+    private Button addToGlobalGroupButton;
+    private final List<CopyColumnGroup> copyGroups;
+    private int editTargetIndex = -1;
+    private CopyColumnGroup copyData;
+    private final ERDiagram diagram;
+    private final boolean globalGroup;
+    private ERTableComposite tableComposite;
+
+    public ColumnGroupManageDialog(Shell parentShell, ColumnGroupSet columnGroups, ERDiagram diagram, boolean globalGroup,
+            int editTargetIndex) {
         super(parentShell, 2);
-
-        this.copyGroups = new ArrayList<CopyGroup>();
-
-        for (ColumnGroup columnGroup : columnGroups) {
-            this.copyGroups.add(new CopyGroup(columnGroup));
+        this.copyGroups = new ArrayList<CopyColumnGroup>();
+        for (final ColumnGroup columnGroup : columnGroups) {
+            this.copyGroups.add(new CopyColumnGroup(columnGroup));
         }
-
         this.diagram = diagram;
-
         this.globalGroup = globalGroup;
-
         this.editTargetIndex = editTargetIndex;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initialize(Composite composite) {
-        this.createGroupListComposite(composite);
-        this.createGroupDetailComposite(composite);
-
-        this.setGroupEditEnabled(false);
+        createGroupListComposite(composite);
+        createGroupDetailComposite(composite);
+        setGroupEditEnabled(false);
     }
 
-    /**
-     * This method initializes composite
-     * 
-     */
     private void createGroupListComposite(Composite parent) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
         gridLayout.verticalSpacing = 10;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.heightHint = HEIGHT;
 
-        Composite composite = new Composite(parent, SWT.BORDER);
+        final Composite composite = new Composite(parent, SWT.BORDER);
         composite.setLayoutData(gridData);
         composite.setLayout(gridLayout);
         createGroup(composite);
@@ -121,7 +98,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
         this.addToGlobalGroupButton = new Button(composite, SWT.NONE);
         this.addToGlobalGroupButton.setText(DisplayMessages.getMessage("label.button.add.to.global.group"));
 
-        GridData gridData3 = new GridData();
+        final GridData gridData3 = new GridData();
         gridData3.horizontalSpan = 3;
         this.addToGlobalGroupButton.setLayoutData(gridData3);
 
@@ -132,149 +109,98 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
         setButtonEnabled(false);
     }
 
-    /**
-     * This method initializes composite1
-     * 
-     */
     private void createGroupDetailComposite(Composite parent) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
-
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.heightHint = HEIGHT;
-
-        Composite composite = new Composite(parent, SWT.BORDER);
+        final Composite composite = new Composite(parent, SWT.BORDER);
         composite.setLayout(gridLayout);
         composite.setLayoutData(gridData);
-
         this.groupNameText = CompositeFactory.createText(this, composite, "label.group.name", 1, 200, true);
-
-        GroupColumnDialog columnDialog = new GroupColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
-
+        final GroupColumnDialog columnDialog =
+                new GroupColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
         this.tableComposite = new ERTableComposite(this, composite, this.diagram, null, null, columnDialog, this, 2, true, true);
-
         createComposite3(composite);
     }
 
-    /**
-     * This method initializes group
-     * 
-     */
     private void createGroup(Composite parent) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
 
-        GridData gridData1 = new GridData();
+        final GridData gridData1 = new GridData();
         gridData1.horizontalSpan = 3;
 
-        GridData gridData2 = new GridData();
+        final GridData gridData2 = new GridData();
         gridData2.widthHint = 200;
         gridData2.horizontalSpan = 3;
         gridData2.heightHint = GROUP_LIST_HEIGHT;
 
-        Group group = new Group(parent, SWT.NONE);
+        final Group group = new Group(parent, SWT.NONE);
         group.setText(DisplayMessages.getMessage("label.group.list"));
         group.setLayoutData(gridData1);
         group.setLayout(gridLayout);
-
-        this.groupList = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.V_SCROLL);
-        this.groupList.setLayoutData(gridData2);
-
-        this.initGroupList();
+        groupList = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.V_SCROLL);
+        groupList.setLayoutData(gridData2);
+        initGroupList();
     }
 
     private void initGroupList() {
-        Collections.sort(this.copyGroups);
-
-        this.groupList.removeAll();
-        for (ColumnGroup columnGroup : this.copyGroups) {
+        Collections.sort(copyGroups);
+        groupList.removeAll();
+        for (final ColumnGroup columnGroup : copyGroups) {
             this.groupList.add(columnGroup.getGroupName());
         }
     }
 
     @SuppressWarnings("unchecked")
     private void initColumnGroup() {
-        String text = this.copyData.getGroupName();
-
+        String text = copyData.getGroupName();
         if (text == null) {
             text = "";
         }
-
         this.groupNameText.setText(text);
-
-        this.tableComposite.setColumnList((List) this.copyData.getColumns());
+        @SuppressWarnings("rawtypes")
+        final List columns = copyData.getColumns(); // to avoid generic headache
+        this.tableComposite.setColumnList(columns);
     }
 
     private void setGroupEditEnabled(boolean enabled) {
         this.tableComposite.setEnabled(enabled);
-
         this.groupUpdateButton.setEnabled(enabled);
         this.groupCancelButton.setEnabled(enabled);
         this.groupNameText.setEnabled(enabled);
-
         this.groupList.setEnabled(!enabled);
-
         this.groupAddButton.setEnabled(!enabled);
         if (this.groupList.getSelectionIndex() != -1 && !enabled) {
             this.setButtonEnabled(true);
-
         } else {
             this.setButtonEnabled(false);
         }
-
         if (enabled) {
             this.groupNameText.setFocus();
         } else {
             this.groupList.setFocus();
         }
-
         this.enabledButton(!enabled);
     }
 
     private void createComposite3(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
-
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
-
-        Composite composite = new Composite(parent, SWT.NONE);
+        final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(gridLayout);
         composite.setLayoutData(gridData);
-
-        GridData gridData1 = new GridData();
+        final GridData gridData1 = new GridData();
         gridData1.widthHint = 80;
-
         this.groupUpdateButton = new Button(composite, SWT.NONE);
         this.groupUpdateButton.setText(DisplayMessages.getMessage("label.button.update"));
         this.groupUpdateButton.setLayoutData(gridData1);
-
         this.groupCancelButton = new Button(composite, SWT.NONE);
         this.groupCancelButton.setText(DisplayMessages.getMessage("label.button.cancel"));
         this.groupCancelButton.setLayoutData(gridData1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String doValidate() {
-        if (this.groupNameText.getEnabled()) {
-            String text = this.groupNameText.getText().trim();
-
-            if (text.equals("")) {
-                return "error.group.name.empty";
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void performOK() {
     }
 
     @Override
@@ -289,15 +215,13 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
     protected void setData() {
         if (this.editTargetIndex != -1) {
             this.groupList.setSelection(editTargetIndex);
-
-            this.copyData = new CopyGroup(copyGroups.get(editTargetIndex));
+            this.copyData = new CopyColumnGroup(copyGroups.get(editTargetIndex));
             this.initColumnGroup();
-
             this.setGroupEditEnabled(true);
         }
     }
 
-    public List<CopyGroup> getCopyColumnGroups() {
+    public List<CopyColumnGroup> getCopyColumnGroups() {
         return copyGroups;
     }
 
@@ -307,137 +231,88 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
         this.addToGlobalGroupButton.setEnabled(enabled);
     }
 
+    @Override
     public void selectGroup(ColumnGroup selectedColumn) {
         // do nothing
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addListener() {
         super.addListener();
-
         this.groupAddButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 editTargetIndex = -1;
-
-                copyData = new CopyGroup(new ColumnGroup());
+                copyData = new CopyColumnGroup(new ColumnGroup());
                 initColumnGroup();
                 setGroupEditEnabled(true);
             }
         });
-
         this.groupEditButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 editTargetIndex = groupList.getSelectionIndex();
                 if (editTargetIndex == -1) {
                     return;
                 }
-
                 setGroupEditEnabled(true);
             }
         });
-
         this.groupDeleteButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 editTargetIndex = groupList.getSelectionIndex();
                 if (editTargetIndex == -1) {
                     return;
                 }
-
                 copyGroups.remove(editTargetIndex);
-
                 initGroupList();
-
                 if (copyGroups.size() == 0) {
                     editTargetIndex = -1;
-
                 } else if (editTargetIndex >= copyGroups.size()) {
                     editTargetIndex = copyGroups.size() - 1;
                 }
-
                 if (editTargetIndex != -1) {
                     groupList.setSelection(editTargetIndex);
-                    copyData = new CopyGroup(copyGroups.get(editTargetIndex));
+                    copyData = new CopyColumnGroup(copyGroups.get(editTargetIndex));
                     initColumnGroup();
-
                 } else {
-                    copyData = new CopyGroup(new ColumnGroup());
+                    copyData = new CopyColumnGroup(new ColumnGroup());
                     initColumnGroup();
                     setButtonEnabled(false);
                 }
-
             }
         });
-
         this.addToGlobalGroupButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 editTargetIndex = groupList.getSelectionIndex();
                 if (editTargetIndex == -1) {
                     return;
                 }
-
-                MessageBox messageBox =
-                        new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK
-                                | SWT.CANCEL);
+                final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                final MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
                 messageBox.setText(DisplayMessages.getMessage("label.button.add.to.global.group"));
                 messageBox.setMessage(DisplayMessages.getMessage("dialog.message.add.to.global.group"));
-
                 if (messageBox.open() == SWT.OK) {
-                    CopyGroup columnGroup = copyGroups.get(editTargetIndex);
-
-                    ColumnGroupSet columnGroups = GlobalGroupSet.load();
-
+                    final CopyColumnGroup columnGroup = copyGroups.get(editTargetIndex);
+                    final ColumnGroupSet columnGroups = GlobalColumnGroupSet.load();
                     columnGroups.add(columnGroup);
-
-                    GlobalGroupSet.save(columnGroups);
+                    GlobalColumnGroupSet.save(columnGroups);
                 }
-
             }
         });
-
         this.groupList.addMouseListener(new MouseAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void mouseDoubleClick(MouseEvent e) {
                 editTargetIndex = groupList.getSelectionIndex();
                 if (editTargetIndex == -1) {
                     return;
                 }
-
                 setGroupEditEnabled(true);
             }
         });
-
         this.groupList.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
@@ -445,75 +320,84 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
                     if (editTargetIndex == -1) {
                         return;
                     }
-                    copyData = new CopyGroup(copyGroups.get(editTargetIndex));
+                    copyData = new CopyColumnGroup(copyGroups.get(editTargetIndex));
                     initColumnGroup();
                     setButtonEnabled(true);
-
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     Activator.showExceptionDialog(ex);
                 }
             }
         });
-
         this.groupUpdateButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
                     if (validate()) {
-                        String text = groupNameText.getText().trim();
+                        final String text = groupNameText.getText().trim();
                         copyData.setGroupName(text);
-
                         if (editTargetIndex == -1) {
                             copyGroups.add(copyData);
-
                         } else {
                             copyGroups.remove(editTargetIndex);
-                            copyData = (CopyGroup) copyData.restructure(null);
-
+                            copyData = (CopyColumnGroup) copyData.restructure(null);
                             copyGroups.add(editTargetIndex, copyData);
                         }
-
                         setGroupEditEnabled(false);
                         initGroupList();
-
                         for (int i = 0; i < copyGroups.size(); i++) {
-                            ColumnGroup columnGroup = copyGroups.get(i);
-
+                            final ColumnGroup columnGroup = copyGroups.get(i);
                             if (columnGroup == copyData) {
                                 groupList.setSelection(i);
-                                copyData = new CopyGroup(copyGroups.get(i));
+                                copyData = new CopyColumnGroup(copyGroups.get(i));
                                 initColumnGroup();
                                 setButtonEnabled(true);
                                 break;
                             }
-
                         }
                     }
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     Activator.showExceptionDialog(ex);
                 }
             }
-
         });
-
         this.groupCancelButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 setGroupEditEnabled(false);
                 if (editTargetIndex != -1) {
-                    copyData = new CopyGroup(copyGroups.get(editTargetIndex));
+                    copyData = new CopyColumnGroup(copyGroups.get(editTargetIndex));
                     initColumnGroup();
                 }
             }
         });
     }
 
+    // ===================================================================================
+    //                                                                          Validation
+    //                                                                          ==========
+    @Override
+    protected String doValidate() {
+        if (groupNameText.getEnabled()) {
+            final String groupName = groupNameText.getText().trim();
+            if (groupName.equals("")) {
+                return "error.group.name.empty";
+            }
+            if (copyGroups != null) { // just in case
+                for (final CopyColumnGroup existingGroup : copyGroups) {
+                    final String existingName = existingGroup.getGroupName();
+                    if (existingName.equalsIgnoreCase(groupName)) {
+                        return "The column group name already exists: " + groupName; // #for_erflute
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
+    @Override
+    protected void performOK() {
+    }
 }

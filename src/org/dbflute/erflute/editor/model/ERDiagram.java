@@ -16,7 +16,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalColumnGroupSet;
 import org.dbflute.erflute.editor.model.settings.DBSetting;
 import org.dbflute.erflute.editor.model.settings.PageSetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
@@ -73,7 +73,7 @@ public class ERDiagram extends ViewableModel {
     //                                                                          Initialize
     //                                                                          ==========
     public void init() {
-        diagramContents.setColumnGroupSet(GlobalGroupSet.load());
+        diagramContents.setColumnGroupSet(GlobalColumnGroupSet.load());
         final Settings settings = getDiagramContents().getSettings();
         settings.getModelProperties().init();
     }

@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.not_element.group.ChangeColumnGroupCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
 import org.eclipse.gef.commands.Command;
@@ -30,7 +30,7 @@ public class ColumnGroupManageAction extends AbstractBaseAction {
         final ColumnGroupManageDialog dialog =
                 new ColumnGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, diagram, false, -1);
         if (dialog.open() == IDialogConstants.OK_ID) {
-            final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
+            final List<CopyColumnGroup> newColumnGroups = dialog.getCopyColumnGroups();
             final Command command = new ChangeColumnGroupCommand(diagram, groupSet, newColumnGroups);
             execute(command);
         }

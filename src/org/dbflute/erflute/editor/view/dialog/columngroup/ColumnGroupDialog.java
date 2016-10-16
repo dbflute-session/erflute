@@ -7,7 +7,7 @@ import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.column.real.GroupColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
@@ -21,21 +21,21 @@ public class ColumnGroupDialog extends AbstractDialog implements ERTableComposit
 
     private Text groupNameText;
 
-    private List<CopyGroup> copyColumnGroups;
+    private List<CopyColumnGroup> copyColumnGroups;
 
     private int editTargetIndex = -1;
 
-    private CopyGroup copyData;
+    private CopyColumnGroup copyData;
 
     private ERDiagram diagram;
 
     public ColumnGroupDialog(Shell parentShell, ColumnGroupSet columnGroups, ERDiagram diagram, int editTargetIndex) {
         super(parentShell, 2);
 
-        this.copyColumnGroups = new ArrayList<CopyGroup>();
+        this.copyColumnGroups = new ArrayList<CopyColumnGroup>();
 
         for (ColumnGroup columnGroup : columnGroups) {
-            this.copyColumnGroups.add(new CopyGroup(columnGroup));
+            this.copyColumnGroups.add(new CopyColumnGroup(columnGroup));
         }
 
         this.diagram = diagram;
@@ -103,7 +103,7 @@ public class ColumnGroupDialog extends AbstractDialog implements ERTableComposit
         }
     }
 
-    public List<CopyGroup> getCopyColumnGroups() {
+    public List<CopyColumnGroup> getCopyColumnGroups() {
         return copyColumnGroups;
     }
 

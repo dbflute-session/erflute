@@ -13,33 +13,33 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 
 public class ChangeColumnGroupCommand extends AbstractCommand {
 
     private ColumnGroupSet groupSet;
 
-    private List<CopyGroup> oldCopyGroups;
+    private List<CopyColumnGroup> oldCopyGroups;
 
-    private List<CopyGroup> newGroups;
+    private List<CopyColumnGroup> newGroups;
 
     private Map<TableView, List<ERColumn>> oldColumnListMap;
 
     private ERDiagram diagram;
 
-    public ChangeColumnGroupCommand(ERDiagram diagram, ColumnGroupSet groupSet, List<CopyGroup> newGroups) {
+    public ChangeColumnGroupCommand(ERDiagram diagram, ColumnGroupSet groupSet, List<CopyColumnGroup> newGroups) {
         this.diagram = diagram;
 
         this.groupSet = groupSet;
 
         this.newGroups = newGroups;
 
-        this.oldCopyGroups = new ArrayList<CopyGroup>();
+        this.oldCopyGroups = new ArrayList<CopyColumnGroup>();
         this.oldColumnListMap = new HashMap<TableView, List<ERColumn>>();
 
         for (ColumnGroup columnGroup : groupSet) {
-            CopyGroup oldCopyGroup = new CopyGroup(columnGroup);
+            CopyColumnGroup oldCopyGroup = new CopyColumnGroup(columnGroup);
             this.oldCopyGroups.add(oldCopyGroup);
         }
 
@@ -55,13 +55,13 @@ public class ChangeColumnGroupCommand extends AbstractCommand {
         this.groupSet.clear();
         this.oldColumnListMap.clear();
 
-        for (CopyGroup oldCopyColumnGroup : oldCopyGroups) {
+        for (CopyColumnGroup oldCopyColumnGroup : oldCopyGroups) {
             for (NormalColumn column : oldCopyColumnGroup.getColumns()) {
                 diagram.getDiagramContents().getDictionary().remove(((CopyColumn) column).getOriginalColumn());
             }
         }
 
-        for (CopyGroup newCopyColumnGroup : newGroups) {
+        for (CopyColumnGroup newCopyColumnGroup : newGroups) {
             this.groupSet.add(newCopyColumnGroup.restructure(diagram));
         }
 
@@ -94,13 +94,13 @@ public class ChangeColumnGroupCommand extends AbstractCommand {
 
         this.groupSet.clear();
 
-        for (CopyGroup newCopyColumnGroup : newGroups) {
+        for (CopyColumnGroup newCopyColumnGroup : newGroups) {
             for (NormalColumn column : newCopyColumnGroup.getColumns()) {
                 diagram.getDiagramContents().getDictionary().remove(((CopyColumn) column).getOriginalColumn());
             }
         }
 
-        for (CopyGroup copyGroup : oldCopyGroups) {
+        for (CopyColumnGroup copyGroup : oldCopyGroups) {
             ColumnGroup group = copyGroup.restructure(diagram);
             this.groupSet.add(group);
         }

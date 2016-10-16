@@ -33,10 +33,19 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class RelationshipByExistingColumnsDialog extends AbstractDialog {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     private static final int COLUMN_WIDTH = 200;
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private Combo columnCombo;
     private Table comparisonTable;
     private final ERTable source;
@@ -52,62 +61,51 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     private final Map<TableEditor, List<NormalColumn>> editorReferencedMap;
     private final Map<Relationship, Set<NormalColumn>> foreignKeySetMap;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public RelationshipByExistingColumnsDialog(Shell parentShell, ERTable source, List<NormalColumn> candidateForeignKeyColumns,
             Map<NormalColumn, List<NormalColumn>> referencedMap, Map<Relationship, Set<NormalColumn>> foreignKeySetMap) {
         super(parentShell, 2);
-
         this.source = source;
         this.referencedColumnList = new ArrayList<NormalColumn>();
         this.foreignKeyColumnList = new ArrayList<NormalColumn>();
-
         this.candidateForeignKeyColumns = candidateForeignKeyColumns;
         this.referencedMap = referencedMap;
         this.foreignKeySetMap = foreignKeySetMap;
-
         this.tableEditorList = new ArrayList<TableEditor>();
         this.editorReferencedMap = new HashMap<TableEditor, List<NormalColumn>>();
     }
 
+    // ===================================================================================
+    //                                                                          Initialize
+    //                                                                          ==========
     @Override
     protected void initLayout(GridLayout layout) {
         super.initLayout(layout);
-
         layout.verticalSpacing = 20;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initialize(Composite composite) {
         final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
-
         final Label label = new Label(composite, SWT.NONE);
         label.setLayoutData(gridData);
         label.setText(DisplayMessages.getMessage("dialog.message.create.relation.by.existing.columns"));
-
-        this.createColumnCombo(composite);
-
-        this.createComparisonTable(composite);
+        createColumnCombo(composite);
+        createComparisonTable(composite);
     }
 
-    /**
-     * This method initializes combo
-     * 
-     */
     private void createColumnCombo(Composite composite) {
         final Label label = new Label(composite, SWT.NONE);
         label.setText(DisplayMessages.getMessage("label.reference.column"));
-
         final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
-
-        this.columnCombo = new Combo(composite, SWT.READ_ONLY);
-        this.columnCombo.setLayoutData(gridData);
-
-        this.columnCombo.setVisibleItemCount(20);
+        columnCombo = new Combo(composite, SWT.READ_ONLY);
+        columnCombo.setLayoutData(gridData);
+        columnCombo.setVisibleItemCount(20);
     }
 
     private void createComparisonTable(Composite composite) {
@@ -141,32 +139,6 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         this.columnCombo.select(0);
 
         this.createComparisonTableRows();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void performOK() {
-        final int index = this.columnCombo.getSelectionIndex();
-
-        if (index < this.columnComboInfo.complexUniqueKeyStartIndex) {
-            this.referenceForPK = true;
-
-        } else if (index < this.columnComboInfo.columnStartIndex) {
-            final ComplexUniqueKey complexUniqueKey =
-                    this.source.getComplexUniqueKeyList().get(index - this.columnComboInfo.complexUniqueKeyStartIndex);
-
-            this.referencedComplexUniqueKey = complexUniqueKey;
-
-        } else {
-            this.referencedColumn = this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
-        }
-
-        for (final TableEditor tableEditor : this.tableEditorList) {
-            final NormalColumn foreignKeyColumn = this.getSelectedColumn(tableEditor);
-            this.foreignKeyColumnList.add(foreignKeyColumn);
-        }
     }
 
     private NormalColumn getSelectedColumn(TableEditor tableEditor) {
@@ -314,30 +286,24 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
 
     protected Combo createForeignKeyCombo(List<NormalColumn> foreignKeyList) {
         final Combo foreignKeyCombo = CompositeFactory.createReadOnlyCombo(this, this.comparisonTable, null);
-
         foreignKeyCombo.add("");
-
         if (foreignKeyList != null) {
             for (final NormalColumn normalColumn : foreignKeyList) {
                 foreignKeyCombo.add(Format.toString(normalColumn.getName()));
             }
         }
-
         for (final NormalColumn normalColumn : this.candidateForeignKeyColumns) {
             foreignKeyCombo.add(Format.toString(normalColumn.getName()));
         }
-
         if (foreignKeyCombo.getItemCount() > 0) {
             foreignKeyCombo.select(0);
         }
-
         return foreignKeyCombo;
     }
 
     @Override
     public boolean close() {
-        this.disposeTableEditor();
-
+        disposeTableEditor();
         return super.close();
     }
 
@@ -351,6 +317,35 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         this.editorReferencedMap.clear();
     }
 
+    @Override
+    protected String getTitle() {
+        return "dialog.title.relation";
+    }
+
+    // ===================================================================================
+    //                                                                          Perform OK
+    //                                                                          ==========
+    @Override
+    protected void performOK() {
+        final int index = columnCombo.getSelectionIndex();
+        if (index < columnComboInfo.complexUniqueKeyStartIndex) {
+            referenceForPK = true;
+        } else if (index < columnComboInfo.columnStartIndex) {
+            final ComplexUniqueKey complexUniqueKey =
+                    source.getComplexUniqueKeyList().get(index - columnComboInfo.complexUniqueKeyStartIndex);
+            referencedComplexUniqueKey = complexUniqueKey;
+        } else {
+            referencedColumn = columnComboInfo.candidateColumns.get(index - columnComboInfo.columnStartIndex);
+        }
+        for (final TableEditor tableEditor : tableEditorList) {
+            final NormalColumn foreignKeyColumn = getSelectedColumn(tableEditor);
+            foreignKeyColumnList.add(foreignKeyColumn);
+        }
+    }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public List<NormalColumn> getReferencedColumnList() {
         return referencedColumnList;
     }
@@ -369,10 +364,5 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
 
     public NormalColumn getReferencedColumn() {
         return this.referencedColumn;
-    }
-
-    @Override
-    protected String getTitle() {
-        return "dialog.title.relation";
     }
 }

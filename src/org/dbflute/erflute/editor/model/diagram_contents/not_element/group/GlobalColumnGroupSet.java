@@ -13,53 +13,50 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.DialogSettings;
 import org.eclipse.jface.dialogs.IDialogSettings;
 
-public class GlobalGroupSet {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public class GlobalColumnGroupSet {
 
     private static final String COLUMN_GOURP_SETTINGS_FILENAME = "column_group.xml"; //$NON-NLS-1$
 
     public static ColumnGroupSet load() {
-        ColumnGroupSet columnGroups = new ColumnGroupSet();
-
+        final ColumnGroupSet columnGroups = new ColumnGroupSet();
         try {
-            IDialogSettings settings = new DialogSettings("column_group_list");
+            final IDialogSettings settings = new DialogSettings("column_group_list");
             String database = settings.get("database");
             if (database == null) {
                 database = DBManagerFactory.getAllDBList().get(0);
             }
             columnGroups.setDatabase(database);
-
-            String path = getPath();
-            File columnGroupListFile = new File(path);
-
+            final String path = getPath();
+            final File columnGroupListFile = new File(path);
             if (columnGroupListFile.exists()) {
                 settings.load(path);
-
-                for (IDialogSettings columnGroupSection : settings.getSections()) {
-                    ColumnGroup columnGroup = new ColumnGroup();
-
+                for (final IDialogSettings columnGroupSection : settings.getSections()) {
+                    final ColumnGroup columnGroup = new ColumnGroup();
                     columnGroup.setGroupName(columnGroupSection.get("group_name"));
+                    for (final IDialogSettings columnSection : columnGroupSection.getSections()) {
+                        final String physicalName = columnSection.get("physical_name");
+                        final String logicalName = columnSection.get("logical_name");
+                        final SqlType sqlType = SqlType.valueOfId(columnSection.get("type"));
+                        final String defaultValue = columnSection.get("default_value");
+                        final String description = columnSection.get("description");
+                        final String constraint = columnSection.get("constraint");
+                        final boolean notNull = Boolean.valueOf(columnSection.get("not_null")).booleanValue();
+                        final boolean unique = Boolean.valueOf(columnSection.get("unique")).booleanValue();
+                        final Integer length = toInteger(columnSection.get("length"));
+                        final Integer decimal = toInteger(columnSection.get("decimal"));
+                        final boolean array = Boolean.valueOf(columnSection.get("array")).booleanValue();
+                        final Integer arrayDimension = toInteger(columnSection.get("array_dimension"));
+                        final boolean unsigned = Boolean.valueOf(columnSection.get("unsigned")).booleanValue();
+                        final String args = columnSection.get("args");
 
-                    for (IDialogSettings columnSection : columnGroupSection.getSections()) {
-                        String physicalName = columnSection.get("physical_name");
-                        String logicalName = columnSection.get("logical_name");
-                        SqlType sqlType = SqlType.valueOfId(columnSection.get("type"));
-                        String defaultValue = columnSection.get("default_value");
-                        String description = columnSection.get("description");
-                        String constraint = columnSection.get("constraint");
-                        boolean notNull = Boolean.valueOf(columnSection.get("not_null")).booleanValue();
-                        boolean unique = Boolean.valueOf(columnSection.get("unique")).booleanValue();
-                        Integer length = toInteger(columnSection.get("length"));
-                        Integer decimal = toInteger(columnSection.get("decimal"));
-                        boolean array = Boolean.valueOf(columnSection.get("array")).booleanValue();
-                        Integer arrayDimension = toInteger(columnSection.get("array_dimension"));
-                        boolean unsigned = Boolean.valueOf(columnSection.get("unsigned")).booleanValue();
-                        String args = columnSection.get("args");
+                        final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
 
-                        TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
+                        final Word word = new Word(physicalName, logicalName, sqlType, typeData, description, database);
 
-                        Word word = new Word(physicalName, logicalName, sqlType, typeData, description, database);
-
-                        NormalColumn column =
+                        final NormalColumn column =
                                 new NormalColumn(word, notNull, false, unique, false, defaultValue, constraint, null, null, null);
 
                         columnGroup.addColumn(column);
@@ -68,7 +65,7 @@ public class GlobalGroupSet {
                     columnGroups.add(columnGroup);
                 }
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             Activator.showExceptionDialog(e);
         }
 
@@ -77,22 +74,22 @@ public class GlobalGroupSet {
 
     public static void save(ColumnGroupSet columnGroups) {
         try {
-            IDialogSettings settings = new DialogSettings("column_group_list");
+            final IDialogSettings settings = new DialogSettings("column_group_list");
 
             settings.put("database", columnGroups.getDatabase());
 
             int index = 0;
 
-            for (ColumnGroup columnGroup : columnGroups) {
-                IDialogSettings columnGroupSection = new DialogSettings("column_group_" + index);
+            for (final ColumnGroup columnGroup : columnGroups) {
+                final IDialogSettings columnGroupSection = new DialogSettings("column_group_" + index);
                 index++;
 
                 columnGroupSection.put("group_name", columnGroup.getGroupName());
 
                 int columnIndex = 0;
 
-                for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                    IDialogSettings columnSection = new DialogSettings("column_" + columnIndex);
+                for (final NormalColumn normalColumn : columnGroup.getColumns()) {
+                    final IDialogSettings columnSection = new DialogSettings("column_" + columnIndex);
                     columnIndex++;
 
                     columnSection.put("physical_name", null2Blank(normalColumn.getPhysicalName()));
@@ -118,14 +115,14 @@ public class GlobalGroupSet {
 
             settings.save(getPath());
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             Activator.showExceptionDialog(e);
         }
     }
 
     private static String getPath() {
-        IPath dataLocation = Activator.getDefault().getStateLocation();
-        String path = dataLocation.append(COLUMN_GOURP_SETTINGS_FILENAME).toOSString();
+        final IPath dataLocation = Activator.getDefault().getStateLocation();
+        final String path = dataLocation.append(COLUMN_GOURP_SETTINGS_FILENAME).toOSString();
         return path;
     }
 
@@ -160,7 +157,7 @@ public class GlobalGroupSet {
 
         try {
             return Integer.valueOf(str);
-        } catch (NumberFormatException e) {}
+        } catch (final NumberFormatException e) {}
 
         return null;
     }

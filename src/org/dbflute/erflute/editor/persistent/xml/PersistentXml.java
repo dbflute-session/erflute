@@ -10,8 +10,8 @@ import java.util.Map;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -37,7 +37,7 @@ public class PersistentXml extends Persistent {
     public class PersistentContext {
         public final Map<DiagramWalker, String> walkerMap = new LinkedHashMap<DiagramWalker, String>();
         public final Map<WalkerConnection, String> connectionMap = new LinkedHashMap<WalkerConnection, String>();
-        public final Map<ColumnGroup, Integer> columnGroupMap = new LinkedHashMap<ColumnGroup, Integer>();
+        public final Map<ColumnGroup, String> columnGroupMap = new LinkedHashMap<ColumnGroup, String>(); // group = groupName
         public final Map<ERColumn, String> columnMap = new LinkedHashMap<ERColumn, String>(); // column = ID
         public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new LinkedHashMap<ComplexUniqueKey, Integer>();
         public final Map<Word, Integer> wordMap = new LinkedHashMap<Word, Integer>();
@@ -103,10 +103,8 @@ public class PersistentXml extends Persistent {
     }
 
     private void setupColumnGroup(DiagramContents diagramContents, final PersistentContext context) {
-        int columnGroupNo = 1;
         for (final ColumnGroup columnGroup : diagramContents.getColumnGroupSet()) {
-            context.columnGroupMap.put(columnGroup, columnGroupNo);
-            columnGroupNo++;
+            context.columnGroupMap.put(columnGroup, columnGroup.getGroupName()); // #for_erflute
             for (final NormalColumn normalColumn : columnGroup.getColumns()) {
                 context.columnMap.put(normalColumn, normalColumn.buildColumnIdAsGroup(columnGroup));
             }

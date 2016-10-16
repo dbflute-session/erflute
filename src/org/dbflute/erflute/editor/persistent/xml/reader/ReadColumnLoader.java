@@ -189,9 +189,9 @@ public class ReadColumnLoader {
                 columnGroup.addColumn((NormalColumn) column);
             }
             columnGroups.add(columnGroup);
-            String id = getStringValue(columnGroupElement, "id"); // migratino from ERMaster
+            String id = getStringValue(columnGroupElement, "id"); // migration from ERMaster
             if (Srl.is_Null_or_TrimmedEmpty(id)) {
-                id = getStringValue(columnGroupElement, "column_group_id"); // migratino from ERMaster
+                id = groupName; // #for_erflute column group name is unique by validator
             }
             context.columnGroupMap.put(id, columnGroup);
         }

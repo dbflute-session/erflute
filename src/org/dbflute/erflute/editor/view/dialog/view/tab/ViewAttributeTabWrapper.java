@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.column.ViewColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
@@ -233,7 +233,7 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
                 final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
                 final ColumnGroupManageDialog dialog = new ColumnGroupManageDialog(shell, groupSet, view.getDiagram(), false, -1);
                 if (dialog.open() == IDialogConstants.OK_ID) {
-                    final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
+                    final List<CopyColumnGroup> newColumnGroups = dialog.getCopyColumnGroups();
                     final Command command = new ChangeColumnGroupCommand(viewDialog.getDiagram(), groupSet, newColumnGroups);
                     viewDialog.getViewer().getEditDomain().getCommandStack().execute(command);
                     restructGroup();
