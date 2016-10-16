@@ -218,22 +218,18 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
         boolean referenceForPK = false;
         ComplexUniqueKey referencedComplexUniqueKey = null;
         NormalColumn referencedColumn = null;
-
-        if (this.getPrimaryKeySize() > 0) {
+        if (getPrimaryKeySize() > 0) {
             referenceForPK = true;
-
-        } else if (this.getComplexUniqueKeyList().size() > 0) {
-            referencedComplexUniqueKey = this.getComplexUniqueKeyList().get(0);
-
+        } else if (getComplexUniqueKeyList().size() > 0) {
+            referencedComplexUniqueKey = getComplexUniqueKeyList().get(0);
         } else {
-            for (final NormalColumn normalColumn : this.getNormalColumns()) {
+            for (final NormalColumn normalColumn : getNormalColumns()) {
                 if (normalColumn.isUniqueKey()) {
                     referencedColumn = normalColumn;
                     break;
                 }
             }
         }
-
         return new Relationship(referenceForPK, referencedComplexUniqueKey, referencedColumn);
     }
 

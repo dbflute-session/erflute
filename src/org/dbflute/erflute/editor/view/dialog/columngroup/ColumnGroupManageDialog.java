@@ -67,7 +67,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         createGroupListComposite(composite);
         createGroupDetailComposite(composite);
         setGroupEditEnabled(false);
@@ -212,7 +212,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         if (this.editTargetIndex != -1) {
             this.groupList.setSelection(editTargetIndex);
             this.copyData = new CopyColumnGroup(copyGroups.get(editTargetIndex));

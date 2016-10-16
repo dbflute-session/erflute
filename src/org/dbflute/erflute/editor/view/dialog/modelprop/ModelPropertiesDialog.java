@@ -57,7 +57,7 @@ public class ModelPropertiesDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.createTableComposite(composite);
         this.createButtonComposite(composite);
     }
@@ -319,7 +319,7 @@ public class ModelPropertiesDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         for (NameValue property : this.modelProperties.getProperties()) {
             TableItem item = new TableItem(table, SWT.NULL);
             item.setText(0, Format.null2blank(property.getName()));

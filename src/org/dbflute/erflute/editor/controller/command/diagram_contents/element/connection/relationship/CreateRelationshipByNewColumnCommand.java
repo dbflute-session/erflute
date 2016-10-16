@@ -15,12 +15,11 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
     private final Relationship relationship;
     private final List<NormalColumn> foreignKeyColumnList;
 
-    public CreateRelationshipByNewColumnCommand(Relationship relation) {
+    public CreateRelationshipByNewColumnCommand(Relationship relation) { // what? by jflute
         this(relation, null);
     }
 
     public CreateRelationshipByNewColumnCommand(Relationship relation, List<NormalColumn> foreignKeyColumnList) {
-        super();
         this.relationship = relation;
         this.foreignKeyColumnList = foreignKeyColumnList;
     }
@@ -34,8 +33,8 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
         ERDiagramEditPart.setUpdateable(true);
         relationship.setTargetTableView(targetTable, foreignKeyColumnList);
         if (relationship.getWalkerSource() instanceof ERTable || relationship.getWalkerTarget() instanceof ERTable) {
-            final ERVirtualDiagramSet modelSet = relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
-            modelSet.createRelation(relationship);
+            final ERVirtualDiagramSet vdiagramSet = relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+            vdiagramSet.createRelation(relationship);
         }
         final String foreignKeyName = provideDefaultForeignKeyName(sourceTable, targetTable);
         relationship.setForeignKeyName(foreignKeyName);

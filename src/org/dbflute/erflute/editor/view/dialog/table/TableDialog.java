@@ -55,7 +55,7 @@ public class TableDialog extends AbstractDialog {
     //                                                                          Initialize
     //                                                                          ==========
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         final GridData gridData = new GridData();
         gridData.grabExcessHorizontalSpace = true;
         gridData.grabExcessVerticalSpace = true;
@@ -148,7 +148,7 @@ public class TableDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
     }
 
     public EditPartViewer getViewer() {

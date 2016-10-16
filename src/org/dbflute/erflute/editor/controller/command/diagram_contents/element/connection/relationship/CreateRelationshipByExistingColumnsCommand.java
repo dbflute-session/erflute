@@ -19,6 +19,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipByExistingColumnsDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -32,7 +33,6 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     private final List<Word> wordList;
 
     public CreateRelationshipByExistingColumnsCommand() {
-        super();
         this.wordList = new ArrayList<Word>();
     }
 
@@ -56,7 +56,8 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             foreignKeyColumn.setWord(null);
         }
         if (this.relationship.getWalkerSource() instanceof ERTable || this.relationship.getWalkerTarget() instanceof ERTable) {
-            final ERVirtualDiagramSet modelSet = this.relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+            final ERVirtualDiagramSet modelSet =
+                    this.relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
             modelSet.createRelation(relationship);
         }
         targetTable.setDirty();
@@ -115,9 +116,9 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             Activator.showErrorDialog("error.no.candidate.of.foreign.key.exist");
             return false;
         }
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final RelationshipByExistingColumnsDialog dialog =
-                new RelationshipByExistingColumnsDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), sourceTable,
-                        candidateForeignKeyColumns, referencedMap, foreignKeySetMap);
+                new RelationshipByExistingColumnsDialog(shell, sourceTable, candidateForeignKeyColumns, referencedMap, foreignKeySetMap);
         if (dialog.open() == IDialogConstants.OK_ID) {
             this.relationship =
                     new Relationship(dialog.isReferenceForPK(), dialog.getReferencedComplexUniqueKey(), dialog.getReferencedColumn());

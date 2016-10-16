@@ -131,7 +131,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         CompositeFactory.createLabel(composite, "label.tablespace.size.calculate.1", 3);
 
         this.restoreDefaultButton1 = new Button(composite, SWT.NONE);
@@ -236,7 +236,7 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         for (ERTable table : this.tableList) {
             TableItem tableItem = new TableItem(this.tableTable, SWT.NONE);
             this.column2TableItem(table, this.tableNumMap.get(table), tableItem);

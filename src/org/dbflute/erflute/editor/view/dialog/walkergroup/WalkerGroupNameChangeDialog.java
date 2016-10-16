@@ -23,7 +23,7 @@ public class WalkerGroupNameChangeDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.categoryNameText = CompositeFactory.createText(this, composite, "Table Group Name", true);
     }
 
@@ -37,7 +37,7 @@ public class WalkerGroupNameChangeDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         this.categoryNameText.setText(this.walkerGroup.getName());
     }
 

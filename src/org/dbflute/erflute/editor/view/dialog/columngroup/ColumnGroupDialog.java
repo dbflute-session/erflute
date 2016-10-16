@@ -52,7 +52,7 @@ public class ColumnGroupDialog extends AbstractDialog implements ERTableComposit
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.groupNameText = CompositeFactory.createText(this, composite, "label.group.name", 1, 200, true);
 
         GroupColumnDialog columnDialog = new GroupColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
@@ -91,7 +91,7 @@ public class ColumnGroupDialog extends AbstractDialog implements ERTableComposit
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         if (this.editTargetIndex != -1) {
             String text = this.copyData.getGroupName();
 

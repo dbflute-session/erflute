@@ -104,7 +104,7 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite parent) {
+    protected void initComponent(Composite parent) {
         final GridData gridData = new GridData();
         gridData.widthHint = 200;
         this.environmentCombo = CompositeFactory.createReadOnlyCombo(this, parent, "label.tablespace.environment", 2, -1);
@@ -371,7 +371,7 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         final Settings settings = this.diagram.getDiagramContents().getSettings();
         for (final Environment environment : settings.getEnvironmentSetting().getEnvironments()) {
             this.environmentCombo.add(environment.getName());

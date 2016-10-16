@@ -62,8 +62,8 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite parent) {
-        super.initialize(parent);
+    protected void initComponent(Composite parent) {
+        super.initComponent(parent);
     }
 
     /**
@@ -165,8 +165,8 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void setData() {
-        super.setData();
+    protected void setupData() {
+        super.setupData();
 
         Settings settings = this.diagram.getDiagramContents().getSettings();
 

@@ -41,7 +41,7 @@ public class OptionSettingDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         GridData gridData = new GridData();
         gridData.grabExcessHorizontalSpace = true;
         gridData.grabExcessVerticalSpace = true;
@@ -88,7 +88,7 @@ public class OptionSettingDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
     }
 
     public void initTab() {

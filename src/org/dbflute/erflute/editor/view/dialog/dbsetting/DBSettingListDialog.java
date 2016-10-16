@@ -41,7 +41,7 @@ public class DBSettingListDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         GridData gridData = new GridData();
         gridData.heightHint = 150;
 
@@ -128,7 +128,7 @@ public class DBSettingListDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         this.dbSettingList = PreferenceInitializer.getDBSettingList(this.database);
 
         for (DBSetting dbSetting : this.dbSettingList) {

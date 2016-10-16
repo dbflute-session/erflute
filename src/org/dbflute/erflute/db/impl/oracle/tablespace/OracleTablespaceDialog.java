@@ -55,8 +55,8 @@ public class OracleTablespaceDialog extends TablespaceDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
-        super.initialize(composite);
+    protected void initComponent(Composite composite) {
+        super.initComponent(composite);
 
         this.dataFile = CompositeFactory.createText(this, composite, "label.tablespace.data.file", 1, 200, false);
         this.fileSize = CompositeFactory.createText(this, composite, "label.size", 1, NUM_TEXT_WIDTH, false);

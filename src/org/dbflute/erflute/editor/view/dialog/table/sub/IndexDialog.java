@@ -70,7 +70,7 @@ public class IndexDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.createComposite(composite);
         this.createComposite1(composite);
         this.initializeAllList();
@@ -260,7 +260,7 @@ public class IndexDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void setData() {
+    protected void setupData() {
         if (this.targetIndex != null && !add) {
             this.tableText.setText(Format.null2blank(this.targetIndex.getTable().getPhysicalName()));
 

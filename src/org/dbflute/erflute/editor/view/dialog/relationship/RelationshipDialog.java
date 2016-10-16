@@ -39,16 +39,16 @@ public class RelationshipDialog extends AbstractDialog {
     private Combo childCardinalityCombo;
     private Combo onUpdateCombo;
     private Combo onDeleteCombo;
-    private ColumnComboInfo columnComboInfo;
+    private RelationshipColumnState relationshipColumnState;
 
-    public static class ColumnComboInfo {
+    public static class RelationshipColumnState {
         public List<NormalColumn> candidateColumns;
         public int complexUniqueKeyStartIndex;
         public int columnStartIndex;
         public boolean candidatePK;
 
-        public ColumnComboInfo() {
-            this.candidateColumns = new ArrayList<NormalColumn>();
+        public RelationshipColumnState() {
+            candidateColumns = new ArrayList<NormalColumn>();
         }
     }
 
@@ -59,7 +59,7 @@ public class RelationshipDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         CompositeFactory.createLabel(composite, "label.constraint.name", 2);
         this.foreignKeyNameText = CompositeFactory.createText(this, composite, null, 2, false);
         createMethodGroup(composite);
@@ -183,14 +183,14 @@ public class RelationshipDialog extends AbstractDialog {
         final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
-        this.columnCombo = new Combo(parent, SWT.READ_ONLY);
-        this.columnCombo.setLayoutData(gridData);
-        this.columnCombo.setVisibleItemCount(20);
-        this.columnComboInfo = setReferencedColumnComboData(this.columnCombo, (ERTable) relationship.getSourceTableView());
+        columnCombo = new Combo(parent, SWT.READ_ONLY);
+        columnCombo.setLayoutData(gridData);
+        columnCombo.setVisibleItemCount(20);
+        relationshipColumnState = setReferencedColumnComboData(columnCombo, (ERTable) relationship.getSourceTableView());
     }
 
-    public static ColumnComboInfo setReferencedColumnComboData(Combo columnCombo, ERTable table) {
-        final ColumnComboInfo info = new ColumnComboInfo();
+    public static RelationshipColumnState setReferencedColumnComboData(Combo columnCombo, ERTable table) {
+        final RelationshipColumnState info = new RelationshipColumnState();
         final int primaryKeySize = table.getPrimaryKeySize();
         if (primaryKeySize != 0) {
             columnCombo.add("PRIMARY KEY");
@@ -258,7 +258,7 @@ public class RelationshipDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         final ERTable sourceTable = (ERTable) this.relationship.getSourceTableView();
         this.foreignKeyNameText.setText(Format.null2blank(this.relationship.getForeignKeyName()));
         if (this.relationship.getOnUpdateAction() != null) {
@@ -282,14 +282,14 @@ public class RelationshipDialog extends AbstractDialog {
         } else if (this.relationship.getReferencedComplexUniqueKey() != null) {
             for (int i = 0; i < sourceTable.getComplexUniqueKeyList().size(); i++) {
                 if (sourceTable.getComplexUniqueKeyList().get(i) == this.relationship.getReferencedComplexUniqueKey()) {
-                    this.columnCombo.select(i + this.columnComboInfo.complexUniqueKeyStartIndex);
+                    this.columnCombo.select(i + this.relationshipColumnState.complexUniqueKeyStartIndex);
                     break;
                 }
             }
         } else {
-            for (int i = 0; i < this.columnComboInfo.candidateColumns.size(); i++) {
-                if (this.columnComboInfo.candidateColumns.get(i) == this.relationship.getReferencedColumn()) {
-                    this.columnCombo.select(i + this.columnComboInfo.columnStartIndex);
+            for (int i = 0; i < this.relationshipColumnState.candidateColumns.size(); i++) {
+                if (this.relationshipColumnState.candidateColumns.get(i) == this.relationship.getReferencedColumn()) {
+                    this.columnCombo.select(i + this.relationshipColumnState.columnStartIndex);
                     break;
                 }
             }
@@ -341,19 +341,19 @@ public class RelationshipDialog extends AbstractDialog {
         this.relationship.setChildCardinality(this.childCardinalityCombo.getText());
         this.relationship.setParentCardinality(this.parentCardinalityCombo.getText());
         final int index = this.columnCombo.getSelectionIndex();
-        if (index < this.columnComboInfo.complexUniqueKeyStartIndex) {
+        if (index < this.relationshipColumnState.complexUniqueKeyStartIndex) {
             this.relationship.setReferenceForPK(true);
             this.relationship.setReferencedComplexUniqueKey(null);
             this.relationship.setReferencedColumn(null);
-        } else if (index < this.columnComboInfo.columnStartIndex) {
+        } else if (index < this.relationshipColumnState.columnStartIndex) {
             final ComplexUniqueKey complexUniqueKey =
                     ((ERTable) this.relationship.getSourceTableView()).getComplexUniqueKeyList().get(
-                            index - this.columnComboInfo.complexUniqueKeyStartIndex);
+                            index - this.relationshipColumnState.complexUniqueKeyStartIndex);
             this.relationship.setReferenceForPK(false);
             this.relationship.setReferencedComplexUniqueKey(complexUniqueKey);
             this.relationship.setReferencedColumn(null);
         } else {
-            final NormalColumn sourceColumn = this.columnComboInfo.candidateColumns.get(index - this.columnComboInfo.columnStartIndex);
+            final NormalColumn sourceColumn = this.relationshipColumnState.candidateColumns.get(index - this.relationshipColumnState.columnStartIndex);
             this.relationship.setReferenceForPK(false);
             this.relationship.setReferencedComplexUniqueKey(null);
             this.relationship.setReferencedColumn(sourceColumn);

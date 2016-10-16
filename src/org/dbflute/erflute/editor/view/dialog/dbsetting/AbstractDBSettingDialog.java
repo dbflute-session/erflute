@@ -65,7 +65,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite parent) {
+    protected void initComponent(Composite parent) {
         Composite group = new Composite(parent, SWT.NONE);
         GridLayout layout = new GridLayout();
         layout.numColumns = 2;
@@ -229,7 +229,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void setData() {
+    protected void setupData() {
         if (this.dbSetting != null) {
             String database = this.dbSetting.getDbsystem();
             this.dbList.setText(database);
@@ -375,7 +375,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
 
                     if (dialog.open() == IDialogConstants.OK_ID) {
                         dbSetting = dialog.getResult();
-                        setData();
+                        setupData();
                     }
 
                 } catch (Exception ex) {

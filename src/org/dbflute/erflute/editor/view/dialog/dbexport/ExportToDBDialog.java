@@ -36,7 +36,7 @@ public class ExportToDBDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.textArea = CompositeFactory.createTextArea(null, composite, "dialog.message.export.db.sql", 600, 400, 1, false, false);
     }
 
@@ -124,7 +124,7 @@ public class ExportToDBDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         this.textArea.setText(this.ddl);
     }
 

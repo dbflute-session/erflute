@@ -34,7 +34,7 @@ public class InsertedImageDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.hueSpinner = CompositeFactory.createSpinnerWithScale(this, composite, "label.image.hue", "", 0, 360);
         // this.hueScale.setPageIncrement(10);
 
@@ -83,7 +83,7 @@ public class InsertedImageDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         this.hueSpinner.setSelection(this.insertedImage.getHue());
         this.saturationSpinner.setSelection(this.insertedImage.getSaturation());
         this.brightnessSpinner.setSelection(this.insertedImage.getBrightness());

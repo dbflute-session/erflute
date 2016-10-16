@@ -47,7 +47,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         final Composite rootComposite = this.createRootComposite(composite);
         initializeComposite(rootComposite);
         physicalNameText.setFocus();
@@ -109,7 +109,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     //                                                                            Set Data
     //                                                                            ========
     @Override
-    protected final void setData() {
+    protected final void setupData() {
         initializeTypeCombo();
         if (!add) {
             setWordData();

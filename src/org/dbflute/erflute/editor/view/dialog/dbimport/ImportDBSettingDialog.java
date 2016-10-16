@@ -22,8 +22,8 @@ public class ImportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite parent) {
-        super.initialize(parent);
+    protected void initComponent(Composite parent) {
+        super.initComponent(parent);
         this.dbSetting = PreferenceInitializer.getDBSetting(0);
     }
 

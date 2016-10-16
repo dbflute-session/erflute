@@ -59,7 +59,7 @@ public class PageSettingDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite parent) {
+    protected void initComponent(Composite parent) {
         parent.setBackground(ColorConstants.white);
         GridLayout layout = new GridLayout();
         layout.numColumns = 1;
@@ -245,7 +245,7 @@ public class PageSettingDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         if (this.pageSetting.isDirectionHorizontal()) {
             this.hButton.setSelection(true);
         } else {
