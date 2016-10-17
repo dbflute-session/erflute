@@ -175,13 +175,6 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         referredColumnSelector.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                // TODO jflute making automatically creating column (2016/10/16)
-                //final ERTable sourceTable = (ERTable) source.getModel(); // e.g. MEMBER_STATUS
-                //final Relationship temp = sourceTable.createRelation();
-                //relationship.setReferenceForPK(temp.isReferenceForPK());
-                //relationship.setReferencedComplexUniqueKey(temp.getReferencedComplexUniqueKey());
-                //relationship.setReferencedColumn(temp.getReferencedColumn());
-                // prepare new columns for comparisonTable here
                 foreignKeyColumnMapper.removeAll();
                 disposeTableEditor();
                 prepareForeignKeyColumnMapperRows();

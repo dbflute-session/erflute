@@ -63,9 +63,9 @@ public class NormalColumn extends ERColumn {
         this.autoIncrementSetting = (Sequence) from.autoIncrementSetting.clone();
     }
 
-    public NormalColumn(NormalColumn from, NormalColumn referencedColumn, Relationship relationship, boolean primaryKey) {
+    public NormalColumn(NormalColumn from, NormalColumn referredColumn, Relationship relationship, boolean primaryKey) {
         this.word = null;
-        this.referredColumnList.add(referencedColumn);
+        this.referredColumnList.add(referredColumn);
         this.relationshipList.add(relationship);
         copyData(from, this);
         this.primaryKey = primaryKey;
@@ -295,7 +295,6 @@ public class NormalColumn extends ERColumn {
                     to.foreignKeyPhysicalName = from.foreignKeyPhysicalName;
                 } else if (!firstReferencedColumn.getPhysicalName().equals(from.getPhysicalName())) {
                     to.foreignKeyPhysicalName = from.getPhysicalName();
-
                 } else {
                     to.foreignKeyPhysicalName = null;
                 }
@@ -305,7 +304,6 @@ public class NormalColumn extends ERColumn {
             } else {
                 if (from.foreignKeyLogicalName != null && !firstReferencedColumn.getLogicalName().equals(from.foreignKeyLogicalName)) {
                     to.foreignKeyLogicalName = from.foreignKeyLogicalName;
-
                 } else if (!firstReferencedColumn.getLogicalName().equals(from.getLogicalName())) {
                     to.foreignKeyLogicalName = from.getLogicalName();
 

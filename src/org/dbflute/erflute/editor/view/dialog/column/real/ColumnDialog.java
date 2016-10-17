@@ -78,16 +78,21 @@ public class ColumnDialog extends AbstractRealColumnDialog {
 
     @Override
     protected void initializeCheckBoxComposite(Composite composite) {
-        this.primaryKeyCheck = CompositeFactory.createCheckbox(this, composite, "label.primary.key");
+        primaryKeyCheck = CompositeFactory.createCheckbox(this, composite, "label.primary.key");
         super.initializeCheckBoxComposite(composite);
-        final DBManager manager = DBManagerFactory.getDBManager(this.diagram);
+        final DBManager manager = DBManagerFactory.getDBManager(diagram);
         if (manager.isSupported(DBManager.SUPPORT_AUTO_INCREMENT)) {
-            this.autoIncrementCheck = CompositeFactory.createCheckbox(this, composite, "label.auto.increment");
+            autoIncrementCheck = CompositeFactory.createCheckbox(this, composite, "label.auto.increment");
         }
-        if (this.isRefered) {
-            this.uniqueKeyCheck.setEnabled(false);
+        if (isRefered) {
+            uniqueKeyCheck.setEnabled(false);
         }
-        this.enableAutoIncrement(false);
+        enableAutoIncrement(false);
+        adjustCheckBoxDefault();
+    }
+
+    private void adjustCheckBoxDefault() {
+        notNullCheck.setSelection(true); // as default (not-null column is better)
     }
 
     protected int getStyle(int style) {
@@ -203,7 +208,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (primaryKeyCheck.getSelection()) {
-                    notNullCheck.setSelection(true);
+                    adjustCheckBoxDefault();
                     notNullCheck.setEnabled(false);
                     if (autoIncrementColumn == null || autoIncrementColumn == targetColumn) {
                         enableAutoIncrement(true);

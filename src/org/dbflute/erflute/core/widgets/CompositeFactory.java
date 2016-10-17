@@ -40,11 +40,11 @@ public class CompositeFactory {
     public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title, String unit,
             int minimum, int maximum) {
         if (title != null) {
-            Label label = new Label(composite, SWT.RIGHT);
+            final Label label = new Label(composite, SWT.RIGHT);
             label.setText(DisplayMessages.getMessage(title));
         }
 
-        GridData scaleGridData = new GridData();
+        final GridData scaleGridData = new GridData();
 
         final Scale scale = new Scale(composite, SWT.NONE);
         scale.setLayoutData(scaleGridData);
@@ -64,14 +64,14 @@ public class CompositeFactory {
 
         scale.setPageIncrement((maximum - minimum) / 10);
 
-        GridData spinnerGridData = new GridData();
+        final GridData spinnerGridData = new GridData();
 
-        Spinner spinner = new Spinner(composite, SWT.RIGHT | SWT.BORDER);
+        final Spinner spinner = new Spinner(composite, SWT.RIGHT | SWT.BORDER);
         spinner.setLayoutData(spinnerGridData);
         spinner.setMinimum(minimum);
         spinner.setMaximum(maximum);
 
-        Label label = new Label(composite, SWT.NONE);
+        final Label label = new Label(composite, SWT.NONE);
         label.setText(unit);
 
         ListenerAppender.addModifyListener(scale, spinner, diff, dialog);
@@ -85,11 +85,11 @@ public class CompositeFactory {
 
     public static Combo createReadOnlyCombo(AbstractDialog dialog, Composite composite, String title, int span, int width) {
         if (title != null) {
-            Label label = new Label(composite, SWT.RIGHT);
+            final Label label = new Label(composite, SWT.RIGHT);
             label.setText(DisplayMessages.getMessage(title));
         }
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = span;
 
         if (width > 0) {
@@ -100,7 +100,7 @@ public class CompositeFactory {
             gridData.grabExcessHorizontalSpace = true;
         }
 
-        Combo combo = new Combo(composite, SWT.READ_ONLY);
+        final Combo combo = new Combo(composite, SWT.READ_ONLY);
         combo.setLayoutData(gridData);
 
         ListenerAppender.addComboListener(combo, dialog, false);
@@ -110,16 +110,16 @@ public class CompositeFactory {
 
     public static Combo createCombo(AbstractDialog dialog, Composite composite, String title, int span) {
         if (title != null) {
-            Label label = new Label(composite, SWT.RIGHT);
+            final Label label = new Label(composite, SWT.RIGHT);
             label.setText(DisplayMessages.getMessage(title));
         }
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = span;
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        Combo combo = new Combo(composite, SWT.NONE);
+        final Combo combo = new Combo(composite, SWT.NONE);
         combo.setLayoutData(gridData);
 
         ListenerAppender.addComboListener(combo, dialog, false);
@@ -128,20 +128,20 @@ public class CompositeFactory {
     }
 
     public static Combo createFileEncodingCombo(IEditorPart editorPart, AbstractDialog dialog, Composite composite, String title, int span) {
-        Combo fileEncodingCombo = createReadOnlyCombo(dialog, composite, title, span, -1);
+        final Combo fileEncodingCombo = createReadOnlyCombo(dialog, composite, title, span, -1);
 
-        for (Charset charset : Charset.availableCharsets().values()) {
+        for (final Charset charset : Charset.availableCharsets().values()) {
             fileEncodingCombo.add(charset.displayName());
         }
 
-        IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
-        IProject project = file.getProject();
+        final IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
+        final IProject project = file.getProject();
 
         try {
-            Charset defautlCharset = Charset.forName(project.getDefaultCharset());
+            final Charset defautlCharset = Charset.forName(project.getDefaultCharset());
             fileEncodingCombo.setText(defautlCharset.displayName());
 
-        } catch (CoreException e) {}
+        } catch (final CoreException e) {}
 
         return fileEncodingCombo;
     }
@@ -172,11 +172,11 @@ public class CompositeFactory {
 
     public static Text createText(AbstractDialog dialog, Composite composite, String title, int span, int width, int style, boolean imeOn) {
         if (title != null) {
-            Label label = new Label(composite, SWT.NONE);
+            final Label label = new Label(composite, SWT.NONE);
             label.setText(DisplayMessages.getMessage(title));
         }
 
-        GridData textGridData = new GridData();
+        final GridData textGridData = new GridData();
         textGridData.horizontalSpan = span;
         if (width > 0) {
             textGridData.widthHint = width;
@@ -186,7 +186,7 @@ public class CompositeFactory {
             textGridData.grabExcessHorizontalSpace = true;
         }
 
-        Text text = new Text(composite, style);
+        final Text text = new Text(composite, style);
         text.setLayoutData(textGridData);
 
         ListenerAppender.addTextListener(text, dialog, imeOn);
@@ -199,17 +199,17 @@ public class CompositeFactory {
     }
 
     public static Label createExampleLabel(Composite composite, String title, int span) {
-        Label label = new Label(composite, SWT.NONE);
+        final Label label = new Label(composite, SWT.NONE);
         label.setText(DisplayMessages.getMessage(title));
 
         if (span > 0) {
-            GridData gridData = new GridData();
+            final GridData gridData = new GridData();
             gridData.horizontalSpan = span;
             label.setLayoutData(gridData);
         }
 
-        FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
-        Font font = new Font(Display.getCurrent(), fontData.getName(), 8, SWT.NORMAL);
+        final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
+        final Font font = new Font(Display.getCurrent(), fontData.getName(), 8, SWT.NORMAL);
         label.setFont(font);
 
         return label;
@@ -220,13 +220,13 @@ public class CompositeFactory {
     }
 
     public static void filler(Composite composite, int span, int width) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = span;
         if (width > 0) {
             gridData.widthHint = width;
         }
 
-        Label label = new Label(composite, SWT.NONE);
+        final Label label = new Label(composite, SWT.NONE);
         label.setLayoutData(gridData);
     }
 
@@ -239,21 +239,18 @@ public class CompositeFactory {
     }
 
     public static Label createLabel(Composite composite, String title, int span, int width) {
-        Label label = new Label(composite, SWT.NONE);
+        final Label label = new Label(composite, SWT.NONE);
         label.setText(DisplayMessages.getMessage(title));
-
         if (span > 0 || width > 0) {
-            GridData gridData = new GridData();
+            final GridData gridData = new GridData();
             if (span > 0) {
                 gridData.horizontalSpan = span;
             }
             if (width > 0) {
                 gridData.widthHint = width;
             }
-
             label.setLayoutData(gridData);
         }
-
         return label;
     }
 
@@ -262,15 +259,14 @@ public class CompositeFactory {
     }
 
     public static Button createCheckbox(AbstractDialog dialog, Composite composite, String title, int span) {
-        Button checkbox = new Button(composite, SWT.CHECK);
+        final Button checkbox = new Button(composite, SWT.CHECK);
         checkbox.setText(DisplayMessages.getMessage(title));
         if (span != -1) {
-            GridData gridData = new GridData();
+            final GridData gridData = new GridData();
             gridData.horizontalSpan = span;
             checkbox.setLayoutData(gridData);
         }
         ListenerAppender.addCheckBoxListener(checkbox, dialog);
-
         return checkbox;
     }
 
@@ -279,10 +275,10 @@ public class CompositeFactory {
     }
 
     public static Button createRadio(AbstractDialog dialog, Composite composite, String title, int span) {
-        Button radio = new Button(composite, SWT.RADIO);
+        final Button radio = new Button(composite, SWT.RADIO);
         radio.setText(DisplayMessages.getMessage(title));
         if (span != -1) {
-            GridData gridData = new GridData();
+            final GridData gridData = new GridData();
             gridData.horizontalSpan = span;
             radio.setLayoutData(gridData);
         }
@@ -294,17 +290,17 @@ public class CompositeFactory {
     public static Text createTextArea(AbstractDialog dialog, Composite composite, String title, int width, int height, int span,
             boolean selectAll, boolean imeOn) {
         if (title != null) {
-            Label label = new Label(composite, SWT.NONE);
+            final Label label = new Label(composite, SWT.NONE);
             label.setText(DisplayMessages.getMessage(title));
         }
 
-        GridData textAreaGridData = new GridData();
+        final GridData textAreaGridData = new GridData();
         textAreaGridData.heightHint = height;
         textAreaGridData.grabExcessHorizontalSpace = true;
         textAreaGridData.horizontalSpan = span;
         textAreaGridData.horizontalAlignment = GridData.FILL;
         textAreaGridData.widthHint = width;
-        Text text = new Text(composite, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+        final Text text = new Text(composite, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
         text.setLayoutData(textAreaGridData);
 
         ListenerAppender.addTextAreaListener(text, dialog, selectAll, imeOn);
@@ -318,13 +314,13 @@ public class CompositeFactory {
     }
 
     public static Table createTable(Composite composite, int height, int span) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = span;
         gridData.heightHint = height;
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        Table table = new Table(composite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
+        final Table table = new Table(composite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
         table.setLayoutData(gridData);
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
@@ -333,7 +329,7 @@ public class CompositeFactory {
     }
 
     public static TableColumn createTableColumn(Table table, String text, int width, int style) {
-        TableColumn tableColumn = new TableColumn(table, style);
+        final TableColumn tableColumn = new TableColumn(table, style);
         tableColumn.setText(DisplayMessages.getMessage(text));
         tableColumn.setWidth(width);
         tableColumn.setAlignment(style);
@@ -346,7 +342,7 @@ public class CompositeFactory {
     }
 
     public static Button createButton(Composite composite, String text, int span) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
 
         if (span != -1) {
             gridData.horizontalSpan = span;
@@ -355,7 +351,7 @@ public class CompositeFactory {
             gridData.widthHint = DesignResources.BUTTON_WIDTH;
         }
 
-        Button button = new Button(composite, SWT.NONE);
+        final Button button = new Button(composite, SWT.NONE);
         button.setText(DisplayMessages.getMessage(text));
         button.setLayoutData(gridData);
 
@@ -363,12 +359,12 @@ public class CompositeFactory {
     }
 
     public static Button createAddButton(Composite composite) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.grabExcessVerticalSpace = true;
         gridData.verticalAlignment = GridData.END;
         gridData.widthHint = DesignResources.BUTTON_WIDTH;
 
-        Button button = new Button(composite, SWT.NONE);
+        final Button button = new Button(composite, SWT.NONE);
         button.setText(DisplayMessages.getMessage("label.right.arrow"));
         button.setLayoutData(gridData);
 
@@ -376,12 +372,12 @@ public class CompositeFactory {
     }
 
     public static Button createRemoveButton(Composite composite) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.grabExcessVerticalSpace = true;
         gridData.verticalAlignment = GridData.BEGINNING;
         gridData.widthHint = DesignResources.BUTTON_WIDTH;
 
-        Button button = new Button(composite, SWT.NONE);
+        final Button button = new Button(composite, SWT.NONE);
         button.setText(DisplayMessages.getMessage("label.left.arrow"));
         button.setLayoutData(gridData);
 
@@ -389,12 +385,12 @@ public class CompositeFactory {
     }
 
     public static TableEditor createCheckBoxTableEditor(TableItem tableItem, boolean selection, int column) {
-        Table table = tableItem.getParent();
+        final Table table = tableItem.getParent();
 
         final Button checkBox = new Button(table, SWT.CHECK);
         checkBox.pack();
 
-        TableEditor editor = new TableEditor(table);
+        final TableEditor editor = new TableEditor(table);
 
         editor.minimumWidth = checkBox.getSize().x;
         editor.horizontalAlignment = SWT.CENTER;
@@ -407,8 +403,8 @@ public class CompositeFactory {
 
     public static RowHeaderTable createRowHeaderTable(Composite parent, int width, int height, int rowHeaderWidth, int rowHeight, int span,
             boolean iconEnable, boolean editable) {
-        Composite composite = new Composite(parent, SWT.EMBEDDED);
-        GridData gridData = new GridData();
+        final Composite composite = new Composite(parent, SWT.EMBEDDED);
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = span;
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
@@ -420,13 +416,13 @@ public class CompositeFactory {
 
     private static RowHeaderTable createTable(Composite composite, int width, int height, int rowHeaderWidth, int rowHeight,
             boolean iconEnable, boolean editable) {
-        Frame frame = SWT_AWT.new_Frame(composite);
+        final Frame frame = SWT_AWT.new_Frame(composite);
         frame.setLayout(new FlowLayout());
 
-        Panel panel = new Panel();
+        final Panel panel = new Panel();
         panel.setLayout(new FlowLayout());
         frame.add(panel);
-        RowHeaderTable table = new RowHeaderTable(width, height, rowHeaderWidth, rowHeight, iconEnable, editable);
+        final RowHeaderTable table = new RowHeaderTable(width, height, rowHeaderWidth, rowHeight, iconEnable, editable);
         panel.add(table);
 
         return table;
