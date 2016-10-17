@@ -23,6 +23,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -60,15 +61,17 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     private Table foreignKeyColumnMapper; // avoid abstract word 'table' here
     private final List<TableEditor> mapperEditorList;
     private final Map<TableEditor, List<NormalColumn>> mapperEditorToReferredColumnsMap;
+    private Button newColumnCheckBox;
 
     // -----------------------------------------------------
     //                                         Dialog Result
     //                                         -------------
+    private boolean resultReferenceForPK; // to create relationship
+    private ComplexUniqueKey resultReferredComplexUniqueKey; // to create relationship
+    private NormalColumn resultReferredSimpleUniqueColumn; // to create relationship
     private List<NormalColumn> selectedReferredColumnList; // added when select referred columns, may be plural when primary
     private final List<NormalColumn> selectedForeignKeyColumnList; // added when perform, may be plural when compound FK
-    private boolean resultReferenceForPK;
-    private ComplexUniqueKey resultReferredComplexUniqueKey;
-    private NormalColumn resultReferredSimpleUniqueColumn;
+    private Relationship newCreatedRelationship; // created when perform
 
     // ===================================================================================
     //                                                                         Constructor
@@ -119,6 +122,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         label.setText("Select PK or UQ column and select FK column");
         createReferredColumnSelector(composite);
         createForeignKeyColumnMapper(composite);
+        newColumnCheckBox = CompositeFactory.createCheckbox(this, composite, "Create new column(s)");
     }
 
     // -----------------------------------------------------
@@ -187,6 +191,12 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
                 event.height = referredColumnSelector.getSize().y;
             }
         });
+        newColumnCheckBox.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                validate(); // to allow OK when checked
+            }
+        });
     }
 
     private void prepareForeignKeyColumnMapperRows() {
@@ -246,24 +256,34 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     //                                                                          ==========
     @Override
     protected String doValidate() {
-        // #hope check type difference by jflute
-        final Set<NormalColumn> selectedColumns = new HashSet<NormalColumn>();
-        for (final TableEditor tableEditor : mapperEditorList) {
-            final Combo foreignKeySelector = (Combo) tableEditor.getEditor();
-            final int selectionIndex = foreignKeySelector.getSelectionIndex();
-            if (selectionIndex == 0) {
-                return "error.foreign.key.not.selected";
+        if (isCreateNewColumn()) {
+            for (final NormalColumn referredColumn : selectedReferredColumnList) {
+                final NormalColumn existingColumn = target.findColumnByPhysicalName(referredColumn.getPhysicalName());
+                if (existingColumn != null) {
+                    return "The same name column already exists, cannot create new column";
+                }
             }
-            final NormalColumn selectedColumn = findSelectedColumn(tableEditor);
-            if (selectedColumns.contains(selectedColumn)) {
-                return "error.foreign.key.must.be.different";
+            return null;
+        } else {
+            // #hope check type difference by jflute
+            final Set<NormalColumn> selectedColumns = new HashSet<NormalColumn>();
+            for (final TableEditor tableEditor : mapperEditorList) {
+                final Combo foreignKeySelector = (Combo) tableEditor.getEditor();
+                final int selectionIndex = foreignKeySelector.getSelectionIndex();
+                if (selectionIndex == 0) {
+                    return "error.foreign.key.not.selected";
+                }
+                final NormalColumn selectedColumn = findSelectedColumn(tableEditor);
+                if (selectedColumns.contains(selectedColumn)) {
+                    return "error.foreign.key.must.be.different";
+                }
+                selectedColumns.add(selectedColumn);
             }
-            selectedColumns.add(selectedColumn);
+            if (existsForeignKeyColumnSet(selectedColumns)) {
+                return "error.foreign.key.already.exist";
+            }
+            return null;
         }
-        if (existsForeignKeyColumnSet(selectedColumns)) {
-            return "error.foreign.key.already.exist";
-        }
-        return null;
     }
 
     private boolean existsForeignKeyColumnSet(Set<NormalColumn> columnSet) {
@@ -288,8 +308,8 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     //                                                                          ==========
     @Override
     protected void performOK() {
-        setupReferredResult();
-        setupSelectedForeignKeyColumnList();
+        setupReferredResult(); // for new-created relationship
+        setupRelationship(); // using referred result
         showPerformOK();
     }
 
@@ -310,10 +330,32 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         }
     }
 
-    private void setupSelectedForeignKeyColumnList() {
-        for (final TableEditor mapperEditor : mapperEditorList) {
-            selectedForeignKeyColumnList.add(findSelectedColumn(mapperEditor));
+    private void setupRelationship() {
+        newCreatedRelationship = createRelationship();
+        if (isCreateNewColumn()) {
+            for (final NormalColumn referredColumn : selectedReferredColumnList) {
+                final NormalColumn newColumn = newForeignKeyColumn(referredColumn, newCreatedRelationship, resultReferenceForPK);
+                adjustNewForeignKeyColumn(newColumn);
+                selectedForeignKeyColumnList.add(newColumn);
+                target.addColumn(newColumn);
+            }
+        } else {
+            for (final TableEditor mapperEditor : mapperEditorList) {
+                selectedForeignKeyColumnList.add(findSelectedColumn(mapperEditor));
+            }
         }
+    }
+
+    private Relationship createRelationship() {
+        return new Relationship(resultReferenceForPK, resultReferredComplexUniqueKey, resultReferredSimpleUniqueColumn);
+    }
+
+    private NormalColumn newForeignKeyColumn(NormalColumn referredColumn, Relationship relationship, boolean referenceForPK) {
+        return new NormalColumn(referredColumn, referredColumn, relationship, referenceForPK);
+    }
+
+    private void adjustNewForeignKeyColumn(NormalColumn newColumn) {
+        newColumn.setPrimaryKey(false);
     }
 
     private void showPerformOK() {
@@ -336,6 +378,10 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
+    private boolean isCreateNewColumn() {
+        return newColumnCheckBox.getSelection();
+    }
+
     private NormalColumn findSelectedColumn(TableEditor tableEditor) { // not null
         final Combo foreignKeySelector = (Combo) tableEditor.getEditor();
         final int selectionIndex = foreignKeySelector.getSelectionIndex();
@@ -387,15 +433,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         return selectedForeignKeyColumnList;
     }
 
-    public boolean isResultReferenceForPK() {
-        return resultReferenceForPK;
-    }
-
-    public ComplexUniqueKey getResultReferredComplexUniqueKey() {
-        return resultReferredComplexUniqueKey;
-    }
-
-    public NormalColumn getResultReferredSimpleUniqueColumn() {
-        return resultReferredSimpleUniqueColumn;
+    public Relationship getNewCreatedRelationship() {
+        return newCreatedRelationship;
     }
 }

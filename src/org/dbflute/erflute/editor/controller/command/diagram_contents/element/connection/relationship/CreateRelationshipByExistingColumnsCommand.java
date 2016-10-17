@@ -16,7 +16,6 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipByExistingColumnsDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -64,13 +63,13 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
                 createDialog(sourceTable, targetTable, candidateForeignKeyColumns, existingRootReferredToFkColumnsMap,
                         existingRelationshipToFkColumnsMap);
         if (dialog.open() == IDialogConstants.OK_ID) {
-            relationship = createRelationship(dialog);
+            selectedReferredColumnList = dialog.getSelectedReferencedColumnList();
+            selectedForeignKeyColumnList = dialog.getSelectedForeignKeyColumnList();
+            relationship = dialog.getNewCreatedRelationship();
             final String defaultName = provideDefaultForeignKeyName(sourceTable, targetTable);
             if (defaultName != null) {
                 relationship.setForeignKeyName(defaultName);
             }
-            selectedReferredColumnList = dialog.getSelectedReferencedColumnList();
-            selectedForeignKeyColumnList = dialog.getSelectedForeignKeyColumnList();
             return true;
         } else {
             return false;
@@ -117,13 +116,6 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         return new RelationshipByExistingColumnsDialog(shell, sourceTable, targetTable, candidateForeignKeyColumns,
                 existingRootReferredToFkColumnsMap, existingRelationshipToFkColumnsMap);
-    }
-
-    private Relationship createRelationship(final RelationshipByExistingColumnsDialog dialog) {
-        final boolean referenceForPK = dialog.isResultReferenceForPK();
-        final ComplexUniqueKey referredComplexUniqueKey = dialog.getResultReferredComplexUniqueKey();
-        final NormalColumn referredSimpleUniqueColumn = dialog.getResultReferredSimpleUniqueColumn();
-        return new Relationship(referenceForPK, referredComplexUniqueKey, referredSimpleUniqueColumn);
     }
 
     // ===================================================================================

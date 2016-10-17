@@ -121,6 +121,16 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
         this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
+    public NormalColumn findColumnByPhysicalName(String physicalName) {
+        final List<NormalColumn> normalColumns = getNormalColumns();
+        for (final NormalColumn normalColumn : normalColumns) {
+            if (physicalName.equalsIgnoreCase(normalColumn.getPhysicalName())) {
+                return normalColumn;
+            }
+        }
+        return null;
+    }
+
     // ===================================================================================
     //                                                                               Copy
     //                                                                              ======
