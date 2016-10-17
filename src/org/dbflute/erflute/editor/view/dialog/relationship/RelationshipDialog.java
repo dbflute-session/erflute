@@ -186,10 +186,10 @@ public class RelationshipDialog extends AbstractDialog {
         columnCombo = new Combo(parent, SWT.READ_ONLY);
         columnCombo.setLayoutData(gridData);
         columnCombo.setVisibleItemCount(20);
-        relationshipColumnState = setupReferencedColumnComboData(columnCombo, (ERTable) relationship.getSourceTableView());
+        relationshipColumnState = setupReferredColumnComboData(columnCombo, (ERTable) relationship.getSourceTableView());
     }
 
-    public static ReferredColumnState setupReferencedColumnComboData(Combo columnCombo, ERTable table) {
+    public static ReferredColumnState setupReferredColumnComboData(Combo columnCombo, ERTable table) {
         final ReferredColumnState info = new ReferredColumnState();
         final int primaryKeySize = table.getPrimaryKeySize();
         if (primaryKeySize != 0) {

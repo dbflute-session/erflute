@@ -13,6 +13,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
 import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipDialog.ReferredColumnState;
@@ -45,37 +46,48 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private final ERTable source; // parent table e.g. MEMBER_STATUS
-    private List<NormalColumn> referredColumnList;
-    private final List<NormalColumn> foreignKeyColumnList;
+    private final ERTable source; // foreign table e.g. MEMBER_STATUS
+    private final TableView target; // local table e.g. MEMBER
     private final List<NormalColumn> candidateForeignKeyColumns;
-    private final Map<NormalColumn, List<NormalColumn>> rootReferredColumnsMap;
-    private final Map<Relationship, Set<NormalColumn>> foreignKeyColumnsMap;
-    private final List<TableEditor> tableEditorList;
-    private final Map<TableEditor, List<NormalColumn>> editorReferredColumnsMap;
+    private final Map<NormalColumn, List<NormalColumn>> existingRootReferredToFkColumnsMap;
+    private final Map<Relationship, Set<NormalColumn>> existingRelationshipToFkColumnsMap;
 
+    // -----------------------------------------------------
+    //                                             Component
+    //                                             ---------
     private Combo referredColumnSelector;
     private ReferredColumnState referredColumnState;
-    private Table foreignKeyColumnMapper; // avoid abstract word 'table' where
+    private Table foreignKeyColumnMapper; // avoid abstract word 'table' here
+    private final List<TableEditor> mapperEditorList;
+    private final Map<TableEditor, List<NormalColumn>> mapperEditorReferredColumnsMap;
 
-    private boolean referenceForPK;
-    private ComplexUniqueKey referencedComplexUniqueKey;
-    private NormalColumn referencedColumn;
+    // -----------------------------------------------------
+    //                                         Dialog Result
+    //                                         -------------
+    private List<NormalColumn> selectedReferredColumnList; // added when select referred columns, may be plural when primary
+    private final List<NormalColumn> selectedForeignKeyColumnList; // added when perform, may be plural when compound FK
+    private boolean resultReferenceForPK;
+    private ComplexUniqueKey resultReferredComplexUniqueKey;
+    private NormalColumn resultReferredSimpleUniqueColumn;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public RelationshipByExistingColumnsDialog(Shell parentShell, ERTable source, List<NormalColumn> candidateForeignKeyColumns,
-            Map<NormalColumn, List<NormalColumn>> rootReferredColumnsMap, Map<Relationship, Set<NormalColumn>> foreignKeyColumnsMap) {
+    public RelationshipByExistingColumnsDialog(Shell parentShell, ERTable source, TableView target,
+            List<NormalColumn> candidateForeignKeyColumns, Map<NormalColumn, List<NormalColumn>> existingRootReferredToFkColumnsMap,
+            Map<Relationship, Set<NormalColumn>> existingRelationshipToFkColumnsMap) {
         super(parentShell, 2);
         this.source = source;
-        this.referredColumnList = new ArrayList<NormalColumn>();
-        this.foreignKeyColumnList = new ArrayList<NormalColumn>();
+        this.target = target;
+        this.selectedReferredColumnList = new ArrayList<NormalColumn>();
         this.candidateForeignKeyColumns = candidateForeignKeyColumns;
-        this.rootReferredColumnsMap = rootReferredColumnsMap;
-        this.foreignKeyColumnsMap = foreignKeyColumnsMap;
-        this.tableEditorList = new ArrayList<TableEditor>();
-        this.editorReferredColumnsMap = new HashMap<TableEditor, List<NormalColumn>>();
+        this.existingRootReferredToFkColumnsMap = existingRootReferredToFkColumnsMap;
+        this.existingRelationshipToFkColumnsMap = existingRelationshipToFkColumnsMap;
+
+        this.mapperEditorList = new ArrayList<TableEditor>();
+        this.mapperEditorReferredColumnsMap = new HashMap<TableEditor, List<NormalColumn>>();
+
+        this.selectedForeignKeyColumnList = new ArrayList<NormalColumn>();
     }
 
     // ===================================================================================
@@ -149,7 +161,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     //                                           -----------
     @Override
     protected void setupData() {
-        referredColumnState = RelationshipDialog.setupReferencedColumnComboData(referredColumnSelector, source);
+        referredColumnState = RelationshipDialog.setupReferredColumnComboData(referredColumnSelector, source);
         referredColumnSelector.select(0);
         prepareForeignKeyColumnMapperRows();
     }
@@ -188,18 +200,18 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         try {
             final int referredColumnIndex = referredColumnSelector.getSelectionIndex();
             if (referredColumnIndex < referredColumnState.complexUniqueKeyStartIndex) {
-                referredColumnList = source.getPrimaryKeys();
+                selectedReferredColumnList = source.getPrimaryKeys();
             } else if (referredColumnIndex < referredColumnState.columnStartIndex) {
                 final ComplexUniqueKey complexUniqueKey =
                         source.getComplexUniqueKeyList().get(referredColumnIndex - referredColumnState.complexUniqueKeyStartIndex);
-                referredColumnList = complexUniqueKey.getColumnList();
+                selectedReferredColumnList = complexUniqueKey.getColumnList();
             } else {
                 final NormalColumn referencedColumn =
                         referredColumnState.candidateColumns.get(referredColumnIndex - referredColumnState.columnStartIndex);
-                referredColumnList = new ArrayList<NormalColumn>();
-                referredColumnList.add(referencedColumn);
+                selectedReferredColumnList = new ArrayList<NormalColumn>();
+                selectedReferredColumnList.add(referencedColumn);
             }
-            for (final NormalColumn referredColumn : referredColumnList) {
+            for (final NormalColumn referredColumn : selectedReferredColumnList) {
                 addColumnToMapperItem(referredColumn);
             }
         } catch (final Exception e) {
@@ -210,13 +222,13 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     private void addColumnToMapperItem(NormalColumn referredColumn) {
         final TableItem tableItem = new TableItem(foreignKeyColumnMapper, SWT.NONE);
         tableItem.setText(0, Format.null2blank(referredColumn.getLogicalName()));
-        final List<NormalColumn> foreignKeyColumnList = rootReferredColumnsMap.get(referredColumn.getRootReferredColumn());
+        final List<NormalColumn> foreignKeyColumnList = existingRootReferredToFkColumnsMap.get(referredColumn.getFirstRootReferredColumn());
         final TableEditor tableEditor = new TableEditor(foreignKeyColumnMapper);
         tableEditor.grabHorizontal = true;
         final Combo foreignKeyColumnSelector = createForeignKeyColumnSelector(foreignKeyColumnList);
         tableEditor.setEditor(foreignKeyColumnSelector, tableItem, 1);
-        tableEditorList.add(tableEditor);
-        editorReferredColumnsMap.put(tableEditor, foreignKeyColumnList);
+        mapperEditorList.add(tableEditor);
+        mapperEditorReferredColumnsMap.put(tableEditor, foreignKeyColumnList);
     }
 
     protected Combo createForeignKeyColumnSelector(List<NormalColumn> foreignKeyColumnList) {
@@ -242,10 +254,10 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     @Override
     protected String doValidate() {
         final Set<NormalColumn> selectedColumns = new HashSet<NormalColumn>();
-        for (final TableEditor tableEditor : tableEditorList) {
-            final Combo foreignKeyCombo = (Combo) tableEditor.getEditor();
-            final int index = foreignKeyCombo.getSelectionIndex();
-            if (index == 0) {
+        for (final TableEditor tableEditor : mapperEditorList) {
+            final Combo foreignKeySelector = (Combo) tableEditor.getEditor();
+            final int selectionIndex = foreignKeySelector.getSelectionIndex();
+            if (selectionIndex == 0) {
                 return "error.foreign.key.not.selected";
             }
             final NormalColumn selectedColumn = findSelectedColumn(tableEditor);
@@ -261,20 +273,20 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     }
 
     private boolean existsForeignKeyColumnSet(Set<NormalColumn> columnSet) {
-        boolean exist = false;
-        for (final Set<NormalColumn> foreignKeyColumnSet : foreignKeyColumnsMap.values()) {
+        boolean exists = false;
+        for (final Set<NormalColumn> foreignKeyColumnSet : existingRelationshipToFkColumnsMap.values()) {
             if (foreignKeyColumnSet.size() == columnSet.size()) {
-                exist = true;
+                exists = true;
                 for (final NormalColumn normalColumn : columnSet) {
                     if (!foreignKeyColumnSet.contains(normalColumn)) {
-                        exist = false;
+                        exists = false;
                         continue;
                     }
                 }
                 break;
             }
         }
-        return exist;
+        return exists;
     }
 
     // ===================================================================================
@@ -282,20 +294,35 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     //                                                                          ==========
     @Override
     protected void performOK() {
-        final int index = referredColumnSelector.getSelectionIndex();
-        if (index < referredColumnState.complexUniqueKeyStartIndex) {
-            referenceForPK = true;
-        } else if (index < referredColumnState.columnStartIndex) {
-            final ComplexUniqueKey complexUniqueKey =
-                    source.getComplexUniqueKeyList().get(index - referredColumnState.complexUniqueKeyStartIndex);
-            referencedComplexUniqueKey = complexUniqueKey;
-        } else {
-            referencedColumn = referredColumnState.candidateColumns.get(index - referredColumnState.columnStartIndex);
+        final int referredSelectionIndex = referredColumnSelector.getSelectionIndex();
+        final int complexUniqueKeyStartIndex = referredColumnState.complexUniqueKeyStartIndex;
+        if (referredSelectionIndex < complexUniqueKeyStartIndex) { // means selecting PK
+            resultReferenceForPK = true;
+        } else if (referredSelectionIndex < referredColumnState.columnStartIndex) { // means selecting unique key
+            final List<ComplexUniqueKey> complexUniqueKeyList = source.getComplexUniqueKeyList();
+            resultReferredComplexUniqueKey = complexUniqueKeyList.get(referredSelectionIndex - complexUniqueKeyStartIndex);
+        } else { // no way now because only unique columns can be selected by jflute
+            resultReferredSimpleUniqueColumn =
+                    referredColumnState.candidateColumns.get(referredSelectionIndex - referredColumnState.columnStartIndex);
         }
-        for (final TableEditor tableEditor : tableEditorList) {
-            final NormalColumn foreignKeyColumn = findSelectedColumn(tableEditor);
-            foreignKeyColumnList.add(foreignKeyColumn);
+        for (final TableEditor mapperEditor : mapperEditorList) {
+            final NormalColumn foreignKeyColumn = findSelectedColumn(mapperEditor);
+            selectedForeignKeyColumnList.add(foreignKeyColumn);
         }
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Performed the relationship dialog:");
+        final String ln = "\n";
+        sb.append(ln).append("[Relationship]");
+        sb.append(ln).append(" tables: from ").append(target.getPhysicalName()).append(" to ").append(source.getPhysicalName());
+        sb.append(ln).append(" candidateForeignKeyColumns: ").append(candidateForeignKeyColumns);
+        sb.append(ln).append(" existingRootReferredToFkColumnsMap: ").append(existingRootReferredToFkColumnsMap);
+        sb.append(ln).append(" existingRelationshipToFkColumnsMap: ").append(existingRelationshipToFkColumnsMap);
+        sb.append(ln).append(" selectedReferredColumnList: ").append(selectedReferredColumnList);
+        sb.append(ln).append(" selectedForeignKeyColumnList: ").append(selectedForeignKeyColumnList);
+        sb.append(ln).append(" resultReferenceForPK: ").append(resultReferenceForPK);
+        sb.append(ln).append(" resultReferredComplexUniqueKey: ").append(resultReferredComplexUniqueKey);
+        sb.append(ln).append(" resultReferredSimpleUniqueColumn: ").append(resultReferredSimpleUniqueColumn);
+        Activator.debug(this, "performOK()", sb.toString());
     }
 
     // ===================================================================================
@@ -306,7 +333,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         final int foreignKeyComboIndex = foreignKeyCombo.getSelectionIndex();
         int startIndex = 1;
         NormalColumn foreignKeyColumn = null;
-        final List<NormalColumn> foreignKeyList = editorReferredColumnsMap.get(tableEditor);
+        final List<NormalColumn> foreignKeyList = mapperEditorReferredColumnsMap.get(tableEditor);
         if (foreignKeyList != null) {
             if (foreignKeyComboIndex <= foreignKeyList.size()) {
                 foreignKeyColumn = foreignKeyList.get(foreignKeyComboIndex - startIndex);
@@ -315,7 +342,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
             }
         }
         if (foreignKeyColumn == null) {
-            foreignKeyColumn = this.candidateForeignKeyColumns.get(foreignKeyComboIndex - startIndex);
+            foreignKeyColumn = candidateForeignKeyColumns.get(foreignKeyComboIndex - startIndex);
         }
         return foreignKeyColumn;
     }
@@ -330,34 +357,37 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     }
 
     private void disposeTableEditor() {
-        for (final TableEditor tableEditor : this.tableEditorList) {
+        for (final TableEditor tableEditor : mapperEditorList) {
             tableEditor.getEditor().dispose();
             tableEditor.dispose();
         }
-        this.tableEditorList.clear();
-        this.editorReferredColumnsMap.clear();
+        mapperEditorList.clear();
+        mapperEditorReferredColumnsMap.clear();
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public List<NormalColumn> getReferencedColumnList() {
-        return referredColumnList;
+    // -----------------------------------------------------
+    //                                         Dialog Result
+    //                                         -------------
+    public List<NormalColumn> getSelectedReferencedColumnList() {
+        return selectedReferredColumnList;
     }
 
-    public List<NormalColumn> getForeignKeyColumnList() {
-        return foreignKeyColumnList;
+    public List<NormalColumn> getSelectedForeignKeyColumnList() {
+        return selectedForeignKeyColumnList;
     }
 
-    public boolean isReferenceForPK() {
-        return referenceForPK;
+    public boolean isResultReferenceForPK() {
+        return resultReferenceForPK;
     }
 
-    public ComplexUniqueKey getReferencedComplexUniqueKey() {
-        return referencedComplexUniqueKey;
+    public ComplexUniqueKey getResultReferredComplexUniqueKey() {
+        return resultReferredComplexUniqueKey;
     }
 
-    public NormalColumn getReferencedColumn() {
-        return this.referencedColumn;
+    public NormalColumn getResultReferredSimpleUniqueColumn() {
+        return resultReferredSimpleUniqueColumn;
     }
 }

@@ -17,21 +17,21 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
     private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_MODEL_SET = "ModelSet";
 
-    private final List<ERVirtualDiagram> ermodels;
+    private final List<ERVirtualDiagram> vdiagrams;
 
     public ERVirtualDiagramSet() {
-        ermodels = new ArrayList<ERVirtualDiagram>();
+        vdiagrams = new ArrayList<ERVirtualDiagram>();
     }
 
     @Override
     public Iterator<ERVirtualDiagram> iterator() {
-        Collections.sort(ermodels, new Comparator<ERVirtualDiagram>() {
+        Collections.sort(vdiagrams, new Comparator<ERVirtualDiagram>() {
             @Override
             public int compare(ERVirtualDiagram o1, ERVirtualDiagram o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         });
-        return ermodels.iterator();
+        return vdiagrams.iterator();
     }
 
     //	public void addModel(ERModel ermodel) {
@@ -39,46 +39,46 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
     //		this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     //	}
     //
-    public void addModels(List<ERVirtualDiagram> models) {
-        ermodels.addAll(models);
-        this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
+    public void addModels(List<ERVirtualDiagram> vdiagrams) {
+        this.vdiagrams.addAll(vdiagrams);
+        firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public void add(ERVirtualDiagram ermodel) {
-        this.ermodels.add(ermodel);
-        this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
+    public void add(ERVirtualDiagram vdiagram) {
+        vdiagrams.add(vdiagram);
+        firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public int remove(ERVirtualDiagram ermodel) {
-        final int index = this.ermodels.indexOf(ermodel);
-        this.ermodels.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
+    public int remove(ERVirtualDiagram vdiagram) {
+        final int index = this.vdiagrams.indexOf(vdiagram);
+        vdiagrams.remove(index);
+        firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
 
         return index;
     }
 
-    public void changeModel(ERVirtualDiagram ermodel) {
-        this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
+    public void changeModel(ERVirtualDiagram vdiagram) {
+        firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
     public ERVirtualDiagram getModel(String modelName) {
-        for (final ERVirtualDiagram model : ermodels) {
-            if (model.getName().equals(modelName)) {
-                return model;
+        for (final ERVirtualDiagram vdiagram : vdiagrams) {
+            if (vdiagram.getName().equals(modelName)) {
+                return vdiagram;
             }
         }
         return null;
     }
 
-    public void deleteRelation(Relationship relation) {
-        for (final ERVirtualDiagram model : ermodels) {
-            model.deleteRelation(relation);
+    public void deleteRelationship(Relationship relationship) {
+        for (final ERVirtualDiagram vdiagram : vdiagrams) {
+            vdiagram.deleteRelationship(relationship);
         }
     }
 
-    public void createRelation(Relationship relation) {
-        for (final ERVirtualDiagram model : ermodels) {
-            model.createRelation(relation);
+    public void createRelationship(Relationship relationship) {
+        for (final ERVirtualDiagram vdiagram : vdiagrams) {
+            vdiagram.createRelationship(relationship);
         }
     }
 }

@@ -80,19 +80,19 @@ public class ERVirtualDiagram extends DiagramWalker {
         return null;
     }
 
-    public void deleteRelation(Relationship relation) {
+    public void deleteRelationship(Relationship relation) {
         for (final ERVirtualTable vtable : tables) {
             vtable.removeOutgoing(relation);
             vtable.removeIncoming(relation);
         }
     }
 
-    public void createRelation(Relationship relation) {
+    public void createRelationship(Relationship relationship) {
         boolean dirty = false;
         for (final ERVirtualTable vtable : tables) {
-            if (relation.getSourceTableView().equals(vtable.getRawTable())) {
+            if (relationship.getSourceTableView().equals(vtable.getRawTable())) {
                 dirty = true;
-            } else if (relation.getTargetTableView().equals(vtable.getRawTable())) {
+            } else if (relationship.getTargetTableView().equals(vtable.getRawTable())) {
                 dirty = true;
             }
         }

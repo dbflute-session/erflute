@@ -89,13 +89,6 @@ public class NormalColumn extends ERColumn {
     // ===================================================================================
     //                                                                        Relationship
     //                                                                        ============
-    public NormalColumn getFirstReferredColumn() {
-        if (this.referredColumnList.isEmpty()) {
-            return null;
-        }
-        return this.referredColumnList.get(0);
-    }
-
     public NormalColumn getReferredColumn(Relationship relationship) {
         for (final NormalColumn referredColumn : referredColumnList) {
             if (referredColumn.getColumnHolder() == relationship.getSourceTableView()) {
@@ -105,7 +98,11 @@ public class NormalColumn extends ERColumn {
         return null;
     }
 
-    public NormalColumn getRootReferredColumn() {
+    public NormalColumn getFirstReferredColumn() {
+        return !referredColumnList.isEmpty() ? referredColumnList.get(0) : null;
+    }
+
+    public NormalColumn getFirstRootReferredColumn() { // e.g. FK to FK to FK to ...
         NormalColumn root = getFirstReferredColumn();
         if (root != null) {
             while (root.getFirstReferredColumn() != null) {
@@ -165,12 +162,12 @@ public class NormalColumn extends ERColumn {
         return relationshipList;
     }
 
-    public void addReference(NormalColumn referencedColumn, Relationship relation) {
-        this.foreignKeyDescription = this.getDescription();
-        this.foreignKeyLogicalName = this.getLogicalName();
-        this.foreignKeyPhysicalName = this.getPhysicalName();
-        this.referredColumnList.add(referencedColumn);
-        this.relationshipList.add(relation);
+    public void addReference(NormalColumn referredColumn, Relationship relationship) {
+        this.foreignKeyDescription = getDescription();
+        this.foreignKeyLogicalName = getLogicalName();
+        this.foreignKeyPhysicalName = getPhysicalName();
+        this.referredColumnList.add(referredColumn);
+        this.relationshipList.add(relationship);
         copyData(this, this);
         this.word = null;
     }

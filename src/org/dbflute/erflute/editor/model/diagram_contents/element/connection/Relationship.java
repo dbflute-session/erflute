@@ -29,7 +29,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
     private String childCardinality;
     private boolean referenceForPK;
     private ComplexUniqueKey referredComplexUniqueKey;
-    private NormalColumn referredColumn;
+    private NormalColumn referredColumn; // simple unique column? by jflute
     private int sourceXp;
     private int sourceYp;
     private int targetXp;
