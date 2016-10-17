@@ -61,7 +61,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     private Table foreignKeyColumnMapper; // avoid abstract word 'table' here
     private final List<TableEditor> mapperEditorList;
     private final Map<TableEditor, List<NormalColumn>> mapperEditorToReferredColumnsMap;
-    private Button newColumnCheckBox;
+    private Button newColumnCheckBox; // #for_erflute
 
     // -----------------------------------------------------
     //                                         Dialog Result
@@ -179,9 +179,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         referredColumnSelector.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                foreignKeyColumnMapper.removeAll();
-                disposeTableEditor();
-                prepareForeignKeyColumnMapperRows();
+                resetForeignKeyColumnMapper();
                 validate();
             }
         });
@@ -194,9 +192,16 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         newColumnCheckBox.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
+                resetForeignKeyColumnMapper();
                 validate(); // to allow OK when checked
             }
         });
+    }
+
+    private void resetForeignKeyColumnMapper() {
+        foreignKeyColumnMapper.removeAll();
+        disposeMapperEditor();
+        prepareForeignKeyColumnMapperRows();
     }
 
     private void prepareForeignKeyColumnMapperRows() {
@@ -226,12 +231,12 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         final TableItem tableItem = new TableItem(foreignKeyColumnMapper, SWT.NONE);
         tableItem.setText(0, Format.null2blank(referredColumn.getLogicalName()));
         final List<NormalColumn> foreignKeyColumnList = existingRootReferredToFkColumnsMap.get(referredColumn.getFirstRootReferredColumn());
-        final TableEditor tableEditor = new TableEditor(foreignKeyColumnMapper);
-        tableEditor.grabHorizontal = true;
+        final TableEditor mapperEditor = new TableEditor(foreignKeyColumnMapper);
+        mapperEditor.grabHorizontal = true;
         final Combo foreignKeyColumnSelector = createForeignKeyColumnSelector(foreignKeyColumnList);
-        tableEditor.setEditor(foreignKeyColumnSelector, tableItem, 1);
-        mapperEditorList.add(tableEditor);
-        mapperEditorToReferredColumnsMap.put(tableEditor, foreignKeyColumnList);
+        mapperEditor.setEditor(foreignKeyColumnSelector, tableItem, 1);
+        mapperEditorList.add(mapperEditor);
+        mapperEditorToReferredColumnsMap.put(mapperEditor, foreignKeyColumnList);
     }
 
     protected Combo createForeignKeyColumnSelector(List<NormalColumn> foreignKeyColumnList) {
@@ -406,11 +411,11 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     //                                                                      ==============
     @Override
     public boolean close() {
-        disposeTableEditor();
+        disposeMapperEditor();
         return super.close();
     }
 
-    private void disposeTableEditor() {
+    private void disposeMapperEditor() {
         for (final TableEditor tableEditor : mapperEditorList) {
             tableEditor.getEditor().dispose();
             tableEditor.dispose();
