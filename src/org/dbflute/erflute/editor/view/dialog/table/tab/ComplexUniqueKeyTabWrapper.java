@@ -301,7 +301,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     @Override
     public void validatePage() throws InputException {
         final String uniqueKeyName = uniqueKeyNameText.getText().trim();
-        // #thiking want to validate but always checked by jflute
+        // #thinking want to validate but always checked by jflute
         //if (uniqueKeyName.isEmpty()) {
         //    throw new InputException("error.unique.key.name.empty");
         //}

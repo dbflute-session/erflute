@@ -69,9 +69,7 @@ public class MySQLDBManager extends DBManagerBase {
     @Override
     public List<String> getIndexTypeList(ERTable table) {
         final List<String> list = new ArrayList<String>();
-
-        list.add("BTREE");
-
+        list.add(INDEX_TYPE_BTREE);
         return list;
     }
 
