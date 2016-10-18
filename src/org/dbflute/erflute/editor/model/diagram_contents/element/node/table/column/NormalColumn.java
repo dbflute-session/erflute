@@ -339,6 +339,10 @@ public class NormalColumn extends ERColumn {
         return "columnGroup." + group.getGroupName() + "." + getResolvedPhysicalName();
     }
 
+    public String buildSimpleUniqueColumnId(TableView table) {
+        return "simpleUnique." + buildColumnId(table);
+    }
+
     private String getResolvedPhysicalName() {
         final String physicalName = getPhysicalName();
         if (Srl.is_NotNull_and_NotEmpty(physicalName)) {

@@ -139,8 +139,8 @@ public class WrittenDiagramWalkerBuilder {
         final NormalColumn referredSimpleUniqueColumn = relationship.getReferredSimpleUniqueColumn(); // simple unique key
         if (referredSimpleUniqueColumn != null) {
             final TableView table = relationship.getTargetTableView(); // local table e.g. MEMBER
-            final String columnId = referredSimpleUniqueColumn.buildColumnId(table);
-            xml.append("\t<referred_simple_unique_column>").append(columnId).append("</referred_simple_unique_column>\n"); // #for_erflute rename to 'referred'
+            final String uniqueColumnId = referredSimpleUniqueColumn.buildSimpleUniqueColumnId(table);
+            xml.append("\t<referred_simple_unique_column>").append(uniqueColumnId).append("</referred_simple_unique_column>\n"); // #for_erflute rename to 'referred'
         }
     }
 

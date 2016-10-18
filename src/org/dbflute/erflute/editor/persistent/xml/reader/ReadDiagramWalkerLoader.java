@@ -75,29 +75,29 @@ public class ReadDiagramWalkerLoader {
 
     private void loadRelationship(DiagramWalker walker, Element element, LoadContext context) {
         final boolean referenceForPK = getBooleanValue(element, "reference_for_pk");
-        final Relationship connection = new Relationship(referenceForPK, null, null);
-        connection.setForeignKeyName(getStringValue(element, "name"));
-        connection.setChildCardinality(getStringValue(element, "child_cardinality"));
-        connection.setParentCardinality(getStringValue(element, "parent_cardinality"));
-        connection.setOnDeleteAction(getStringValue(element, "on_delete_action", "NO ACTION"));
-        connection.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
-        connection.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
-        connection.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
+        final Relationship relationship = new Relationship(referenceForPK, null, null);
+        relationship.setForeignKeyName(getStringValue(element, "name"));
+        relationship.setChildCardinality(getStringValue(element, "child_cardinality"));
+        relationship.setParentCardinality(getStringValue(element, "parent_cardinality"));
+        relationship.setOnDeleteAction(getStringValue(element, "on_delete_action", "NO ACTION"));
+        relationship.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
+        relationship.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
+        relationship.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
         String referredComplexUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
         if (Srl.is_Null_or_Empty(referredComplexUniqueKeyId)) {
             referredComplexUniqueKeyId = getStringValue(element, "referred_complex_unique_key"); // #for_erflute rename to 'referred'
         }
         if (referredComplexUniqueKeyId != null) {
-            context.referredComplexUniqueKeyMap.put(connection, referredComplexUniqueKeyId);
+            context.referredComplexUniqueKeyMap.put(relationship, referredComplexUniqueKeyId);
         }
         String referredSimpleUniqueColumnId = getStringValue(element, "referenced_column"); // simple unique key
         if (Srl.is_Null_or_Empty(referredSimpleUniqueColumnId)) {
             referredSimpleUniqueColumnId = getStringValue(element, "referred_simple_unique_column"); // #for_erflute rename
         }
         if (referredSimpleUniqueColumnId != null) {
-            context.referredSimpleUniqueColumnMap.put(connection, referredSimpleUniqueColumnId);
+            context.referredSimpleUniqueColumnMap.put(relationship, referredSimpleUniqueColumnId);
         }
-        loadConnectionElement(walker, element, context, connection);
+        loadConnectionElement(walker, element, context, relationship);
     }
 
     private void loadCommentConnection(DiagramWalker walker, Element element, LoadContext context) {
