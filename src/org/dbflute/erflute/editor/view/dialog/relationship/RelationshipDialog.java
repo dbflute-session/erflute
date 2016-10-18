@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -200,10 +200,10 @@ public class RelationshipDialog extends AbstractDialog {
             info.complexUniqueKeyStartIndex = 0;
             info.candidatePK = false;
         }
-        for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
+        for (final CompoundUniqueKey complexUniqueKey : table.getCompoundUniqueKeyList()) {
             columnCombo.add(complexUniqueKey.getLabel());
         }
-        info.columnStartIndex = info.complexUniqueKeyStartIndex + table.getComplexUniqueKeyList().size();
+        info.columnStartIndex = info.complexUniqueKeyStartIndex + table.getCompoundUniqueKeyList().size();
         for (final NormalColumn column : table.getNormalColumns()) {
             if (column.isUniqueKey()) {
                 columnCombo.add(column.getLogicalName());
@@ -279,9 +279,9 @@ public class RelationshipDialog extends AbstractDialog {
         }
         if (this.relationship.isReferenceForPK()) {
             this.columnCombo.select(0);
-        } else if (this.relationship.getReferredComplexUniqueKey() != null) {
-            for (int i = 0; i < sourceTable.getComplexUniqueKeyList().size(); i++) {
-                if (sourceTable.getComplexUniqueKeyList().get(i) == this.relationship.getReferredComplexUniqueKey()) {
+        } else if (this.relationship.getReferredCompoundUniqueKey() != null) {
+            for (int i = 0; i < sourceTable.getCompoundUniqueKeyList().size(); i++) {
+                if (sourceTable.getCompoundUniqueKeyList().get(i) == this.relationship.getReferredCompoundUniqueKey()) {
                     this.columnCombo.select(i + this.relationshipColumnState.complexUniqueKeyStartIndex);
                     break;
                 }
@@ -343,20 +343,20 @@ public class RelationshipDialog extends AbstractDialog {
         final int index = this.columnCombo.getSelectionIndex();
         if (index < this.relationshipColumnState.complexUniqueKeyStartIndex) {
             this.relationship.setReferenceForPK(true);
-            this.relationship.setReferredComplexUniqueKey(null);
+            this.relationship.setReferredCompoundUniqueKey(null);
             this.relationship.setReferredSimpleUniqueColumn(null);
         } else if (index < this.relationshipColumnState.columnStartIndex) {
-            final ComplexUniqueKey complexUniqueKey =
-                    ((ERTable) this.relationship.getSourceTableView()).getComplexUniqueKeyList().get(
+            final CompoundUniqueKey complexUniqueKey =
+                    ((ERTable) this.relationship.getSourceTableView()).getCompoundUniqueKeyList().get(
                             index - this.relationshipColumnState.complexUniqueKeyStartIndex);
             this.relationship.setReferenceForPK(false);
-            this.relationship.setReferredComplexUniqueKey(complexUniqueKey);
+            this.relationship.setReferredCompoundUniqueKey(complexUniqueKey);
             this.relationship.setReferredSimpleUniqueColumn(null);
         } else {
             final NormalColumn sourceColumn =
                     this.relationshipColumnState.candidateColumns.get(index - this.relationshipColumnState.columnStartIndex);
             this.relationship.setReferenceForPK(false);
-            this.relationship.setReferredComplexUniqueKey(null);
+            this.relationship.setReferredCompoundUniqueKey(null);
             this.relationship.setReferredSimpleUniqueColumn(sourceColumn);
         }
     }

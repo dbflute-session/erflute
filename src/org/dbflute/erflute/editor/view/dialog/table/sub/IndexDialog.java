@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -415,8 +415,8 @@ public class IndexDialog extends AbstractDialog {
         }
         final List<ERTable> tableList = table.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet().getList();
         for (final ERTable table : tableList) {
-            final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
-            for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
+            final List<CompoundUniqueKey> complexUniqueKeyList = table.getCompoundUniqueKeyList();
+            for (final CompoundUniqueKey complexUniqueKey : complexUniqueKeyList) {
                 final String currentUniqueKeyName = complexUniqueKey.getUniqueKeyName();
                 if (currentUniqueKeyName != null) {
                     if (!currentUniqueKeyName.equalsIgnoreCase(previousIndexName)) {
@@ -457,7 +457,7 @@ public class IndexDialog extends AbstractDialog {
         }
         final DBManager dbManager = DBManagerFactory.getDBManager(table.getDiagram());
         if (dbManager.isSupported(DBManager.SUPPORT_FULLTEXT_INDEX)) {
-            resultIndex.setFullText(this.fullTextCheckBox.getSelection());
+            resultIndex.setFullText(fullTextCheckBox.getSelection());
         }
     }
 
@@ -465,10 +465,10 @@ public class IndexDialog extends AbstractDialog {
     //                                                                        Assist Logic
     //                                                                        ============
     private void addIndexColumn(NormalColumn column, Boolean desc) {
-        final TableItem tableItem = new TableItem(this.indexColumnList, SWT.NONE);
+        final TableItem tableItem = new TableItem(indexColumnList, SWT.NONE);
         tableItem.setText(0, column.getPhysicalName());
-        this.setTableEditor(column, tableItem, desc);
-        this.selectedColumns.add(column);
+        setTableEditor(column, tableItem, desc);
+        selectedColumns.add(column);
     }
 
     private void setTableEditor(final NormalColumn normalColumn, TableItem tableItem, Boolean desc) {
@@ -479,9 +479,9 @@ public class IndexDialog extends AbstractDialog {
             editor.minimumWidth = descCheckButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(descCheckButton, tableItem, 1);
-            this.columnCheckMap.put(normalColumn, editor);
+            columnCheckMap.put(normalColumn, editor);
         }
-        this.descCheckBoxMap.put(normalColumn, descCheckButton);
+        descCheckBoxMap.put(normalColumn, descCheckButton);
         descCheckButton.setSelection(desc.booleanValue());
     }
 

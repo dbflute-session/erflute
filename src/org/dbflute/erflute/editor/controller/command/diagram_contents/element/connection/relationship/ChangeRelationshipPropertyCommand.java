@@ -32,8 +32,8 @@ public class ChangeRelationshipPropertyCommand extends AbstractCommand {
         if (this.newCopyRelation.isReferenceForPK()) {
             this.relation.setForeignKeyColumnForPK();
 
-        } else if (this.newCopyRelation.getReferredComplexUniqueKey() != null) {
-            this.relation.setForeignKeyForComplexUniqueKey(this.newCopyRelation.getReferredComplexUniqueKey());
+        } else if (this.newCopyRelation.getReferredCompoundUniqueKey() != null) {
+            this.relation.setForeignKeyForComplexUniqueKey(this.newCopyRelation.getReferredCompoundUniqueKey());
 
         } else {
             this.relation.setForeignKeyColumn(this.newCopyRelation.getReferredSimpleUniqueColumn());
@@ -48,7 +48,7 @@ public class ChangeRelationshipPropertyCommand extends AbstractCommand {
         this.oldCopyRelation.restructureRelationData(this.relation);
 
         this.relation.setReferenceForPK(this.oldCopyRelation.isReferenceForPK());
-        this.relation.setReferredComplexUniqueKey(this.oldCopyRelation.getReferredComplexUniqueKey());
+        this.relation.setReferredCompoundUniqueKey(this.oldCopyRelation.getReferredCompoundUniqueKey());
         this.relation.setReferredSimpleUniqueColumn(this.oldCopyRelation.getReferredSimpleUniqueColumn());
 
         this.oldTargetTable.restructureData(this.relation.getTargetTableView());

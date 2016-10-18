@@ -18,7 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -39,7 +39,7 @@ public class PersistentXml extends Persistent {
         public final Map<WalkerConnection, String> connectionMap = new LinkedHashMap<WalkerConnection, String>();
         public final Map<ColumnGroup, String> columnGroupMap = new LinkedHashMap<ColumnGroup, String>(); // group = groupName
         public final Map<ERColumn, String> columnMap = new LinkedHashMap<ERColumn, String>(); // column = ID
-        public final Map<ComplexUniqueKey, Integer> complexUniqueKeyMap = new LinkedHashMap<ComplexUniqueKey, Integer>();
+        public final Map<CompoundUniqueKey, Integer> complexUniqueKeyMap = new LinkedHashMap<CompoundUniqueKey, Integer>();
         public final Map<Word, Integer> wordMap = new LinkedHashMap<Word, Integer>();
         public final Map<Tablespace, Integer> tablespaceMap = new LinkedHashMap<Tablespace, Integer>();
         public final Map<Environment, Integer> environmentMap = new LinkedHashMap<Environment, Integer>();
@@ -94,7 +94,7 @@ public class PersistentXml extends Persistent {
                         context.columnMap.put(column, ((NormalColumn) column).buildColumnId(table));
                     }
                 }
-                for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
+                for (final CompoundUniqueKey complexUniqueKey : table.getCompoundUniqueKeyList()) {
                     context.complexUniqueKeyMap.put(complexUniqueKey, complexUniqueKeyNo);
                     complexUniqueKeyNo++;
                 }

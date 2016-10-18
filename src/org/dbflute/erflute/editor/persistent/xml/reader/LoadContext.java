@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
@@ -32,12 +32,12 @@ public class LoadContext {
     //                                                                           =========
     public final Map<String, DiagramWalker> walkerMap; // ID = node
     public final Map<String, NormalColumn> columnMap; // ID = column
-    public final Map<String, ComplexUniqueKey> complexUniqueKeyMap;
+    public final Map<String, CompoundUniqueKey> compoundUniqueKeyMap;
     public final Map<NormalColumn, String[]> columnRelationshipMap;
     public final Map<NormalColumn, String[]> columnReferredColumnMap;
     public final Map<String, ColumnGroup> columnGroupMap;
     public final Map<String, ERVirtualDiagram> virtualDiagramMap;
-    public final Map<Relationship, String> referredComplexUniqueKeyMap; // relationship = unique key ID
+    public final Map<Relationship, String> referredCompoundUniqueKeyMap; // relationship = unique key ID
     public final Map<Relationship, String> referredSimpleUniqueColumnMap; // relationship = unique column ID
     public final Map<WalkerConnection, String> connectionSourceMap;
     public final Map<WalkerConnection, String> connectionTargetMap;
@@ -54,13 +54,13 @@ public class LoadContext {
     public LoadContext(Dictionary dictionary) {
         this.walkerMap = new LinkedHashMap<String, DiagramWalker>();
         this.columnMap = new LinkedHashMap<String, NormalColumn>();
-        this.complexUniqueKeyMap = new LinkedHashMap<String, ComplexUniqueKey>();
+        this.compoundUniqueKeyMap = new LinkedHashMap<String, CompoundUniqueKey>();
         this.columnRelationshipMap = new LinkedHashMap<NormalColumn, String[]>();
         this.columnReferredColumnMap = new LinkedHashMap<NormalColumn, String[]>();
         this.virtualDiagramMap = new LinkedHashMap<String, ERVirtualDiagram>();
         this.columnGroupMap = new LinkedHashMap<String, ColumnGroup>();
         this.referredSimpleUniqueColumnMap = new LinkedHashMap<Relationship, String>();
-        this.referredComplexUniqueKeyMap = new LinkedHashMap<Relationship, String>();
+        this.referredCompoundUniqueKeyMap = new LinkedHashMap<Relationship, String>();
         this.connectionMap = new LinkedHashMap<String, WalkerConnection>();
         this.connectionSourceMap = new LinkedHashMap<WalkerConnection, String>();
         this.connectionTargetMap = new LinkedHashMap<WalkerConnection, String>();
@@ -105,7 +105,7 @@ public class LoadContext {
     }
 
     private void doResolveRelationship() {
-        setupReferredComplexUniqueKey();
+        setupReferredCompoundUniqueKey();
         setupReferredSimpleUniqueColumn();
         final Set<NormalColumn> foreignKeyColumnSet = columnReferredColumnMap.keySet();
         while (!foreignKeyColumnSet.isEmpty()) {
@@ -114,18 +114,18 @@ public class LoadContext {
         }
     }
 
-    private void setupReferredComplexUniqueKey() {
-        for (final Entry<Relationship, String> entry : referredComplexUniqueKeyMap.entrySet()) {
+    private void setupReferredCompoundUniqueKey() {
+        for (final Entry<Relationship, String> entry : referredCompoundUniqueKeyMap.entrySet()) {
             final Relationship relationship = entry.getKey();
             final String uniqueKeyId = entry.getValue();
             if (uniqueKeyId != null && !uniqueKeyId.equals("null")) { // may be "null" from ERMaster...?
-                final ComplexUniqueKey complexUniqueKey = complexUniqueKeyMap.get(uniqueKeyId);
-                if (complexUniqueKey == null) { // may be garbage, naturally deleted when next saving
-                    final String methodName = "setupReferredComplexUniqueKey()";
-                    final String msgBase = "*Not found the complexUniqueKey: ";
+                final CompoundUniqueKey compoundUniqueKey = compoundUniqueKeyMap.get(uniqueKeyId);
+                if (compoundUniqueKey == null) { // may be garbage, naturally deleted when next saving
+                    final String methodName = "setupReferredCompoundUniqueKey()";
+                    final String msgBase = "*Not found the compoundUniqueKey: ";
                     Activator.warn(this, methodName, msgBase + "uniqueKeyId=" + uniqueKeyId + ", relationship=" + relationship);
                 }
-                relationship.setReferredComplexUniqueKey(complexUniqueKey);
+                relationship.setReferredCompoundUniqueKey(compoundUniqueKey);
             }
         }
     }

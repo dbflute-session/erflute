@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipDialog.ReferredColumnState;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -67,7 +67,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     //                                         Dialog Result
     //                                         -------------
     private boolean resultReferenceForPK; // to create relationship
-    private ComplexUniqueKey resultReferredComplexUniqueKey; // to create relationship
+    private CompoundUniqueKey resultReferredComplexUniqueKey; // to create relationship
     private NormalColumn resultReferredSimpleUniqueColumn; // to create relationship
     private List<NormalColumn> selectedReferredColumnList; // added when select referred columns, may be plural when primary
     private final List<NormalColumn> selectedForeignKeyColumnList; // added when perform, may be plural when compound FK
@@ -210,8 +210,8 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
             if (referredColumnIndex < referredColumnState.complexUniqueKeyStartIndex) {
                 selectedReferredColumnList = source.getPrimaryKeys();
             } else if (referredColumnIndex < referredColumnState.columnStartIndex) {
-                final ComplexUniqueKey complexUniqueKey =
-                        source.getComplexUniqueKeyList().get(referredColumnIndex - referredColumnState.complexUniqueKeyStartIndex);
+                final CompoundUniqueKey complexUniqueKey =
+                        source.getCompoundUniqueKeyList().get(referredColumnIndex - referredColumnState.complexUniqueKeyStartIndex);
                 selectedReferredColumnList = complexUniqueKey.getColumnList();
             } else {
                 final NormalColumn referencedColumn =
@@ -326,7 +326,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         } else {
             final int simpleUniqueyKeyStartIndex = referredColumnState.columnStartIndex;
             if (referredSelectionIndex < simpleUniqueyKeyStartIndex) { // means selecting complex unique key
-                final List<ComplexUniqueKey> complexUniqueKeyList = source.getComplexUniqueKeyList();
+                final List<CompoundUniqueKey> complexUniqueKeyList = source.getCompoundUniqueKeyList();
                 resultReferredComplexUniqueKey = complexUniqueKeyList.get(referredSelectionIndex - complexUniqueKeyStartIndex);
             } else { // means selecting simple unique key
                 resultReferredSimpleUniqueColumn =

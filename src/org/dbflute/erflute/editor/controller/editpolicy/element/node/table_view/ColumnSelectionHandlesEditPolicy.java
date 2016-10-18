@@ -162,7 +162,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
             final DeleteRelationshipCommand deleteOldRelationCommand = new DeleteRelationshipCommand(oldRelationship, true);
             command.add(deleteOldRelationCommand);
             final Relationship newRelation =
-                    new Relationship(oldRelationship.isReferenceForPK(), oldRelationship.getReferredComplexUniqueKey(),
+                    new Relationship(oldRelationship.isReferenceForPK(), oldRelationship.getReferredCompoundUniqueKey(),
                             oldRelationship.getReferredSimpleUniqueColumn());
             final List<NormalColumn> oldForeignKeyColumnList = new ArrayList<NormalColumn>();
             if (referredTableView == newTableView) {
@@ -180,8 +180,8 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
                         }
                     }
                 }
-            } else if (oldRelationship.getReferredComplexUniqueKey() != null) {
-                for (final NormalColumn referredColumn : oldRelationship.getReferredComplexUniqueKey().getColumnList()) {
+            } else if (oldRelationship.getReferredCompoundUniqueKey() != null) {
+                for (final NormalColumn referredColumn : oldRelationship.getReferredCompoundUniqueKey().getColumnList()) {
                     for (final NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
                         if (oldTableColumn.isForeignKey()) {
                             if (oldTableColumn.getReferredColumn(oldRelationship) == referredColumn) {

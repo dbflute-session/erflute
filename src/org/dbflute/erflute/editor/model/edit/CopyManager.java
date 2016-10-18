@@ -18,7 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
@@ -71,7 +71,7 @@ public class CopyManager {
         final DiagramWalkerSet copyList = new DiagramWalkerSet();
         this.walkerMap = new HashMap<DiagramWalker, DiagramWalker>();
         final Map<ERColumn, ERColumn> columnMap = new HashMap<ERColumn, ERColumn>();
-        final Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap = new HashMap<ComplexUniqueKey, ComplexUniqueKey>();
+        final Map<CompoundUniqueKey, CompoundUniqueKey> complexUniqueKeyMap = new HashMap<CompoundUniqueKey, CompoundUniqueKey>();
         for (final DiagramWalker walker : nodeElementList) {
             if (walker instanceof ModelProperties) {
                 continue;
@@ -108,12 +108,12 @@ public class CopyManager {
                                         final NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(oldReferencedColumn);
                                         newRelation.setReferredSimpleUniqueColumn(newReferencedColumn);
                                     }
-                                    final ComplexUniqueKey oldReferencedComplexUniqueKey = newRelation.getReferredComplexUniqueKey();
+                                    final CompoundUniqueKey oldReferencedComplexUniqueKey = newRelation.getReferredCompoundUniqueKey();
                                     if (oldReferencedComplexUniqueKey != null) {
-                                        final ComplexUniqueKey newReferencedComplexUniqueKey =
+                                        final CompoundUniqueKey newReferencedComplexUniqueKey =
                                                 complexUniqueKeyMap.get(oldReferencedComplexUniqueKey);
                                         if (newReferencedComplexUniqueKey != null) {
-                                            newRelation.setReferredComplexUniqueKey(newReferencedComplexUniqueKey);
+                                            newRelation.setReferredCompoundUniqueKey(newReferencedComplexUniqueKey);
                                         }
                                     }
 
@@ -164,7 +164,7 @@ public class CopyManager {
     }
 
     private static void copyColumnAndIndex(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap,
-            Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap) {
+            Map<CompoundUniqueKey, CompoundUniqueKey> complexUniqueKeyMap) {
         copyColumn(from, to, columnMap);
         copyIndex(from, to, columnMap);
         copyComplexUniqueKey(from, to, columnMap, complexUniqueKeyMap);
@@ -190,14 +190,14 @@ public class CopyManager {
     }
 
     private static void copyComplexUniqueKey(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap,
-            Map<ComplexUniqueKey, ComplexUniqueKey> complexUniqueKeyMap) {
-        final List<ComplexUniqueKey> cloneComplexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
+            Map<CompoundUniqueKey, CompoundUniqueKey> complexUniqueKeyMap) {
+        final List<CompoundUniqueKey> cloneComplexUniqueKeyList = new ArrayList<CompoundUniqueKey>();
 
         // ���̃e�[�u���̕�����ӃL�[�ɑ΂��āA�������J��Ԃ��܂��B
-        for (final ComplexUniqueKey complexUniqueKey : from.getComplexUniqueKeyList()) {
+        for (final CompoundUniqueKey complexUniqueKey : from.getCompoundUniqueKeyList()) {
 
             // ������ӃL�[�𕡐����܂��B
-            final ComplexUniqueKey cloneComplexUniqueKey = (ComplexUniqueKey) complexUniqueKey.clone();
+            final CompoundUniqueKey cloneComplexUniqueKey = (CompoundUniqueKey) complexUniqueKey.clone();
             complexUniqueKeyMap.put(complexUniqueKey, cloneComplexUniqueKey);
 
             final List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();

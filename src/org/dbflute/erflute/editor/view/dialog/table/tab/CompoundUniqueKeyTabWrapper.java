@@ -16,8 +16,8 @@ import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CopyComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CopyCompoundUniqueKey;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
+public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -43,7 +43,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     private final ERTable table;
     private Text uniqueKeyNameText;
     private String previousUniqueKeyName;
-    private Combo complexUniqueKeyCombo;
+    private Combo compoundUniqueKeyCombo;
     private Table columnTable;
     private Button addButton;
     private Button updateButton;
@@ -54,8 +54,8 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ComplexUniqueKeyTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable table) {
-        super(dialog, parent, style, "label.complex.unique.key");
+    public CompoundUniqueKeyTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable table) {
+        super(dialog, parent, style, "Compound Unique Key");
         this.table = table;
         this.tableEditorList = new ArrayList<TableEditor>();
         this.editorColumnMap = new HashMap<TableEditor, NormalColumn>();
@@ -69,7 +69,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     public void initComposite() {
         final GridLayout gridLayout = new GridLayout();
         setLayout(gridLayout);
-        complexUniqueKeyCombo = CompositeFactory.createReadOnlyCombo(null, this, "label.complex.unique.key");
+        compoundUniqueKeyCombo = CompositeFactory.createReadOnlyCombo(null, this, "Compound Unique Key");
         uniqueKeyNameText = CompositeFactory.createText(null, this, "label.unique.key.name", false);
         previousUniqueKeyName = uniqueKeyNameText.getText().trim();
         CompositeFactory.filler(this, 1);
@@ -91,7 +91,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     @Override
     protected void addListener() {
         super.addListener();
-        this.complexUniqueKeyCombo.addSelectionListener(new SelectionAdapter() {
+        this.compoundUniqueKeyCombo.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 checkSelectedKey();
@@ -119,18 +119,18 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
                     Activator.showErrorDialog("error.already.exist.complex.unique.key");
                     return;
                 }
-                final ComplexUniqueKey complexUniqueKey = new CopyComplexUniqueKey(new ComplexUniqueKey(uniqueKeyName), null);
+                final CompoundUniqueKey complexUniqueKey = new CopyCompoundUniqueKey(new CompoundUniqueKey(uniqueKeyName), null);
                 complexUniqueKey.setColumnList(columnList);
-                table.getComplexUniqueKeyList().add(complexUniqueKey);
+                table.getCompoundUniqueKeyList().add(complexUniqueKey);
                 addComboData(complexUniqueKey);
-                complexUniqueKeyCombo.select(complexUniqueKeyCombo.getItemCount() - 1);
+                compoundUniqueKeyCombo.select(compoundUniqueKeyCombo.getItemCount() - 1);
                 setUpdateDeleteButtonStatus(true);
             }
         });
         this.updateButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                final int index = complexUniqueKeyCombo.getSelectionIndex();
+                final int index = compoundUniqueKeyCombo.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
@@ -138,7 +138,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
                 if (!validateUniqueKeyName(uniqueKeyName)) {
                     return;
                 }
-                final ComplexUniqueKey complexUniqueKey = table.getComplexUniqueKeyList().get(index);
+                final CompoundUniqueKey complexUniqueKey = table.getCompoundUniqueKeyList().get(index);
                 final List<NormalColumn> columnList = new ArrayList<NormalColumn>();
                 for (final TableEditor tableEditor : tableEditorList) {
                     final Button checkBox = (Button) tableEditor.getEditor();
@@ -150,31 +150,31 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
                     Activator.showErrorDialog("error.not.checked.complex.unique.key.columns");
                     return;
                 }
-                final ComplexUniqueKey sameKey = findComplexUniqueKey(columnList);
+                final CompoundUniqueKey sameKey = findComplexUniqueKey(columnList);
                 if (sameKey != null && sameKey != complexUniqueKey) {
                     Activator.showErrorDialog("error.already.exist.complex.unique.key");
                     return;
                 }
                 complexUniqueKey.setUniqueKeyName(uniqueKeyName);
                 complexUniqueKey.setColumnList(columnList);
-                complexUniqueKeyCombo.remove(index);
-                complexUniqueKeyCombo.add(complexUniqueKey.getLabel(), index);
-                complexUniqueKeyCombo.select(index);
+                compoundUniqueKeyCombo.remove(index);
+                compoundUniqueKeyCombo.add(complexUniqueKey.getLabel(), index);
+                compoundUniqueKeyCombo.select(index);
             }
         });
         this.deleteButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                final int index = complexUniqueKeyCombo.getSelectionIndex();
+                final int index = compoundUniqueKeyCombo.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
-                complexUniqueKeyCombo.remove(index);
-                table.getComplexUniqueKeyList().remove(index);
-                if (index < table.getComplexUniqueKeyList().size()) {
-                    complexUniqueKeyCombo.select(index);
+                compoundUniqueKeyCombo.remove(index);
+                table.getCompoundUniqueKeyList().remove(index);
+                if (index < table.getCompoundUniqueKeyList().size()) {
+                    compoundUniqueKeyCombo.select(index);
                 } else {
-                    complexUniqueKeyCombo.select(index - 1);
+                    compoundUniqueKeyCombo.select(index - 1);
                 }
                 checkSelectedKey();
             }
@@ -182,11 +182,11 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     }
 
     private void checkSelectedKey() {
-        final int index = complexUniqueKeyCombo.getSelectionIndex();
-        ComplexUniqueKey complexUniqueKey = null;
+        final int index = compoundUniqueKeyCombo.getSelectionIndex();
+        CompoundUniqueKey complexUniqueKey = null;
         String name = null;
         if (index != -1) {
-            complexUniqueKey = table.getComplexUniqueKeyList().get(index);
+            complexUniqueKey = table.getCompoundUniqueKeyList().get(index);
             name = complexUniqueKey.getUniqueKeyName();
             setUpdateDeleteButtonStatus(true);
         } else {
@@ -219,8 +219,8 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
         }
         final List<ERTable> tableList = table.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet().getList();
         for (final ERTable table : tableList) {
-            final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
-            for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
+            final List<CompoundUniqueKey> complexUniqueKeyList = table.getCompoundUniqueKeyList();
+            for (final CompoundUniqueKey complexUniqueKey : complexUniqueKeyList) {
                 final String currentUniqueKeyName = complexUniqueKey.getUniqueKeyName();
                 if (currentUniqueKeyName != null) {
                     if (!currentUniqueKeyName.equalsIgnoreCase(previousUniqueKeyName)) {
@@ -235,8 +235,8 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
         return true;
     }
 
-    public ComplexUniqueKey findComplexUniqueKey(List<NormalColumn> columnList) {
-        for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
+    public CompoundUniqueKey findComplexUniqueKey(List<NormalColumn> columnList) {
+        for (final CompoundUniqueKey complexUniqueKey : table.getCompoundUniqueKeyList()) {
             if (columnList.size() == complexUniqueKey.getColumnList().size()) {
                 boolean exists = true;
                 for (final NormalColumn column : columnList) {
@@ -256,7 +256,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     @Override
     protected void setupData() {
         super.setupData();
-        if (complexUniqueKeyCombo.getSelectionIndex() == -1) { // means new unique key
+        if (compoundUniqueKeyCombo.getSelectionIndex() == -1) { // means new unique key
             uniqueKeyNameText.setText(buildDefaultUniqueKeyNameTemplate());
         }
     }
@@ -277,8 +277,8 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
             }
             final List<ERTable> tableList = table.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet().getList();
             for (final ERTable table : tableList) {
-                final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
-                for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
+                final List<CompoundUniqueKey> complexUniqueKeyList = table.getCompoundUniqueKeyList();
+                for (final CompoundUniqueKey complexUniqueKey : complexUniqueKeyList) {
                     final String currentUniqueKeyName = complexUniqueKey.getUniqueKeyName();
                     if (currentUniqueKeyName != null) {
                         if (!currentUniqueKeyName.equalsIgnoreCase(previousUniqueKeyName)) {
@@ -313,7 +313,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     //                                                                               =====
     @Override
     public void setInitFocus() {
-        this.complexUniqueKeyCombo.setFocus();
+        this.compoundUniqueKeyCombo.setFocus();
     }
 
     // ===================================================================================
@@ -334,9 +334,9 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     }
 
     private void setComboData() {
-        this.complexUniqueKeyCombo.removeAll();
-        for (final Iterator<ComplexUniqueKey> iter = this.table.getComplexUniqueKeyList().iterator(); iter.hasNext();) {
-            final ComplexUniqueKey complexUniqueKey = iter.next();
+        this.compoundUniqueKeyCombo.removeAll();
+        for (final Iterator<CompoundUniqueKey> iter = this.table.getCompoundUniqueKeyList().iterator(); iter.hasNext();) {
+            final CompoundUniqueKey complexUniqueKey = iter.next();
             if (complexUniqueKey.isRemoved(this.table.getNormalColumns())) {
                 iter.remove();
             } else {
@@ -354,7 +354,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
     private void setUpdateDeleteButtonStatus(boolean enabled) {
         if (enabled) {
-            if (table.getComplexUniqueKeyList().get(complexUniqueKeyCombo.getSelectionIndex()).isReferred(table)) {
+            if (table.getCompoundUniqueKeyList().get(compoundUniqueKeyCombo.getSelectionIndex()).isReferred(table)) {
                 enabled = false;
             }
         }
@@ -362,8 +362,8 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
         deleteButton.setEnabled(enabled);
     }
 
-    private void addComboData(ComplexUniqueKey complexUniqueKey) {
-        this.complexUniqueKeyCombo.add(complexUniqueKey.getLabel());
+    private void addComboData(CompoundUniqueKey complexUniqueKey) {
+        this.compoundUniqueKeyCombo.add(complexUniqueKey.getLabel());
     }
 
     private void disposeTableEditor() {

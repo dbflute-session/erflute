@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 
 /**
@@ -28,7 +28,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
     private String parentCardinality;
     private String childCardinality;
     private boolean referenceForPK;
-    private ComplexUniqueKey referredComplexUniqueKey;
+    private CompoundUniqueKey referredCompoundUniqueKey;
     private NormalColumn referredSimpleUniqueColumn;
     private int sourceXp;
     private int sourceYp;
@@ -42,12 +42,12 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
         this(false, null, null);
     }
 
-    public Relationship(boolean referenceForPK, ComplexUniqueKey referredComplexUniqueKey, NormalColumn referredSimpleUniqueColumn) {
+    public Relationship(boolean referenceForPK, CompoundUniqueKey referredComplexUniqueKey, NormalColumn referredSimpleUniqueColumn) {
         this.onUpdateAction = "RESTRICT";
         this.onDeleteAction = "RESTRICT";
 
         this.referenceForPK = referenceForPK;
-        this.referredComplexUniqueKey = referredComplexUniqueKey;
+        this.referredCompoundUniqueKey = referredComplexUniqueKey;
         this.referredSimpleUniqueColumn = referredSimpleUniqueColumn;
 
         this.sourceXp = -1;
@@ -87,8 +87,8 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
                     final NormalColumn foreignKeyColumn = createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
                     target.addColumn(foreignKeyColumn);
                 }
-            } else if (this.referredComplexUniqueKey != null) {
-                for (final NormalColumn sourceColumn : referredComplexUniqueKey.getColumnList()) {
+            } else if (this.referredCompoundUniqueKey != null) {
+                for (final NormalColumn sourceColumn : referredCompoundUniqueKey.getColumnList()) {
                     final NormalColumn foreignKeyColumn = createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
                     target.addColumn(foreignKeyColumn);
                 }
@@ -164,7 +164,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
 
     public Relationship copy() {
         final Relationship to =
-                new Relationship(this.isReferenceForPK(), this.getReferredComplexUniqueKey(), this.getReferredSimpleUniqueColumn());
+                new Relationship(this.isReferenceForPK(), this.getReferredCompoundUniqueKey(), this.getReferredSimpleUniqueColumn());
 
         to.setForeignKeyName(this.getForeignKeyName());
         to.setOnDeleteAction(this.getOnDeleteAction());
@@ -205,21 +205,21 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
         getTargetTableView().addColumn(foreignKeyColumn);
         referenceForPK = false;
         referredSimpleUniqueColumn = sourceColumn;
-        referredComplexUniqueKey = null;
+        referredCompoundUniqueKey = null;
     }
 
-    public void setForeignKeyForComplexUniqueKey(ComplexUniqueKey complexUniqueKey) {
-        if (referredComplexUniqueKey == complexUniqueKey) {
+    public void setForeignKeyForComplexUniqueKey(CompoundUniqueKey compoundUniqueKey) {
+        if (referredCompoundUniqueKey == compoundUniqueKey) {
             return;
         }
         this.removeAllForeignKey();
-        for (final NormalColumn sourceColumn : complexUniqueKey.getColumnList()) {
+        for (final NormalColumn sourceColumn : compoundUniqueKey.getColumnList()) {
             final NormalColumn foreignKeyColumn = new NormalColumn(sourceColumn, sourceColumn, this, false);
             getTargetTableView().addColumn(foreignKeyColumn);
         }
         referenceForPK = false;
         referredSimpleUniqueColumn = null;
-        referredComplexUniqueKey = complexUniqueKey;
+        referredCompoundUniqueKey = compoundUniqueKey;
     }
 
     public void setForeignKeyColumnForPK() {
@@ -233,7 +233,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
         }
         this.referenceForPK = true;
         this.referredSimpleUniqueColumn = null;
-        this.referredComplexUniqueKey = null;
+        this.referredCompoundUniqueKey = null;
     }
 
     private void removeAllForeignKey() {
@@ -346,12 +346,12 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
         firePropertyChange(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
     }
 
-    public void setReferredComplexUniqueKey(ComplexUniqueKey referredComplexUniqueKey) {
-        this.referredComplexUniqueKey = referredComplexUniqueKey;
+    public void setReferredCompoundUniqueKey(CompoundUniqueKey referredCompoundUniqueKey) {
+        this.referredCompoundUniqueKey = referredCompoundUniqueKey;
     }
 
-    public ComplexUniqueKey getReferredComplexUniqueKey() {
-        return this.referredComplexUniqueKey;
+    public CompoundUniqueKey getReferredCompoundUniqueKey() {
+        return this.referredCompoundUniqueKey;
     }
 
     public void setReferredSimpleUniqueColumn(NormalColumn referredSimpleUniqueColumn) {

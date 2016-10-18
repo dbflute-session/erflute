@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
@@ -130,11 +130,11 @@ public class WrittenDiagramWalkerBuilder {
 
     private void setupReferred(Relationship relationship, PersistentContext context, StringBuilder xml) {
         // not write if empty or false to slim XML
-        final ComplexUniqueKey referredComplexUniqueKey = relationship.getReferredComplexUniqueKey();
+        final CompoundUniqueKey referredComplexUniqueKey = relationship.getReferredCompoundUniqueKey();
         if (referredComplexUniqueKey != null) {
             final TableView table = relationship.getTargetTableView(); // local table e.g. MEMBER
             final String uniqueKeyId = referredComplexUniqueKey.buildUniqueKeyId(table); // #for_erflute not use incremental ID
-            xml.append("\t<referred_complex_unique_key>").append(uniqueKeyId).append("</referred_complex_unique_key>\n"); // #for_erflute rename to 'referred'
+            xml.append("\t<referred_compound_unique_key>").append(uniqueKeyId).append("</referred_compound_unique_key>\n"); // #for_erflute rename
         }
         final NormalColumn referredSimpleUniqueColumn = relationship.getReferredSimpleUniqueColumn(); // simple unique key
         if (referredSimpleUniqueColumn != null) {

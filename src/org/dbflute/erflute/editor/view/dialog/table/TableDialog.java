@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.table.tab.AdvancedTabWrapper;
-import org.dbflute.erflute.editor.view.dialog.table.tab.ComplexUniqueKeyTabWrapper;
+import org.dbflute.erflute.editor.view.dialog.table.tab.CompoundUniqueKeyTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.table.tab.ConstraintTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.table.tab.DescriptionTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.table.tab.IndexTabWrapper;
@@ -67,8 +67,8 @@ public class TableDialog extends AbstractDialog {
         this.tabWrapperList.add(attributeTabWrapper);
         this.tabWrapperList.add(new DescriptionTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
         this.tabWrapperList.add(new ConstraintTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
-        final ComplexUniqueKeyTabWrapper complexUniqueKeyTabWrapper =
-                new ComplexUniqueKeyTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
+        final CompoundUniqueKeyTabWrapper complexUniqueKeyTabWrapper =
+                new CompoundUniqueKeyTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
         this.tabWrapperList.add(complexUniqueKeyTabWrapper);
         final IndexTabWrapper indexTabWrapper = new IndexTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
         this.tabWrapperList.add(indexTabWrapper);

@@ -35,7 +35,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
@@ -925,16 +925,16 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             referenceMap.put(sourceColumn, targetColumn);
         }
 
-        ComplexUniqueKey referredComplexUniqueKey = null;
+        CompoundUniqueKey referredComplexUniqueKey = null;
         NormalColumn referredSimpleUniqueColumn = null;
 
         if (!referenceForPK) {
             if (referenceMap.size() > 1) {
-                referredComplexUniqueKey = new ComplexUniqueKey("");
+                referredComplexUniqueKey = new CompoundUniqueKey("");
                 for (final NormalColumn column : referenceMap.keySet()) {
                     referredComplexUniqueKey.addColumn(column);
                 }
-                source.getComplexUniqueKeyList().add(referredComplexUniqueKey);
+                source.getCompoundUniqueKeyList().add(referredComplexUniqueKey);
             } else {
                 referredSimpleUniqueColumn = referenceMap.keySet().iterator().next();
             }

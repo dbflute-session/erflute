@@ -83,12 +83,12 @@ public class ReadDiagramWalkerLoader {
         relationship.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
         relationship.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
         relationship.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
-        String referredComplexUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
-        if (Srl.is_Null_or_Empty(referredComplexUniqueKeyId)) {
-            referredComplexUniqueKeyId = getStringValue(element, "referred_complex_unique_key"); // #for_erflute rename to 'referred'
+        String referredCompoundUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
+        if (Srl.is_Null_or_Empty(referredCompoundUniqueKeyId)) {
+            referredCompoundUniqueKeyId = getStringValue(element, "referred_compound_unique_key"); // #for_erflute rename
         }
-        if (referredComplexUniqueKeyId != null) {
-            context.referredComplexUniqueKeyMap.put(relationship, referredComplexUniqueKeyId);
+        if (referredCompoundUniqueKeyId != null) {
+            context.referredCompoundUniqueKeyMap.put(relationship, referredCompoundUniqueKeyId);
         }
         String referredSimpleUniqueColumnId = getStringValue(element, "referenced_column"); // simple unique key
         if (Srl.is_Null_or_Empty(referredSimpleUniqueColumnId)) {

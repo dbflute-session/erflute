@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
@@ -68,7 +68,7 @@ public class WrittenTableBuilder {
         xml.append(tab(columnBuilder.buildColumns(columns, context)));
         final List<ERIndex> indexes = table.getIndexes();
         xml.append(tab(indexBuilder.buildIndexes(indexes, context)));
-        final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
+        final List<CompoundUniqueKey> complexUniqueKeyList = table.getCompoundUniqueKeyList();
         xml.append(tab(uniqueKeyBuilder.buildComplexUniqueKeyList(complexUniqueKeyList, context)));
         final TableProperties tableProperties = (TableProperties) table.getTableViewProperties();
         xml.append(tab(tablePropertiesBuilder.buildTableProperties(tableProperties, context)));

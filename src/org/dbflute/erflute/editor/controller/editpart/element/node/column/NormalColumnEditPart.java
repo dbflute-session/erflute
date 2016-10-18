@@ -6,8 +6,8 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
@@ -144,8 +144,8 @@ public class NormalColumnEditPart extends ColumnEditPart {
                     if (relation.isReferenceForPK()) {
                         referencedColulmnList.addAll(((ERTable) tableView).getPrimaryKeys());
 
-                    } else if (relation.getReferredComplexUniqueKey() != null) {
-                        referencedColulmnList.addAll(relation.getReferredComplexUniqueKey().getColumnList());
+                    } else if (relation.getReferredCompoundUniqueKey() != null) {
+                        referencedColulmnList.addAll(relation.getReferredCompoundUniqueKey().getColumnList());
 
                     } else {
                         referencedColulmnList.add(relation.getReferredSimpleUniqueColumn());
@@ -159,84 +159,62 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
     private List<NormalColumn> getSelectedForeignKeyColulmnList() {
         final List<NormalColumn> foreignKeyColulmnList = new ArrayList<NormalColumn>();
-
         final TableViewEditPart parent = (TableViewEditPart) this.getParent();
-
         for (final Object object : parent.getTargetConnections()) {
             final ConnectionEditPart connectionEditPart = (ConnectionEditPart) object;
-
             final int selected = connectionEditPart.getSelected();
-
             if (selected == EditPart.SELECTED || selected == EditPart.SELECTED_PRIMARY) {
                 final WalkerConnection connectionElement = (WalkerConnection) connectionEditPart.getModel();
-
                 if (connectionElement instanceof Relationship) {
                     final Relationship relation = (Relationship) connectionElement;
-
                     foreignKeyColulmnList.addAll(relation.getForeignKeyColumns());
                 }
             }
         }
-
         return foreignKeyColulmnList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setSelected(int value) {
         final NormalColumnFigure figure = (NormalColumnFigure) this.getFigure();
-
         if (value != 0 && this.getParent() != null && this.getParent().getParent() != null) {
-            final List selectedEditParts = this.getViewer().getSelectedEditParts();
-
+            final List<?> selectedEditParts = this.getViewer().getSelectedEditParts();
             if (selectedEditParts != null && selectedEditParts.size() == 1) {
                 final NormalColumn normalColumn = (NormalColumn) this.getModel();
-
                 if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
                     for (final Object child : this.getParent().getChildren()) {
                         final AbstractGraphicalEditPart childEditPart = (AbstractGraphicalEditPart) child;
-
                         final NormalColumn column = (NormalColumn) childEditPart.getModel();
                         if (column.getColumnHolder() == normalColumn.getColumnHolder()) {
                             this.setGroupColumnFigureColor((TableViewEditPart) this.getParent(),
                                     (ColumnGroup) normalColumn.getColumnHolder(), true);
                         }
                     }
-
                 } else {
                     figure.setBackgroundColor(ColorConstants.titleBackground);
                     figure.setForegroundColor(ColorConstants.titleForeground);
                     selected = true;
                 }
-
                 super.setSelected(value);
             }
-
         } else {
             final NormalColumn normalColumn = (NormalColumn) this.getModel();
-
             if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
                 for (final Object child : this.getParent().getChildren()) {
                     final AbstractGraphicalEditPart childEditPart = (AbstractGraphicalEditPart) child;
-
                     final NormalColumn column = (NormalColumn) childEditPart.getModel();
                     if (column.getColumnHolder() == normalColumn.getColumnHolder()) {
                         this.setGroupColumnFigureColor((TableViewEditPart) this.getParent(), (ColumnGroup) normalColumn.getColumnHolder(),
                                 false);
                     }
                 }
-
             } else {
                 figure.setBackgroundColor(null);
                 figure.setForegroundColor(null);
                 selected = false;
             }
-
             super.setSelected(value);
         }
-
     }
 
     private void setGroupColumnFigureColor(TableViewEditPart parentEditPart, ColumnGroup columnGroup, boolean selected) {

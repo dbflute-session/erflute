@@ -19,7 +19,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
@@ -479,18 +479,18 @@ public abstract class DDLCreator {
             }
         }
         ddl.append(buildPrimaryKeyPart(table));
-        final List<ComplexUniqueKey> complexUniqueKeyList = table.getComplexUniqueKeyList();
-        for (final ComplexUniqueKey complexUniqueKey : complexUniqueKeyList) {
+        final List<CompoundUniqueKey> compoundUniqueKeyList = table.getCompoundUniqueKeyList();
+        for (final CompoundUniqueKey compoundUniqueKey : compoundUniqueKeyList) {
             ddl.append(",\r\n");
             ddl.append("\t");
-            if (!Check.isEmpty(complexUniqueKey.getUniqueKeyName())) {
+            if (!Check.isEmpty(compoundUniqueKey.getUniqueKeyName())) {
                 ddl.append("CONSTRAINT ");
-                ddl.append(complexUniqueKey.getUniqueKeyName());
+                ddl.append(compoundUniqueKey.getUniqueKeyName());
                 ddl.append(" ");
             }
             ddl.append("UNIQUE (");
             first = true;
-            for (final NormalColumn column : complexUniqueKey.getColumnList()) {
+            for (final NormalColumn column : compoundUniqueKey.getColumnList()) {
                 if (!first) {
                     ddl.append(", ");
                 }

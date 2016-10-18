@@ -11,14 +11,14 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
-public class ComplexUniqueKey extends AbstractModel {
+public class CompoundUniqueKey extends AbstractModel {
 
     private static final long serialVersionUID = -3970737521746421701L;
 
     private String uniqueKeyName;
     private List<NormalColumn> columnList;
 
-    public ComplexUniqueKey(String uniqueKeyName) {
+    public CompoundUniqueKey(String uniqueKeyName) {
         this.uniqueKeyName = uniqueKeyName;
         this.columnList = new ArrayList<NormalColumn>();
     }
@@ -51,12 +51,12 @@ public class ComplexUniqueKey extends AbstractModel {
 
     public boolean isReferred(ERTable table) {
         boolean isReferred = false;
-        ComplexUniqueKey target = this;
-        if (target instanceof CopyComplexUniqueKey) {
-            target = ((CopyComplexUniqueKey) target).getOriginal();
+        CompoundUniqueKey target = this;
+        if (target instanceof CopyCompoundUniqueKey) {
+            target = ((CopyCompoundUniqueKey) target).getOriginal();
         }
         for (final Relationship relationship : table.getOutgoingRelationshipList()) {
-            if (relationship.getReferredComplexUniqueKey() == target) {
+            if (relationship.getReferredCompoundUniqueKey() == target) {
                 isReferred = true;
                 break;
             }
@@ -75,7 +75,7 @@ public class ComplexUniqueKey extends AbstractModel {
                 }
                 sb.append(normalColumn.getPhysicalName());
             }
-            return "complexUniqueKey." + table.buildTableViewId() + ".[" + sb.toString() + "]";
+            return "compoundUniqueKey." + table.buildTableViewId() + ".[" + sb.toString() + "]";
         }
     }
 

@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -238,8 +238,8 @@ public class ERVirtualTable extends ERTable {
     }
 
     @Override
-    public List<ComplexUniqueKey> getComplexUniqueKeyList() {
-        return rawTable.getComplexUniqueKeyList();
+    public List<CompoundUniqueKey> getCompoundUniqueKeyList() {
+        return rawTable.getCompoundUniqueKeyList();
     }
 
     @Override
