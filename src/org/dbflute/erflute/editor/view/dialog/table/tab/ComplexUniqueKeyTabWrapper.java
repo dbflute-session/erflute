@@ -287,7 +287,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
     private void setButtonStatus(boolean enabled) {
         if (enabled) {
-            if (table.getComplexUniqueKeyList().get(complexUniqueKeyCombo.getSelectionIndex()).isReferenced(table)) {
+            if (table.getComplexUniqueKeyList().get(complexUniqueKeyCombo.getSelectionIndex()).isReferred(table)) {
                 enabled = false;
             }
         }

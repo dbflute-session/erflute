@@ -129,8 +129,7 @@ public class ReadDiagramWalkerLoader {
         }
     }
 
-    private String buildRelationshipId(TableView tableView, Element element, LoadContext context, Relationship relationship) {
-        final String tableName = tableView.getPhysicalName();
+    private String buildRelationshipId(TableView targetTable, Element element, LoadContext context, Relationship relationship) {
         final NodeList columnsNodeList = element.getElementsByTagName("fk_columns");
         final List<String> physicalColumnNameList = new ArrayList<String>();
         for (int i = 0; i < columnsNodeList.getLength(); i++) {
@@ -142,7 +141,7 @@ public class ReadDiagramWalkerLoader {
                 physicalColumnNameList.add(column);
             }
         }
-        return relationship.buildRelationshipId(tableName, physicalColumnNameList); // #for_erflute
+        return relationship.buildRelationshipId(targetTable, physicalColumnNameList); // #for_erflute
     }
 
     // ===================================================================================

@@ -252,20 +252,20 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
     }
 
     public String buildRelationshipId() { // for complete state e.g. when writing
-        final TableView targetTableView = getTargetTableView();
+        final TableView targetTable = getTargetTableView();
         final List<NormalColumn> foreignKeyColumns = getForeignKeyColumns();
         final List<String> physicalColumnNameList = new ArrayList<String>();
         for (final NormalColumn column : foreignKeyColumns) {
             physicalColumnNameList.add(column.getPhysicalName());
         }
-        return doBuildRelationshipId(targetTableView.getPhysicalName(), physicalColumnNameList);
+        return doBuildRelationshipId(targetTable, physicalColumnNameList);
     }
 
-    public String buildRelationshipId(String tableName, List<String> physicalColumnNameList) { // for making state e.g. when reading
-        return doBuildRelationshipId(tableName, physicalColumnNameList);
+    public String buildRelationshipId(TableView targetTable, List<String> physicalColumnNameList) { // for making state e.g. when reading
+        return doBuildRelationshipId(targetTable, physicalColumnNameList);
     }
 
-    private String doBuildRelationshipId(String tableName, List<String> physicalColumnNameList) {
+    private String doBuildRelationshipId(TableView targetTable, List<String> physicalColumnNameList) {
         if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyName)) { // e.g. FK_MEMBER_MEMBER_STATUS
             return foreignKeyName; // should be unique
         } else { // when no name FK
@@ -278,7 +278,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
                 }
                 sb.append(fkColumn);
             }
-            return tableName + "." + "[" + sb.toString() + "]." + pk;
+            return "relationship." + targetTable.buildTableViewId() + "." + "[" + sb.toString() + "]." + pk;
         }
     }
 

@@ -51,22 +51,19 @@ public class ComplexUniqueKey extends AbstractModel {
         return sb.toString();
     }
 
-    public boolean isReferenced(ERTable table) {
-        boolean isReferenced = false;
-
+    public boolean isReferred(ERTable table) {
+        boolean isReferred = false;
         ComplexUniqueKey target = this;
         if (target instanceof CopyComplexUniqueKey) {
             target = ((CopyComplexUniqueKey) target).getOriginal();
         }
-
         for (final Relationship relation : table.getOutgoingRelationshipList()) {
             if (relation.getReferredComplexUniqueKey() == target) {
-                isReferenced = true;
+                isReferred = true;
                 break;
             }
         }
-
-        return isReferenced;
+        return isReferred;
     }
 
     public String buildUniqueKeyId(TableView table) {
@@ -80,7 +77,7 @@ public class ComplexUniqueKey extends AbstractModel {
                 }
                 sb.append(normalColumn.getPhysicalName());
             }
-            return table.getPhysicalName() + ".[" + sb.toString() + "]";
+            return "complexUniqueKey." + table.buildTableViewId() + ".[" + sb.toString() + "]";
         }
     }
 
