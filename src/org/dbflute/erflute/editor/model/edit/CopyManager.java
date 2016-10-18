@@ -113,7 +113,7 @@ public class CopyManager {
                                         final ComplexUniqueKey newReferencedComplexUniqueKey =
                                                 complexUniqueKeyMap.get(oldReferencedComplexUniqueKey);
                                         if (newReferencedComplexUniqueKey != null) {
-                                            newRelation.setReferencedComplexUniqueKey(newReferencedComplexUniqueKey);
+                                            newRelation.setReferredComplexUniqueKey(newReferencedComplexUniqueKey);
                                         }
                                     }
 

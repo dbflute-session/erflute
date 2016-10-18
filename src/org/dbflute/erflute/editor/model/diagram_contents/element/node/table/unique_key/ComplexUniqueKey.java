@@ -34,7 +34,6 @@ public class ComplexUniqueKey extends AbstractModel {
 
     public String getLabel() {
         final StringBuilder sb = new StringBuilder();
-
         sb.append(Format.null2blank(this.uniqueKeyName));
         sb.append(" (");
         boolean first = true;
@@ -47,7 +46,6 @@ public class ComplexUniqueKey extends AbstractModel {
             sb.append(normalColumn.getName());
         }
         sb.append(")");
-
         return sb.toString();
     }
 

@@ -195,6 +195,12 @@ public class Activator extends AbstractUIPlugin {
     // ===================================================================================
     //                                                                             Logging
     //                                                                             =======
+    public static void warn(Object caller, String methodName, String msg) {
+        if (isWarnEnabled()) {
+            doLog("WARN", caller, methodName, msg);
+        }
+    }
+
     public static void debug(Object caller, String methodName, String msg) {
         if (isDebugEnabled()) {
             doLog("DEBUG", caller, methodName, msg);
@@ -212,6 +218,10 @@ public class Activator extends AbstractUIPlugin {
         final String currentDate = format.format(new Date());
         final String className = caller.getClass().getSimpleName();
         System.out.println(currentDate + " " + logLevel + " (" + className + "@" + methodName + ") - " + msg);
+    }
+
+    private static boolean isWarnEnabled() {
+        return true;
     }
 
     private static boolean isDebugEnabled() {

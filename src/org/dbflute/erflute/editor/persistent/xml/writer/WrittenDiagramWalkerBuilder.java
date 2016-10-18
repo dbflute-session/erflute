@@ -96,7 +96,7 @@ public class WrittenDiagramWalkerBuilder {
         return xml.toString();
     }
 
-    private void setupOnDeleteUpdate(Relationship relation, final StringBuilder xml) {
+    private void setupOnDeleteUpdate(Relationship relation, StringBuilder xml) {
         // not write if empty or false to slim XML
         final String onDeleteAction = relation.getOnDeleteAction();
         if (onDeleteAction != null && !"NO ACTION".equals(onDeleteAction)) {
@@ -128,7 +128,7 @@ public class WrittenDiagramWalkerBuilder {
         }
     }
 
-    private void setupReferred(Relationship relationship, PersistentContext context, final StringBuilder xml) {
+    private void setupReferred(Relationship relationship, PersistentContext context, StringBuilder xml) {
         // not write if empty or false to slim XML
         final ComplexUniqueKey referredComplexUniqueKey = relationship.getReferredComplexUniqueKey();
         if (referredComplexUniqueKey != null) {

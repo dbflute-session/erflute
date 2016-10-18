@@ -48,7 +48,7 @@ public class ChangeRelationshipPropertyCommand extends AbstractCommand {
         this.oldCopyRelation.restructureRelationData(this.relation);
 
         this.relation.setReferenceForPK(this.oldCopyRelation.isReferenceForPK());
-        this.relation.setReferencedComplexUniqueKey(this.oldCopyRelation.getReferredComplexUniqueKey());
+        this.relation.setReferredComplexUniqueKey(this.oldCopyRelation.getReferredComplexUniqueKey());
         this.relation.setReferredSimpleUniqueColumn(this.oldCopyRelation.getReferredSimpleUniqueColumn());
 
         this.oldTargetTable.restructureData(this.relation.getTargetTableView());

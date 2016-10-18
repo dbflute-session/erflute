@@ -340,7 +340,7 @@ public class NormalColumn extends ERColumn {
     }
 
     public String buildSimpleUniqueColumnId(TableView table) {
-        return "simpleUnique." + buildColumnId(table);
+        return buildColumnId(table); // should be same as normal column because of mapping when loading
     }
 
     private String getResolvedPhysicalName() {

@@ -346,7 +346,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
         firePropertyChange(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE, null, null);
     }
 
-    public void setReferencedComplexUniqueKey(ComplexUniqueKey referredComplexUniqueKey) {
+    public void setReferredComplexUniqueKey(ComplexUniqueKey referredComplexUniqueKey) {
         this.referredComplexUniqueKey = referredComplexUniqueKey;
     }
 

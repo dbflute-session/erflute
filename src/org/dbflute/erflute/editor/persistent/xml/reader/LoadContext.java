@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -104,26 +105,43 @@ public class LoadContext {
     }
 
     private void doResolveRelationship() {
-        for (final Relationship relationship : referredSimpleUniqueColumnMap.keySet()) {
-            final String uniqueColumnId = referredSimpleUniqueColumnMap.get(relationship);
-            if (uniqueColumnId != null && !uniqueColumnId.equals("null")) { // null allowed when migration from ERMaster...?
-                final NormalColumn column = columnMap.get(uniqueColumnId);
-                if (column == null) {
-                    System.out.println("*error, Not found the column ID: " + uniqueColumnId + ", relationship=" + relationship
-                            + ", existingKeys=" + columnMap.keySet());
-                }
-                relationship.setReferredSimpleUniqueColumn(column);
-            }
-        }
-        for (final Relationship relationship : referredComplexUniqueKeyMap.keySet()) {
-            final String uniqueKeyId = referredComplexUniqueKeyMap.get(relationship);
-            final ComplexUniqueKey complexUniqueKey = complexUniqueKeyMap.get(uniqueKeyId);
-            relationship.setReferencedComplexUniqueKey(complexUniqueKey);
-        }
+        setupReferredComplexUniqueKey();
+        setupReferredSimpleUniqueColumn();
         final Set<NormalColumn> foreignKeyColumnSet = columnReferredColumnMap.keySet();
         while (!foreignKeyColumnSet.isEmpty()) {
             final NormalColumn foreignKeyColumn = foreignKeyColumnSet.iterator().next();
             reduceRelationship(foreignKeyColumnSet, foreignKeyColumn);
+        }
+    }
+
+    private void setupReferredComplexUniqueKey() {
+        for (final Entry<Relationship, String> entry : referredComplexUniqueKeyMap.entrySet()) {
+            final Relationship relationship = entry.getKey();
+            final String uniqueKeyId = entry.getValue();
+            if (uniqueKeyId != null && !uniqueKeyId.equals("null")) { // may be "null" from ERMaster...?
+                final ComplexUniqueKey complexUniqueKey = complexUniqueKeyMap.get(uniqueKeyId);
+                if (complexUniqueKey == null) { // may be garbage, naturally deleted when next saving
+                    final String methodName = "setupReferredComplexUniqueKey()";
+                    final String msgBase = "*Not found the complexUniqueKey: ";
+                    Activator.warn(this, methodName, msgBase + "uniqueKeyId=" + uniqueKeyId + ", relationship=" + relationship);
+                }
+                relationship.setReferredComplexUniqueKey(complexUniqueKey);
+            }
+        }
+    }
+
+    private void setupReferredSimpleUniqueColumn() {
+        for (final Relationship relationship : referredSimpleUniqueColumnMap.keySet()) {
+            final String uniqueColumnId = referredSimpleUniqueColumnMap.get(relationship);
+            if (uniqueColumnId != null && !uniqueColumnId.equals("null")) { // may be "null" from ERMaster...?
+                final NormalColumn column = columnMap.get(uniqueColumnId);
+                if (column == null) { // may be garbage, naturally deleted when next saving
+                    final String methodName = "setupReferredSimpleUniqueColumn()";
+                    final String msgBase = "*Not found the simpleUniqueColumn: ";
+                    Activator.warn(this, methodName, msgBase + "uniqueColumnId=" + uniqueColumnId + ", relationship=" + relationship);
+                }
+                relationship.setReferredSimpleUniqueColumn(column);
+            }
         }
     }
 

@@ -343,20 +343,20 @@ public class RelationshipDialog extends AbstractDialog {
         final int index = this.columnCombo.getSelectionIndex();
         if (index < this.relationshipColumnState.complexUniqueKeyStartIndex) {
             this.relationship.setReferenceForPK(true);
-            this.relationship.setReferencedComplexUniqueKey(null);
+            this.relationship.setReferredComplexUniqueKey(null);
             this.relationship.setReferredSimpleUniqueColumn(null);
         } else if (index < this.relationshipColumnState.columnStartIndex) {
             final ComplexUniqueKey complexUniqueKey =
                     ((ERTable) this.relationship.getSourceTableView()).getComplexUniqueKeyList().get(
                             index - this.relationshipColumnState.complexUniqueKeyStartIndex);
             this.relationship.setReferenceForPK(false);
-            this.relationship.setReferencedComplexUniqueKey(complexUniqueKey);
+            this.relationship.setReferredComplexUniqueKey(complexUniqueKey);
             this.relationship.setReferredSimpleUniqueColumn(null);
         } else {
             final NormalColumn sourceColumn =
                     this.relationshipColumnState.candidateColumns.get(index - this.relationshipColumnState.columnStartIndex);
             this.relationship.setReferenceForPK(false);
-            this.relationship.setReferencedComplexUniqueKey(null);
+            this.relationship.setReferredComplexUniqueKey(null);
             this.relationship.setReferredSimpleUniqueColumn(sourceColumn);
         }
     }
