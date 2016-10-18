@@ -399,7 +399,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         final List<ERIndex> indexes = this.getIndexes(table, this.metaData, primaryKeys);
 
-        final List<ERColumn> columns = this.getColumns(tableNameWithSchema, tableName, schema, indexes, primaryKeys, autoIncrementColumnName);
+        final List<ERColumn> columns =
+                this.getColumns(tableNameWithSchema, tableName, schema, indexes, primaryKeys, autoIncrementColumnName);
 
         table.setColumns(columns);
         table.setIndexes(indexes);
@@ -924,26 +925,22 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             referenceMap.put(sourceColumn, targetColumn);
         }
 
-        ComplexUniqueKey referencedComplexUniqueKey = null;
-        NormalColumn referencedColumn = null;
+        ComplexUniqueKey referredComplexUniqueKey = null;
+        NormalColumn referredSimpleUniqueColumn = null;
 
         if (!referenceForPK) {
             if (referenceMap.size() > 1) {
-                // TODO �ｽ�ｽ�ｽ�ｽ�ｽ�ｽﾓキ�ｽ[�ｽﾌ撰ｿｽ�ｽｼを復鯉ｿｽ�ｽﾅゑｿｽ�ｽﾄゑｿｽ�ｽﾈゑｿｽ
-                referencedComplexUniqueKey = new ComplexUniqueKey("");
+                referredComplexUniqueKey = new ComplexUniqueKey("");
                 for (final NormalColumn column : referenceMap.keySet()) {
-                    referencedComplexUniqueKey.addColumn(column);
+                    referredComplexUniqueKey.addColumn(column);
                 }
-                // TODO �ｽ�ｽ�ｽ�ｽ�ｽﾅ包ｿｽ�ｽ�ｽ�ｽ�ｽﾓキ�ｽ[�ｽ�ｽﾇ隠�ｽ�ｽ�ｽﾌではなゑｿｽ�ｽAindex
-                // �ｽ�ｽ�ｽ辜�ｿｽj�ｽ[�ｽN�ｽL�ｽ[�ｽ�ｽ�ｽ�ｽﾆゑｿｽ�ｽ�ｽﾅゑｿｽ�ｽ�ｽH
-                source.getComplexUniqueKeyList().add(referencedComplexUniqueKey);
-
+                source.getComplexUniqueKeyList().add(referredComplexUniqueKey);
             } else {
-                referencedColumn = referenceMap.keySet().iterator().next();
+                referredSimpleUniqueColumn = referenceMap.keySet().iterator().next();
             }
         }
 
-        final Relationship relation = new Relationship(referenceForPK, referencedComplexUniqueKey, referencedColumn);
+        final Relationship relation = new Relationship(referenceForPK, referredComplexUniqueKey, referredSimpleUniqueColumn);
         relation.setForeignKeyName(representativeData.name);
         relation.setSourceWalker(source);
         relation.setTargetWithoutForeignKey(target);

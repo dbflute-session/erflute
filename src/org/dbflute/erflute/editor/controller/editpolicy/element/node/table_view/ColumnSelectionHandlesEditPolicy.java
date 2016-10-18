@@ -153,38 +153,38 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
             Activator.showErrorDialog("error.reference.key.not.moveable");
             return null;
         } else if (oldColumn.isForeignKey()) {
-            final Relationship oldRelation = oldColumn.getRelationshipList().get(0);
-            final TableView referencedTableView = oldRelation.getSourceTableView();
-            if (ERTable.isRecursive(referencedTableView, newTableView)) {
+            final Relationship oldRelationship = oldColumn.getRelationshipList().get(0);
+            final TableView referredTableView = oldRelationship.getSourceTableView();
+            if (ERTable.isRecursive(referredTableView, newTableView)) {
                 Activator.showErrorDialog("error.recursive.relation");
                 return null;
             }
-            final DeleteRelationshipCommand deleteOldRelationCommand = new DeleteRelationshipCommand(oldRelation, true);
+            final DeleteRelationshipCommand deleteOldRelationCommand = new DeleteRelationshipCommand(oldRelationship, true);
             command.add(deleteOldRelationCommand);
             final Relationship newRelation =
-                    new Relationship(oldRelation.isReferenceForPK(), oldRelation.getReferencedComplexUniqueKey(),
-                            oldRelation.getReferencedColumn());
+                    new Relationship(oldRelationship.isReferenceForPK(), oldRelationship.getReferredComplexUniqueKey(),
+                            oldRelationship.getReferredSimpleUniqueColumn());
             final List<NormalColumn> oldForeignKeyColumnList = new ArrayList<NormalColumn>();
-            if (referencedTableView == newTableView) {
+            if (referredTableView == newTableView) {
                 Activator.showErrorDialog("error.foreign.key.not.moveable.to.reference.table");
                 return null;
             }
-            if (oldRelation.isReferenceForPK()) {
-                for (final NormalColumn referencedPrimaryKey : ((ERTable) referencedTableView).getPrimaryKeys()) {
+            if (oldRelationship.isReferenceForPK()) {
+                for (final NormalColumn referencedPrimaryKey : ((ERTable) referredTableView).getPrimaryKeys()) {
                     for (final NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
                         if (oldTableColumn.isForeignKey()) {
-                            if (oldTableColumn.getReferredColumn(oldRelation) == referencedPrimaryKey) {
+                            if (oldTableColumn.getReferredColumn(oldRelationship) == referencedPrimaryKey) {
                                 oldForeignKeyColumnList.add(oldTableColumn);
                                 break;
                             }
                         }
                     }
                 }
-            } else if (oldRelation.getReferencedComplexUniqueKey() != null) {
-                for (final NormalColumn referencedColumn : oldRelation.getReferencedComplexUniqueKey().getColumnList()) {
+            } else if (oldRelationship.getReferredComplexUniqueKey() != null) {
+                for (final NormalColumn referredColumn : oldRelationship.getReferredComplexUniqueKey().getColumnList()) {
                     for (final NormalColumn oldTableColumn : oldTableView.getNormalColumns()) {
                         if (oldTableColumn.isForeignKey()) {
-                            if (oldTableColumn.getReferredColumn(oldRelation) == referencedColumn) {
+                            if (oldTableColumn.getReferredColumn(oldRelationship) == referredColumn) {
                                 oldForeignKeyColumnList.add(oldTableColumn);
                                 break;
                             }
@@ -203,7 +203,7 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
             }
             final CreateRelationshipByNewColumnCommand createNewRelationCommand =
                     new CreateRelationshipByNewColumnCommand(newRelation, oldForeignKeyColumnList);
-            final EditPart sourceEditPart = (EditPart) viewer.getEditPartRegistry().get(referencedTableView);
+            final EditPart sourceEditPart = (EditPart) viewer.getEditPartRegistry().get(referredTableView);
             final EditPart targetEditPart = (EditPart) viewer.getEditPartRegistry().get(newTableView);
             createNewRelationCommand.setSource(sourceEditPart);
             createNewRelationCommand.setTarget(targetEditPart);

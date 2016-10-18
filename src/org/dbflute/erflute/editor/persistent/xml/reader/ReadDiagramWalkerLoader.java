@@ -83,19 +83,19 @@ public class ReadDiagramWalkerLoader {
         connection.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
         connection.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
         connection.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
-        String referencedColumnId = getStringValue(element, "referenced_column"); // needed? (in relationship) by jflute
-        if (Srl.is_Null_or_Empty(referencedColumnId)) {
-            referencedColumnId = getStringValue(element, "referred_column"); // #for_erflute rename to 'referred'
-        }
-        if (referencedColumnId != null) {
-            context.referredColumnMap.put(connection, referencedColumnId);
-        }
         String referredComplexUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
         if (Srl.is_Null_or_Empty(referredComplexUniqueKeyId)) {
             referredComplexUniqueKeyId = getStringValue(element, "referred_complex_unique_key"); // #for_erflute rename to 'referred'
         }
         if (referredComplexUniqueKeyId != null) {
             context.referredComplexUniqueKeyMap.put(connection, referredComplexUniqueKeyId);
+        }
+        String referredSimpleUniqueColumnId = getStringValue(element, "referenced_column"); // simple unique key
+        if (Srl.is_Null_or_Empty(referredSimpleUniqueColumnId)) {
+            referredSimpleUniqueColumnId = getStringValue(element, "referred_simple_unique_column"); // #for_erflute rename
+        }
+        if (referredSimpleUniqueColumnId != null) {
+            context.referredSimpleUniqueColumnMap.put(connection, referredSimpleUniqueColumnId);
         }
         loadConnectionElement(walker, element, context, connection);
     }
@@ -109,15 +109,15 @@ public class ReadDiagramWalkerLoader {
         connection.setOwnerWalker(walker);
         final String source = getStringValue(element, "source");
         final String target = getStringValue(element, "target");
-        String id = getStringValue(element, "id");
-        if (Srl.is_Null_or_TrimmedEmpty(id)) {
+        String connectionId = getStringValue(element, "id");
+        if (Srl.is_Null_or_TrimmedEmpty(connectionId)) {
             if (walker instanceof TableView && connection instanceof Relationship) { // table determination just in case
-                id = buildRelationshipId((TableView) walker, element, context, (Relationship) connection);
+                connectionId = buildRelationshipId((TableView) walker, element, context, (Relationship) connection);
             } else {
-                id = "#error:unknownId_for_" + target + "_to_" + source;
+                connectionId = "#error:unknownId_for_" + target + "_to_" + source;
             }
         }
-        context.connectionMap.put(id, connection);
+        context.connectionMap.put(connectionId, connection);
         context.connectionSourceMap.put(connection, source);
         context.connectionTargetMap.put(connection, target);
         final NodeList nodeList = element.getElementsByTagName("bendpoint");
@@ -131,12 +131,16 @@ public class ReadDiagramWalkerLoader {
 
     private String buildRelationshipId(TableView tableView, Element element, LoadContext context, Relationship relationship) {
         final String tableName = tableView.getPhysicalName();
-        final NodeList nodeList = element.getElementsByTagName("fk_columns");
+        final NodeList columnsNodeList = element.getElementsByTagName("fk_columns");
         final List<String> physicalColumnNameList = new ArrayList<String>();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            final Element columnElement = (Element) nodeList.item(i);
-            final String column = getStringValue(columnElement, "fk_column_name");
-            physicalColumnNameList.add(column);
+        for (int i = 0; i < columnsNodeList.getLength(); i++) {
+            final Element columnsElement = (Element) columnsNodeList.item(i);
+            final NodeList columnNodeList = columnsElement.getElementsByTagName("fk_column");
+            for (int j = 0; j < columnNodeList.getLength(); j++) {
+                final Element columnElement = (Element) columnNodeList.item(j);
+                final String column = getStringValue(columnElement, "fk_column_name");
+                physicalColumnNameList.add(column);
+            }
         }
         return relationship.buildRelationshipId(tableName, physicalColumnNameList); // #for_erflute
     }

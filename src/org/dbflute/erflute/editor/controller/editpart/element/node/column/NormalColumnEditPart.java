@@ -144,11 +144,11 @@ public class NormalColumnEditPart extends ColumnEditPart {
                     if (relation.isReferenceForPK()) {
                         referencedColulmnList.addAll(((ERTable) tableView).getPrimaryKeys());
 
-                    } else if (relation.getReferencedComplexUniqueKey() != null) {
-                        referencedColulmnList.addAll(relation.getReferencedComplexUniqueKey().getColumnList());
+                    } else if (relation.getReferredComplexUniqueKey() != null) {
+                        referencedColulmnList.addAll(relation.getReferredComplexUniqueKey().getColumnList());
 
                     } else {
-                        referencedColulmnList.add(relation.getReferencedColumn());
+                        referencedColulmnList.add(relation.getReferredSimpleUniqueColumn());
                     }
                 }
             }

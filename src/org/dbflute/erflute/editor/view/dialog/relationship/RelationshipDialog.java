@@ -279,16 +279,16 @@ public class RelationshipDialog extends AbstractDialog {
         }
         if (this.relationship.isReferenceForPK()) {
             this.columnCombo.select(0);
-        } else if (this.relationship.getReferencedComplexUniqueKey() != null) {
+        } else if (this.relationship.getReferredComplexUniqueKey() != null) {
             for (int i = 0; i < sourceTable.getComplexUniqueKeyList().size(); i++) {
-                if (sourceTable.getComplexUniqueKeyList().get(i) == this.relationship.getReferencedComplexUniqueKey()) {
+                if (sourceTable.getComplexUniqueKeyList().get(i) == this.relationship.getReferredComplexUniqueKey()) {
                     this.columnCombo.select(i + this.relationshipColumnState.complexUniqueKeyStartIndex);
                     break;
                 }
             }
         } else {
             for (int i = 0; i < this.relationshipColumnState.candidateColumns.size(); i++) {
-                if (this.relationshipColumnState.candidateColumns.get(i) == this.relationship.getReferencedColumn()) {
+                if (this.relationshipColumnState.candidateColumns.get(i) == this.relationship.getReferredSimpleUniqueColumn()) {
                     this.columnCombo.select(i + this.relationshipColumnState.columnStartIndex);
                     break;
                 }
@@ -344,20 +344,20 @@ public class RelationshipDialog extends AbstractDialog {
         if (index < this.relationshipColumnState.complexUniqueKeyStartIndex) {
             this.relationship.setReferenceForPK(true);
             this.relationship.setReferencedComplexUniqueKey(null);
-            this.relationship.setReferencedColumn(null);
+            this.relationship.setReferredSimpleUniqueColumn(null);
         } else if (index < this.relationshipColumnState.columnStartIndex) {
             final ComplexUniqueKey complexUniqueKey =
                     ((ERTable) this.relationship.getSourceTableView()).getComplexUniqueKeyList().get(
                             index - this.relationshipColumnState.complexUniqueKeyStartIndex);
             this.relationship.setReferenceForPK(false);
             this.relationship.setReferencedComplexUniqueKey(complexUniqueKey);
-            this.relationship.setReferencedColumn(null);
+            this.relationship.setReferredSimpleUniqueColumn(null);
         } else {
             final NormalColumn sourceColumn =
                     this.relationshipColumnState.candidateColumns.get(index - this.relationshipColumnState.columnStartIndex);
             this.relationship.setReferenceForPK(false);
             this.relationship.setReferencedComplexUniqueKey(null);
-            this.relationship.setReferencedColumn(sourceColumn);
+            this.relationship.setReferredSimpleUniqueColumn(sourceColumn);
         }
     }
 }

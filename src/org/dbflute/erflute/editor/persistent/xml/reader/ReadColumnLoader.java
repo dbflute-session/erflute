@@ -141,12 +141,12 @@ public class ReadColumnLoader {
     private boolean setupRelationship(Element element, LoadContext context, final NormalColumn normalColumn) {
         // normalColumn's reference info will be resolved later (in LoadContext)
         // because reference table may not be loaded yet here
-        String[] relationIds = getTagValues(element, "relation"); // migration from ERMaster
-        if (relationIds == null || relationIds.length == 0) {
-            relationIds = getTagValues(element, "relationship"); // #for_erflute rename to relationship
+        String[] relationshipIds = getTagValues(element, "relation"); // migration from ERMaster
+        if (relationshipIds == null || relationshipIds.length == 0) {
+            relationshipIds = getTagValues(element, "relationship"); // #for_erflute rename to relationship
         }
-        if (relationIds != null) { // unneeded if? (getTagValues() cannot return null) by jflute
-            context.columnRelationMap.put(normalColumn, relationIds);
+        if (relationshipIds != null) { // unneeded if? (getTagValues() cannot return null) by jflute
+            context.columnRelationshipMap.put(normalColumn, relationshipIds);
         }
         String[] referredColumnIds = getTagValues(element, "referenced_column"); // migration from ERMaster
         if (referredColumnIds == null || referredColumnIds.length == 0) {

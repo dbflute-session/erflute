@@ -32,12 +32,12 @@ public class LoadContext {
     public final Map<String, DiagramWalker> walkerMap; // ID = node
     public final Map<String, NormalColumn> columnMap; // ID = column
     public final Map<String, ComplexUniqueKey> complexUniqueKeyMap;
-    public final Map<NormalColumn, String[]> columnRelationMap;
+    public final Map<NormalColumn, String[]> columnRelationshipMap;
     public final Map<NormalColumn, String[]> columnReferredColumnMap;
     public final Map<String, ColumnGroup> columnGroupMap;
     public final Map<String, ERVirtualDiagram> virtualDiagramMap;
-    public final Map<Relationship, String> referredColumnMap; // relationship = column ID
-    public final Map<Relationship, String> referredComplexUniqueKeyMap;
+    public final Map<Relationship, String> referredComplexUniqueKeyMap; // relationship = unique key ID
+    public final Map<Relationship, String> referredSimpleUniqueColumnMap; // relationship = unique column ID
     public final Map<WalkerConnection, String> connectionSourceMap;
     public final Map<WalkerConnection, String> connectionTargetMap;
     public final Map<String, WalkerConnection> connectionMap;
@@ -54,11 +54,11 @@ public class LoadContext {
         this.walkerMap = new LinkedHashMap<String, DiagramWalker>();
         this.columnMap = new LinkedHashMap<String, NormalColumn>();
         this.complexUniqueKeyMap = new LinkedHashMap<String, ComplexUniqueKey>();
-        this.columnRelationMap = new LinkedHashMap<NormalColumn, String[]>();
+        this.columnRelationshipMap = new LinkedHashMap<NormalColumn, String[]>();
         this.columnReferredColumnMap = new LinkedHashMap<NormalColumn, String[]>();
         this.virtualDiagramMap = new LinkedHashMap<String, ERVirtualDiagram>();
         this.columnGroupMap = new LinkedHashMap<String, ColumnGroup>();
-        this.referredColumnMap = new LinkedHashMap<Relationship, String>();
+        this.referredSimpleUniqueColumnMap = new LinkedHashMap<Relationship, String>();
         this.referredComplexUniqueKeyMap = new LinkedHashMap<Relationship, String>();
         this.connectionMap = new LinkedHashMap<String, WalkerConnection>();
         this.connectionSourceMap = new LinkedHashMap<WalkerConnection, String>();
@@ -104,21 +104,21 @@ public class LoadContext {
     }
 
     private void doResolveRelationship() {
-        for (final Relationship relation : referredColumnMap.keySet()) {
-            final String id = referredColumnMap.get(relation);
-            if (id != null && !id.equals("null")) { // null allowed when migration from ERMaster...?
-                final NormalColumn column = columnMap.get(id);
+        for (final Relationship relationship : referredSimpleUniqueColumnMap.keySet()) {
+            final String uniqueColumnId = referredSimpleUniqueColumnMap.get(relationship);
+            if (uniqueColumnId != null && !uniqueColumnId.equals("null")) { // null allowed when migration from ERMaster...?
+                final NormalColumn column = columnMap.get(uniqueColumnId);
                 if (column == null) {
-                    System.out.println("*error, Not found the column ID: " + id + ", relation=" + relation + ", existingKeys="
-                            + columnMap.keySet());
+                    System.out.println("*error, Not found the column ID: " + uniqueColumnId + ", relationship=" + relationship
+                            + ", existingKeys=" + columnMap.keySet());
                 }
-                relation.setReferencedColumn(column);
+                relationship.setReferredSimpleUniqueColumn(column);
             }
         }
-        for (final Relationship relation : referredComplexUniqueKeyMap.keySet()) {
-            final String id = referredComplexUniqueKeyMap.get(relation);
-            final ComplexUniqueKey complexUniqueKey = complexUniqueKeyMap.get(id);
-            relation.setReferencedComplexUniqueKey(complexUniqueKey);
+        for (final Relationship relationship : referredComplexUniqueKeyMap.keySet()) {
+            final String uniqueKeyId = referredComplexUniqueKeyMap.get(relationship);
+            final ComplexUniqueKey complexUniqueKey = complexUniqueKeyMap.get(uniqueKeyId);
+            relationship.setReferencedComplexUniqueKey(complexUniqueKey);
         }
         final Set<NormalColumn> foreignKeyColumnSet = columnReferredColumnMap.keySet();
         while (!foreignKeyColumnSet.isEmpty()) {
@@ -128,30 +128,30 @@ public class LoadContext {
     }
 
     private void reduceRelationship(Set<NormalColumn> foreignKeyColumnSet, NormalColumn foreignKeyColumn) {
-        final String[] referencedColumnIds = columnReferredColumnMap.get(foreignKeyColumn);
-        final String[] relationIds = columnRelationMap.get(foreignKeyColumn);
-        final List<NormalColumn> referencedColumnList = new ArrayList<NormalColumn>();
-        if (referencedColumnIds != null) {
-            for (final String referencedColumnId : referencedColumnIds) {
-                final NormalColumn referencedColumn = columnMap.get(referencedColumnId);
-                if (referencedColumn == null) {
-                    throwReferencedColumnNotFoundException(foreignKeyColumn, referencedColumnId);
+        final String[] referredColumnIds = columnReferredColumnMap.get(foreignKeyColumn);
+        final String[] relationshipIds = columnRelationshipMap.get(foreignKeyColumn);
+        final List<NormalColumn> referredColumnList = new ArrayList<NormalColumn>();
+        if (referredColumnIds != null) {
+            for (final String referredColumnId : referredColumnIds) {
+                final NormalColumn referredColumn = columnMap.get(referredColumnId);
+                if (referredColumn == null) {
+                    throwReferredColumnNotFoundException(foreignKeyColumn, referredColumnId);
                 }
-                referencedColumnList.add(referencedColumn);
-                if (foreignKeyColumnSet.contains(referencedColumn)) {
-                    reduceRelationship(foreignKeyColumnSet, referencedColumn);
+                referredColumnList.add(referredColumn);
+                if (foreignKeyColumnSet.contains(referredColumn)) {
+                    reduceRelationship(foreignKeyColumnSet, referredColumn);
                 }
             }
         }
-        if (relationIds != null) {
-            for (final String relationId : relationIds) {
-                final Relationship relationship = (Relationship) connectionMap.get(relationId);
+        if (relationshipIds != null) {
+            for (final String relationshipId : relationshipIds) {
+                final Relationship relationship = (Relationship) connectionMap.get(relationshipId);
                 if (relationship == null) {
-                    throwRelationshipNotFoundException(foreignKeyColumn, relationId);
+                    throwRelationshipNotFoundException(foreignKeyColumn, relationshipId);
                 }
-                for (final NormalColumn referencedColumn : referencedColumnList) {
-                    if (referencedColumn.getColumnHolder() == relationship.getSourceTableView()) {
-                        foreignKeyColumn.addReference(referencedColumn, relationship);
+                for (final NormalColumn referredColumn : referredColumnList) {
+                    if (referredColumn.getColumnHolder() == relationship.getSourceTableView()) {
+                        foreignKeyColumn.addReference(referredColumn, relationship);
                         break;
                     }
                 }
@@ -160,15 +160,15 @@ public class LoadContext {
         foreignKeyColumnSet.remove(foreignKeyColumn);
     }
 
-    private void throwReferencedColumnNotFoundException(NormalColumn foreignKeyColumn, final String referencedColumnId) {
+    private void throwReferredColumnNotFoundException(NormalColumn foreignKeyColumn, final String referredColumnId) {
         final Set<String> keys = columnMap.keySet();
-        final String msg = "Not found the referencedColumn: id=" + referencedColumnId + ", fk=" + foreignKeyColumn + ", existing=" + keys;
+        final String msg = "Not found the referencedColumn: id=" + referredColumnId + ", fk=" + foreignKeyColumn + ", existing=" + keys;
         throw new PersistentXmlReadingFailureException(msg);
     }
 
-    private void throwRelationshipNotFoundException(NormalColumn foreignKeyColumn, final String relationId) {
+    private void throwRelationshipNotFoundException(NormalColumn foreignKeyColumn, final String relationshipId) {
         final Set<String> keys = connectionMap.keySet();
-        final String msg = "Not found the relationship: id=" + relationId + ", fk=" + foreignKeyColumn + ", existing=" + keys;
+        final String msg = "Not found the relationship: id=" + relationshipId + ", fk=" + foreignKeyColumn + ", existing=" + keys;
         throw new PersistentXmlReadingFailureException(msg);
     }
 }

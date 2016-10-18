@@ -103,12 +103,12 @@ public class CopyManager {
                             for (final Relationship oldRelation : oldColumn.getRelationshipList()) {
                                 final Relationship newRelation = (Relationship) connectionElementMap.get(oldRelation);
                                 if (newRelation != null) {
-                                    final NormalColumn oldReferencedColumn = newRelation.getReferencedColumn();
+                                    final NormalColumn oldReferencedColumn = newRelation.getReferredSimpleUniqueColumn();
                                     if (oldReferencedColumn != null) {
                                         final NormalColumn newReferencedColumn = (NormalColumn) columnMap.get(oldReferencedColumn);
-                                        newRelation.setReferencedColumn(newReferencedColumn);
+                                        newRelation.setReferredSimpleUniqueColumn(newReferencedColumn);
                                     }
-                                    final ComplexUniqueKey oldReferencedComplexUniqueKey = newRelation.getReferencedComplexUniqueKey();
+                                    final ComplexUniqueKey oldReferencedComplexUniqueKey = newRelation.getReferredComplexUniqueKey();
                                     if (oldReferencedComplexUniqueKey != null) {
                                         final ComplexUniqueKey newReferencedComplexUniqueKey =
                                                 complexUniqueKeyMap.get(oldReferencedComplexUniqueKey);

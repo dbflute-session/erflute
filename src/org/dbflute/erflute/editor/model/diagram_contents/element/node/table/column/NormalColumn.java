@@ -123,7 +123,7 @@ public class NormalColumn extends ERColumn {
                         outgoingRelationList.add(relation);
                     }
                 } else {
-                    if (this == relation.getReferencedColumn()) {
+                    if (this == relation.getReferredSimpleUniqueColumn()) {
                         outgoingRelationList.add(relation);
                     }
                 }

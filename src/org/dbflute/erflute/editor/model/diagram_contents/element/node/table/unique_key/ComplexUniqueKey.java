@@ -8,6 +8,7 @@ import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
 public class ComplexUniqueKey extends AbstractModel {
@@ -59,7 +60,7 @@ public class ComplexUniqueKey extends AbstractModel {
         }
 
         for (final Relationship relation : table.getOutgoingRelationshipList()) {
-            if (relation.getReferencedComplexUniqueKey() == target) {
+            if (relation.getReferredComplexUniqueKey() == target) {
                 isReferenced = true;
                 break;
             }
@@ -68,11 +69,18 @@ public class ComplexUniqueKey extends AbstractModel {
         return isReferenced;
     }
 
-    public String buildUniqueKeyId(ERTable table) {
-        if (Srl.is_NotNull_and_NotTrimmedEmpty(getUniqueKeyName())) {
+    public String buildUniqueKeyId(TableView table) {
+        if (Srl.is_NotNull_and_NotTrimmedEmpty(uniqueKeyName)) {
             return getUniqueKeyName();
         } else {
-            return table.getPhysicalName() + "." + getColumnList();
+            final StringBuilder sb = new StringBuilder();
+            for (final NormalColumn normalColumn : columnList) {
+                if (sb.length() > 0) {
+                    sb.append("/");
+                }
+                sb.append(normalColumn.getPhysicalName());
+            }
+            return table.getPhysicalName() + ".[" + sb.toString() + "]";
         }
     }
 

@@ -83,8 +83,8 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
             final ERTable sourceTable = (ERTable) source.getModel(); // e.g. MEMBER_STATUS
             final Relationship temp = sourceTable.createRelation();
             relationship.setReferenceForPK(temp.isReferenceForPK());
-            relationship.setReferencedComplexUniqueKey(temp.getReferencedComplexUniqueKey());
-            relationship.setReferencedColumn(temp.getReferencedColumn());
+            relationship.setReferencedComplexUniqueKey(temp.getReferredComplexUniqueKey());
+            relationship.setReferredSimpleUniqueColumn(temp.getReferredSimpleUniqueColumn());
             request.setStartCommand(command);
             return command;
         } else if (object instanceof RelatedTable) {
