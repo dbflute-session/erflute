@@ -404,8 +404,11 @@ public class IndexDialog extends AbstractDialog {
     @Override
     protected String doValidate() {
         final String indexName = indexNameText.getText().trim();
-        if (indexName.isEmpty() || indexName.equalsIgnoreCase(buildDefaultIndexNameTemplate())) {
-            return "error.index.name.empty";
+        if (indexName.isEmpty()) {
+            return "The index name is required.";
+        }
+        if (indexName.equalsIgnoreCase(buildDefaultIndexNameTemplate())) {
+            return "The index name is required: Change 'XXX' part: " + indexName;
         }
         if (!Check.isAlphabet(indexName)) {
             return "error.index.name.not.alphabet";

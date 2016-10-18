@@ -124,7 +124,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
                 table.getComplexUniqueKeyList().add(complexUniqueKey);
                 addComboData(complexUniqueKey);
                 complexUniqueKeyCombo.select(complexUniqueKeyCombo.getItemCount() - 1);
-                setButtonStatus(true);
+                setUpdateDeleteButtonStatus(true);
             }
         });
         this.updateButton.addSelectionListener(new SelectionAdapter() {
@@ -162,7 +162,6 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
                 complexUniqueKeyCombo.select(index);
             }
         });
-
         this.deleteButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -189,9 +188,9 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
         if (index != -1) {
             complexUniqueKey = table.getComplexUniqueKeyList().get(index);
             name = complexUniqueKey.getUniqueKeyName();
-            setButtonStatus(true);
+            setUpdateDeleteButtonStatus(true);
         } else {
-            setButtonStatus(false);
+            setUpdateDeleteButtonStatus(false);
         }
         uniqueKeyNameText.setText(Format.null2blank(name));
         for (final TableEditor tableEditor : tableEditorList) {
@@ -205,9 +204,13 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
         }
     }
 
-    private boolean validateUniqueKeyName(String uniqueKeyName) {
+    private boolean validateUniqueKeyName(String uniqueKeyName) { // for add/update button
         if (uniqueKeyName.isEmpty()) {
-            Activator.showErrorDialog("error.unique.key.name.empty");
+            Activator.showErrorDialog("The constraint name for unique key is required.");
+            return false;
+        }
+        if (uniqueKeyName.equalsIgnoreCase(buildDefaultUniqueKeyNameTemplate())) {
+            Activator.showErrorDialog("The constraint name for unique key is required: Change 'XXX' part: " + uniqueKeyName);
             return false;
         }
         if (!Check.isAlphabet(uniqueKeyName)) {
@@ -248,6 +251,14 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
             }
         }
         return null;
+    }
+
+    @Override
+    protected void setupData() {
+        super.setupData();
+        if (complexUniqueKeyCombo.getSelectionIndex() == -1) { // means new unique key
+            uniqueKeyNameText.setText(buildDefaultUniqueKeyNameTemplate());
+        }
     }
 
     // ===================================================================================
@@ -319,7 +330,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
             this.editorColumnMap.put(tableEditor, normalColumn);
         }
         setComboData();
-        setButtonStatus(false);
+        setUpdateDeleteButtonStatus(false);
     }
 
     private void setComboData() {
@@ -337,7 +348,11 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
-    private void setButtonStatus(boolean enabled) {
+    private String buildDefaultUniqueKeyNameTemplate() {
+        return "UQ_" + table.getPhysicalName() + "_XXX";
+    }
+
+    private void setUpdateDeleteButtonStatus(boolean enabled) {
         if (enabled) {
             if (table.getComplexUniqueKeyList().get(complexUniqueKeyCombo.getSelectionIndex()).isReferred(table)) {
                 enabled = false;
