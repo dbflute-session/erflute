@@ -37,6 +37,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class IndexDialog extends AbstractDialog {
 
     // ===================================================================================

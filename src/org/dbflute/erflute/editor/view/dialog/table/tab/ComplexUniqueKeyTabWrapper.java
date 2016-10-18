@@ -32,8 +32,14 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private final ERTable table;
     private Text uniqueKeyNameText;
     private String previousUniqueKeyName;
@@ -45,68 +51,43 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     private final List<TableEditor> tableEditorList;
     private final Map<TableEditor, NormalColumn> editorColumnMap;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public ComplexUniqueKeyTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable table) {
         super(dialog, parent, style, "label.complex.unique.key");
         this.table = table;
         this.tableEditorList = new ArrayList<TableEditor>();
         this.editorColumnMap = new HashMap<TableEditor, NormalColumn>();
-        this.init();
+        init();
     }
 
+    // ===================================================================================
+    //                                                                          Initialize
+    //                                                                          ==========
     @Override
     public void initComposite() {
         final GridLayout gridLayout = new GridLayout();
-        this.setLayout(gridLayout);
-        this.complexUniqueKeyCombo = CompositeFactory.createReadOnlyCombo(null, this, "label.complex.unique.key");
-        this.uniqueKeyNameText = CompositeFactory.createText(null, this, "label.unique.key.name", false);
-        this.previousUniqueKeyName = uniqueKeyNameText.getText().trim();
+        setLayout(gridLayout);
+        complexUniqueKeyCombo = CompositeFactory.createReadOnlyCombo(null, this, "label.complex.unique.key");
+        uniqueKeyNameText = CompositeFactory.createText(null, this, "label.unique.key.name", false);
+        previousUniqueKeyName = uniqueKeyNameText.getText().trim();
         CompositeFactory.filler(this, 1);
-        this.columnTable = CompositeFactory.createTable(this, 200, 1);
+        columnTable = CompositeFactory.createTable(this, 200, 1);
         CompositeFactory.createTableColumn(this.columnTable, "label.logical.name", ERTableComposite.NAME_WIDTH, SWT.NONE);
         CompositeFactory.createTableColumn(this.columnTable, "label.unique.key", ERTableComposite.UNIQUE_KEY_WIDTH, SWT.NONE);
         final GridLayout buttonGridLayout = new GridLayout();
         buttonGridLayout.numColumns = 3;
         final Composite buttonComposite = new Composite(this, SWT.NONE);
         buttonComposite.setLayout(buttonGridLayout);
-        this.addButton = CompositeFactory.createButton(buttonComposite, "label.button.add");
-        this.updateButton = CompositeFactory.createButton(buttonComposite, "label.button.update");
-        this.deleteButton = CompositeFactory.createButton(buttonComposite, "label.button.delete");
+        addButton = CompositeFactory.createButton(buttonComposite, "label.button.add");
+        updateButton = CompositeFactory.createButton(buttonComposite, "label.button.update");
+        deleteButton = CompositeFactory.createButton(buttonComposite, "label.button.delete");
     }
 
-    @Override
-    public void setInitFocus() {
-        this.complexUniqueKeyCombo.setFocus();
-    }
-
-    public void restruct() {
-        this.columnTable.removeAll();
-        this.disposeTableEditor();
-        for (final NormalColumn normalColumn : this.table.getNormalColumns()) {
-            final TableItem tableItem = new TableItem(this.columnTable, SWT.NONE);
-            tableItem.setText(0, Format.null2blank(normalColumn.getName()));
-            final TableEditor tableEditor = CompositeFactory.createCheckBoxTableEditor(tableItem, false, 1);
-            this.tableEditorList.add(tableEditor);
-            this.editorColumnMap.put(tableEditor, normalColumn);
-        }
-        this.setComboData();
-        this.setButtonStatus(false);
-    }
-
-    @Override
-    public void dispose() {
-        this.disposeTableEditor();
-        super.dispose();
-    }
-
-    private void disposeTableEditor() {
-        for (final TableEditor tableEditor : this.tableEditorList) {
-            tableEditor.getEditor().dispose();
-            tableEditor.dispose();
-        }
-        this.tableEditorList.clear();
-        this.editorColumnMap.clear();
-    }
-
+    // ===================================================================================
+    //                                                                            Listener
+    //                                                                            ========
     @Override
     protected void addListener() {
         super.addListener();
@@ -134,7 +115,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
                     Activator.showErrorDialog("error.not.checked.complex.unique.key.columns");
                     return;
                 }
-                if (contains(columnList) != null) {
+                if (findComplexUniqueKey(columnList) != null) {
                     Activator.showErrorDialog("error.already.exist.complex.unique.key");
                     return;
                 }
@@ -169,7 +150,7 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
                     Activator.showErrorDialog("error.not.checked.complex.unique.key.columns");
                     return;
                 }
-                final ComplexUniqueKey sameKey = contains(columnList);
+                final ComplexUniqueKey sameKey = findComplexUniqueKey(columnList);
                 if (sameKey != null && sameKey != complexUniqueKey) {
                     Activator.showErrorDialog("error.already.exist.complex.unique.key");
                     return;
@@ -201,6 +182,29 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
         });
     }
 
+    private void checkSelectedKey() {
+        final int index = complexUniqueKeyCombo.getSelectionIndex();
+        ComplexUniqueKey complexUniqueKey = null;
+        String name = null;
+        if (index != -1) {
+            complexUniqueKey = table.getComplexUniqueKeyList().get(index);
+            name = complexUniqueKey.getUniqueKeyName();
+            setButtonStatus(true);
+        } else {
+            setButtonStatus(false);
+        }
+        uniqueKeyNameText.setText(Format.null2blank(name));
+        for (final TableEditor tableEditor : tableEditorList) {
+            final Button checkbox = (Button) tableEditor.getEditor();
+            final NormalColumn column = editorColumnMap.get(tableEditor);
+            if (complexUniqueKey != null && complexUniqueKey.getColumnList().contains(column)) {
+                checkbox.setSelection(true);
+            } else {
+                checkbox.setSelection(false);
+            }
+        }
+    }
+
     private boolean validateUniqueKeyName(String uniqueKeyName) {
         if (uniqueKeyName.isEmpty()) {
             Activator.showErrorDialog("error.unique.key.name.empty");
@@ -228,71 +232,22 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
         return true;
     }
 
-    private void checkSelectedKey() {
-        final int index = complexUniqueKeyCombo.getSelectionIndex();
-        ComplexUniqueKey complexUniqueKey = null;
-        String name = null;
-        if (index != -1) {
-            complexUniqueKey = table.getComplexUniqueKeyList().get(index);
-            name = complexUniqueKey.getUniqueKeyName();
-            setButtonStatus(true);
-        } else {
-            setButtonStatus(false);
-        }
-        uniqueKeyNameText.setText(Format.null2blank(name));
-        for (final TableEditor tableEditor : tableEditorList) {
-            final Button checkbox = (Button) tableEditor.getEditor();
-            final NormalColumn column = editorColumnMap.get(tableEditor);
-            if (complexUniqueKey != null && complexUniqueKey.getColumnList().contains(column)) {
-                checkbox.setSelection(true);
-            } else {
-                checkbox.setSelection(false);
-            }
-        }
-    }
-
-    public ComplexUniqueKey contains(List<NormalColumn> columnList) {
-        for (final ComplexUniqueKey complexUniqueKey : this.table.getComplexUniqueKeyList()) {
+    public ComplexUniqueKey findComplexUniqueKey(List<NormalColumn> columnList) {
+        for (final ComplexUniqueKey complexUniqueKey : table.getComplexUniqueKeyList()) {
             if (columnList.size() == complexUniqueKey.getColumnList().size()) {
-                boolean exist = true;
+                boolean exists = true;
                 for (final NormalColumn column : columnList) {
                     if (!complexUniqueKey.getColumnList().contains(column)) {
-                        exist = false;
+                        exists = false;
                         break;
                     }
                 }
-                if (exist) {
+                if (exists) {
                     return complexUniqueKey;
                 }
             }
         }
         return null;
-    }
-
-    private void setComboData() {
-        this.complexUniqueKeyCombo.removeAll();
-        for (final Iterator<ComplexUniqueKey> iter = this.table.getComplexUniqueKeyList().iterator(); iter.hasNext();) {
-            final ComplexUniqueKey complexUniqueKey = iter.next();
-            if (complexUniqueKey.isRemoved(this.table.getNormalColumns())) {
-                iter.remove();
-            } else {
-                this.addComboData(complexUniqueKey);
-            }
-        }
-    }
-
-    private void addComboData(ComplexUniqueKey complexUniqueKey) {
-        this.complexUniqueKeyCombo.add(complexUniqueKey.getLabel());
-    }
-
-    private void setButtonStatus(boolean enabled) {
-        if (enabled) {
-            if (table.getComplexUniqueKeyList().get(complexUniqueKeyCombo.getSelectionIndex()).isReferred(table)) {
-                enabled = false;
-            }
-        }
-        this.updateButton.setEnabled(enabled);
-        this.deleteButton.setEnabled(enabled);
     }
 
     // ===================================================================================
@@ -331,5 +286,77 @@ public class ComplexUniqueKeyTabWrapper extends ValidatableTabWrapper {
     //                                                                          ==========
     @Override
     public void perfomeOK() {
+    }
+
+    // ===================================================================================
+    //                                                                             Dispose
+    //                                                                             =======
+    @Override
+    public void dispose() {
+        disposeTableEditor();
+        super.dispose();
+    }
+
+    // ===================================================================================
+    //                                                                               Focus
+    //                                                                               =====
+    @Override
+    public void setInitFocus() {
+        this.complexUniqueKeyCombo.setFocus();
+    }
+
+    // ===================================================================================
+    //                                                                      Various Public
+    //                                                                      ==============
+    public void restruct() {
+        this.columnTable.removeAll();
+        this.disposeTableEditor();
+        for (final NormalColumn normalColumn : this.table.getNormalColumns()) {
+            final TableItem tableItem = new TableItem(this.columnTable, SWT.NONE);
+            tableItem.setText(0, Format.null2blank(normalColumn.getName()));
+            final TableEditor tableEditor = CompositeFactory.createCheckBoxTableEditor(tableItem, false, 1);
+            this.tableEditorList.add(tableEditor);
+            this.editorColumnMap.put(tableEditor, normalColumn);
+        }
+        setComboData();
+        setButtonStatus(false);
+    }
+
+    private void setComboData() {
+        this.complexUniqueKeyCombo.removeAll();
+        for (final Iterator<ComplexUniqueKey> iter = this.table.getComplexUniqueKeyList().iterator(); iter.hasNext();) {
+            final ComplexUniqueKey complexUniqueKey = iter.next();
+            if (complexUniqueKey.isRemoved(this.table.getNormalColumns())) {
+                iter.remove();
+            } else {
+                this.addComboData(complexUniqueKey);
+            }
+        }
+    }
+
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
+    private void setButtonStatus(boolean enabled) {
+        if (enabled) {
+            if (table.getComplexUniqueKeyList().get(complexUniqueKeyCombo.getSelectionIndex()).isReferred(table)) {
+                enabled = false;
+            }
+        }
+        updateButton.setEnabled(enabled);
+        deleteButton.setEnabled(enabled);
+    }
+
+    private void addComboData(ComplexUniqueKey complexUniqueKey) {
+        this.complexUniqueKeyCombo.add(complexUniqueKey.getLabel());
+    }
+
+    private void disposeTableEditor() {
+        for (final TableEditor tableEditor : this.tableEditorList) {
+            tableEditor.getEditor().dispose();
+            tableEditor.dispose();
+        }
+        this.tableEditorList.clear();
+        this.editorColumnMap.clear();
     }
 }

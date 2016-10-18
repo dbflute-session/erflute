@@ -63,7 +63,7 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
     }
 
     @Override
-    public void setData() {
+    public void setupData() {
         this.autoImeChangeCheck.setSelection(this.settings.isAutoImeChange());
         this.validatePhysicalNameCheck.setSelection(this.settings.isValidatePhysicalName());
         this.useBezierCurveCheck.setSelection(this.settings.isUseBezierCurve());

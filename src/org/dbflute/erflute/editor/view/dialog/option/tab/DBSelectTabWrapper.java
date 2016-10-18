@@ -61,7 +61,7 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
     }
 
     @Override
-    public void setData() {
+    public void setupData() {
         for (int i = 0; i < this.databaseCombo.getItemCount(); i++) {
             String database = this.databaseCombo.getItem(i);
             if (database.equals(this.settings.getDatabase())) {
@@ -91,7 +91,7 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
             this.dialog.initTab();
 
         } else {
-            this.setData();
+            this.setupData();
         }
     }
 

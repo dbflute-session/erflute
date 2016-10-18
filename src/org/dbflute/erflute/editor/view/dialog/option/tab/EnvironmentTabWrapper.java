@@ -119,7 +119,7 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
                 String name = nameText.getText().trim();
                 if (!Check.isEmpty(name)) {
                     settings.getEnvironmentSetting().getEnvironments().add(new Environment(name));
-                    setData();
+                    setupData();
                     environmentList.select(environmentList.getItemCount() - 1);
                 }
             }
@@ -141,7 +141,7 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
                 if (!Check.isEmpty(name)) {
                     Environment environment = settings.getEnvironmentSetting().getEnvironments().get(targetIndex);
                     environment.setName(name);
-                    setData();
+                    setupData();
                     environmentList.select(targetIndex);
                 }
             }
@@ -160,7 +160,7 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
                 }
 
                 settings.getEnvironmentSetting().getEnvironments().remove(targetIndex);
-                setData();
+                setupData();
 
                 if (settings.getEnvironmentSetting().getEnvironments().size() > targetIndex) {
                     environmentList.select(targetIndex);
@@ -218,8 +218,8 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
      * {@inheritDoc}
      */
     @Override
-    protected void setData() {
-        super.setData();
+    protected void setupData() {
+        super.setupData();
 
         this.environmentList.removeAll();
 
