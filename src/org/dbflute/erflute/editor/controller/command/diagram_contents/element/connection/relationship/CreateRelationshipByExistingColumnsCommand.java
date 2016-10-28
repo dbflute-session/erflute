@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname.DefaultForeignKeyNameProvider;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
@@ -66,10 +65,6 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             selectedReferredColumnList = dialog.getSelectedReferencedColumnList();
             selectedForeignKeyColumnList = dialog.getSelectedForeignKeyColumnList();
             relationship = dialog.getNewCreatedRelationship();
-            final String defaultName = provideDefaultForeignKeyName(sourceTable, targetTable);
-            if (defaultName != null) {
-                relationship.setForeignKeyName(defaultName);
-            }
             return true;
         } else {
             return false;
@@ -187,10 +182,5 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             sourceTable.getDiagram().getDiagramContents().getDictionary().add(foreignKeyColumn);
         }
         targetTable.setDirty();
-    }
-
-    private String provideDefaultForeignKeyName(ERTable sourceTable, TableView targetTable) {
-        // #hope use selected foreign columns when duplicate
-        return new DefaultForeignKeyNameProvider().provide(sourceTable, targetTable);
     }
 }

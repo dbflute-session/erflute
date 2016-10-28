@@ -9,8 +9,12 @@ import java.util.Set;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.dialog.AbstractDialog;
+import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
+import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname.DefaultForeignKeyNameProvider;
+import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
@@ -33,6 +37,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -56,6 +61,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     // -----------------------------------------------------
     //                                             Component
     //                                             ---------
+    private Text foreignKeyNameText; // #for_erflute
     private Combo referredColumnSelector;
     private ReferredColumnState referredColumnState;
     private Table foreignKeyColumnMapper; // avoid abstract word 'table' here
@@ -115,14 +121,35 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     //                                             ---------
     @Override
     protected void initComponent(Composite composite) {
+        createForeignKeyNameText(composite);
+        createGridLayout(composite);
+        createReferredColumnSelector(composite);
+        createForeignKeyColumnMapper(composite);
+        newColumnCheckBox = CompositeFactory.createCheckbox(this, composite, "Create new column(s)");
+    }
+
+    // -----------------------------------------------------
+    //                                      Foreign Key Name
+    //                                      ----------------
+    private void createForeignKeyNameText(Composite composite) {
+        foreignKeyNameText = CompositeFactory.createText(this, composite, "Foreign Key Name", false);
+        foreignKeyNameText.setText(provideDefaultForeignKeyName(source, target));
+    }
+
+    private String provideDefaultForeignKeyName(ERTable sourceTable, TableView targetTable) {
+        // #hope use selected foreign columns when duplicate
+        return new DefaultForeignKeyNameProvider().provide(sourceTable, targetTable);
+    }
+
+    // -----------------------------------------------------
+    //                                           Grid Layout
+    //                                           -----------
+    private void createGridLayout(Composite composite) {
         final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
         final Label label = new Label(composite, SWT.NONE);
         label.setLayoutData(gridData);
         label.setText("Select PK or UQ column and select FK column");
-        createReferredColumnSelector(composite);
-        createForeignKeyColumnMapper(composite);
-        newColumnCheckBox = CompositeFactory.createCheckbox(this, composite, "Create new column(s)");
     }
 
     // -----------------------------------------------------
@@ -261,6 +288,26 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
     //                                                                          ==========
     @Override
     protected String doValidate() {
+        final String foreignKeyName = foreignKeyNameText.getText().trim();
+        if (Srl.is_Null_or_TrimmedEmpty(foreignKeyName)) {
+            return "Input foreign key name e.g. FK_XXX";
+        }
+        if (!Check.isAlphabet(foreignKeyName)) {
+            return "error.foreign.key.name.not.alphabet";
+        }
+        final ERDiagram diagram = target.getDiagram();
+        final List<TableView> tableViewList = diagram.getDiagramContents().getDiagramWalkers().getTableViewList();
+        for (final TableView tableView : tableViewList) {
+            final List<Relationship> relationshipList = tableView.getIncomingRelationshipList();
+            for (final Relationship currentRel : relationshipList) {
+                final String currentForeignKeyName = currentRel.getForeignKeyName();
+                if (currentForeignKeyName != null) {
+                    if (currentForeignKeyName.equalsIgnoreCase(foreignKeyName)) {
+                        return "error.foreign.key.name.already.exists";
+                    }
+                }
+            }
+        }
         if (isCreateNewColumn()) {
             for (final NormalColumn referredColumn : selectedReferredColumnList) {
                 final NormalColumn existingColumn = target.findColumnByPhysicalName(referredColumn.getPhysicalName());
@@ -337,6 +384,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
 
     private void setupRelationship() {
         newCreatedRelationship = createRelationship();
+        newCreatedRelationship.setForeignKeyName(foreignKeyNameText.getText().trim());
         if (isCreateNewColumn()) {
             for (final NormalColumn referredColumn : selectedReferredColumnList) {
                 final NormalColumn newColumn = newForeignKeyColumn(referredColumn, newCreatedRelationship, resultReferenceForPK);

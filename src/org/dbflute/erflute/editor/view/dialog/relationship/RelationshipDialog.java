@@ -305,7 +305,7 @@ public class RelationshipDialog extends AbstractDialog {
     //                                                                          ==========
     @Override
     protected String doValidate() {
-        final String foreignKeyName = foreignKeyNameText.getText().trim(); // not required
+        final String foreignKeyName = foreignKeyNameText.getText().trim(); // not required for compatible
         if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyName)) {
             if (!Check.isAlphabet(foreignKeyName)) {
                 return "error.foreign.key.name.not.alphabet";
