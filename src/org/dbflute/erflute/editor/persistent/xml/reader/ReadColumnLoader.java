@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -146,8 +147,13 @@ public class ReadColumnLoader {
         if (relationshipIds == null || relationshipIds.length == 0) {
             relationshipIds = getTagValues(element, "relationship"); // #for_erflute rename to relationship
         }
-        if (relationshipIds != null) { // unneeded if? (getTagValues() cannot return null) by jflute
-            context.columnRelationshipMap.put(normalColumn, relationshipIds);
+        if (relationshipIds != null && relationshipIds.length > 0) {
+            if (!relationshipIds[0].equalsIgnoreCase("null")) { // to avoid <relationship>null<relationship>
+                context.columnRelationshipMap.put(normalColumn, relationshipIds);
+            } else {
+                final String msg = "Not found the relationship for column: " + normalColumn;
+                Activator.warn(this, "setupRelationship()", msg);
+            }
         }
         String[] referredColumnIds = getTagValues(element, "referenced_column"); // migration from ERMaster
         if (referredColumnIds == null || referredColumnIds.length == 0) {
