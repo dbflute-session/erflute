@@ -13,6 +13,7 @@ import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialo
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 public class ColumnGroupManageAction extends AbstractBaseAction {
@@ -27,8 +28,8 @@ public class ColumnGroupManageAction extends AbstractBaseAction {
     public void execute(Event event) {
         final ERDiagram diagram = this.getDiagram();
         final ColumnGroupSet groupSet = diagram.getDiagramContents().getColumnGroupSet();
-        final ColumnGroupManageDialog dialog =
-                new ColumnGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, diagram, false, -1);
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final ColumnGroupManageDialog dialog = new ColumnGroupManageDialog(shell, groupSet, diagram, false, -1);
         if (dialog.open() == IDialogConstants.OK_ID) {
             final List<CopyColumnGroup> newColumnGroups = dialog.getCopyColumnGroups();
             final Command command = new ChangeColumnGroupCommand(diagram, groupSet, newColumnGroups);

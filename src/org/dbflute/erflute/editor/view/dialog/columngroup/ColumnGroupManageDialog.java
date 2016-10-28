@@ -213,12 +213,16 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
 
     @Override
     protected void setupData() {
-        if (this.editTargetIndex != -1) {
+        if (isEdit()) {
             this.groupList.setSelection(editTargetIndex);
             this.copyData = new CopyColumnGroup(copyGroups.get(editTargetIndex));
             this.initColumnGroup();
             this.setGroupEditEnabled(true);
         }
+    }
+
+    private boolean isEdit() {
+        return this.editTargetIndex != -1;
     }
 
     public List<CopyColumnGroup> getCopyColumnGroups() {
@@ -382,7 +386,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
             if (groupName.equals("")) {
                 return "error.group.name.empty";
             }
-            if (copyGroups != null) { // just in case
+            if (copyGroups != null && !isEdit()) { // just in case
                 for (final CopyColumnGroup existingGroup : copyGroups) {
                     final String existingName = existingGroup.getGroupName();
                     if (existingName.equalsIgnoreCase(groupName)) {
