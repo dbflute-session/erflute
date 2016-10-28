@@ -121,7 +121,8 @@ public class ReadColumnLoader {
         final Integer arrayDimension = getIntegerValue(element, "arrayDimension");
         final boolean unsigned = getBooleanValue(element, "unsigned");
         final String args = getStringValue(element, "args");
-        return new TypeData(length, decimal, array, arrayDimension, unsigned, args);
+        final boolean charSemantics = getBooleanValue(element, "charSemantics");
+        return new TypeData(length, decimal, array, arrayDimension, unsigned, args, charSemantics);
     }
 
     private NormalColumn createNormalColumn(Element element, final Word word) {

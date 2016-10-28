@@ -679,7 +679,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             }
 
             final String args = columnData.enumData;
-            final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
+            // TODO jflute xxxxxxxxxxxxxx (2016/10/28)
+            final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, false);
 
             Word word = new Word(columnName, logicalName, sqlType, typeData, description, this.diagram.getDatabase());
             final UniqueWord uniqueWord = new UniqueWord(word);
@@ -1106,8 +1107,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 tableAlias = tableName.substring(asIndex + 1).trim();
                 tableName = tableName.substring(0, asIndex).trim();
 
-                // schema.tablename �ｽﾌ場合�ｽAschema �ｽｳ趣ｿｽ�ｽ�ｽ�ｽﾄ考�ｽ�ｽ�ｽ�ｽ
-                // TODO schema �ｽ�ｽl�ｽ�ｽ�ｽ�ｽ�ｽﾄ考�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ謔｢
                 final int dotIndex = tableName.indexOf(".");
                 if (dotIndex != -1) {
                     tableName = tableName.substring(dotIndex + 1);
@@ -1226,23 +1225,21 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     private void addColumnToView(List<ERColumn> columnList, NormalColumn targetColumn, String columnAlias) {
         Word word = null;
-
         if (targetColumn != null) {
             word = new Word(targetColumn.getWord());
             if (columnAlias != null) {
                 word.setPhysicalName(columnAlias);
             }
         } else {
-            word = new Word(columnAlias, columnAlias, null, new TypeData(null, null, false, null, false, null), null, null);
+            final TypeData emptyTypeData = new TypeData(null, null, false, null, false, null, false);
+            word = new Word(columnAlias, columnAlias, null, emptyTypeData, null, null);
         }
-
         final UniqueWord uniqueWord = new UniqueWord(word);
         if (this.dictionary.get(uniqueWord) != null) {
             word = this.dictionary.get(uniqueWord);
         } else {
             this.dictionary.put(uniqueWord, word);
         }
-
         final NormalColumn column = new NormalColumn(word, false, false, false, false, null, null, null, null, null);
         columnList.add(column);
     }
@@ -1253,7 +1250,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     private List<Tablespace> importTablespaces(List<DBObject> dbObjectList) throws SQLException {
         final List<Tablespace> list = new ArrayList<Tablespace>();
-
         for (final DBObject dbObject : dbObjectList) {
             if (DBObject.TYPE_TABLESPACE.equals(dbObject.getType())) {
                 final String name = dbObject.getName();

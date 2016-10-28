@@ -156,6 +156,10 @@ public class WrittenColumnBuilder {
         if (Srl.is_NotNull_and_NotEmpty(args)) {
             xml.append("\t<args>").append(escape(args)).append("</args>\n");
         }
+        // TODO jflute xxxxxxxxxxx (2016/10/28)
+        if (true) {
+            xml.append("\t<char_semantics>").append(true).append("</char_semantics>\n");
+        }
     }
 
     private void setupComment(NormalColumn normalColumn, final StringBuilder xml, final Word word) {

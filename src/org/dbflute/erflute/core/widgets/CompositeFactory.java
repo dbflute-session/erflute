@@ -17,6 +17,7 @@ import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -175,25 +176,23 @@ public class CompositeFactory {
             final Label label = new Label(composite, SWT.NONE);
             label.setText(DisplayMessages.getMessage(title));
         }
-
         final GridData textGridData = new GridData();
         textGridData.horizontalSpan = span;
         if (width > 0) {
             textGridData.widthHint = width;
-
         } else {
             textGridData.horizontalAlignment = GridData.FILL;
             textGridData.grabExcessHorizontalSpace = true;
         }
-
         final Text text = new Text(composite, style);
         text.setLayoutData(textGridData);
-
         ListenerAppender.addTextListener(text, dialog, imeOn);
-
         return text;
     }
 
+    // ===================================================================================
+    //                                                                               Label
+    //                                                                               =====
     public static Label createExampleLabel(Composite composite, String title) {
         return createExampleLabel(composite, title, -1);
     }
@@ -225,7 +224,6 @@ public class CompositeFactory {
         if (width > 0) {
             gridData.widthHint = width;
         }
-
         final Label label = new Label(composite, SWT.NONE);
         label.setLayoutData(gridData);
     }
@@ -254,6 +252,9 @@ public class CompositeFactory {
         return label;
     }
 
+    // ===================================================================================
+    //                                                                            Checkbox
+    //                                                                            ========
     public static Button createCheckbox(AbstractDialog dialog, Composite composite, String title) {
         return createCheckbox(dialog, composite, title, -1);
     }
@@ -270,30 +271,41 @@ public class CompositeFactory {
         return checkbox;
     }
 
+    // ===================================================================================
+    //                                                                               Radio
+    //                                                                               =====
     public static Button createRadio(AbstractDialog dialog, Composite composite, String title) {
         return createRadio(dialog, composite, title, -1);
     }
 
     public static Button createRadio(AbstractDialog dialog, Composite composite, String title, int span) {
+        return createRadio(dialog, composite, title, span, false);
+    }
+
+    public static Button createRadio(AbstractDialog dialog, Composite composite, String title, int span, boolean indent) {
         final Button radio = new Button(composite, SWT.RADIO);
         radio.setText(DisplayMessages.getMessage(title));
+        final GridData gridData = new GridData();
         if (span != -1) {
-            final GridData gridData = new GridData();
             gridData.horizontalSpan = span;
-            radio.setLayoutData(gridData);
         }
+        if (indent) {
+            gridData.horizontalIndent = DesignResources.INDENT;
+        }
+        radio.setLayoutData(gridData);
         ListenerAppender.addCheckBoxListener(radio, dialog);
-
         return radio;
     }
 
+    // ===================================================================================
+    //                                                                           Text Area
+    //                                                                           =========
     public static Text createTextArea(AbstractDialog dialog, Composite composite, String title, int width, int height, int span,
             boolean selectAll, boolean imeOn) {
         if (title != null) {
             final Label label = new Label(composite, SWT.NONE);
             label.setText(DisplayMessages.getMessage(title));
         }
-
         final GridData textAreaGridData = new GridData();
         textAreaGridData.heightHint = height;
         textAreaGridData.grabExcessHorizontalSpace = true;
@@ -302,9 +314,7 @@ public class CompositeFactory {
         textAreaGridData.widthHint = width;
         final Text text = new Text(composite, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
         text.setLayoutData(textAreaGridData);
-
         ListenerAppender.addTextAreaListener(text, dialog, selectAll, imeOn);
-
         return text;
     }
 
@@ -313,30 +323,9 @@ public class CompositeFactory {
         return createTextArea(dialog, composite, title, width, height, span, true, imeOn);
     }
 
-    public static Table createTable(Composite composite, int height, int span) {
-        final GridData gridData = new GridData();
-        gridData.horizontalSpan = span;
-        gridData.heightHint = height;
-        gridData.horizontalAlignment = GridData.FILL;
-        gridData.grabExcessHorizontalSpace = true;
-
-        final Table table = new Table(composite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
-        table.setLayoutData(gridData);
-        table.setHeaderVisible(true);
-        table.setLinesVisible(true);
-
-        return table;
-    }
-
-    public static TableColumn createTableColumn(Table table, String text, int width, int style) {
-        final TableColumn tableColumn = new TableColumn(table, style);
-        tableColumn.setText(DisplayMessages.getMessage(text));
-        tableColumn.setWidth(width);
-        tableColumn.setAlignment(style);
-
-        return tableColumn;
-    }
-
+    // ===================================================================================
+    //                                                                              Button
+    //                                                                              ======
     public static Button createButton(Composite composite, String text) {
         return createButton(composite, text, -1);
     }
@@ -384,6 +373,33 @@ public class CompositeFactory {
         return button;
     }
 
+    // ===================================================================================
+    //                                                                               Table
+    //                                                                               =====
+    public static Table createTable(Composite composite, int height, int span) {
+        final GridData gridData = new GridData();
+        gridData.horizontalSpan = span;
+        gridData.heightHint = height;
+        gridData.horizontalAlignment = GridData.FILL;
+        gridData.grabExcessHorizontalSpace = true;
+
+        final Table table = new Table(composite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
+        table.setLayoutData(gridData);
+        table.setHeaderVisible(true);
+        table.setLinesVisible(true);
+
+        return table;
+    }
+
+    public static TableColumn createTableColumn(Table table, String text, int width, int style) {
+        final TableColumn tableColumn = new TableColumn(table, style);
+        tableColumn.setText(DisplayMessages.getMessage(text));
+        tableColumn.setWidth(width);
+        tableColumn.setAlignment(style);
+
+        return tableColumn;
+    }
+
     public static TableEditor createCheckBoxTableEditor(TableItem tableItem, boolean selection, int column) {
         final Table table = tableItem.getParent();
 
@@ -426,5 +442,29 @@ public class CompositeFactory {
         panel.add(table);
 
         return table;
+    }
+
+    // ===================================================================================
+    //                                                                     Child Composite
+    //                                                                     ===============
+    public static Composite createChildComposite(Composite parent, int span, int numColumns) {
+        return createChildComposite(parent, -1, span, numColumns);
+    }
+
+    public static Composite createChildComposite(Composite parent, int height, int span, int numColumns) {
+        final Composite composite = new Composite(parent, SWT.NONE);
+        final GridData gridData = new GridData();
+        gridData.horizontalSpan = span;
+        gridData.horizontalAlignment = GridData.FILL;
+        gridData.grabExcessHorizontalSpace = true;
+        if (height >= 0) {
+            gridData.heightHint = height;
+        }
+        composite.setLayoutData(gridData);
+        final GridLayout gridLayout = new GridLayout();
+        gridLayout.marginWidth = 0;
+        gridLayout.numColumns = numColumns;
+        composite.setLayout(gridLayout);
+        return composite;
     }
 }

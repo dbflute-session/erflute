@@ -190,9 +190,13 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
         if (argsText != null) {
             args = argsText.getText();
         }
+        boolean charSemantics = false;
+        if (charSemanticsRadio != null) {
+            charSemantics = charSemanticsRadio.getSelection();
+        }
         final String database = this.diagram.getDatabase();
         final SqlType selectedType = SqlType.valueOf(database, typeCombo.getText());
-        final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
+        final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, charSemantics);
 
         // #for_erflute not use word linkage
         //final int wordIndex = this.wordCombo.getSelectionIndex();

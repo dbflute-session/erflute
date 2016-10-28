@@ -51,47 +51,35 @@ public class GlobalColumnGroupSet {
                         final Integer arrayDimension = toInteger(columnSection.get("array_dimension"));
                         final boolean unsigned = Boolean.valueOf(columnSection.get("unsigned")).booleanValue();
                         final String args = columnSection.get("args");
-
-                        final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
-
+                        final boolean charSemantics = Boolean.valueOf(columnSection.get("charSemantics")).booleanValue();
+                        final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, charSemantics);
                         final Word word = new Word(physicalName, logicalName, sqlType, typeData, description, database);
-
                         final NormalColumn column =
                                 new NormalColumn(word, notNull, false, unique, false, defaultValue, constraint, null, null, null);
-
                         columnGroup.addColumn(column);
                     }
-
                     columnGroups.add(columnGroup);
                 }
             }
         } catch (final IOException e) {
             Activator.showExceptionDialog(e);
         }
-
         return columnGroups;
     }
 
     public static void save(ColumnGroupSet columnGroups) {
         try {
             final IDialogSettings settings = new DialogSettings("column_group_list");
-
             settings.put("database", columnGroups.getDatabase());
-
             int index = 0;
-
             for (final ColumnGroup columnGroup : columnGroups) {
                 final IDialogSettings columnGroupSection = new DialogSettings("column_group_" + index);
                 index++;
-
                 columnGroupSection.put("group_name", columnGroup.getGroupName());
-
                 int columnIndex = 0;
-
                 for (final NormalColumn normalColumn : columnGroup.getColumns()) {
                     final IDialogSettings columnSection = new DialogSettings("column_" + columnIndex);
                     columnIndex++;
-
                     columnSection.put("physical_name", null2Blank(normalColumn.getPhysicalName()));
                     columnSection.put("logical_name", null2Blank(normalColumn.getLogicalName()));
                     columnSection.put("type", null2Blank(normalColumn.getType()));
@@ -100,21 +88,16 @@ public class GlobalColumnGroupSet {
                     columnSection.put("array", normalColumn.getTypeData().isArray());
                     columnSection.put("array_dimension", null2Blank(normalColumn.getTypeData().getArrayDimension()));
                     columnSection.put("unsigned", normalColumn.getTypeData().isUnsigned());
-
                     columnSection.put("not_null", normalColumn.isNotNull());
                     columnSection.put("unique", normalColumn.isUniqueKey());
                     columnSection.put("default_value", null2Blank(normalColumn.getDefaultValue()));
                     columnSection.put("constraint", null2Blank(normalColumn.getConstraint()));
                     columnSection.put("description", null2Blank(normalColumn.getDescription()));
-
                     columnGroupSection.addSection(columnSection);
                 }
-
                 settings.addSection(columnGroupSection);
             }
-
             settings.save(getPath());
-
         } catch (final IOException e) {
             Activator.showExceptionDialog(e);
         }
@@ -130,7 +113,6 @@ public class GlobalColumnGroupSet {
         if (str == null) {
             return "";
         }
-
         return str;
     }
 
@@ -138,7 +120,6 @@ public class GlobalColumnGroupSet {
         if (object == null) {
             return "";
         }
-
         return object.toString();
     }
 
@@ -146,7 +127,6 @@ public class GlobalColumnGroupSet {
         if (sqlType == null) {
             return "";
         }
-
         return sqlType.getId();
     }
 
@@ -154,11 +134,9 @@ public class GlobalColumnGroupSet {
         if (str == null || str.equals("")) {
             return null;
         }
-
         try {
             return Integer.valueOf(str);
         } catch (final NumberFormatException e) {}
-
         return null;
     }
 }
