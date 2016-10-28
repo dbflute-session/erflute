@@ -36,8 +36,8 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     protected boolean add;
     protected Text descriptionText;
     protected Text argsText;
-    protected Button byteSemanticsRadio;
     protected Button charSemanticsRadio;
+    protected Button byteSemanticsRadio;
     protected ERDiagram diagram;
 
     public AbstractWordDialog(Shell parentShell, ERDiagram diagram) {
@@ -108,11 +108,11 @@ public abstract class AbstractWordDialog extends AbstractDialog {
         if (OracleDBManager.ID.equals(this.diagram.getDatabase())) {
             CompositeFactory.filler(composite, 1);
             final Composite childComposite = CompositeFactory.createChildComposite(composite, 5, 2);
-            this.byteSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "label.column.byte", 1, true);
-            this.byteSemanticsRadio.setEnabled(false);
-            this.byteSemanticsRadio.setSelection(true);
-            this.charSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "label.column.char");
+            this.charSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "char");
             this.charSemanticsRadio.setEnabled(false);
+            this.charSemanticsRadio.setSelection(true);
+            this.byteSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "byte", 1, true);
+            this.byteSemanticsRadio.setEnabled(false);
         }
         this.descriptionText = CompositeFactory.createTextArea(this, composite, "label.column.description", -1, 100, numColumns - 1, true);
     }
@@ -207,10 +207,10 @@ public abstract class AbstractWordDialog extends AbstractDialog {
         if (this.argsText != null) {
             this.argsText.setText(Format.null2blank(typeData.getArgs()));
         }
-        if (this.byteSemanticsRadio != null) {
+        if (this.charSemanticsRadio != null) {
             final boolean charSemantics = typeData.isCharSemantics();
-            this.byteSemanticsRadio.setSelection(!charSemantics);
             this.charSemanticsRadio.setSelection(charSemantics);
+            this.byteSemanticsRadio.setSelection(!charSemantics);
         }
         this.descriptionText.setText(Format.toString(description));
     }
@@ -279,12 +279,12 @@ public abstract class AbstractWordDialog extends AbstractDialog {
             }
             if (this.charSemanticsRadio != null) {
                 if (selectedType.isNeedCharSemantics(database)) {
-                    this.byteSemanticsRadio.setEnabled(true);
                     this.charSemanticsRadio.setEnabled(true);
+                    this.byteSemanticsRadio.setEnabled(true);
 
                 } else {
-                    this.byteSemanticsRadio.setEnabled(false);
                     this.charSemanticsRadio.setEnabled(false);
+                    this.byteSemanticsRadio.setEnabled(false);
                 }
             }
         }
