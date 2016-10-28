@@ -15,7 +15,6 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 import org.eclipse.ui.internal.ide.misc.ResourceAndContainerGroup;
 
 /**
- * #analyzed workspace内部領域としてのファイル保存ダイアログ
  * @author modified by jflute (originated in ermaster)
  */
 @SuppressWarnings("restriction")
@@ -43,19 +42,15 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
         topLevel.setLayout(new GridLayout());
         topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
         topLevel.setFont(parent.getFont());
-
         resourceGroup =
                 new ResourceAndContainerGroup(topLevel, this, "File name:", IDEWorkbenchMessages.WizardNewFileCreationPage_file, false, 250);
         resourceGroup.setResourceExtension(fileExtension);
         resourceGroup.setContainerFullPath(new Path(initialFolder).removeLastSegments(1));
-
         if (new Path(initialFolder).lastSegment() != null) {
             resourceGroup.setResource(new Path(initialFolder).lastSegment());
             resourceGroup.setFocus();
         }
-
         setTitle("File");
-
         return super.createDialogArea(parent);
     }
 
@@ -66,7 +61,7 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
     @Override
     protected void okPressed() {
         if (resourceGroup.getContainerFullPath() == null) {
-            setErrorMessage("出力先を選択してください。");
+            setErrorMessage("Select output file location");
         } else {
             fullPath = resourceGroup.getContainerFullPath().append(resourceGroup.getResource());
             super.okPressed();
