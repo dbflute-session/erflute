@@ -132,21 +132,22 @@ public class ReadSettingLoader {
             settings.setValidatePhysicalName(this.getBooleanValue(element, "validate_physical_name", true));
             settings.setUseBezierCurve(this.getBooleanValue(element, "use_bezier_curve"));
             settings.setSuspendValidator(this.getBooleanValue(element, "suspend_validator"));
-            if (this.getStringValue(element, "titleFontEm") != null) {
-                settings.setTitleFontEm(new BigDecimal(this.getStringValue(element, "titleFontEm")));
+            if (getStringValue(element, "titleFontEm") != null) {
+                settings.setTitleFontEm(new BigDecimal(getStringValue(element, "titleFontEm")));
             }
-            if (this.getStringValue(element, "masterDataBasePath") != null) {
-                settings.setMasterDataBasePath(this.getStringValue(element, "masterDataBasePath"));
+            if (getStringValue(element, "masterDataBasePath") != null) {
+                settings.setMasterDataBasePath(getStringValue(element, "masterDataBasePath"));
             }
+            settings.setUseViewObject(getBooleanValue(element, "use_view_object"));
 
             final ExportSetting exportSetting = settings.getExportSetting();
-            this.loadExportSetting(exportSetting, element, context);
+            loadExportSetting(exportSetting, element, context);
 
             final CategorySetting categorySetting = settings.getCategorySetting();
-            this.loadCategorySetting(categorySetting, element, context);
+            loadCategorySetting(categorySetting, element, context);
 
             final ModelProperties modelProperties = settings.getModelProperties();
-            this.loadModelProperties(modelProperties, element);
+            loadModelProperties(modelProperties, element);
             tablePropertiesLoader.loadTableProperties((TableProperties) settings.getTableViewProperties(), element, context);
         }
     }

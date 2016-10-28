@@ -43,10 +43,10 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public VirtualDiagramEditor(ERDiagram diagram, ERVirtualDiagram model, ERDiagramEditPartFactory editPartFactory,
+    public VirtualDiagramEditor(ERDiagram diagram, ERVirtualDiagram vdiagram, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         super(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
-        this.vdiagram = model;
+        this.vdiagram = vdiagram;
     }
 
     // ===================================================================================

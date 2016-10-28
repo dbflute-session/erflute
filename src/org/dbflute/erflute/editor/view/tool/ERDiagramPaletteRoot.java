@@ -3,12 +3,14 @@ package org.dbflute.erflute.editor.view.tool;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
+import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.RelationByExistingColumns;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.SelfRelation;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.PaletteGroup;
@@ -22,7 +24,10 @@ import org.eclipse.gef.requests.SimpleFactory;
  */
 public class ERDiagramPaletteRoot extends PaletteRoot {
 
-    public ERDiagramPaletteRoot() {
+    private final ERDiagram diagram;
+
+    public ERDiagramPaletteRoot(ERDiagram diagram) {
+        this.diagram = diagram;
         final PaletteGroup group = new PaletteGroup("");
 
         final PanningSelectionToolEntry selectionToolEntry = setupSelectionTool(group);
@@ -78,9 +83,10 @@ public class ERDiagramPaletteRoot extends PaletteRoot {
         group.add(new CreationToolEntry("Table", "Make new table object", new SimpleFactory(ERTable.class),
                 Activator.getImageDescriptor(ImageKey.TABLE_NEW), Activator.getImageDescriptor(ImageKey.TABLE_NEW)));
 
-        // #deleted unsupported, view is unneeded in ERD tool by jflute
-        //group.add(new CreationToolEntry(DisplayMessages.getMessage("label.view"), DisplayMessages.getMessage("label.create.view"),
-        //        new SimpleFactory(ERView.class), Activator.getImageDescriptor(ImageKey.VIEW), Activator.getImageDescriptor(ImageKey.VIEW)));
+        if (diagram.getDiagramContents().getSettings().isUseViewObject()) { // #for_erflute view is option
+            group.add(new CreationToolEntry("View", "Make new view object", new SimpleFactory(ERView.class),
+                    Activator.getImageDescriptor(ImageKey.VIEW), Activator.getImageDescriptor(ImageKey.VIEW)));
+        }
     }
 
     private PanningSelectionToolEntry setupSelectionTool(final PaletteGroup group) {

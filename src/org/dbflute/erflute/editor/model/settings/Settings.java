@@ -14,6 +14,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
  */
 public class Settings implements Serializable, Cloneable, TablePropertiesHolder {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     private static final long serialVersionUID = -3921093777077765516L;
 
     public static final int VIEW_MODE_LOGICAL = 0;
@@ -28,6 +31,9 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     public static final String NOTATION_IE = "IE";
     public static final String NOTATION_IDEF1X = "IDEF1X";
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private boolean capital;
     private boolean notationExpandGroup;
     private String tableStyle;
@@ -48,16 +54,12 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     private boolean validatePhysicalName;
     private boolean useBezierCurve;
     private boolean suspendValidator;
+    private boolean useViewObject; // #for_erflute view is option
     private String masterDataBasePath;
 
-    public int getNotationLevel() {
-        return notationLevel;
-    }
-
-    public void setNotationLevel(int notationLevel) {
-        this.notationLevel = notationLevel;
-    }
-
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public Settings() {
         this.capital = true;
         this.notationExpandGroup = true;
@@ -69,7 +71,6 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 
         this.modelProperties = new ModelProperties();
         this.categorySetting = new CategorySetting();
-        //		this.groupSetting = new VGroupSetting();
         this.environmentSetting = new EnvironmentSetting();
         this.exportSetting = new ExportSetting();
 
@@ -77,13 +78,30 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.validatePhysicalName = true;
         this.useBezierCurve = false;
         this.suspendValidator = false;
-        this.titleFontEm = new BigDecimal("1.5");
+        this.useViewObject = false; // as default
         this.masterDataBasePath = "";
+        this.titleFontEm = new BigDecimal("1.5");
     }
 
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
+    @Override
+    public Object clone() {
+        Settings clone = null;
+        try {
+            clone = (Settings) super.clone();
+            clone.modelProperties = modelProperties.clone();
+            clone.categorySetting = (CategorySetting) categorySetting.clone();
+            clone.environmentSetting = (EnvironmentSetting) environmentSetting.clone();
+            clone.exportSetting = exportSetting.clone();
+            if (this.database != null) {
+                clone.tableProperties = (TableProperties) this.getTableViewProperties().clone();
+            }
+        } catch (final CloneNotSupportedException e) {}
+        return clone;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + ":{" + database + "}";
@@ -108,6 +126,14 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.notationExpandGroup = notationExpandGroup;
     }
 
+    public int getNotationLevel() {
+        return notationLevel;
+    }
+
+    public void setNotationLevel(int notationLevel) {
+        this.notationLevel = notationLevel;
+    }
+
     public String getTableStyle() {
         return tableStyle;
     }
@@ -124,10 +150,6 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         return categorySetting;
     }
 
-    //	public VGroupSetting getGroupSetting() {
-    //		return groupSetting;
-    //	}
-
     public String getDatabase() {
         return database;
     }
@@ -139,7 +161,6 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     @Override
     public TableViewProperties getTableViewProperties() {
         this.tableProperties = DBManagerFactory.getDBManager(database).createTableProperties(this.tableProperties);
-
         return tableProperties;
     }
 
@@ -215,21 +236,20 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.suspendValidator = suspendValidator;
     }
 
-    @Override
-    public Object clone() {
-        Settings clone = null;
-        try {
-            clone = (Settings) super.clone();
-            clone.modelProperties = modelProperties.clone();
-            clone.categorySetting = (CategorySetting) categorySetting.clone();
-            clone.environmentSetting = (EnvironmentSetting) environmentSetting.clone();
-            clone.exportSetting = exportSetting.clone();
+    public boolean isUseViewObject() {
+        return useViewObject;
+    }
 
-            if (this.database != null) {
-                clone.tableProperties = (TableProperties) this.getTableViewProperties().clone();
-            }
-        } catch (final CloneNotSupportedException e) {}
-        return clone;
+    public void setUseViewObject(boolean useViewObject) {
+        this.useViewObject = useViewObject;
+    }
+
+    public String getMasterDataBasePath() {
+        return masterDataBasePath;
+    }
+
+    public void setMasterDataBasePath(String masterDataBasePath) {
+        this.masterDataBasePath = masterDataBasePath;
     }
 
     public void setModelProperties(ModelProperties modelProperties) {
@@ -246,13 +266,5 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 
     public void setExportSetting(ExportSetting exportSetting) {
         this.exportSetting = exportSetting;
-    }
-
-    public String getMasterDataBasePath() {
-        return masterDataBasePath;
-    }
-
-    public void setMasterDataBasePath(String masterDataBasePath) {
-        this.masterDataBasePath = masterDataBasePath;
     }
 }

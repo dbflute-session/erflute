@@ -91,7 +91,7 @@ public abstract class DDLCreator {
     private String buildDropViews(ERDiagram diagram) {
         final StringBuilder ddl = new StringBuilder();
         boolean first = true;
-        for (final ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
+        for (final ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet().getDropDDLSortedList()) {
             if (first) {
                 ddl.append("\r\n/* Drop Views */\r\n\r\n");
                 first = false;
@@ -819,7 +819,7 @@ public abstract class DDLCreator {
     private String buildCreateViews(ERDiagram diagram) {
         final StringBuilder ddl = new StringBuilder();
         boolean first = true;
-        for (final ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
+        for (final ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet().getCreateDDLSortedList()) {
             if (first) {
                 ddl.append("\r\n/* Create Views */\r\n\r\n");
                 first = false;

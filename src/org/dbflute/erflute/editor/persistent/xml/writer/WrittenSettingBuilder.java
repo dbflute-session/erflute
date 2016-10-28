@@ -94,6 +94,7 @@ public class WrittenSettingBuilder {
         xml.append("\t<suspend_validator>").append(settings.isSuspendValidator()).append("</suspend_validator>\n");
         xml.append("\t<titleFontEm>").append(settings.getTitleFontEm().toString()).append("</titleFontEm>\n");
         xml.append("\t<masterDataBasePath>").append(settings.getMasterDataBasePath().toString()).append("</masterDataBasePath>\n");
+        xml.append("\t<use_view_object>").append(settings.isUseViewObject()).append("</use_view_object>\n");
         xml.append(tab(buildExportSetting(settings.getExportSetting(), context)));
         xml.append(tab(buildCategorySetting(settings.getCategorySetting(), context)));
         xml.append(tab(buildModelProperties(settings.getModelProperties(), context)));

@@ -32,11 +32,13 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
         } else {
             modelChildren.add(diagramContents.getVirtualDiagramSet());
             modelChildren.add(diagramContents.getDiagramWalkers().getTableSet());
+            if (diagram.getDiagramContents().getSettings().isUseViewObject()) { // #for_erflute view is option
+                modelChildren.add(diagramContents.getDiagramWalkers().getViewSet());
+            }
             modelChildren.add(diagramContents.getColumnGroupSet());
             modelChildren.add(diagramContents.getTablespaceSet());
-            modelChildren.add(diagramContents.getSequenceSet());
-            // #deleted view and trigger
-            //modelChildren.add(diagramContents.getDiagramWalkers().getViewSet());
+            // #deleted sequence, trigger
+            //modelChildren.add(diagramContents.getSequenceSet());
             //modelChildren.add(diagramContents.getTriggerSet());
         }
         return modelChildren;
@@ -92,6 +94,9 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
         return super.getTargetEditPart(request);
     }
 
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     public void setQuickMode(boolean quickMode) {
         this.quickMode = quickMode;
     }
