@@ -26,12 +26,21 @@ public class ReadDatabaseLoader {
     // ===================================================================================
     //                                                                            Database
     //                                                                            ========
-    public String loadDatabase(Element settingsElement) {
-        String database = getStringValue(settingsElement, "database");
-        if (database == null) {
-            database = DBManagerFactory.getAllDBList().get(0);
+    public String loadDatabase(Element element) {
+        final Element settings = extractDiagramSettingsElement(element);
+        String database = getStringValue(settings, "database");
+        if (database == null) { // basically no way
+            database = DBManagerFactory.getAllDBList().get(0); // just in case
         }
         return database;
+    }
+
+    private Element extractDiagramSettingsElement(Element element) {
+        Element settings = getElement(element, "settings"); // migration from ERMaster
+        if (settings == null) {
+            settings = getElement(element, "diagram_settings"); // #for_erflute
+        }
+        return settings;
     }
 
     // ===================================================================================
@@ -39,5 +48,9 @@ public class ReadDatabaseLoader {
     //                                                                        ============
     private String getStringValue(Element element, String tagname) {
         return assistLogic.getStringValue(element, tagname);
+    }
+
+    private Element getElement(Element element, String tagname) {
+        return assistLogic.getElement(element, tagname);
     }
 }

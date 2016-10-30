@@ -129,7 +129,7 @@ public class PersistentXml extends Persistent {
 
     private void setupEnvironment(DiagramContents diagramContents, final PersistentContext context) {
         int environmentNo = 1;
-        for (final Environment environment : diagramContents.getSettings().getEnvironmentSetting().getEnvironments()) {
+        for (final Environment environment : diagramContents.getSettings().getEnvironmentSettings().getEnvironments()) {
             context.environmentMap.put(environment, environmentNo);
             environmentNo++;
         }

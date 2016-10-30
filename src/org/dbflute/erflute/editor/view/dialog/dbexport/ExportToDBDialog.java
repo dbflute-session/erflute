@@ -13,7 +13,7 @@ import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.db.ExportToDBManager;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Composite;
@@ -24,11 +24,11 @@ public class ExportToDBDialog extends AbstractDialog {
 
     private Text textArea;
 
-    private DBSetting dbSetting;
+    private DBSettings dbSetting;
 
     private String ddl;
 
-    public ExportToDBDialog(Shell parentShell, ERDiagram diagram, DBSetting dbSetting, String ddl) {
+    public ExportToDBDialog(Shell parentShell, ERDiagram diagram, DBSettings dbSetting, String ddl) {
         super(parentShell);
 
         this.dbSetting = dbSetting;

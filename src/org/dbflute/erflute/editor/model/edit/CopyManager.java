@@ -25,7 +25,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.TablespaceSet;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class CopyManager {
 
@@ -251,7 +251,7 @@ public class CopyManager {
         copyDiagramContents.setDiagramWalkers(this.copyNodeElementList(originalDiagramContents.getDiagramWalkers()));
         final Map<DiagramWalker, DiagramWalker> nodeElementMap = this.getNodeElementMap();
 
-        final Settings settings = (Settings) originalDiagramContents.getSettings().clone();
+        final DiagramSettings settings = (DiagramSettings) originalDiagramContents.getSettings().clone();
         this.setSettings(nodeElementMap, settings);
         copyDiagramContents.setSettings(settings);
 
@@ -266,7 +266,7 @@ public class CopyManager {
         return copyDiagramContents;
     }
 
-    private void setSettings(Map<DiagramWalker, DiagramWalker> nodeElementMap, Settings settings) {
+    private void setSettings(Map<DiagramWalker, DiagramWalker> nodeElementMap, DiagramSettings settings) {
         for (final Category category : settings.getCategorySetting().getAllCategories()) {
             final List<DiagramWalker> newContents = new ArrayList<DiagramWalker>();
             for (final DiagramWalker nodeElement : category.getContents()) {

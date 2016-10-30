@@ -26,7 +26,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Se
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.Trigger;
 import org.dbflute.erflute.editor.model.settings.Environment;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -913,7 +913,7 @@ public abstract class DDLCreator {
         if (str == null) {
             return "";
         }
-        final Settings settings = diagram.getDiagramContents().getSettings();
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         if (settings.isCapital()) {
             return str.toUpperCase();
         }

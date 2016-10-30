@@ -4,7 +4,7 @@ import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.InnerDirectoryText;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.option.OptionSettingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -24,11 +24,11 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
     private Button suspendValidatorCheck;
     private Button useViewObjectCheck;
 
-    private final Settings settings;
+    private final DiagramSettings settings;
     private final OptionSettingDialog dialog;
     private InnerDirectoryText outputFileText;
 
-    public OptionTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, Settings settings) {
+    public OptionTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, DiagramSettings settings) {
         super(dialog, parent, style, "label.option");
 
         this.settings = settings;

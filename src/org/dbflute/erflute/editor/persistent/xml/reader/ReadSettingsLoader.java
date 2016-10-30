@@ -14,13 +14,13 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.CategorySettings;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.model.settings.Environment;
-import org.dbflute.erflute.editor.model.settings.EnvironmentSetting;
-import org.dbflute.erflute.editor.model.settings.ExportSetting;
-import org.dbflute.erflute.editor.model.settings.PageSetting;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.EnvironmentSettings;
+import org.dbflute.erflute.editor.model.settings.ExportSettings;
+import org.dbflute.erflute.editor.model.settings.PageSettings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ExportToDDLDialog;
 import org.w3c.dom.Element;
@@ -30,7 +30,7 @@ import org.w3c.dom.NodeList;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ReadSettingLoader {
+public class ReadSettingsLoader {
 
     // ===================================================================================
     //                                                                          Definition
@@ -57,7 +57,7 @@ public class ReadSettingLoader {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public ReadSettingLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDatabaseLoader databaseLoader,
+    public ReadSettingsLoader(PersistentXml persistentXml, ReadAssistLogic assistLogic, ReadDatabaseLoader databaseLoader,
             ReadTablePropertiesLoader tablePropertiesLoader, ReadDiagramWalkerLoader nodeElementLoader) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
@@ -67,10 +67,13 @@ public class ReadSettingLoader {
     }
 
     // ===================================================================================
-    //                                                                          DB Setting
-    //                                                                          ==========
-    public void loadDBSetting(ERDiagram diagram, Element element) {
-        final Element dbSettingElement = getElement(element, "dbsetting");
+    //                                                                         DB Settings
+    //                                                                         ===========
+    public void loadDBSettings(ERDiagram diagram, Element element) {
+        Element dbSettingElement = getElement(element, "dbsetting"); // migration from ERMaster
+        if (dbSettingElement == null) {
+            dbSettingElement = getElement(element, "db_settings"); // #for_erflute rename
+        }
         if (dbSettingElement != null) {
             final String dbsystem = getStringValue(element, "dbsystem");
             final String server = getStringValue(element, "server");
@@ -84,18 +87,21 @@ public class ReadSettingLoader {
             }
             final String url = getStringValue(element, "url");
             final String driverClassName = getStringValue(element, "driver_class_name");
-            final DBSetting dbSetting =
-                    new DBSetting(dbsystem, server, port, database, user, password, useDefaultDriver, url, driverClassName);
-            diagram.setDbSetting(dbSetting);
+            final DBSettings dbSettings =
+                    new DBSettings(dbsystem, server, port, database, user, password, useDefaultDriver, url, driverClassName);
+            diagram.setDbSettings(dbSettings);
         }
     }
 
     // ===================================================================================
-    //                                                                        Page Setting
-    //                                                                        ============
+    //                                                                       Page Settings
+    //                                                                       =============
     public void loadPageSetting(ERDiagram diagram, Element element) {
-        final Element dbSettingElement = this.getElement(element, "page_setting");
-        if (dbSettingElement != null) {
+        Element pageSettingsElement = getElement(element, "page_setting"); // migration from ERMaster
+        if (pageSettingsElement == null) {
+            pageSettingsElement = getElement(element, "page_settings"); // #for_erflute rename
+        }
+        if (pageSettingsElement != null) {
             final boolean directionHorizontal = this.getBooleanValue(element, "direction_horizontal");
             final int scale = this.getIntValue(element, "scale");
             final String paperSize = this.getStringValue(element, "paper_size");
@@ -103,97 +109,106 @@ public class ReadSettingLoader {
             final int leftMargin = this.getIntValue(element, "left_margin");
             final int bottomMargin = this.getIntValue(element, "bottom_margin");
             final int rightMargin = this.getIntValue(element, "right_margin");
-            final PageSetting pageSetting =
-                    new PageSetting(directionHorizontal, scale, paperSize, topMargin, rightMargin, bottomMargin, leftMargin);
+            final PageSettings pageSetting =
+                    new PageSettings(directionHorizontal, scale, paperSize, topMargin, rightMargin, bottomMargin, leftMargin);
             diagram.setPageSetting(pageSetting);
         }
     }
 
     // ===================================================================================
-    //                                                                            Settings
-    //                                                                            ========
-    public void loadSettings(Settings settings, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "settings");
+    //                                                                    Diagram Settings
+    //                                                                    ================
+    public void loadDiagramSettings(DiagramSettings settings, Element parent, LoadContext context, String database) {
+        final Element settingsElement = extractDiagramSettingsElement(parent);
+        if (settingsElement != null) {
+            settings.setDatabase(database);
+            settings.setCapital(this.getBooleanValue(settingsElement, "capital"));
+            settings.setTableStyle(Format.null2blank(this.getStringValue(settingsElement, "table_style")));
 
-        if (element != null) {
-            settings.setDatabase(databaseLoader.loadDatabase(element));
-            settings.setCapital(this.getBooleanValue(element, "capital"));
-            settings.setTableStyle(Format.null2blank(this.getStringValue(element, "table_style")));
+            settings.setNotation(this.getStringValue(settingsElement, "notation"));
+            settings.setNotationLevel(this.getIntValue(settingsElement, "notation_level"));
+            settings.setNotationExpandGroup(this.getBooleanValue(settingsElement, "notation_expand_group"));
 
-            settings.setNotation(this.getStringValue(element, "notation"));
-            settings.setNotationLevel(this.getIntValue(element, "notation_level"));
-            settings.setNotationExpandGroup(this.getBooleanValue(element, "notation_expand_group"));
+            settings.setViewMode(this.getIntValue(settingsElement, "view_mode"));
+            settings.setOutlineViewMode(this.getIntValue(settingsElement, "outline_view_mode"));
+            settings.setViewOrderBy(this.getIntValue(settingsElement, "view_order_by"));
 
-            settings.setViewMode(this.getIntValue(element, "view_mode"));
-            settings.setOutlineViewMode(this.getIntValue(element, "outline_view_mode"));
-            settings.setViewOrderBy(this.getIntValue(element, "view_order_by"));
-
-            settings.setAutoImeChange(this.getBooleanValue(element, "auto_ime_change"));
-            settings.setValidatePhysicalName(this.getBooleanValue(element, "validate_physical_name", true));
-            settings.setUseBezierCurve(this.getBooleanValue(element, "use_bezier_curve"));
-            settings.setSuspendValidator(this.getBooleanValue(element, "suspend_validator"));
-            if (getStringValue(element, "titleFontEm") != null) {
-                settings.setTitleFontEm(new BigDecimal(getStringValue(element, "titleFontEm")));
+            settings.setAutoImeChange(this.getBooleanValue(settingsElement, "auto_ime_change"));
+            settings.setValidatePhysicalName(this.getBooleanValue(settingsElement, "validate_physical_name", true));
+            settings.setUseBezierCurve(this.getBooleanValue(settingsElement, "use_bezier_curve"));
+            settings.setSuspendValidator(this.getBooleanValue(settingsElement, "suspend_validator"));
+            if (getStringValue(settingsElement, "titleFontEm") != null) {
+                settings.setTitleFontEm(new BigDecimal(getStringValue(settingsElement, "titleFontEm")));
             }
-            if (getStringValue(element, "masterDataBasePath") != null) {
-                settings.setMasterDataBasePath(getStringValue(element, "masterDataBasePath"));
+            if (getStringValue(settingsElement, "masterDataBasePath") != null) {
+                settings.setMasterDataBasePath(getStringValue(settingsElement, "masterDataBasePath"));
             }
-            settings.setUseViewObject(getBooleanValue(element, "use_view_object"));
+            settings.setUseViewObject(getBooleanValue(settingsElement, "use_view_object"));
 
-            final ExportSetting exportSetting = settings.getExportSetting();
-            loadExportSetting(exportSetting, element, context);
+            final ExportSettings exportSetting = settings.getExportSettings();
+            loadExportSettings(exportSetting, settingsElement, context);
 
-            final CategorySetting categorySetting = settings.getCategorySetting();
-            loadCategorySetting(categorySetting, element, context);
+            final CategorySettings categorySetting = settings.getCategorySetting();
+            loadCategorySettings(categorySetting, settingsElement, context);
 
             final ModelProperties modelProperties = settings.getModelProperties();
-            loadModelProperties(modelProperties, element);
-            tablePropertiesLoader.loadTableProperties((TableProperties) settings.getTableViewProperties(), element, context);
+            loadModelProperties(modelProperties, settingsElement);
+            tablePropertiesLoader.loadTableProperties((TableProperties) settings.getTableViewProperties(), settingsElement, context);
         }
     }
 
-    private void loadExportSetting(ExportSetting exportSetting, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "export_setting");
+    private Element extractDiagramSettingsElement(Element parent) {
+        Element settingsElement = getElement(parent, "settings"); // migration from ERMaster
+        if (settingsElement == null) {
+            settingsElement = getElement(parent, "diagram_settings"); // #for_erflute rename
+        }
+        return settingsElement;
+    }
 
-        if (element != null) {
-            String categoryNameToExport = getStringValue(element, "category_name_to_export");
+    private void loadExportSettings(ExportSettings settings, Element parent, LoadContext context) {
+        Element settingsElement = getElement(parent, "export_setting"); // migration from ERMaster
+        if (settingsElement == null) {
+            settingsElement = getElement(parent, "export_settings"); // #for_erflute rename
+        }
+        if (settingsElement != null) {
+            String categoryNameToExport = getStringValue(settingsElement, "category_name_to_export");
             if ("\u5168\u4f53".equals(categoryNameToExport)) { // Japanese "all" (zentai) as KANJI
                 categoryNameToExport = ExportToDDLDialog.DEFAULT_CATEGORY;
             }
-            exportSetting.setCategoryNameToExport(categoryNameToExport);
-            exportSetting.setDdlOutput(this.getStringValue(element, "ddl_output"));
-            exportSetting.setExcelOutput(this.getStringValue(element, "excel_output"));
-            exportSetting.setExcelTemplate(this.getStringValue(element, "excel_template"));
-            exportSetting.setImageOutput(this.getStringValue(element, "image_output"));
-            exportSetting.setPutERDiagramOnExcel(this.getBooleanValue(element, "put_diagram_on_excel"));
-            exportSetting.setUseLogicalNameAsSheet(this.getBooleanValue(element, "use_logical_name_as_sheet"));
-            exportSetting.setOpenAfterSaved(this.getBooleanValue(element, "open_after_saved"));
+            settings.setCategoryNameToExport(categoryNameToExport);
+            settings.setDdlOutput(this.getStringValue(settingsElement, "ddl_output"));
+            settings.setExcelOutput(this.getStringValue(settingsElement, "excel_output"));
+            settings.setExcelTemplate(this.getStringValue(settingsElement, "excel_template"));
+            settings.setImageOutput(this.getStringValue(settingsElement, "image_output"));
+            settings.setPutERDiagramOnExcel(this.getBooleanValue(settingsElement, "put_diagram_on_excel"));
+            settings.setUseLogicalNameAsSheet(this.getBooleanValue(settingsElement, "use_logical_name_as_sheet"));
+            settings.setOpenAfterSaved(this.getBooleanValue(settingsElement, "open_after_saved"));
 
-            exportSetting.getDdlTarget().createComment = this.getBooleanValue(element, "create_comment");
-            exportSetting.getDdlTarget().createForeignKey = this.getBooleanValue(element, "create_foreignKey");
-            exportSetting.getDdlTarget().createIndex = this.getBooleanValue(element, "create_index");
-            exportSetting.getDdlTarget().createSequence = this.getBooleanValue(element, "create_sequence");
-            exportSetting.getDdlTarget().createTable = this.getBooleanValue(element, "create_table");
-            exportSetting.getDdlTarget().createTablespace = this.getBooleanValue(element, "create_tablespace");
-            exportSetting.getDdlTarget().createTrigger = this.getBooleanValue(element, "create_trigger");
-            exportSetting.getDdlTarget().createView = this.getBooleanValue(element, "create_view");
+            settings.getDdlTarget().createComment = this.getBooleanValue(settingsElement, "create_comment");
+            settings.getDdlTarget().createForeignKey = this.getBooleanValue(settingsElement, "create_foreignKey");
+            settings.getDdlTarget().createIndex = this.getBooleanValue(settingsElement, "create_index");
+            settings.getDdlTarget().createSequence = this.getBooleanValue(settingsElement, "create_sequence");
+            settings.getDdlTarget().createTable = this.getBooleanValue(settingsElement, "create_table");
+            settings.getDdlTarget().createTablespace = this.getBooleanValue(settingsElement, "create_tablespace");
+            settings.getDdlTarget().createTrigger = this.getBooleanValue(settingsElement, "create_trigger");
+            settings.getDdlTarget().createView = this.getBooleanValue(settingsElement, "create_view");
 
-            exportSetting.getDdlTarget().dropIndex = this.getBooleanValue(element, "drop_index");
-            exportSetting.getDdlTarget().dropSequence = this.getBooleanValue(element, "drop_sequence");
-            exportSetting.getDdlTarget().dropTable = this.getBooleanValue(element, "drop_table");
-            exportSetting.getDdlTarget().dropTablespace = this.getBooleanValue(element, "drop_tablespace");
-            exportSetting.getDdlTarget().dropTrigger = this.getBooleanValue(element, "drop_trigger");
-            exportSetting.getDdlTarget().dropView = this.getBooleanValue(element, "drop_view");
+            settings.getDdlTarget().dropIndex = this.getBooleanValue(settingsElement, "drop_index");
+            settings.getDdlTarget().dropSequence = this.getBooleanValue(settingsElement, "drop_sequence");
+            settings.getDdlTarget().dropTable = this.getBooleanValue(settingsElement, "drop_table");
+            settings.getDdlTarget().dropTablespace = this.getBooleanValue(settingsElement, "drop_tablespace");
+            settings.getDdlTarget().dropTrigger = this.getBooleanValue(settingsElement, "drop_trigger");
+            settings.getDdlTarget().dropView = this.getBooleanValue(settingsElement, "drop_view");
 
-            exportSetting.getDdlTarget().inlineColumnComment = this.getBooleanValue(element, "inline_column_comment");
-            exportSetting.getDdlTarget().inlineTableComment = this.getBooleanValue(element, "inline_table_comment");
+            settings.getDdlTarget().inlineColumnComment = this.getBooleanValue(settingsElement, "inline_column_comment");
+            settings.getDdlTarget().inlineTableComment = this.getBooleanValue(settingsElement, "inline_table_comment");
 
-            exportSetting.getDdlTarget().commentValueDescription = this.getBooleanValue(element, "comment_value_description");
-            exportSetting.getDdlTarget().commentValueLogicalName = this.getBooleanValue(element, "comment_value_logical_name");
-            exportSetting.getDdlTarget().commentValueLogicalNameDescription =
-                    this.getBooleanValue(element, "comment_value_logical_name_description");
-            exportSetting.getDdlTarget().commentReplaceLineFeed = this.getBooleanValue(element, "comment_replace_line_feed");
-            exportSetting.getDdlTarget().commentReplaceString = this.getStringValue(element, "comment_replace_string");
+            settings.getDdlTarget().commentValueDescription = this.getBooleanValue(settingsElement, "comment_value_description");
+            settings.getDdlTarget().commentValueLogicalName = this.getBooleanValue(settingsElement, "comment_value_logical_name");
+            settings.getDdlTarget().commentValueLogicalNameDescription =
+                    this.getBooleanValue(settingsElement, "comment_value_logical_name_description");
+            settings.getDdlTarget().commentReplaceLineFeed = this.getBooleanValue(settingsElement, "comment_replace_line_feed");
+            settings.getDdlTarget().commentReplaceString = this.getStringValue(settingsElement, "comment_replace_string");
 
             // #deleted
             //this.loadExportJavaSetting(exportSetting.getExportJavaSetting(), element, context);
@@ -201,12 +216,12 @@ public class ReadSettingLoader {
         }
     }
 
-    private void loadCategorySetting(CategorySetting categorySetting, Element parent, LoadContext context) {
-        final Element element = this.getElement(parent, "category_settings");
-        categorySetting.setFreeLayout(this.getBooleanValue(element, "free_layout"));
-        categorySetting.setShowReferredTables(this.getBooleanValue(element, "show_referred_tables"));
+    private void loadCategorySettings(CategorySettings settings, Element parent, LoadContext context) {
+        final Element settingsElement = this.getElement(parent, "category_settings");
+        settings.setFreeLayout(this.getBooleanValue(settingsElement, "free_layout"));
+        settings.setShowReferredTables(this.getBooleanValue(settingsElement, "show_referred_tables"));
 
-        final Element categoriesElement = this.getElement(element, "categories");
+        final Element categoriesElement = getElement(settingsElement, "categories");
         final NodeList nodeList = categoriesElement.getChildNodes();
         final List<Category> selectedCategories = new ArrayList<Category>();
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -227,12 +242,12 @@ public class ReadSettingLoader {
                 }
             }
             category.setContents(walkerList);
-            categorySetting.addCategory(category);
+            settings.addCategory(category);
             if (isSelected) {
                 selectedCategories.add(category);
             }
         }
-        categorySetting.setSelectedCategories(selectedCategories);
+        settings.setSelectedCategories(selectedCategories);
     }
 
     // ===================================================================================
@@ -256,11 +271,14 @@ public class ReadSettingLoader {
     }
 
     // ===================================================================================
-    //                                                              Tablespace Environment
-    //                                                              ======================
-    public void loadEnvironmentSetting(EnvironmentSetting environmentSetting, Element parent, LoadContext context) {
-        final Element settingElement = this.getElement(parent, "settings");
-        final Element element = this.getElement(settingElement, "environment_setting");
+    //                                                                Environment Settings
+    //                                                                ====================
+    public void loadEnvironmentSettings(EnvironmentSettings environmentSetting, Element parent, LoadContext context) {
+        final Element settingsElement = extractDiagramSettingsElement(parent);
+        Element element = getElement(settingsElement, "environment_setting"); // migration from ERMaster
+        if (element == null) {
+            element = getElement(settingsElement, "environment_settings"); // #for_erflute rename
+        }
         final List<Environment> environmentList = new ArrayList<Environment>();
         final String defaultExpression = "Default";
         if (element != null) {

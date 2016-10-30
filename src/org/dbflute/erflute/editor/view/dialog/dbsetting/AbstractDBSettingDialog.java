@@ -11,7 +11,7 @@ import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.db.impl.standard_sql.StandardSQLDBManager;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.dbflute.erflute.preference.PreferenceInitializer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -52,7 +52,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
 
     protected Button settingAddButton;
 
-    protected DBSetting dbSetting;
+    protected DBSettings dbSettings;
 
     protected ERDiagram diagram;
 
@@ -230,20 +230,20 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
      */
     @Override
     protected void setupData() {
-        if (this.dbSetting != null) {
-            String database = this.dbSetting.getDbsystem();
+        if (this.dbSettings != null) {
+            String database = this.dbSettings.getDbsystem();
             this.dbList.setText(database);
 
             this.enableUseDefaultDriver();
             this.enableField();
 
-            this.serverName.setText(Format.null2blank(this.dbSetting.getServer()));
-            this.port.setText(String.valueOf(this.dbSetting.getPort()));
-            this.dbName.setText(Format.null2blank(this.dbSetting.getDatabase()));
-            this.userName.setText(Format.null2blank(this.dbSetting.getUser()));
-            this.password.setText(Format.null2blank(this.dbSetting.getPassword()));
-            this.url.setText(Format.null2blank(this.dbSetting.getUrl()));
-            this.driverClassName.setText(Format.null2blank(this.dbSetting.getDriverClassName()));
+            this.serverName.setText(Format.null2blank(this.dbSettings.getServer()));
+            this.port.setText(String.valueOf(this.dbSettings.getPort()));
+            this.dbName.setText(Format.null2blank(this.dbSettings.getDatabase()));
+            this.userName.setText(Format.null2blank(this.dbSettings.getUser()));
+            this.password.setText(Format.null2blank(this.dbSettings.getPassword()));
+            this.url.setText(Format.null2blank(this.dbSettings.getUrl()));
+            this.driverClassName.setText(Format.null2blank(this.dbSettings.getDriverClassName()));
 
             if (!Check.isEmpty(database) && this.useDefaultDriverButton.getSelection()) {
                 DBManager manager = DBManagerFactory.getDBManager(this.getDBSName());
@@ -266,8 +266,8 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
      * 
      * @return dbSetting
      */
-    public DBSetting getDbSetting() {
-        return this.dbSetting;
+    public DBSettings getDbSetting() {
+        return this.dbSettings;
     }
 
     private void enableUseDefaultDriver() {
@@ -374,7 +374,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
                             new DBSettingListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), database);
 
                     if (dialog.open() == IDialogConstants.OK_ID) {
-                        dbSetting = dialog.getResult();
+                        dbSettings = dialog.getResult();
                         setupData();
                     }
 
@@ -396,7 +396,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
                     if (validate()) {
                         setCurrentSetting();
 
-                        PreferenceInitializer.addDBSetting(dbSetting);
+                        PreferenceInitializer.addDBSetting(dbSettings);
 
                         Activator.showMessageDialog("dialog.message.add.to.connection.list");
                     }
@@ -427,10 +427,10 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
             dbName = null;
         }
 
-        this.dbSetting =
-                new DBSetting(database, serverName, port, dbName, this.getUserName(), this.getPassword(), useDefaultDriver, url,
+        this.dbSettings =
+                new DBSettings(database, serverName, port, dbName, this.getUserName(), this.getPassword(), useDefaultDriver, url,
                         driverClassName);
 
-        PreferenceInitializer.saveSetting(0, this.dbSetting);
+        PreferenceInitializer.saveSetting(0, this.dbSettings);
     }
 }

@@ -7,7 +7,7 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.util.Format;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.dbflute.erflute.preference.PreferenceInitializer;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -27,9 +27,9 @@ public class DBSettingListDialog extends AbstractDialog {
 
     private Table settingTable;
 
-    private List<DBSetting> dbSettingList;
+    private List<DBSettings> dbSettingList;
 
-    private DBSetting result;
+    private DBSettings result;
 
     private String database;
 
@@ -37,7 +37,7 @@ public class DBSettingListDialog extends AbstractDialog {
         super(parentShell);
 
         this.database = database;
-        this.dbSettingList = new ArrayList<DBSetting>();
+        this.dbSettingList = new ArrayList<DBSettings>();
     }
 
     @Override
@@ -119,7 +119,7 @@ public class DBSettingListDialog extends AbstractDialog {
         this.result = this.dbSettingList.get(index);
     }
 
-    public DBSetting getResult() {
+    public DBSettings getResult() {
         return this.result;
     }
 
@@ -131,7 +131,7 @@ public class DBSettingListDialog extends AbstractDialog {
     protected void setupData() {
         this.dbSettingList = PreferenceInitializer.getDBSettingList(this.database);
 
-        for (DBSetting dbSetting : this.dbSettingList) {
+        for (DBSettings dbSetting : this.dbSettingList) {
             TableItem item = new TableItem(this.settingTable, SWT.NONE);
             item.setText(0, dbSetting.getDbsystem());
             item.setText(1, dbSetting.getServer());

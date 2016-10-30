@@ -8,7 +8,7 @@ import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.ListenerAppender;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.option.tab.AdvancedTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.option.tab.DBSelectTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.option.tab.EnvironmentTabWrapper;
@@ -25,11 +25,11 @@ public class OptionSettingDialog extends AbstractDialog {
 
     private List<ValidatableTabWrapper> tabWrapperList;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     private ERDiagram diagram;
 
-    public OptionSettingDialog(Shell parentShell, Settings settings, ERDiagram diagram) {
+    public OptionSettingDialog(Shell parentShell, DiagramSettings settings, ERDiagram diagram) {
         super(parentShell);
 
         this.diagram = diagram;

@@ -19,7 +19,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.property_source.ERDiagramPropertySource;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
@@ -160,7 +160,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 
     private void changeSettings() {
         final ERDiagram diagram = (ERDiagram) getModel();
-        final Settings settings = diagram.getDiagramContents().getSettings();
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         for (final Object child : getChildren()) {
             if (child instanceof DiagramWalkerEditPart) {
                 final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;

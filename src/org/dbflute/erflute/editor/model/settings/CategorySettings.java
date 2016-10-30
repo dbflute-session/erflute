@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 
-public class CategorySetting implements Serializable, Cloneable {
+public class CategorySettings implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -7691417386790834828L;
 
@@ -57,7 +57,7 @@ public class CategorySetting implements Serializable, Cloneable {
         this.showReferredTables = showReferredTables;
     }
 
-    public CategorySetting() {
+    public CategorySettings() {
         this.allCategories = new ArrayList<Category>();
         this.selectedCategories = new ArrayList<Category>();
     }
@@ -117,7 +117,7 @@ public class CategorySetting implements Serializable, Cloneable {
     @Override
     public Object clone() {
         try {
-            CategorySetting settings = (CategorySetting) super.clone();
+            CategorySettings settings = (CategorySettings) super.clone();
             settings.allCategories = new ArrayList<Category>();
             settings.selectedCategories = new ArrayList<Category>();
 

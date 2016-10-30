@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.dbflute.erflute.editor.view.figure.table.column.NormalColumnFigure;
 import org.eclipse.draw2d.ColorConstants;
@@ -52,7 +52,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
         final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
-        if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
+        if (notationLevel != DiagramSettings.NOTATION_LEVLE_TITLE) {
             final TableFigure tableFigure = (TableFigure) parent.getFigure();
 
             final List<NormalColumn> selectedReferencedColulmnList = this.getSelectedReferencedColulmnList();
@@ -64,7 +64,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
             final boolean isAdded = false;
             final boolean isUpdated = false;
 
-            if ((notationLevel == Settings.NOTATION_LEVLE_KEY) && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
+            if ((notationLevel == DiagramSettings.NOTATION_LEVLE_KEY) && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
                     && !normalColumn.isReferedStrictly()) {
                 columnFigure.clearLabel();
                 return;
@@ -94,18 +94,18 @@ public class NormalColumnEditPart extends ColumnEditPart {
         final String type = diagram.filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), diagram.getDatabase()));
 
         boolean displayKey = true;
-        if (notationLevel == Settings.NOTATION_LEVLE_COLUMN) {
+        if (notationLevel == DiagramSettings.NOTATION_LEVLE_COLUMN) {
             displayKey = false;
         }
 
         boolean displayDetail = false;
-        if (notationLevel == Settings.NOTATION_LEVLE_KEY || notationLevel == Settings.NOTATION_LEVLE_EXCLUDE_TYPE
-                || notationLevel == Settings.NOTATION_LEVLE_DETAIL) {
+        if (notationLevel == DiagramSettings.NOTATION_LEVLE_KEY || notationLevel == DiagramSettings.NOTATION_LEVLE_EXCLUDE_TYPE
+                || notationLevel == DiagramSettings.NOTATION_LEVLE_DETAIL) {
             displayDetail = true;
         }
 
         boolean displayType = false;
-        if (notationLevel == Settings.NOTATION_LEVLE_DETAIL) {
+        if (notationLevel == DiagramSettings.NOTATION_LEVLE_DETAIL) {
             displayType = true;
         }
 

@@ -49,7 +49,7 @@ public abstract class TablespaceRule extends BaseRule {
         this.database = diagram.getDatabase();
 
         for (Tablespace tablespace : diagram.getDiagramContents().getTablespaceSet().getTablespaceList()) {
-            for (Environment environment : diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments()) {
+            for (Environment environment : diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments()) {
                 if (!this.validate(diagram, tablespace, environment)) {
                     return false;
                 }

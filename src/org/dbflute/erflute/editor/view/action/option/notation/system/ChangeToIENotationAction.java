@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.option.notation.system;
 
 import org.dbflute.erflute.editor.MainDiagramEditor;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeToIENotationAction extends AbstractChangeNotationAction {
 
@@ -13,7 +13,7 @@ public class ChangeToIENotationAction extends AbstractChangeNotationAction {
 
     @Override
     protected String getNotation() {
-        return Settings.NOTATION_IE;
+        return DiagramSettings.NOTATION_IE;
     }
 
 }

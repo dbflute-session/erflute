@@ -5,7 +5,7 @@ import java.beans.PropertyChangeEvent;
 import org.dbflute.erflute.editor.controller.command.common.ChangeModelPropertiesCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.modelprop.ModelPropertiesDialog;
 import org.dbflute.erflute.editor.view.figure.ModelPropertiesFigure;
 import org.eclipse.draw2d.IFigure;
@@ -24,7 +24,7 @@ public class ModelPropertiesEditPart extends DiagramWalkerEditPart implements IR
     @Override
     protected IFigure createFigure() {
         final ERDiagram diagram = this.getDiagram();
-        final Settings settings = diagram.getDiagramContents().getSettings();
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         final ModelPropertiesFigure figure = new ModelPropertiesFigure();
         this.changeFont(figure);
         figure.setVisible(settings.getModelProperties().isDisplay());
@@ -50,7 +50,7 @@ public class ModelPropertiesEditPart extends DiagramWalkerEditPart implements IR
     }
 
     @Override
-    public void changeSettings(Settings settings) {
+    public void changeSettings(DiagramSettings settings) {
         this.figure.setVisible(settings.getModelProperties().isDisplay());
         super.changeSettings(settings);
     }
@@ -58,7 +58,7 @@ public class ModelPropertiesEditPart extends DiagramWalkerEditPart implements IR
     @Override
     protected void setVisible() {
         final ERDiagram diagram = this.getDiagram();
-        final Settings settings = diagram.getDiagramContents().getSettings();
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         this.figure.setVisible(settings.getModelProperties().isDisplay());
     }
 

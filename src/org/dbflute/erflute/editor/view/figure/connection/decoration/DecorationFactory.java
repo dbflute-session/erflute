@@ -1,6 +1,6 @@
 package org.dbflute.erflute.editor.view.figure.connection.decoration;
 
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.connection.decoration.idef1x.IDEF1XOneDecoration;
 import org.dbflute.erflute.editor.view.figure.connection.decoration.idef1x.IDEF1XTargetDecoration;
 import org.dbflute.erflute.editor.view.figure.connection.decoration.idef1x.IDEF1XZeroOneSourceDecoration;
@@ -17,7 +17,7 @@ public class DecorationFactory {
         Decoration decoration = new Decoration();
 
         if ("0..1".equals(parentCardinality)) {
-            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+            if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 decoration.sourceDecoration = new IDEF1XZeroOneSourceDecoration();
 
             } else {
@@ -25,7 +25,7 @@ public class DecorationFactory {
             }
 
         } else {
-            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+            if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 decoration.sourceDecoration = new IDEF1XOneDecoration();
 
             } else {
@@ -34,7 +34,7 @@ public class DecorationFactory {
         }
 
         if ("0..n".equals(childCardinality)) {
-            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+            if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 // �Y�� �Ȃ�
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
 
@@ -43,7 +43,7 @@ public class DecorationFactory {
             }
 
         } else if ("1".equals(childCardinality)) {
-            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+            if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 decoration.targetDecoration = new IDEF1XOneDecoration();
 
             } else {
@@ -51,7 +51,7 @@ public class DecorationFactory {
             }
 
         } else if ("0..1".equals(childCardinality)) {
-            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+            if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 // �Y�� Z
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
                 decoration.targetLabel = "Z";
@@ -61,7 +61,7 @@ public class DecorationFactory {
             }
 
         } else {
-            if (Settings.NOTATION_IDEF1X.equals(notation)) {
+            if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 // �Y�� P
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
                 decoration.targetLabel = "P";

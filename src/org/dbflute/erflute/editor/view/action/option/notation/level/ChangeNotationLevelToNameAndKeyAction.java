@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.option.notation.level;
 
 import org.dbflute.erflute.editor.MainDiagramEditor;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeNotationLevelToNameAndKeyAction extends AbstractChangeNotationLevelAction {
 
@@ -13,7 +13,7 @@ public class ChangeNotationLevelToNameAndKeyAction extends AbstractChangeNotatio
 
     @Override
     protected int getLevel() {
-        return Settings.NOTATION_LEVLE_NAME_AND_KEY;
+        return DiagramSettings.NOTATION_LEVLE_NAME_AND_KEY;
     }
 
 }

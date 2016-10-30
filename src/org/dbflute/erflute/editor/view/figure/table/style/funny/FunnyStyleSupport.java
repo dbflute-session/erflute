@@ -6,7 +6,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.table.IndexFigure;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.dbflute.erflute.editor.view.figure.table.column.GroupColumnFigure;
@@ -29,7 +29,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
     private Label nameLabel;
 
-    public FunnyStyleSupport(TableFigure tableFigure, Settings settings) {
+    public FunnyStyleSupport(TableFigure tableFigure, DiagramSettings settings) {
         super(tableFigure, settings);
     }
 

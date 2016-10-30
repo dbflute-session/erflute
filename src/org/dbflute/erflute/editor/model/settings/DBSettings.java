@@ -11,7 +11,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
 
-public class DBSetting implements Serializable, Comparable<DBSetting> {
+public class DBSettings implements Serializable, Comparable<DBSettings> {
 
     private static final long serialVersionUID = 1753636902211017613L;
 
@@ -37,7 +37,7 @@ public class DBSetting implements Serializable, Comparable<DBSetting> {
         return dbsystem;
     }
 
-    public DBSetting(String dbsystem, String server, int port, String database, String user, String password, boolean useDefaultDriver,
+    public DBSettings(String dbsystem, String server, int port, String database, String user, String password, boolean useDefaultDriver,
             String url, String driverClassName) {
         this.dbsystem = dbsystem;
         this.server = server;
@@ -82,7 +82,7 @@ public class DBSetting implements Serializable, Comparable<DBSetting> {
         return driverClassName;
     }
 
-    public int compareTo(DBSetting other) {
+    public int compareTo(DBSettings other) {
         int compareTo = this.getDbsystem().compareTo(other.getDbsystem());
         if (compareTo != 0) {
             return compareTo;

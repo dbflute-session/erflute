@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.category;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
+import org.dbflute.erflute.editor.model.settings.CategorySettings;
 
 public class ChangeFreeLayoutCommand extends AbstractCommand {
 
@@ -12,7 +12,7 @@ public class ChangeFreeLayoutCommand extends AbstractCommand {
 
     private boolean newFreeLayout;
 
-    private CategorySetting categorySettings;
+    private CategorySettings categorySettings;
 
     public ChangeFreeLayoutCommand(ERDiagram diagram, boolean isFreeLayout) {
         this.diagram = diagram;

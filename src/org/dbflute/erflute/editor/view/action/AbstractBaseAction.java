@@ -5,7 +5,7 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -66,7 +66,7 @@ public abstract class AbstractBaseAction extends Action {
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         } finally {
-            final Settings newSettings = this.getChangedSettings();
+            final DiagramSettings newSettings = this.getChangedSettings();
             if (newSettings != null && !this.getDiagram().getDiagramContents().getSettings().equals(newSettings)) {
                 final ChangeSettingsCommand command = new ChangeSettingsCommand(this.getDiagram(), newSettings);
                 this.execute(command);
@@ -80,7 +80,7 @@ public abstract class AbstractBaseAction extends Action {
         this.editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 
-    protected Settings getChangedSettings() {
+    protected DiagramSettings getChangedSettings() {
         return null;
     }
 

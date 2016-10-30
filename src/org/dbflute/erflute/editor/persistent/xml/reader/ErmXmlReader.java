@@ -19,7 +19,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.reader.ReadWalkerGroupLoader.WalkerGroupedTableViewProvider;
 import org.w3c.dom.Document;
@@ -49,7 +49,7 @@ public class ErmXmlReader {
     protected final ReadSequenceLoader sequenceLoader;
     protected final ReadTriggerLoader triggerLoader;
     protected final ReadColumnLoader columnLoader;
-    protected final ReadSettingLoader settingLoader;
+    protected final ReadSettingsLoader settingsLoader;
     protected final ReadTablespaceLoader tablespaceLoader;
     protected final ReadDictionaryLoader dictionaryLoader;
     protected final ReadIndexLoader indexLoader;
@@ -78,7 +78,8 @@ public class ErmXmlReader {
         this.sequenceLoader = new ReadSequenceLoader(persistentXml, assistLogic);
         this.triggerLoader = new ReadTriggerLoader(persistentXml, assistLogic);
         this.columnLoader = new ReadColumnLoader(persistentXml, assistLogic, sequenceLoader);
-        this.settingLoader = new ReadSettingLoader(persistentXml, assistLogic, databaseLoader, tablePropertiesLoader, diagramWalkerLoader);
+        this.settingsLoader =
+                new ReadSettingsLoader(persistentXml, assistLogic, databaseLoader, tablePropertiesLoader, diagramWalkerLoader);
         this.tablespaceLoader = new ReadTablespaceLoader(persistentXml, assistLogic);
         this.dictionaryLoader = new ReadDictionaryLoader(persistentXml, assistLogic);
         this.indexLoader = new ReadIndexLoader(persistentXml, assistLogic);
@@ -112,11 +113,10 @@ public class ErmXmlReader {
     //                                                                               Root
     //                                                                              ======
     private void load(Element root) {
-        final Element settings = getElement(root, "settings");
-        database = databaseLoader.loadDatabase(settings);
+        database = databaseLoader.loadDatabase(root);
         diagram = new ERDiagram(database);
-        settingLoader.loadDBSetting(diagram, root);
-        settingLoader.loadPageSetting(diagram, root);
+        settingsLoader.loadDBSettings(diagram, root);
+        settingsLoader.loadPageSetting(diagram, root);
         // #for_erflute not keep category_index to immobilize XML (frequently changed by everybody)
         //diagram.setCurrentCategory(null, getIntValue(root, "category_index"));
         // #for_erflute not keep default_color to immobilize XML (frequently changed by everybody)
@@ -143,8 +143,9 @@ public class ErmXmlReader {
         final Dictionary dictionary = diagramContents.getDictionary();
         final LoadContext context = new LoadContext(dictionary);
         dictionaryLoader.loadDictionary(dictionary, parent, context, database);
-        final Settings settings = diagramContents.getSettings();
-        settingLoader.loadEnvironmentSetting(settings.getEnvironmentSetting(), parent, context);
+        final DiagramSettings settings = diagramContents.getSettings();
+        settingsLoader.loadDiagramSettings(settings, parent, context, database);
+        settingsLoader.loadEnvironmentSettings(settings.getEnvironmentSettings(), parent, context);
         tablespaceLoader.loadTablespaceSet(diagramContents.getTablespaceSet(), parent, context, database);
         final ColumnGroupSet columnGroups = diagramContents.getColumnGroupSet();
         columnGroups.clear();
@@ -153,7 +154,6 @@ public class ErmXmlReader {
         diagramContents.getVirtualDiagramSet().addModels(loadErmodels(parent, context));
         sequenceLoader.loadSequenceSet(diagramContents.getSequenceSet(), parent);
         triggerLoader.loadTriggerSet(diagramContents.getTriggerSet(), parent);
-        settingLoader.loadSettings(settings, parent, context);
         context.resolve();
     }
 

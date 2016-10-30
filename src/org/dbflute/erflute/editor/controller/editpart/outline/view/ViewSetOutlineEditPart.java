@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEdi
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ViewSet;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.eclipse.gef.EditPart;
 
 public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
@@ -31,7 +31,7 @@ public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
 
         List<ERView> list = viewSet.getList();
 
-        if (this.getDiagram().getDiagramContents().getSettings().getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
+        if (this.getDiagram().getDiagramContents().getSettings().getViewOrderBy() == DiagramSettings.VIEW_MODE_LOGICAL) {
             Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
 
         } else {

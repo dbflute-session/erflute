@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.controller.editpart.element.node;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.table_view.ChangeTableViewPropertyCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.view.ViewDialog;
 import org.dbflute.erflute.editor.view.figure.view.ViewFigure;
 import org.eclipse.draw2d.IFigure;
@@ -19,7 +19,7 @@ public class ViewEditPart extends TableViewEditPart {
     @Override
     protected IFigure createFigure() {
         ERDiagram diagram = this.getDiagram();
-        Settings settings = diagram.getDiagramContents().getSettings();
+        DiagramSettings settings = diagram.getDiagramContents().getSettings();
 
         ViewFigure figure = new ViewFigure(settings);
 

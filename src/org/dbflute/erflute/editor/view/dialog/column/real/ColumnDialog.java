@@ -131,12 +131,12 @@ public class ColumnDialog extends AbstractRealColumnDialog {
         final NormalColumn autoIncrementColumn = this.table.getAutoIncrementColumn();
         if (this.primaryKeyCheck.getSelection()) {
             if (autoIncrementColumn == null || autoIncrementColumn == targetColumn) {
-                this.enableAutoIncrement(true);
+                enableAutoIncrement(true);
             } else {
-                this.enableAutoIncrement(false);
+                enableAutoIncrement(false);
             }
         } else {
-            this.enableAutoIncrement(false);
+            enableAutoIncrement(false);
         }
         this.defaultText.setText(Format.null2blank(this.targetColumn.getDefaultValue()));
         this.setEnabledBySqlType();

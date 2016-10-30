@@ -91,7 +91,7 @@ public abstract class TablespaceDialog extends AbstractDialog {
 
     @Override
     protected void setupData() {
-        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments();
+        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments();
 
         for (Environment environment : environmentList) {
             this.environmentCombo.add(environment.getName());
@@ -124,7 +124,7 @@ public abstract class TablespaceDialog extends AbstractDialog {
     protected Environment getSelectedEnvironment() {
         int index = this.environmentCombo.getSelectionIndex();
 
-        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments();
+        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments();
 
         return environmentList.get(index);
     }

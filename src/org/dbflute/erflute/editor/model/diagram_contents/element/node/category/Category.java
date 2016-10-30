@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
+import org.dbflute.erflute.editor.model.settings.CategorySettings;
 
 public class Category extends DiagramWalker implements IResizable, Comparable<Category> {
 
@@ -76,7 +76,7 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
         if (this.contains(nodeElement)) {
             isVisible = true;
         } else {
-            final CategorySetting categorySettings = diagram.getDiagramContents().getSettings().getCategorySetting();
+            final CategorySettings categorySettings = diagram.getDiagramContents().getSettings().getCategorySetting();
             if (categorySettings.isShowReferredTables()) {
                 for (final DiagramWalker referringElement : nodeElement.getReferringElementList()) {
                     if (this.contains(referringElement)) {

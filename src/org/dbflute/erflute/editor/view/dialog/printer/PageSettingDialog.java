@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.core.dialog.AbstractDialog;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.PageSetting;
+import org.dbflute.erflute.editor.model.settings.PageSettings;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Spinner;
 
 public class PageSettingDialog extends AbstractDialog {
 
-    private PageSetting pageSetting;
+    private PageSettings pageSetting;
 
     private Button vButton;
 
@@ -223,7 +223,7 @@ public class PageSettingDialog extends AbstractDialog {
     }
 
     private void setPaperSize(Combo combo) {
-        for (String paperSize : PageSetting.getAllPaperSize()) {
+        for (String paperSize : PageSettings.getAllPaperSize()) {
             combo.add(paperSize);
         }
 
@@ -238,7 +238,7 @@ public class PageSettingDialog extends AbstractDialog {
     @Override
     protected void performOK() throws InputException {
         this.pageSetting =
-                new PageSetting(this.hButton.getSelection(), this.scaleSpinner.getSelection(), this.sizeCombo.getText(),
+                new PageSettings(this.hButton.getSelection(), this.scaleSpinner.getSelection(), this.sizeCombo.getText(),
                         this.topMarginSpinner.getSelection(), this.rightMarginSpinner.getSelection(),
                         this.bottomMarginSpinner.getSelection(), this.leftMarginSpinner.getSelection());
         this.diagram.setPageSetting(this.pageSetting);

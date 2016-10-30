@@ -4,7 +4,7 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.category.CategoryManageDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -26,7 +26,7 @@ public class CategoryManageAction extends AbstractBaseAction {
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
 
-        Settings settings = (Settings) diagram.getDiagramContents().getSettings().clone();
+        DiagramSettings settings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
 
         CategoryManageDialog dialog =
                 new CategoryManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings, diagram);

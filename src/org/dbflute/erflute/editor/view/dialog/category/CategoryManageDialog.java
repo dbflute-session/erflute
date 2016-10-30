@@ -14,8 +14,8 @@ import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.CategorySettings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -48,7 +48,7 @@ public class CategoryManageDialog extends AbstractDialog {
 
     private ERDiagram diagram;
 
-    private CategorySetting categorySettings;
+    private CategorySettings categorySettings;
 
     private Map<Category, TableEditor> categoryCheckMap;
 
@@ -60,7 +60,7 @@ public class CategoryManageDialog extends AbstractDialog {
 
     private Button downButton;
 
-    public CategoryManageDialog(Shell parentShell, Settings settings, ERDiagram diagram) {
+    public CategoryManageDialog(Shell parentShell, DiagramSettings settings, ERDiagram diagram) {
         super(parentShell, 2);
 
         this.diagram = diagram;

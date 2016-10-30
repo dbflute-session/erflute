@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.dbexport.ddl.DDLTarget;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.dbflute.erflute.editor.model.settings.Environment;
 
 /**
@@ -24,7 +24,7 @@ public abstract class PreTableExportManager {
 
     protected Connection con;
     protected DatabaseMetaData metaData;
-    protected DBSetting dbSetting;
+    protected DBSettings dbSetting;
     private ERDiagram diagram;
     private Exception exception;
     private String errorSql;
@@ -35,7 +35,7 @@ public abstract class PreTableExportManager {
     protected Set<String> newTableNames;
     private Set<String> newSequenceNames;
 
-    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, Environment environment) throws SQLException {
+    public void init(Connection con, DBSettings dbSetting, ERDiagram diagram, Environment environment) throws SQLException {
         this.con = con;
         this.dbSetting = dbSetting;
         this.diagram = diagram;

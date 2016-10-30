@@ -21,9 +21,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.TablespaceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.TriggerSet;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
-import org.dbflute.erflute.editor.model.settings.PageSetting;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
+import org.dbflute.erflute.editor.model.settings.PageSettings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
@@ -44,7 +44,7 @@ public class ErmXmlWriter {
     protected final WrittenAssistLogic assistLogic;
     protected final WrittenDiagramWalkerBuilder walkerBuilder;
     protected final WrittenTablePropertiesBuilder tablePropertiesBuilder;
-    protected final WrittenSettingBuilder settingBuilder;
+    protected final WrittenSettingsBuilder settingsBuilder;
     protected final WrittenDictionaryBuilder dictionaryBuilder;
     protected final WrittenTablespaceBuilder tablespaceBuilder;
     protected final WrittenIndexBuilder indexBuilder;
@@ -67,7 +67,7 @@ public class ErmXmlWriter {
         this.assistLogic = new WrittenAssistLogic(persistentXml);
         this.walkerBuilder = new WrittenDiagramWalkerBuilder(persistentXml, assistLogic);
         this.tablePropertiesBuilder = new WrittenTablePropertiesBuilder(persistentXml, assistLogic);
-        this.settingBuilder = new WrittenSettingBuilder(persistentXml, assistLogic, walkerBuilder, tablePropertiesBuilder);
+        this.settingsBuilder = new WrittenSettingsBuilder(persistentXml, assistLogic, walkerBuilder, tablePropertiesBuilder);
         this.dictionaryBuilder = new WrittenDictionaryBuilder(persistentXml, assistLogic);
         this.tablespaceBuilder = new WrittenTablespaceBuilder(persistentXml, assistLogic);
         this.indexBuilder = new WrittenIndexBuilder(persistentXml, assistLogic);
@@ -104,11 +104,11 @@ public class ErmXmlWriter {
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<diagram>\n");
         xml.append("\t<presenter>ERFlute</presenter>\n"); // mark just in case
-        if (diagram.getDbSetting() != null) {
-            xml.append("\t<dbsetting>\n").append(tab(tab(buildDBSetting(diagram.getDbSetting())))).append("\t</dbsetting>\n");
+        if (diagram.getDbSettings() != null) {
+            xml.append("\t<db_settings>\n").append(tab(tab(buildDBSettings(diagram.getDbSettings())))).append("\t</db_settings>\n");
         }
         if (diagram.getPageSetting() != null) {
-            xml.append("\t<page_setting>\n").append(tab(tab(buildPageSetting(diagram.getPageSetting())))).append("\t</page_setting>\n");
+            xml.append("\t<page_settings>\n").append(tab(tab(buildPageSetting(diagram.getPageSetting())))).append("\t</page_settings>\n");
         }
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // *basically not keep private viewing information e.g. location
@@ -137,17 +137,17 @@ public class ErmXmlWriter {
     }
 
     // ===================================================================================
-    //                                                                          DB Setting
-    //                                                                          ==========
-    private String buildDBSetting(DBSetting dbSetting) {
-        return settingBuilder.buildDBSetting(dbSetting);
+    //                                                                         DB Settings
+    //                                                                         ===========
+    private String buildDBSettings(DBSettings dbSetting) {
+        return settingsBuilder.buildDBSetting(dbSetting);
     }
 
     // ===================================================================================
     //                                                                        Page Setting
     //                                                                        ============
-    private String buildPageSetting(PageSetting pageSetting) {
-        return settingBuilder.buildPageSetting(pageSetting);
+    private String buildPageSetting(PageSettings pageSetting) {
+        return settingsBuilder.buildPageSettings(pageSetting);
     }
 
     // ===================================================================================
@@ -169,8 +169,8 @@ public class ErmXmlWriter {
     // ===================================================================================
     //                                                                            Settings
     //                                                                            ========
-    private String buildSettings(Settings settings, PersistentContext context) {
-        return settingBuilder.buildSettings(settings, context);
+    private String buildSettings(DiagramSettings settings, PersistentContext context) {
+        return settingsBuilder.buildDiagramSettings(settings, context);
     }
 
     // ===================================================================================

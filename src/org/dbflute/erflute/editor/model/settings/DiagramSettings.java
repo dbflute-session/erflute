@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class Settings implements Serializable, Cloneable, TablePropertiesHolder {
+public class DiagramSettings implements Serializable, Cloneable, TablePropertiesHolder {
 
     // ===================================================================================
     //                                                                          Definition
@@ -38,11 +38,11 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     private boolean notationExpandGroup;
     private String tableStyle;
     private ModelProperties modelProperties;
-    private CategorySetting categorySetting;
+    private CategorySettings categorySetting;
     //	private VGroupSetting groupSetting;
-    private EnvironmentSetting environmentSetting;
+    private EnvironmentSettings environmentSettings;
     private TableProperties tableProperties;
-    private ExportSetting exportSetting;
+    private ExportSettings exportSettings;
     private String database;
     private String notation;
     private int notationLevel;
@@ -60,7 +60,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public Settings() {
+    public DiagramSettings() {
         this.capital = true;
         this.notationExpandGroup = true;
 
@@ -70,9 +70,9 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.viewOrderBy = VIEW_MODE_PHYSICAL;
 
         this.modelProperties = new ModelProperties();
-        this.categorySetting = new CategorySetting();
-        this.environmentSetting = new EnvironmentSetting();
-        this.exportSetting = new ExportSetting();
+        this.categorySetting = new CategorySettings();
+        this.environmentSettings = new EnvironmentSettings();
+        this.exportSettings = new ExportSettings();
 
         this.autoImeChange = false;
         this.validatePhysicalName = true;
@@ -88,13 +88,13 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     //                                                                      ==============
     @Override
     public Object clone() {
-        Settings clone = null;
+        DiagramSettings clone = null;
         try {
-            clone = (Settings) super.clone();
+            clone = (DiagramSettings) super.clone();
             clone.modelProperties = modelProperties.clone();
-            clone.categorySetting = (CategorySetting) categorySetting.clone();
-            clone.environmentSetting = (EnvironmentSetting) environmentSetting.clone();
-            clone.exportSetting = exportSetting.clone();
+            clone.categorySetting = (CategorySettings) categorySetting.clone();
+            clone.environmentSettings = (EnvironmentSettings) environmentSettings.clone();
+            clone.exportSettings = exportSettings.clone();
             if (this.database != null) {
                 clone.tableProperties = (TableProperties) this.getTableViewProperties().clone();
             }
@@ -146,7 +146,7 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         return modelProperties;
     }
 
-    public CategorySetting getCategorySetting() {
+    public CategorySettings getCategorySetting() {
         return categorySetting;
     }
 
@@ -256,15 +256,15 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.modelProperties = modelProperties;
     }
 
-    public EnvironmentSetting getEnvironmentSetting() {
-        return environmentSetting;
+    public EnvironmentSettings getEnvironmentSettings() {
+        return environmentSettings;
     }
 
-    public ExportSetting getExportSetting() {
-        return exportSetting;
+    public ExportSettings getExportSettings() {
+        return exportSettings;
     }
 
-    public void setExportSetting(ExportSetting exportSetting) {
-        this.exportSetting = exportSetting;
+    public void setExportSettings(ExportSettings exportSettings) {
+        this.exportSettings = exportSettings;
     }
 }

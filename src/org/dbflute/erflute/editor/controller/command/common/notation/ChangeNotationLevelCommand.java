@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.controller.command.common.notation;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeNotationLevelCommand extends AbstractCommand {
 
@@ -13,7 +13,7 @@ public class ChangeNotationLevelCommand extends AbstractCommand {
 
     private int newNotationLevel;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     public ChangeNotationLevelCommand(ERDiagram diagram, int notationLevel) {
         this.diagram = diagram;

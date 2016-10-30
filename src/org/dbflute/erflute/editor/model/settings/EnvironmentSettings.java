@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EnvironmentSetting implements Serializable, Cloneable {
+public class EnvironmentSettings implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 4937234635221817893L;
 
     private List<Environment> environments;
     private Environment currentEnvironment;
 
-    public EnvironmentSetting() {
+    public EnvironmentSettings() {
         this.environments = new ArrayList<Environment>();
     }
 
@@ -56,7 +56,7 @@ public class EnvironmentSetting implements Serializable, Cloneable {
     @Override
     public Object clone() {
         try {
-            final EnvironmentSetting setting = (EnvironmentSetting) super.clone();
+            final EnvironmentSettings setting = (EnvironmentSettings) super.clone();
 
             setting.environments = new ArrayList<Environment>();
 

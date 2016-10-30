@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.view.figure.table.style.frame;
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.table.IndexFigure;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.dbflute.erflute.editor.view.figure.table.column.NormalColumnFigure;
@@ -22,7 +22,7 @@ public class FrameStyleSupport extends AbstractStyleSupport {
 
     private TitleBarBorder titleBarBorder;
 
-    public FrameStyleSupport(TableFigure tableFigure, Settings settings) {
+    public FrameStyleSupport(TableFigure tableFigure, DiagramSettings settings) {
         super(tableFigure, settings);
     }
 

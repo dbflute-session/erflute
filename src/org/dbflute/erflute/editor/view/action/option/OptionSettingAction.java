@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.option.OptionSettingDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -29,7 +29,7 @@ public class OptionSettingAction extends AbstractBaseAction {
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
 
-        Settings settings = (Settings) diagram.getDiagramContents().getSettings().clone();
+        DiagramSettings settings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
 
         OptionSettingDialog dialog =
                 new OptionSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings, diagram);

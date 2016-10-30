@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.common.notation;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeDesignCommand extends AbstractCommand {
 
@@ -12,7 +12,7 @@ public class ChangeDesignCommand extends AbstractCommand {
 
     private String newDesign;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     public ChangeDesignCommand(ERDiagram diagram, String design) {
         this.diagram = diagram;

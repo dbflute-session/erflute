@@ -43,7 +43,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.Trigger;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
@@ -55,7 +55,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     protected Connection con;
     private DatabaseMetaData metaData;
-    protected DBSetting dbSetting;
+    protected DBSettings dbSetting;
     private ERDiagram diagram;
     private List<DBObject> dbObjectList;
     private final Map<String, ERTable> tableMap;
@@ -133,7 +133,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     @Override
-    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<DBObject> dbObjectList, boolean useCommentAsLogicalName,
+    public void init(Connection con, DBSettings dbSetting, ERDiagram diagram, List<DBObject> dbObjectList, boolean useCommentAsLogicalName,
             boolean mergeWord) throws SQLException {
         this.con = con;
         this.dbSetting = dbSetting;
@@ -1285,7 +1285,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     public static void main(String[] args) throws InputException, InstantiationException, IllegalAccessException, SQLException {
         new Activator();
 
-        final DBSetting setting = new DBSetting("Oracle", "localhost", 1521, "XE", "nakajima", "nakajima", true, null, null);
+        final DBSettings setting = new DBSettings("Oracle", "localhost", 1521, "XE", "nakajima", "nakajima", true, null, null);
 
         Connection con = null;
         try {

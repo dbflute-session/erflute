@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 
 public abstract class PreImportFromDBManager {
 
@@ -21,7 +21,7 @@ public abstract class PreImportFromDBManager {
 
     private DatabaseMetaData metaData;
 
-    protected DBSetting dbSetting;
+    protected DBSettings dbSetting;
 
     private DBObjectSet importObjects;
 
@@ -29,7 +29,7 @@ public abstract class PreImportFromDBManager {
 
     private Exception exception;
 
-    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<String> schemaList) throws SQLException {
+    public void init(Connection con, DBSettings dbSetting, ERDiagram diagram, List<String> schemaList) throws SQLException {
         this.con = con;
         this.dbSetting = dbSetting;
 

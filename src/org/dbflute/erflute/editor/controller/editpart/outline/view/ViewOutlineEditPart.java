@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEdi
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.view.ViewDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
@@ -94,7 +94,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
 
         int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
 
-        if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
+        if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             if (model.getPhysicalName() != null) {
                 name = model.getPhysicalName();
 
@@ -102,7 +102,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
                 name = "";
             }
 
-        } else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
+        } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             if (model.getLogicalName() != null) {
                 name = model.getLogicalName();
 

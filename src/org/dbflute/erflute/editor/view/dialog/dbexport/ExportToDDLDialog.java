@@ -23,8 +23,8 @@ import org.dbflute.erflute.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.Validator;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.settings.Environment;
-import org.dbflute.erflute.editor.model.settings.ExportSetting;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.ExportSettings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -93,7 +93,7 @@ public class ExportToDDLDialog extends AbstractDialog {
     private Button commentReplaceLineFeed;
     private Text commentReplaceString;
     private Button openAfterSavedButton;
-    private ExportSetting exportSetting;
+    private ExportSettings exportSetting;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -298,12 +298,12 @@ public class ExportToDDLDialog extends AbstractDialog {
     //                                                                         =========== 
     @Override
     protected void setupData() {
-        final Settings settings = this.diagram.getDiagramContents().getSettings();
-        for (final Environment environment : settings.getEnvironmentSetting().getEnvironments()) {
+        final DiagramSettings settings = this.diagram.getDiagramContents().getSettings();
+        for (final Environment environment : settings.getEnvironmentSettings().getEnvironments()) {
             this.environmentCombo.add(environment.getName());
         }
         this.environmentCombo.select(0);
-        final ExportSetting exportSetting = settings.getExportSetting();
+        final ExportSettings exportSetting = settings.getExportSettings();
         this.outputFileText.setText(buildDefaultOutputFilePath(exportSetting));
         this.categoryCombo.select(0);
 
@@ -344,7 +344,7 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.openAfterSavedButton.setSelection(exportSetting.isOpenAfterSaved());
     }
 
-    private String buildDefaultOutputFilePath(final ExportSetting exportSetting) {
+    private String buildDefaultOutputFilePath(final ExportSettings exportSetting) {
         String outputFile = Format.null2blank(exportSetting.getDdlOutput());
         if (Check.isEmpty(outputFile)) {
             final IFile editorFile = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
@@ -400,7 +400,7 @@ public class ExportToDDLDialog extends AbstractDialog {
         ddlTarget.commentValueLogicalName = this.commentValueLogicalName.getSelection();
         ddlTarget.commentValueLogicalNameDescription = this.commentValueLogicalNameDescription.getSelection();
         final boolean openAfterSaved = this.openAfterSavedButton.getSelection();
-        this.exportSetting = this.diagram.getDiagramContents().getSettings().getExportSetting().clone();
+        this.exportSetting = this.diagram.getDiagramContents().getSettings().getExportSettings().clone();
         this.exportSetting.setDdlOutput(saveFilePath);
         this.exportSetting.setDdlTarget(ddlTarget);
         this.exportSetting.setCategoryNameToExport(this.categoryCombo.getText());
@@ -422,7 +422,7 @@ public class ExportToDDLDialog extends AbstractDialog {
         try {
             final DDLCreator ddlCreator = DBManagerFactory.getDBManager(diagram).getDDLCreator(this.diagram, true);
             final int index = environmentCombo.getSelectionIndex();
-            final Environment environment = diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
+            final Environment environment = diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments().get(index);
             ddlCreator.init(environment, ddlTarget);
             file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(saveFilePath));
             final IPath location = file.getLocation();
@@ -475,7 +475,7 @@ public class ExportToDDLDialog extends AbstractDialog {
         return fileEncodingCombo.getText();
     }
 
-    public ExportSetting getExportSetting() {
+    public ExportSettings getExportSetting() {
         return exportSetting;
     }
 }
