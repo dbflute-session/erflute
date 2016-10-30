@@ -62,6 +62,9 @@ public class ExportToDDLDialog extends AbstractDialog {
 
     public static final String DEFAULT_CATEGORY = "All";
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private Combo environmentCombo;
     private FileText outputFileText;
     private Combo fileEncodingCombo;
@@ -92,23 +95,35 @@ public class ExportToDDLDialog extends AbstractDialog {
     private Button openAfterSavedButton;
     private ExportSetting exportSetting;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     public ExportToDDLDialog(Shell parentShell, ERDiagram diagram, IEditorPart editorPart, GraphicalViewer viewer) {
         super(parentShell, 3);
         this.diagram = diagram;
         this.editorPart = editorPart;
     }
 
+    // ===================================================================================
+    //                                                                               Title
+    //                                                                               =====
     @Override
     protected String getTitle() {
         return "dialog.title.export.ddl";
     }
 
+    // ===================================================================================
+    //                                                                              Layout
+    //                                                                              ======
     @Override
     protected void initLayout(GridLayout layout) {
         super.initLayout(layout);
         layout.verticalSpacing = 15;
     }
 
+    // ===================================================================================
+    //                                                                           Component
+    //                                                                           =========
     @Override
     protected void initComponent(Composite parent) {
         final GridData gridData = new GridData();
@@ -117,7 +132,8 @@ public class ExportToDDLDialog extends AbstractDialog {
         CompositeFactory.createLabel(parent, "label.output.file");
         this.outputFileText = new FileText(parent, SWT.BORDER, ".sql");
         this.outputFileText.setLayoutData(gridData);
-        this.fileEncodingCombo = CompositeFactory.createFileEncodingCombo(this.editorPart, this, parent, "label.output.file.encoding", 2);
+        final String selectedCharset = "UTF-8";
+        initFileEncodingCombo(parent, selectedCharset);
         this.categoryCombo = CompositeFactory.createReadOnlyCombo(this, parent, "label.category", 2, -1);
         this.initCategoryCombo();
         this.createCheckboxComposite(parent);
@@ -127,6 +143,11 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.openAfterSavedButton = new Button(parent, SWT.CHECK);
         this.openAfterSavedButton.setText(DisplayMessages.getMessage("label.open.after.saved"));
         this.openAfterSavedButton.setLayoutData(optionCheckGridData);
+    }
+
+    private void initFileEncodingCombo(Composite parent, String selectedCharset) {
+        final String title = "label.output.file.encoding";
+        fileEncodingCombo = CompositeFactory.createFileEncodingCombo(editorPart, this, parent, title, 2, selectedCharset);
     }
 
     private void initCategoryCombo() {
@@ -246,6 +267,9 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.inlineColumnComment = CompositeFactory.createCheckbox(this, group, "label.comment.inline.column", 4);
     }
 
+    // ===================================================================================
+    //                                                                            Listener
+    //                                                                            ========
     @Override
     protected void addListener() {
         super.addListener();
@@ -384,8 +408,8 @@ public class ExportToDDLDialog extends AbstractDialog {
         final Validator validator = new Validator();
         final List<ValidateResult> errorList = validator.validate(this.diagram);
         if (!errorList.isEmpty()) {
-            final ExportWarningDialog dialog =
-                    new ExportWarningDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), errorList);
+            final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+            final ExportWarningDialog dialog = new ExportWarningDialog(shell, errorList);
             if (dialog.open() != IDialogConstants.OK_ID) {
                 return;
             }
@@ -403,7 +427,8 @@ public class ExportToDDLDialog extends AbstractDialog {
             file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(saveFilePath));
             final IPath location = file.getLocation();
             final String absoluteFilePath = location.toString();
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath), getEncoding())));
+            final String encoding = getEncoding();
+            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath), encoding)));
             file.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
             // #for_erflute don't use system line separator to be immobilize DDL
             out.print(ddlCreator.prepareDropDDL(diagram));
@@ -447,10 +472,10 @@ public class ExportToDDLDialog extends AbstractDialog {
     //                                                                            Accessor
     //                                                                            ========
     private String getEncoding() throws CoreException {
-        return this.fileEncodingCombo.getText();
+        return fileEncodingCombo.getText();
     }
 
     public ExportSetting getExportSetting() {
-        return this.exportSetting;
+        return exportSetting;
     }
 }

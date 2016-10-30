@@ -6,6 +6,7 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.settings.ExportSetting;
 import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ExportToDDLDialog;
@@ -32,10 +33,10 @@ public class ExportToDDLAction extends AbstractBaseAction {
         final ExportToDDLDialog dialog = new ExportToDDLDialog(shell, diagram, this.getEditorPart(), getGraphicalViewer());
         dialog.open();
         refreshProject();
-        if (dialog.getExportSetting() != null
-                && !diagram.getDiagramContents().getSettings().getExportSetting().equals(dialog.getExportSetting())) {
+        final ExportSetting exportSetting = dialog.getExportSetting();
+        if (exportSetting != null && !diagram.getDiagramContents().getSettings().getExportSetting().equals(exportSetting)) {
             final Settings newSettings = (Settings) diagram.getDiagramContents().getSettings().clone();
-            newSettings.setExportSetting(dialog.getExportSetting());
+            newSettings.setExportSetting(exportSetting);
             final ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, newSettings);
             execute(command);
         }

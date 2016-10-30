@@ -8,9 +8,6 @@ import java.nio.charset.Charset;
 import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.dialog.AbstractDialog;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -30,7 +27,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 
 public class CompositeFactory {
 
@@ -128,25 +124,26 @@ public class CompositeFactory {
         return combo;
     }
 
-    public static Combo createFileEncodingCombo(IEditorPart editorPart, AbstractDialog dialog, Composite composite, String title, int span) {
+    // ===================================================================================
+    //                                                                 File Encoding Combo
+    //                                                                 ===================
+    public static Combo createFileEncodingCombo(IEditorPart editorPart, AbstractDialog dialog, Composite composite, String title, int span,
+            String selectedCharset) {
         final Combo fileEncodingCombo = createReadOnlyCombo(dialog, composite, title, span, -1);
-
         for (final Charset charset : Charset.availableCharsets().values()) {
             fileEncodingCombo.add(charset.displayName());
         }
-
-        final IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
-        final IProject project = file.getProject();
-
-        try {
-            final Charset defautlCharset = Charset.forName(project.getDefaultCharset());
-            fileEncodingCombo.setText(defautlCharset.displayName());
-
-        } catch (final CoreException e) {}
-
+        // #for_erflute default is specified
+        //final IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
+        //final IProject project = file.getProject();
+        final Charset defautlCharset = Charset.forName(selectedCharset);
+        fileEncodingCombo.setText(defautlCharset.displayName());
         return fileEncodingCombo;
     }
 
+    // ===================================================================================
+    //                                                                               Text
+    //                                                                              ======
     public static Text createText(AbstractDialog dialog, Composite composite, String title, boolean imeOn) {
         return createText(dialog, composite, title, 1, imeOn);
     }
