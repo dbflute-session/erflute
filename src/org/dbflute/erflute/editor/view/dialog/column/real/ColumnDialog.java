@@ -49,8 +49,9 @@ public class ColumnDialog extends AbstractRealColumnDialog {
 
     @Override
     protected void initializeDetailTab(Composite composite) {
-        super.initializeDetailTab(composite);
+        // first uniqueKeyNameText, second constraintText (in super's)
         this.uniqueKeyNameText = CompositeFactory.createText(this, composite, "label.unique.key.name", false);
+        super.initializeDetailTab(composite);
         final DBManager manager = DBManagerFactory.getDBManager(this.diagram);
         if (MySQLDBManager.ID.equals(this.diagram.getDatabase())) {
             this.characterSetCombo = CompositeFactory.createCombo(this, composite, "label.character.set", 1);
