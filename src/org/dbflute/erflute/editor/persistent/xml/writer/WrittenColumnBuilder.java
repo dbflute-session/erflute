@@ -138,6 +138,7 @@ public class WrittenColumnBuilder {
         final Integer arrayDimension = word != null ? typeData.getArrayDimension() : null;
         final boolean unsigned = word != null ? typeData.isUnsigned() : null;
         final String args = word != null ? typeData.getArgs() : null;
+        final boolean charSemantics = typeData.isCharSemantics();
         if (length != null) {
             xml.append("\t<length>").append(escape(length)).append("</length>\n");
         }
@@ -148,7 +149,7 @@ public class WrittenColumnBuilder {
             xml.append("\t<array>").append(escape(array)).append("</array>\n");
         }
         if (arrayDimension != null) {
-            xml.append("\t<arrayDimension>").append(escape(arrayDimension)).append("</arrayDimension>\n");
+            xml.append("\t<array_dimension>").append(escape(arrayDimension)).append("</array_dimension>\n");
         }
         if (unsigned) {
             xml.append("\t<unsigned>").append(escape(unsigned)).append("</unsigned>\n");
@@ -156,9 +157,8 @@ public class WrittenColumnBuilder {
         if (Srl.is_NotNull_and_NotEmpty(args)) {
             xml.append("\t<args>").append(escape(args)).append("</args>\n");
         }
-        // TODO jflute xxxxxxxxxxx (2016/10/28)
-        if (true) {
-            xml.append("\t<char_semantics>").append(true).append("</char_semantics>\n");
+        if (charSemantics) {
+            xml.append("\t<char_semantics>").append(escape(charSemantics)).append("</char_semantics>\n");
         }
     }
 
