@@ -122,7 +122,7 @@ public class ReadColumnLoader {
         final Integer arrayDimension = getIntegerValue(element, "arrayDimension");
         final boolean unsigned = getBooleanValue(element, "unsigned");
         final String args = getStringValue(element, "args");
-        final boolean charSemantics = getBooleanValue(element, "charSemantics");
+        final boolean charSemantics = getBooleanValue(element, "char_semantics");
         return new TypeData(length, decimal, array, arrayDimension, unsigned, args, charSemantics);
     }
 

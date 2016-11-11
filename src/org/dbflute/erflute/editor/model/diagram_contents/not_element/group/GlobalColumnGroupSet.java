@@ -51,7 +51,7 @@ public class GlobalColumnGroupSet {
                         final Integer arrayDimension = toInteger(columnSection.get("array_dimension"));
                         final boolean unsigned = Boolean.valueOf(columnSection.get("unsigned")).booleanValue();
                         final String args = columnSection.get("args");
-                        final boolean charSemantics = Boolean.valueOf(columnSection.get("charSemantics")).booleanValue();
+                        final boolean charSemantics = Boolean.valueOf(columnSection.get("char_semantics")).booleanValue();
                         final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, charSemantics);
                         final Word word = new Word(physicalName, logicalName, sqlType, typeData, description, database);
                         final NormalColumn column =
