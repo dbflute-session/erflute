@@ -4,12 +4,12 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -36,7 +36,9 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
                 modelChildren.add(diagramContents.getDiagramWalkers().getViewSet());
             }
             modelChildren.add(diagramContents.getColumnGroupSet());
-            modelChildren.add(diagramContents.getTablespaceSet());
+            if (OracleDBManager.ID.equals(diagram.getDatabase())) { // Oracle only for now
+                modelChildren.add(diagramContents.getTablespaceSet());
+            }
             // #deleted sequence, trigger
             //modelChildren.add(diagramContents.getSequenceSet());
             //modelChildren.add(diagramContents.getTriggerSet());
@@ -88,9 +90,10 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     public EditPart getTargetEditPart(Request request) {
-        if (request instanceof ChangeBoundsRequest) {
-            final ChangeBoundsRequest breq = (ChangeBoundsRequest) request;
-        }
+        // unused? by jflute
+        //if (request instanceof ChangeBoundsRequest) {
+        //    final ChangeBoundsRequest breq = (ChangeBoundsRequest) request;
+        //}
         return super.getTargetEditPart(request);
     }
 
