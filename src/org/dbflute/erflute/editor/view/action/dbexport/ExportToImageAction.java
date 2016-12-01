@@ -71,17 +71,17 @@ public class ExportToImageAction extends AbstractExportAction {
     @Override
     protected void save(IEditorPart editorPart, GraphicalViewer viewer, String saveFilePath) {
 
-        ProgressMonitorDialog monitor = new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+        final ProgressMonitorDialog monitor = new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
         try {
             if (outputImage(monitor, viewer, saveFilePath) != -1) {
                 Activator.showMessageDialog("dialog.message.export.finish");
             }
-        } catch (InterruptedException e) {}
+        } catch (final InterruptedException e) {}
     }
 
     public static int outputImage(ProgressMonitorDialog monitor, GraphicalViewer viewer, String saveFilePath) throws InterruptedException {
-        int format = getFormatType(saveFilePath);
+        final int format = getFormatType(saveFilePath);
 
         if (format == -1) {
             Activator.showMessageDialog("dialog.message.export.image.not.supported");
@@ -93,19 +93,19 @@ public class ExportToImageAction extends AbstractExportAction {
         try {
             img = createImage(viewer);
 
-            ExportToImageWithProgressManager exportToImageManager = new ExportToImageWithProgressManager(img, format, saveFilePath);
+            final ExportToImageWithProgressManager exportToImageManager = new ExportToImageWithProgressManager(img, format, saveFilePath);
 
             monitor.run(true, true, exportToImageManager);
 
-            Exception exception = exportToImageManager.getException();
+            final Exception exception = exportToImageManager.getException();
             if (exception != null) {
                 throw exception;
             }
 
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             throw e;
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             if (e.getCause() instanceof OutOfMemoryError) {
                 Activator.showMessageDialog("dialog.message.export.image.out.of.memory");
 
@@ -127,7 +127,7 @@ public class ExportToImageAction extends AbstractExportAction {
     public static int getFormatType(String saveFilePath) {
         int format = -1;
 
-        int index = saveFilePath.lastIndexOf(".");
+        final int index = saveFilePath.lastIndexOf(".");
         String ext = null;
         if (index != -1 && index != saveFilePath.length() - 1) {
             ext = saveFilePath.substring(index + 1, saveFilePath.length());
@@ -156,17 +156,17 @@ public class ExportToImageAction extends AbstractExportAction {
         GC imageGC = null;
 
         try {
-            ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) viewer.getEditPartRegistry().get(LayerManager.ID);
+            final ScalableFreeformRootEditPart rootEditPart =
+                    (ScalableFreeformRootEditPart) viewer.getEditPartRegistry().get(LayerManager.ID);
             rootEditPart.refresh();
-            IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
+            final IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
 
-            EditPart editPart = viewer.getContents();
+            final EditPart editPart = viewer.getContents();
             editPart.refresh();
-            ERDiagram diagram = (ERDiagram) editPart.getModel();
+            final Object diagram = editPart.getModel();
+            final Rectangle rootFigureBounds = getBounds(diagram, rootEditPart, rootFigure.getBounds());
 
-            Rectangle rootFigureBounds = getBounds(diagram, rootEditPart, rootFigure.getBounds());
-
-            Control figureCanvas = viewer.getControl();
+            final Control figureCanvas = viewer.getControl();
             figureCanvasGC = new GC(figureCanvas);
 
             img = new Image(Display.getCurrent(), rootFigureBounds.width + 20, rootFigureBounds.height + 20);
@@ -180,7 +180,7 @@ public class ExportToImageAction extends AbstractExportAction {
             imageGC.setAntialias(SWT.OFF);
             // imageGC.setInterpolation(SWT.HIGH);
 
-            Graphics imgGraphics = new SWTGraphics(imageGC);
+            final Graphics imgGraphics = new SWTGraphics(imageGC);
             imgGraphics.setBackgroundColor(figureCanvas.getBackground());
             imgGraphics.fillRectangle(0, 0, rootFigureBounds.width + 20, rootFigureBounds.height + 20);
 
@@ -213,29 +213,29 @@ public class ExportToImageAction extends AbstractExportAction {
         return new String[] { "*.png", "*.jpeg", "*.bmp" };
     }
 
-    public static Rectangle getBounds(ERDiagram diagram, SimpleRootEditPart rootEditPart, Rectangle rootFigureBounds) {
-        Category category = diagram.getCurrentCategory();
-
+    public static Rectangle getBounds(Object diagram, SimpleRootEditPart rootEditPart, Rectangle rootFigureBounds) {
+        Category category;
+        if (diagram instanceof ERDiagram) {
+            category = ((ERDiagram) diagram).getCurrentCategory();
+        } else { // e.g. virtual diagram
+            category = null; // #thinking all right?
+        }
         if (category == null) {
             return rootFigureBounds;
-
-        } else {
-            Rectangle rectangle = new Rectangle();
-
+        } else { // basically ERDiagram
+            final Rectangle rectangle = new Rectangle();
             int minX = rootFigureBounds.x + rootFigureBounds.width;
             int minY = rootFigureBounds.y + rootFigureBounds.height;
             int maxX = rootFigureBounds.x;
             int maxY = rootFigureBounds.y;
+            final Map<DiagramWalker, IFigure> visibleElements = new HashMap<>();
+            for (final Object child : rootEditPart.getContents().getChildren()) {
+                final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
+                final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
 
-            Map<DiagramWalker, IFigure> visibleElements = new HashMap<DiagramWalker, IFigure>();
-
-            for (Object child : rootEditPart.getContents().getChildren()) {
-                DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
-                DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
-
-                if (category.isVisible(nodeElement, diagram)) {
-                    IFigure figure = editPart.getFigure();
-                    Rectangle figureRectangle = figure.getBounds();
+                if (category.isVisible(nodeElement, (ERDiagram) diagram)) {
+                    final IFigure figure = editPart.getFigure();
+                    final Rectangle figureRectangle = figure.getBounds();
 
                     visibleElements.put(nodeElement, figure);
 
@@ -256,16 +256,16 @@ public class ExportToImageAction extends AbstractExportAction {
                 }
             }
 
-            for (DiagramWalker sourceElement : visibleElements.keySet()) {
-                for (WalkerConnection connection : sourceElement.getOutgoings()) {
+            for (final DiagramWalker sourceElement : visibleElements.keySet()) {
+                for (final WalkerConnection connection : sourceElement.getOutgoings()) {
                     if (visibleElements.containsKey(connection.getWalkerTarget())) {
-                        for (Bendpoint bendpoint : connection.getBendpoints()) {
+                        for (final Bendpoint bendpoint : connection.getBendpoints()) {
                             int x = bendpoint.getX();
                             int y = bendpoint.getY();
 
                             if (bendpoint.isRelative()) {
-                                IFigure figure = visibleElements.get(sourceElement);
-                                Rectangle figureRectangle = figure.getBounds();
+                                final IFigure figure = visibleElements.get(sourceElement);
+                                final Rectangle figureRectangle = figure.getBounds();
                                 x = figureRectangle.x + figureRectangle.width * 2;
                                 y = figureRectangle.y + figureRectangle.height * 2;
                             }
