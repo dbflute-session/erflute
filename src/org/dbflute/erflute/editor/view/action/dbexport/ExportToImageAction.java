@@ -18,7 +18,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
@@ -34,6 +33,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ExportToImageAction extends AbstractExportAction {
 
     public static final String ID = ExportToImageAction.class.getName();
@@ -43,9 +45,6 @@ public class ExportToImageAction extends AbstractExportAction {
         this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_IMAGE));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) throws Exception {
         // EditPart editPart = this.getGraphicalViewer().getContents();
@@ -61,18 +60,12 @@ public class ExportToImageAction extends AbstractExportAction {
         // return;
         // }
         // }
-
         this.save(this.getEditorPart(), this.getGraphicalViewer());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void save(IEditorPart editorPart, GraphicalViewer viewer, String saveFilePath) {
-
         final ProgressMonitorDialog monitor = new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-
         try {
             if (outputImage(monitor, viewer, saveFilePath) != -1) {
                 Activator.showMessageDialog("dialog.message.export.finish");
@@ -80,53 +73,50 @@ public class ExportToImageAction extends AbstractExportAction {
         } catch (final InterruptedException e) {}
     }
 
+    @Override
+    protected boolean isUseVirtualDiagramSuffix() {
+        return true;
+    }
+
+    @Override
+    protected String getDefaultExtension() {
+        return ".png";
+    }
+
     public static int outputImage(ProgressMonitorDialog monitor, GraphicalViewer viewer, String saveFilePath) throws InterruptedException {
         final int format = getFormatType(saveFilePath);
-
         if (format == -1) {
             Activator.showMessageDialog("dialog.message.export.image.not.supported");
             return -1;
         }
-
         Image img = null;
-
         try {
             img = createImage(viewer);
-
             final ExportToImageWithProgressManager exportToImageManager = new ExportToImageWithProgressManager(img, format, saveFilePath);
-
             monitor.run(true, true, exportToImageManager);
-
             final Exception exception = exportToImageManager.getException();
             if (exception != null) {
                 throw exception;
             }
-
         } catch (final InterruptedException e) {
             throw e;
-
         } catch (final Exception e) {
             if (e.getCause() instanceof OutOfMemoryError) {
                 Activator.showMessageDialog("dialog.message.export.image.out.of.memory");
-
             } else {
                 Activator.showExceptionDialog(e);
             }
-
             return -1;
-
         } finally {
             if (img != null) {
                 img.dispose();
             }
         }
-
         return format;
     }
 
     public static int getFormatType(String saveFilePath) {
         int format = -1;
-
         final int index = saveFilePath.lastIndexOf(".");
         String ext = null;
         if (index != -1 && index != saveFilePath.length() - 1) {
@@ -134,36 +124,27 @@ public class ExportToImageAction extends AbstractExportAction {
         } else {
             ext = "";
         }
-
         if (ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg")) {
             format = SWT.IMAGE_JPEG;
-
         } else if (ext.equalsIgnoreCase("bmp")) {
             format = SWT.IMAGE_BMP;
-
         } else if (ext.equalsIgnoreCase("png")) {
             format = SWT.IMAGE_PNG;
-
         }
-
         return format;
     }
 
     public static Image createImage(GraphicalViewer viewer) {
         Image img = null;
-
         GC figureCanvasGC = null;
         GC imageGC = null;
-
         try {
             final ScalableFreeformRootEditPart rootEditPart =
                     (ScalableFreeformRootEditPart) viewer.getEditPartRegistry().get(LayerManager.ID);
             rootEditPart.refresh();
             final IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
 
-            final EditPart editPart = viewer.getContents();
-            editPart.refresh();
-            final Object diagram = editPart.getModel();
+            final Object diagram = extractDiagram(viewer);
             final Rectangle rootFigureBounds = getBounds(diagram, rootEditPart, rootFigure.getBounds());
 
             final Control figureCanvas = viewer.getControl();
@@ -304,11 +285,6 @@ public class ExportToImageAction extends AbstractExportAction {
 
             return rectangle;
         }
-    }
-
-    @Override
-    protected String getDefaultExtension() {
-        return ".png";
     }
 
     // protected void saveAllCategories(IEditorPart editorPart,
