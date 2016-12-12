@@ -1,9 +1,11 @@
 package org.dbflute.erflute.editor.view.dialog.dbexport;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -22,9 +24,9 @@ import org.dbflute.erflute.editor.model.dbexport.ddl.DDLTarget;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.Validator;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.model.settings.Environment;
 import org.dbflute.erflute.editor.model.settings.ExportSettings;
-import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -422,19 +424,17 @@ public class ExportToDDLDialog extends AbstractDialog {
         try {
             final DDLCreator ddlCreator = DBManagerFactory.getDBManager(diagram).getDDLCreator(this.diagram, true);
             final int index = environmentCombo.getSelectionIndex();
-            final Environment environment = diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments().get(index);
+            final Environment environment =
+                    diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments().get(index);
             ddlCreator.init(environment, ddlTarget);
             file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(saveFilePath));
             final IPath location = file.getLocation();
-            final String absoluteFilePath = location.toString();
-            final String encoding = getEncoding();
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath), encoding)));
-            file.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
-            // #for_erflute don't use system line separator to be immobilize DDL
-            out.print(ddlCreator.prepareDropDDL(diagram));
-            out.print(DDLCreator.LN);
-            out.print(ddlCreator.prepareCreateDDL(diagram));
-            out.print(DDLCreator.LN);
+            if (location == null) {
+                final String msg = "Not found the path in the Eclipse workspace: saveFilePath=" + saveFilePath;
+                Activator.showErrorDialog(msg);
+            } else {
+                out = writeDDLFile(file, ddlCreator, location);
+            }
         } catch (final Exception e) {
             Activator.showExceptionDialog("Failed to create DDL: saveFilePath=" + saveFilePath, e);
         } finally {
@@ -458,14 +458,28 @@ public class ExportToDDLDialog extends AbstractDialog {
             this.diagram.setCurrentCategory(null, 0);
             return;
         }
-        final Category currentCategory =
-                this.diagram.getDiagramContents()
-                        .getSettings()
-                        .getCategorySetting()
-                        .getAllCategories()
-                        .get(this.categoryCombo.getSelectionIndex() - 1);
+        final Category currentCategory = this.diagram.getDiagramContents()
+                .getSettings()
+                .getCategorySetting()
+                .getAllCategories()
+                .get(this.categoryCombo.getSelectionIndex() - 1);
 
         this.diagram.setCurrentCategory(currentCategory, this.categoryCombo.getSelectionIndex());
+    }
+
+    private PrintWriter writeDDLFile(IFile file, DDLCreator ddlCreator, IPath location)
+            throws CoreException, UnsupportedEncodingException, FileNotFoundException {
+        final String absoluteFilePath = location.toString();
+        final String encoding = getEncoding();
+        final PrintWriter out =
+                new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(absoluteFilePath), encoding)));
+        file.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
+        // #for_erflute don't use system line separator to be immobilize DDL
+        out.print(ddlCreator.prepareDropDDL(diagram));
+        out.print(DDLCreator.LN);
+        out.print(ddlCreator.prepareCreateDDL(diagram));
+        out.print(DDLCreator.LN);
+        return out;
     }
 
     // ===================================================================================
