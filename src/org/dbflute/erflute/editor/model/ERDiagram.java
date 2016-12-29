@@ -138,9 +138,9 @@ public class ERDiagram extends ViewableModel {
         if (element instanceof ERVirtualTable) {
             // メインビューのノードは残して仮想テーブルだけ削除
             currentVirtualDiagram.remove((ERVirtualTable) element);
-        } else if (element instanceof WalkerGroup) {
+        } else if (element instanceof WalkerGroup && currentVirtualDiagram != null) {
             currentVirtualDiagram.remove((WalkerGroup) element);
-        } else if (element instanceof WalkerNote) {
+        } else if (element instanceof WalkerNote && currentVirtualDiagram != null) {
             currentVirtualDiagram.remove((WalkerNote) element);
         } else {
             this.diagramContents.getDiagramWalkers().remove(element);
