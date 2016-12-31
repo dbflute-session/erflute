@@ -11,10 +11,12 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.no
 import org.dbflute.erflute.editor.controller.editpart.DeleteableEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -56,7 +58,8 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                 virtualTable = (ERVirtualTable) walker;
                 walker = ((ERVirtualTable) walker).getRawTable();
             }
-            if (!diagram.getDiagramContents().getDiagramWalkers().contains(walker) && !(walker instanceof Category)) {
+            if (!diagram.getDiagramContents().getDiagramWalkers().contains(walker) && !(walker instanceof Category)
+                    && !(walker instanceof WalkerNote) && !(walker instanceof WalkerGroup)) {
                 return null;
             }
 
