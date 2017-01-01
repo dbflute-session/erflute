@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.model.dbexport.ddl.DDLTarget;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ExportSetting implements Serializable, Cloneable {
+public class ExportSettings implements Serializable, Cloneable {
 
     // ===================================================================================
     //                                                                          Definition
@@ -38,7 +38,7 @@ public class ExportSetting implements Serializable, Cloneable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final ExportSetting other = (ExportSetting) obj;
+        final ExportSettings other = (ExportSettings) obj;
         if (categoryNameToExport == null) {
             if (other.categoryNameToExport != null)
                 return false;
@@ -81,9 +81,9 @@ public class ExportSetting implements Serializable, Cloneable {
     }
 
     @Override
-    public ExportSetting clone() {
+    public ExportSettings clone() {
         try {
-            final ExportSetting setting = (ExportSetting) super.clone();
+            final ExportSettings setting = (ExportSettings) super.clone();
             setting.setDdlTarget(this.ddlTarget.clone());
             return setting;
         } catch (final CloneNotSupportedException e) {

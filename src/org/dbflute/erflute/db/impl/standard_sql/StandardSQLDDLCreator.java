@@ -11,7 +11,7 @@ public class StandardSQLDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getDDL(Tablespace tablespace) {
+    protected String doBuildCreateTablespace(Tablespace tablespace) {
         return null;
     }
 }

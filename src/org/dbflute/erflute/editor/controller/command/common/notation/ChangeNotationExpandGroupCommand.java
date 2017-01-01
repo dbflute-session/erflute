@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.controller.command.common.notation;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeNotationExpandGroupCommand extends AbstractCommand {
 
@@ -13,7 +13,7 @@ public class ChangeNotationExpandGroupCommand extends AbstractCommand {
 
     private boolean newNotationExpandGroup;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     public ChangeNotationExpandGroupCommand(ERDiagram diagram, boolean notationExpandGroup) {
         this.diagram = diagram;

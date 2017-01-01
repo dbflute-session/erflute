@@ -48,7 +48,7 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.createObjectListComposite(composite);
 
         this.setListener();
@@ -139,7 +139,7 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         List<TreeNode> treeNodeList = this.createTreeNodeList();
 
         TreeNode[] treeNodes = treeNodeList.toArray(new TreeNode[treeNodeList.size()]);

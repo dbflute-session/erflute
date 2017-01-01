@@ -11,8 +11,8 @@ import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.db.PreTableExportManager;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.model.settings.Environment;
-import org.dbflute.erflute.editor.model.settings.Settings;
 import org.dbflute.erflute.editor.view.dialog.dbsetting.AbstractDBSettingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -31,25 +31,22 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
     public ExportDBSettingDialog(Shell parentShell, ERDiagram diagram) {
         super(parentShell, diagram);
-        this.dbSetting = this.diagram.getDbSetting();
+        this.dbSettings = this.diagram.getDbSettings();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initializeBody(Composite group) {
-        GridData labelLayoutData = new GridData();
+        final GridData labelLayoutData = new GridData();
         // labelLayoutData.widthHint = 130;
 
         // DB
-        Label label = new Label(group, SWT.NONE);
+        final Label label = new Label(group, SWT.NONE);
         label.setLayoutData(labelLayoutData);
         label.setText(DisplayMessages.getMessage("label.tablespace.environment"));
         label.setEnabled(true);
 
         this.environmentCombo = new Combo(group, SWT.BORDER | SWT.READ_ONLY);
-        GridData data = new GridData(GridData.FILL_HORIZONTAL);
+        final GridData data = new GridData(GridData.FILL_HORIZONTAL);
         data.widthHint = 200;
         this.environmentCombo.setLayoutData(data);
         this.environmentCombo.setVisibleItemCount(20);
@@ -62,8 +59,8 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite parent) {
-        super.initialize(parent);
+    protected void initComponent(Composite parent) {
+        super.initComponent(parent);
     }
 
     /**
@@ -93,34 +90,35 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
     protected void performOK() throws InputException {
         this.setCurrentSetting();
 
-        String db = this.getDBSName();
-        DBManager manager = DBManagerFactory.getDBManager(db);
+        final String db = this.getDBSName();
+        final DBManager manager = DBManagerFactory.getDBManager(db);
 
         Connection con = null;
 
         try {
-            this.diagram.setDbSetting(this.dbSetting);
+            this.diagram.setDbSettings(this.dbSettings);
 
-            con = this.dbSetting.connect();
+            con = this.dbSettings.connect();
 
-            int index = this.environmentCombo.getSelectionIndex();
-            Environment environment = this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments().get(index);
+            final int index = this.environmentCombo.getSelectionIndex();
+            final Environment environment =
+                    this.diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments().get(index);
 
-            PreTableExportManager exportToDBManager = manager.getPreTableExportManager();
-            exportToDBManager.init(con, dbSetting, diagram, environment);
+            final PreTableExportManager exportToDBManager = manager.getPreTableExportManager();
+            exportToDBManager.init(con, dbSettings, diagram, environment);
 
             exportToDBManager.run();
 
-            Exception e = exportToDBManager.getException();
+            final Exception e = exportToDBManager.getException();
             if (e != null) {
                 Activator.error(e);
                 String message = e.getMessage();
-                String errorSql = exportToDBManager.getErrorSql();
+                final String errorSql = exportToDBManager.getErrorSql();
 
                 if (errorSql != null) {
                     message += "\r\n\r\n" + errorSql;
                 }
-                ErrorDialog errorDialog = new ErrorDialog(this.getShell(), message);
+                final ErrorDialog errorDialog = new ErrorDialog(this.getShell(), message);
                 errorDialog.open();
 
                 throw new InputException("error.jdbc.version");
@@ -128,12 +126,12 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
             this.ddl = exportToDBManager.getDdl();
 
-        } catch (InputException e) {
+        } catch (final InputException e) {
             throw e;
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.error(e);
-            Throwable cause = e.getCause();
+            final Throwable cause = e.getCause();
 
             if (cause instanceof UnknownHostException) {
                 throw new InputException("error.server.not.found");
@@ -146,7 +144,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
             if (con != null) {
                 try {
                     con.close();
-                } catch (SQLException e) {
+                } catch (final SQLException e) {
                     Activator.showExceptionDialog(e);
                 }
             }
@@ -165,12 +163,12 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void setData() {
-        super.setData();
+    protected void setupData() {
+        super.setupData();
 
-        Settings settings = this.diagram.getDiagramContents().getSettings();
+        final DiagramSettings settings = this.diagram.getDiagramContents().getSettings();
 
-        for (Environment environment : settings.getEnvironmentSetting().getEnvironments()) {
+        for (final Environment environment : settings.getEnvironmentSettings().getEnvironments()) {
             this.environmentCombo.add(environment.getName());
         }
         this.environmentCombo.select(0);

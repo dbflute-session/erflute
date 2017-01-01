@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.action.ermodel;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.category.CategoryManageDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -25,7 +25,7 @@ public class VirtualModelManageAction extends AbstractBaseAction {
     @Override
     public void execute(Event event) throws Exception {
         final ERDiagram diagram = this.getDiagram();
-        final Settings settings = (Settings) diagram.getDiagramContents().getSettings().clone();
+        final DiagramSettings settings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final CategoryManageDialog dialog = new CategoryManageDialog(shell, settings, diagram);
         if (dialog.open() == IDialogConstants.OK_ID) {

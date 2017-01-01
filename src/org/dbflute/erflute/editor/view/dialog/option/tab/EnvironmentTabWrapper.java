@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.editor.model.settings.Environment;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.option.OptionSettingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -33,11 +33,11 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
     private Button deleteButton;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     private static final int LIST_HEIGHT = 230;
 
-    public EnvironmentTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, Settings settings) {
+    public EnvironmentTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, DiagramSettings settings) {
         super(dialog, parent, style, "label.tablespace.environment");
 
         this.settings = settings;
@@ -103,7 +103,7 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
                     return;
                 }
 
-                Environment environment = settings.getEnvironmentSetting().getEnvironments().get(targetIndex);
+                Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
                 nameText.setText(environment.getName());
                 buttonEnabled(true);
             }
@@ -118,8 +118,8 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
             public void widgetSelected(SelectionEvent e) {
                 String name = nameText.getText().trim();
                 if (!Check.isEmpty(name)) {
-                    settings.getEnvironmentSetting().getEnvironments().add(new Environment(name));
-                    setData();
+                    settings.getEnvironmentSettings().getEnvironments().add(new Environment(name));
+                    setupData();
                     environmentList.select(environmentList.getItemCount() - 1);
                 }
             }
@@ -139,9 +139,9 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
                 String name = nameText.getText().trim();
                 if (!Check.isEmpty(name)) {
-                    Environment environment = settings.getEnvironmentSetting().getEnvironments().get(targetIndex);
+                    Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
                     environment.setName(name);
-                    setData();
+                    setupData();
                     environmentList.select(targetIndex);
                 }
             }
@@ -159,12 +159,12 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
                     return;
                 }
 
-                settings.getEnvironmentSetting().getEnvironments().remove(targetIndex);
-                setData();
+                settings.getEnvironmentSettings().getEnvironments().remove(targetIndex);
+                setupData();
 
-                if (settings.getEnvironmentSetting().getEnvironments().size() > targetIndex) {
+                if (settings.getEnvironmentSettings().getEnvironments().size() > targetIndex) {
                     environmentList.select(targetIndex);
-                    Environment environment = settings.getEnvironmentSetting().getEnvironments().get(targetIndex);
+                    Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
                     nameText.setText(environment.getName());
 
                 } else {
@@ -218,12 +218,12 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
      * {@inheritDoc}
      */
     @Override
-    protected void setData() {
-        super.setData();
+    protected void setupData() {
+        super.setupData();
 
         this.environmentList.removeAll();
 
-        for (Environment environment : this.settings.getEnvironmentSetting().getEnvironments()) {
+        for (Environment environment : this.settings.getEnvironmentSettings().getEnvironments()) {
             this.environmentList.add(environment.getName());
         }
     }

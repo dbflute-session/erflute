@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.C
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.eclipse.gef.EditPart;
 
 public class TableSetOutlineEditPart extends AbstractOutlineEditPart {
@@ -49,7 +49,7 @@ public class TableSetOutlineEditPart extends AbstractOutlineEditPart {
             }
         }
 
-        if (this.getDiagram().getDiagramContents().getSettings().getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
+        if (this.getDiagram().getDiagramContents().getSettings().getViewOrderBy() == DiagramSettings.VIEW_MODE_LOGICAL) {
             Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
         } else {
             Collections.sort(list, TableView.PHYSICAL_NAME_COMPARATOR);

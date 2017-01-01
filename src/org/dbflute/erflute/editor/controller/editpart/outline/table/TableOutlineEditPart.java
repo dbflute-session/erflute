@@ -16,7 +16,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.IndexSet;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.table.TableDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
@@ -85,7 +85,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
         int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
 
-        if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
+        if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             if (model.getPhysicalName() != null) {
                 name = model.getPhysicalName();
 
@@ -93,7 +93,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
                 name = "";
             }
 
-        } else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
+        } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             if (model.getLogicalName() != null) {
                 name = model.getLogicalName();
 

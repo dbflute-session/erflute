@@ -23,7 +23,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.anchor.XYChopboxAnchor;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.dbflute.erflute.editor.view.figure.table.column.GroupColumnFigure;
@@ -156,7 +156,7 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
                 if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {
                     final ColumnGroup columnGroup = (ColumnGroup) removedColumn;
                     for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-                        if (notationLevel == Settings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
+                        if (notationLevel == DiagramSettings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
                                 && !normalColumn.isReferedStrictly()) {
                             continue;
                         }
@@ -166,7 +166,7 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
                                 false, isRemoved);
                     }
                 } else {
-                    if ((notationLevel == Settings.NOTATION_LEVLE_KEY)) {
+                    if ((notationLevel == DiagramSettings.NOTATION_LEVLE_KEY)) {
                         continue;
                     }
                     final GroupColumnFigure columnFigure = new GroupColumnFigure();
@@ -175,7 +175,7 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
                 }
             } else {
                 final NormalColumn normalColumn = (NormalColumn) removedColumn;
-                if (notationLevel == Settings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
+                if (notationLevel == DiagramSettings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
                         && !normalColumn.isReferedStrictly()) {
                     continue;
                 }
@@ -188,7 +188,7 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
     }
 
     @Override
-    public void changeSettings(Settings settings) {
+    public void changeSettings(DiagramSettings settings) {
         final TableFigure figure = (TableFigure) this.getFigure();
         figure.setSettings(settings);
         super.changeSettings(settings);
@@ -219,10 +219,10 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
 
         final int viewMode = diagram.getDiagramContents().getSettings().getViewMode();
 
-        if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
+        if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             name = diagram.filter(tableView.getPhysicalName());
 
-        } else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
+        } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             name = diagram.filter(tableView.getLogicalName());
 
         } else {

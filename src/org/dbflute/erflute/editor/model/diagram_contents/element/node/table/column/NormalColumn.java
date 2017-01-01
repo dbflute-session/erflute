@@ -37,7 +37,7 @@ public class NormalColumn extends ERColumn {
     private String uniqueKeyName;
     private String characterSet;
     private String collation;
-    private List<NormalColumn> referencedColumnList = new ArrayList<NormalColumn>();
+    private List<NormalColumn> referredColumnList = new ArrayList<NormalColumn>();
     private List<Relationship> relationshipList = new ArrayList<Relationship>();
     private Sequence autoIncrementSetting; // same as sequence
 
@@ -52,7 +52,7 @@ public class NormalColumn extends ERColumn {
     }
 
     protected NormalColumn(NormalColumn from) {
-        this.referencedColumnList.addAll(from.referencedColumnList);
+        this.referredColumnList.addAll(from.referredColumnList);
         this.relationshipList.addAll(from.relationshipList);
         this.foreignKeyPhysicalName = from.foreignKeyPhysicalName;
         this.foreignKeyLogicalName = from.foreignKeyLogicalName;
@@ -63,9 +63,9 @@ public class NormalColumn extends ERColumn {
         this.autoIncrementSetting = (Sequence) from.autoIncrementSetting.clone();
     }
 
-    public NormalColumn(NormalColumn from, NormalColumn referencedColumn, Relationship relationship, boolean primaryKey) {
+    public NormalColumn(NormalColumn from, NormalColumn referredColumn, Relationship relationship, boolean primaryKey) {
         this.word = null;
-        this.referencedColumnList.add(referencedColumn);
+        this.referredColumnList.add(referredColumn);
         this.relationshipList.add(relationship);
         copyData(from, this);
         this.primaryKey = primaryKey;
@@ -89,27 +89,24 @@ public class NormalColumn extends ERColumn {
     // ===================================================================================
     //                                                                        Relationship
     //                                                                        ============
-    public NormalColumn getFirstReferencedColumn() {
-        if (this.referencedColumnList.isEmpty()) {
-            return null;
-        }
-        return this.referencedColumnList.get(0);
-    }
-
-    public NormalColumn getReferencedColumn(Relationship relation) {
-        for (final NormalColumn referencedColumn : this.referencedColumnList) {
-            if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
-                return referencedColumn;
+    public NormalColumn getReferredColumn(Relationship relationship) {
+        for (final NormalColumn referredColumn : referredColumnList) {
+            if (referredColumn.getColumnHolder() == relationship.getSourceTableView()) {
+                return referredColumn;
             }
         }
         return null;
     }
 
-    public NormalColumn getRootReferencedColumn() {
-        NormalColumn root = this.getFirstReferencedColumn();
+    public NormalColumn getFirstReferredColumn() {
+        return !referredColumnList.isEmpty() ? referredColumnList.get(0) : null;
+    }
+
+    public NormalColumn getFirstRootReferredColumn() { // e.g. FK to FK to FK to ...
+        NormalColumn root = getFirstReferredColumn();
         if (root != null) {
-            while (root.getFirstReferencedColumn() != null) {
-                root = root.getFirstReferencedColumn();
+            while (root.getFirstReferredColumn() != null) {
+                root = root.getFirstReferredColumn();
             }
         }
         return root;
@@ -126,7 +123,7 @@ public class NormalColumn extends ERColumn {
                         outgoingRelationList.add(relation);
                     }
                 } else {
-                    if (this == relation.getReferencedColumn()) {
+                    if (this == relation.getReferredSimpleUniqueColumn()) {
                         outgoingRelationList.add(relation);
                     }
                 }
@@ -144,7 +141,7 @@ public class NormalColumn extends ERColumn {
                 boolean found = false;
                 for (final NormalColumn column : relation.getTargetTableView().getNormalColumns()) {
                     if (column.isForeignKey()) {
-                        for (final NormalColumn referencedColumn : column.referencedColumnList) {
+                        for (final NormalColumn referencedColumn : column.referredColumnList) {
                             if (referencedColumn == this) {
                                 foreignKeyList.add(column);
                                 found = true;
@@ -165,12 +162,12 @@ public class NormalColumn extends ERColumn {
         return relationshipList;
     }
 
-    public void addReference(NormalColumn referencedColumn, Relationship relation) {
-        this.foreignKeyDescription = this.getDescription();
-        this.foreignKeyLogicalName = this.getLogicalName();
-        this.foreignKeyPhysicalName = this.getPhysicalName();
-        this.referencedColumnList.add(referencedColumn);
-        this.relationshipList.add(relation);
+    public void addReference(NormalColumn referredColumn, Relationship relationship) {
+        this.foreignKeyDescription = getDescription();
+        this.foreignKeyLogicalName = getLogicalName();
+        this.foreignKeyPhysicalName = getPhysicalName();
+        this.referredColumnList.add(referredColumn);
+        this.relationshipList.add(relationship);
         copyData(this, this);
         this.word = null;
     }
@@ -184,9 +181,9 @@ public class NormalColumn extends ERColumn {
     public void removeReference(Relationship relation) {
         this.relationshipList.remove(relation);
         if (relationshipList.isEmpty()) {
-            NormalColumn temp = this.getFirstReferencedColumn();
+            NormalColumn temp = this.getFirstReferredColumn();
             while (temp.isForeignKey()) {
-                temp = temp.getFirstReferencedColumn();
+                temp = temp.getFirstReferredColumn();
             }
             this.word = temp.getWord();
             if (this.getPhysicalName() != this.word.getPhysicalName() || this.getLogicalName() != this.word.getLogicalName()
@@ -199,12 +196,12 @@ public class NormalColumn extends ERColumn {
             this.foreignKeyDescription = null;
             this.foreignKeyLogicalName = null;
             this.foreignKeyPhysicalName = null;
-            this.referencedColumnList.clear();
+            this.referredColumnList.clear();
             copyData(this, this);
         } else {
-            for (final NormalColumn referencedColumn : this.referencedColumnList) {
+            for (final NormalColumn referencedColumn : this.referredColumnList) {
                 if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
-                    this.referencedColumnList.remove(referencedColumn);
+                    this.referredColumnList.remove(referencedColumn);
                     break;
                 }
             }
@@ -227,7 +224,7 @@ public class NormalColumn extends ERColumn {
         for (final Relationship relation : table.getOutgoingRelationshipList()) {
             if (!relation.isReferenceForPK()) {
                 for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
-                    for (final NormalColumn referencedColumn : foreignKeyColumn.referencedColumnList) {
+                    for (final NormalColumn referencedColumn : foreignKeyColumn.referredColumnList) {
                         if (referencedColumn == this) {
                             isRefered = true;
                             break;
@@ -254,7 +251,7 @@ public class NormalColumn extends ERColumn {
         for (final Relationship relation : table.getOutgoingRelationshipList()) {
             if (!relation.isReferenceForPK()) {
                 for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
-                    for (final NormalColumn referencedColumn : foreignKeyColumn.referencedColumnList) {
+                    for (final NormalColumn referencedColumn : foreignKeyColumn.referredColumnList) {
                         if (referencedColumn == this) {
                             isRefered = true;
                             break;
@@ -290,7 +287,7 @@ public class NormalColumn extends ERColumn {
                 from.getConstraint(), from.uniqueKeyName, from.characterSet, from.collation);
         to.autoIncrementSetting = (Sequence) from.autoIncrementSetting.clone();
         if (to.isForeignKey()) {
-            final NormalColumn firstReferencedColumn = to.getFirstReferencedColumn();
+            final NormalColumn firstReferencedColumn = to.getFirstReferredColumn();
             if (firstReferencedColumn.getPhysicalName() == null) {
                 to.foreignKeyPhysicalName = from.getPhysicalName();
             } else {
@@ -298,7 +295,6 @@ public class NormalColumn extends ERColumn {
                     to.foreignKeyPhysicalName = from.foreignKeyPhysicalName;
                 } else if (!firstReferencedColumn.getPhysicalName().equals(from.getPhysicalName())) {
                     to.foreignKeyPhysicalName = from.getPhysicalName();
-
                 } else {
                     to.foreignKeyPhysicalName = null;
                 }
@@ -308,7 +304,6 @@ public class NormalColumn extends ERColumn {
             } else {
                 if (from.foreignKeyLogicalName != null && !firstReferencedColumn.getLogicalName().equals(from.foreignKeyLogicalName)) {
                     to.foreignKeyLogicalName = from.foreignKeyLogicalName;
-
                 } else if (!firstReferencedColumn.getLogicalName().equals(from.getLogicalName())) {
                     to.foreignKeyLogicalName = from.getLogicalName();
 
@@ -344,12 +339,16 @@ public class NormalColumn extends ERColumn {
         return "columnGroup." + group.getGroupName() + "." + getResolvedPhysicalName();
     }
 
+    public String buildSimpleUniqueColumnId(TableView table) {
+        return buildColumnId(table); // should be same as normal column because of mapping when loading
+    }
+
     private String getResolvedPhysicalName() {
         final String physicalName = getPhysicalName();
         if (Srl.is_NotNull_and_NotEmpty(physicalName)) {
             return physicalName;
         } else {
-            final NormalColumn firstReferencedColumn = getFirstReferencedColumn();
+            final NormalColumn firstReferencedColumn = getFirstReferredColumn();
             if (firstReferencedColumn != null) {
                 return firstReferencedColumn.getPhysicalName();
             } else { // no way? by jflute
@@ -365,7 +364,7 @@ public class NormalColumn extends ERColumn {
     public NormalColumn clone() {
         final NormalColumn clone = (NormalColumn) super.clone();
         clone.relationshipList = new ArrayList<Relationship>(this.relationshipList);
-        clone.referencedColumnList = new ArrayList<NormalColumn>(this.referencedColumnList);
+        clone.referredColumnList = new ArrayList<NormalColumn>(this.referredColumnList);
         return clone;
     }
 
@@ -388,33 +387,33 @@ public class NormalColumn extends ERColumn {
     }
 
     public String getPhysicalName() {
-        if (this.getFirstReferencedColumn() != null) {
+        if (this.getFirstReferredColumn() != null) {
             if (!Check.isEmpty(this.foreignKeyPhysicalName)) {
                 return this.foreignKeyPhysicalName;
             } else {
-                return this.getFirstReferencedColumn().getPhysicalName();
+                return this.getFirstReferredColumn().getPhysicalName();
             }
         }
         return this.word.getPhysicalName();
     }
 
     public String getLogicalName() {
-        if (this.getFirstReferencedColumn() != null) {
+        if (this.getFirstReferredColumn() != null) {
             if (!Check.isEmpty(this.foreignKeyLogicalName)) {
                 return this.foreignKeyLogicalName;
             } else {
-                return this.getFirstReferencedColumn().getLogicalName();
+                return this.getFirstReferredColumn().getLogicalName();
             }
         }
         return this.word.getLogicalName();
     }
 
     public String getDescription() {
-        if (this.getFirstReferencedColumn() != null) {
+        if (this.getFirstReferredColumn() != null) {
             if (!Check.isEmpty(this.foreignKeyDescription)) {
                 return this.foreignKeyDescription;
             } else {
-                return this.getFirstReferencedColumn().getDescription();
+                return this.getFirstReferredColumn().getDescription();
             }
         }
         return this.word.getDescription();
@@ -433,8 +432,8 @@ public class NormalColumn extends ERColumn {
     }
 
     public SqlType getType() {
-        if (this.getFirstReferencedColumn() != null) {
-            final SqlType type = this.getFirstReferencedColumn().getType();
+        if (this.getFirstReferredColumn() != null) {
+            final SqlType type = this.getFirstReferredColumn().getType();
             if (SqlType.valueOfId(SqlType.SQL_TYPE_ID_SERIAL).equals(type)) {
                 return SqlType.valueOfId(SqlType.SQL_TYPE_ID_INTEGER);
             } else if (SqlType.valueOfId(SqlType.SQL_TYPE_ID_BIG_SERIAL).equals(type)) {
@@ -446,8 +445,8 @@ public class NormalColumn extends ERColumn {
     }
 
     public TypeData getTypeData() {
-        if (this.getFirstReferencedColumn() != null) {
-            return getFirstReferencedColumn().getTypeData();
+        if (this.getFirstReferredColumn() != null) {
+            return getFirstReferredColumn().getTypeData();
         }
         return this.word.getTypeData();
     }
@@ -554,7 +553,7 @@ public class NormalColumn extends ERColumn {
     }
 
     public List<NormalColumn> getReferencedColumnList() {
-        return referencedColumnList;
+        return referredColumnList;
     }
 
     public void clearRelations() {

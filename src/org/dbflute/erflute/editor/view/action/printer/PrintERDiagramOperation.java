@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.view.action.printer;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.PageSetting;
+import org.dbflute.erflute.editor.model.settings.PageSettings;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
@@ -31,7 +31,7 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
     @Override
     public Rectangle getPrintRegion() {
         ERDiagram diagram = this.getDiagram();
-        PageSetting pageSetting = diagram.getPageSetting();
+        PageSettings pageSetting = diagram.getPageSetting();
 
         org.eclipse.swt.graphics.Rectangle trim = this.getPrinter().computeTrim(0, 0, 0, 0);
         org.eclipse.swt.graphics.Point printerDPI = this.getPrinter().getDPI();
@@ -67,7 +67,7 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
     @Override
     protected void setupPrinterGraphicsFor(Graphics graphics, IFigure figure) {
         ERDiagram diagram = this.getDiagram();
-        PageSetting pageSetting = diagram.getPageSetting();
+        PageSettings pageSetting = diagram.getPageSetting();
 
         double dpiScale = (double) getPrinter().getDPI().x / Display.getCurrent().getDPI().x * pageSetting.getScale() / 100;
 

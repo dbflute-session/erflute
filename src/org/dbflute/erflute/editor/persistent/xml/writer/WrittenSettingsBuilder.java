@@ -7,20 +7,20 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_properties.ModelProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.CategorySettings;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.model.settings.Environment;
-import org.dbflute.erflute.editor.model.settings.EnvironmentSetting;
-import org.dbflute.erflute.editor.model.settings.ExportSetting;
-import org.dbflute.erflute.editor.model.settings.PageSetting;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.EnvironmentSettings;
+import org.dbflute.erflute.editor.model.settings.ExportSettings;
+import org.dbflute.erflute.editor.model.settings.PageSettings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class WrittenSettingBuilder {
+public class WrittenSettingsBuilder {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -33,7 +33,7 @@ public class WrittenSettingBuilder {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenSettingBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic,
+    public WrittenSettingsBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic,
             WrittenDiagramWalkerBuilder nodeElementBuilder, WrittenTablePropertiesBuilder tablePropertiesBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
@@ -44,7 +44,7 @@ public class WrittenSettingBuilder {
     // ===================================================================================
     //                                                                          DB Setting
     //                                                                          ==========
-    public String buildDBSetting(DBSetting dbSetting) {
+    public String buildDBSetting(DBSettings dbSetting) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<dbsystem>").append(escape(dbSetting.getDbsystem())).append("</dbsystem>\n");
         xml.append("<server>").append(escape(dbSetting.getServer())).append("</server>\n");
@@ -59,26 +59,26 @@ public class WrittenSettingBuilder {
     }
 
     // ===================================================================================
-    //                                                                        Page Setting
-    //                                                                        ============
-    public String buildPageSetting(PageSetting pageSetting) {
+    //                                                                       Page Settings
+    //                                                                       =============
+    public String buildPageSettings(PageSettings settings) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<direction_horizontal>").append(pageSetting.isDirectionHorizontal()).append("</direction_horizontal>\n");
-        xml.append("<scale>").append(pageSetting.getScale()).append("</scale>\n");
-        xml.append("<paper_size>").append(escape(pageSetting.getPaperSize())).append("</paper_size>\n");
-        xml.append("<top_margin>").append(pageSetting.getTopMargin()).append("</top_margin>\n");
-        xml.append("<left_margin>").append(pageSetting.getLeftMargin()).append("</left_margin>\n");
-        xml.append("<bottom_margin>").append(pageSetting.getBottomMargin()).append("</bottom_margin>\n");
-        xml.append("<right_margin>").append(pageSetting.getRightMargin()).append("</right_margin>\n");
+        xml.append("<direction_horizontal>").append(settings.isDirectionHorizontal()).append("</direction_horizontal>\n");
+        xml.append("<scale>").append(settings.getScale()).append("</scale>\n");
+        xml.append("<paper_size>").append(escape(settings.getPaperSize())).append("</paper_size>\n");
+        xml.append("<top_margin>").append(settings.getTopMargin()).append("</top_margin>\n");
+        xml.append("<left_margin>").append(settings.getLeftMargin()).append("</left_margin>\n");
+        xml.append("<bottom_margin>").append(settings.getBottomMargin()).append("</bottom_margin>\n");
+        xml.append("<right_margin>").append(settings.getRightMargin()).append("</right_margin>\n");
         return xml.toString();
     }
 
     // ===================================================================================
-    //                                                                            Settings
-    //                                                                            ========
-    public String buildSettings(Settings settings, PersistentContext context) {
+    //                                                                    Diagram Settings
+    //                                                                    ================
+    public String buildDiagramSettings(DiagramSettings settings, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<settings>\n");
+        xml.append("<diagram_settings>\n");
         xml.append("\t<database>").append(escape(settings.getDatabase())).append("</database>\n");
         xml.append("\t<capital>").append(settings.isCapital()).append("</capital>\n");
         xml.append("\t<table_style>").append(escape(settings.getTableStyle())).append("</table_style>\n");
@@ -94,34 +94,31 @@ public class WrittenSettingBuilder {
         xml.append("\t<suspend_validator>").append(settings.isSuspendValidator()).append("</suspend_validator>\n");
         xml.append("\t<titleFontEm>").append(settings.getTitleFontEm().toString()).append("</titleFontEm>\n");
         xml.append("\t<masterDataBasePath>").append(settings.getMasterDataBasePath().toString()).append("</masterDataBasePath>\n");
-        xml.append(tab(buildExportSetting(settings.getExportSetting(), context)));
-        xml.append(tab(buildCategorySetting(settings.getCategorySetting(), context)));
+        xml.append("\t<use_view_object>").append(settings.isUseViewObject()).append("</use_view_object>\n");
+        xml.append(tab(buildExportSetting(settings.getExportSettings(), context)));
+        xml.append(tab(buildCategorySettings(settings.getCategorySetting(), context)));
         xml.append(tab(buildModelProperties(settings.getModelProperties(), context)));
         xml.append(tab(tablePropertiesBuilder.buildTableProperties((TableProperties) settings.getTableViewProperties(), context)));
-        xml.append(tab(buildEnvironmentSetting(settings.getEnvironmentSetting(), context)));
-        xml.append("</settings>\n");
+        xml.append(tab(buildEnvironmentSetting(settings.getEnvironmentSettings(), context)));
+        xml.append("</diagram_settings>\n");
         return xml.toString();
     }
 
     // ===================================================================================
-    //                                                                      Export Setting
-    //                                                                      ==============
-    private String buildExportSetting(ExportSetting exportSetting, PersistentContext context) {
+    //                                                                     Export Settings
+    //                                                                     ===============
+    private String buildExportSetting(ExportSettings settings, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<export_setting>\n");
-        xml.append("\t<category_name_to_export>")
-                .append(escape(exportSetting.getCategoryNameToExport()))
-                .append("</category_name_to_export>\n");
-        xml.append("\t<ddl_output>").append(escape(exportSetting.getDdlOutput())).append("</ddl_output>\n");
-        xml.append("\t<excel_output>").append(escape(exportSetting.getExcelOutput())).append("</excel_output>\n");
-        xml.append("\t<excel_template>").append(escape(exportSetting.getExcelTemplate())).append("</excel_template>\n");
-        xml.append("\t<image_output>").append(escape(exportSetting.getImageOutput())).append("</image_output>\n");
-        xml.append("\t<put_diagram_on_excel>").append(exportSetting.isPutERDiagramOnExcel()).append("</put_diagram_on_excel>\n");
-        xml.append("\t<use_logical_name_as_sheet>")
-                .append(exportSetting.isUseLogicalNameAsSheet())
-                .append("</use_logical_name_as_sheet>\n");
-        xml.append("\t<open_after_saved>").append(exportSetting.isOpenAfterSaved()).append("</open_after_saved>\n");
-        final DDLTarget ddlTarget = exportSetting.getDdlTarget();
+        xml.append("<export_settings>\n");
+        xml.append("\t<category_name_to_export>").append(escape(settings.getCategoryNameToExport())).append("</category_name_to_export>\n");
+        xml.append("\t<ddl_output>").append(escape(settings.getDdlOutput())).append("</ddl_output>\n");
+        xml.append("\t<excel_output>").append(escape(settings.getExcelOutput())).append("</excel_output>\n");
+        xml.append("\t<excel_template>").append(escape(settings.getExcelTemplate())).append("</excel_template>\n");
+        xml.append("\t<image_output>").append(escape(settings.getImageOutput())).append("</image_output>\n");
+        xml.append("\t<put_diagram_on_excel>").append(settings.isPutERDiagramOnExcel()).append("</put_diagram_on_excel>\n");
+        xml.append("\t<use_logical_name_as_sheet>").append(settings.isUseLogicalNameAsSheet()).append("</use_logical_name_as_sheet>\n");
+        xml.append("\t<open_after_saved>").append(settings.isOpenAfterSaved()).append("</open_after_saved>\n");
+        final DDLTarget ddlTarget = settings.getDdlTarget();
         xml.append("\t<create_comment>").append(ddlTarget.createComment).append("</create_comment>\n");
         xml.append("\t<create_foreignKey>").append(ddlTarget.createForeignKey).append("</create_foreignKey>\n");
         xml.append("\t<create_index>").append(ddlTarget.createIndex).append("</create_index>\n");
@@ -147,21 +144,21 @@ public class WrittenSettingBuilder {
         xml.append("\t<comment_replace_string>")
                 .append(Format.null2blank(ddlTarget.commentReplaceString))
                 .append("</comment_replace_string>\n");
-        xml.append("</export_setting>\n");
+        xml.append("</export_settings>\n");
         return xml.toString();
     }
 
     // ===================================================================================
     //                                                                   Category Settings
     //                                                                   =================
-    private String buildCategorySetting(CategorySetting categorySettings, PersistentContext context) {
+    private String buildCategorySettings(CategorySettings settings, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<category_settings>\n");
-        xml.append("\t<free_layout>").append(categorySettings.isFreeLayout()).append("</free_layout>\n");
-        xml.append("\t<show_referred_tables>").append(categorySettings.isShowReferredTables()).append("</show_referred_tables>\n");
+        xml.append("\t<free_layout>").append(settings.isFreeLayout()).append("</free_layout>\n");
+        xml.append("\t<show_referred_tables>").append(settings.isShowReferredTables()).append("</show_referred_tables>\n");
         xml.append("\t<categories>\n");
-        for (final Category category : categorySettings.getAllCategories()) {
-            xml.append(tab(tab(doBuildCategory(category, categorySettings.isSelected(category), context))));
+        for (final Category category : settings.getAllCategories()) {
+            xml.append(tab(tab(doBuildCategory(category, settings.isSelected(category), context))));
         }
         xml.append("\t</categories>\n");
         xml.append("</category_settings>\n");
@@ -206,11 +203,11 @@ public class WrittenSettingBuilder {
     }
 
     // ===================================================================================
-    //                                                                 Environment Setting
-    //                                                                 ===================
-    private String buildEnvironmentSetting(EnvironmentSetting environmentSetting, PersistentContext context) {
+    //                                                                Environment Settings
+    //                                                                ====================
+    private String buildEnvironmentSetting(EnvironmentSettings environmentSetting, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
-        xml.append("<environment_setting>\n");
+        xml.append("<environment_settings>\n");
         for (final Environment environment : environmentSetting.getEnvironments()) {
             xml.append("\t<environment>\n");
             final Integer environmentId = context.environmentMap.get(environment);
@@ -218,7 +215,7 @@ public class WrittenSettingBuilder {
             xml.append("\t\t<name>").append(environment.getName()).append("</name>\n");
             xml.append("\t</environment>\n");
         }
-        xml.append("</environment_setting>\n");
+        xml.append("</environment_settings>\n");
         return xml.toString();
     }
 

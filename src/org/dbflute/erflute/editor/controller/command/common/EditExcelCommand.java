@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -32,7 +32,7 @@ public class EditExcelCommand extends AbstractCommand {
         if (model instanceof ERVirtualTable) {
             ERVirtualTable vtable = (ERVirtualTable) model;
             String tableName = vtable.getRawTable().getPhysicalName();
-            Settings settings = vtable.getDiagram().getDiagramContents().getSettings();
+            DiagramSettings settings = vtable.getDiagram().getDiagramContents().getSettings();
             String path = settings.getMasterDataBasePath();
             if (path != null) {
                 IFolder folder = ResourcesPlugin.getWorkspace().getRoot().getFolder(new Path(path));

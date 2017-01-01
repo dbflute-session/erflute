@@ -63,7 +63,7 @@ public class SequenceDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.nameText = CompositeFactory.createText(this, composite, "label.sequence.name", 4, false);
         this.schemaText = CompositeFactory.createText(this, composite, "label.schema", 4, false);
 
@@ -303,7 +303,7 @@ public class SequenceDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         if (this.sequence != null) {
             this.nameText.setText(Format.toString(this.sequence.getName()));
             this.schemaText.setText(Format.toString(this.sequence.getSchema()));

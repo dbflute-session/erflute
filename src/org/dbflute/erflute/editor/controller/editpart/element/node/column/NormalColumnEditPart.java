@@ -6,13 +6,13 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.dbflute.erflute.editor.view.figure.table.column.NormalColumnFigure;
 import org.eclipse.draw2d.ColorConstants;
@@ -52,7 +52,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
         final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
-        if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
+        if (notationLevel != DiagramSettings.NOTATION_LEVLE_TITLE) {
             final TableFigure tableFigure = (TableFigure) parent.getFigure();
 
             final List<NormalColumn> selectedReferencedColulmnList = this.getSelectedReferencedColulmnList();
@@ -64,7 +64,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
             final boolean isAdded = false;
             final boolean isUpdated = false;
 
-            if ((notationLevel == Settings.NOTATION_LEVLE_KEY) && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
+            if ((notationLevel == DiagramSettings.NOTATION_LEVLE_KEY) && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
                     && !normalColumn.isReferedStrictly()) {
                 columnFigure.clearLabel();
                 return;
@@ -94,18 +94,18 @@ public class NormalColumnEditPart extends ColumnEditPart {
         final String type = diagram.filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), diagram.getDatabase()));
 
         boolean displayKey = true;
-        if (notationLevel == Settings.NOTATION_LEVLE_COLUMN) {
+        if (notationLevel == DiagramSettings.NOTATION_LEVLE_COLUMN) {
             displayKey = false;
         }
 
         boolean displayDetail = false;
-        if (notationLevel == Settings.NOTATION_LEVLE_KEY || notationLevel == Settings.NOTATION_LEVLE_EXCLUDE_TYPE
-                || notationLevel == Settings.NOTATION_LEVLE_DETAIL) {
+        if (notationLevel == DiagramSettings.NOTATION_LEVLE_KEY || notationLevel == DiagramSettings.NOTATION_LEVLE_EXCLUDE_TYPE
+                || notationLevel == DiagramSettings.NOTATION_LEVLE_DETAIL) {
             displayDetail = true;
         }
 
         boolean displayType = false;
-        if (notationLevel == Settings.NOTATION_LEVLE_DETAIL) {
+        if (notationLevel == DiagramSettings.NOTATION_LEVLE_DETAIL) {
             displayType = true;
         }
 
@@ -144,11 +144,11 @@ public class NormalColumnEditPart extends ColumnEditPart {
                     if (relation.isReferenceForPK()) {
                         referencedColulmnList.addAll(((ERTable) tableView).getPrimaryKeys());
 
-                    } else if (relation.getReferencedComplexUniqueKey() != null) {
-                        referencedColulmnList.addAll(relation.getReferencedComplexUniqueKey().getColumnList());
+                    } else if (relation.getReferredCompoundUniqueKey() != null) {
+                        referencedColulmnList.addAll(relation.getReferredCompoundUniqueKey().getColumnList());
 
                     } else {
-                        referencedColulmnList.add(relation.getReferencedColumn());
+                        referencedColulmnList.add(relation.getReferredSimpleUniqueColumn());
                     }
                 }
             }
@@ -159,84 +159,62 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
     private List<NormalColumn> getSelectedForeignKeyColulmnList() {
         final List<NormalColumn> foreignKeyColulmnList = new ArrayList<NormalColumn>();
-
         final TableViewEditPart parent = (TableViewEditPart) this.getParent();
-
         for (final Object object : parent.getTargetConnections()) {
             final ConnectionEditPart connectionEditPart = (ConnectionEditPart) object;
-
             final int selected = connectionEditPart.getSelected();
-
             if (selected == EditPart.SELECTED || selected == EditPart.SELECTED_PRIMARY) {
                 final WalkerConnection connectionElement = (WalkerConnection) connectionEditPart.getModel();
-
                 if (connectionElement instanceof Relationship) {
                     final Relationship relation = (Relationship) connectionElement;
-
                     foreignKeyColulmnList.addAll(relation.getForeignKeyColumns());
                 }
             }
         }
-
         return foreignKeyColulmnList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setSelected(int value) {
         final NormalColumnFigure figure = (NormalColumnFigure) this.getFigure();
-
         if (value != 0 && this.getParent() != null && this.getParent().getParent() != null) {
-            final List selectedEditParts = this.getViewer().getSelectedEditParts();
-
+            final List<?> selectedEditParts = this.getViewer().getSelectedEditParts();
             if (selectedEditParts != null && selectedEditParts.size() == 1) {
                 final NormalColumn normalColumn = (NormalColumn) this.getModel();
-
                 if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
                     for (final Object child : this.getParent().getChildren()) {
                         final AbstractGraphicalEditPart childEditPart = (AbstractGraphicalEditPart) child;
-
                         final NormalColumn column = (NormalColumn) childEditPart.getModel();
                         if (column.getColumnHolder() == normalColumn.getColumnHolder()) {
                             this.setGroupColumnFigureColor((TableViewEditPart) this.getParent(),
                                     (ColumnGroup) normalColumn.getColumnHolder(), true);
                         }
                     }
-
                 } else {
                     figure.setBackgroundColor(ColorConstants.titleBackground);
                     figure.setForegroundColor(ColorConstants.titleForeground);
                     selected = true;
                 }
-
                 super.setSelected(value);
             }
-
         } else {
             final NormalColumn normalColumn = (NormalColumn) this.getModel();
-
             if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
                 for (final Object child : this.getParent().getChildren()) {
                     final AbstractGraphicalEditPart childEditPart = (AbstractGraphicalEditPart) child;
-
                     final NormalColumn column = (NormalColumn) childEditPart.getModel();
                     if (column.getColumnHolder() == normalColumn.getColumnHolder()) {
                         this.setGroupColumnFigureColor((TableViewEditPart) this.getParent(), (ColumnGroup) normalColumn.getColumnHolder(),
                                 false);
                     }
                 }
-
             } else {
                 figure.setBackgroundColor(null);
                 figure.setForegroundColor(null);
                 selected = false;
             }
-
             super.setSelected(value);
         }
-
     }
 
     private void setGroupColumnFigureColor(TableViewEditPart parentEditPart, ColumnGroup columnGroup, boolean selected) {

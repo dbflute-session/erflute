@@ -8,7 +8,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Comm
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
@@ -79,22 +81,22 @@ public class WrittenDiagramWalkerBuilder {
     // ===================================================================================
     //                                                                        Relationship
     //                                                                        ============
-    private String buildRelationship(Relationship relation, PersistentContext context) {
+    private String buildRelationship(Relationship relationship, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<relationship>\n"); // #for_erflute rename to relationship
-        xml.append("\t<name>").append(escape(relation.getForeignKeyName())).append("</name>\n");
-        xml.append(tab(buildConnectionElement(relation, context)));
-        xml.append("\t<parent_cardinality>").append(escape(relation.getParentCardinality())).append("</parent_cardinality>\n");
-        xml.append("\t<child_cardinality>").append(escape(relation.getChildCardinality())).append("</child_cardinality>\n");
-        xml.append("\t<reference_for_pk>").append(relation.isReferenceForPK()).append("</reference_for_pk>\n");
-        setupOnDeleteUpdate(relation, xml);
-        setupSourceTargetXy(relation, xml);
-        setupReferenced(relation, context, xml);
+        xml.append("\t<name>").append(escape(relationship.getForeignKeyName())).append("</name>\n");
+        xml.append(tab(buildConnectionElement(relationship, context)));
+        xml.append("\t<parent_cardinality>").append(escape(relationship.getParentCardinality())).append("</parent_cardinality>\n");
+        xml.append("\t<child_cardinality>").append(escape(relationship.getChildCardinality())).append("</child_cardinality>\n");
+        xml.append("\t<reference_for_pk>").append(relationship.isReferenceForPK()).append("</reference_for_pk>\n");
+        setupOnDeleteUpdate(relationship, xml);
+        setupSourceTargetXy(relationship, xml);
+        setupReferred(relationship, context, xml);
         xml.append("</relationship>\n");
         return xml.toString();
     }
 
-    private void setupOnDeleteUpdate(Relationship relation, final StringBuilder xml) {
+    private void setupOnDeleteUpdate(Relationship relation, StringBuilder xml) {
         // not write if empty or false to slim XML
         final String onDeleteAction = relation.getOnDeleteAction();
         if (onDeleteAction != null && !"NO ACTION".equals(onDeleteAction)) {
@@ -126,15 +128,19 @@ public class WrittenDiagramWalkerBuilder {
         }
     }
 
-    private void setupReferenced(Relationship relation, PersistentContext context, final StringBuilder xml) {
+    private void setupReferred(Relationship relationship, PersistentContext context, StringBuilder xml) {
         // not write if empty or false to slim XML
-        final String referencecdColumnId = context.columnMap.get(relation.getReferencedColumn());
-        if (referencecdColumnId != null) {
-            xml.append("\t<referenced_column>").append(referencecdColumnId).append("</referenced_column>\n");
+        final CompoundUniqueKey referredComplexUniqueKey = relationship.getReferredCompoundUniqueKey();
+        if (referredComplexUniqueKey != null) {
+            final TableView table = relationship.getTargetTableView(); // local table e.g. MEMBER
+            final String uniqueKeyId = referredComplexUniqueKey.buildUniqueKeyId(table); // #for_erflute not use incremental ID
+            xml.append("\t<referred_compound_unique_key>").append(uniqueKeyId).append("</referred_compound_unique_key>\n"); // #for_erflute rename
         }
-        final Integer complexUniqueKeyId = context.complexUniqueKeyMap.get(relation.getReferencedComplexUniqueKey());
-        if (complexUniqueKeyId != null) {
-            xml.append("\t<referenced_complex_unique_key>").append(complexUniqueKeyId).append("</referenced_complex_unique_key>\n");
+        final NormalColumn referredSimpleUniqueColumn = relationship.getReferredSimpleUniqueColumn(); // simple unique key
+        if (referredSimpleUniqueColumn != null) {
+            final TableView table = relationship.getTargetTableView(); // local table e.g. MEMBER
+            final String uniqueColumnId = referredSimpleUniqueColumn.buildSimpleUniqueColumnId(table);
+            xml.append("\t<referred_simple_unique_column>").append(uniqueColumnId).append("</referred_simple_unique_column>\n"); // #for_erflute rename to 'referred'
         }
     }
 

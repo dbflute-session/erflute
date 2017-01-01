@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.dbimport.DBObjectSet;
 import org.dbflute.erflute.editor.model.dbimport.ImportFromDBManagerBase;
 import org.dbflute.erflute.editor.model.dbimport.PreImportFromDBManager;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.dbflute.erflute.editor.view.dialog.dbimport.AbstractSelectImportedObjectDialog;
 import org.dbflute.erflute.editor.view.dialog.dbimport.ImportDBSettingDialog;
 import org.dbflute.erflute.editor.view.dialog.dbimport.SelectImportedObjectFromDBDialog;
@@ -31,7 +31,7 @@ public class ImportFromDBAction extends AbstractImportAction {
 
     public static final String ID = ImportFromDBAction.class.getName();
 
-    private DBSetting dbSetting;
+    private DBSettings dbSetting;
 
     public ImportFromDBAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.db"), editor);

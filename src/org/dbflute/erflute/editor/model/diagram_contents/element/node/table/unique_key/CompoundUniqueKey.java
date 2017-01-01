@@ -8,16 +8,17 @@ import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
-public class ComplexUniqueKey extends AbstractModel {
+public class CompoundUniqueKey extends AbstractModel {
 
     private static final long serialVersionUID = -3970737521746421701L;
 
     private String uniqueKeyName;
     private List<NormalColumn> columnList;
 
-    public ComplexUniqueKey(String uniqueKeyName) {
+    public CompoundUniqueKey(String uniqueKeyName) {
         this.uniqueKeyName = uniqueKeyName;
         this.columnList = new ArrayList<NormalColumn>();
     }
@@ -33,7 +34,6 @@ public class ComplexUniqueKey extends AbstractModel {
 
     public String getLabel() {
         final StringBuilder sb = new StringBuilder();
-
         sb.append(Format.null2blank(this.uniqueKeyName));
         sb.append(" (");
         boolean first = true;
@@ -46,33 +46,36 @@ public class ComplexUniqueKey extends AbstractModel {
             sb.append(normalColumn.getName());
         }
         sb.append(")");
-
         return sb.toString();
     }
 
-    public boolean isReferenced(ERTable table) {
-        boolean isReferenced = false;
-
-        ComplexUniqueKey target = this;
-        if (target instanceof CopyComplexUniqueKey) {
-            target = ((CopyComplexUniqueKey) target).getOriginal();
+    public boolean isReferred(ERTable table) {
+        boolean isReferred = false;
+        CompoundUniqueKey target = this;
+        if (target instanceof CopyCompoundUniqueKey) {
+            target = ((CopyCompoundUniqueKey) target).getOriginal();
         }
-
-        for (final Relationship relation : table.getOutgoingRelationshipList()) {
-            if (relation.getReferencedComplexUniqueKey() == target) {
-                isReferenced = true;
+        for (final Relationship relationship : table.getOutgoingRelationshipList()) {
+            if (relationship.getReferredCompoundUniqueKey() == target) {
+                isReferred = true;
                 break;
             }
         }
-
-        return isReferenced;
+        return isReferred;
     }
 
-    public String buildUniqueKeyId(ERTable table) {
-        if (Srl.is_NotNull_and_NotTrimmedEmpty(getUniqueKeyName())) {
+    public String buildUniqueKeyId(TableView table) {
+        if (Srl.is_NotNull_and_NotTrimmedEmpty(uniqueKeyName)) {
             return getUniqueKeyName();
         } else {
-            return table.getPhysicalName() + "." + getColumnList();
+            final StringBuilder sb = new StringBuilder();
+            for (final NormalColumn normalColumn : columnList) {
+                if (sb.length() > 0) {
+                    sb.append("/");
+                }
+                sb.append(normalColumn.getPhysicalName());
+            }
+            return "compoundUniqueKey." + table.buildTableViewId() + ".[" + sb.toString() + "]";
         }
     }
 

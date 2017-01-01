@@ -41,7 +41,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.incrementText = CompositeFactory.createNumText(this, composite, "Increment");
 
         if (PostgresDBManager.ID.equals(this.database)) {
@@ -181,7 +181,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         if (this.sequence != null) {
             this.incrementText.setText(Format.toString(this.sequence.getIncrement()));
             if (minValueText != null) {

@@ -148,7 +148,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     //                                                                         ===========
     public MainDiagramEditor(ERDiagram diagram, ERDiagramEditPartFactory editPartFactory,
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
-        this.setEditDomain(new DefaultEditDomain(this));
+        Activator.debug(this, "constructor", "...Creating diagram editor: " + diagram);
         this.diagram = diagram;
         this.editPartFactory = editPartFactory;
         this.zoomComboContributionItem = zoomComboContributionItem;
@@ -160,6 +160,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         } catch (final CoreException e) {
             Activator.showExceptionDialog(e);
         }
+        setEditDomain(new DefaultEditDomain(this));
     }
 
     // ===================================================================================
@@ -205,7 +206,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     @Override
     protected PaletteRoot getPaletteRoot() {
-        return new ERDiagramPaletteRoot();
+        Activator.debug(this, "getPaletteRoot()", "...Creating palette root: " + diagram);
+        return new ERDiagramPaletteRoot(diagram);
     }
 
     @Override

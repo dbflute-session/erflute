@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.common;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeOutlineViewOrderByCommand extends AbstractCommand {
 
@@ -12,7 +12,7 @@ public class ChangeOutlineViewOrderByCommand extends AbstractCommand {
 
     private int newViewOrderBy;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     public ChangeOutlineViewOrderByCommand(ERDiagram diagram, int viewOrderBy) {
         this.diagram = diagram;

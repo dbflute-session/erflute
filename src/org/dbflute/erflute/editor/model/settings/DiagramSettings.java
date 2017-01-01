@@ -12,8 +12,11 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class Settings implements Serializable, Cloneable, TablePropertiesHolder {
+public class DiagramSettings implements Serializable, Cloneable, TablePropertiesHolder {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     private static final long serialVersionUID = -3921093777077765516L;
 
     public static final int VIEW_MODE_LOGICAL = 0;
@@ -28,15 +31,18 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     public static final String NOTATION_IE = "IE";
     public static final String NOTATION_IDEF1X = "IDEF1X";
 
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
     private boolean capital;
     private boolean notationExpandGroup;
     private String tableStyle;
     private ModelProperties modelProperties;
-    private CategorySetting categorySetting;
+    private CategorySettings categorySetting;
     //	private VGroupSetting groupSetting;
-    private EnvironmentSetting environmentSetting;
+    private EnvironmentSettings environmentSettings;
     private TableProperties tableProperties;
-    private ExportSetting exportSetting;
+    private ExportSettings exportSettings;
     private String database;
     private String notation;
     private int notationLevel;
@@ -48,17 +54,13 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     private boolean validatePhysicalName;
     private boolean useBezierCurve;
     private boolean suspendValidator;
+    private boolean useViewObject; // #for_erflute view is option
     private String masterDataBasePath;
 
-    public int getNotationLevel() {
-        return notationLevel;
-    }
-
-    public void setNotationLevel(int notationLevel) {
-        this.notationLevel = notationLevel;
-    }
-
-    public Settings() {
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
+    public DiagramSettings() {
         this.capital = true;
         this.notationExpandGroup = true;
 
@@ -68,22 +70,38 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.viewOrderBy = VIEW_MODE_PHYSICAL;
 
         this.modelProperties = new ModelProperties();
-        this.categorySetting = new CategorySetting();
-        //		this.groupSetting = new VGroupSetting();
-        this.environmentSetting = new EnvironmentSetting();
-        this.exportSetting = new ExportSetting();
+        this.categorySetting = new CategorySettings();
+        this.environmentSettings = new EnvironmentSettings();
+        this.exportSettings = new ExportSettings();
 
         this.autoImeChange = false;
         this.validatePhysicalName = true;
         this.useBezierCurve = false;
         this.suspendValidator = false;
-        this.titleFontEm = new BigDecimal("1.5");
+        this.useViewObject = false; // as default
         this.masterDataBasePath = "";
+        this.titleFontEm = new BigDecimal("1.5");
     }
 
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
+    @Override
+    public Object clone() {
+        DiagramSettings clone = null;
+        try {
+            clone = (DiagramSettings) super.clone();
+            clone.modelProperties = modelProperties.clone();
+            clone.categorySetting = (CategorySettings) categorySetting.clone();
+            clone.environmentSettings = (EnvironmentSettings) environmentSettings.clone();
+            clone.exportSettings = exportSettings.clone();
+            if (this.database != null) {
+                clone.tableProperties = (TableProperties) this.getTableViewProperties().clone();
+            }
+        } catch (final CloneNotSupportedException e) {}
+        return clone;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + ":{" + database + "}";
@@ -108,6 +126,14 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.notationExpandGroup = notationExpandGroup;
     }
 
+    public int getNotationLevel() {
+        return notationLevel;
+    }
+
+    public void setNotationLevel(int notationLevel) {
+        this.notationLevel = notationLevel;
+    }
+
     public String getTableStyle() {
         return tableStyle;
     }
@@ -120,13 +146,9 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         return modelProperties;
     }
 
-    public CategorySetting getCategorySetting() {
+    public CategorySettings getCategorySetting() {
         return categorySetting;
     }
-
-    //	public VGroupSetting getGroupSetting() {
-    //		return groupSetting;
-    //	}
 
     public String getDatabase() {
         return database;
@@ -139,7 +161,6 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
     @Override
     public TableViewProperties getTableViewProperties() {
         this.tableProperties = DBManagerFactory.getDBManager(database).createTableProperties(this.tableProperties);
-
         return tableProperties;
     }
 
@@ -215,37 +236,12 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
         this.suspendValidator = suspendValidator;
     }
 
-    @Override
-    public Object clone() {
-        Settings clone = null;
-        try {
-            clone = (Settings) super.clone();
-            clone.modelProperties = modelProperties.clone();
-            clone.categorySetting = (CategorySetting) categorySetting.clone();
-            clone.environmentSetting = (EnvironmentSetting) environmentSetting.clone();
-            clone.exportSetting = exportSetting.clone();
-
-            if (this.database != null) {
-                clone.tableProperties = (TableProperties) this.getTableViewProperties().clone();
-            }
-        } catch (final CloneNotSupportedException e) {}
-        return clone;
+    public boolean isUseViewObject() {
+        return useViewObject;
     }
 
-    public void setModelProperties(ModelProperties modelProperties) {
-        this.modelProperties = modelProperties;
-    }
-
-    public EnvironmentSetting getEnvironmentSetting() {
-        return environmentSetting;
-    }
-
-    public ExportSetting getExportSetting() {
-        return exportSetting;
-    }
-
-    public void setExportSetting(ExportSetting exportSetting) {
-        this.exportSetting = exportSetting;
+    public void setUseViewObject(boolean useViewObject) {
+        this.useViewObject = useViewObject;
     }
 
     public String getMasterDataBasePath() {
@@ -254,5 +250,21 @@ public class Settings implements Serializable, Cloneable, TablePropertiesHolder 
 
     public void setMasterDataBasePath(String masterDataBasePath) {
         this.masterDataBasePath = masterDataBasePath;
+    }
+
+    public void setModelProperties(ModelProperties modelProperties) {
+        this.modelProperties = modelProperties;
+    }
+
+    public EnvironmentSettings getEnvironmentSettings() {
+        return environmentSettings;
+    }
+
+    public ExportSettings getExportSettings() {
+        return exportSettings;
+    }
+
+    public void setExportSettings(ExportSettings exportSettings) {
+        this.exportSettings = exportSettings;
     }
 }

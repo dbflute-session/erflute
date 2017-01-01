@@ -5,8 +5,8 @@ import java.util.List;
 import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.dbflute.erflute.editor.view.figure.table.column.GroupColumnFigure;
 import org.eclipse.draw2d.BorderLayout;
@@ -23,9 +23,9 @@ import org.eclipse.swt.graphics.Color;
 public abstract class AbstractStyleSupport implements StyleSupport {
 
     private TableFigure tableFigure;
-    private Settings settings;
+    private DiagramSettings settings;
 
-    public AbstractStyleSupport(TableFigure tableFigure, Settings settings) {
+    public AbstractStyleSupport(TableFigure tableFigure, DiagramSettings settings) {
         super();
         this.tableFigure = tableFigure;
         this.settings = settings;
@@ -77,9 +77,9 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         StringBuilder text = new StringBuilder();
 
         String name = null;
-        if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
+        if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             name = physicalName;
-        } else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
+        } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             name = logicalName;
         } else {
             name = logicalName + "/ " + physicalName;
@@ -98,10 +98,10 @@ public abstract class AbstractStyleSupport implements StyleSupport {
             if (uniqueKey) {
                 text.append(" (U)");
             } else {
-                List<ComplexUniqueKey> list = table.getComplexUniqueKeyList();
+                List<CompoundUniqueKey> list = table.getCompoundUniqueKeyList();
                 if (list != null) {
                     boolean hit = false;
-                    for (ComplexUniqueKey key : list) {
+                    for (CompoundUniqueKey key : list) {
                         for (NormalColumn column : key.getColumnList()) {
                             if (column.equals(normalColumn)) {
                                 text.append(" (U+)");
@@ -181,7 +181,7 @@ public abstract class AbstractStyleSupport implements StyleSupport {
      * settings���擾���܂��B
      * @return settings
      */
-    public Settings getSettings() {
+    public DiagramSettings getSettings() {
         return settings;
     }
 }

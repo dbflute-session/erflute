@@ -16,8 +16,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.inde
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TablePropertiesHolder;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CopyComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CopyCompoundUniqueKey;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -33,11 +33,11 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     private String primaryKeyName;
     private String option;
     private List<ERIndex> indexes;
-    private List<ComplexUniqueKey> complexUniqueKeyList;
+    private List<CompoundUniqueKey> compoundUniqueKeyList;
 
     public ERTable() {
         this.indexes = new ArrayList<ERIndex>();
-        this.complexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
+        this.compoundUniqueKeyList = new ArrayList<CompoundUniqueKey>();
     }
 
     public NormalColumn getAutoIncrementColumn() {
@@ -74,13 +74,13 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
         to.setIndexes(indexes);
 
-        final List<ComplexUniqueKey> complexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
+        final List<CompoundUniqueKey> complexUniqueKeyList = new ArrayList<CompoundUniqueKey>();
 
-        for (final ComplexUniqueKey complexUniqueKey : this.getComplexUniqueKeyList()) {
-            complexUniqueKeyList.add(new CopyComplexUniqueKey(complexUniqueKey, to.getColumns()));
+        for (final CompoundUniqueKey complexUniqueKey : this.getCompoundUniqueKeyList()) {
+            complexUniqueKeyList.add(new CopyCompoundUniqueKey(complexUniqueKey, to.getColumns()));
         }
 
-        to.complexUniqueKeyList = complexUniqueKeyList;
+        to.compoundUniqueKeyList = complexUniqueKeyList;
 
         to.tableViewProperties = this.getTableViewProperties().clone();
 
@@ -106,16 +106,16 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
         }
         table.setIndexes(indexes);
 
-        final List<ComplexUniqueKey> complexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
+        final List<CompoundUniqueKey> complexUniqueKeyList = new ArrayList<CompoundUniqueKey>();
 
-        for (final ComplexUniqueKey complexUniqueKey : this.getComplexUniqueKeyList()) {
-            final CopyComplexUniqueKey copyComplexUniqueKey = (CopyComplexUniqueKey) complexUniqueKey;
+        for (final CompoundUniqueKey complexUniqueKey : this.getCompoundUniqueKeyList()) {
+            final CopyCompoundUniqueKey copyComplexUniqueKey = (CopyCompoundUniqueKey) complexUniqueKey;
             if (!copyComplexUniqueKey.isRemoved(this.getNormalColumns())) {
-                final ComplexUniqueKey restructuredComplexUniqueKey = copyComplexUniqueKey.restructure();
+                final CompoundUniqueKey restructuredComplexUniqueKey = copyComplexUniqueKey.restructure();
                 complexUniqueKeyList.add(restructuredComplexUniqueKey);
             }
         }
-        table.complexUniqueKeyList = complexUniqueKeyList;
+        table.compoundUniqueKeyList = complexUniqueKeyList;
 
         table.tableViewProperties = this.tableViewProperties.clone();
     }
@@ -157,7 +157,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
             return true;
         }
 
-        if (this.complexUniqueKeyList.size() > 0) {
+        if (this.compoundUniqueKeyList.size() > 0) {
             return true;
         }
 
@@ -216,24 +216,20 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
     public Relationship createRelation() {
         boolean referenceForPK = false;
-        ComplexUniqueKey referencedComplexUniqueKey = null;
+        CompoundUniqueKey referencedComplexUniqueKey = null;
         NormalColumn referencedColumn = null;
-
-        if (this.getPrimaryKeySize() > 0) {
+        if (getPrimaryKeySize() > 0) {
             referenceForPK = true;
-
-        } else if (this.getComplexUniqueKeyList().size() > 0) {
-            referencedComplexUniqueKey = this.getComplexUniqueKeyList().get(0);
-
+        } else if (getCompoundUniqueKeyList().size() > 0) {
+            referencedComplexUniqueKey = getCompoundUniqueKeyList().get(0);
         } else {
-            for (final NormalColumn normalColumn : this.getNormalColumns()) {
+            for (final NormalColumn normalColumn : getNormalColumns()) {
                 if (normalColumn.isUniqueKey()) {
                     referencedColumn = normalColumn;
                     break;
                 }
             }
         }
-
         return new Relationship(referenceForPK, referencedComplexUniqueKey, referencedColumn);
     }
 
@@ -279,12 +275,12 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
         return 2;
     }
 
-    public void setComplexUniqueKeyList(List<ComplexUniqueKey> complexUniqueKeyList) {
-        this.complexUniqueKeyList = complexUniqueKeyList;
+    public void setComplexUniqueKeyList(List<CompoundUniqueKey> complexUniqueKeyList) {
+        this.compoundUniqueKeyList = complexUniqueKeyList;
     }
 
-    public List<ComplexUniqueKey> getComplexUniqueKeyList() {
-        return complexUniqueKeyList;
+    public List<CompoundUniqueKey> getCompoundUniqueKeyList() {
+        return compoundUniqueKeyList;
     }
 
     @Override

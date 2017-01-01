@@ -18,10 +18,10 @@ public class SqlServerDDLCreator extends DDLCreator {
      * {@inheritDoc}
      */
     @Override
-    protected String getColulmnDDL(NormalColumn normalColumn) {
+    protected String buildColumnPart(NormalColumn normalColumn) {
         StringBuilder ddl = new StringBuilder();
 
-        ddl.append(super.getColulmnDDL(normalColumn));
+        ddl.append(super.buildColumnPart(normalColumn));
 
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" IDENTITY ");
@@ -50,7 +50,7 @@ public class SqlServerDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getDDL(Tablespace tablespace) {
+    protected String doBuildCreateTablespace(Tablespace tablespace) {
         DB2TablespaceProperties tablespaceProperties =
                 (DB2TablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 

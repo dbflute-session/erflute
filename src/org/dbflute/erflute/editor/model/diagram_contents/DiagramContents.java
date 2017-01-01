@@ -8,7 +8,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.TablespaceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.TriggerSet;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -18,7 +18,7 @@ public class DiagramContents {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private Settings settings;
+    private DiagramSettings settings;
     private Dictionary dictionary;
     private TablespaceSet tablespaceSet;
     private DiagramWalkerSet walkerSet;
@@ -32,7 +32,7 @@ public class DiagramContents {
     //                                                                         Constructor
     //                                                                         ===========
     public DiagramContents() {
-        this.settings = new Settings();
+        this.settings = new DiagramSettings();
         this.dictionary = new Dictionary();
         this.tablespaceSet = new TablespaceSet();
         this.walkerSet = new DiagramWalkerSet();
@@ -54,11 +54,11 @@ public class DiagramContents {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public Settings getSettings() {
+    public DiagramSettings getSettings() {
         return settings;
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings(DiagramSettings settings) {
         this.settings = settings;
     }
 

@@ -50,7 +50,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.createCategoryGroup(composite);
         this.createNodeGroup(composite);
     }
@@ -379,7 +379,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         this.initCategoryTable();
     }
 

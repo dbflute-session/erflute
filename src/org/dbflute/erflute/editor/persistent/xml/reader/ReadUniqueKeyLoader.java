@@ -3,10 +3,11 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.reader.exception.PersistentXmlReadingFailureException;
 import org.w3c.dom.Element;
@@ -35,32 +36,37 @@ public class ReadUniqueKeyLoader {
     // ===================================================================================
     //                                                                  Complex Unique Key
     //                                                                  ==================
-    public List<ComplexUniqueKey> loadComplexUniqueKeyList(Element parent, ERTable table, LoadContext context) {
-        final List<ComplexUniqueKey> complexUniqueKeyList = new ArrayList<ComplexUniqueKey>();
-        final Element element = getElement(parent, "complex_unique_key_list");
-        if (element == null) {
-            return complexUniqueKeyList;
+    public List<CompoundUniqueKey> loadComplexUniqueKeyList(Element parent, ERTable table, LoadContext context) {
+        final List<CompoundUniqueKey> compoundUniqueKeyList = new ArrayList<CompoundUniqueKey>();
+        Element element = getElement(parent, "complex_unique_key_list"); // migration from ERMaster
+        if (element == null || element.getChildNodes().getLength() == 0) {
+            element = getElement(parent, "compound_unique_key_list"); // #for_erflute rename
+            if (element == null || element.getChildNodes().getLength() == 0) {
+                return compoundUniqueKeyList;
+            }
         }
         final NodeList nodeList = element.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
-            final Element complexUniqueKeyElement = (Element) nodeList.item(i);
-            final String name = getStringValue(complexUniqueKeyElement, "name");
-            final ComplexUniqueKey complexUniqueKey = new ComplexUniqueKey(name);
-            loadComplexUniqueKeyColumns(complexUniqueKey, complexUniqueKeyElement, context);
-            complexUniqueKeyList.add(complexUniqueKey);
-            String id = getStringValue(complexUniqueKeyElement, "id"); // migration from ERMaster
-            if (Srl.is_Null_or_TrimmedEmpty(id)) {
-                id = complexUniqueKey.buildUniqueKeyId(table); // #for_erflute
+            final Element compoundUniqueKeyElement = (Element) nodeList.item(i);
+            final String name = getStringValue(compoundUniqueKeyElement, "name");
+            final CompoundUniqueKey compoundUniqueKey = new CompoundUniqueKey(name);
+            final boolean success = loadComplexUniqueKeyColumns(compoundUniqueKey, compoundUniqueKeyElement, context);
+            if (success) {
+                compoundUniqueKeyList.add(compoundUniqueKey);
+                String id = getStringValue(compoundUniqueKeyElement, "id"); // migration from ERMaster
+                if (Srl.is_Null_or_TrimmedEmpty(id)) {
+                    id = compoundUniqueKey.buildUniqueKeyId(table); // #for_erflute
+                }
+                context.compoundUniqueKeyMap.put(id, compoundUniqueKey);
             }
-            context.complexUniqueKeyMap.put(id, complexUniqueKey);
         }
-        return complexUniqueKeyList;
+        return compoundUniqueKeyList;
     }
 
-    private void loadComplexUniqueKeyColumns(ComplexUniqueKey complexUniqueKey, Element parent, LoadContext context) {
+    private boolean loadComplexUniqueKeyColumns(CompoundUniqueKey compoundUniqueKey, Element parent, LoadContext context) {
         final Element element = getElement(parent, "columns");
         final NodeList nodeList = element.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -72,13 +78,19 @@ public class ReadUniqueKeyLoader {
             if (Srl.is_Null_or_TrimmedEmpty(id)) {
                 id = getStringValue(columnElement, "column_id"); // #for_erflute
             }
+            if (Srl.is_NotNull_and_NotTrimmedEmpty(id) && id.equalsIgnoreCase("null")) {
+                final String msg = "Not found the column_id for compound unique key: " + compoundUniqueKey;
+                Activator.warn(this, "loadComplexUniqueKeyColumns()", msg);
+                return false;
+            }
             final NormalColumn column = context.columnMap.get(id);
             if (column == null) {
-                final String msg = "Not found the column for complex unique key: column=" + id + ", uniqueKey=" + complexUniqueKey;
+                final String msg = "Not found the column for compound unique key: column=" + id + ", uniqueKey=" + compoundUniqueKey;
                 throw new PersistentXmlReadingFailureException(msg);
             }
-            complexUniqueKey.addColumn(column);
+            compoundUniqueKey.addColumn(column);
         }
+        return true;
     }
 
     // ===================================================================================

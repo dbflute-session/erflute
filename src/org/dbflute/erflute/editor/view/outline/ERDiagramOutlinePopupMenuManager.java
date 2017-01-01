@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.controller.editpart.outline.tablespace.Tablesp
 import org.dbflute.erflute.editor.controller.editpart.outline.trigger.TriggerSetOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.group.ColumnGroupManageAction;
 import org.dbflute.erflute.editor.view.action.outline.ChangeNameAction;
 import org.dbflute.erflute.editor.view.action.outline.index.CreateIndexAction;
@@ -120,16 +120,16 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
                             }
                         }
 
-                        final Settings settings = diagram.getDiagramContents().getSettings();
+                        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
 
                         IAction action0 = getAction(ChangeOutlineViewToPhysicalAction.ID);
                         IAction action1 = getAction(ChangeOutlineViewToLogicalAction.ID);
                         final IAction action2 = getAction(ChangeOutlineViewToBothAction.ID);
-                        if (settings.getOutlineViewMode() == Settings.VIEW_MODE_PHYSICAL) {
+                        if (settings.getOutlineViewMode() == DiagramSettings.VIEW_MODE_PHYSICAL) {
                             action0.setChecked(true);
                             action1.setChecked(false);
                             action2.setChecked(false);
-                        } else if (settings.getOutlineViewMode() == Settings.VIEW_MODE_LOGICAL) {
+                        } else if (settings.getOutlineViewMode() == DiagramSettings.VIEW_MODE_LOGICAL) {
                             action0.setChecked(false);
                             action1.setChecked(true);
                             action2.setChecked(false);
@@ -140,7 +140,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
                         }
                         action0 = getAction(ChangeOutlineViewOrderByPhysicalNameAction.ID);
                         action1 = getAction(ChangeOutlineViewOrderByLogicalNameAction.ID);
-                        if (settings.getViewOrderBy() == Settings.VIEW_MODE_PHYSICAL) {
+                        if (settings.getViewOrderBy() == DiagramSettings.VIEW_MODE_PHYSICAL) {
                             action0.setChecked(true);
                             action1.setChecked(false);
                         } else {

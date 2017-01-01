@@ -6,13 +6,13 @@ import java.util.List;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
+import org.dbflute.erflute.editor.model.settings.CategorySettings;
 
 public class DeleteCategoryCommand extends AbstractCommand {
 
     private ERDiagram diagram;
 
-    private CategorySetting categorySettings;
+    private CategorySettings categorySettings;
 
     private Category category;
 

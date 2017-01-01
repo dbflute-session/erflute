@@ -4,7 +4,7 @@ import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.InnerDirectoryText;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.option.OptionSettingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -13,23 +13,22 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class OptionTabWrapper extends ValidatableTabWrapper {
 
     private Button autoImeChangeCheck;
-
     private Button validatePhysicalNameCheck;
-
     private Button useBezierCurveCheck;
-
     private Button suspendValidatorCheck;
+    private Button useViewObjectCheck;
 
-    private Settings settings;
-
-    private OptionSettingDialog dialog;
-
+    private final DiagramSettings settings;
+    private final OptionSettingDialog dialog;
     private InnerDirectoryText outputFileText;
 
-    public OptionTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, Settings settings) {
+    public OptionTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, DiagramSettings settings) {
         super(dialog, parent, style, "label.option");
 
         this.settings = settings;
@@ -40,7 +39,7 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
 
     @Override
     public void initComposite() {
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 1;
         this.setLayout(layout);
 
@@ -48,41 +47,39 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
         this.validatePhysicalNameCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.validate.physical.name");
         this.useBezierCurveCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.use.bezier.curve");
         this.suspendValidatorCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.suspend.validator");
+        this.useViewObjectCheck = CompositeFactory.createCheckbox(this.dialog, this, "Use view object");
 
-        Composite innerComp = new Composite(this, SWT.NONE);
-        GridLayout innerLayout = new GridLayout();
+        final Composite innerComp = new Composite(this, SWT.NONE);
+        final GridLayout innerLayout = new GridLayout();
         innerLayout.numColumns = 3;
         innerComp.setLayout(innerLayout);
-        CompositeFactory.createLabel(innerComp, "�}�X�^�f�[�^��f�B���N�g��");
+        CompositeFactory.createLabel(innerComp, "???"); // #willanalyze what is this? by jflute
         this.outputFileText = new InnerDirectoryText(innerComp, SWT.BORDER);
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.widthHint = 200;
         this.outputFileText.setLayoutData(gridData);
         //		outputFileText.setText("");
-
     }
 
     @Override
-    public void setData() {
+    public void setupData() {
         this.autoImeChangeCheck.setSelection(this.settings.isAutoImeChange());
         this.validatePhysicalNameCheck.setSelection(this.settings.isValidatePhysicalName());
         this.useBezierCurveCheck.setSelection(this.settings.isUseBezierCurve());
         this.suspendValidatorCheck.setSelection(this.settings.isSuspendValidator());
-
+        this.useViewObjectCheck.setSelection(this.settings.isUseViewObject());
         if (settings.getMasterDataBasePath() != null) {
             outputFileText.setText(settings.getMasterDataBasePath());
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void validatePage() throws InputException {
-        this.settings.setAutoImeChange(this.autoImeChangeCheck.getSelection());
-        this.settings.setValidatePhysicalName(this.validatePhysicalNameCheck.getSelection());
-        this.settings.setUseBezierCurve(this.useBezierCurveCheck.getSelection());
-        this.settings.setSuspendValidator(this.suspendValidatorCheck.getSelection());
+        settings.setAutoImeChange(autoImeChangeCheck.getSelection());
+        settings.setValidatePhysicalName(validatePhysicalNameCheck.getSelection());
+        settings.setUseBezierCurve(useBezierCurveCheck.getSelection());
+        settings.setSuspendValidator(suspendValidatorCheck.getSelection());
+        settings.setUseViewObject(useViewObjectCheck.getSelection());
         settings.setMasterDataBasePath(outputFileText.getFilePath());
     }
 

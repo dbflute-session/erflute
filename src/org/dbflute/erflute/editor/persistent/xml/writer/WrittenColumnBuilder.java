@@ -105,7 +105,7 @@ public class WrittenColumnBuilder {
         if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyPhysicalName)) {
             return foreignKeyPhysicalName;
         }
-        final NormalColumn firstReferencedColumn = normalColumn.getFirstReferencedColumn();
+        final NormalColumn firstReferencedColumn = normalColumn.getFirstReferredColumn();
         if (firstReferencedColumn != null) {
             return firstReferencedColumn.getPhysicalName();
         } else { // no way but you can save
@@ -138,6 +138,7 @@ public class WrittenColumnBuilder {
         final Integer arrayDimension = word != null ? typeData.getArrayDimension() : null;
         final boolean unsigned = word != null ? typeData.isUnsigned() : null;
         final String args = word != null ? typeData.getArgs() : null;
+        final boolean charSemantics = typeData.isCharSemantics();
         if (length != null) {
             xml.append("\t<length>").append(escape(length)).append("</length>\n");
         }
@@ -148,13 +149,16 @@ public class WrittenColumnBuilder {
             xml.append("\t<array>").append(escape(array)).append("</array>\n");
         }
         if (arrayDimension != null) {
-            xml.append("\t<arrayDimension>").append(escape(arrayDimension)).append("</arrayDimension>\n");
+            xml.append("\t<array_dimension>").append(escape(arrayDimension)).append("</array_dimension>\n");
         }
         if (unsigned) {
             xml.append("\t<unsigned>").append(escape(unsigned)).append("</unsigned>\n");
         }
         if (Srl.is_NotNull_and_NotEmpty(args)) {
             xml.append("\t<args>").append(escape(args)).append("</args>\n");
+        }
+        if (charSemantics) {
+            xml.append("\t<char_semantics>").append(escape(charSemantics)).append("</char_semantics>\n");
         }
     }
 
@@ -173,7 +177,7 @@ public class WrittenColumnBuilder {
     private void setupRelationship(NormalColumn normalColumn, PersistentContext context, final StringBuilder xml) {
         for (final NormalColumn referencedColumn : normalColumn.getReferencedColumnList()) {
             final String columnId = Format.toString(context.columnMap.get(referencedColumn));
-            xml.append("\t<referenced_column>").append(columnId).append("</referenced_column>\n");
+            xml.append("\t<referred_column>").append(columnId).append("</referred_column>\n"); // #for_erflute rename to 'referred'
         }
         for (final Relationship relation : normalColumn.getRelationshipList()) {
             final String relationId = context.connectionMap.get(relation);
@@ -247,12 +251,13 @@ public class WrittenColumnBuilder {
     private String doBuildColumnGroup(ColumnGroup columnGroup, PersistentContext context) {
         final StringBuilder xml = new StringBuilder();
         xml.append("<column_group>\n");
-        final Integer groupId = context.columnGroupMap.get(columnGroup);
-        xml.append("\t<column_group_id>").append(groupId).append("</column_group_id>\n"); // #for_erflute change id to group_id
+        // #for_erflute column group name is unique by validator
+        //final String groupId = context.columnGroupMap.get(columnGroup);
+        //xml.append("\t<column_group_id>").append(groupId).append("</column_group_id>\n");
         xml.append("\t<column_group_name>").append(escape(columnGroup.getGroupName())).append("</column_group_name>\n"); // me too
         xml.append("\t<columns>\n");
-        for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-            xml.append(tab(tab(setupNormalColumn(normalColumn, context))));
+        for (final NormalColumn column : columnGroup.getColumns()) {
+            xml.append(tab(tab(setupNormalColumn(column, context))));
         }
         xml.append("\t</columns>\n");
         xml.append("</column_group>\n");

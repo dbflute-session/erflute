@@ -28,6 +28,8 @@ public interface DBManager {
     int SUPPORT_SCHEMA = 4;
     int SUPPORT_SEQUENCE = 5;
 
+    String INDEX_TYPE_BTREE = "BTREE";
+
     String getId();
 
     String getURL(String serverName, String dbName, int port);

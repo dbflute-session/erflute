@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalColumnGroupSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -41,7 +41,7 @@ public class PreferenceTopPage extends PreferencePage implements IWorkbenchPrefe
         button.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                final ColumnGroupSet columnGroups = GlobalGroupSet.load();
+                final ColumnGroupSet columnGroups = GlobalColumnGroupSet.load();
                 final ERDiagram diagram = new ERDiagram(columnGroups.getDatabase());
 
                 final ColumnGroupManageDialog dialog =
@@ -49,12 +49,12 @@ public class PreferenceTopPage extends PreferencePage implements IWorkbenchPrefe
                                 -1);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
-                    final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
+                    final List<CopyColumnGroup> newColumnGroups = dialog.getCopyColumnGroups();
                     columnGroups.clear();
-                    for (final CopyGroup copyColumnGroup : newColumnGroups) {
+                    for (final CopyColumnGroup copyColumnGroup : newColumnGroups) {
                         columnGroups.add(copyColumnGroup.restructure(null));
                     }
-                    GlobalGroupSet.save(columnGroups);
+                    GlobalColumnGroupSet.save(columnGroups);
                 }
             }
         });

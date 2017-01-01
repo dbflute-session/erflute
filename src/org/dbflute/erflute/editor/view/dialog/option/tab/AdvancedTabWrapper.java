@@ -5,7 +5,7 @@ import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.db.EclipseDBManagerFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.option.OptionSettingDialog;
 import org.dbflute.erflute.editor.view.dialog.table.tab.AdvancedComposite;
 import org.eclipse.swt.layout.GridLayout;
@@ -13,13 +13,13 @@ import org.eclipse.swt.widgets.TabFolder;
 
 public class AdvancedTabWrapper extends ValidatableTabWrapper {
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     private ERDiagram diagram;
 
     private AdvancedComposite composite;
 
-    public AdvancedTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, Settings settings, ERDiagram diagram) {
+    public AdvancedTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, DiagramSettings settings, ERDiagram diagram) {
         super(dialog, parent, style, "label.advanced.settings");
 
         this.diagram = diagram;

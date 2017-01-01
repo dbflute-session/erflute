@@ -7,13 +7,13 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
-public class CopyComplexUniqueKey extends ComplexUniqueKey {
+public class CopyCompoundUniqueKey extends CompoundUniqueKey {
 
     private static final long serialVersionUID = 4099783813887218599L;
 
-    private ComplexUniqueKey originalComplexUniqueKey;
+    private CompoundUniqueKey originalComplexUniqueKey;
 
-    public CopyComplexUniqueKey(ComplexUniqueKey original, List<ERColumn> copyColumns) {
+    public CopyCompoundUniqueKey(CompoundUniqueKey original, List<ERColumn> copyColumns) {
         super(original.getUniqueKeyName());
 
         this.originalComplexUniqueKey = original;
@@ -32,9 +32,9 @@ public class CopyComplexUniqueKey extends ComplexUniqueKey {
         }
     }
 
-    public ComplexUniqueKey restructure() {
+    public CompoundUniqueKey restructure() {
         if (this.originalComplexUniqueKey == null) {
-            this.originalComplexUniqueKey = new ComplexUniqueKey(this.getUniqueKeyName());
+            this.originalComplexUniqueKey = new CompoundUniqueKey(this.getUniqueKeyName());
         }
 
         List<NormalColumn> normalColumns = new ArrayList<NormalColumn>();
@@ -51,7 +51,7 @@ public class CopyComplexUniqueKey extends ComplexUniqueKey {
         return this.originalComplexUniqueKey;
     }
 
-    public ComplexUniqueKey getOriginal() {
+    public CompoundUniqueKey getOriginal() {
         return this.originalComplexUniqueKey;
     }
 }

@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.persistent.xml.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -118,10 +119,11 @@ public class ReadColumnLoader {
         final Integer length = getIntegerValue(element, "length");
         final Integer decimal = getIntegerValue(element, "decimal");
         final boolean array = getBooleanValue(element, "array");
-        final Integer arrayDimension = getIntegerValue(element, "arrayDimension");
+        final Integer arrayDimension = getIntegerValue(element, "array_dimension");
         final boolean unsigned = getBooleanValue(element, "unsigned");
         final String args = getStringValue(element, "args");
-        return new TypeData(length, decimal, array, arrayDimension, unsigned, args);
+        final boolean charSemantics = getBooleanValue(element, "char_semantics");
+        return new TypeData(length, decimal, array, arrayDimension, unsigned, args, charSemantics);
     }
 
     private NormalColumn createNormalColumn(Element element, final Word word) {
@@ -141,17 +143,25 @@ public class ReadColumnLoader {
     private boolean setupRelationship(Element element, LoadContext context, final NormalColumn normalColumn) {
         // normalColumn's reference info will be resolved later (in LoadContext)
         // because reference table may not be loaded yet here
-        String[] relationIds = getTagValues(element, "relation"); // migration from ERMaster
-        if (relationIds == null || relationIds.length == 0) {
-            relationIds = getTagValues(element, "relationship"); // #for_erflute rename to relationship
+        String[] relationshipIds = getTagValues(element, "relation"); // migration from ERMaster
+        if (relationshipIds == null || relationshipIds.length == 0) {
+            relationshipIds = getTagValues(element, "relationship"); // #for_erflute rename to relationship
         }
-        if (relationIds != null) { // unneeded if? (getTagValues() cannot return null) by jflute
-            context.columnRelationMap.put(normalColumn, relationIds);
+        if (relationshipIds != null && relationshipIds.length > 0) {
+            if (!relationshipIds[0].equalsIgnoreCase("null")) { // to avoid <relationship>null<relationship>
+                context.columnRelationshipMap.put(normalColumn, relationshipIds);
+            } else {
+                final String msg = "Not found the relationship for column: " + normalColumn;
+                Activator.warn(this, "setupRelationship()", msg);
+            }
         }
-        final String[] referencedColumnIds = getTagValues(element, "referenced_column");
+        String[] referredColumnIds = getTagValues(element, "referenced_column"); // migration from ERMaster
+        if (referredColumnIds == null || referredColumnIds.length == 0) {
+            referredColumnIds = getTagValues(element, "referred_column"); // #for_erflute rename to 'referred'
+        }
         boolean isForeignKey = false;
-        if (referencedColumnIds.length != 0) {
-            context.columnReferencedColumnMap.put(normalColumn, referencedColumnIds);
+        if (referredColumnIds.length != 0) {
+            context.columnReferredColumnMap.put(normalColumn, referredColumnIds);
             isForeignKey = true;
         }
         return isForeignKey;
@@ -189,9 +199,9 @@ public class ReadColumnLoader {
                 columnGroup.addColumn((NormalColumn) column);
             }
             columnGroups.add(columnGroup);
-            String id = getStringValue(columnGroupElement, "id"); // migratino from ERMaster
+            String id = getStringValue(columnGroupElement, "id"); // migration from ERMaster
             if (Srl.is_Null_or_TrimmedEmpty(id)) {
-                id = getStringValue(columnGroupElement, "column_group_id"); // migratino from ERMaster
+                id = groupName; // #for_erflute column group name is unique by validator
             }
             context.columnGroupMap.put(id, columnGroup);
         }

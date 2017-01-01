@@ -99,23 +99,53 @@ public class Activator extends AbstractUIPlugin {
     //                                                                              Dialog
     //                                                                              ======
     public static void showExceptionDialog(Throwable e) {
+        showExceptionDialog("(no message)", e);
+    }
+
+    public static void showExceptionDialog(String msg, Throwable e) {
         final IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.toString(), e);
         Activator.error(e);
-        ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                DisplayMessages.getMessage("dialog.title.error"), DisplayMessages.getMessage("error.plugin.error.message"), status);
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final String dialogTitle = DisplayMessages.getMessage("dialog.title.error");
+        final String message = msg + "\n" + buildUserExceptionMessage(e);
+        ErrorDialog.openError(shell, dialogTitle, message, status);
+    }
+
+    public static String buildUserExceptionMessage(Throwable e) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(e.getClass().getName());
+        sb.append(": ").append(e.getMessage());
+        final StackTraceElement[] stackTrace = e.getStackTrace();
+        if (stackTrace != null && stackTrace.length > 0) {
+            sb.append(toStackTraceRow(stackTrace[0]));
+            if (stackTrace.length > 1) {
+                sb.append(toStackTraceRow(stackTrace[1]));
+                if (stackTrace.length > 2) {
+                    sb.append(toStackTraceRow(stackTrace[2]));
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    private static String toStackTraceRow(StackTraceElement first) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("\n\tat ").append(first.getClassName()).append(".").append(first.getMethodName());
+        sb.append("(").append(first.getFileName()).append(":").append(first.getLineNumber()).append(")");
+        return sb.toString();
     }
 
     public static void showErrorDialog(String message) {
-        final MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR | SWT.OK);
         messageBox.setText(DisplayMessages.getMessage("dialog.title.error"));
         messageBox.setMessage(DisplayMessages.getMessage(message));
         messageBox.open();
     }
 
     public static void showMessageDialog(String message) {
-        final MessageBox messageBox =
-                new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION | SWT.OK);
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final MessageBox messageBox = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
         messageBox.setText(DisplayMessages.getMessage("dialog.title.information"));
         messageBox.setMessage(DisplayMessages.getMessage(Format.null2blank(message)));
         messageBox.open();
@@ -151,13 +181,13 @@ public class Activator extends AbstractUIPlugin {
 
     /**
      * #analyzed ファイルの保存ダイアログを、workspace内部領域として表示する。e.g. DDLの出力先ファイルなど <br>
-     * @param filePath デフォルトのファイルパス (NotNull)
+     * @param defaultFilePath デフォルトのファイルパス (NotNull)
      * @param filterExtensions ファイルの拡張子の配列 (NotNull)
      * @return ファイルパスの文字列表現 (NullAllowed: OK状態でなければ)
      */
-    public static String showSaveDialogInternal(String filePath, String[] filterExtensions) {
+    public static String showSaveDialogInternal(String defaultFilePath, String[] filterExtensions) {
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        final InternalFileDialog fileDialog = new InternalFileDialog(shell, filePath, filterExtensions[0].substring(1));
+        final InternalFileDialog fileDialog = new InternalFileDialog(shell, defaultFilePath, filterExtensions[0].substring(1));
         if (fileDialog.open() == Window.OK) {
             final IPath path = fileDialog.getResourcePath();
             return path.toString();
@@ -195,6 +225,12 @@ public class Activator extends AbstractUIPlugin {
     // ===================================================================================
     //                                                                             Logging
     //                                                                             =======
+    public static void warn(Object caller, String methodName, String msg) {
+        if (isWarnEnabled()) {
+            doLog("WARN", caller, methodName, msg);
+        }
+    }
+
     public static void debug(Object caller, String methodName, String msg) {
         if (isDebugEnabled()) {
             doLog("DEBUG", caller, methodName, msg);
@@ -214,6 +250,10 @@ public class Activator extends AbstractUIPlugin {
         System.out.println(currentDate + " " + logLevel + " (" + className + "@" + methodName + ") - " + msg);
     }
 
+    private static boolean isWarnEnabled() {
+        return true;
+    }
+
     private static boolean isDebugEnabled() {
         return true; // change if debug
     }
@@ -224,7 +264,8 @@ public class Activator extends AbstractUIPlugin {
 
     public static void error(Throwable e) {
         e.printStackTrace();
-        Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.getMessage(), e));
+        final Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.getMessage(), e);
+        Activator.getDefault().getLog().log(status);
     }
 
     // ===================================================================================

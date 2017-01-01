@@ -22,8 +22,8 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
     private Combo engine;
 
     @Override
-    protected void initialize(Composite composite) {
-        super.initialize(composite);
+    protected void initComponent(Composite composite) {
+        super.initComponent(composite);
 
         this.dataFile = CompositeFactory.createText(this, composite, "label.tablespace.data.file", false);
         CompositeFactory.filler(composite, 1);

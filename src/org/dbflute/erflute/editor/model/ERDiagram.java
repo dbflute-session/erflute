@@ -16,10 +16,10 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalGroupSet;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
-import org.dbflute.erflute.editor.model.settings.PageSetting;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.GlobalColumnGroupSet;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
+import org.dbflute.erflute.editor.model.settings.PageSettings;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
@@ -53,8 +53,8 @@ public class ERDiagram extends ViewableModel {
     private double zoom = 1.0d;
     private int x;
     private int y;
-    private DBSetting dbSetting;
-    private PageSetting pageSetting;
+    private DBSettings dbSettings;
+    private PageSettings pageSetting;
     public Point mousePoint = new Point();
     private String defaultModelName;
 
@@ -64,7 +64,7 @@ public class ERDiagram extends ViewableModel {
     public ERDiagram(String database) {
         this.diagramContents = new DiagramContents();
         this.diagramContents.getSettings().setDatabase(database);
-        this.pageSetting = new PageSetting();
+        this.pageSetting = new PageSettings();
         this.setDefaultColor(128, 128, 192);
         this.setColor(255, 255, 255);
     }
@@ -73,8 +73,8 @@ public class ERDiagram extends ViewableModel {
     //                                                                          Initialize
     //                                                                          ==========
     public void init() {
-        diagramContents.setColumnGroupSet(GlobalGroupSet.load());
-        final Settings settings = getDiagramContents().getSettings();
+        diagramContents.setColumnGroupSet(GlobalColumnGroupSet.load());
+        final DiagramSettings settings = getDiagramContents().getSettings();
         settings.getModelProperties().init();
     }
 
@@ -138,9 +138,9 @@ public class ERDiagram extends ViewableModel {
         if (element instanceof ERVirtualTable) {
             // メインビューのノードは残して仮想テーブルだけ削除
             currentVirtualDiagram.remove((ERVirtualTable) element);
-        } else if (element instanceof WalkerGroup) {
+        } else if (element instanceof WalkerGroup && currentVirtualDiagram != null) {
             currentVirtualDiagram.remove((WalkerGroup) element);
-        } else if (element instanceof WalkerNote) {
+        } else if (element instanceof WalkerNote && currentVirtualDiagram != null) {
             currentVirtualDiagram.remove((WalkerNote) element);
         } else {
             this.diagramContents.getDiagramWalkers().remove(element);
@@ -263,7 +263,7 @@ public class ERDiagram extends ViewableModel {
         this.firePropertyChange(PROPERTY_CHANGE_ALL, null, nodeElementList);
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings(DiagramSettings settings) {
         this.getDiagramContents().setSettings(settings);
         this.editor.initVirtualPages();
 
@@ -386,19 +386,19 @@ public class ERDiagram extends ViewableModel {
         return y;
     }
 
-    public DBSetting getDbSetting() {
-        return dbSetting;
+    public DBSettings getDbSettings() {
+        return dbSettings;
     }
 
-    public void setDbSetting(DBSetting dbSetting) {
-        this.dbSetting = dbSetting;
+    public void setDbSettings(DBSettings dbSetting) {
+        this.dbSettings = dbSetting;
     }
 
-    public PageSetting getPageSetting() {
+    public PageSettings getPageSetting() {
         return pageSetting;
     }
 
-    public void setPageSetting(PageSetting pageSetting) {
+    public void setPageSetting(PageSettings pageSetting) {
         this.pageSetting = pageSetting;
     }
 
@@ -410,7 +410,7 @@ public class ERDiagram extends ViewableModel {
         if (str == null) {
             return str;
         }
-        final Settings settings = this.getDiagramContents().getSettings();
+        final DiagramSettings settings = this.getDiagramContents().getSettings();
         if (settings.isCapital()) {
             return str.toUpperCase();
         }

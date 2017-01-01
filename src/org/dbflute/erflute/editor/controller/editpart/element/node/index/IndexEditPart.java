@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditP
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.table.IndexFigure;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.eclipse.draw2d.ColorConstants;
@@ -71,7 +71,7 @@ public class IndexEditPart extends AbstractModelEditPart {
         final List figures = parent.getContentPane().getChildren();
         boolean isFirst = false;
         if (!(figures.get(figures.size() - 1) instanceof IndexFigure)) {
-            if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
+            if (notationLevel != DiagramSettings.NOTATION_LEVLE_TITLE) {
                 isFirst = true;
                 parent.getContentPane().add(new GuideEditPart.GuideLineFigure());
                 final Label indexHeader = new Label();
@@ -83,7 +83,7 @@ public class IndexEditPart extends AbstractModelEditPart {
             }
         }
         parent.getContentPane().add(figure);
-        if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
+        if (notationLevel != DiagramSettings.NOTATION_LEVLE_TITLE) {
             final TableFigure tableFigure = (TableFigure) parent.getFigure();
 
             //			List<NormalColumn> selectedReferencedColulmnList = this

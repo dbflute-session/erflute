@@ -25,11 +25,17 @@ import org.eclipse.swt.widgets.Text;
  */
 public abstract class AbstractDialog extends Dialog {
 
-    private CLabel errorMessageText = null;
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    private CLabel errorMessageText;
     private final int numColumns;
     private boolean enabledOkButton = true;
-    protected boolean initialized = false;
+    protected boolean initialized;
 
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
     protected AbstractDialog(Shell parentShell) {
         this(parentShell, 1);
     }
@@ -39,20 +45,23 @@ public abstract class AbstractDialog extends Dialog {
         this.numColumns = numColumns;
     }
 
+    // ===================================================================================
+    //                                                                         Dialog Area
+    //                                                                         ===========
     @Override
     protected Control createDialogArea(Composite parent) {
-        this.getShell().setText(DisplayMessages.getMessage(this.getTitle()));
+        this.getShell().setText(DisplayMessages.getMessage(getTitle()));
         final Composite composite = (Composite) super.createDialogArea(parent);
         try {
             final GridLayout layout = new GridLayout();
             layout.numColumns = this.numColumns;
-            this.initLayout(layout);
+            initLayout(layout);
             composite.setLayout(layout);
-            composite.setLayoutData(this.createLayoutData());
-            this.createErrorComposite(composite);
-            this.initialize(composite);
-            this.setData();
-            this.initialized = true;
+            composite.setLayoutData(createLayoutData());
+            createErrorComposite(composite);
+            initComponent(composite);
+            setupData();
+            initialized = true;
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
@@ -61,97 +70,34 @@ public abstract class AbstractDialog extends Dialog {
 
     protected abstract String getTitle();
 
-    @Override
-    protected Control createContents(Composite parent) {
-        final Control control = super.createContents(parent);
-        this.addListener();
-        this.validate();
-        return control;
-    }
-
     protected void initLayout(GridLayout layout) {
-    }
-
-    protected int getNumColumns() {
-        return this.numColumns;
-    }
-
-    protected int getErrorLine() {
-        return 1;
     }
 
     protected Object createLayoutData() {
         return new GridData(GridData.FILL_BOTH);
     }
 
-    protected void createErrorComposite(Composite parent) {
-        this.errorMessageText = new CLabel(parent, SWT.NONE);
-        this.errorMessageText.setText("");
-        final GridData gridData = new GridData();
-        gridData.horizontalAlignment = GridData.FILL;
-        gridData.heightHint = 30 * this.getErrorLine();
-        gridData.horizontalSpan = this.numColumns;
-        this.errorMessageText.setLayoutData(gridData);
+    abstract protected void initComponent(Composite composite);
+
+    abstract protected void setupData();
+
+    // ===================================================================================
+    //                                                                            Contents
+    //                                                                            ========
+    @Override
+    protected Control createContents(Composite parent) {
+        final Control control = super.createContents(parent);
+        addListener();
+        validate();
+        return control;
     }
-
-    protected Integer getIntegerValue(Text text) {
-        final String value = text.getText();
-        if (Check.isEmpty(value)) {
-            return null;
-        }
-        try {
-            return Integer.valueOf(value.trim());
-        } catch (final NumberFormatException e) {
-            return null;
-        }
-    }
-
-    protected void setMessage(String errorMessage) {
-        if (this.errorMessageText != null) {
-            if (errorMessage == null) {
-                this.errorMessageText.setImage(null);
-                this.errorMessageText.setText("");
-            } else {
-                final Image errorIcon = Activator.getImage(ImageKey.ERROR);
-                this.errorMessageText.setImage(errorIcon);
-                this.errorMessageText.setText(errorMessage);
-            }
-        }
-    }
-
-    abstract protected void initialize(Composite composite);
-
-    abstract protected void setData();
 
     protected void addListener() {
     }
 
-    protected static boolean isBlank(Text text) {
-        if (text.getText().trim().length() == 0) {
-            return true;
-        }
-        return false;
-    }
-
-    protected static boolean isBlank(Combo combo) {
-        if (combo.getText().trim().length() == 0) {
-            return true;
-        }
-        return false;
-    }
-
-    protected void enabledButton(boolean enabled) {
-        this.enabledOkButton = enabled;
-        final Button button1 = this.getButton(IDialogConstants.OK_ID);
-        if (button1 != null) {
-            button1.setEnabled(enabled);
-        }
-        final Button button2 = this.getButton(IDialogConstants.CANCEL_ID);
-        if (button2 != null) {
-            button2.setEnabled(enabled);
-        }
-    }
-
+    // ===================================================================================
+    //                                                                              Button
+    //                                                                              ======
     @Override
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.CLOSE_ID || buttonId == IDialogConstants.CANCEL_ID || buttonId == IDialogConstants.BACK_ID) {
@@ -211,5 +157,74 @@ public abstract class AbstractDialog extends Dialog {
     //                                                                        ============
     protected Button createCheckbox(Composite composite, String title) {
         return CompositeFactory.createCheckbox(this, composite, title, this.getNumColumns());
+    }
+
+    protected int getNumColumns() {
+        return this.numColumns;
+    }
+
+    protected int getErrorLine() {
+        return 1;
+    }
+
+    protected void createErrorComposite(Composite parent) {
+        this.errorMessageText = new CLabel(parent, SWT.NONE);
+        this.errorMessageText.setText("");
+        final GridData gridData = new GridData();
+        gridData.horizontalAlignment = GridData.FILL;
+        gridData.heightHint = 30 * this.getErrorLine();
+        gridData.horizontalSpan = this.numColumns;
+        this.errorMessageText.setLayoutData(gridData);
+    }
+
+    protected Integer getIntegerValue(Text text) {
+        final String value = text.getText();
+        if (Check.isEmpty(value)) {
+            return null;
+        }
+        try {
+            return Integer.valueOf(value.trim());
+        } catch (final NumberFormatException e) {
+            return null;
+        }
+    }
+
+    protected void setMessage(String errorMessage) {
+        if (this.errorMessageText != null) {
+            if (errorMessage == null) {
+                this.errorMessageText.setImage(null);
+                this.errorMessageText.setText("");
+            } else {
+                final Image errorIcon = Activator.getImage(ImageKey.ERROR);
+                this.errorMessageText.setImage(errorIcon);
+                this.errorMessageText.setText(errorMessage);
+            }
+        }
+    }
+
+    protected static boolean isBlank(Text text) {
+        if (text.getText().trim().length() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    protected static boolean isBlank(Combo combo) {
+        if (combo.getText().trim().length() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    protected void enabledButton(boolean enabled) {
+        this.enabledOkButton = enabled;
+        final Button button1 = this.getButton(IDialogConstants.OK_ID);
+        if (button1 != null) {
+            button1.setEnabled(enabled);
+        }
+        final Button button2 = this.getButton(IDialogConstants.CANCEL_ID);
+        if (button2 != null) {
+            button2.setEnabled(enabled);
+        }
     }
 }

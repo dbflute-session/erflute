@@ -81,19 +81,19 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
     }
 
     protected void initializeCheckBoxComposite(Composite composite) {
-        this.notNullCheck = CompositeFactory.createCheckbox(this, composite, "label.not.null");
-        this.uniqueKeyCheck = CompositeFactory.createCheckbox(this, composite, "label.unique.key");
+        notNullCheck = CompositeFactory.createCheckbox(this, composite, "label.not.null");
+        uniqueKeyCheck = CompositeFactory.createCheckbox(this, composite, "label.unique.key");
     }
 
     @Override
     protected void setWordData() {
-        this.notNullCheck.setSelection(this.targetColumn.isNotNull());
-        this.uniqueKeyCheck.setSelection(this.targetColumn.isUniqueKey());
-        if (this.targetColumn.getConstraint() != null) {
-            this.constraintText.setText(this.targetColumn.getConstraint());
+        notNullCheck.setSelection(targetColumn.isNotNull());
+        uniqueKeyCheck.setSelection(this.targetColumn.isUniqueKey());
+        if (targetColumn.getConstraint() != null) {
+            constraintText.setText(this.targetColumn.getConstraint());
         }
-        if (this.targetColumn.getDefaultValue() != null) {
-            this.defaultText.setText(this.targetColumn.getDefaultValue());
+        if (targetColumn.getDefaultValue() != null) {
+            defaultText.setText(this.targetColumn.getDefaultValue());
         }
         super.setWordData();
     }

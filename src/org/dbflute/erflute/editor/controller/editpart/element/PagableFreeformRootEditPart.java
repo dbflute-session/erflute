@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.controller.editpart.element;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.PageSetting;
+import org.dbflute.erflute.editor.model.settings.PageSettings;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -38,7 +38,7 @@ public class PagableFreeformRootEditPart extends ScalableFreeformRootEditPart {
 
             Rectangle clip = g.getClip(Rectangle.SINGLETON);
 
-            PageSetting pageSetting = diagram.getPageSetting();
+            PageSettings pageSetting = diagram.getPageSetting();
 
             int width = pageSetting.getWidth();
             int height = pageSetting.getHeight();

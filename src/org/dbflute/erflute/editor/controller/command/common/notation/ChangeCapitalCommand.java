@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.common.notation;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeCapitalCommand extends AbstractCommand {
 
@@ -12,7 +12,7 @@ public class ChangeCapitalCommand extends AbstractCommand {
 
     private boolean newCapital;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     public ChangeCapitalCommand(ERDiagram diagram, boolean isCapital) {
         this.diagram = diagram;

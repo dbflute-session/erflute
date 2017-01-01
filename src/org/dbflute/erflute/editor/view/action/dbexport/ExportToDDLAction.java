@@ -6,12 +6,17 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.ExportSettings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ExportToDDLDialog;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ExportToDDLAction extends AbstractBaseAction {
 
     public static final String ID = ExportToDDLAction.class.getName();
@@ -23,25 +28,17 @@ public class ExportToDDLAction extends AbstractBaseAction {
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ExportToDDLDialog dialog =
-                new ExportToDDLDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, this.getEditorPart(),
-                        this.getGraphicalViewer());
-
+        final ERDiagram diagram = getDiagram();
+        final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        final ExportToDDLDialog dialog = new ExportToDDLDialog(shell, diagram, this.getEditorPart(), getGraphicalViewer());
         dialog.open();
-
-        this.refreshProject();
-
-        if (dialog.getExportSetting() != null
-                && !diagram.getDiagramContents().getSettings().getExportSetting().equals(dialog.getExportSetting())) {
-            Settings newSettings = (Settings) diagram.getDiagramContents().getSettings().clone();
-            newSettings.setExportSetting(dialog.getExportSetting());
-
-            ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, newSettings);
-            this.execute(command);
+        refreshProject();
+        final ExportSettings exportSetting = dialog.getExportSetting();
+        if (exportSetting != null && !diagram.getDiagramContents().getSettings().getExportSettings().equals(exportSetting)) {
+            final DiagramSettings newSettings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
+            newSettings.setExportSettings(exportSetting);
+            final ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, newSettings);
+            execute(command);
         }
-
     }
-
 }

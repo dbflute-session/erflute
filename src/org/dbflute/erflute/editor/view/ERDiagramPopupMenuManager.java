@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToImageAction;
 import org.dbflute.erflute.editor.view.action.dbimport.ImportFromDBAction;
@@ -184,15 +184,15 @@ public class ERDiagramPopupMenuManager extends MenuManager {
                 undoAction.setText(DisplayMessages.getMessage("action.title.undo"));
                 redoAction.setText(DisplayMessages.getMessage("action.title.redo"));
 
-                final Settings settings = diagram.getDiagramContents().getSettings();
+                final DiagramSettings settings = diagram.getDiagramContents().getSettings();
 
                 changeViewToPhysicalAction.setChecked(false);
                 changeViewToLogicalAction.setChecked(false);
                 changeViewToBothAction.setChecked(false);
 
-                if (settings.getViewMode() == Settings.VIEW_MODE_PHYSICAL) {
+                if (settings.getViewMode() == DiagramSettings.VIEW_MODE_PHYSICAL) {
                     changeViewToPhysicalAction.setChecked(true);
-                } else if (settings.getViewMode() == Settings.VIEW_MODE_LOGICAL) {
+                } else if (settings.getViewMode() == DiagramSettings.VIEW_MODE_LOGICAL) {
                     changeViewToLogicalAction.setChecked(true);
                 } else {
                     changeViewToBothAction.setChecked(true);
@@ -201,7 +201,7 @@ public class ERDiagramPopupMenuManager extends MenuManager {
                 changeToIENotationAction.setChecked(false);
                 changeToIDEF1XNotationAction.setChecked(false);
 
-                if (Settings.NOTATION_IDEF1X.equals(settings.getNotation())) {
+                if (DiagramSettings.NOTATION_IDEF1X.equals(settings.getNotation())) {
                     changeToIDEF1XNotationAction.setChecked(true);
                 } else {
                     changeToIENotationAction.setChecked(true);
@@ -214,15 +214,15 @@ public class ERDiagramPopupMenuManager extends MenuManager {
                 changeNotationLevelToExcludeTypeAction.setChecked(false);
                 changeNotationLevelToDetailAction.setChecked(false);
 
-                if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_TITLE) {
+                if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_TITLE) {
                     changeNotationLevelToOnlyTitleAction.setChecked(true);
-                } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_COLUMN) {
+                } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_COLUMN) {
                     changeNotationLevelToColumnAction.setChecked(true);
-                } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_KEY) {
+                } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_KEY) {
                     changeNotationLevelToOnlyKeyAction.setChecked(true);
-                } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_NAME_AND_KEY) {
+                } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_NAME_AND_KEY) {
                     changeNotationLevelToNameAndKeyAction.setChecked(true);
-                } else if (settings.getNotationLevel() == Settings.NOTATION_LEVLE_EXCLUDE_TYPE) {
+                } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_EXCLUDE_TYPE) {
                     changeNotationLevelToExcludeTypeAction.setChecked(true);
                 } else {
                     changeNotationLevelToDetailAction.setChecked(true);

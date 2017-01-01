@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.Display;
 
-public class PageSetting implements Serializable {
+public class PageSettings implements Serializable {
 
     private static final long serialVersionUID = 7520875865783223474L;
 
@@ -26,7 +26,7 @@ public class PageSetting implements Serializable {
 
     private int rightMargin;
 
-    public PageSetting() {
+    public PageSettings() {
         this.directionHorizontal = true;
         this.scale = 100;
         this.paperSize = "A4 210 x 297 mm";
@@ -36,7 +36,7 @@ public class PageSetting implements Serializable {
         this.leftMargin = DEFAULT_MARGIN;
     }
 
-    public PageSetting(boolean directionHorizontal, int scale, String paperSize, int topMargin, int rightMargin, int bottomMargin,
+    public PageSettings(boolean directionHorizontal, int scale, String paperSize, int topMargin, int rightMargin, int bottomMargin,
             int leftMargin) {
         this.directionHorizontal = directionHorizontal;
         this.scale = scale;

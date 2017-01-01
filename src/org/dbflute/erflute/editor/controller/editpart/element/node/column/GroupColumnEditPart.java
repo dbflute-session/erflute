@@ -6,7 +6,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEdit
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.dbflute.erflute.editor.view.figure.table.column.GroupColumnFigure;
 import org.eclipse.draw2d.ColorConstants;
@@ -29,11 +29,11 @@ public class GroupColumnEditPart extends ColumnEditPart {
         parent.getContentPane().add(figure);
         final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
         final ERColumn column = (ERColumn) this.getModel();
-        if (notationLevel != Settings.NOTATION_LEVLE_TITLE) {
+        if (notationLevel != DiagramSettings.NOTATION_LEVLE_TITLE) {
             final TableFigure tableFigure = (TableFigure) parent.getFigure();
             final boolean isAdded = false;
             final boolean isUpdated = false;
-            if ((notationLevel == Settings.NOTATION_LEVLE_KEY)) {
+            if ((notationLevel == DiagramSettings.NOTATION_LEVLE_KEY)) {
                 columnFigure.clearLabel();
                 return;
             }

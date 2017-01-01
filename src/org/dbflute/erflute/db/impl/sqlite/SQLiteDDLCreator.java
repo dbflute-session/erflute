@@ -17,15 +17,15 @@ public class SQLiteDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getDDL(Tablespace tablespace) {
+    protected String doBuildCreateTablespace(Tablespace tablespace) {
         return null;
     }
 
     @Override
-    protected String getColulmnDDL(NormalColumn normalColumn) {
+    protected String buildColumnPart(NormalColumn normalColumn) {
         final StringBuilder ddl = new StringBuilder();
 
-        ddl.append(super.getColulmnDDL(normalColumn));
+        ddl.append(super.buildColumnPart(normalColumn));
 
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" PRIMARY KEY AUTOINCREMENT");
@@ -35,7 +35,7 @@ public class SQLiteDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getPrimaryKeyDDL(ERTable table) {
+    protected String buildPrimaryKeyPart(ERTable table) {
         final StringBuilder ddl = new StringBuilder();
 
         for (final Relationship relation : table.getIncomingRelationshipList()) {
@@ -65,7 +65,7 @@ public class SQLiteDDLCreator extends DDLCreator {
 
                 }
 
-                ddl.append(filter(foreignKeyColumn.getReferencedColumn(relation).getPhysicalName()));
+                ddl.append(filter(foreignKeyColumn.getReferredColumn(relation).getPhysicalName()));
                 first = false;
             }
 
@@ -104,7 +104,7 @@ public class SQLiteDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getCreateForeignKeys(ERDiagram diagram) {
+    protected String buildCreateForeignKeys(ERDiagram diagram) {
         return "";
     }
 

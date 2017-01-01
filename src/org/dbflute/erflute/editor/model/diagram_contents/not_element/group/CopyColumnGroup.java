@@ -10,21 +10,21 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 
-public class CopyGroup extends ColumnGroup {
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
+public class CopyColumnGroup extends ColumnGroup {
 
     private static final long serialVersionUID = 8453816730649838482L;
 
     private ColumnGroup original;
 
-    public CopyGroup(ColumnGroup original) {
+    public CopyColumnGroup(ColumnGroup original) {
         super();
-
         this.original = original;
-
         this.setGroupName(this.original.getGroupName());
-
-        for (NormalColumn fromColumn : this.original.getColumns()) {
-            CopyColumn copyColumn = new CopyColumn(fromColumn);
+        for (final NormalColumn fromColumn : this.original.getColumns()) {
+            final CopyColumn copyColumn = new CopyColumn(fromColumn);
             if (fromColumn.getWord() != null) {
                 copyColumn.setWord(new CopyWord(fromColumn.getWord()));
             }
@@ -36,42 +36,31 @@ public class CopyGroup extends ColumnGroup {
         if (this.original == null) {
             this.original = new ColumnGroup();
         }
-
         this.restructure(diagram, this.original);
-
         return this.original;
     }
 
     private void restructure(ERDiagram diagram, ColumnGroup to) {
         Dictionary dictionary = null;
-
         if (diagram != null) {
             dictionary = diagram.getDiagramContents().getDictionary();
-            for (NormalColumn toColumn : to.getColumns()) {
+            for (final NormalColumn toColumn : to.getColumns()) {
                 dictionary.remove(toColumn);
             }
         }
-
         to.setGroupName(this.getGroupName());
-
-        List<NormalColumn> columns = new ArrayList<NormalColumn>();
-
-        for (NormalColumn fromColumn : this.getColumns()) {
-            // �O���[�v�̍X�V�{�^�����������ꍇ�A
-            CopyColumn copyColumn = (CopyColumn) fromColumn;
-            CopyWord copyWord = copyColumn.getWord();
-
+        final List<NormalColumn> columns = new ArrayList<NormalColumn>();
+        for (final NormalColumn fromColumn : this.getColumns()) {
+            final CopyColumn copyColumn = (CopyColumn) fromColumn;
+            final CopyWord copyWord = copyColumn.getWord();
             if (copyWord != null) {
                 Word originalWord = copyColumn.getOriginalWord();
-
                 if (dictionary != null) {
                     dictionary.copyTo(copyWord, originalWord);
-
                 } else {
                     while (originalWord instanceof CopyWord) {
                         originalWord = ((CopyWord) originalWord).getOriginal();
                     }
-
                     //originalWord = new CopyWord(originalWord);
                     //copyWord.copyTo(originalWord);
                     copyWord.setOriginal(originalWord);
@@ -79,28 +68,20 @@ public class CopyGroup extends ColumnGroup {
             }
 
             NormalColumn restructuredColumn = copyColumn.getRestructuredColumn();
-
-            if (to instanceof CopyGroup) {
+            if (to instanceof CopyColumnGroup) {
                 if (!(restructuredColumn instanceof CopyColumn)) {
-                    Word restructuredWord = restructuredColumn.getWord();
-
+                    final Word restructuredWord = restructuredColumn.getWord();
                     restructuredColumn = new CopyColumn(restructuredColumn);
-
                     if (restructuredWord != null && !(restructuredWord instanceof CopyWord)) {
                         restructuredColumn.setWord(new CopyWord(restructuredWord));
                     }
                 }
             }
-
             columns.add(restructuredColumn);
-
             if (dictionary != null) {
                 dictionary.add(restructuredColumn);
             }
-
         }
-
         to.setColumns(columns);
     }
-
 }

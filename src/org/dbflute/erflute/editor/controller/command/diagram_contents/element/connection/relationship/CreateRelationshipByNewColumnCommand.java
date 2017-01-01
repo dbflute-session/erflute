@@ -10,17 +10,16 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
-public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelationshipCommand {
+public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelationshipCommand { // #willdelete
 
     private final Relationship relationship;
     private final List<NormalColumn> foreignKeyColumnList;
 
-    public CreateRelationshipByNewColumnCommand(Relationship relation) {
+    public CreateRelationshipByNewColumnCommand(Relationship relation) { // what? by jflute
         this(relation, null);
     }
 
     public CreateRelationshipByNewColumnCommand(Relationship relation, List<NormalColumn> foreignKeyColumnList) {
-        super();
         this.relationship = relation;
         this.foreignKeyColumnList = foreignKeyColumnList;
     }
@@ -32,10 +31,10 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
         final TableView targetTable = (TableView) target.getModel();
         relationship.setSourceWalker(sourceTable);
         ERDiagramEditPart.setUpdateable(true);
-        relationship.setTargetTableView(targetTable, this.foreignKeyColumnList);
+        relationship.setTargetTableView(targetTable, foreignKeyColumnList);
         if (relationship.getWalkerSource() instanceof ERTable || relationship.getWalkerTarget() instanceof ERTable) {
-            final ERVirtualDiagramSet modelSet = this.relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
-            modelSet.createRelation(relationship);
+            final ERVirtualDiagramSet vdiagramSet = relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+            vdiagramSet.createRelationship(relationship);
         }
         final String foreignKeyName = provideDefaultForeignKeyName(sourceTable, targetTable);
         relationship.setForeignKeyName(foreignKeyName);

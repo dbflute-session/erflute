@@ -25,7 +25,7 @@ public class OracleDDLCreator extends DDLCreator {
      * {@inheritDoc}
      */
     @Override
-    public List<String> getCommentDDL(ERTable table) {
+    public List<String> doBuildCreateComment(ERTable table) {
         List<String> ddlList = new ArrayList<String>();
 
         String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
@@ -101,7 +101,7 @@ public class OracleDDLCreator extends DDLCreator {
      * {@inheritDoc}
      */
     @Override
-    public String getDDL(Relationship relation) {
+    public String doBuildCreateForeignKey(Relationship relation) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("ALTER TABLE ");
@@ -164,7 +164,7 @@ public class OracleDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getDDL(Tablespace tablespace) {
+    protected String doBuildCreateTablespace(Tablespace tablespace) {
         OracleTablespaceProperties tablespaceProperties =
                 (OracleTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
@@ -268,7 +268,7 @@ public class OracleDDLCreator extends DDLCreator {
     }
 
     @Override
-    public String getDDL(Sequence sequence) {
+    public String doBuildCreateSequence(Sequence sequence) {
         StringBuilder ddl = new StringBuilder();
 
         String description = sequence.getDescription();

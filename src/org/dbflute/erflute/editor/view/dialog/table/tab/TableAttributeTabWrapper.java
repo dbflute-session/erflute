@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyGroup;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 import org.dbflute.erflute.editor.view.dialog.column.real.ColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
@@ -216,7 +216,7 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
                                 table.getDiagram(), false, -1);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
-                    final List<CopyGroup> newColumnGroups = dialog.getCopyColumnGroups();
+                    final List<CopyColumnGroup> newColumnGroups = dialog.getCopyColumnGroups();
 
                     final Command command = new ChangeColumnGroupCommand(tableDialog.getDiagram(), groupSet, newColumnGroups);
 

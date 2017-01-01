@@ -52,7 +52,8 @@ public class ReadDictionaryLoader {
         final Integer arrayDimension = getIntegerValue(element, "array_dimension");
         final boolean unsigned = getBooleanValue(element, "unsigned");
         final String args = getStringValue(element, "args");
-        final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
+        final boolean charSemantics = getBooleanValue(element, "char_semantics");
+        final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, charSemantics);
         final String physicalName = Format.null2blank(getStringValue(element, "physical_name"));
         final String logicalName = Format.null2blank(getStringValue(element, "logical_name"));
         final String description = Format.null2blank(this.getStringValue(element, "description"));

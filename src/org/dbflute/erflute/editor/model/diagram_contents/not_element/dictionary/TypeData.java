@@ -18,11 +18,13 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
     private Integer arrayDimension;
     private boolean unsigned;
     private String args;
+    private boolean charSemantics;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TypeData(Integer length, Integer decimal, boolean array, Integer arrayDimension, boolean unsigned, String args) {
+    public TypeData(Integer length, Integer decimal, boolean array, Integer arrayDimension, boolean unsigned, String args,
+            boolean charSemantics) {
         super();
         this.length = length;
         this.decimal = decimal;
@@ -30,6 +32,7 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
         this.arrayDimension = arrayDimension;
         this.unsigned = unsigned;
         this.args = args;
+        this.charSemantics = charSemantics;
     }
 
     // ===================================================================================
@@ -40,7 +43,6 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
         if (o == null) {
             return -1;
         }
-
         if (this.length == null) {
             if (o.length != null) {
                 return 1;
@@ -54,7 +56,6 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
                 return value;
             }
         }
-
         if (this.decimal == null) {
             if (o.decimal != null) {
                 return 1;
@@ -68,7 +69,6 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
                 return value;
             }
         }
-
         if (this.array != o.array) {
             if (this.array) {
                 return -1;
@@ -76,7 +76,6 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
 
             return 1;
         }
-
         if (this.arrayDimension == null) {
             if (o.arrayDimension != null) {
                 return 1;
@@ -90,7 +89,6 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
                 return value;
             }
         }
-
         if (this.unsigned != o.unsigned) {
             if (this.unsigned) {
                 return 1;
@@ -98,7 +96,6 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
                 return -1;
             }
         }
-
         if (this.args == null) {
             if (o.args != null) {
                 return 1;
@@ -112,7 +109,13 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
                 return value;
             }
         }
-
+        if (this.charSemantics != o.charSemantics) {
+            if (this.charSemantics) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
         return 0;
     }
 
@@ -136,42 +139,59 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
         result = prime * result + ((decimal == null) ? 0 : decimal.hashCode());
         result = prime * result + ((length == null) ? 0 : length.hashCode());
         result = prime * result + (unsigned ? 1231 : 1237);
+        result = prime * result + (charSemantics ? 1231 : 1237);
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final TypeData other = (TypeData) obj;
         if (args == null) {
-            if (other.args != null)
+            if (other.args != null) {
                 return false;
-        } else if (!args.equals(other.args))
+            }
+        } else if (!args.equals(other.args)) {
             return false;
-        if (array != other.array)
+        }
+        if (array != other.array) {
             return false;
+        }
         if (arrayDimension == null) {
-            if (other.arrayDimension != null)
+            if (other.arrayDimension != null) {
                 return false;
-        } else if (!arrayDimension.equals(other.arrayDimension))
+            }
+        } else if (!arrayDimension.equals(other.arrayDimension)) {
             return false;
+        }
         if (decimal == null) {
-            if (other.decimal != null)
+            if (other.decimal != null) {
                 return false;
-        } else if (!decimal.equals(other.decimal))
+            }
+        } else if (!decimal.equals(other.decimal)) {
             return false;
+        }
         if (length == null) {
-            if (other.length != null)
+            if (other.length != null) {
                 return false;
-        } else if (!length.equals(other.length))
+            }
+        } else if (!length.equals(other.length)) {
             return false;
-        if (unsigned != other.unsigned)
+        }
+        if (unsigned != other.unsigned) {
             return false;
+        }
+        if (charSemantics != other.charSemantics) {
+            return false;
+        }
         return true;
     }
 
@@ -224,5 +244,13 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
 
     public void setArgs(String args) {
         this.args = args;
+    }
+
+    public boolean isCharSemantics() {
+        return charSemantics;
+    }
+
+    public void setCharSemantics(boolean charSemantics) {
+        this.charSemantics = charSemantics;
     }
 }

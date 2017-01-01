@@ -6,7 +6,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeTitleFontSizeCommand extends AbstractCommand {
 
@@ -16,7 +16,7 @@ public class ChangeTitleFontSizeCommand extends AbstractCommand {
 
     private boolean newCapital;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     public ChangeTitleFontSizeCommand(ERDiagram diagram, boolean isCapital) {
         this.diagram = diagram;

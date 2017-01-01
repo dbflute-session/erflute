@@ -14,19 +14,19 @@ public class RelationByExistingColumnsCreationTool extends ConnectionCreationToo
     @Override
     protected boolean handleCreateConnection() {
         try {
-            final CreateRelationshipByExistingColumnsCommand command = (CreateRelationshipByExistingColumnsCommand) this.getCommand();
-            if (command == null) {
+            final CreateRelationshipByExistingColumnsCommand beginCommand = getRelationshipCommand();
+            if (beginCommand == null) {
                 return false;
             }
-            final TableView source = (TableView) command.getSourceModel();
-            final TableView target = (TableView) command.getTargetModel();
+            final TableView source = (TableView) beginCommand.getSourceModel();
+            final TableView target = (TableView) beginCommand.getTargetModel();
             if (ERTable.isRecursive(source, target)) {
                 Activator.showErrorDialog("error.recursive.relation");
-                this.eraseSourceFeedback();
+                eraseSourceFeedback();
                 return false;
             }
             eraseSourceFeedback();
-            final CreateRelationshipByExistingColumnsCommand endCommand = (CreateRelationshipByExistingColumnsCommand) this.getCommand();
+            final CreateRelationshipByExistingColumnsCommand endCommand = getRelationshipCommand();
             if (!endCommand.selectColumns()) {
                 return false;
             }
@@ -36,5 +36,9 @@ public class RelationByExistingColumnsCreationTool extends ConnectionCreationToo
             Activator.showExceptionDialog(e);
         }
         return true;
+    }
+
+    private CreateRelationshipByExistingColumnsCommand getRelationshipCommand() {
+        return (CreateRelationshipByExistingColumnsCommand) getCommand();
     }
 }

@@ -49,8 +49,9 @@ public class ColumnDialog extends AbstractRealColumnDialog {
 
     @Override
     protected void initializeDetailTab(Composite composite) {
-        super.initializeDetailTab(composite);
+        // first uniqueKeyNameText, second constraintText (in super's)
         this.uniqueKeyNameText = CompositeFactory.createText(this, composite, "label.unique.key.name", false);
+        super.initializeDetailTab(composite);
         final DBManager manager = DBManagerFactory.getDBManager(this.diagram);
         if (MySQLDBManager.ID.equals(this.diagram.getDatabase())) {
             this.characterSetCombo = CompositeFactory.createCombo(this, composite, "label.character.set", 1);
@@ -78,16 +79,21 @@ public class ColumnDialog extends AbstractRealColumnDialog {
 
     @Override
     protected void initializeCheckBoxComposite(Composite composite) {
-        this.primaryKeyCheck = CompositeFactory.createCheckbox(this, composite, "label.primary.key");
+        primaryKeyCheck = CompositeFactory.createCheckbox(this, composite, "label.primary.key");
         super.initializeCheckBoxComposite(composite);
-        final DBManager manager = DBManagerFactory.getDBManager(this.diagram);
+        final DBManager manager = DBManagerFactory.getDBManager(diagram);
         if (manager.isSupported(DBManager.SUPPORT_AUTO_INCREMENT)) {
-            this.autoIncrementCheck = CompositeFactory.createCheckbox(this, composite, "label.auto.increment");
+            autoIncrementCheck = CompositeFactory.createCheckbox(this, composite, "label.auto.increment");
         }
-        if (this.isRefered) {
-            this.uniqueKeyCheck.setEnabled(false);
+        if (isRefered) {
+            uniqueKeyCheck.setEnabled(false);
         }
-        this.enableAutoIncrement(false);
+        enableAutoIncrement(false);
+        adjustCheckBoxDefault();
+    }
+
+    private void adjustCheckBoxDefault() {
+        notNullCheck.setSelection(true); // as default (not-null column is better)
     }
 
     protected int getStyle(int style) {
@@ -126,12 +132,12 @@ public class ColumnDialog extends AbstractRealColumnDialog {
         final NormalColumn autoIncrementColumn = this.table.getAutoIncrementColumn();
         if (this.primaryKeyCheck.getSelection()) {
             if (autoIncrementColumn == null || autoIncrementColumn == targetColumn) {
-                this.enableAutoIncrement(true);
+                enableAutoIncrement(true);
             } else {
-                this.enableAutoIncrement(false);
+                enableAutoIncrement(false);
             }
         } else {
-            this.enableAutoIncrement(false);
+            enableAutoIncrement(false);
         }
         this.defaultText.setText(Format.null2blank(this.targetColumn.getDefaultValue()));
         this.setEnabledBySqlType();
@@ -203,7 +209,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (primaryKeyCheck.getSelection()) {
-                    notNullCheck.setSelection(true);
+                    adjustCheckBoxDefault();
                     notNullCheck.setEnabled(false);
                     if (autoIncrementColumn == null || autoIncrementColumn == targetColumn) {
                         enableAutoIncrement(true);

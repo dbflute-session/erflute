@@ -14,8 +14,8 @@ public class PostgresTablespaceDialog extends TablespaceDialog {
     private Text owner;
 
     @Override
-    protected void initialize(Composite composite) {
-        super.initialize(composite);
+    protected void initComponent(Composite composite) {
+        super.initComponent(composite);
 
         this.location = CompositeFactory.createText(this, composite, "label.tablespace.location", false);
         CompositeFactory.filler(composite, 1);

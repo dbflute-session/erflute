@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 
 public interface ImportFromDBManager {
 
-    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<DBObject> dbObjectList,
+    public void init(Connection con, DBSettings dbSetting, ERDiagram diagram, List<DBObject> dbObjectList,
             boolean useCommentAsLogicalNameButton, boolean mergeWord) throws SQLException;
 
 }

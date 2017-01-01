@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.Validator;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ExportDBSettingDialog;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ExportErrorDialog;
@@ -48,7 +48,7 @@ public class ExportToDBAction extends AbstractBaseAction {
         if (dialog.open() == IDialogConstants.OK_ID) {
             String ddl = dialog.getDdl();
 
-            DBSetting dbSetting = dialog.getDbSetting();
+            DBSettings dbSetting = dialog.getDbSetting();
 
             ExportToDBDialog exportToDBDialog =
                     new ExportToDBDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, dbSetting, ddl);

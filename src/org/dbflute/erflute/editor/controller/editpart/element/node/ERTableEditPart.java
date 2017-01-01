@@ -19,7 +19,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Se
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.SequenceSet;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.Trigger;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.TriggerSet;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.table.TableDialog;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.eclipse.draw2d.IFigure;
@@ -40,7 +40,7 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
     @Override
     protected IFigure createFigure() {
         final ERDiagram diagram = this.getDiagram();
-        final Settings settings = diagram.getDiagramContents().getSettings();
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         final TableFigure figure = new TableFigure(settings);
         this.changeFont(figure);
         return figure;

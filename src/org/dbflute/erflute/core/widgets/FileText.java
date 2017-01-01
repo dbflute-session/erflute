@@ -12,10 +12,8 @@ import org.eclipse.swt.widgets.Text;
 
 public class FileText {
 
-    private Text text;
-
-    private Button openBrowseButton;
-
+    private final Text text;
+    private final Button openBrowseButton;
     private String[] filterExtensions;
 
     public FileText(Composite parent, int style) {
@@ -28,22 +26,13 @@ public class FileText {
 
     public FileText(Composite parent, int style, String[] filterExtensions) {
         this.text = new Text(parent, style);
-
         this.filterExtensions = filterExtensions;
-
         this.openBrowseButton = new Button(parent, SWT.NONE);
         this.openBrowseButton.setText(JFaceResources.getString("openBrowse"));
-
         this.openBrowseButton.addSelectionListener(new SelectionAdapter() {
-
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                //				String saveFilePath = Activator.showSaveDialog(text.getText(),
-                //						FileText.this.filterExtensions);
-                String saveFilePath = Activator.showSaveDialogInternal(text.getText(), FileText.this.filterExtensions);
+                final String saveFilePath = Activator.showSaveDialogInternal(text.getText(), FileText.this.filterExtensions);
                 text.setText(saveFilePath);
             }
         });
@@ -62,7 +51,6 @@ public class FileText {
         if (this.text.getText().trim().length() == 0) {
             return true;
         }
-
         return false;
     }
 
@@ -77,5 +65,4 @@ public class FileText {
     public void setFilterExtension(String filterExtension) {
         this.filterExtensions = new String[] { filterExtension };
     }
-
 }

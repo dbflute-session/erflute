@@ -57,7 +57,7 @@ public class JDBCPathDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         final GridData gridData = new GridData();
         gridData.horizontalSpan = 3;
         gridData.heightHint = 50;
@@ -125,7 +125,7 @@ public class JDBCPathDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         this.fileFieldEditor.setStringValue(this.path);
         this.driverClassNameText.setText(Format.null2blank(this.driverClassName));
         if (this.databaseCombo != null) {

@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.controller.command.category;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.CategorySetting;
+import org.dbflute.erflute.editor.model.settings.CategorySettings;
 
 public class ChangeShowReferredTablesCommand extends AbstractCommand {
 
@@ -12,7 +12,7 @@ public class ChangeShowReferredTablesCommand extends AbstractCommand {
 
     private boolean newShowReferredTables;
 
-    private CategorySetting categorySettings;
+    private CategorySettings categorySettings;
 
     public ChangeShowReferredTablesCommand(ERDiagram diagram, boolean isShowReferredTables) {
         this.diagram = diagram;

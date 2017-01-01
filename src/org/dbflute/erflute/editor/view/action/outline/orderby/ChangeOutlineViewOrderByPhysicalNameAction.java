@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.action.outline.orderby;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.controller.command.common.ChangeOutlineViewOrderByCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.outline.AbstractOutlineBaseAction;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.IAction;
@@ -25,7 +25,7 @@ public class ChangeOutlineViewOrderByPhysicalNameAction extends AbstractOutlineB
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
 
-        ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(diagram, Settings.VIEW_MODE_PHYSICAL);
+        ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(diagram, DiagramSettings.VIEW_MODE_PHYSICAL);
 
         this.execute(command);
     }

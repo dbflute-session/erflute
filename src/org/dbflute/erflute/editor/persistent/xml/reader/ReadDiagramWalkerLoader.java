@@ -6,8 +6,8 @@ import java.util.List;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
@@ -75,23 +75,29 @@ public class ReadDiagramWalkerLoader {
 
     private void loadRelationship(DiagramWalker walker, Element element, LoadContext context) {
         final boolean referenceForPK = getBooleanValue(element, "reference_for_pk");
-        final Relationship connection = new Relationship(referenceForPK, null, null);
-        connection.setForeignKeyName(getStringValue(element, "name"));
-        connection.setChildCardinality(getStringValue(element, "child_cardinality"));
-        connection.setParentCardinality(getStringValue(element, "parent_cardinality"));
-        connection.setOnDeleteAction(getStringValue(element, "on_delete_action", "NO ACTION"));
-        connection.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
-        connection.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
-        connection.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
-        final String referencedColumnId = getStringValue(element, "referenced_column"); // needed? (in relation) by jflute
-        if (referencedColumnId != null) {
-            context.referencedColumnMap.put(connection, referencedColumnId);
+        final Relationship relationship = new Relationship(referenceForPK, null, null);
+        relationship.setForeignKeyName(getStringValue(element, "name"));
+        relationship.setChildCardinality(getStringValue(element, "child_cardinality"));
+        relationship.setParentCardinality(getStringValue(element, "parent_cardinality"));
+        relationship.setOnDeleteAction(getStringValue(element, "on_delete_action", "NO ACTION"));
+        relationship.setOnUpdateAction(getStringValue(element, "on_update_action", "NO ACTION"));
+        relationship.setSourceLocationp(getIntValue(element, "source_xp", -1), getIntValue(element, "source_yp", -1));
+        relationship.setTargetLocationp(getIntValue(element, "target_xp", -1), getIntValue(element, "target_yp", -1));
+        String referredCompoundUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
+        if (Srl.is_Null_or_Empty(referredCompoundUniqueKeyId)) {
+            referredCompoundUniqueKeyId = getStringValue(element, "referred_compound_unique_key"); // #for_erflute rename
         }
-        final String referencedComplexUniqueKeyId = getStringValue(element, "referenced_complex_unique_key");
-        if (referencedComplexUniqueKeyId != null) {
-            context.referencedComplexUniqueKeyMap.put(connection, referencedComplexUniqueKeyId);
+        if (referredCompoundUniqueKeyId != null) {
+            context.referredCompoundUniqueKeyMap.put(relationship, referredCompoundUniqueKeyId);
         }
-        loadConnectionElement(walker, element, context, connection);
+        String referredSimpleUniqueColumnId = getStringValue(element, "referenced_column"); // simple unique key
+        if (Srl.is_Null_or_Empty(referredSimpleUniqueColumnId)) {
+            referredSimpleUniqueColumnId = getStringValue(element, "referred_simple_unique_column"); // #for_erflute rename
+        }
+        if (referredSimpleUniqueColumnId != null) {
+            context.referredSimpleUniqueColumnMap.put(relationship, referredSimpleUniqueColumnId);
+        }
+        loadConnectionElement(walker, element, context, relationship);
     }
 
     private void loadCommentConnection(DiagramWalker walker, Element element, LoadContext context) {
@@ -103,15 +109,15 @@ public class ReadDiagramWalkerLoader {
         connection.setOwnerWalker(walker);
         final String source = getStringValue(element, "source");
         final String target = getStringValue(element, "target");
-        String id = getStringValue(element, "id");
-        if (Srl.is_Null_or_TrimmedEmpty(id)) {
+        String connectionId = getStringValue(element, "id");
+        if (Srl.is_Null_or_TrimmedEmpty(connectionId)) {
             if (walker instanceof TableView && connection instanceof Relationship) { // table determination just in case
-                id = buildRelationshipId((TableView) walker, element, context, (Relationship) connection);
+                connectionId = buildRelationshipId((TableView) walker, element, context, (Relationship) connection);
             } else {
-                id = "#error:unknownId_for_" + target + "_to_" + source;
+                connectionId = "#error:unknownId_for_" + target + "_to_" + source;
             }
         }
-        context.connectionMap.put(id, connection);
+        context.connectionMap.put(connectionId, connection);
         context.connectionSourceMap.put(connection, source);
         context.connectionTargetMap.put(connection, target);
         final NodeList nodeList = element.getElementsByTagName("bendpoint");
@@ -123,16 +129,19 @@ public class ReadDiagramWalkerLoader {
         }
     }
 
-    private String buildRelationshipId(TableView tableView, Element element, LoadContext context, Relationship relationship) {
-        final String tableName = tableView.getPhysicalName();
-        final NodeList nodeList = element.getElementsByTagName("fk_columns");
+    private String buildRelationshipId(TableView targetTable, Element element, LoadContext context, Relationship relationship) {
+        final NodeList columnsNodeList = element.getElementsByTagName("fk_columns");
         final List<String> physicalColumnNameList = new ArrayList<String>();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            final Element columnElement = (Element) nodeList.item(i);
-            final String column = getStringValue(columnElement, "fk_column_name");
-            physicalColumnNameList.add(column);
+        for (int i = 0; i < columnsNodeList.getLength(); i++) {
+            final Element columnsElement = (Element) columnsNodeList.item(i);
+            final NodeList columnNodeList = columnsElement.getElementsByTagName("fk_column");
+            for (int j = 0; j < columnNodeList.getLength(); j++) {
+                final Element columnElement = (Element) columnNodeList.item(j);
+                final String column = getStringValue(columnElement, "fk_column_name");
+                physicalColumnNameList.add(column);
+            }
         }
-        return relationship.buildRelationshipId(tableName, physicalColumnNameList); // #for_erflute
+        return relationship.buildRelationshipId(targetTable, physicalColumnNameList); // #for_erflute
     }
 
     // ===================================================================================

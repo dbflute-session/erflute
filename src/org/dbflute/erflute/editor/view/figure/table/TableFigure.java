@@ -3,7 +3,7 @@ package org.dbflute.erflute.editor.view.figure.table;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFrameAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToSimpleAction;
 import org.dbflute.erflute.editor.view.figure.table.column.GroupColumnFigure;
@@ -28,13 +28,13 @@ public class TableFigure extends RoundedRectangle {
     private Color foregroundColor;
     private Font largeFont;
 
-    public TableFigure(Settings settings) {
+    public TableFigure(DiagramSettings settings) {
         this.columns = new Figure();
         this.setLayoutManager(new BorderLayout());
         this.setSettings(settings);
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings(DiagramSettings settings) {
         final String tableStyle = settings.getTableStyle();
         if (ChangeDesignToSimpleAction.TYPE.equals(tableStyle)) {
             this.styleSupport = new SimpleStyleSupport(this, settings);

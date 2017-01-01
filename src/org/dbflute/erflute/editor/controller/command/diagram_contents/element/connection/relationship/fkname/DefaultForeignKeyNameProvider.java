@@ -1,10 +1,7 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname;
 
-import java.util.List;
-
 import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
 import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 
 /**
@@ -24,20 +21,22 @@ public class DefaultForeignKeyNameProvider {
             limitLength = 120;
         }
         final String defaultName = cutName(standardName, limitLength);
-        final List<Relationship> relationshipList = targetTable.getIncomingRelationshipList();
-        int count = 0;
-        for (final Relationship relationship : relationshipList) {
-            final String foreignKeyName = relationship.getForeignKeyName();
-            if (defaultName.equalsIgnoreCase(foreignKeyName)) {
-                ++count;
-            }
-        }
-        final String suffix = count > 0 ? "_" + (count + 1) : "";
-        if (defaultName.length() + suffix.length() > limitLength) {
-            return defaultName.substring(0, defaultName.length() - suffix.length()) + suffix;
-        } else {
-            return defaultName + suffix;
-        }
+        return defaultName;
+        // not use because of duplicate check at new relationship by jflute
+        //final List<Relationship> relationshipList = targetTable.getIncomingRelationshipList();
+        //int count = 0;
+        //for (final Relationship relationship : relationshipList) {
+        //    final String foreignKeyName = relationship.getForeignKeyName();
+        //    if (defaultName.equalsIgnoreCase(foreignKeyName)) {
+        //        ++count;
+        //    }
+        //}
+        //final String suffix = count > 0 ? "_" + (count + 1) : "";
+        //if (defaultName.length() + suffix.length() > limitLength) {
+        //    return defaultName.substring(0, defaultName.length() - suffix.length()) + suffix;
+        //} else {
+        //    return defaultName + suffix;
+        //}
     }
 
     private boolean isDatabaseMySQL(TableView targetTable) {

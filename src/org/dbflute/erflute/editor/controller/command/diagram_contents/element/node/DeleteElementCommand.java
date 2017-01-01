@@ -5,32 +5,28 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class DeleteElementCommand extends AbstractCommand {
 
-    private ERDiagram container;
+    private final ERDiagram diagram;
+    private final DiagramWalker element;
 
-    private DiagramWalker element;
-
-    public DeleteElementCommand(ERDiagram container, DiagramWalker element) {
-        this.container = container;
+    public DeleteElementCommand(ERDiagram diagram, DiagramWalker element) {
+        this.diagram = diagram;
         this.element = element;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
-        this.container.removeContent(this.element);
-        ERModelUtil.refreshDiagram(element.getDiagram()); // TODO ���܂����t���b�V���������Ȃ�
+        diagram.removeContent(element);
+        ERModelUtil.refreshDiagram(element.getDiagram());
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
-        this.container.addWalkerPlainly(this.element);
+        diagram.addWalkerPlainly(element);
     }
 }

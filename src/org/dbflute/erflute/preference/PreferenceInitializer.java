@@ -9,7 +9,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.db.impl.standard_sql.StandardSQLDBManager;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.dbflute.erflute.editor.model.settings.JDBCDriverSetting;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -113,7 +113,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         return path;
     }
 
-    public static DBSetting getDBSetting(int no) {
+    public static DBSettings getDBSetting(int no) {
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
         final String dbsystem = store.getString(PreferenceInitializer.DB_SETTING_DBSYSTEM + no);
@@ -131,10 +131,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         if ("false".equals(useDefaultDriverString) || StandardSQLDBManager.ID.equals(dbsystem)) {
             useDefaultDriver = false;
         }
-        return new DBSetting(dbsystem, server, portNo, database, user, password, useDefaultDriver, url, driverClassName);
+        return new DBSettings(dbsystem, server, portNo, database, user, password, useDefaultDriver, url, driverClassName);
     }
 
-    public static void saveSetting(int no, DBSetting dbSetting) {
+    public static void saveSetting(int no, DBSettings dbSetting) {
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setValue(PreferenceInitializer.DB_SETTING_DBSYSTEM + no, Format.null2blank(dbSetting.getDbsystem()));
         store.setValue(PreferenceInitializer.DB_SETTING_SERVER + no, Format.null2blank(dbSetting.getServer()));
@@ -147,21 +147,21 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         store.setValue(PreferenceInitializer.DB_SETTING_DRIVER_CLASS_NAME + no, Format.null2blank(dbSetting.getDriverClassName()));
     }
 
-    public static void saveSetting(List<DBSetting> dbSettingList) {
+    public static void saveSetting(List<DBSettings> dbSettingList) {
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setValue(PreferenceInitializer.DB_SETTING_LIST_NUM, dbSettingList.size());
         for (int i = 0; i < dbSettingList.size(); i++) {
-            final DBSetting dbSetting = dbSettingList.get(i);
+            final DBSettings dbSetting = dbSettingList.get(i);
             PreferenceInitializer.saveSetting(i + 1, dbSetting);
         }
     }
 
-    public static List<DBSetting> getDBSettingList(String database) {
-        final List<DBSetting> dbSettingList = new ArrayList<DBSetting>();
+    public static List<DBSettings> getDBSettingList(String database) {
+        final List<DBSettings> dbSettingList = new ArrayList<DBSettings>();
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         final int num = store.getInt(PreferenceInitializer.DB_SETTING_LIST_NUM);
         for (int i = 1; i <= num; i++) {
-            final DBSetting dbSetting = PreferenceInitializer.getDBSetting(i);
+            final DBSettings dbSetting = PreferenceInitializer.getDBSetting(i);
             if (database != null && !dbSetting.getDbsystem().equals(database)) {
                 continue;
             }
@@ -171,7 +171,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         return dbSettingList;
     }
 
-    public static void addDBSetting(DBSetting dbSetting) {
+    public static void addDBSetting(DBSettings dbSetting) {
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         int num = store.getInt(PreferenceInitializer.DB_SETTING_LIST_NUM);
         num++;

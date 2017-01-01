@@ -33,8 +33,8 @@ public class DB2TablespaceDialog extends TablespaceDialog {
     private Text bufferPoolName;
 
     @Override
-    protected void initialize(Composite composite) {
-        super.initialize(composite);
+    protected void initComponent(Composite composite) {
+        super.initComponent(composite);
 
         this.type = CompositeFactory.createText(this, composite, "label.tablespace.type", false);
         this.pageSize = CompositeFactory.createText(this, composite, "label.tablespace.page.size", false);

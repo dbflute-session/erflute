@@ -34,7 +34,7 @@ public class TriggerDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.nameText = CompositeFactory.createText(this, composite, "label.trigger.name", false);
         this.schemaText = CompositeFactory.createText(this, composite, "label.schema", false);
         this.sqlText = CompositeFactory.createTextArea(this, composite, "label.sql", DesignResources.DESCRIPTION_WIDTH, 300, 1, false);
@@ -81,7 +81,7 @@ public class TriggerDialog extends AbstractDialog {
     }
 
     @Override
-    protected void setData() {
+    protected void setupData() {
         if (this.trigger != null) {
             this.nameText.setText(Format.toString(this.trigger.getName()));
             this.schemaText.setText(Format.toString(this.trigger.getSchema()));

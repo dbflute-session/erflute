@@ -30,7 +30,7 @@ public class PostgresDDLCreator extends DDLCreator {
      * {@inheritDoc}
      */
     @Override
-    public String getPostDDL(ERTable table) {
+    public String buildTableOptionPart(ERTable table) {
         PostgresTableProperties commonTableProperties =
                 (PostgresTableProperties) this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
 
@@ -47,7 +47,7 @@ public class PostgresDDLCreator extends DDLCreator {
             postDDL.append(" WITHOUT OIDS");
         }
 
-        postDDL.append(super.getPostDDL(table));
+        postDDL.append(super.buildTableOptionPart(table));
 
         return postDDL.toString();
     }
@@ -56,7 +56,7 @@ public class PostgresDDLCreator extends DDLCreator {
      * {@inheritDoc}
      */
     @Override
-    public List<String> getCommentDDL(ERTable table) {
+    public List<String> doBuildCreateComment(ERTable table) {
         List<String> ddlList = new ArrayList<String>();
 
         String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
@@ -129,7 +129,7 @@ public class PostgresDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getDDL(Tablespace tablespace) {
+    protected String doBuildCreateTablespace(Tablespace tablespace) {
         PostgresTablespaceProperties tablespaceProperties =
                 (PostgresTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
@@ -225,7 +225,7 @@ public class PostgresDDLCreator extends DDLCreator {
     }
 
     @Override
-    public String getDropDDL(Trigger trigger) {
+    public String doBuildDropTrigger(Trigger trigger) {
         StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP TRIGGER ");

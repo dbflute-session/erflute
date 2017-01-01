@@ -260,6 +260,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 if (contents != null) {
                     final ERVirtualDiagramSetOutlineEditPart virtualDiagramSetOutlineEditPart =
                             (ERVirtualDiagramSetOutlineEditPart) contents.getChildren().get(0);
+                    @SuppressWarnings("unchecked")
                     final List<ERVirtualDiagramOutlineEditPart> parts = virtualDiagramSetOutlineEditPart.getChildren();
                     for (final ERVirtualDiagramOutlineEditPart part : parts) {
                         if (part.getModel().equals(erModel)) {

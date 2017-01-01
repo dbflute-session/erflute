@@ -7,43 +7,42 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public abstract class ValidatableTabWrapper extends Composite {
 
-    protected TabItem tabItem;
-
-    protected AbstractDialog dialog;
+    protected final AbstractDialog dialog;
+    protected final TabItem tabItem;
 
     public ValidatableTabWrapper(AbstractDialog dialog, TabFolder parent, int style, String title) {
         super(parent, style);
-
         this.dialog = dialog;
-
         this.tabItem = new TabItem(parent, style);
         this.tabItem.setText(DisplayMessages.getMessage(title));
-
         this.tabItem.setControl(this);
     }
 
-    abstract public void validatePage() throws InputException;
-
     protected final void init() {
-        this.initComposite();
-        this.addListener();
-        this.setData();
+        initComposite();
+        addListener();
+        setupData();
     }
 
-    public void reset() {
-    }
-
-    abstract protected void initComposite();
+    protected abstract void initComposite();
 
     protected void addListener() {
     }
 
-    protected void setData() {
+    protected void setupData() {
     }
+
+    public abstract void validatePage() throws InputException;
 
     abstract public void perfomeOK();
 
-    abstract public void setInitFocus();
+    public abstract void setInitFocus();
+
+    public void reset() {
+    }
 }

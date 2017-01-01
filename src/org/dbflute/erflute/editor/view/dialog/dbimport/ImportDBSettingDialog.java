@@ -22,9 +22,9 @@ public class ImportDBSettingDialog extends AbstractDBSettingDialog {
      * {@inheritDoc}
      */
     @Override
-    protected void initialize(Composite parent) {
-        super.initialize(parent);
-        this.dbSetting = PreferenceInitializer.getDBSetting(0);
+    protected void initComponent(Composite parent) {
+        super.initComponent(parent);
+        this.dbSettings = PreferenceInitializer.getDBSetting(0);
     }
 
     /**
@@ -37,7 +37,7 @@ public class ImportDBSettingDialog extends AbstractDBSettingDialog {
         Connection con = null;
 
         try {
-            con = this.dbSetting.connect();
+            con = this.dbSettings.connect();
 
         } catch (InputException e) {
             throw e;

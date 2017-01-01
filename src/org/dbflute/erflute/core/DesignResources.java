@@ -14,6 +14,7 @@ public class DesignResources {
 
     public static final int BUTTON_WIDTH = 60;
     public static final int DESCRIPTION_WIDTH = 400;
+    public static final int INDENT = 20;
     public static Color PINK = new Color(Display.getCurrent(), 255, 0, 255);
     public static Color ADDED_COLOR = new Color(Display.getCurrent(), 128, 128, 255);
     public static Color UPDATED_COLOR = new Color(Display.getCurrent(), 128, 255, 128);

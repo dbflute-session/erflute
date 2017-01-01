@@ -18,8 +18,8 @@ import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.property_source.ERDiagramPropertySource;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
@@ -107,7 +107,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
                 refreshVisuals();
             }
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_TABLE)) {
-            final ERTable newTable = (ERTable) event.getNewValue();
+            final TableView newTable = (TableView) event.getNewValue();
             this.internalRefreshTable(newTable);
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
             this.refreshVisuals();
@@ -121,13 +121,13 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         }
     }
 
-    private void internalRefreshTable(ERTable table) {
+    private void internalRefreshTable(TableView tableView) {
         final Set<Entry<DiagramWalker, EditPart>> entrySet = getModelToEditPart().entrySet();
         for (final Entry<DiagramWalker, EditPart> entry : entrySet) {
-            if (entry.getKey().equals(table)) {
+            if (entry.getKey().equals(tableView)) {
                 entry.getValue().refresh();
             }
-            if (table.getName().equals(entry.getKey().getName())) {
+            if (tableView.getName().equals(entry.getKey().getName())) {
                 entry.getValue().refresh();
             }
         }
@@ -160,7 +160,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 
     private void changeSettings() {
         final ERDiagram diagram = (ERDiagram) getModel();
-        final Settings settings = diagram.getDiagramContents().getSettings();
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         for (final Object child : getChildren()) {
             if (child instanceof DiagramWalkerEditPart) {
                 final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;

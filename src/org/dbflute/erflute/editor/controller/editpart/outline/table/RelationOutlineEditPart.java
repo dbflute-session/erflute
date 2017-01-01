@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.relationship.RelationshipDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
@@ -57,10 +57,10 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
                 sb.append(", ");
             }
 
-            if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
+            if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
                 sb.append(Format.null2blank(foreignKeyColumn.getPhysicalName()));
 
-            } else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
+            } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
                 sb.append(Format.null2blank(foreignKeyColumn.getLogicalName()));
 
             } else {

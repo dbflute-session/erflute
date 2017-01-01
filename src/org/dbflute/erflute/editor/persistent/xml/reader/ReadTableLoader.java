@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.reader.ReadColumnLoader.ColumnIdBuilder;
 import org.w3c.dom.Element;
@@ -69,7 +69,7 @@ public class ReadTableLoader {
         table.setColumns(columns);
         final List<ERIndex> indexes = indexLoader.loadIndexes(element, table, context);
         table.setIndexes(indexes);
-        final List<ComplexUniqueKey> complexUniqueKeyList = uniqueKeyLoader.loadComplexUniqueKeyList(element, table, context);
+        final List<CompoundUniqueKey> complexUniqueKeyList = uniqueKeyLoader.loadComplexUniqueKeyList(element, table, context);
         table.setComplexUniqueKeyList(complexUniqueKeyList);
         tablePropertiesLoader.loadTableProperties((TableProperties) table.getTableViewProperties(), element, context);
         return table;

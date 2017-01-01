@@ -5,6 +5,7 @@ import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
+import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
 import org.dbflute.erflute.db.impl.postgres.PostgresDBManager;
 import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -35,6 +36,8 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     protected boolean add;
     protected Text descriptionText;
     protected Text argsText;
+    protected Button charSemanticsRadio;
+    protected Button byteSemanticsRadio;
     protected ERDiagram diagram;
 
     public AbstractWordDialog(Shell parentShell, ERDiagram diagram) {
@@ -47,7 +50,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         final Composite rootComposite = this.createRootComposite(composite);
         initializeComposite(rootComposite);
         physicalNameText.setFocus();
@@ -102,6 +105,15 @@ public abstract class AbstractWordDialog extends AbstractDialog {
             this.argsText = CompositeFactory.createText(this, composite, "label.column.type.enum.set", getCompositeNumColumns() - 2, false);
             this.argsText.setEnabled(false);
         }
+        if (OracleDBManager.ID.equals(this.diagram.getDatabase())) {
+            CompositeFactory.filler(composite, 1);
+            final Composite childComposite = CompositeFactory.createChildComposite(composite, 5, 2);
+            this.charSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "char");
+            this.charSemanticsRadio.setEnabled(false);
+            this.charSemanticsRadio.setSelection(true);
+            this.byteSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "byte", 1, true);
+            this.byteSemanticsRadio.setEnabled(false);
+        }
         this.descriptionText = CompositeFactory.createTextArea(this, composite, "label.column.description", -1, 100, numColumns - 1, true);
     }
 
@@ -109,7 +121,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     //                                                                            Set Data
     //                                                                            ========
     @Override
-    protected final void setData() {
+    protected final void setupData() {
         initializeTypeCombo();
         if (!add) {
             setWordData();
@@ -195,6 +207,11 @@ public abstract class AbstractWordDialog extends AbstractDialog {
         if (this.argsText != null) {
             this.argsText.setText(Format.null2blank(typeData.getArgs()));
         }
+        if (this.charSemanticsRadio != null) {
+            final boolean charSemantics = typeData.isCharSemantics();
+            this.charSemanticsRadio.setSelection(charSemantics);
+            this.byteSemanticsRadio.setSelection(!charSemantics);
+        }
         this.descriptionText.setText(Format.toString(description));
     }
 
@@ -258,6 +275,16 @@ public abstract class AbstractWordDialog extends AbstractDialog {
                     argsText.setEnabled(true);
                 } else {
                     argsText.setEnabled(false);
+                }
+            }
+            if (this.charSemanticsRadio != null) {
+                if (selectedType.isNeedCharSemantics(database)) {
+                    this.charSemanticsRadio.setEnabled(true);
+                    this.byteSemanticsRadio.setEnabled(true);
+
+                } else {
+                    this.charSemanticsRadio.setEnabled(false);
+                    this.byteSemanticsRadio.setEnabled(false);
                 }
             }
         }

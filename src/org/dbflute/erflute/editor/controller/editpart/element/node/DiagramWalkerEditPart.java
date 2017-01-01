@@ -16,7 +16,7 @@ import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.figure.connection.ERDiagramConnection;
 import org.dbflute.erflute.editor.view.figure.table.TableFigure;
 import org.eclipse.draw2d.ChopboxAnchor;
@@ -204,7 +204,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     // ===================================================================================
     //                                                                     Change Settings
     //                                                                     ===============
-    public void changeSettings(Settings settings) {
+    public void changeSettings(DiagramSettings settings) {
         this.refresh();
         for (final Object object : getSourceConnections()) {
             final ERDiagramConnectionEditPart editPart = (ERDiagramConnectionEditPart) object;

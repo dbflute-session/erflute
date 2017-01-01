@@ -35,7 +35,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.ComplexUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.UniqueWord;
@@ -43,7 +43,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.Trigger;
-import org.dbflute.erflute.editor.model.settings.DBSetting;
+import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
@@ -55,7 +55,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     protected Connection con;
     private DatabaseMetaData metaData;
-    protected DBSetting dbSetting;
+    protected DBSettings dbSetting;
     private ERDiagram diagram;
     private List<DBObject> dbObjectList;
     private final Map<String, ERTable> tableMap;
@@ -133,7 +133,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     @Override
-    public void init(Connection con, DBSetting dbSetting, ERDiagram diagram, List<DBObject> dbObjectList, boolean useCommentAsLogicalName,
+    public void init(Connection con, DBSettings dbSetting, ERDiagram diagram, List<DBObject> dbObjectList, boolean useCommentAsLogicalName,
             boolean mergeWord) throws SQLException {
         this.con = con;
         this.dbSetting = dbSetting;
@@ -399,7 +399,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         final List<ERIndex> indexes = this.getIndexes(table, this.metaData, primaryKeys);
 
-        final List<ERColumn> columns = this.getColumns(tableNameWithSchema, tableName, schema, indexes, primaryKeys, autoIncrementColumnName);
+        final List<ERColumn> columns =
+                this.getColumns(tableNameWithSchema, tableName, schema, indexes, primaryKeys, autoIncrementColumnName);
 
         table.setColumns(columns);
         table.setIndexes(indexes);
@@ -678,7 +679,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             }
 
             final String args = columnData.enumData;
-            final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args);
+            // TODO jflute xxxxxxxxxxxxxx (2016/10/28)
+            final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, false);
 
             Word word = new Word(columnName, logicalName, sqlType, typeData, description, this.diagram.getDatabase());
             final UniqueWord uniqueWord = new UniqueWord(word);
@@ -924,26 +926,22 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             referenceMap.put(sourceColumn, targetColumn);
         }
 
-        ComplexUniqueKey referencedComplexUniqueKey = null;
-        NormalColumn referencedColumn = null;
+        CompoundUniqueKey referredComplexUniqueKey = null;
+        NormalColumn referredSimpleUniqueColumn = null;
 
         if (!referenceForPK) {
             if (referenceMap.size() > 1) {
-                // TODO �ｽ�ｽ�ｽ�ｽ�ｽ�ｽﾓキ�ｽ[�ｽﾌ撰ｿｽ�ｽｼを復鯉ｿｽ�ｽﾅゑｿｽ�ｽﾄゑｿｽ�ｽﾈゑｿｽ
-                referencedComplexUniqueKey = new ComplexUniqueKey("");
+                referredComplexUniqueKey = new CompoundUniqueKey("");
                 for (final NormalColumn column : referenceMap.keySet()) {
-                    referencedComplexUniqueKey.addColumn(column);
+                    referredComplexUniqueKey.addColumn(column);
                 }
-                // TODO �ｽ�ｽ�ｽ�ｽ�ｽﾅ包ｿｽ�ｽ�ｽ�ｽ�ｽﾓキ�ｽ[�ｽ�ｽﾇ隠�ｽ�ｽ�ｽﾌではなゑｿｽ�ｽAindex
-                // �ｽ�ｽ�ｽ辜�ｿｽj�ｽ[�ｽN�ｽL�ｽ[�ｽ�ｽ�ｽ�ｽﾆゑｿｽ�ｽ�ｽﾅゑｿｽ�ｽ�ｽH
-                source.getComplexUniqueKeyList().add(referencedComplexUniqueKey);
-
+                source.getCompoundUniqueKeyList().add(referredComplexUniqueKey);
             } else {
-                referencedColumn = referenceMap.keySet().iterator().next();
+                referredSimpleUniqueColumn = referenceMap.keySet().iterator().next();
             }
         }
 
-        final Relationship relation = new Relationship(referenceForPK, referencedComplexUniqueKey, referencedColumn);
+        final Relationship relation = new Relationship(referenceForPK, referredComplexUniqueKey, referredSimpleUniqueColumn);
         relation.setForeignKeyName(representativeData.name);
         relation.setSourceWalker(source);
         relation.setTargetWithoutForeignKey(target);
@@ -1109,8 +1107,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 tableAlias = tableName.substring(asIndex + 1).trim();
                 tableName = tableName.substring(0, asIndex).trim();
 
-                // schema.tablename �ｽﾌ場合�ｽAschema �ｽｳ趣ｿｽ�ｽ�ｽ�ｽﾄ考�ｽ�ｽ�ｽ�ｽ
-                // TODO schema �ｽ�ｽl�ｽ�ｽ�ｽ�ｽ�ｽﾄ考�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ謔｢
                 final int dotIndex = tableName.indexOf(".");
                 if (dotIndex != -1) {
                     tableName = tableName.substring(dotIndex + 1);
@@ -1229,23 +1225,21 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     private void addColumnToView(List<ERColumn> columnList, NormalColumn targetColumn, String columnAlias) {
         Word word = null;
-
         if (targetColumn != null) {
             word = new Word(targetColumn.getWord());
             if (columnAlias != null) {
                 word.setPhysicalName(columnAlias);
             }
         } else {
-            word = new Word(columnAlias, columnAlias, null, new TypeData(null, null, false, null, false, null), null, null);
+            final TypeData emptyTypeData = new TypeData(null, null, false, null, false, null, false);
+            word = new Word(columnAlias, columnAlias, null, emptyTypeData, null, null);
         }
-
         final UniqueWord uniqueWord = new UniqueWord(word);
         if (this.dictionary.get(uniqueWord) != null) {
             word = this.dictionary.get(uniqueWord);
         } else {
             this.dictionary.put(uniqueWord, word);
         }
-
         final NormalColumn column = new NormalColumn(word, false, false, false, false, null, null, null, null, null);
         columnList.add(column);
     }
@@ -1256,7 +1250,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     private List<Tablespace> importTablespaces(List<DBObject> dbObjectList) throws SQLException {
         final List<Tablespace> list = new ArrayList<Tablespace>();
-
         for (final DBObject dbObject : dbObjectList) {
             if (DBObject.TYPE_TABLESPACE.equals(dbObject.getType())) {
                 final String name = dbObject.getName();
@@ -1292,7 +1285,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     public static void main(String[] args) throws InputException, InstantiationException, IllegalAccessException, SQLException {
         new Activator();
 
-        final DBSetting setting = new DBSetting("Oracle", "localhost", 1521, "XE", "nakajima", "nakajima", true, null, null);
+        final DBSettings setting = new DBSettings("Oracle", "localhost", 1521, "XE", "nakajima", "nakajima", true, null, null);
 
         Connection con = null;
         try {

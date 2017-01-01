@@ -18,7 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERVie
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.word.word.WordDialog;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.Request;
@@ -112,14 +112,14 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
 
         String name = null;
 
-        if (viewMode == Settings.VIEW_MODE_PHYSICAL) {
+        if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             if (word.getPhysicalName() != null) {
                 name = word.getPhysicalName();
 
             } else {
                 name = "";
             }
-        } else if (viewMode == Settings.VIEW_MODE_LOGICAL) {
+        } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             if (word.getLogicalName() != null) {
                 name = word.getLogicalName();
 

@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.DBManagerFactory;
+import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.TypeData;
 
 /**
@@ -33,6 +34,8 @@ public class SqlType implements Serializable {
     public static final String SQL_TYPE_ID_BIG_SERIAL = "bigserial";
     public static final String SQL_TYPE_ID_INTEGER = "integer";
     public static final String SQL_TYPE_ID_BIG_INT = "bigint";
+    public static final String SQL_TYPE_ID_CHAR = "character";
+    public static final String SQL_TYPE_ID_VARCHAR = "varchar";
     private static final Pattern NEED_LENGTH_PATTERN = Pattern.compile(".+\\([a-zA-Z][,\\)].*");
     private static final Pattern NEED_DECIMAL_PATTERN1 = Pattern.compile(".+\\([a-zA-Z],[a-zA-Z]\\)");
     private static final Pattern NEED_DECIMAL_PATTERN2 = Pattern.compile(".+\\([a-zA-Z]\\).*\\([a-zA-Z]\\)");
@@ -254,6 +257,16 @@ public class SqlType implements Serializable {
         return false;
     }
 
+    public boolean isNeedCharSemantics(String database) {
+        if (!OracleDBManager.ID.equals(database)) {
+            return false;
+        }
+        if (this.name.startsWith(SQL_TYPE_ID_CHAR) || this.name.startsWith(SQL_TYPE_ID_VARCHAR)) {
+            return true;
+        }
+        return false;
+    }
+
     public String getAlias(String database) { // e.g. database=MySQL, return=int
         final Map<SqlType, String> aliasMap = dbAliasMap.get(database);
         return aliasMap.get(this);
@@ -383,21 +396,21 @@ public class SqlType implements Serializable {
                 }
                 msg.append("\tCOL_" + count + " ");
                 if (type.isNeedLength(db) && type.isNeedDecimal(db)) {
-                    final TypeData typeData = new TypeData(new Integer(1), new Integer(1), false, null, false, null);
+                    final TypeData typeData = new TypeData(new Integer(1), new Integer(1), false, null, false, null, false);
                     str = Format.formatType(type, typeData, db);
                     if (str.equals(alias)) {
                         errorCount3++;
                         msg.append("×3");
                     }
                 } else if (type.isNeedLength(db)) {
-                    final TypeData typeData = new TypeData(new Integer(1), null, false, null, false, null);
+                    final TypeData typeData = new TypeData(new Integer(1), null, false, null, false, null, false);
                     str = Format.formatType(type, typeData, db);
                     if (str.equals(alias)) {
                         errorCount3++;
                         msg.append("×3");
                     }
                 } else if (type.isNeedDecimal(db)) {
-                    final TypeData typeData = new TypeData(null, new Integer(1), false, null, false, null);
+                    final TypeData typeData = new TypeData(null, new Integer(1), false, null, false, null, false);
                     str = Format.formatType(type, typeData, db);
                     if (str.equals(alias)) {
                         errorCount3++;

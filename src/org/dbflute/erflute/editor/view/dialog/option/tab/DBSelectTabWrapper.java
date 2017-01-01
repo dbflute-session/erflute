@@ -5,7 +5,7 @@ import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
 import org.dbflute.erflute.db.DBManagerFactory;
-import org.dbflute.erflute.editor.model.settings.Settings;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.dialog.option.OptionSettingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -20,11 +20,11 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
 
     private Combo databaseCombo;
 
-    private Settings settings;
+    private DiagramSettings settings;
 
     private OptionSettingDialog dialog;
 
-    public DBSelectTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, Settings settings) {
+    public DBSelectTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, DiagramSettings settings) {
         super(dialog, parent, style, "label.database");
 
         this.settings = settings;
@@ -61,7 +61,7 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
     }
 
     @Override
-    public void setData() {
+    public void setupData() {
         for (int i = 0; i < this.databaseCombo.getItemCount(); i++) {
             String database = this.databaseCombo.getItem(i);
             if (database.equals(this.settings.getDatabase())) {
@@ -91,7 +91,7 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
             this.dialog.initTab();
 
         } else {
-            this.setData();
+            this.setupData();
         }
     }
 

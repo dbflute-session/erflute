@@ -45,7 +45,7 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
     protected void doExecute() {
         if (this.oldTargetCopyTable == null) {
             for (NormalColumn foreignKey : relation.getForeignKeyColumns()) {
-                NormalColumn referencedColumn = foreignKey.getReferencedColumn(relation);
+                NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
                 this.referencedColumnMap.put(foreignKey, referencedColumn);
             }
             this.oldTargetCopyTable = this.oldTargetTable.copyData();
@@ -58,7 +58,7 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
         if (this.relation.getWalkerSource() instanceof ERTable || this.relation.getWalkerTarget() instanceof ERTable) {
             // �r���[���Ń����[�V�������������ꍇ�A�����ɂ�ERVirtualTable�łȂ�ERTable�ŗ���
             ERVirtualDiagramSet modelSet = this.relation.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
-            modelSet.deleteRelation(relation);
+            modelSet.deleteRelationship(relation);
 
         }
 
@@ -123,7 +123,7 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
                 this.referencedColumnMap = new HashMap<NormalColumn, NormalColumn>();
 
                 for (NormalColumn foreignKey : relation.getForeignKeyColumns()) {
-                    NormalColumn referencedColumn = foreignKey.getReferencedColumn(relation);
+                    NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
 
                     this.referencedColumnMap.put(foreignKey, referencedColumn);
                 }
@@ -140,7 +140,7 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
                 this.referencedColumnMap = new HashMap<NormalColumn, NormalColumn>();
 
                 for (NormalColumn foreignKey : relation.getForeignKeyColumns()) {
-                    NormalColumn referencedColumn = foreignKey.getReferencedColumn(relation);
+                    NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
 
                     this.referencedColumnMap.put(foreignKey, referencedColumn);
                 }

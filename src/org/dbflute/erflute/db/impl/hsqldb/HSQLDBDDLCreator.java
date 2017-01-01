@@ -13,12 +13,12 @@ public class HSQLDBDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String getDDL(Tablespace tablespace) {
+    protected String doBuildCreateTablespace(Tablespace tablespace) {
         return null;
     }
 
     @Override
-    public String getDDL(Sequence sequence) {
+    public String doBuildCreateSequence(Sequence sequence) {
         StringBuilder ddl = new StringBuilder();
 
         String description = sequence.getDescription();

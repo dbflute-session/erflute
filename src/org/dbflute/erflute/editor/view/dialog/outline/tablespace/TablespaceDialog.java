@@ -51,7 +51,7 @@ public abstract class TablespaceDialog extends AbstractDialog {
     }
 
     @Override
-    protected void initialize(Composite composite) {
+    protected void initComponent(Composite composite) {
         this.environmentCombo =
                 CompositeFactory.createReadOnlyCombo(this, composite, "label.tablespace.environment", this.getNumColumns() - 1, -1);
         this.nameText =
@@ -90,8 +90,8 @@ public abstract class TablespaceDialog extends AbstractDialog {
     protected abstract TablespaceProperties setTablespaceProperties();
 
     @Override
-    protected void setData() {
-        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments();
+    protected void setupData() {
+        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments();
 
         for (Environment environment : environmentList) {
             this.environmentCombo.add(environment.getName());
@@ -124,7 +124,7 @@ public abstract class TablespaceDialog extends AbstractDialog {
     protected Environment getSelectedEnvironment() {
         int index = this.environmentCombo.getSelectionIndex();
 
-        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSetting().getEnvironments();
+        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments();
 
         return environmentList.get(index);
     }
