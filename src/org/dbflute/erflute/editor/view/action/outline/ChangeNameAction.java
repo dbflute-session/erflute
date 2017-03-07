@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.view.action.outline;
 
 import java.util.List;
 
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.EditPart;
@@ -17,7 +16,7 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
     public static final String ID = ChangeNameAction.class.getName();
 
     public ChangeNameAction(TreeViewer treeViewer) {
-        super(ID, DisplayMessages.getMessage("action.title.change.name"), treeViewer);
+        super(ID, "Rename", treeViewer);
     }
 
     /**
@@ -26,15 +25,15 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
     @Override
     public void execute(Event event) {
 
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = this.getDiagram();
 
-        List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
-        EditPart editPart = (EditPart) selectedEditParts.get(0);
-        Object model = editPart.getModel();
+        final List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
+        final EditPart editPart = (EditPart) selectedEditParts.get(0);
+        final Object model = editPart.getModel();
         if (model instanceof ERVirtualDiagram) {
-            ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
+            final ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
 
-            InputDialog dialog =
+            final InputDialog dialog =
                     new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "���O�ύX",
                             "�_�C�A�O����������͂��ĉ������B", ermodel.getName(), null);
             if (dialog.open() == IDialogConstants.OK_ID) {
