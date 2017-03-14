@@ -11,6 +11,10 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * @author who?
+ * @author kajiku
+ */
 public class ChangeNameAction extends AbstractOutlineBaseAction {
 
     public static final String ID = ChangeNameAction.class.getName();
