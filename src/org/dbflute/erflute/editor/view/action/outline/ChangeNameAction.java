@@ -38,8 +38,8 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
             final ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
 
             final InputDialog dialog =
-                    new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "���O�ύX",
-                            "�_�C�A�O����������͂��ĉ������B", ermodel.getName(), null);
+                    new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename", "Input new name",
+                            ermodel.getName(), null);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ermodel.setName(dialog.getValue());
                 diagram.getDiagramContents().getVirtualDiagramSet().changeModel(ermodel);
