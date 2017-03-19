@@ -2,6 +2,7 @@ package org.dbflute.erflute.editor.controller.editpart.element.node;
 
 import java.beans.PropertyChangeEvent;
 
+import org.dbflute.erflute.editor.InputDiagramValidator;
 import org.dbflute.erflute.editor.controller.command.category.ChangeWalkerGroupNameCommand;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -20,6 +21,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * @author modified by jflute (originated in ermaster)
+ * @author kajiku
  */
 public class WalkerGroupEditPart extends DiagramWalkerEditPart implements IResizable {
 
@@ -77,7 +79,8 @@ public class WalkerGroupEditPart extends DiagramWalkerEditPart implements IResiz
     public void performRequestOpen() {
         final WalkerGroup group = (WalkerGroup) this.getModel();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        final InputDialog dialog = new InputDialog(shell, "Group Name Setting", "Input group name", group.getName(), null);
+        final InputDiagramValidator validator = new InputDiagramValidator();
+        final InputDialog dialog = new InputDialog(shell, "Group Name Setting", "Input group name", group.getName(), validator);
         if (dialog.open() == IDialogConstants.OK_ID) {
             final CompoundCommand command = new CompoundCommand();
             command.add(new ChangeWalkerGroupNameCommand(group, dialog.getValue()));

@@ -2,6 +2,7 @@ package org.dbflute.erflute.editor.view.action.outline;
 
 import java.util.List;
 
+import org.dbflute.erflute.editor.InputDiagramValidator;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.EditPart;
@@ -36,10 +37,10 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
         final Object model = editPart.getModel();
         if (model instanceof ERVirtualDiagram) {
             final ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
-
+            final InputDiagramValidator validator = new InputDiagramValidator();
             final InputDialog dialog =
                     new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename", "Input new name",
-                            ermodel.getName(), null);
+                            ermodel.getName(), validator);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ermodel.setName(dialog.getValue());
                 diagram.getDiagramContents().getVirtualDiagramSet().changeModel(ermodel);
