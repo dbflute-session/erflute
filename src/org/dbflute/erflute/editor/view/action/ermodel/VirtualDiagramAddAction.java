@@ -25,8 +25,8 @@ public class VirtualDiagramAddAction extends AbstractBaseAction {
     public void execute(Event event) throws Exception {
         final ERDiagram diagram = this.getDiagram();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        final String dialogTitle = "new VirtualModel()";
-        final String dialogMessage = "input name for new Virtual Model";
+        final String dialogTitle = "new VirtualDiagram()";
+        final String dialogMessage = "input name for new Virtual Diagram";
         final InputDialog dialog = new InputDialog(shell, dialogTitle, dialogMessage, "", null);
         if (dialog.open() == IDialogConstants.OK_ID) {
             final AddVirtualDiagramCommand command = new AddVirtualDiagramCommand(diagram, dialog.getValue());
