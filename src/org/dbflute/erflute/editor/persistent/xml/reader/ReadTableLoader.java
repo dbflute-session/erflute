@@ -57,7 +57,11 @@ public class ReadTableLoader {
         table.setLogicalName(getStringValue(element, "logical_name"));
         table.setDescription(getStringValue(element, "description"));
         walkerLoader.loadWalker(table, element, context);
-        table.setConstraint(getStringValue(element, "constraint"));
+        String constraint = getStringValue(element, "constraint"); // migration from ERMaster
+        if (Srl.is_Null_or_TrimmedEmpty(constraint)) {
+            constraint = getStringValue(element, "table_constraint"); // #for_erflute
+        }
+        table.setConstraint(constraint);
         table.setPrimaryKeyName(getStringValue(element, "primary_key_name"));
         table.setOption(getStringValue(element, "option"));
         final List<ERColumn> columns = columnLoader.loadColumns(element, context, database, new ColumnIdBuilder() {

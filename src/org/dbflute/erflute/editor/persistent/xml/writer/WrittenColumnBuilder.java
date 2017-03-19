@@ -209,7 +209,7 @@ public class WrittenColumnBuilder {
         }
         final String constraint = normalColumn.getConstraint();
         if (Srl.is_NotNull_and_NotEmpty(constraint)) {
-            xml.append("\t<constraint>").append(escape(constraint)).append("</constraint>\n");
+            xml.append("\t<column_constraint>").append(escape(constraint)).append("</column_constraint>\n");
         }
         final String uniqueKeyName = normalColumn.getUniqueKeyName();
         if (Srl.is_NotNull_and_NotEmpty(uniqueKeyName)) {

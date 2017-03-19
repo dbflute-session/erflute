@@ -8,8 +8,8 @@ import java.util.Date;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ViewableModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -85,7 +85,7 @@ public class ReadAssistLogic {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
-    public String getStringValue(Element element, String tagname) {
+    public String getStringValue(Element element, String tagname) { // contains nested tags
         final NodeList nodeList = element.getElementsByTagName(tagname);
         if (nodeList.getLength() == 0) {
             return null;

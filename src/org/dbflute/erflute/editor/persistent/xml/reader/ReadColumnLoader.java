@@ -132,7 +132,10 @@ public class ReadColumnLoader {
         final boolean uniqueKey = getBooleanValue(element, "unique_key");
         final boolean autoIncrement = getBooleanValue(element, "auto_increment");
         final String defaultValue = getStringValue(element, "default_value");
-        final String constraint = getStringValue(element, "constraint");
+        String constraint = getStringValue(element, "constraint"); // migration from ERMaster
+        if (Srl.is_Null_or_TrimmedEmpty(constraint)) {
+            constraint = getStringValue(element, "column_constraint"); // #for_erflute
+        }
         final String uniqueKeyName = getStringValue(element, "unique_key_name");
         final String characterSet = getStringValue(element, "character_set");
         final String collation = getStringValue(element, "collation");
