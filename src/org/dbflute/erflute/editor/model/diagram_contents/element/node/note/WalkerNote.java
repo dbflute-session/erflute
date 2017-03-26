@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.model.diagram_contents.element.node.note;
 
 import java.util.List;
 
-import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
@@ -127,7 +126,6 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     }
 
     public void setVirtualDiagram(ERVirtualDiagram vdiagram) {
-        vdiagram.setDefaultColor(DesignResources.NOTE_DEFAULT_COLOR);
         this.vdiagram = vdiagram;
     }
 

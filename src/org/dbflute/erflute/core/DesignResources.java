@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -45,6 +46,10 @@ public class DesignResources {
         color = new Color(Display.getCurrent(), rgb[0], rgb[1], rgb[2]);
         colorMap.put(key, color);
         return color;
+    }
+
+    public static Color getColor(RGB rgb) {
+        return new Color(Display.getCurrent(), rgb);
     }
 
     public static void disposeColorMap() {

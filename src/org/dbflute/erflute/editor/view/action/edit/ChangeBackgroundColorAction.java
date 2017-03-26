@@ -91,19 +91,12 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
         final EditPart editPart = ((MainDiagramEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
 
-        final int[] color = new int[3];
-        color[0] = this.rgb.red;
-        color[1] = this.rgb.green;
-        color[2] = this.rgb.blue;
-
         if (editPart.getModel() instanceof ERVirtualDiagram) {
-            // �r���[�̔w�i�F�ύX
             final ERVirtualDiagram model = (ERVirtualDiagram) editPart.getModel();
-            model.setDefaultColor(DesignResources.getColor(color));
+            model.setDefaultColor(DesignResources.getColor(rgb));
         } else {
-            // �S�̃r���[�̔w�i�F�ύX
             final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
-            diagram.setDefaultColor(DesignResources.getColor(color));
+            diagram.setDefaultColor(DesignResources.getColor(rgb));
         }
 
         this.setColorToImage();

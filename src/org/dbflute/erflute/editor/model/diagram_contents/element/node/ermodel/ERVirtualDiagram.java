@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -116,10 +117,15 @@ public class ERVirtualDiagram extends DiagramWalker {
             getDiagram().addWalkerPlainly(element);
         }
         int[] color = defaultColor;
-        if (color == null) {
-            color = getDiagram().getDefaultColor();
+
+        if (element instanceof WalkerNote) {
+            element.setColor(DesignResources.NOTE_DEFAULT_COLOR);
+        } else {
+            if (color == null) {
+                color = getDiagram().getDefaultColor();
+            }
+            element.setColor(color[0], color[1], color[2]);
         }
-        element.setColor(color[0], color[1], color[2]);
         if (getFontName() != null) {
             element.setFontName(getFontName());
         } else {
