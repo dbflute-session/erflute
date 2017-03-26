@@ -1,5 +1,7 @@
 package org.dbflute.erflute.editor.model;
 
+import org.eclipse.swt.graphics.Color;
+
 public abstract class ViewableModel extends AbstractModel {
 
     private static final long serialVersionUID = 5866202173090969615L;
@@ -48,6 +50,15 @@ public abstract class ViewableModel extends AbstractModel {
         this.firePropertyChange(PROPERTY_CHANGE_COLOR, null, null);
     }
 
+    public void setColor(Color color) {
+        this.color = new int[3];
+        this.color[0] = color.getRed();
+        this.color[1] = color.getGreen();
+        this.color[2] = color.getBlue();
+
+        this.firePropertyChange(PROPERTY_CHANGE_COLOR, null, null);
+    }
+
     public int[] getColor() {
         return this.color;
     }
@@ -57,7 +68,7 @@ public abstract class ViewableModel extends AbstractModel {
      */
     @Override
     public ViewableModel clone() {
-        ViewableModel clone = (ViewableModel) super.clone();
+        final ViewableModel clone = (ViewableModel) super.clone();
         if (this.color != null) {
             clone.color = new int[] { this.color[0], this.color[1], this.color[2] };
         }

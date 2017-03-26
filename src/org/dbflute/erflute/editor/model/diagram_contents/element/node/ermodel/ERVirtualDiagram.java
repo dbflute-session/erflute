@@ -10,6 +10,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Walke
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -64,11 +65,11 @@ public class ERVirtualDiagram extends DiagramWalker {
         return defaultColor;
     }
 
-    public void setDefaultColor(int red, int green, int blue) {
+    public void setDefaultColor(Color color) {
         this.defaultColor = new int[3];
-        this.defaultColor[0] = red;
-        this.defaultColor[1] = green;
-        this.defaultColor[2] = blue;
+        this.defaultColor[0] = color.getRed();
+        this.defaultColor[1] = color.getGreen();
+        this.defaultColor[2] = color.getBlue();
     }
 
     public ERVirtualTable findVirtualTable(TableView table) {
