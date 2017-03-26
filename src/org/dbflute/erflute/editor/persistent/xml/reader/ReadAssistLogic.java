@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ViewableModel;
@@ -54,7 +55,7 @@ public class ReadAssistLogic {
             rgb[1] = this.getIntValue(color, "g");
             rgb[2] = this.getIntValue(color, "b");
         }
-        diagram.setDefaultColor(rgb[0], rgb[1], rgb[2]);
+        diagram.setDefaultColor(DesignResources.getColor(rgb));
     }
 
     // ===================================================================================

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -16,6 +17,7 @@ public class DesignResources {
     public static final int DESCRIPTION_WIDTH = 400;
     public static final int INDENT = 20;
     public static Color PINK = new Color(Display.getCurrent(), 255, 0, 255);
+    public static Color WHITE = new Color(Display.getCurrent(), 255, 255, 255);
     public static Color ADDED_COLOR = new Color(Display.getCurrent(), 128, 128, 255);
     public static Color UPDATED_COLOR = new Color(Display.getCurrent(), 128, 255, 128);
     public static Color REMOVED_COLOR = new Color(Display.getCurrent(), 255, 128, 128);
@@ -30,6 +32,8 @@ public class DesignResources {
     public static final Color PRIMARY_COLOR = new Color(Display.getCurrent(), 252, 250, 167);
     public static final Color FOREIGN_COLOR = new Color(Display.getCurrent(), 211, 231, 245);
     public static final Color NOT_NULL_COLOR = new Color(Display.getCurrent(), 254, 228, 207);
+    public static final Color ERDIAGRAM_DEFAULT_COLOR = new Color(Display.getCurrent(), 128, 128, 192);
+    public static final Color NOTE_DEFAULT_COLOR = new Color(Display.getCurrent(), 255, 255, 128);
 
     private static Map<Integer, Color> colorMap = new HashMap<Integer, Color>();
 
@@ -42,6 +46,10 @@ public class DesignResources {
         color = new Color(Display.getCurrent(), rgb[0], rgb[1], rgb[2]);
         colorMap.put(key, color);
         return color;
+    }
+
+    public static Color getColor(RGB rgb) {
+        return new Color(Display.getCurrent(), rgb);
     }
 
     public static void disposeColorMap() {

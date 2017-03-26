@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.model;
 import java.util.List;
 
 import org.dbflute.erflute.Activator;
+import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -21,6 +22,7 @@ import org.dbflute.erflute.editor.model.settings.DBSettings;
 import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.model.settings.PageSettings;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -65,8 +67,8 @@ public class ERDiagram extends ViewableModel {
         this.diagramContents = new DiagramContents();
         this.diagramContents.getSettings().setDatabase(database);
         this.pageSetting = new PageSettings();
-        this.setDefaultColor(128, 128, 192);
-        this.setColor(255, 255, 255);
+        this.setDefaultColor(DesignResources.ERDIAGRAM_DEFAULT_COLOR);
+        this.setColor(DesignResources.WHITE);
     }
 
     // ===================================================================================
@@ -83,7 +85,11 @@ public class ERDiagram extends ViewableModel {
     //                                                                    ================
     public void addNewWalker(DiagramWalker walker) {
         Activator.debug(this, "addNewWalker()", "...Adding new walker: " + walker);
-        walker.setColor(defaultColor[0], defaultColor[1], defaultColor[2]);
+        if (walker instanceof WalkerNote) {
+            walker.setColor(DesignResources.NOTE_DEFAULT_COLOR);
+        } else {
+            walker.setColor(DesignResources.ERDIAGRAM_DEFAULT_COLOR);
+        }
         walker.setFontName(getFontName());
         walker.setFontSize(getFontSize());
         addWalkerPlainly(walker);
@@ -324,11 +330,11 @@ public class ERDiagram extends ViewableModel {
         return defaultColor;
     }
 
-    public void setDefaultColor(int red, int green, int blue) {
+    public void setDefaultColor(Color color) {
         this.defaultColor = new int[3];
-        this.defaultColor[0] = red;
-        this.defaultColor[1] = green;
-        this.defaultColor[2] = blue;
+        this.defaultColor[0] = color.getRed();
+        this.defaultColor[1] = color.getGreen();
+        this.defaultColor[2] = color.getBlue();
     }
 
     public void setCurrentCategory(Category currentCategory, int currentCategoryIndex) {
