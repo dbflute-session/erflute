@@ -4,6 +4,7 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.ermodel.AddVirtualDiagramCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
+import org.dbflute.erflute.editor.view.dialog.vdiagram.InputVirtualDiagramNameValidator;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Event;
@@ -12,6 +13,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * @author modified by jflute (originated in ermaster)
+ * @author kajiku
  */
 public class VirtualDiagramAddAction extends AbstractBaseAction {
 
@@ -27,7 +29,8 @@ public class VirtualDiagramAddAction extends AbstractBaseAction {
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final String dialogTitle = "new VirtualDiagram()";
         final String dialogMessage = "input name for new Virtual Diagram";
-        final InputDialog dialog = new InputDialog(shell, dialogTitle, dialogMessage, "", null);
+        final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator();
+        final InputDialog dialog = new InputDialog(shell, dialogTitle, dialogMessage, "", validator);
         if (dialog.open() == IDialogConstants.OK_ID) {
             final AddVirtualDiagramCommand command = new AddVirtualDiagramCommand(diagram, dialog.getValue());
             execute(command);
