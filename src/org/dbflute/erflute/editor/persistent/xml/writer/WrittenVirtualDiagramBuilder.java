@@ -57,8 +57,8 @@ public class WrittenVirtualDiagramBuilder {
                 xml.append("\t\t\t\t<table_id>").append(tableId).append("</table_id>\n"); // #for_erflute
                 xml.append("\t\t\t\t<x>").append(table.getX()).append("</x>\n");
                 xml.append("\t\t\t\t<y>").append(table.getY()).append("</y>\n");
-                xml.append("\t\t\t\t<font_name>").append(escape(vdiagram.getFontName())).append("</font_name>\n");
-                xml.append("\t\t\t\t<font_size>").append(vdiagram.getFontSize()).append("</font_size>\n");
+                xml.append("\t\t\t\t<font_name>").append(escape(table.getFontName())).append("</font_name>\n");
+                xml.append("\t\t\t\t<font_size>").append(table.getFontSize()).append("</font_size>\n");
                 xml.append("\t\t\t</vtable>\n");
             }
             xml.append("\t\t</vtables>\n");
