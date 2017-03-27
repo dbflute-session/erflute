@@ -5,11 +5,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.core.util.Srl;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ViewableModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -54,7 +55,7 @@ public class ReadAssistLogic {
             rgb[1] = this.getIntValue(color, "g");
             rgb[2] = this.getIntValue(color, "b");
         }
-        diagram.setDefaultColor(rgb[0], rgb[1], rgb[2]);
+        diagram.setDefaultColor(DesignResources.getColor(rgb));
     }
 
     // ===================================================================================
@@ -85,7 +86,7 @@ public class ReadAssistLogic {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
-    public String getStringValue(Element element, String tagname) {
+    public String getStringValue(Element element, String tagname) { // contains nested tags
         final NodeList nodeList = element.getElementsByTagName(tagname);
         if (nodeList.getLength() == 0) {
             return null;

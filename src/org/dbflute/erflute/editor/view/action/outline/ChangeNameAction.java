@@ -2,9 +2,9 @@ package org.dbflute.erflute.editor.view.action.outline;
 
 import java.util.List;
 
-import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.view.dialog.vdiagram.InputVirtualDiagramNameValidator;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -12,12 +12,16 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
 
+/**
+ * @author who?
+ * @author kajiku
+ */
 public class ChangeNameAction extends AbstractOutlineBaseAction {
 
     public static final String ID = ChangeNameAction.class.getName();
 
     public ChangeNameAction(TreeViewer treeViewer) {
-        super(ID, DisplayMessages.getMessage("action.title.change.name"), treeViewer);
+        super(ID, "Rename", treeViewer);
     }
 
     /**
@@ -26,17 +30,17 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
     @Override
     public void execute(Event event) {
 
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = this.getDiagram();
 
-        List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
-        EditPart editPart = (EditPart) selectedEditParts.get(0);
-        Object model = editPart.getModel();
+        final List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
+        final EditPart editPart = (EditPart) selectedEditParts.get(0);
+        final Object model = editPart.getModel();
         if (model instanceof ERVirtualDiagram) {
-            ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
-
-            InputDialog dialog =
-                    new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "���O�ύX",
-                            "�_�C�A�O����������͂��ĉ������B", ermodel.getName(), null);
+            final ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
+            final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator();
+            final InputDialog dialog =
+                    new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename", "Input new name",
+                            ermodel.getName(), validator);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 ermodel.setName(dialog.getValue());
                 diagram.getDiagramContents().getVirtualDiagramSet().changeModel(ermodel);

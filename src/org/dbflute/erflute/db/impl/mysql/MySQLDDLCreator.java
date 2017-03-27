@@ -132,8 +132,19 @@ public class MySQLDDLCreator extends DDLCreator {
                 ddl.append(defaultValue);
             }
         }
+        // from https://github.com/naoki-iwami/ermaster-b/commit/048b7fa7ffa3d6fd34c2918b44e73c7615aa2bfe
+        String constraint = Format.null2blank(normalColumn.getConstraint());
+        if ("BINARY".equalsIgnoreCase(constraint)) {
+            ddl.append(" ");
+            ddl.append(constraint);
+            constraint = "";
+        }
         if (normalColumn.isNotNull()) {
             ddl.append(" NOT NULL");
+        }
+        if (!"".equals(constraint)) {
+            ddl.append(" ");
+            ddl.append(constraint);
         }
         if (normalColumn.isUniqueKey()) {
             if (!Check.isEmpty(normalColumn.getUniqueKeyName())) {
@@ -141,11 +152,6 @@ public class MySQLDDLCreator extends DDLCreator {
                 ddl.append(normalColumn.getUniqueKeyName());
             }
             ddl.append(" UNIQUE");
-        }
-        final String constraint = Format.null2blank(normalColumn.getConstraint());
-        if (!"".equals(constraint)) {
-            ddl.append(" ");
-            ddl.append(constraint);
         }
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" AUTO_INCREMENT");

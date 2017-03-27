@@ -54,7 +54,7 @@ public class WrittenTableBuilder {
         xml.append(tab(walkerBuilder.buildWalker(table, context))); // should be before columns
         final String constraint = table.getConstraint();
         if (Srl.is_NotNull_and_NotEmpty(constraint)) {
-            xml.append("\t<constraint>").append(escape(constraint)).append("</constraint>\n");
+            xml.append("\t<table_constraint>").append(escape(constraint)).append("</table_constraint>\n");
         }
         final String primaryKeyName = table.getPrimaryKeyName();
         if (Srl.is_NotNull_and_NotEmpty(primaryKeyName)) {
