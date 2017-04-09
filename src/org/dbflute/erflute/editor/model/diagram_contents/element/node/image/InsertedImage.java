@@ -3,8 +3,8 @@ package org.dbflute.erflute.editor.model.diagram_contents.element.node.image;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.io.IOUtils;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -68,7 +68,7 @@ public class InsertedImage extends DiagramWalker {
 
             final byte[] data = IOUtils.toByteArray(in);
 
-            final String encodedData = new String(Base64.encodeBase64(data));
+            final String encodedData = Base64.getEncoder().encodeToString(data);
             this.setBase64EncodedData(encodedData);
 
         } catch (final Exception e) {
