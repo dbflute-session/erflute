@@ -3,12 +3,12 @@ package org.dbflute.erflute.core.util;
 import java.io.File;
 import java.security.Key;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.codec.binary.Base64;
 import org.dbflute.erflute.core.util.io.FileUtils;
 
 public class PasswordCrypt {
@@ -26,7 +26,7 @@ public class PasswordCrypt {
         final byte[] input = password.getBytes();
         final byte[] encrypted = cipher.doFinal(input);
 
-        return new String(Base64.encodeBase64(encrypted));
+        return Base64.getEncoder().encodeToString(encrypted);
     }
 
     public static String decrypt(String encryptedPassword) throws Exception {
@@ -35,7 +35,7 @@ public class PasswordCrypt {
         final Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, key);
 
-        final byte[] encrypted = Base64.decodeBase64(encryptedPassword.getBytes());
+        final byte[] encrypted = Base64.getDecoder().decode(encryptedPassword.getBytes());
         final byte[] output = cipher.doFinal(encrypted);
 
         return new String(output);

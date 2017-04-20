@@ -36,22 +36,6 @@
 		</editor>
 	</extension>
 
-	<extension point="org.eclipse.ant.core.antTasks">
-		<antTask name="ermaster.ddl"
-			class="org.insightech.er.ant_task.DDLAntTask"
-			library="lib/ermaster_ant.jar"
-			headless="true"
-			eclipseRuntime="true" />
-
-		<!-- #deleted unneeded
-		<antTask name="ermaster.image"
-			class="org.insightech.er.ant_task.ImageAntTask"
-			library="lib/ermaster_ant.jar"
-			headless="true"
-			eclipseRuntime="true" />
-		-->
-	</extension>
-
 	<extension point="org.eclipse.ui.commands">
 		<command name="Quick Outline"
 			description="Quick Outline"
