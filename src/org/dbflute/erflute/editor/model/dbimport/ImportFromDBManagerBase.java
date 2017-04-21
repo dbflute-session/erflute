@@ -22,9 +22,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
-import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.sqltype.SqlType;
@@ -125,11 +123,11 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     public ImportFromDBManagerBase() {
-        this.tableMap = new HashMap<String, ERTable>();
-        this.tableCommentMap = new HashMap<String, String>();
-        this.columnDataCash = new HashMap<String, Map<String, ColumnData>>();
-        this.tableForeignKeyDataMap = new HashMap<String, List<ForeignKeyData>>();
-        this.dictionary = new HashMap<UniqueWord, Word>();
+        this.tableMap = new HashMap<>();
+        this.tableCommentMap = new HashMap<>();
+        this.columnDataCash = new HashMap<>();
+        this.tableForeignKeyDataMap = new HashMap<>();
+        this.dictionary = new HashMap<>();
     }
 
     @Override
@@ -181,8 +179,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         this.cashColumnDataX(null, dbObjectList, monitor);
     }
 
-    protected void cashColumnDataX(String tableName, List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException,
-            InterruptedException {
+    protected void cashColumnDataX(String tableName, List<DBObject> dbObjectList, IProgressMonitor monitor)
+            throws SQLException, InterruptedException {
         ResultSet columnSet = null;
 
         try {
@@ -200,7 +198,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
                 Map<String, ColumnData> cash = this.columnDataCash.get(tableNameWithSchema);
                 if (cash == null) {
-                    cash = new LinkedHashMap<String, ColumnData>();
+                    cash = new LinkedHashMap<>();
                     this.columnDataCash.put(tableNameWithSchema, cash);
                 }
 
@@ -255,7 +253,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     private List<Sequence> importSequences(List<DBObject> dbObjectList) throws SQLException {
-        final List<Sequence> list = new ArrayList<Sequence>();
+        final List<Sequence> list = new ArrayList<>();
 
         for (final DBObject dbObject : dbObjectList) {
             if (DBObject.TYPE_SEQUENCE.equals(dbObject.getType())) {
@@ -310,7 +308,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     private List<Trigger> importTriggers(List<DBObject> dbObjectList) throws SQLException {
-        final List<Trigger> list = new ArrayList<Trigger>();
+        final List<Trigger> list = new ArrayList<>();
 
         for (final DBObject dbObject : dbObjectList) {
             if (DBObject.TYPE_TRIGGER.equals(dbObject.getType())) {
@@ -334,7 +332,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     protected List<ERTable> importTables(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException, InterruptedException {
-        final List<ERTable> list = new ArrayList<ERTable>();
+        final List<ERTable> list = new ArrayList<>();
 
         this.cashTableComment(monitor);
         this.cashColumnData(dbObjectList, monitor);
@@ -368,7 +366,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     protected List<ERTable> importSynonyms() throws SQLException, InterruptedException {
-        return new ArrayList<ERTable>();
+        return new ArrayList<>();
     }
 
     protected String getConstraintName(PrimaryKeyData data) {
@@ -388,9 +386,17 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         tableProperties.setSchema(schema);
 
         table.setPhysicalName(tableName);
-        table.setLogicalName(tableName);
-
-        table.setDescription(this.tableCommentMap.get(tableNameWithSchema));
+        final String description = this.tableCommentMap.get(tableNameWithSchema);
+        //description = ID:ID
+        if (this.useCommentAsLogicalName && !Check.isEmpty(description)) {
+            final int pos = description.indexOf(':');
+            if (pos >= 0) {
+                table.setLogicalName(description.substring(0, pos).replaceAll("[\r\n]", ""));
+                table.setDescription(description.substring(pos + 1));
+            } else {
+                table.setLogicalName(description.replaceAll("[\r\n]", ""));
+            }
+        }
 
         final List<PrimaryKeyData> primaryKeys = this.getPrimaryKeys(table, this.metaData);
         if (!primaryKeys.isEmpty()) {
@@ -459,18 +465,17 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     protected List<ERIndex> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
 
-        final List<ERIndex> indexes = new ArrayList<ERIndex>();
+        final List<ERIndex> indexes = new ArrayList<>();
 
-        final Map<String, ERIndex> indexMap = new HashMap<String, ERIndex>();
+        final Map<String, ERIndex> indexMap = new HashMap<>();
 
         ResultSet indexSet = null;
 
         try {
             // getIndexInfo �ｽ�ｽ table �ｽw�ｽ�ｽﾈゑｿｽ�ｽﾅは取得�ｽﾅゑｿｽ�ｽﾈゑｿｽ�ｽ�ｽ�ｽﾟ、
             // �ｽe�ｽ[�ｽu�ｽ�ｽ�ｽ�ｽ�ｽﾆに取得�ｽ�ｽ�ｽ�ｽK�ｽv�ｽ�ｽ�ｽ�ｽ�ｽ�ｽﾜゑｿｽ�ｽB
-            indexSet =
-                    metaData.getIndexInfo(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
-                            table.getPhysicalName(), false, true);
+            indexSet = metaData.getIndexInfo(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
+                    table.getPhysicalName(), false, true);
 
             while (indexSet.next()) {
                 final String name = indexSet.getString("INDEX_NAME");
@@ -561,14 +566,13 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     private List<PrimaryKeyData> getPrimaryKeys(ERTable table, DatabaseMetaData metaData) throws SQLException {
-        final List<PrimaryKeyData> primaryKeys = new ArrayList<PrimaryKeyData>();
+        final List<PrimaryKeyData> primaryKeys = new ArrayList<>();
 
         ResultSet primaryKeySet = null;
 
         try {
-            primaryKeySet =
-                    metaData.getPrimaryKeys(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
-                            table.getPhysicalName());
+            primaryKeySet = metaData.getPrimaryKeys(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
+                    table.getPhysicalName());
             while (primaryKeySet.next()) {
                 final PrimaryKeyData data = new PrimaryKeyData();
 
@@ -588,18 +592,18 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return primaryKeys;
     }
 
-    protected Map<String, ColumnData> getColumnDataMap(String tableNameWithSchema, String tableName, String schema) throws SQLException,
-            InterruptedException {
+    protected Map<String, ColumnData> getColumnDataMap(String tableNameWithSchema, String tableName, String schema)
+            throws SQLException, InterruptedException {
         return this.columnDataCash.get(tableNameWithSchema);
     }
 
     private List<ERColumn> getColumns(String tableNameWithSchema, String tableName, String schema, List<ERIndex> indexes,
             List<PrimaryKeyData> primaryKeys, String autoIncrementColumnName) throws SQLException, InterruptedException {
-        final List<ERColumn> columns = new ArrayList<ERColumn>();
+        final List<ERColumn> columns = new ArrayList<>();
 
         final Map<String, ColumnData> columnDataMap = this.getColumnDataMap(tableNameWithSchema, tableName, schema);
         if (columnDataMap == null) {
-            return new ArrayList<ERColumn>();
+            return new ArrayList<>();
         }
 
         final Collection<ColumnData> columnSet = columnDataMap.values();
@@ -675,6 +679,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                     description = description.substring(pos + 1);
                 } else {
                     logicalName = description.replaceAll("[\r\n]", "");
+                    description = "";
                 }
             }
 
@@ -777,7 +782,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 List<ForeignKeyData> foreignKeyDataList = tableForeignKeyDataMap.get(key);
 
                 if (foreignKeyDataList == null) {
-                    foreignKeyDataList = new ArrayList<ForeignKeyData>();
+                    foreignKeyDataList = new ArrayList<>();
                     tableForeignKeyDataMap.put(key, foreignKeyDataList);
                 }
 
@@ -819,7 +824,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         try {
             foreignKeySet = this.metaData.getImportedKeys(null, schemaName, tableName);
 
-            final List<ForeignKeyData> foreignKeyList = new ArrayList<ForeignKeyData>();
+            final List<ForeignKeyData> foreignKeyList = new ArrayList<>();
 
             while (foreignKeySet.next()) {
                 final ForeignKeyData foreignKeyData = new ForeignKeyData();
@@ -855,12 +860,12 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     private Map<String, List<ForeignKeyData>> collectSameNameForeignKeyData(List<ForeignKeyData> foreignKeyList) {
-        final Map<String, List<ForeignKeyData>> map = new HashMap<String, List<ForeignKeyData>>();
+        final Map<String, List<ForeignKeyData>> map = new HashMap<>();
 
         for (final ForeignKeyData foreignKyeData : foreignKeyList) {
             List<ForeignKeyData> list = map.get(foreignKyeData.name);
             if (list == null) {
-                list = new ArrayList<ForeignKeyData>();
+                list = new ArrayList<>();
                 map.put(foreignKyeData.name, list);
             }
 
@@ -890,7 +895,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             referenceForPK = false;
         }
 
-        final Map<NormalColumn, NormalColumn> referenceMap = new HashMap<NormalColumn, NormalColumn>();
+        final Map<NormalColumn, NormalColumn> referenceMap = new HashMap<>();
 
         for (final ForeignKeyData foreignKeyData : foreignKeyDataList) {
             NormalColumn sourceColumn = null;
@@ -1000,7 +1005,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     private List<ERView> importViews(List<DBObject> dbObjectList) throws SQLException {
-        final List<ERView> list = new ArrayList<ERView>();
+        final List<ERView> list = new ArrayList<>();
 
         for (final DBObject dbObject : dbObjectList) {
             if (DBObject.TYPE_VIEW.equals(dbObject.getType())) {
@@ -1060,7 +1065,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     protected abstract String getViewDefinitionSQL(String schema);
 
     private List<ERColumn> getViewColumnList(String sql) {
-        final List<ERColumn> columnList = new ArrayList<ERColumn>();
+        final List<ERColumn> columnList = new ArrayList<>();
 
         final String upperSql = sql.toUpperCase();
         final int selectIndex = upperSql.indexOf("SELECT ");
@@ -1088,7 +1093,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             fromPart = fromPart.substring(0, whereIndex);
         }
 
-        final Map<String, String> aliasTableMap = new HashMap<String, String>();
+        final Map<String, String> aliasTableMap = new HashMap<>();
 
         final StringTokenizer fromTokenizer = new StringTokenizer(fromPart, ",");
 
@@ -1249,7 +1254,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     private List<Tablespace> importTablespaces(List<DBObject> dbObjectList) throws SQLException {
-        final List<Tablespace> list = new ArrayList<Tablespace>();
+        final List<Tablespace> list = new ArrayList<>();
         for (final DBObject dbObject : dbObjectList) {
             if (DBObject.TYPE_TABLESPACE.equals(dbObject.getType())) {
                 final String name = dbObject.getName();
@@ -1282,25 +1287,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         return size;
     }
 
-    public static void main(String[] args) throws InputException, InstantiationException, IllegalAccessException, SQLException {
-        new Activator();
-
-        final DBSettings setting = new DBSettings("Oracle", "localhost", 1521, "XE", "nakajima", "nakajima", true, null, null);
-
-        Connection con = null;
-        try {
-            con = setting.connect();
-            final DatabaseMetaData metaData = con.getMetaData();
-
-            metaData.getIndexInfo(null, "SYS", "ALERT_QT", false, false);
-
-        } finally {
-            if (con != null) {
-                con.close();
-            }
-        }
-    }
-
     protected void close(ResultSet rs) throws SQLException {
         if (rs != null) {
             rs.close();
@@ -1312,5 +1298,4 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             stmt.close();
         }
     }
-
 }

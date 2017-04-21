@@ -7,14 +7,13 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToDBAction;
-import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
 import org.dbflute.erflute.editor.view.action.dbexport.ExportToDBAction.ExportToDBRetargetAction;
+import org.dbflute.erflute.editor.view.action.dbexport.ExportToDDLAction;
 import org.dbflute.erflute.editor.view.action.edit.ChangeBackgroundColorAction;
-import org.dbflute.erflute.editor.view.action.edit.EditExcelAction;
 import org.dbflute.erflute.editor.view.action.edit.ChangeBackgroundColorAction.ChangeBackgroundColorRetargetAction;
 import org.dbflute.erflute.editor.view.action.line.HorizontalLineAction;
-import org.dbflute.erflute.editor.view.action.line.VerticalLineAction;
 import org.dbflute.erflute.editor.view.action.line.HorizontalLineAction.HorizontalLineRetargetAction;
+import org.dbflute.erflute.editor.view.action.line.VerticalLineAction;
 import org.dbflute.erflute.editor.view.action.line.VerticalLineAction.VerticalLineRetargetAction;
 import org.dbflute.erflute.editor.view.action.option.notation.LockEditAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ToggleMainColumnAction;
@@ -48,7 +47,7 @@ import org.eclipse.ui.actions.RetargetAction;
 
 public class ERDiagramActionBarContributor extends ActionBarContributor {
 
-    private ZoomComboContributionItem zoomComboContributionItem;
+    private final ZoomComboContributionItem zoomComboContributionItem;
 
     public ERDiagramActionBarContributor(ZoomComboContributionItem zoomComboContributionItem) {
         this.zoomComboContributionItem = zoomComboContributionItem;
@@ -69,79 +68,71 @@ public class ERDiagramActionBarContributor extends ActionBarContributor {
         this.addRetargetAction(new UndoRetargetAction());
         this.addRetargetAction(new RedoRetargetAction());
 
-        ZoomInRetargetAction zoomInAction = new ZoomInRetargetAction();
+        final ZoomInRetargetAction zoomInAction = new ZoomInRetargetAction();
         zoomInAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.ZOOM_IN));
-        ZoomOutRetargetAction zoomOutAction = new ZoomOutRetargetAction();
+        final ZoomOutRetargetAction zoomOutAction = new ZoomOutRetargetAction();
         zoomOutAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.ZOOM_OUT));
         this.addRetargetAction(zoomInAction);
         this.addRetargetAction(zoomOutAction);
         this.addRetargetAction(new ZoomAdjustRetargetAction());
 
-        RetargetAction gridAction =
-                new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, DisplayMessages.getMessage("action.title.grid"),
-                        IAction.AS_CHECK_BOX);
+        final RetargetAction gridAction = new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY,
+                DisplayMessages.getMessage("action.title.grid"), IAction.AS_CHECK_BOX);
         gridAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.GRID));
         this.addRetargetAction(gridAction);
 
-        RetargetAction tooltipAction =
-                new RetargetAction(ToggleMainColumnAction.ID, DisplayMessages.getMessage("action.title.tooltip"),
-                        IAction.AS_CHECK_BOX);
+        final RetargetAction tooltipAction =
+                new RetargetAction(ToggleMainColumnAction.ID, DisplayMessages.getMessage("action.title.tooltip"), IAction.AS_CHECK_BOX);
         tooltipAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.TOOLTIP));
         this.addRetargetAction(tooltipAction);
 
-        RetargetAction toggleMainColumnAction =
-                new RetargetAction(ToggleMainColumnAction.ID, DisplayMessages.getMessage("action.title.mainColumn"),
-                        IAction.AS_CHECK_BOX);
+        final RetargetAction toggleMainColumnAction =
+                new RetargetAction(ToggleMainColumnAction.ID, DisplayMessages.getMessage("action.title.mainColumn"), IAction.AS_CHECK_BOX);
         toggleMainColumnAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.MAIN_COLUMN));
         this.addRetargetAction(toggleMainColumnAction);
 
-        RetargetAction exportDdlAction =
+        final RetargetAction exportDdlAction =
                 new RetargetAction(ExportToDDLAction.ID, DisplayMessages.getMessage("dialog.title.export.ddl"), IAction.AS_CHECK_BOX);
         exportDdlAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_DDL));
         this.addRetargetAction(exportDdlAction);
 
-        RetargetAction editExcelAction =
-                new RetargetAction(EditExcelAction.ID, DisplayMessages.getMessage("dialog.title.edit.excel"), IAction.AS_CHECK_BOX);
-        editExcelAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EDIT_EXCEL));
-        this.addRetargetAction(editExcelAction);
-
-        RetargetAction lockEditAction =
+        final RetargetAction lockEditAction =
                 new RetargetAction(LockEditAction.ID, DisplayMessages.getMessage("action.title.lock.edit"), IAction.AS_CHECK_BOX);
         lockEditAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.LOCK_EDIT));
         this.addRetargetAction(lockEditAction);
 
         this.addRetargetAction(new ExportToDBRetargetAction());
 
-        AlignmentRetargetAction alignLeftAction = new AlignmentRetargetAction(PositionConstants.LEFT);
+        final AlignmentRetargetAction alignLeftAction = new AlignmentRetargetAction(PositionConstants.LEFT);
         alignLeftAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_LEFT));
         alignLeftAction.setDisabledImageDescriptor(null);
         this.addRetargetAction(alignLeftAction);
-        AlignmentRetargetAction alignCenterAction = new AlignmentRetargetAction(PositionConstants.CENTER);
+        final AlignmentRetargetAction alignCenterAction = new AlignmentRetargetAction(PositionConstants.CENTER);
         alignCenterAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_CENTER));
         alignCenterAction.setDisabledImageDescriptor(null);
         this.addRetargetAction(alignCenterAction);
-        AlignmentRetargetAction alignRightAction = new AlignmentRetargetAction(PositionConstants.RIGHT);
+        final AlignmentRetargetAction alignRightAction = new AlignmentRetargetAction(PositionConstants.RIGHT);
         alignRightAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_RIGHT));
         alignRightAction.setDisabledImageDescriptor(null);
         this.addRetargetAction(alignRightAction);
-        AlignmentRetargetAction alignTopAction = new AlignmentRetargetAction(PositionConstants.TOP);
+        final AlignmentRetargetAction alignTopAction = new AlignmentRetargetAction(PositionConstants.TOP);
         alignTopAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_TOP));
         alignTopAction.setDisabledImageDescriptor(null);
         this.addRetargetAction(alignTopAction);
-        AlignmentRetargetAction alignMiddleAction = new AlignmentRetargetAction(PositionConstants.MIDDLE);
+        final AlignmentRetargetAction alignMiddleAction = new AlignmentRetargetAction(PositionConstants.MIDDLE);
         alignMiddleAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_MIDDLE));
         alignMiddleAction.setDisabledImageDescriptor(null);
         this.addRetargetAction(alignMiddleAction);
-        AlignmentRetargetAction alignBottomAction = new AlignmentRetargetAction(PositionConstants.BOTTOM);
+        final AlignmentRetargetAction alignBottomAction = new AlignmentRetargetAction(PositionConstants.BOTTOM);
         alignBottomAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_BOTTOM));
         alignBottomAction.setDisabledImageDescriptor(null);
         this.addRetargetAction(alignBottomAction);
 
-        MatchWidthRetargetAction matchWidthAction = new MatchWidthRetargetAction();
+        final MatchWidthRetargetAction matchWidthAction = new MatchWidthRetargetAction();
         matchWidthAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.MATCH_WIDTH));
         matchWidthAction.setDisabledImageDescriptor(null);
         this.addRetargetAction(matchWidthAction);
-        MatchHeightRetargetAction matchHeightAction = new MatchHeightRetargetAction();
+        final MatchHeightRetargetAction matchHeightAction = new MatchHeightRetargetAction();
         matchHeightAction.setImageDescriptor(Activator.getImageDescriptor(ImageKey.MATCH_HEIGHT));
         matchHeightAction.setDisabledImageDescriptor(null);
         this.addRetargetAction(matchHeightAction);
@@ -202,7 +193,6 @@ public class ERDiagramActionBarContributor extends ActionBarContributor {
         toolBarManager.add(getActionRegistry().getAction(VerticalLineAction.ID));
 
         toolBarManager.add(getActionRegistry().getAction(ChangeBackgroundColorAction.ID));
-        toolBarManager.add(getActionRegistry().getAction(EditExcelAction.ID));
 
         toolBarManager.add(new Separator());
 
@@ -214,25 +204,26 @@ public class ERDiagramActionBarContributor extends ActionBarContributor {
 
         this.getPage().addSelectionListener(new ISelectionListener() {
 
+            @Override
             public void selectionChanged(IWorkbenchPart part, ISelection selection) {
                 if (selection instanceof IStructuredSelection) {
-                    List selectedEditParts = ((IStructuredSelection) selection).toList();
+                    final List selectedEditParts = ((IStructuredSelection) selection).toList();
 
                     if (!selectedEditParts.isEmpty()) {
                         if (selectedEditParts.get(0) instanceof EditPart) {
-                            Object model = ((EditPart) selectedEditParts.get(0)).getModel();
+                            final Object model = ((EditPart) selectedEditParts.get(0)).getModel();
 
                             if (model instanceof ViewableModel) {
-                                ViewableModel viewableModel = (ViewableModel) model;
+                                final ViewableModel viewableModel = (ViewableModel) model;
 
-                                String fontName = viewableModel.getFontName();
-                                int fontSize = viewableModel.getFontSize();
+                                final String fontName = viewableModel.getFontName();
+                                final int fontSize = viewableModel.getFontSize();
 
                                 if (fontName != null) {
                                     fontNameContributionItem.setText(fontName);
 
                                 } else {
-                                    FontData fonData = Display.getCurrent().getSystemFont().getFontData()[0];
+                                    final FontData fonData = Display.getCurrent().getSystemFont().getFontData()[0];
                                     fontNameContributionItem.setText(fonData.getName());
                                     viewableModel.setFontName(fonData.getName());
                                 }

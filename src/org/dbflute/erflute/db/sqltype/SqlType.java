@@ -39,7 +39,7 @@ public class SqlType implements Serializable {
     private static final Pattern NEED_LENGTH_PATTERN = Pattern.compile(".+\\([a-zA-Z][,\\)].*");
     private static final Pattern NEED_DECIMAL_PATTERN1 = Pattern.compile(".+\\([a-zA-Z],[a-zA-Z]\\)");
     private static final Pattern NEED_DECIMAL_PATTERN2 = Pattern.compile(".+\\([a-zA-Z]\\).*\\([a-zA-Z]\\)");
-    private static final List<SqlType> SQL_TYPE_LIST = new ArrayList<SqlType>();
+    private static final List<SqlType> SQL_TYPE_LIST = new ArrayList<>();
 
     /**
      * #analyzed DBの型名で抽象型を逆引きできるようにしている。<br>
@@ -47,21 +47,21 @@ public class SqlType implements Serializable {
      * map:{ database = map:{ alias-name (e.g. int) = SqlType (本来many) } } <br>
      * e.g. map:{MySQL = map:{ int = int(n) or Integer }
      */
-    private static Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<String, Map<TypeKey, SqlType>>();
+    private static Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<>();
 
     /**
      * #analyzed こっちが大事な人。
      * map:{ database = map:{ SqlType = alias-name (e.g. int) } } <br>
      * e.g. map:{MySQL = map:{ int(n) or Integer = int }
      */
-    private static Map<String, Map<SqlType, String>> dbAliasMap = new HashMap<String, Map<SqlType, String>>();
+    private static Map<String, Map<SqlType, String>> dbAliasMap = new HashMap<>();
 
     // ===================================================================================
     //                                                                  Static Load Holder
     //                                                                  ==================
     static {
         try {
-            SqlTypeFactory.load();
+            LegacySqlTypeFactory.load();
         } catch (final Exception e) {
             e.printStackTrace();
             throw new ExceptionInInitializerError(e);
@@ -204,12 +204,12 @@ public class SqlType implements Serializable {
 
     public static List<String> getAliasList(String database) {
         final Map<SqlType, String> aliasMap = dbAliasMap.get(database);
-        final Set<String> aliases = new LinkedHashSet<String>();
+        final Set<String> aliases = new LinkedHashSet<>();
         for (final Entry<SqlType, String> entry : aliasMap.entrySet()) {
             final String alias = entry.getValue();
             aliases.add(alias);
         }
-        final List<String> list = new ArrayList<String>(aliases);
+        final List<String> list = new ArrayList<>(aliases);
         Collections.sort(list);
         return list;
     }
