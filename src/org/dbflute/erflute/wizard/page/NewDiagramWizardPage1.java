@@ -1,9 +1,7 @@
 package org.dbflute.erflute.wizard.page;
 
-import java.io.IOException;
 import java.io.InputStream;
 
-import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.persistent.Persistent;
@@ -73,12 +71,7 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
     @Override
     protected InputStream getInitialContents() {
         final Persistent persistent = Persistent.getInstance();
-        try {
-            return persistent.write(this.diagram);
-        } catch (final IOException e) {
-            Activator.showExceptionDialog(e);
-        }
-        return null;
+        return persistent.write(this.diagram);
     }
 
     @Override

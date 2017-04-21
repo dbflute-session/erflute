@@ -1,11 +1,13 @@
 package org.dbflute.erflute.editor.persistent.xml.reader;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
@@ -26,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -87,9 +90,8 @@ public class ErmXmlReader {
         this.walkerGroupLoader = new ReadWalkerGroupLoader(persistentXml, assistLogic, diagramWalkerLoader);
         this.walkerNoteLoader = new ReadWalkerNoteLoader(persistentXml, assistLogic, diagramWalkerLoader);
         this.insertedImageLoader = new ReadInsertedImageLoader(persistentXml, assistLogic, diagramWalkerLoader);
-        this.tableLoader =
-                new ReadTableLoader(persistentXml, assistLogic, diagramWalkerLoader, columnLoader, indexLoader, uniqueKeyLoader,
-                        tablePropertiesLoader);
+        this.tableLoader = new ReadTableLoader(persistentXml, assistLogic, diagramWalkerLoader, columnLoader, indexLoader, uniqueKeyLoader,
+                tablePropertiesLoader);
         this.viewLoader = new ReadViewLoader(persistentXml, assistLogic, diagramWalkerLoader, columnLoader, viewPropertiesLoader);
         this.ermodelLoader = new ReadVirtualDiagramLoader(persistentXml, assistLogic, tableLoader, walkerNoteLoader, walkerGroupLoader);
     }
@@ -97,9 +99,15 @@ public class ErmXmlReader {
     // ===================================================================================
     //                                                                               Read
     //                                                                              ======
-    public ERDiagram read(InputStream ins) throws Exception {
-        final DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        final Document document = parser.parse(ins);
+    public ERDiagram read(InputStream ins) {
+        final Document document;
+        try {
+            final DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            document = parser.parse(ins);
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            throw new IllegalStateException("failed to read xml.", e);
+        }
+
         Node root = document.getFirstChild();
         while (root.getNodeType() == Node.COMMENT_NODE) {
             document.removeChild(root);
