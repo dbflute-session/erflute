@@ -45,22 +45,23 @@ public abstract class DBManagerBase implements DBManager {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Class<Driver> getDriverClass(String driverClassName) {
         String path = null;
-        Class<Driver> clazz = null;
         try {
-            if (driverClassName.equals("sun.jdbc.odbc.JdbcOdbcDriver")) {
-                return (Class<Driver>) Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-            } else {
+            try {
+                @SuppressWarnings("unchecked")
+                final Class<Driver> clazz = (Class<Driver>) Class.forName(driverClassName);
+                return clazz;
+            } catch (final ClassNotFoundException e) {
                 path = PreferenceInitializer.getJDBCDriverPath(this.getId(), driverClassName);
                 final ClassLoader loader = this.getClassLoader(path);
-                clazz = (Class<Driver>) loader.loadClass(driverClassName);
+                @SuppressWarnings("unchecked")
+                final Class<Driver> clazz = (Class<Driver>) loader.loadClass(driverClassName);
+                return clazz;
             }
-        } catch (final Exception e) {
-            final JDBCPathDialog dialog =
-                    new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getId(), driverClassName,
-                            path, new ArrayList<JDBCDriverSetting>(), false);
+        } catch (final MalformedURLException | ClassNotFoundException e) {
+            final JDBCPathDialog dialog = new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getId(),
+                    driverClassName, path, new ArrayList<JDBCDriverSetting>(), false);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 final JDBCDriverSetting newDriverSetting =
                         new JDBCDriverSetting(this.getId(), dialog.getDriverClassName(), dialog.getPath());
@@ -70,13 +71,13 @@ public abstract class DBManagerBase implements DBManager {
                 }
                 driverSettingList.add(newDriverSetting);
                 PreferenceInitializer.saveJDBCDriverSettingList(driverSettingList);
-                clazz = this.getDriverClass(dialog.getDriverClassName());
+                return this.getDriverClass(dialog.getDriverClassName());
             }
         }
-        return clazz;
+        return null;
     }
 
-    private ClassLoader getClassLoader(String uri) throws SQLException, MalformedURLException {
+    private ClassLoader getClassLoader(String uri) throws MalformedURLException {
         final StringTokenizer tokenizer = new StringTokenizer(uri, ";");
         final int count = tokenizer.countTokens();
         final URL[] urls = new URL[count];
@@ -92,7 +93,7 @@ public abstract class DBManagerBase implements DBManager {
     public abstract String getDriverClassName();
 
     protected Set<String> getReservedWords() {
-        final Set<String> reservedWords = new HashSet<String>();
+        final Set<String> reservedWords = new HashSet<>();
         final ResourceBundle bundle = ResourceBundle.getBundle(this.getClass().getPackage().getName() + ".reserved_word");
         final Enumeration<String> keys = bundle.getKeys();
         while (keys.hasMoreElements()) {
@@ -133,7 +134,7 @@ public abstract class DBManagerBase implements DBManager {
 
     @Override
     public List<String> getImportSchemaList(Connection con) throws SQLException {
-        final List<String> schemaList = new ArrayList<String>();
+        final List<String> schemaList = new ArrayList<>();
         final DatabaseMetaData metaData = con.getMetaData();
         try {
             final ResultSet rs = metaData.getSchemas();
@@ -148,6 +149,6 @@ public abstract class DBManagerBase implements DBManager {
 
     @Override
     public List<String> getSystemSchemaList() {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 }
