@@ -61,7 +61,7 @@ public class SqlType implements Serializable {
     //                                                                  ==================
     static {
         try {
-            LegacySqlTypeFactory.load();
+            SqlTypeFactory.load();
         } catch (final Exception e) {
             e.printStackTrace();
             throw new ExceptionInInitializerError(e);
