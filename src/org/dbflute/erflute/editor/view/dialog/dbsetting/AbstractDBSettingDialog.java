@@ -263,7 +263,6 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
 
     /**
      * dbSetting ���擾���܂�.
-     * 
      * @return dbSetting
      */
     public DBSettings getDbSetting() {

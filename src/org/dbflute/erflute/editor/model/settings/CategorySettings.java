@@ -21,7 +21,6 @@ public class CategorySettings implements Serializable, Cloneable {
 
     /**
      * freeLayout ���擾���܂�.
-     * 
      * @return freeLayout
      */
     public boolean isFreeLayout() {
@@ -30,7 +29,6 @@ public class CategorySettings implements Serializable, Cloneable {
 
     /**
      * freeLayout ��ݒ肵�܂�.
-     * 
      * @param freeLayout
      *            freeLayout
      */
@@ -40,7 +38,6 @@ public class CategorySettings implements Serializable, Cloneable {
 
     /**
      * showReferredTables ���擾���܂�.
-     * 
      * @return showReferredTables
      */
     public boolean isShowReferredTables() {
@@ -49,7 +46,6 @@ public class CategorySettings implements Serializable, Cloneable {
 
     /**
      * showReferredTables ��ݒ肵�܂�.
-     * 
      * @param showReferredTables
      *            showReferredTables
      */

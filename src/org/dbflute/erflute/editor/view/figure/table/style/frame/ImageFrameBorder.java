@@ -17,7 +17,6 @@ public class ImageFrameBorder extends FrameBorder {
 
     /**
      * �^�C�g���̈�̕���Ԃ��܂�
-     * 
      * @return �^�C�g���̈�̕�
      */
     public int getTitleBarWidth(IFigure figure) {

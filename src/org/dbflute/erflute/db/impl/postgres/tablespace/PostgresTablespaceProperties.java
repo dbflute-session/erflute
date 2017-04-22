@@ -17,7 +17,6 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
 
     /**
      * location を取得します.
-     * 
      * @return location
      */
     public String getLocation() {
@@ -26,7 +25,6 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
 
     /**
      * location を設定します.
-     * 
      * @param location
      *            location
      */
@@ -36,7 +34,6 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
 
     /**
      * owner を取得します.
-     * 
      * @return owner
      */
     public String getOwner() {
@@ -45,7 +42,6 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
 
     /**
      * owner を設定します.
-     * 
      * @param owner
      *            owner
      */

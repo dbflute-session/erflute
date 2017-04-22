@@ -64,7 +64,6 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
     /**
      * This method initializes composite1
-     * 
      */
     private void createTableComposite(Composite parent) {
         GridLayout gridLayout = new GridLayout();
@@ -158,7 +157,6 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
     /**
      * This method initializes composite2
-     * 
      */
     private void createButtonComposite(Composite parent) {
         GridLayout gridLayout = new GridLayout();

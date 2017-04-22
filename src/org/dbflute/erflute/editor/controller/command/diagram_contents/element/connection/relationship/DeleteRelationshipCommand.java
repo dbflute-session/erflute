@@ -67,23 +67,23 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
         //
         //		if (tableView instanceof ERVirtualTable) {
         //			ERVirtualTable vtable = (ERVirtualTable) tableView;
-        //			
+        //		
         //			// ���C���r���[���X�V�i�g�̍Đ����j
         //			this.newCopyTableView.restructureData(vtable.getRawTable());
         //			// TableView.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
-        //			
+        //		
         //			// �T�u�r���[���X�V
         //			vtable.doChangeTable();
         //
         //			// �e�[�u���̍X�V�i�����܂߂��Đ����j
         //			this.tableView.getDiagram().changeTable(newCopyTableView);
         //			// ERDiagram.firePropertyChange(PROPERTY_CHANGE_TABLE)
-        //			
+        //		
         //		} else {
         //			// ���C���r���[���X�V
         //			this.newCopyTableView.restructureData(tableView);
         //			this.tableView.getDiagram().changeTable(newCopyTableView);
-        //			
+        //		
         //			// �T�u�r���[���X�V
         //			tableView.getDiagram().doChangeTable(newCopyTableView);
         //		}

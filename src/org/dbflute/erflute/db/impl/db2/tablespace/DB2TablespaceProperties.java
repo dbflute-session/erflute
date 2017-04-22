@@ -35,7 +35,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * type を取得します.
-     * 
      * @return type
      */
     public String getType() {
@@ -44,7 +43,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * type を設定します.
-     * 
      * @param type
      *            type
      */
@@ -54,7 +52,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * pageSize を取得します.
-     * 
      * @return pageSize
      */
     public String getPageSize() {
@@ -63,7 +60,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * pageSize を設定します.
-     * 
      * @param pageSize
      *            pageSize
      */
@@ -73,7 +69,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * managedBy を取得します.
-     * 
      * @return managedBy
      */
     public String getManagedBy() {
@@ -82,7 +77,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * managedBy を設定します.
-     * 
      * @param managedBy
      *            managedBy
      */
@@ -92,7 +86,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * extentSize を取得します.
-     * 
      * @return extentSize
      */
     public String getExtentSize() {
@@ -101,7 +94,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * extentSize を設定します.
-     * 
      * @param extentSize
      *            extentSize
      */
@@ -111,7 +103,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * prefetchSize を取得します.
-     * 
      * @return prefetchSize
      */
     public String getPrefetchSize() {
@@ -120,7 +111,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * prefetchSize を設定します.
-     * 
      * @param prefetchSize
      *            prefetchSize
      */
@@ -130,7 +120,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * bufferPoolName を取得します.
-     * 
      * @return bufferPoolName
      */
     public String getBufferPoolName() {
@@ -139,7 +128,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * bufferPoolName を設定します.
-     * 
      * @param bufferPoolName
      *            bufferPoolName
      */
@@ -149,7 +137,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * container を取得します.
-     * 
      * @return container
      */
     public String getContainer() {
@@ -158,7 +145,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     /**
      * container を設定します.
-     * 
      * @param container
      *            container
      */

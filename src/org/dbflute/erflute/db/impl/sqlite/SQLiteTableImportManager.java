@@ -38,7 +38,6 @@ public class SQLiteTableImportManager extends ImportFromDBManagerBase {
 
     /**
      * {@inheritDoc}
-     * 
      * @throws InterruptedException
      * @throws SQLException
      */

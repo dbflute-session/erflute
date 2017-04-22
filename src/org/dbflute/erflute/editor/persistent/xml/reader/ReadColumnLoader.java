@@ -81,7 +81,7 @@ public class ReadColumnLoader {
         if (!isForeignKey) {
             context.dictionary.add(normalColumn);
         }
-        // not use serial ID to immobilize XML 
+        // not use serial ID to immobilize XML
         String id = getStringValue(element, "id"); // when migration from ERMaster-b
         if (Srl.is_Null_or_TrimmedEmpty(id)) { // basically true after ERFlute
             id = builder.build(normalColumn); // #for_erflute e.g. MEMBER.MEMBER_NAME

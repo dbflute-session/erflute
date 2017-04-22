@@ -48,7 +48,6 @@ public class Tablespace extends AbstractModel implements ObjectModel, Comparable
 
     /**
      * propertiesMap ���擾���܂�.
-     * 
      * @return propertiesMap
      */
     public Map<Environment, TablespaceProperties> getPropertiesMap() {

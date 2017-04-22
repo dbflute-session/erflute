@@ -23,7 +23,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * dataFile を取得します.
-     * 
      * @return dataFile
      */
     public String getDataFile() {
@@ -32,7 +31,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * dataFile を設定します.
-     * 
      * @param dataFile
      *            dataFile
      */
@@ -42,7 +40,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * logFileGroup を取得します.
-     * 
      * @return logFileGroup
      */
     public String getLogFileGroup() {
@@ -51,7 +48,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * logFileGroup を設定します.
-     * 
      * @param logFileGroup
      *            logFileGroup
      */
@@ -61,7 +57,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * extentSize を取得します.
-     * 
      * @return extentSize
      */
     public String getExtentSize() {
@@ -70,7 +65,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * extentSize を設定します.
-     * 
      * @param extentSize
      *            extentSize
      */
@@ -80,7 +74,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * initialSize を取得します.
-     * 
      * @return initialSize
      */
     public String getInitialSize() {
@@ -89,7 +82,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * initialSize を設定します.
-     * 
      * @param initialSize
      *            initialSize
      */
@@ -99,7 +91,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * engine を取得します.
-     * 
      * @return engine
      */
     public String getEngine() {
@@ -108,7 +99,6 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     /**
      * engine を設定します.
-     * 
      * @param engine
      *            engine
      */

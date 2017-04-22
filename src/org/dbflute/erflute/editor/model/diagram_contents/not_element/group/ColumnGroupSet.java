@@ -57,7 +57,6 @@ public class ColumnGroupSet extends AbstractModel implements Iterable<ColumnGrou
 
     /**
      * database ���擾���܂�.
-     * 
      * @return database
      */
     public String getDatabase() {
@@ -66,7 +65,6 @@ public class ColumnGroupSet extends AbstractModel implements Iterable<ColumnGrou
 
     /**
      * database ��ݒ肵�܂�.
-     * 
      * @param database
      *            database
      */

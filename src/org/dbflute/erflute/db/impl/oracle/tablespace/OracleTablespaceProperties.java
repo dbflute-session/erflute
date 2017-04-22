@@ -43,7 +43,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * dataFile を取得します.
-     * 
      * @return dataFile
      */
     public String getDataFile() {
@@ -52,7 +51,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * dataFile を設定します.
-     * 
      * @param dataFile
      *            dataFile
      */
@@ -62,7 +60,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * fileSize を取得します.
-     * 
      * @return fileSize
      */
     public String getFileSize() {
@@ -71,7 +68,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * fileSize を設定します.
-     * 
      * @param fileSize
      *            fileSize
      */
@@ -81,7 +77,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * autoExtend を取得します.
-     * 
      * @return autoExtend
      */
     public boolean isAutoExtend() {
@@ -90,7 +85,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * autoExtend を設定します.
-     * 
      * @param autoExtend
      *            autoExtend
      */
@@ -100,7 +94,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * autoExtendSize を取得します.
-     * 
      * @return autoExtendSize
      */
     public String getAutoExtendSize() {
@@ -109,7 +102,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * autoExtendSize を設定します.
-     * 
      * @param autoExtendSize
      *            autoExtendSize
      */
@@ -119,7 +111,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * autoExtendMaxSize を取得します.
-     * 
      * @return autoExtendMaxSize
      */
     public String getAutoExtendMaxSize() {
@@ -128,7 +119,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * autoExtendMaxSize を設定します.
-     * 
      * @param autoExtendMaxSize
      *            autoExtendMaxSize
      */
@@ -138,7 +128,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * minimumExtentSize を取得します.
-     * 
      * @return minimumExtentSize
      */
     public String getMinimumExtentSize() {
@@ -147,7 +136,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * minimumExtentSize を設定します.
-     * 
      * @param minimumExtentSize
      *            minimumExtentSize
      */
@@ -157,7 +145,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * logging を取得します.
-     * 
      * @return logging
      */
     public boolean isLogging() {
@@ -166,7 +153,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * logging を設定します.
-     * 
      * @param logging
      *            logging
      */
@@ -176,7 +162,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * offline を取得します.
-     * 
      * @return offline
      */
     public boolean isOffline() {
@@ -185,7 +170,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * offline を設定します.
-     * 
      * @param offline
      *            offline
      */
@@ -195,7 +179,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * temporary を取得します.
-     * 
      * @return temporary
      */
     public boolean isTemporary() {
@@ -204,7 +187,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * temporary を設定します.
-     * 
      * @param temporary
      *            temporary
      */
@@ -214,7 +196,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * autoSegmentSpaceManagement を取得します.
-     * 
      * @return autoSegmentSpaceManagement
      */
     public boolean isAutoSegmentSpaceManagement() {
@@ -223,7 +204,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * autoSegmentSpaceManagement を設定します.
-     * 
      * @param autoSegmentSpaceManagement
      *            autoSegmentSpaceManagement
      */
@@ -233,7 +213,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * initial を取得します.
-     * 
      * @return initial
      */
     public String getInitial() {
@@ -242,7 +221,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * initial を設定します.
-     * 
      * @param initial
      *            initial
      */
@@ -252,7 +230,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * next を取得します.
-     * 
      * @return next
      */
     public String getNext() {
@@ -261,7 +238,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * next を設定します.
-     * 
      * @param next
      *            next
      */
@@ -271,7 +247,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * minExtents を取得します.
-     * 
      * @return minExtents
      */
     public String getMinExtents() {
@@ -280,7 +255,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * minExtents を設定します.
-     * 
      * @param minExtents
      *            minExtents
      */
@@ -290,7 +264,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * maxExtents を取得します.
-     * 
      * @return maxExtents
      */
     public String getMaxExtents() {
@@ -299,7 +272,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * maxExtents を設定します.
-     * 
      * @param maxExtents
      *            maxExtents
      */
@@ -309,7 +281,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * pctIncrease を取得します.
-     * 
      * @return pctIncrease
      */
     public String getPctIncrease() {
@@ -318,7 +289,6 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     /**
      * pctIncrease を設定します.
-     * 
      * @param pctIncrease
      *            pctIncrease
      */

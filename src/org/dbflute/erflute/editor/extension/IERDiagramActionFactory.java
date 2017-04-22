@@ -10,7 +10,6 @@ public interface IERDiagramActionFactory {
 
     /**
      * IAction �����������N���X��Ԃ�
-     * 
      * @param editor
      * @return IAction
      */

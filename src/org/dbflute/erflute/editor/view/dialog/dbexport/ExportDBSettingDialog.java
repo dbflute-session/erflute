@@ -184,7 +184,6 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
     /**
      * ddl ���擾���܂�.
-     * 
      * @return ddl
      */
     public String getDdl() {

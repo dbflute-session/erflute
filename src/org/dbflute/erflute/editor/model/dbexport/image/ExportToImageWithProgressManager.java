@@ -19,7 +19,6 @@ public class ExportToImageWithProgressManager extends ExportToImageManager imple
 
     /**
      * exception ���擾���܂�.
-     * 
      * @return exception
      */
     public Exception getException() {

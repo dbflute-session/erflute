@@ -250,35 +250,32 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         super.createActions();
         final ActionRegistry registry = getActionRegistry();
         final List<String> selectionActionList = getSelectionActions();
-        final List<IAction> actionList =
-                new ArrayList<>(Arrays.asList(new IAction[] { new ChangeViewToLogicalAction(this), new ChangeViewToPhysicalAction(this),
-                        new ChangeViewToBothAction(this), new ChangeToIENotationAction(this), new ChangeToIDEF1XNotationAction(this),
-                        new ChangeNotationLevelToColumnAction(this), new ChangeNotationLevelToExcludeTypeAction(this),
-                        new ChangeNotationLevelToDetailAction(this), new ChangeNotationLevelToOnlyTitleAction(this),
-                        new ChangeNotationLevelToOnlyKeyAction(this), new ChangeNotationLevelToNameAndKeyAction(this),
-                        new ChangeNotationExpandGroupAction(this), new ChangeDesignToFunnyAction(this),
-                        new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this), new ChangeCapitalAction(this),
-                        new ChangeTitleFontSizeAction(this), new ChangeStampAction(this), new ColumnGroupManageAction(this), /* #deleted new ChangeTrackingAction(this) , */
-                        new OptionSettingAction(this),
-                        /* #deleted new CategoryManageAction(this) , */new ChangeFreeLayoutAction(this),
-                        new ChangeShowReferredTablesAction(this),
-                        /* #deleted new TranslationManageAction(this), */
-                        /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
-                        new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
-                        /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
-                        /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
-                        /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this), /* #deleted new EditAllAttributesAction(this), */
-                        new DirectEditAction((IWorkbenchPart) this), new ERDiagramAlignmentAction(this, PositionConstants.LEFT),
-                        new ERDiagramAlignmentAction(this, PositionConstants.CENTER),
-                        new ERDiagramAlignmentAction(this, PositionConstants.RIGHT),
-                        new ERDiagramAlignmentAction(this, PositionConstants.TOP),
-                        new ERDiagramAlignmentAction(this, PositionConstants.MIDDLE),
-                        new ERDiagramAlignmentAction(this, PositionConstants.BOTTOM), new ERDiagramMatchWidthAction(this),
-                        new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
-                        new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
-                        new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this),
-                        new DeleteWithoutUpdateAction(this), new SelectAllContentsAction(this), new VirtualDiagramAddAction(this),
-                        new ERDiagramQuickOutlineAction(this), }));
+        final List<IAction> actionList = new ArrayList<>(Arrays.asList(new IAction[] { new ChangeViewToLogicalAction(this),
+                new ChangeViewToPhysicalAction(this), new ChangeViewToBothAction(this), new ChangeToIENotationAction(this),
+                new ChangeToIDEF1XNotationAction(this), new ChangeNotationLevelToColumnAction(this),
+                new ChangeNotationLevelToExcludeTypeAction(this), new ChangeNotationLevelToDetailAction(this),
+                new ChangeNotationLevelToOnlyTitleAction(this), new ChangeNotationLevelToOnlyKeyAction(this),
+                new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
+                new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
+                new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
+                new ColumnGroupManageAction(this), /* #deleted new ChangeTrackingAction(this) , */
+                new OptionSettingAction(this), /* #deleted new CategoryManageAction(this) , */new ChangeFreeLayoutAction(this),
+                new ChangeShowReferredTablesAction(this),
+                /* #deleted new TranslationManageAction(this), */
+                /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
+                new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
+                /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
+                /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
+                /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(
+                        this), /* #deleted new EditAllAttributesAction(this), */
+                new DirectEditAction((IWorkbenchPart) this), new ERDiagramAlignmentAction(this, PositionConstants.LEFT),
+                new ERDiagramAlignmentAction(this, PositionConstants.CENTER), new ERDiagramAlignmentAction(this, PositionConstants.RIGHT),
+                new ERDiagramAlignmentAction(this, PositionConstants.TOP), new ERDiagramAlignmentAction(this, PositionConstants.MIDDLE),
+                new ERDiagramAlignmentAction(this, PositionConstants.BOTTOM), new ERDiagramMatchWidthAction(this),
+                new ERDiagramMatchHeightAction(this), new HorizontalLineAction(this), new VerticalLineAction(this),
+                new RightAngleLineAction(this), new DefaultLineAction(this), new CopyAction(this), new PasteAction(this),
+                new SearchAction(this), new ResizeModelAction(this), new PrintImageAction(this), new DeleteWithoutUpdateAction(this),
+                new SelectAllContentsAction(this), new VirtualDiagramAddAction(this), new ERDiagramQuickOutlineAction(this), }));
         Activator.debug(this, "createActions()", "...Preparing diagram actions: " + actionList.size());
         actionList.addAll(extensionLoader.createExtendedActions());
         for (final IAction action : actionList) {

@@ -149,7 +149,6 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
 
     /**
      * description ���擾���܂�.
-     * 
      * @return description
      */
     public String getDescription() {
@@ -158,7 +157,6 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
 
     /**
      * description ��ݒ肵�܂�.
-     * 
      * @param description
      *            description
      */

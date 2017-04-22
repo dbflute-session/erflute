@@ -23,7 +23,6 @@ public class EnvironmentSettings implements Serializable, Cloneable {
 
     /**
      * environments ��ݒ肵�܂�.
-     * 
      * @param environments
      *            environments
      */
@@ -33,7 +32,6 @@ public class EnvironmentSettings implements Serializable, Cloneable {
 
     /**
      * currentEnvironment ���擾���܂�.
-     * 
      * @return currentEnvironment
      */
     public Environment getCurrentEnvironment() {
@@ -42,7 +40,6 @@ public class EnvironmentSettings implements Serializable, Cloneable {
 
     /**
      * currentEnvironment ��ݒ肵�܂�.
-     * 
      * @param currentEnvironment
      *            currentEnvironment
      */

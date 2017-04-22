@@ -144,7 +144,6 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
 
     /**
      * This method initializes combo
-     * 
      */
     private void createGroupCombo(Composite parent) {
         final GridData gridData = new GridData();
@@ -209,7 +208,7 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
         // FormToolkit toolkit = new FormToolkit(this.getDisplay());
         // Form root = toolkit.createForm(parent);
         // root.getBody().setLayout(new GridLayout());
-        //		
+        //	
         // ExpandableComposite expandableComposite = toolkit
         // .createExpandableComposite(root.getBody(),
         // ExpandableComposite.TWISTIE);

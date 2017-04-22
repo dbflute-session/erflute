@@ -10,7 +10,7 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     //
     ////	/** �z�u�������f���� */
     ////	private String modelName;
-    //	
+    //
     //	private List<VGroup> allCategories;
     //
     //	private List<VGroup> selectedCategories;
@@ -26,7 +26,7 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     //
     //	/**
     //	 * freeLayout ���擾���܂�.
-    //	 * 
+    //	 *
     //	 * @return freeLayout
     //	 */
     //	public boolean isFreeLayout() {
@@ -35,7 +35,7 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     //
     //	/**
     //	 * freeLayout ��ݒ肵�܂�.
-    //	 * 
+    //	 *
     //	 * @param freeLayout
     //	 *            freeLayout
     //	 */
@@ -45,7 +45,7 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     //
     //	/**
     //	 * showReferredTables ���擾���܂�.
-    //	 * 
+    //	 *
     //	 * @return showReferredTables
     //	 */
     //	public boolean isShowReferredTables() {
@@ -54,7 +54,7 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     //
     //	/**
     //	 * showReferredTables ��ݒ肵�܂�.
-    //	 * 
+    //	 *
     //	 * @param showReferredTables
     //	 *            showReferredTables
     //	 */

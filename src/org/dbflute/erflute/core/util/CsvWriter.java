@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * CSV�o�̓N���X
- * 
+ *
  * @author generator
  * @version $Id: CsvWriter.java,v 1.1 2008/08/17 10:49:17 h_nakajima Exp $
  */
@@ -25,7 +25,6 @@ public class CsvWriter {
 
     /**
      * �R���X�g���N�^
-     * 
      * @param writer
      *            �o�͐�
      */
@@ -37,7 +36,6 @@ public class CsvWriter {
 
     /**
      * Date �^�̃f�[�^���o�͂���ۂ̃t�H�[�}�b�g�`�����w�肵�܂�
-     * 
      * @param format
      *            �t�H�[�}�b�g�`��
      */
@@ -47,7 +45,6 @@ public class CsvWriter {
 
     /**
      * CSV�̂��߂ɕ�������G�X�P�[�v���܂��B
-     * 
      * @param str
      *            �G�X�P�[�v�O�̕�����
      * @return �G�X�P�[�v���ꂽ������
@@ -61,7 +58,6 @@ public class CsvWriter {
 
     /**
      * �I�u�W�F�N�g�̕�����\�����o�͂��܂�
-     * 
      * @param object
      *            �I�u�W�F�N�g
      */

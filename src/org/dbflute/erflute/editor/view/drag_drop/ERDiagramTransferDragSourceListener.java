@@ -63,7 +63,7 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
     //	@Override
     //	public void dragFinished(DragSourceEvent event) {
     //		super.dragFinished(event);
-    //		
+    //	
     //		ERTable table = (ERTable) ((TemplateTransfer)getTransfer()).getObject();
     //	}
 

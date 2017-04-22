@@ -153,7 +153,6 @@ public class RelationshipDialog extends AbstractDialog {
 
     /**
      * This method initializes group1
-     * 
      */
     private void createChildGroup(Composite composite, int size) {
         final GridLayout gridLayout = new GridLayout();

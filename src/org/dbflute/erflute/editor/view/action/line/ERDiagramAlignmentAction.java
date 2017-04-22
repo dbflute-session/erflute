@@ -82,7 +82,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
      * <LI>GEFActionConstants.ALIGN_BOTTOM
      * <LI>GEFActionConstants.ALIGN_MIDDLE
      * </UL>
-     * 
      * @param part
      *            the workbench part used to obtain context
      * @param align
@@ -97,7 +96,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
     /**
      * Returns the alignment rectangle to which all selected parts should be
      * aligned.
-     * 
      * @param request
      *            the alignment Request
      * @return the alignment rectangle
@@ -152,7 +150,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
 
     /**
      * Returns the list of editparts which will participate in alignment.
-     * 
      * @param request
      *            the alignment request
      * @return the list of parts which will be aligned

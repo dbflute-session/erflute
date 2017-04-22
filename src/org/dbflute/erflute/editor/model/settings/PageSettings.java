@@ -67,7 +67,6 @@ public class PageSettings implements Serializable {
 
     /**
      * directionHorizontal を取得します.
-     * 
      * @return directionHorizontal
      */
     public boolean isDirectionHorizontal() {
@@ -76,7 +75,6 @@ public class PageSettings implements Serializable {
 
     /**
      * scale を取得します.
-     * 
      * @return scale
      */
     public int getScale() {
@@ -85,7 +83,6 @@ public class PageSettings implements Serializable {
 
     /**
      * paperSize を取得します.
-     * 
      * @return paperSize
      */
     public String getPaperSize() {
@@ -94,7 +91,6 @@ public class PageSettings implements Serializable {
 
     /**
      * topMargin を取得します.
-     * 
      * @return topMargin
      */
     public int getTopMargin() {
@@ -103,7 +99,6 @@ public class PageSettings implements Serializable {
 
     /**
      * leftMargin を取得します.
-     * 
      * @return leftMargin
      */
     public int getLeftMargin() {
@@ -112,7 +107,6 @@ public class PageSettings implements Serializable {
 
     /**
      * bottomMargin を取得します.
-     * 
      * @return bottomMargin
      */
     public int getBottomMargin() {
@@ -121,7 +115,6 @@ public class PageSettings implements Serializable {
 
     /**
      * rightMargin を取得します.
-     * 
      * @return rightMargin
      */
     public int getRightMargin() {

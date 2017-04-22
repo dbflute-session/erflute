@@ -14,7 +14,6 @@ public class Environment implements Serializable, Cloneable {
 
     /**
      * name ���擾���܂�.
-     * 
      * @return name
      */
     public String getName() {
@@ -23,7 +22,6 @@ public class Environment implements Serializable, Cloneable {
 
     /**
      * name ��ݒ肵�܂�.
-     * 
      * @param name
      *            name
      */

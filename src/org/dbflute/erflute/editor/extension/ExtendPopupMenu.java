@@ -61,9 +61,7 @@ public class ExtendPopupMenu {
 
     /**
      * plugin.xml����^�O��ǂݍ���.
-     * 
      * @throws CoreException
-     * 
      * @throws CoreException
      */
     public static List<ExtendPopupMenu> loadExtensions(MainDiagramEditor editor) throws CoreException {

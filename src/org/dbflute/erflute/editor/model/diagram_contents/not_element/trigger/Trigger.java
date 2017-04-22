@@ -21,7 +21,6 @@ public class Trigger extends WithSchemaModel implements ObjectModel {
 
     /**
      * description ���擾���܂�.
-     * 
      * @return description
      */
     public String getDescription() {
@@ -30,7 +29,6 @@ public class Trigger extends WithSchemaModel implements ObjectModel {
 
     /**
      * description ��ݒ肵�܂�.
-     * 
      * @param description
      *            description
      */

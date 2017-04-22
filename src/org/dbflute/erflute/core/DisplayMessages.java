@@ -13,7 +13,7 @@ import java.util.TreeMap;
  */
 public class DisplayMessages {
 
-    private static final ResourceBundle resource = ResourceBundle.getBundle("org.dbflute.erflute.erflute_messages");
+    private static final ResourceBundle resource = ResourceBundle.getBundle("erflute_messages");
 
     public static String getMessage(String key) {
         try {
@@ -24,7 +24,7 @@ public class DisplayMessages {
     }
 
     public static Map<String, String> getMessageMap(String prefix) {
-        final Map<String, String> props = new TreeMap<String, String>(Collections.reverseOrder());
+        final Map<String, String> props = new TreeMap<>(Collections.reverseOrder());
         final Enumeration<String> keys = resource.getKeys();
         while (keys.hasMoreElements()) {
             final String key = keys.nextElement();

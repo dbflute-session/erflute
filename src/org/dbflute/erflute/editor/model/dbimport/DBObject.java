@@ -59,7 +59,6 @@ public class DBObject {
 
     /**
      * schema ���擾���܂�.
-     * 
      * @return schema
      */
     public String getSchema() {
@@ -68,7 +67,6 @@ public class DBObject {
 
     /**
      * schema ��ݒ肵�܂�.
-     * 
      * @param schema
      *            schema
      */
@@ -78,7 +76,6 @@ public class DBObject {
 
     /**
      * name ���擾���܂�.
-     * 
      * @return name
      */
     public String getName() {
@@ -87,7 +84,6 @@ public class DBObject {
 
     /**
      * name ��ݒ肵�܂�.
-     * 
      * @param name
      *            name
      */
@@ -97,7 +93,6 @@ public class DBObject {
 
     /**
      * type ���擾���܂�.
-     * 
      * @return type
      */
     public String getType() {
@@ -106,7 +101,6 @@ public class DBObject {
 
     /**
      * type ��ݒ肵�܂�.
-     * 
      * @param type
      *            type
      */
