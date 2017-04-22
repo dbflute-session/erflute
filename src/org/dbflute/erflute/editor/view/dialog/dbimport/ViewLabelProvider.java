@@ -33,5 +33,4 @@ public class ViewLabelProvider extends LabelProvider implements ITableLabelProvi
     public String getColumnText(Object element, int columnIndex) {
         return "xxx";
     }
-
 }

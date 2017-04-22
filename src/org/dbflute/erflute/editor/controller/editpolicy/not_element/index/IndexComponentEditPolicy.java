@@ -8,12 +8,8 @@ import org.eclipse.gef.commands.Command;
 
 public class IndexComponentEditPolicy extends NotElementComponentEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createDeleteCommand(ERDiagram diagram, Object model) {
         return new DeleteIndexCommand(diagram, (ERIndex) model);
     }
-
 }

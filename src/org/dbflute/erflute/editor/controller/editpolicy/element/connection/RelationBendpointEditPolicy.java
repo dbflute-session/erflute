@@ -25,9 +25,6 @@ import org.eclipse.swt.SWT;
 
 public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void showMoveBendpointFeedback(BendpointRequest bendpointrequest) {
         Relationship relation = (Relationship) getHost().getModel();
@@ -85,12 +82,8 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
         } else {
             super.showMoveBendpointFeedback(bendpointrequest);
         }
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void showCreateBendpointFeedback(BendpointRequest bendpointrequest) {
         Relationship relation = (Relationship) getHost().getModel();
@@ -101,18 +94,12 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
         super.showCreateBendpointFeedback(bendpointrequest);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void eraseConnectionFeedback(BendpointRequest request) {
         this.getFeedbackLayer().getChildren().clear();
         super.eraseConnectionFeedback(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getMoveBendpointCommand(BendpointRequest bendpointrequest) {
         Relationship relation = (Relationship) getHost().getModel();

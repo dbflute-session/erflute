@@ -15,8 +15,9 @@ public class Tablespace extends AbstractModel implements ObjectModel, Comparable
 
     private String name;
 
-    private Map<Environment, TablespaceProperties> propertiesMap = new HashMap<Environment, TablespaceProperties>();
+    private Map<Environment, TablespaceProperties> propertiesMap = new HashMap<>();
 
+    @Override
     public int compareTo(Tablespace other) {
         return this.name.toUpperCase().compareTo(other.name.toUpperCase());
     }
@@ -24,12 +25,13 @@ public class Tablespace extends AbstractModel implements ObjectModel, Comparable
     public void copyTo(Tablespace to) {
         to.name = name;
 
-        to.propertiesMap = new HashMap<Environment, TablespaceProperties>();
-        for (Map.Entry<Environment, TablespaceProperties> entry : this.propertiesMap.entrySet()) {
+        to.propertiesMap = new HashMap<>();
+        for (final Map.Entry<Environment, TablespaceProperties> entry : this.propertiesMap.entrySet()) {
             to.propertiesMap.put(entry.getKey(), entry.getValue().clone());
         }
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -46,32 +48,26 @@ public class Tablespace extends AbstractModel implements ObjectModel, Comparable
         this.propertiesMap.put(environment, tablespaceProperties);
     }
 
-    /**
-     * propertiesMap ���擾���܂�.
-     * @return propertiesMap
-     */
     public Map<Environment, TablespaceProperties> getPropertiesMap() {
         return propertiesMap;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Tablespace clone() {
-        Tablespace clone = (Tablespace) super.clone();
+        final Tablespace clone = (Tablespace) super.clone();
 
         this.copyTo(clone);
 
         return clone;
     }
 
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getObjectType() {
         return "tablespace";
     }
-
 }

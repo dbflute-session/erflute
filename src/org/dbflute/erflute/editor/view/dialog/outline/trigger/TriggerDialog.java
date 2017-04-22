@@ -93,5 +93,4 @@ public class TriggerDialog extends AbstractDialog {
     public Trigger getResult() {
         return result;
     }
-
 }

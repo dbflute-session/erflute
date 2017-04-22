@@ -18,33 +18,21 @@ public abstract class ColumnRule extends TableRule {
         this.errorList = new ArrayList<ValidateResult>();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addError(ValidateResult errorMessage) {
         this.errorList.add(errorMessage);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<ValidateResult> getErrorList() {
         return this.errorList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void clear() {
         this.errorList.clear();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERTable table) {
         for (ERColumn column : table.getColumns()) {
@@ -54,7 +42,6 @@ public abstract class ColumnRule extends TableRule {
                 if (!this.validate(table, normalColumn)) {
                     return false;
                 }
-
             } else {
                 ColumnGroup columnGroup = (ColumnGroup) column;
 

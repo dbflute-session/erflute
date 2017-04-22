@@ -15,43 +15,25 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
 
     private String owner;
 
-    /**
-     * location を取得します.
-     * @return location
-     */
     public String getLocation() {
         return location;
     }
 
-    /**
-     * location を設定します.
-     * @param location
-     *            location
-     */
     public void setLocation(String location) {
         this.location = location;
     }
 
-    /**
-     * owner を取得します.
-     * @return owner
-     */
     public String getOwner() {
         return owner;
     }
 
-    /**
-     * owner を設定します.
-     * @param owner
-     *            owner
-     */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
     @Override
     public TablespaceProperties clone() {
-        PostgresTablespaceProperties properties = new PostgresTablespaceProperties();
+        final PostgresTablespaceProperties properties = new PostgresTablespaceProperties();
 
         properties.location = this.location;
         properties.owner = this.owner;
@@ -59,8 +41,9 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
         return properties;
     }
 
+    @Override
     public LinkedHashMap<String, String> getPropertiesMap() {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+        final LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
         map.put("label.tablespace.location", this.getLocation());
         map.put("label.tablespace.owner", this.getOwner());
@@ -68,8 +51,9 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
         return map;
     }
 
+    @Override
     public List<String> validate() {
-        List<String> errorMessage = new ArrayList<String>();
+        final List<String> errorMessage = new ArrayList<>();
 
         if (Check.isEmptyTrim(this.getLocation())) {
             errorMessage.add("error.tablespace.location.empty");

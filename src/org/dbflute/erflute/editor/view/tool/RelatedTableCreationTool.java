@@ -7,15 +7,12 @@ import org.eclipse.gef.tools.ConnectionCreationTool;
 
 public class RelatedTableCreationTool extends ConnectionCreationTool {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean handleCreateConnection() {
-        CreateRelatedTableCommand command = (CreateRelatedTableCommand) this.getCommand();
+        final CreateRelatedTableCommand command = (CreateRelatedTableCommand) this.getCommand();
 
         if (command != null) {
-            ERTable target = (ERTable) command.getTargetModel();
+            final ERTable target = (ERTable) command.getTargetModel();
 
             if (!target.isReferable()) {
                 Activator.showErrorDialog("error.no.referenceable.column");
@@ -28,5 +25,4 @@ public class RelatedTableCreationTool extends ConnectionCreationTool {
 
         return super.handleCreateConnection();
     }
-
 }

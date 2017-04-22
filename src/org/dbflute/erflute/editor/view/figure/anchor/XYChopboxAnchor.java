@@ -17,9 +17,6 @@ public class XYChopboxAnchor extends ChopboxAnchor {
         fireAnchorMoved();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Point getLocation(Point reference) {
         if (this.location != null) {
@@ -31,9 +28,6 @@ public class XYChopboxAnchor extends ChopboxAnchor {
         return super.getLocation(reference);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Point getReferencePoint() {
         if (this.location != null) {
@@ -44,5 +38,4 @@ public class XYChopboxAnchor extends ChopboxAnchor {
 
         return super.getReferencePoint();
     }
-
 }

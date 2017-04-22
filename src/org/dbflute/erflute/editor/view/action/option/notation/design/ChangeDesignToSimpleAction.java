@@ -11,5 +11,4 @@ public class ChangeDesignToSimpleAction extends AbstractChangeDesignAction {
     public ChangeDesignToSimpleAction(MainDiagramEditor editor) {
         super(ID, TYPE, editor);
     }
-
 }

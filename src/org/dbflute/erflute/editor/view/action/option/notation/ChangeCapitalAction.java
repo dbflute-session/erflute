@@ -17,9 +17,6 @@ public class ChangeCapitalAction extends AbstractBaseAction {
         this.setText(DisplayMessages.getMessage("action.title.display.capital"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();

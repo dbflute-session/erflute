@@ -53,5 +53,4 @@ public class ERVirtualDiagramSetOutlineEditPart extends AbstractOutlineEditPart 
         this.setWidgetText("Virtual Diagram" + " (" + getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
-
 }

@@ -114,7 +114,6 @@ public class MoveElementCommand extends AbstractCommand {
                     this.newCategoryRectangleMap.put(category, new Rectangle(categoryX, categoryY, categoryWidth, categoryHeight));
                     this.oldCategoryRectangleMap.put(category, oldRectangle);
                 }
-
             } else {
                 if (diagram.getCurrentCategory() == null) {
                     if (bounds.x >= category.getX() && bounds.x + bounds.width <= category.getX() + category.getWidth()
@@ -126,9 +125,6 @@ public class MoveElementCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         if (this.bounds != null) {
@@ -166,9 +162,6 @@ public class MoveElementCommand extends AbstractCommand {
         this.element.setLocation(new Location(x, y, width, height));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.element.setLocation(new Location(oldX, oldY, oldWidth, oldHeight));

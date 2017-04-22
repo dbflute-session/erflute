@@ -46,7 +46,7 @@ public abstract class PreImportFromDBManager {
             this.importObjects.addAll(this.importViews());
             this.importObjects.addAll(this.importTriggers());
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.log(Level.WARNING, e.getMessage(), e);
             this.exception = e;
         }
@@ -69,7 +69,7 @@ public abstract class PreImportFromDBManager {
     }
 
     private List<DBObject> importObjects(String[] types, String dbObjectType) throws SQLException {
-        List<DBObject> list = new ArrayList<DBObject>();
+        final List<DBObject> list = new ArrayList<>();
 
         ResultSet resultSet = null;
 
@@ -77,36 +77,34 @@ public abstract class PreImportFromDBManager {
             this.schemaList.add(null);
         }
 
-        for (String schemaPattern : this.schemaList) {
+        for (final String schemaPattern : this.schemaList) {
             try {
                 resultSet = metaData.getTables(null, schemaPattern, null, types);
 
                 while (resultSet.next()) {
-                    String schema = resultSet.getString("TABLE_SCHEM");
-                    String name = resultSet.getString("TABLE_NAME");
+                    final String schema = resultSet.getString("TABLE_SCHEM");
+                    final String name = resultSet.getString("TABLE_NAME");
 
                     if (DBObject.TYPE_TABLE.equals(dbObjectType)) {
                         try {
                             this.getAutoIncrementColumnName(con, schema, name);
 
-                        } catch (SQLException e) {
+                        } catch (final SQLException e) {
                             e.printStackTrace();
-                            // �e�[�u����񂪎擾�ł��Ȃ��ꍇ�i���̃��[�U�̏��L���Ȃǂ̏ꍇ�j�A
-                            // ���̃e�[�u���͎g�p���Ȃ��B
+                            // テーブル情報が取得できない場合（他のユーザの所有物などの場合）、
+                            // このテーブルは使用しない。
                             continue;
                         }
                     }
 
-                    DBObject dbObject = new DBObject(schema, name, dbObjectType);
+                    final DBObject dbObject = new DBObject(schema, name, dbObjectType);
                     list.add(dbObject);
                 }
-
             } finally {
                 if (resultSet != null) {
                     resultSet.close();
                     resultSet = null;
                 }
-
             }
         }
 
@@ -114,7 +112,7 @@ public abstract class PreImportFromDBManager {
     }
 
     private String getAutoIncrementColumnName(Connection con, String schema, String tableName) throws SQLException {
-        String autoIncrementColumnName = null;
+        final String autoIncrementColumnName = null;
 
         Statement stmt = null;
         ResultSet rs = null;
@@ -131,7 +129,6 @@ public abstract class PreImportFromDBManager {
             if (stmt != null) {
                 stmt.close();
             }
-
         }
 
         return autoIncrementColumnName;
@@ -148,5 +145,4 @@ public abstract class PreImportFromDBManager {
     public Exception getException() {
         return exception;
     }
-
 }

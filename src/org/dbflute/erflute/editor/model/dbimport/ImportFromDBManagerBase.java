@@ -93,7 +93,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         public String toString() {
             return "ColumnData [columnName=" + columnName + ", type=" + type + ", size=" + size + ", decimalDegits=" + decimalDegits + "]";
         }
-
     }
 
     private static class ForeignKeyData {
@@ -212,7 +211,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                     throw new InterruptedException("Cancel has been requested.");
                 }
             }
-
         } finally {
             if (columnSet != null) {
                 columnSet.close();
@@ -454,7 +452,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                     break;
                 }
             }
-
         } finally {
             this.close(rs);
             this.close(stmt);
@@ -472,8 +469,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         ResultSet indexSet = null;
 
         try {
-            // getIndexInfo �ｽ�ｽ table �ｽw�ｽ�ｽﾈゑｿｽ�ｽﾅは取得�ｽﾅゑｿｽ�ｽﾈゑｿｽ�ｽ�ｽ�ｽﾟ、
-            // �ｽe�ｽ[�ｽu�ｽ�ｽ�ｽ�ｽ�ｽﾆに取得�ｽ�ｽ�ｽ�ｽK�ｽv�ｽ�ｽ�ｽ�ｽ�ｽ�ｽﾜゑｿｽ�ｽB
             indexSet = metaData.getIndexInfo(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
                     table.getPhysicalName(), false, true);
 
@@ -520,7 +515,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
                 index.addColumnName(columnName, desc);
             }
-
         } catch (final SQLException e) {
             throw e;
         } finally {
@@ -581,7 +575,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
                 primaryKeys.add(data);
             }
-
         } catch (final SQLException e) {
             // Microsoft Access does not support getPrimaryKeys
 
@@ -739,7 +732,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             if (foreignKeyData.targetSchemaName != null) {
                 return false;
             }
-
         } else if (!foreignKeyData.sourceSchemaName.equals(foreignKeyData.targetSchemaName)) {
             return false;
         }
@@ -850,7 +842,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             for (final Map.Entry<String, List<ForeignKeyData>> entry : sameNameForeignKeyDataMap.entrySet()) {
                 this.createRelation(target, entry.getValue());
             }
-
         } catch (final SQLException e) {
             // microsoft access does not support getImportedKeys
 
@@ -1165,7 +1156,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 String aliasTableName = columnName.substring(0, dotIndex);
                 columnName = columnName.substring(dotIndex + 1);
 
-                // schema.tablename.columnname �ｽﾌ場合
                 dotIndex = columnName.indexOf(".");
                 if (dotIndex != -1) {
                     aliasTableName = columnName.substring(0, dotIndex);
@@ -1207,7 +1197,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                                 break;
                             }
                         }
-
                     }
 
                     this.addColumnToView(columnList, targetColumn, columnAlias);
@@ -1275,7 +1264,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     protected Tablespace importTablespace(String tablespaceName) throws SQLException {
-        // TODO �ｽe�ｽ[�ｽu�ｽ�ｽ�ｽX�ｽy�ｽ[�ｽX�ｽﾌイ�ｽ�ｽ�ｽ|�ｽ[�ｽg
         return null;
     }
 

@@ -25,5 +25,4 @@ public class SpinnerWithScale {
     public int getSelection() {
         return this.spinner.getSelection();
     }
-
 }

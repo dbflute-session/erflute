@@ -15,9 +15,6 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
         this.relation = relation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setSource(EditPart source) {
         this.source = source;
@@ -25,9 +22,6 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         ERDiagramEditPart.setUpdateable(false);
@@ -72,9 +66,6 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
         sourceTable.setDirty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
@@ -91,12 +82,8 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
         targetTable.setDirty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean canExecute() {
         return source != null && target != null;
     }
-
 }

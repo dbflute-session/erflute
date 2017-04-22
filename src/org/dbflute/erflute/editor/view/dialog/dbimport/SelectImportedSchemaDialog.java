@@ -44,9 +44,6 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
         this.importDB = importDB;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initComponent(Composite composite) {
         this.createObjectListComposite(composite);
@@ -90,13 +87,9 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
             public void checkStateChanged(CheckStateChangedEvent event) {
                 validate();
             }
-
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
         this.createButton(parent, IDialogConstants.BACK_ID, IDialogConstants.BACK_LABEL, false);
@@ -104,9 +97,6 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
         this.createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void performOK() throws InputException {
         Object[] selectedNodes = this.viewer.getCheckedElements();
@@ -121,9 +111,6 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
         if (this.viewer.getCheckedElements().length == 0) {
@@ -156,14 +143,12 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
                     checkedList.add(schemaNode);
                 }
             }
-
         } else {
             for (TreeNode schemaNode : schemaNodes) {
                 if (this.selectedSchemaList.contains(schemaNode.getValue())) {
                     checkedList.add(schemaNode);
                 }
             }
-
         }
 
         this.viewer.setCheckedElements(checkedList.toArray(new TreeNode[checkedList.size()]));
@@ -194,5 +179,4 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
     public List<String> getSelectedSchemas() {
         return this.resultSelectedSchemas;
     }
-
 }

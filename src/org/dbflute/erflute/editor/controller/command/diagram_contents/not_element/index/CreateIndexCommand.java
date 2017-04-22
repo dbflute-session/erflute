@@ -25,17 +25,11 @@ public class CreateIndexCommand extends AbstractCommand {
         this.newIndexList.add(newIndex);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.table.setIndexes(this.newIndexList);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.table.setIndexes(this.oldIndexList);

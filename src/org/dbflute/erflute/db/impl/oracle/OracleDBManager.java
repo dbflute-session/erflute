@@ -20,34 +20,32 @@ public class OracleDBManager extends DBManagerBase {
 
     public static final String ID = "Oracle";
 
+    @Override
     public String getId() {
         return ID;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDriverClassName() {
         return "oracle.jdbc.driver.OracleDriver";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getURL() {
         return "jdbc:oracle:thin:@<SERVER NAME>:<PORT>:<DB NAME>";
     }
 
+    @Override
     public int getDefaultPort() {
         return 1521;
     }
 
+    @Override
     public SqlTypeManager getSqlTypeManager() {
         return new OracleSqlTypeManager();
     }
 
+    @Override
     public TableProperties createTableProperties(TableProperties tableProperties) {
         if (tableProperties != null && tableProperties instanceof OracleTableProperties) {
             return tableProperties;
@@ -56,12 +54,14 @@ public class OracleDBManager extends DBManagerBase {
         return new OracleTableProperties();
     }
 
+    @Override
     public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
         return new OracleDDLCreator(diagram, semicolon);
     }
 
+    @Override
     public List<String> getIndexTypeList(ERTable table) {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("BTREE");
 
@@ -73,22 +73,27 @@ public class OracleDBManager extends DBManagerBase {
         return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_SCHEMA, SUPPORT_SEQUENCE };
     }
 
+    @Override
     public ImportFromDBManager getTableImportManager() {
         return new OracleTableImportManager();
     }
 
+    @Override
     public PreImportFromDBManager getPreTableImportManager() {
         return new OraclePreTableImportManager();
     }
 
+    @Override
     public PreTableExportManager getPreTableExportManager() {
         return new OraclePreTableExportManager();
     }
 
+    @Override
     public TablespaceProperties createTablespaceProperties() {
         return new OracleTablespaceProperties();
     }
 
+    @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
 
         if (!(tablespaceProperties instanceof OracleTablespaceProperties)) {
@@ -98,13 +103,14 @@ public class OracleDBManager extends DBManagerBase {
         return tablespaceProperties;
     }
 
+    @Override
     public String[] getCurrentTimeValue() {
         return new String[] { "SYSDATE" };
     }
 
     @Override
     public List<String> getSystemSchemaList() {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("anonymous");
         list.add("ctxsys");
@@ -123,6 +129,7 @@ public class OracleDBManager extends DBManagerBase {
         return list;
     }
 
+    @Override
     public BigDecimal getSequenceMaxValue() {
         return new BigDecimal("9999999999999999999999999999");
     }

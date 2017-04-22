@@ -19,9 +19,6 @@ import org.eclipse.gef.requests.BendpointRequest;
 
 public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getCreateBendpointCommand(BendpointRequest bendpointrequest) {
         AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) this.getHost();
@@ -40,9 +37,6 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
         return createBendpointCommand;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getDeleteBendpointCommand(BendpointRequest bendpointrequest) {
         WalkerConnection connection = (WalkerConnection) getHost().getModel();
@@ -56,9 +50,6 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
         return command;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getMoveBendpointCommand(BendpointRequest bendpointrequest) {
         ConnectionEditPart editPart = (ConnectionEditPart) this.getHost();
@@ -77,9 +68,6 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
         return super.createSelectionHandles();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void showSelection() {
         EditPart contents = this.getHost().getRoot().getContents();

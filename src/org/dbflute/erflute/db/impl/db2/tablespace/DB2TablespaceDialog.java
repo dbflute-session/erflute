@@ -97,5 +97,4 @@ public class DB2TablespaceDialog extends TablespaceDialog {
             this.bufferPoolName.setText(Format.toString(properties.getBufferPoolName()));
         }
     }
-
 }

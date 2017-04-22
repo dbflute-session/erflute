@@ -28,22 +28,15 @@ public class AddWordCommand extends AbstractCommand {
         this.column = new NormalColumn(this.word, true, false, false, false, null, null, null, null, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.tableView.addColumn(this.index, this.column);
         this.dictionary.add(this.column);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.tableView.removeColumn(this.column);
         this.dictionary.remove(this.column);
     }
-
 }

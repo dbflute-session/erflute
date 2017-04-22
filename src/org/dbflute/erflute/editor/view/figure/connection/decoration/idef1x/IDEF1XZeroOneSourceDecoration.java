@@ -25,5 +25,4 @@ public class IDEF1XZeroOneSourceDecoration extends ERDecoration {
 
         this.add(label);
     }
-
 }

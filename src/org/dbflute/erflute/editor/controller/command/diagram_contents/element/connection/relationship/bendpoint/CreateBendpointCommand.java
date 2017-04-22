@@ -6,13 +6,13 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
 
 public class CreateBendpointCommand extends AbstractCommand {
 
-    private WalkerConnection connection;
+    private final WalkerConnection connection;
 
     int x;
 
     int y;
 
-    private int index;
+    private final int index;
 
     public CreateBendpointCommand(WalkerConnection connection, int x, int y, int index) {
         this.connection = connection;
@@ -21,18 +21,12 @@ public class CreateBendpointCommand extends AbstractCommand {
         this.index = index;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
-        Bendpoint bendpoint = new Bendpoint(this.x, this.y);
+        final Bendpoint bendpoint = new Bendpoint(this.x, this.y);
         connection.addBendpoint(index, bendpoint);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         connection.removeBendpoint(index);

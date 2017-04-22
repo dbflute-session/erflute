@@ -24,9 +24,6 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
         super(ID, "Rename", treeViewer);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
 
@@ -50,7 +47,5 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
                 //				this.execute(command);
             }
         }
-
     }
-
 }

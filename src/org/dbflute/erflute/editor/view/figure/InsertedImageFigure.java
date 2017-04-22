@@ -66,7 +66,5 @@ public class InsertedImageFigure extends Figure {
             graphics.drawImage(this.image, new Rectangle(this.image.getBounds()), area);
 
         }
-
     }
-
 }

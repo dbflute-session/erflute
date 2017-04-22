@@ -217,7 +217,6 @@ public class SequenceDialog extends AbstractDialog {
                     if (size < 0) {
                         return "error.sequence.size.zero";
                     }
-
                 } catch (NumberFormatException e) {
                     return "error.sequence.size.degit";
                 }
@@ -360,9 +359,7 @@ public class SequenceDialog extends AbstractDialog {
                         decimalSizeText.setEnabled(false);
                     }
                 }
-
             });
         }
     }
-
 }

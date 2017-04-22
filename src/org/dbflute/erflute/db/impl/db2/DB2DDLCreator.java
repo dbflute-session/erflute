@@ -15,19 +15,16 @@ public class DB2DDLCreator extends DDLCreator {
         super(diagram, semicolon);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String buildColumnPart(NormalColumn normalColumn) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         ddl.append(super.buildColumnPart(normalColumn));
 
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" GENERATED ALWAYS AS IDENTITY ");
 
-            Sequence sequence = normalColumn.getAutoIncrementSetting();
+            final Sequence sequence = normalColumn.getAutoIncrementSetting();
 
             if (sequence.getIncrement() != null || sequence.getStart() != null) {
                 ddl.append("(START WITH ");
@@ -52,10 +49,10 @@ public class DB2DDLCreator extends DDLCreator {
 
     @Override
     protected String doBuildCreateTablespace(Tablespace tablespace) {
-        DB2TablespaceProperties tablespaceProperties =
+        final DB2TablespaceProperties tablespaceProperties =
                 (DB2TablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         ddl.append("CREATE ");
         if (!Check.isEmpty(tablespaceProperties.getType())) {
@@ -106,9 +103,9 @@ public class DB2DDLCreator extends DDLCreator {
 
     @Override
     public String doBuildCreateSequence(Sequence sequence) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
-        String description = sequence.getDescription();
+        final String description = sequence.getDescription();
         if (this.semicolon && !Check.isEmpty(description) && this.ddlTarget.inlineTableComment) {
             ddl.append("-- ");
             ddl.append(description.replaceAll("\n", "\n-- "));
@@ -157,5 +154,4 @@ public class DB2DDLCreator extends DDLCreator {
         return ddl.toString();
 
     }
-
 }

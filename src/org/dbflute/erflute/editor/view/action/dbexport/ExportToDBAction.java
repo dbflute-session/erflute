@@ -65,6 +65,5 @@ public class ExportToDBAction extends AbstractBaseAction {
             this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_DB));
             this.setToolTipText(this.getText());
         }
-
     }
 }

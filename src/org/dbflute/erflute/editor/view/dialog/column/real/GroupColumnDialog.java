@@ -17,5 +17,4 @@ public class GroupColumnDialog extends AbstractRealColumnDialog {
     protected String getTitle() {
         return "dialog.title.group.column";
     }
-
 }

@@ -117,9 +117,6 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
 
         this.groupAddButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int targetIndex = groupCombo.getSelectionIndex();
@@ -132,7 +129,6 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
 
                 groupAddButton.setEnabled(false);
             }
-
         });
 
         this.groupAddButton.setEnabled(false);
@@ -154,9 +150,6 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
 
         this.groupCombo.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int targetIndex = groupCombo.getSelectionIndex();
@@ -239,7 +232,6 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
                     groupAddButton.setEnabled(false);
                 }
             }
-
         });
     }
 
@@ -247,9 +239,6 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
         return this.view.getDiagram().getDiagramContents().getColumnGroupSet();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setInitFocus() {
         this.physicalNameText.setFocus();

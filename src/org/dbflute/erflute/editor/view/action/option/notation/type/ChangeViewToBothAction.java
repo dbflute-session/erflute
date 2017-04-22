@@ -15,5 +15,4 @@ public class ChangeViewToBothAction extends AbstractChangeViewAction {
     protected int getViewMode() {
         return DiagramSettings.VIEW_MODE_BOTH;
     }
-
 }

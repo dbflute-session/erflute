@@ -22,26 +22,26 @@ import org.dbflute.erflute.editor.model.dbexport.ddl.validator.rule.view.impl.Re
 
 public class Validator {
 
-    private static final List<Rule> RULE_LIST = new ArrayList<Rule>();
+    private static final List<Rule> RULE_LIST = new ArrayList<>();
 
     static {
-        // �S�̂ɑ΂��郋�[��
+        // 全体に対するルール
         new DuplicatedPhysicalNameRule();
         new ReservedNameRule();
 
-        // �e�[�u���ɑ΂��郋�[��
+        // テーブルに対するルール
         new NoTableNameRule();
         new NoColumnRule();
         new DuplicatedColumnNameRule();
         new ReservedWordTableNameRule();
         new FullTextIndexRule();
 
-        // �r���[�ɑ΂��郋�[��
+        // ビューに対するルール
         new NoViewNameRule();
         new ReservedWordViewNameRule();
         new NoViewSqlRule();
 
-        // ��ɑ΂��郋�[��
+        // 列に対するルール
         new NoColumnNameRule();
         new NoColumnTypeRule();
         new ReservedWordColumnNameRule();
@@ -53,10 +53,10 @@ public class Validator {
     }
 
     public List<ValidateResult> validate(ERDiagram diagram) {
-        List<ValidateResult> errorList = new ArrayList<ValidateResult>();
+        final List<ValidateResult> errorList = new ArrayList<>();
 
-        for (Rule rule : RULE_LIST) {
-            boolean ret = rule.validate(diagram);
+        for (final Rule rule : RULE_LIST) {
+            final boolean ret = rule.validate(diagram);
 
             errorList.addAll(rule.getErrorList());
             rule.clear();
@@ -65,8 +65,6 @@ public class Validator {
                 break;
             }
         }
-
         return errorList;
     }
-
 }

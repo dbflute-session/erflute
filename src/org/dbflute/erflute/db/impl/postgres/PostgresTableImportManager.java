@@ -13,9 +13,6 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
         return this.dbSetting.getTableNameWithSchema("\"" + tableName + "\"", schema);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getViewDefinitionSQL(String schema) {
         if (schema != null) {
@@ -29,8 +26,8 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
 
     @Override
     protected ColumnData createColumnData(ResultSet columnSet) throws SQLException {
-        ColumnData columnData = super.createColumnData(columnSet);
-        String type = columnData.type.toLowerCase();
+        final ColumnData columnData = super.createColumnData(columnSet);
+        final String type = columnData.type.toLowerCase();
 
         if (type.startsWith("time")) {
             if (columnData.decimalDegits == 6) {
@@ -45,7 +42,6 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
             if (columnData.size == 131089 && columnData.decimalDegits == 0) {
                 columnData.size = 0;
             }
-
         }
 
         return columnData;
@@ -55,7 +51,7 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
     protected void cashOtherColumnData(String tableName, String schema, ColumnData columnData) throws SQLException {
 
         if (columnData.type.equals("interval")) {
-            String restrictType = this.getRestrictType(tableName, schema, columnData);
+            final String restrictType = this.getRestrictType(tableName, schema, columnData);
 
             if (restrictType != null && restrictType.indexOf("(") != -1) {
                 columnData.size = columnData.decimalDegits;
@@ -77,10 +73,9 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
         ResultSet rs = null;
 
         try {
-            ps =
-                    con.prepareStatement("select atttypmod from pg_attribute" + " inner join pg_stat_user_tables "
-                            + " on pg_stat_user_tables.relid = pg_attribute.attrelid " + " where pg_stat_user_tables.relname = ? "
-                            + " and pg_stat_user_tables.schemaname=? " + " and pg_attribute.attname = ?");
+            ps = con.prepareStatement("select atttypmod from pg_attribute" + " inner join pg_stat_user_tables "
+                    + " on pg_stat_user_tables.relid = pg_attribute.attrelid " + " where pg_stat_user_tables.relname = ? "
+                    + " and pg_stat_user_tables.schemaname=? " + " and pg_attribute.attname = ?");
 
             ps.setString(1, tableName);
             ps.setString(2, schema);
@@ -89,7 +84,7 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                int atttypmod = rs.getInt("atttypmod");
+                final int atttypmod = rs.getInt("atttypmod");
 
                 if (atttypmod == 196607) {
                     type = "interval month";
@@ -150,7 +145,6 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
 
                 }
             }
-
         } finally {
             if (rs != null) {
                 rs.close();

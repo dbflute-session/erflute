@@ -15,9 +15,6 @@ public abstract class AbstractChangeNotationLevelAction extends AbstractBaseActi
         this.setText(DisplayMessages.getMessage("action.title.change.notation.level." + this.getLevel()));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         if (!this.isChecked()) {

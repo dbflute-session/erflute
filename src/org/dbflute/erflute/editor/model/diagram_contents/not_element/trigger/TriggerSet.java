@@ -64,9 +64,6 @@ public class TriggerSet extends AbstractModel implements ObjectListModel, Iterab
         return this.triggerList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TriggerSet clone() {
         TriggerSet triggerSet = (TriggerSet) super.clone();

@@ -7,7 +7,7 @@ import org.eclipse.draw2d.Graphics;
 public class IndexFigure extends Figure {
 
     public IndexFigure() {
-        FlowLayout layout = new FlowLayout();
+        final FlowLayout layout = new FlowLayout();
         this.setLayoutManager(layout);
 
     }
@@ -16,9 +16,6 @@ public class IndexFigure extends Figure {
         this.removeAll();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void paintFigure(Graphics graphics) {
         if (graphics.getBackgroundColor().equals(this.getParent().getBackgroundColor())) {
@@ -27,5 +24,4 @@ public class IndexFigure extends Figure {
 
         super.paintFigure(graphics);
     }
-
 }

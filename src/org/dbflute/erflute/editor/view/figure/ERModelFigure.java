@@ -27,5 +27,4 @@ public class ERModelFigure extends RectangleFigure {
         graphics.setAlpha(100);
         super.fillShape(graphics);
     }
-
 }

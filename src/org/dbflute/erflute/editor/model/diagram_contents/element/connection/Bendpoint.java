@@ -53,9 +53,6 @@ public class Bendpoint implements Serializable, Cloneable {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Object clone() {
         Bendpoint clone = null;

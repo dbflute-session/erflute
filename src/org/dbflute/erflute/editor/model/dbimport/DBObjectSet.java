@@ -70,5 +70,4 @@ public class DBObjectSet implements Serializable {
             dbObjectList.add(dbObject);
         }
     }
-
 }

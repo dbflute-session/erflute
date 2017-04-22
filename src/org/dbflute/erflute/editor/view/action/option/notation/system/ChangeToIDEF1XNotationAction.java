@@ -15,5 +15,4 @@ public class ChangeToIDEF1XNotationAction extends AbstractChangeNotationAction {
     protected String getNotation() {
         return DiagramSettings.NOTATION_IDEF1X;
     }
-
 }

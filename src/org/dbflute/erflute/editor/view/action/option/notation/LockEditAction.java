@@ -16,9 +16,6 @@ public class LockEditAction extends AbstractBaseAction {
         this.setText(DisplayMessages.getMessage("action.title.lock.edit"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();

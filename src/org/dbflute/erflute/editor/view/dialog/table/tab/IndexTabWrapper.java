@@ -137,9 +137,6 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
 
         this.deleteButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent event) {
                 removeIndex();

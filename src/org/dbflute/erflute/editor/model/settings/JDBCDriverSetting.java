@@ -92,5 +92,4 @@ public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSet
 
         return 0;
     }
-
 }

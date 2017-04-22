@@ -332,7 +332,6 @@ public class ReplaceManager {
                     if (len < 0) {
                         return false;
                     }
-
                 } catch (final NumberFormatException e) {
                     return false;
                 }

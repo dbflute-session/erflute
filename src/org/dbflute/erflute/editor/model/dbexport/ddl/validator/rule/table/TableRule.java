@@ -20,25 +20,16 @@ public abstract class TableRule extends BaseRule {
         this.errorList = new ArrayList<ValidateResult>();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addError(ValidateResult errorMessage) {
         this.errorList.add(errorMessage);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<ValidateResult> getErrorList() {
         return this.errorList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void clear() {
         this.errorList.clear();

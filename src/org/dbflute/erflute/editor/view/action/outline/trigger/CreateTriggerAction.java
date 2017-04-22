@@ -18,9 +18,6 @@ public class CreateTriggerAction extends AbstractOutlineBaseAction {
         super(ID, DisplayMessages.getMessage("action.title.create.trigger"), treeViewer);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
@@ -32,5 +29,4 @@ public class CreateTriggerAction extends AbstractOutlineBaseAction {
             this.execute(command);
         }
     }
-
 }

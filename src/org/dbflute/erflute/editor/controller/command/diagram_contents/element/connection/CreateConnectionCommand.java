@@ -13,17 +13,13 @@ public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
         this.connection = connection;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
 
         DiagramWalker sourceTable = (DiagramWalker) this.source.getModel();
         DiagramWalker targetTable = (DiagramWalker) this.target.getModel();
 
-        // Table���m�̃����[�V�����́ATable <=> Table �Ōq��
-
+        // Table同士のリレーションは、Table <=> Table で繋ぐ
         if (sourceTable instanceof ERVirtualTable) {
             sourceTable = ((ERVirtualTable) sourceTable).getRawTable();
         }
@@ -35,21 +31,14 @@ public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
         connection.setTargetWalker(targetTable);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         connection.setSourceWalker(null);
         connection.setTargetWalker(null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String validate() {
         return null;
     }
-
 }

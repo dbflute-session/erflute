@@ -64,9 +64,6 @@ public class SequenceSet extends AbstractModel implements ObjectListModel, Itera
         return this.sequenceList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public SequenceSet clone() {
         SequenceSet sequenceSet = (SequenceSet) super.clone();

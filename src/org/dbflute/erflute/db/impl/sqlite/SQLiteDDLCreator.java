@@ -107,5 +107,4 @@ public class SQLiteDDLCreator extends DDLCreator {
     protected String buildCreateForeignKeys(ERDiagram diagram) {
         return "";
     }
-
 }

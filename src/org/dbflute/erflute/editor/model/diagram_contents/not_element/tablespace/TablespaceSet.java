@@ -52,9 +52,6 @@ public class TablespaceSet extends AbstractModel implements Iterable<Tablespace>
         return this.tablespaceList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TablespaceSet clone() {
         TablespaceSet tablespaceSet = (TablespaceSet) super.clone();

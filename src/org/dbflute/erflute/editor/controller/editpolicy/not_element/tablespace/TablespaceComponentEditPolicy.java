@@ -8,12 +8,8 @@ import org.eclipse.gef.commands.Command;
 
 public class TablespaceComponentEditPolicy extends NotElementComponentEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createDeleteCommand(ERDiagram diagram, Object model) {
         return new DeleteTablespaceCommand(diagram, (Tablespace) model);
     }
-
 }

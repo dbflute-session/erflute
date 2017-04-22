@@ -34,10 +34,7 @@ public class NameValue implements Serializable, Cloneable {
     public NameValue clone() {
         try {
             return (NameValue) super.clone();
-
-        } catch (CloneNotSupportedException e) {}
-
+        } catch (final CloneNotSupportedException e) {}
         return null;
     }
-
 }

@@ -7,13 +7,13 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeNotationLevelCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private int oldNotationLevel;
+    private final int oldNotationLevel;
 
-    private int newNotationLevel;
+    private final int newNotationLevel;
 
-    private DiagramSettings settings;
+    private final DiagramSettings settings;
 
     public ChangeNotationLevelCommand(ERDiagram diagram, int notationLevel) {
         this.diagram = diagram;
@@ -22,9 +22,6 @@ public class ChangeNotationLevelCommand extends AbstractCommand {
         this.oldNotationLevel = this.settings.getNotationLevel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.settings.setNotationLevel(this.newNotationLevel);
@@ -32,9 +29,6 @@ public class ChangeNotationLevelCommand extends AbstractCommand {
         ERModelUtil.refreshDiagram(diagram);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.settings.setNotationLevel(this.oldNotationLevel);

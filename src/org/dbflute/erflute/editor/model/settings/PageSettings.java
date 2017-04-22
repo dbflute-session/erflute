@@ -12,19 +12,19 @@ public class PageSettings implements Serializable {
 
     private static final int DEFAULT_MARGIN = 30;
 
-    private boolean directionHorizontal;
+    private final boolean directionHorizontal;
 
-    private int scale;
+    private final int scale;
 
-    private String paperSize;
+    private final String paperSize;
 
-    private int topMargin;
+    private final int topMargin;
 
-    private int leftMargin;
+    private final int leftMargin;
 
-    private int bottomMargin;
+    private final int bottomMargin;
 
-    private int rightMargin;
+    private final int rightMargin;
 
     public PageSettings() {
         this.directionHorizontal = true;
@@ -48,7 +48,7 @@ public class PageSettings implements Serializable {
     }
 
     public static List<String> getAllPaperSize() {
-        List<String> allPaperSize = new ArrayList<String>();
+        final List<String> allPaperSize = new ArrayList<>();
 
         allPaperSize.add("A0 841 x 1189 mm");
         allPaperSize.add("A1 594 x 841 mm");
@@ -65,58 +65,30 @@ public class PageSettings implements Serializable {
         return allPaperSize;
     }
 
-    /**
-     * directionHorizontal を取得します.
-     * @return directionHorizontal
-     */
     public boolean isDirectionHorizontal() {
         return directionHorizontal;
     }
 
-    /**
-     * scale を取得します.
-     * @return scale
-     */
     public int getScale() {
         return scale;
     }
 
-    /**
-     * paperSize を取得します.
-     * @return paperSize
-     */
     public String getPaperSize() {
         return paperSize;
     }
 
-    /**
-     * topMargin を取得します.
-     * @return topMargin
-     */
     public int getTopMargin() {
         return topMargin;
     }
 
-    /**
-     * leftMargin を取得します.
-     * @return leftMargin
-     */
     public int getLeftMargin() {
         return leftMargin;
     }
 
-    /**
-     * bottomMargin を取得します.
-     * @return bottomMargin
-     */
     public int getBottomMargin() {
         return bottomMargin;
     }
 
-    /**
-     * rightMargin を取得します.
-     * @return rightMargin
-     */
     public int getRightMargin() {
         return rightMargin;
     }
@@ -159,7 +131,6 @@ public class PageSettings implements Serializable {
                 // A4
                 return 297;
             }
-
         } else {
             if (this.paperSize.startsWith("A0")) {
                 return 841;

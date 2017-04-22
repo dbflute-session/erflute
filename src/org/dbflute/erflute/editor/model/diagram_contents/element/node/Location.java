@@ -21,9 +21,6 @@ public class Location implements Serializable, Cloneable {
         this.height = height;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Location clone() {
         try {
@@ -33,5 +30,4 @@ public class Location implements Serializable, Cloneable {
 
         return null;
     }
-
 }

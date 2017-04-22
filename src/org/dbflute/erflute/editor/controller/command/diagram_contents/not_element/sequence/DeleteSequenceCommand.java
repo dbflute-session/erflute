@@ -16,17 +16,11 @@ public class DeleteSequenceCommand extends AbstractCommand {
         this.sequence = sequence;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.sequenceSet.remove(this.sequence);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.sequenceSet.addSequence(this.sequence);

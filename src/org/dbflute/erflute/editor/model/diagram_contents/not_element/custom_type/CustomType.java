@@ -9,25 +9,17 @@ public class CustomType extends WithSchemaModel implements ObjectModel {
 
     private String description;
 
+    @Override
     public String getObjectType() {
         return "sequence";
     }
 
-    /**
-     * description ���擾���܂�.
-     * @return description
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * description ��ݒ肵�܂�.
-     * @param description
-     *            description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
-
 }

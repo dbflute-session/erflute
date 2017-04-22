@@ -6,13 +6,13 @@ import org.dbflute.erflute.editor.model.settings.CategorySettings;
 
 public class ChangeFreeLayoutCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private boolean oldFreeLayout;
+    private final boolean oldFreeLayout;
 
-    private boolean newFreeLayout;
+    private final boolean newFreeLayout;
 
-    private CategorySettings categorySettings;
+    private final CategorySettings categorySettings;
 
     public ChangeFreeLayoutCommand(ERDiagram diagram, boolean isFreeLayout) {
         this.diagram = diagram;
@@ -22,18 +22,12 @@ public class ChangeFreeLayoutCommand extends AbstractCommand {
         this.oldFreeLayout = this.categorySettings.isFreeLayout();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.categorySettings.setFreeLayout(this.newFreeLayout);
         this.diagram.changeAll();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.categorySettings.setFreeLayout(this.oldFreeLayout);

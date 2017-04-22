@@ -20,34 +20,32 @@ public class SqlServerDBManager extends DBManagerBase {
 
     public static final String ID = "SQLServer";
 
+    @Override
     public String getId() {
         return ID;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDriverClassName() {
         return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getURL() {
         return "jdbc:sqlserver://<SERVER NAME>:<PORT>;database=<DB NAME>";
     }
 
+    @Override
     public int getDefaultPort() {
         return 1433;
     }
 
+    @Override
     public SqlTypeManager getSqlTypeManager() {
         return new SqlServerSqlTypeManager();
     }
 
+    @Override
     public TableProperties createTableProperties(TableProperties tableProperties) {
         if (tableProperties != null && tableProperties instanceof SqlServerTableProperties) {
             return tableProperties;
@@ -56,12 +54,14 @@ public class SqlServerDBManager extends DBManagerBase {
         return new SqlServerTableProperties();
     }
 
+    @Override
     public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
         return new SqlServerDDLCreator(diagram, semicolon);
     }
 
+    @Override
     public List<String> getIndexTypeList(ERTable table) {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("BTREE");
 
@@ -73,22 +73,27 @@ public class SqlServerDBManager extends DBManagerBase {
         return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_SCHEMA };
     }
 
+    @Override
     public ImportFromDBManager getTableImportManager() {
         return new SqlServerTableImportManager();
     }
 
+    @Override
     public PreImportFromDBManager getPreTableImportManager() {
         return new SqlServerPreTableImportManager();
     }
 
+    @Override
     public PreTableExportManager getPreTableExportManager() {
         return new SqlServerPreTableExportManager();
     }
 
+    @Override
     public TablespaceProperties createTablespaceProperties() {
         return new SqlServerTablespaceProperties();
     }
 
+    @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
 
         if (!(tablespaceProperties instanceof SqlServerTablespaceProperties)) {
@@ -98,13 +103,14 @@ public class SqlServerDBManager extends DBManagerBase {
         return tablespaceProperties;
     }
 
+    @Override
     public String[] getCurrentTimeValue() {
         return new String[] { "GETDATE()", "CURRENT_TIMESTAMP" };
     }
 
     @Override
     public List<String> getSystemSchemaList() {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("db_accessadmin");
         list.add("db_backupoperator");
@@ -119,6 +125,7 @@ public class SqlServerDBManager extends DBManagerBase {
         return list;
     }
 
+    @Override
     public BigDecimal getSequenceMaxValue() {
         return null;
     }

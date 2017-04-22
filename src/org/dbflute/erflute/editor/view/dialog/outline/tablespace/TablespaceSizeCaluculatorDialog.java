@@ -270,37 +270,26 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
         tableItem.setText(1, Format.toString(num));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addListener() {
         ListenerAppender.addTableEditListener(this.tableTable, this.tableEditor, this);
 
         this.restoreDefaultButton1.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 setParameterData1();
                 calculate();
             }
-
         });
 
         this.restoreDefaultButton2.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 setParameterData2();
                 calculate();
             }
-
         });
     }
 
@@ -330,7 +319,6 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
                 TableItem tableItem = this.tableTable.getItem(xy.y);
                 this.column2TableItem(null, num, tableItem);
             }
-
         } catch (NumberFormatException e) {
             this.errorMessage = "error.record.num.degit";
             return;

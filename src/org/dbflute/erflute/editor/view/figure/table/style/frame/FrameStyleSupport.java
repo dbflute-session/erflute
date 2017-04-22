@@ -26,9 +26,6 @@ public class FrameStyleSupport extends AbstractStyleSupport {
         super(tableFigure, settings);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void init(TableFigure tableFigure) {
         this.border = new ImageFrameBorder();
@@ -37,9 +34,6 @@ public class FrameStyleSupport extends AbstractStyleSupport {
         tableFigure.setBorder(this.border);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void initTitleBar(Figure top) {
         this.titleBarBorder = (TitleBarBorder) this.border.getInnerBorder();
@@ -47,37 +41,37 @@ public class FrameStyleSupport extends AbstractStyleSupport {
         this.titleBarBorder.setPadding(new Insets(5, 20, 5, 20));
     }
 
+    @Override
     public void setName(String name) {
         this.titleBarBorder.setTextColor(this.getTextColor());
         this.titleBarBorder.setLabel(name);
     }
 
+    @Override
     public void setFont(Font font, Font titleFont) {
         this.titleBarBorder.setFont(titleFont);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void adjustBounds(Rectangle rect) {
-        int width = this.border.getTitleBarWidth(this.getTableFigure());
+        final int width = this.border.getTitleBarWidth(this.getTableFigure());
 
         if (width > rect.width) {
             rect.width = width;
         }
     }
 
+    @Override
     public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode, String physicalName,
             String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
             boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
 
-        Label label = this.createColumnLabel();
+        final Label label = this.createColumnLabel();
 
         label.setForegroundColor(this.getTextColor());
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append(this.getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull, uniqueKey, displayDetail,
                 displayType));
 
@@ -109,6 +103,7 @@ public class FrameStyleSupport extends AbstractStyleSupport {
         columnFigure.add(label);
     }
 
+    @Override
     public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
         // TODO Auto-generated method stub
 

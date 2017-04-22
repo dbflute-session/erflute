@@ -87,7 +87,7 @@ public class ImportTableCommand extends AbstractCommand {
         this.graph = new DirectedGraph();
 
         if (this.walkerList.size() < AUTO_GRAPH_LIMIT) {
-            final Map<DiagramWalker, Node> nodeElementNodeMap = new HashMap<DiagramWalker, Node>();
+            final Map<DiagramWalker, Node> nodeElementNodeMap = new HashMap<>();
             final int fontSize = this.diagram.getFontSize();
             final Insets insets = new Insets(5 * fontSize, 10 * fontSize, 35 * fontSize, 20 * fontSize);
             for (final DiagramWalker walker : this.walkerList) {
@@ -133,9 +133,6 @@ public class ImportTableCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         if (this.columnGroups != null) {
@@ -213,9 +210,6 @@ public class ImportTableCommand extends AbstractCommand {
         relation.addBendpoint(0, bendpoint0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);

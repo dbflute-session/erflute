@@ -20,9 +20,6 @@ public class DictionaryOutlineEditPart extends AbstractOutlineEditPart {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List getModelChildren() {
         return new ArrayList<Word>();
@@ -41,18 +38,12 @@ public class DictionaryOutlineEditPart extends AbstractOutlineEditPart {
         //		return list;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
         this.setWidgetText(DisplayMessages.getMessage("label.dictionary") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
@@ -62,5 +53,4 @@ public class DictionaryOutlineEditPart extends AbstractOutlineEditPart {
             part.refresh();
         }
     }
-
 }

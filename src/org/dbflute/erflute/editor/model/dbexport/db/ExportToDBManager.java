@@ -95,5 +95,4 @@ public class ExportToDBManager implements IRunnableWithProgress {
     public String getErrorSql() {
         return errorSql;
     }
-
 }

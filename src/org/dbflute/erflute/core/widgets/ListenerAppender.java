@@ -58,14 +58,13 @@ public class ListenerAppender {
     public static void addFocusListener(final Text text, final boolean selectAll, final boolean imeOn) {
         text.addFocusListener(new FocusAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void focusGained(FocusEvent e) {
-                ERDiagram diagram =
-                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
-                                .getAdapter(ERDiagram.class);
+                final ERDiagram diagram = (ERDiagram) PlatformUI.getWorkbench()
+                        .getActiveWorkbenchWindow()
+                        .getActivePage()
+                        .getActiveEditor()
+                        .getAdapter(ERDiagram.class);
 
                 if (diagram != null) {
                     if (diagram.getDiagramContents().getSettings().isAutoImeChange()) {
@@ -85,9 +84,6 @@ public class ListenerAppender {
                 super.focusGained(e);
             }
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void focusLost(FocusEvent e) {
                 // text.clearSelection();
@@ -98,6 +94,7 @@ public class ListenerAppender {
 
     public static void addTraverseListener(final Text textArea) {
         textArea.addTraverseListener(new TraverseListener() {
+            @Override
             public void keyTraversed(TraverseEvent e) {
                 if (e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
                     e.doit = true;
@@ -108,16 +105,17 @@ public class ListenerAppender {
 
     public static void addModifyListener(final Text text, final AbstractDialog dialog) {
         text.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 dialog.validate();
             }
-
         });
     }
 
     public static void addComboListener(final Combo combo, final AbstractDialog dialog, final boolean imeOn) {
         if (dialog != null) {
             combo.addModifyListener(new ModifyListener() {
+                @Override
                 public void modifyText(ModifyEvent e) {
                     dialog.validate();
                 }
@@ -125,10 +123,13 @@ public class ListenerAppender {
         }
 
         combo.addFocusListener(new FocusListener() {
+            @Override
             public void focusGained(FocusEvent e) {
-                ERDiagram diagram =
-                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
-                                .getAdapter(ERDiagram.class);
+                final ERDiagram diagram = (ERDiagram) PlatformUI.getWorkbench()
+                        .getActiveWorkbenchWindow()
+                        .getActivePage()
+                        .getActiveEditor()
+                        .getAdapter(ERDiagram.class);
 
                 if (diagram != null) {
                     if (diagram.getDiagramContents().getSettings().isAutoImeChange()) {
@@ -142,6 +143,7 @@ public class ListenerAppender {
                 }
             }
 
+            @Override
             public void focusLost(FocusEvent e) {
             }
         });
@@ -149,10 +151,12 @@ public class ListenerAppender {
 
     public static void addCheckBoxListener(final Button button, final AbstractDialog dialog) {
         button.addSelectionListener(new SelectionListener() {
+            @Override
             public void widgetDefaultSelected(SelectionEvent e) {
                 this.widgetSelected(e);
             }
 
+            @Override
             public void widgetSelected(SelectionEvent e) {
                 dialog.validate();
             }
@@ -160,14 +164,13 @@ public class ListenerAppender {
 
         button.addFocusListener(new FocusAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void focusGained(FocusEvent e) {
-                ERDiagram diagram =
-                        (ERDiagram) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
-                                .getAdapter(ERDiagram.class);
+                final ERDiagram diagram = (ERDiagram) PlatformUI.getWorkbench()
+                        .getActiveWorkbenchWindow()
+                        .getActivePage()
+                        .getActiveEditor()
+                        .getAdapter(ERDiagram.class);
 
                 if (diagram != null) {
                     if (diagram.getDiagramContents().getSettings().isAutoImeChange()) {
@@ -176,9 +179,6 @@ public class ListenerAppender {
                 }
             }
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void focusLost(FocusEvent e) {
             }
@@ -190,12 +190,12 @@ public class ListenerAppender {
         table.addMouseListener(new MouseAdapter() {
 
             private Point getSelectedCell(MouseEvent e) {
-                int vIndex = table.getSelectionIndex();
+                final int vIndex = table.getSelectionIndex();
                 if (vIndex != -1) {
-                    TableItem item = table.getItem(vIndex);
+                    final TableItem item = table.getItem(vIndex);
                     for (int hIndex = 0; hIndex < table.getColumnCount(); hIndex++) {
                         if (item.getBounds(hIndex).contains(e.x, e.y)) {
-                            Point xy = new Point(hIndex, vIndex);
+                            final Point xy = new Point(hIndex, vIndex);
                             xy.y = vIndex;
                             xy.x = hIndex;
                             return xy;
@@ -205,9 +205,6 @@ public class ListenerAppender {
                 return null;
             }
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void mouseDown(MouseEvent event) {
                 if (!editableTable.validate()) {
@@ -216,10 +213,10 @@ public class ListenerAppender {
                 try {
                     final Point xy = getSelectedCell(event);
                     if (xy != null) {
-                        TableItem tableItem = table.getItem(xy.y);
+                        final TableItem tableItem = table.getItem(xy.y);
                         createEditor(table, tableItem, tableEditor, xy, editableTable);
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     Activator.error(e);
                 }
             }
@@ -227,11 +224,11 @@ public class ListenerAppender {
             @Override
             public void mouseDoubleClick(MouseEvent event) {
                 try {
-                    Point xy = getSelectedCell(event);
+                    final Point xy = getSelectedCell(event);
                     if (xy != null) {
                         editableTable.onDoubleClicked(xy);
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     Activator.error(e);
                 }
             }
@@ -246,29 +243,22 @@ public class ListenerAppender {
         }
 
         if (control instanceof Text) {
-            Text text = (Text) control;
+            final Text text = (Text) control;
             text.setText(tableItem.getText(xy.x));
         }
 
         // フォーカスが外れたときの処理
         control.addFocusListener(new FocusAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void focusLost(FocusEvent e) {
                 setEditValue(control, tableItem, xy, editableTable);
             }
-
         });
 
         // ENTERとESCが押されたときの処理
         control.addKeyListener(new KeyAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void keyReleased(KeyEvent keyevent) {
                 if (keyevent.character == SWT.CR) {
@@ -277,7 +267,6 @@ public class ListenerAppender {
                 } else if (keyevent.character == SWT.ESC) {
                     control.dispose();
                 }
-
             }
         });
 
@@ -286,7 +275,7 @@ public class ListenerAppender {
         table.setSelection(new int[0]);
 
         if (control instanceof Text) {
-            Text text = (Text) control;
+            final Text text = (Text) control;
             text.selectAll();
         }
     }
@@ -301,16 +290,17 @@ public class ListenerAppender {
     public static void addTabListener(final TabFolder tabFolder, final List<ValidatableTabWrapper> tabWrapperList) {
         tabFolder.addSelectionListener(new SelectionListener() {
 
+            @Override
             public void widgetDefaultSelected(SelectionEvent e) {
             }
 
+            @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = tabFolder.getSelectionIndex();
+                final int index = tabFolder.getSelectionIndex();
 
-                ValidatableTabWrapper selectedTabWrapper = tabWrapperList.get(index);
+                final ValidatableTabWrapper selectedTabWrapper = tabWrapperList.get(index);
                 selectedTabWrapper.setInitFocus();
             }
-
         });
     }
 
@@ -320,7 +310,7 @@ public class ListenerAppender {
 
                 @Override
                 public void widgetSelected(SelectionEvent e) {
-                    int value = spinner.getSelection();
+                    final int value = spinner.getSelection();
                     scale.setSelection(value - diff);
                     dialog.validate();
                 }
@@ -330,11 +320,10 @@ public class ListenerAppender {
 
                 @Override
                 public void widgetSelected(SelectionEvent e) {
-                    int value = scale.getSelection();
+                    final int value = scale.getSelection();
                     spinner.setSelection(value + diff);
                     dialog.validate();
                 }
-
             });
         }
     }

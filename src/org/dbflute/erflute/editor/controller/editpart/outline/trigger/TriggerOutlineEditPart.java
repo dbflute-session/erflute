@@ -24,9 +24,6 @@ public class TriggerOutlineEditPart extends AbstractOutlineEditPart implements D
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
         Trigger trigger = (Trigger) this.getModel();
@@ -35,9 +32,6 @@ public class TriggerOutlineEditPart extends AbstractOutlineEditPart implements D
         this.setWidgetImage(Activator.getImage(ImageKey.TRIGGER));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequest(Request request) {
         Trigger trigger = (Trigger) this.getModel();
@@ -55,17 +49,11 @@ public class TriggerOutlineEditPart extends AbstractOutlineEditPart implements D
         super.performRequest(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new TriggerComponentEditPolicy());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public DragTracker getDragTracker(Request req) {
         return new SelectEditPartTracker(this);

@@ -35,5 +35,4 @@ public class ZoomAdjustAction extends Action implements ZoomListener, Disposable
     public void zoomChanged(double zoom) {
         setEnabled(true);
     }
-
 }

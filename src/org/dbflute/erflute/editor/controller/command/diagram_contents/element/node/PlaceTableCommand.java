@@ -34,19 +34,19 @@ public class PlaceTableCommand extends AbstractCommand {
     protected void doExecute() {
 
         if (orgTables != null) {
-            // �����z�u
-            VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            // 複数配置
+            final VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
 
-            Point cursorLocation = Display.getCurrent().getCursorLocation();
-            Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
-            FigureCanvas canvas = (FigureCanvas) modelEditor.getGraphicalViewer().getControl();
+            final Point cursorLocation = Display.getCurrent().getCursorLocation();
+            final Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
+            final FigureCanvas canvas = (FigureCanvas) modelEditor.getGraphicalViewer().getControl();
             point.x += canvas.getHorizontalBar().getSelection();
             point.y += canvas.getVerticalBar().getSelection();
 
-            virtualTables = new ArrayList<ERVirtualTable>();
-            for (ERTable curTable : orgTables) {
+            virtualTables = new ArrayList<>();
+            for (final ERTable curTable : orgTables) {
                 boolean cantPlace = false;
-                for (ERVirtualTable vtable : modelEditor.getVirtualDiagram().getVirtualTables()) {
+                for (final ERVirtualTable vtable : modelEditor.getVirtualDiagram().getVirtualTables()) {
                     if (vtable.getRawTable().equals(curTable)) {
                         cantPlace = true;
                     }
@@ -54,41 +54,40 @@ public class PlaceTableCommand extends AbstractCommand {
                 if (cantPlace)
                     continue;
 
-                ERVirtualDiagram model = curTable.getDiagram().getCurrentVirtualDiagram();
+                final ERVirtualDiagram model = curTable.getDiagram().getCurrentVirtualDiagram();
 
                 virtualTable = new ERVirtualTable(model, curTable);
                 virtualTable.setPoint(point.x, point.y);
                 model.addTable(virtualTable);
                 virtualTables.add(virtualTable);
-                // ����E���ɂ��炵�Ĕz�u
+                // 一つずつ右下にずらして配置
                 point.x += 32;
                 point.y += 32;
             }
             //			modelEditor.setContents(orgTables.get(0).getDiagram().getCurrentErmodel());
             modelEditor.refresh();
         } else {
-            ERTable curTable = orgTable;
+            final ERTable curTable = orgTable;
 
-            VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) curTable.getDiagram().getEditor().getActiveEditor();
+            final VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) curTable.getDiagram().getEditor().getActiveEditor();
 
-            // ���Ƀr���[��ɓ���e�[�u������������u���Ȃ�
-            for (ERVirtualTable vtable : modelEditor.getVirtualDiagram().getVirtualTables()) {
+            // 既にビュー上に同一テーブルがあったら置けない
+            for (final ERVirtualTable vtable : modelEditor.getVirtualDiagram().getVirtualTables()) {
                 if (vtable.getRawTable().equals(curTable)) {
-                    ErrorDialog dialog =
-                            new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                    "���ɂ��̃e�[�u���̓r���[�ɔz�u����Ă��܂��B�r���[���ɓ���e�[�u���͈�����u���܂���B");
+                    final ErrorDialog dialog = new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                            "既にこのテーブルはビューに配置されています。ビュー内に同一テーブルは一つしか置けません。");
                     dialog.open();
                     return;
                 }
             }
 
-            Point cursorLocation = Display.getCurrent().getCursorLocation();
-            Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
-            FigureCanvas canvas = (FigureCanvas) modelEditor.getGraphicalViewer().getControl();
+            final Point cursorLocation = Display.getCurrent().getCursorLocation();
+            final Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
+            final FigureCanvas canvas = (FigureCanvas) modelEditor.getGraphicalViewer().getControl();
             point.x += canvas.getHorizontalBar().getSelection();
             point.y += canvas.getVerticalBar().getSelection();
 
-            ERVirtualDiagram model = curTable.getDiagram().getCurrentVirtualDiagram();
+            final ERVirtualDiagram model = curTable.getDiagram().getCurrentVirtualDiagram();
 
             virtualTable = new ERVirtualTable(model, curTable);
             virtualTable.setPoint(point.x, point.y);
@@ -101,21 +100,20 @@ public class PlaceTableCommand extends AbstractCommand {
     @Override
     protected void doUndo() {
         if (orgTables != null) {
-            ERVirtualDiagram model = orgTables.get(0).getDiagram().getCurrentVirtualDiagram();
+            final ERVirtualDiagram model = orgTables.get(0).getDiagram().getCurrentVirtualDiagram();
 
-            for (ERVirtualTable vtable : virtualTables) {
+            for (final ERVirtualTable vtable : virtualTables) {
                 model.remove(vtable);
             }
 
-            VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
+            final VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         } else {
-            ERVirtualDiagram model = orgTable.getDiagram().getCurrentVirtualDiagram();
+            final ERVirtualDiagram model = orgTable.getDiagram().getCurrentVirtualDiagram();
             model.remove(virtualTable);
 
-            VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTable.getDiagram().getEditor().getActiveEditor();
+            final VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTable.getDiagram().getEditor().getActiveEditor();
             modelEditor.setContents(model);
         }
     }
-
 }

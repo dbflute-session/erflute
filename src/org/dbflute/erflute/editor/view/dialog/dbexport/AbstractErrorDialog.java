@@ -19,9 +19,6 @@ public abstract class AbstractErrorDialog extends Dialog {
         super(parentShell);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Control createDialogArea(Composite parent) {
         this.getShell().setText(DisplayMessages.getMessage(this.getTitle()));
@@ -43,17 +40,11 @@ public abstract class AbstractErrorDialog extends Dialog {
         return "dialog.message.export.ddl.error";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
         this.createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void buttonPressed(int buttonId) {
         setReturnCode(buttonId);

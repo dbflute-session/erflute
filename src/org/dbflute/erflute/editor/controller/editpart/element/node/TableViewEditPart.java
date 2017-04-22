@@ -232,9 +232,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart editPart) {
         if (!(editPart instanceof RelationEditPart)) {
@@ -255,9 +252,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return anchor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
         if (request instanceof ReconnectRequest) {
@@ -311,9 +305,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return new XYChopboxAnchor(this.getFigure());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart editPart) {
         if (!(editPart instanceof RelationEditPart)) {
@@ -334,9 +325,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return anchor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
         if (request instanceof ReconnectRequest) {
@@ -431,9 +419,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return new Point(x, y);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IFigure getContentPane() {
         final TableFigure figure = (TableFigure) super.getContentPane();
@@ -441,9 +426,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return figure.getColumns();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new TableViewComponentEditPolicy());

@@ -59,7 +59,6 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
                     if (y - categoryY + height > categoryHeight) {
                         categoryHeight = y - categoryY + height;
                     }
-
                 }
             }
 

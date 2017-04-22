@@ -19,34 +19,32 @@ public class AccessDBManager extends DBManagerBase {
 
     public static final String ID = "MSAccess";
 
+    @Override
     public String getId() {
         return ID;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDriverClassName() {
         return "sun.jdbc.odbc.JdbcOdbcDriver";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getURL() {
         return "jdbc:odbc:<DB NAME>";
     }
 
+    @Override
     public int getDefaultPort() {
         return 0;
     }
 
+    @Override
     public SqlTypeManager getSqlTypeManager() {
         return new AccessSqlTypeManager();
     }
 
+    @Override
     public TableProperties createTableProperties(TableProperties tableProperties) {
         if (tableProperties != null && tableProperties instanceof AccessTableProperties) {
             return tableProperties;
@@ -55,12 +53,14 @@ public class AccessDBManager extends DBManagerBase {
         return new AccessTableProperties();
     }
 
+    @Override
     public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
         return new AccessDDLCreator(diagram, semicolon);
     }
 
+    @Override
     public List<String> getIndexTypeList(ERTable table) {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("BTREE");
 
@@ -72,47 +72,50 @@ public class AccessDBManager extends DBManagerBase {
         return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_AUTO_INCREMENT_SETTING };
     }
 
+    @Override
     public ImportFromDBManager getTableImportManager() {
         return new AccessTableImportManager();
     }
 
+    @Override
     public PreImportFromDBManager getPreTableImportManager() {
         return new AccessPreTableImportManager();
     }
 
+    @Override
     public PreTableExportManager getPreTableExportManager() {
         return new AccessPreTableExportManager();
     }
 
+    @Override
     public String[] getCurrentTimeValue() {
         return new String[] { "GETDATE()", "CURRENT_TIMESTAMP" };
     }
 
     @Override
     public List<String> getSystemSchemaList() {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         return list;
     }
 
+    @Override
     public BigDecimal getSequenceMaxValue() {
         return null;
     }
 
+    @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
         return null;
     }
 
+    @Override
     public TablespaceProperties createTablespaceProperties() {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean doesNeedURLServerName() {
         return false;
     }
-
 }

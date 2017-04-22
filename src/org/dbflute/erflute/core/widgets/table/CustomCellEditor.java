@@ -53,7 +53,6 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
 
                 super.keyPressed(e);
             }
-
         });
 
         component.setComponentPopupMenu(new TextFieldPopupMenu());
@@ -92,7 +91,6 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
             JMenuItem pasteMenuItem = this.add(new PasteAction());
             pasteMenuItem.setFont(font);
         }
-
     }
 
     private static class CutAction extends TextAction {

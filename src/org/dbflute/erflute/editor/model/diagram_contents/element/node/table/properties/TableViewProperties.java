@@ -28,9 +28,6 @@ public abstract class TableViewProperties implements Serializable, Cloneable {
         this.tableSpace = tableSpace;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TableViewProperties clone() {
         TableViewProperties clone = null;
@@ -42,5 +39,4 @@ public abstract class TableViewProperties implements Serializable, Cloneable {
 
         return clone;
     }
-
 }

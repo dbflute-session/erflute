@@ -13,9 +13,6 @@ import org.eclipse.ui.PlatformUI;
 
 public class ViewEditPart extends TableViewEditPart {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected IFigure createFigure() {
         ERDiagram diagram = this.getDiagram();
@@ -28,9 +25,6 @@ public class ViewEditPart extends TableViewEditPart {
         return figure;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequestOpen() {
         ERView view = (ERView) this.getModel();
@@ -57,5 +51,4 @@ public class ViewEditPart extends TableViewEditPart {
 
         return command;
     }
-
 }

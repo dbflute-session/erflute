@@ -204,9 +204,6 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
 
         this.groupManageButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final ColumnGroupSet groupSet = getColumnGroups();
@@ -227,7 +224,6 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
                     groupAddButton.setEnabled(false);
                 }
             }
-
         });
     }
 
@@ -235,9 +231,6 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         return this.table.getDiagram().getDiagramContents().getColumnGroupSet();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setInitFocus() {
         this.physicalNameText.setFocus();

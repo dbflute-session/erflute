@@ -45,5 +45,4 @@ public class MySQLTableProperties extends TableProperties {
     public void setPrimaryKeyLengthOfText(Integer primaryKeyLengthOfText) {
         this.primaryKeyLengthOfText = primaryKeyLengthOfText;
     }
-
 }

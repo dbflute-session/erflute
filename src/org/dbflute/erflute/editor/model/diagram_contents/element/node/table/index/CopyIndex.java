@@ -49,7 +49,6 @@ public class CopyIndex extends ERIndex {
                 if (isGroupColumn) {
                     this.addColumn(originalIndexColumn, desc);
                 }
-
             } else {
                 this.addColumn(originalIndexColumn, desc);
             }
@@ -103,7 +102,5 @@ public class CopyIndex extends ERIndex {
             to.addColumn(column, desc);
             i++;
         }
-
     }
-
 }

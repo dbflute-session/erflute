@@ -22,9 +22,6 @@ public class ChangeRelationshipPropertyCommand extends AbstractCommand {
         this.oldTargetTable = relation.getTargetTableView().copyData();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.newCopyRelation.restructureRelationData(this.relation);
@@ -40,9 +37,6 @@ public class ChangeRelationshipPropertyCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.oldCopyRelation.restructureRelationData(this.relation);
@@ -53,5 +47,4 @@ public class ChangeRelationshipPropertyCommand extends AbstractCommand {
 
         this.oldTargetTable.restructureData(this.relation.getTargetTableView());
     }
-
 }

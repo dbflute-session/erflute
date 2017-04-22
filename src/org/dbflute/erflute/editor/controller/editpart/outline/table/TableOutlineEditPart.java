@@ -36,9 +36,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         this.quickMode = quickMode;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List getModelChildren() {
         List<AbstractModel> children = new ArrayList<AbstractModel>();
@@ -92,7 +89,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
             } else {
                 name = "";
             }
-
         } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             if (model.getLogicalName() != null) {
                 name = model.getLogicalName();
@@ -100,7 +96,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
             } else {
                 name = "";
             }
-
         } else {
             if (model.getLogicalName() != null) {
                 name = model.getLogicalName();
@@ -121,9 +116,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         this.setWidgetImage(Activator.getImage(ImageKey.TABLE));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
         this.refreshName();
@@ -134,18 +126,12 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
         // this.installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequest(Request request) {
         ERTable table = (ERTable) this.getModel();
@@ -168,9 +154,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         super.performRequest(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public DragTracker getDragTracker(Request req) {
         return new SelectEditPartTracker(this);

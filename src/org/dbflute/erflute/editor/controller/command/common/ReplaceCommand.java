@@ -7,17 +7,17 @@ import org.dbflute.erflute.editor.model.search.ReplaceResult;
 
 public class ReplaceCommand extends AbstractCommand {
 
-    private int type;
+    private final int type;
 
-    private Object object;
+    private final Object object;
 
-    private String keyword;
+    private final String keyword;
 
-    private String replaceWord;
+    private final String replaceWord;
 
     private ReplaceResult result;
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
     public ReplaceCommand(ERDiagram diagram, int type, Object object, String keyword, String replaceWord) {
         this.diagram = diagram;
@@ -28,9 +28,6 @@ public class ReplaceCommand extends AbstractCommand {
         this.replaceWord = replaceWord;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.result = ReplaceManager.replace(this.type, this.object, this.keyword, this.replaceWord, this.diagram.getDatabase());
@@ -38,9 +35,6 @@ public class ReplaceCommand extends AbstractCommand {
         this.diagram.change();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         if (this.result != null) {
@@ -49,5 +43,4 @@ public class ReplaceCommand extends AbstractCommand {
             this.diagram.change();
         }
     }
-
 }

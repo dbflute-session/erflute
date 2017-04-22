@@ -24,17 +24,11 @@ public class DeleteIndexCommand extends AbstractCommand {
         this.newIndexList.remove(index);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.table.setIndexes(this.newIndexList);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.table.setIndexes(this.oldIndexList);

@@ -15,5 +15,4 @@ public class ChangeNotationLevelToDetailAction extends AbstractChangeNotationLev
     protected int getLevel() {
         return DiagramSettings.NOTATION_LEVLE_DETAIL;
     }
-
 }

@@ -97,5 +97,4 @@ public class SqlServerTablespaceDialog extends TablespaceDialog {
             this.bufferPoolName.setText(Format.toString(properties.getBufferPoolName()));
         }
     }
-
 }

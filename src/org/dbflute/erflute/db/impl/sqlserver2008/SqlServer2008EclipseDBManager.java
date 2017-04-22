@@ -8,5 +8,4 @@ public class SqlServer2008EclipseDBManager extends SqlServerEclipseDBManager {
     public String getId() {
         return SqlServer2008DBManager.ID;
     }
-
 }

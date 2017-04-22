@@ -65,5 +65,4 @@ public class ERDiagramPropertySource implements IPropertySource {
             this.diagram.setDatabase(dbList.get(index));
         }
     }
-
 }

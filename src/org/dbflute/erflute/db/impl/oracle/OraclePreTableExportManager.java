@@ -25,7 +25,6 @@ public class OraclePreTableExportManager extends PreTableExportManager {
             if (stmt != null) {
                 stmt.close();
             }
-
         }
     }
 }

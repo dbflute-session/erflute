@@ -5,15 +5,15 @@ import org.dbflute.erflute.editor.model.ViewableModel;
 
 public class ChangeFontCommand extends AbstractCommand {
 
-    private ViewableModel viewableModel;
+    private final ViewableModel viewableModel;
 
-    private String oldFontName;
+    private final String oldFontName;
 
-    private String newFontName;
+    private final String newFontName;
 
-    private int oldFontSize;
+    private final int oldFontSize;
 
-    private int newFontSize;
+    private final int newFontSize;
 
     public ChangeFontCommand(ViewableModel viewableModel, String fontName, int fontSize) {
         this.viewableModel = viewableModel;
@@ -25,9 +25,6 @@ public class ChangeFontCommand extends AbstractCommand {
         this.newFontSize = fontSize;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.viewableModel.setFontName(this.newFontName);
@@ -45,9 +42,6 @@ public class ChangeFontCommand extends AbstractCommand {
         //		}
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.viewableModel.setFontName(this.oldFontName);

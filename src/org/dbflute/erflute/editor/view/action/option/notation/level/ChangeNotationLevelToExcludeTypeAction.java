@@ -15,5 +15,4 @@ public class ChangeNotationLevelToExcludeTypeAction extends AbstractChangeNotati
     protected int getLevel() {
         return DiagramSettings.NOTATION_LEVLE_EXCLUDE_TYPE;
     }
-
 }

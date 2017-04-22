@@ -19,23 +19,16 @@ public class Trigger extends WithSchemaModel implements ObjectModel {
         this.sql = sql;
     }
 
-    /**
-     * description ���擾���܂�.
-     * @return description
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * description ��ݒ肵�܂�.
-     * @param description
-     *            description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public String getObjectType() {
         return "trigger";
     }

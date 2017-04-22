@@ -10,9 +10,6 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Se
 
 public class DB2TableImportManager extends ImportFromDBManagerBase {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getViewDefinitionSQL(String schema) {
         return "SELECT TEXT FROM SYSCAT.VIEWS WHERE VIEWSCHEMA = ? AND VIEWNAME = ?";
@@ -20,34 +17,29 @@ public class DB2TableImportManager extends ImportFromDBManagerBase {
 
     @Override
     protected ColumnData createColumnData(ResultSet columnSet) throws SQLException {
-        ColumnData columnData = super.createColumnData(columnSet);
-        String type = columnData.type.toLowerCase();
+        final ColumnData columnData = super.createColumnData(columnSet);
+        final String type = columnData.type.toLowerCase();
 
         if (type.equals("decimal")) {
             if (columnData.size == 5 && columnData.decimalDegits == 0) {
                 columnData.size = 0;
             }
-
         } else if (type.equals("clob")) {
             if (columnData.size == 1048576) {
                 columnData.size = 0;
             }
-
         } else if (type.equals("blob")) {
             if (columnData.size == 1048576) {
                 columnData.size = 0;
             }
-
         } else if (type.equals("dbclob")) {
             if (columnData.size == 2097152) {
                 columnData.size = 0;
             }
-
         } else if (type.equals("decfloat")) {
             if (columnData.size == 34) {
                 columnData.size = 0;
             }
-
         }
 
         return columnData;
@@ -66,7 +58,7 @@ public class DB2TableImportManager extends ImportFromDBManagerBase {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Sequence sequence = new Sequence();
+                final Sequence sequence = new Sequence();
 
                 sequence.setName(sequenceName);
                 sequence.setSchema(schema);
@@ -75,7 +67,7 @@ public class DB2TableImportManager extends ImportFromDBManagerBase {
 
                 BigDecimal maxValue = rs.getBigDecimal("MAXVALUE");
 
-                int dataTypeId = rs.getInt("DATATYPEID");
+                final int dataTypeId = rs.getInt("DATATYPEID");
                 String dataType = null;
 
                 if (dataTypeId == 16) {
@@ -87,19 +79,16 @@ public class DB2TableImportManager extends ImportFromDBManagerBase {
                     if (maxValue.intValue() == Integer.MAX_VALUE) {
                         maxValue = null;
                     }
-
                 } else if (dataTypeId == 20) {
                     dataType = "BIGINT";
                     if (maxValue.longValue() == Long.MAX_VALUE) {
                         maxValue = null;
                     }
-
                 } else if (dataTypeId == 28) {
                     dataType = "SMALLINT";
                     if (maxValue.intValue() == Short.MAX_VALUE) {
                         maxValue = null;
                     }
-
                 } else {
                     dataType = "";
 
@@ -134,5 +123,4 @@ public class DB2TableImportManager extends ImportFromDBManagerBase {
             this.close(stmt);
         }
     }
-
 }

@@ -8,9 +8,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class NoViewSqlRule extends ViewRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERView view) {
         if (view.getSql() == null || view.getSql().trim().equals("")) {

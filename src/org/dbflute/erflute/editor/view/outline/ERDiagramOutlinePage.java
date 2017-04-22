@@ -274,5 +274,4 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
             }
         }
     }
-
 }

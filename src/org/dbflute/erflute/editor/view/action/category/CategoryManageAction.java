@@ -19,9 +19,6 @@ public class CategoryManageAction extends AbstractBaseAction {
         super(ID, DisplayMessages.getMessage("action.title.category.manage"), editor);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
@@ -36,5 +33,4 @@ public class CategoryManageAction extends AbstractBaseAction {
             this.execute(command);
         }
     }
-
 }

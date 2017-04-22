@@ -18,9 +18,6 @@ public class ChangeOutlineViewOrderByLogicalNameAction extends AbstractOutlineBa
         this.setText(DisplayMessages.getMessage("label.logical.name"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
@@ -29,5 +26,4 @@ public class ChangeOutlineViewOrderByLogicalNameAction extends AbstractOutlineBa
 
         this.execute(command);
     }
-
 }

@@ -10,13 +10,13 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeTitleFontSizeCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private boolean oldCapital;
+    private final boolean oldCapital;
 
-    private boolean newCapital;
+    private final boolean newCapital;
 
-    private DiagramSettings settings;
+    private final DiagramSettings settings;
 
     public ChangeTitleFontSizeCommand(ERDiagram diagram, boolean isCapital) {
         this.diagram = diagram;
@@ -25,22 +25,15 @@ public class ChangeTitleFontSizeCommand extends AbstractCommand {
         this.oldCapital = this.settings.isCapital();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.settings.setTitleFontEm(this.newCapital ? new BigDecimal("1.5") : new BigDecimal("1"));
 
         if (!ERModelUtil.refreshDiagram(diagram)) {
-            Activator
-                    .showMessageDialog("�e�[�u���^�C�g���̃t�H���g�T�C�Y��ύX���܂����B\n���A���^�C���ŕύX�����f����Ȃ��̂ŁAerm�t�@�C����ۑ����Ă�����x�J�������Ă��������B");
+            Activator.showMessageDialog("テーブルタイトルのフォントサイズを変更しました。\nリアルタイムで変更が反映されないので、ermファイルを保存してもう一度開き直してください。");
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.settings.setTitleFontEm(this.oldCapital ? new BigDecimal("1.5") : new BigDecimal("1"));

@@ -22,8 +22,8 @@ import org.eclipse.swt.graphics.Color;
 
 public abstract class AbstractStyleSupport implements StyleSupport {
 
-    private TableFigure tableFigure;
-    private DiagramSettings settings;
+    private final TableFigure tableFigure;
+    private final DiagramSettings settings;
 
     public AbstractStyleSupport(TableFigure tableFigure, DiagramSettings settings) {
         super();
@@ -31,6 +31,7 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         this.settings = settings;
     }
 
+    @Override
     public void init() {
         this.init(this.tableFigure);
 
@@ -38,8 +39,9 @@ public abstract class AbstractStyleSupport implements StyleSupport {
 
     abstract protected void init(TableFigure tableFigure);
 
+    @Override
     public void createTitleBar() {
-        Figure top = new Figure();
+        final Figure top = new Figure();
         this.tableFigure.add(top, BorderLayout.TOP);
 
         this.initTitleBar(top);
@@ -51,13 +53,14 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         return this.tableFigure.getTextColor();
     }
 
+    @Override
     public void createColumnArea(IFigure columns) {
         this.initColumnArea(columns);
         this.tableFigure.add(columns, BorderLayout.CENTER);
     }
 
     protected void initColumnArea(IFigure columns) {
-        ToolbarLayout layout = new ToolbarLayout();
+        final ToolbarLayout layout = new ToolbarLayout();
         layout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
         layout.setStretchMinorAxis(true);
         layout.setSpacing(0);
@@ -69,12 +72,13 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         columns.setOpaque(false);
     }
 
+    @Override
     public void createFooter() {
     }
 
     protected String getColumnText(ERTable table, NormalColumn normalColumn, int viewMode, String physicalName, String logicalName,
             String type, boolean isNotNull, boolean uniqueKey, boolean detail, boolean displayType) {
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
 
         String name = null;
         if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
@@ -98,11 +102,11 @@ public abstract class AbstractStyleSupport implements StyleSupport {
             if (uniqueKey) {
                 text.append(" (U)");
             } else {
-                List<CompoundUniqueKey> list = table.getCompoundUniqueKeyList();
+                final List<CompoundUniqueKey> list = table.getCompoundUniqueKeyList();
                 if (list != null) {
                     boolean hit = false;
-                    for (CompoundUniqueKey key : list) {
-                        for (NormalColumn column : key.getColumnList()) {
+                    for (final CompoundUniqueKey key : list) {
+                        for (final NormalColumn column : key.getColumnList()) {
                             if (column.equals(normalColumn)) {
                                 text.append(" (U+)");
                                 hit = true;
@@ -121,7 +125,7 @@ public abstract class AbstractStyleSupport implements StyleSupport {
     }
 
     protected Label createColumnLabel() {
-        Label label = new Label();
+        final Label label = new Label();
         label.setBorder(new MarginBorder(new Insets(3, 5, 3, 5)));
         label.setLabelAlignment(PositionConstants.LEFT);
 
@@ -152,6 +156,7 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         figure.setOpaque(true);
     }
 
+    @Override
     public void adjustBounds(Rectangle rect) {
     }
 
@@ -159,14 +164,15 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         return tableFigure;
     }
 
+    @Override
     public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded, boolean isUpdated,
             boolean isRemoved) {
 
-        Label label = this.createColumnLabel();
+        final Label label = this.createColumnLabel();
 
         label.setForegroundColor(this.getTextColor());
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append(name);
         text.append(" (GROUP)");
 
@@ -177,10 +183,6 @@ public abstract class AbstractStyleSupport implements StyleSupport {
         columnFigure.add(label);
     }
 
-    /**
-     * settings���擾���܂��B
-     * @return settings
-     */
     public DiagramSettings getSettings() {
         return settings;
     }

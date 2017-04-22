@@ -27,5 +27,4 @@ public class CategoryFigure extends RectangleFigure {
         graphics.setAlpha(100);
         super.fillShape(graphics);
     }
-
 }

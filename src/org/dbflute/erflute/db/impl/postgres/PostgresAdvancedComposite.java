@@ -20,7 +20,7 @@ public class PostgresAdvancedComposite extends AdvancedComposite {
     protected void initComposite() {
         super.initComposite();
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
 
         this.withoutOIDs = new Button(this, SWT.CHECK);
@@ -35,14 +35,10 @@ public class PostgresAdvancedComposite extends AdvancedComposite {
         this.withoutOIDs.setSelection(((PostgresTableProperties) this.tableProperties).isWithoutOIDs());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void validate() throws InputException {
         super.validate();
 
         ((PostgresTableProperties) this.tableProperties).setWithoutOIDs(this.withoutOIDs.getSelection());
     }
-
 }

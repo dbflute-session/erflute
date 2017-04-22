@@ -8,5 +8,4 @@ public class AccessAdvancedComposite extends AdvancedComposite {
     public AccessAdvancedComposite(Composite parent) {
         super(parent);
     }
-
 }

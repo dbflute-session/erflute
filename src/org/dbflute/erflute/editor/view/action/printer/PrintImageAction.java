@@ -16,9 +16,6 @@ public class PrintImageAction extends PrintAction {
         super((IWorkbenchPart) part);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void run() {
         GraphicalViewer viewer;
@@ -34,5 +31,4 @@ public class PrintImageAction extends PrintAction {
             op.run(getWorkbenchPart().getTitle());
         }
     }
-
 }

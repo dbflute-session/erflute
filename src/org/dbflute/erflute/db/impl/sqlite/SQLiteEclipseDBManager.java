@@ -18,5 +18,4 @@ public class SQLiteEclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return null;
     }
-
 }

@@ -168,5 +168,4 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
     public boolean hasContents() {
         return true;
     }
-
 }

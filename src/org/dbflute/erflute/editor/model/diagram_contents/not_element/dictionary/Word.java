@@ -116,7 +116,6 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
 
             return 0;
         }
-
     }
 
     private static class WordPhysicalNameComparator implements Comparator<Word> {
@@ -147,7 +146,6 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
 
             return WITHOUT_NAME_COMPARATOR.compare(o1, o2);
         }
-
     }
 
     private static class WordLogicalNameComparator implements Comparator<Word> {
@@ -178,7 +176,6 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
 
             return WITHOUT_NAME_COMPARATOR.compare(o1, o2);
         }
-
     }
 
     // ===================================================================================
@@ -233,7 +230,6 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
         } else {
             this.typeData.setDecimal(null);
         }
-
     }
 
     public TypeData getTypeData() {

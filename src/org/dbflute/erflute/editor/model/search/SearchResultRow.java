@@ -70,15 +70,15 @@ public class SearchResultRow {
 
     public static final int TYPE_WORD_COMMENT = 33;
 
-    private int type;
+    private final int type;
 
-    private String text;
+    private final String text;
 
-    private String path;
+    private final String path;
 
-    private Object target;
+    private final Object target;
 
-    private Object targetNode;
+    private final Object targetNode;
 
     public SearchResultRow(int type, String text, String path, Object target, Object targetNode) {
         this.type = type;
@@ -104,11 +104,6 @@ public class SearchResultRow {
         return this.target;
     }
 
-    /**
-     * targetNode ���擾���܂�.
-     *
-     * @return targetNode
-     */
     public Object getTargetNode() {
         return targetNode;
     }

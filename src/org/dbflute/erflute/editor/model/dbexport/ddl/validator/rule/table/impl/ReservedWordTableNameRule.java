@@ -8,9 +8,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class ReservedWordTableNameRule extends TableRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERTable table) {
         if (table.getPhysicalName() != null) {
@@ -27,5 +24,4 @@ public class ReservedWordTableNameRule extends TableRule {
 
         return true;
     }
-
 }

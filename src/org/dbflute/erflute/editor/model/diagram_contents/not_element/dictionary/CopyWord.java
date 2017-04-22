@@ -31,5 +31,4 @@ public class CopyWord extends Word {
     public void setOriginal(Word original) {
         this.original = original;
     }
-
 }

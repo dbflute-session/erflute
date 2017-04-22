@@ -103,7 +103,6 @@ public class ERDiagramElementStateListener implements IElementStateListener {
                             };
                             execute(r2, doValidationAsync);
                         }
-
                     }
                 }
             };

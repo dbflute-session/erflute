@@ -9,9 +9,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class NoColumnNameRule extends ColumnRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERTable table, NormalColumn column) {
         if (column.getPhysicalName() == null || column.getPhysicalName().trim().equals("")) {

@@ -15,5 +15,4 @@ public class ChangeNotationLevelToNameAndKeyAction extends AbstractChangeNotatio
     protected int getLevel() {
         return DiagramSettings.NOTATION_LEVLE_NAME_AND_KEY;
     }
-
 }

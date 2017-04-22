@@ -8,19 +8,16 @@ import org.eclipse.gef.tools.ConnectionCreationTool;
 
 public class RelationCreationTool extends ConnectionCreationTool {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean handleCreateConnection() {
-        CreateRelationshipByNewColumnCommand command = (CreateRelationshipByNewColumnCommand) this.getCommand();
+        final CreateRelationshipByNewColumnCommand command = (CreateRelationshipByNewColumnCommand) this.getCommand();
 
         if (command == null) {
             return false;
         }
 
-        TableView source = (TableView) command.getSourceModel();
-        TableView target = (TableView) command.getTargetModel();
+        final TableView source = (TableView) command.getSourceModel();
+        final TableView target = (TableView) command.getTargetModel();
 
         if (ERTable.isRecursive(source, target)) {
             Activator.showErrorDialog("error.recursive.relation");
@@ -32,5 +29,4 @@ public class RelationCreationTool extends ConnectionCreationTool {
 
         return super.handleCreateConnection();
     }
-
 }

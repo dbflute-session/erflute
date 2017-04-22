@@ -19,5 +19,4 @@ public class PostgresTableProperties extends TableProperties {
     public void setWithoutOIDs(boolean withoutOIDs) {
         this.withoutOIDs = withoutOIDs;
     }
-
 }

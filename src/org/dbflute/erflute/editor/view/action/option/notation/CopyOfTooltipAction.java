@@ -16,9 +16,6 @@ public class CopyOfTooltipAction extends AbstractBaseAction {
         this.setText(DisplayMessages.getMessage("action.title.display.tooltip"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();

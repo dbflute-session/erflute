@@ -7,13 +7,13 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVi
 
 public class ChangeBackgroundColorCommand extends AbstractCommand {
 
-    private ViewableModel model;
+    private final ViewableModel model;
 
-    private int red;
+    private final int red;
 
-    private int green;
+    private final int green;
 
-    private int blue;
+    private final int blue;
 
     private int[] oldColor;
 
@@ -25,9 +25,6 @@ public class ChangeBackgroundColorCommand extends AbstractCommand {
         this.blue = blue;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.oldColor = this.model.getColor();
@@ -38,9 +35,6 @@ public class ChangeBackgroundColorCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         if (this.oldColor == null) {

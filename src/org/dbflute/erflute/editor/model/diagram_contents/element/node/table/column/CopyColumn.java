@@ -32,17 +32,11 @@ public class CopyColumn extends NormalColumn {
         return this.originalColumn;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isForeignKey() {
         return this.originalColumn.isForeignKey();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isRefered() {
         return this.originalColumn.isRefered();
@@ -60,9 +54,6 @@ public class CopyColumn extends NormalColumn {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean equals(Object obj) {
         NormalColumn originalColumn = this.getOriginalColumn();
@@ -75,12 +66,8 @@ public class CopyColumn extends NormalColumn {
         return originalColumn.equals(obj);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public CopyWord getWord() {
         return (CopyWord) super.getWord();
     }
-
 }

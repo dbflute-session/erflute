@@ -50,9 +50,6 @@ public class PlaceElementCommand extends AbstractCommand {
         this.enclosedElementList = enclosedElementList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         if (!(this.element instanceof Category)) {
@@ -66,9 +63,6 @@ public class PlaceElementCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         if (!(this.element instanceof Category)) {
@@ -81,9 +75,6 @@ public class PlaceElementCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean canExecute() {
         if (this.element instanceof Category) {
@@ -94,5 +85,4 @@ public class PlaceElementCommand extends AbstractCommand {
 
         return super.canExecute();
     }
-
 }

@@ -10,9 +10,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class FullTextIndexRule extends TableRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERTable table) {
         for (ERIndex index : table.getIndexes()) {

@@ -250,5 +250,4 @@ public class ERDiagramAlignmentAction extends SelectionAction {
         operationSet = null;
         execute(createAlignmentCommand());
     }
-
 }

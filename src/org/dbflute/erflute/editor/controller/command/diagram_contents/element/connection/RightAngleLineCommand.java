@@ -60,11 +60,9 @@ public class RightAngleLineCommand extends AbstractCommand {
                             if (x == targetX) {
                                 break;
                             }
-
                         } else {
                             y = bendpoint.getY();
                         }
-
                     } else {
                         y = prevY;
 
@@ -73,7 +71,6 @@ public class RightAngleLineCommand extends AbstractCommand {
                             if (y == targetY) {
                                 break;
                             }
-
                         } else {
                             x = bendpoint.getX();
                         }
@@ -93,7 +90,6 @@ public class RightAngleLineCommand extends AbstractCommand {
                     this.newBendpointList.add(newBendpoint);
                 }
             }
-
         } else {
             if (this.sourceX != this.targetX && this.sourceY != this.targetY) {
                 DiagramWalkerEditPart sourceEditPart = (DiagramWalkerEditPart) connectionEditPart.getSource();
@@ -144,20 +140,13 @@ public class RightAngleLineCommand extends AbstractCommand {
                 }
             }
         }
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.connection.setBendpoints(this.newBendpointList);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.connection.setBendpoints(this.oldBendpointList);

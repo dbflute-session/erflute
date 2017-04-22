@@ -8,9 +8,6 @@ import org.eclipse.gef.commands.Command;
 
 public class SequenceComponentEditPolicy extends NotElementComponentEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createDeleteCommand(ERDiagram diagram, Object model) {
         return new DeleteSequenceCommand(diagram, (Sequence) model);

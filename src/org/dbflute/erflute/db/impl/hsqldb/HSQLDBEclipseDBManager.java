@@ -18,5 +18,4 @@ public class HSQLDBEclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return null;
     }
-
 }

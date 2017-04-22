@@ -15,5 +15,4 @@ public class ChangeToIENotationAction extends AbstractChangeNotationAction {
     protected String getNotation() {
         return DiagramSettings.NOTATION_IE;
     }
-
 }

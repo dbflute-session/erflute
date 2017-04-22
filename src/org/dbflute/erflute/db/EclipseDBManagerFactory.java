@@ -50,5 +50,4 @@ public class EclipseDBManagerFactory {
     public static EclipseDBManager getEclipseDBManager(ERDiagram diagram) {
         return getEclipseDBManager(diagram.getDatabase());
     }
-
 }

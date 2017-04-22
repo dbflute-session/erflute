@@ -18,9 +18,6 @@ public class ChangeOutlineViewToPhysicalAction extends AbstractOutlineBaseAction
         this.setText(DisplayMessages.getMessage("action.title.change.mode.to.physical"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
@@ -29,5 +26,4 @@ public class ChangeOutlineViewToPhysicalAction extends AbstractOutlineBaseAction
 
         this.execute(command);
     }
-
 }

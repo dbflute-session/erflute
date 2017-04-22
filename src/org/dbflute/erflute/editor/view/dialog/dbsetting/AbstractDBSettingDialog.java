@@ -61,17 +61,14 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         this.diagram = diagram;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initComponent(Composite parent) {
-        Composite group = new Composite(parent, SWT.NONE);
-        GridLayout layout = new GridLayout();
+        final Composite group = new Composite(parent, SWT.NONE);
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 2;
 
         group.setLayout(layout);
-        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+        final GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
         gridData.horizontalSpan = 2;
         group.setLayoutData(gridData);
 
@@ -86,7 +83,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
             this.dbList.select(0);
 
         } else {
-            for (String db : DBManagerFactory.getAllDBList()) {
+            for (final String db : DBManagerFactory.getAllDBList()) {
                 this.dbList.add(db);
             }
 
@@ -138,11 +135,11 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
     }
 
     public int getPort() {
-        String port = this.port.getText().trim();
+        final String port = this.port.getText().trim();
 
         try {
             return Integer.parseInt(port);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return 0;
         }
     }
@@ -155,14 +152,11 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         return this.password.getText().trim();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
         DBManager manager = null;
 
-        String database = this.getDBSName();
+        final String database = this.getDBSName();
 
         if (!Check.isEmpty(database)) {
             if (!this.useDefaultDriverButton.getSelection()) {
@@ -172,10 +166,9 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
                 if (isBlank(this.driverClassName)) {
                     return "error.driver.class.name.is.empty";
                 }
-
             } else {
                 manager = DBManagerFactory.getDBManager(this.getDBSName());
-                String url = manager.getURL(this.getServerName(), this.getDBName(), this.getPort());
+                final String url = manager.getURL(this.getServerName(), this.getDBName(), this.getPort());
                 this.url.setText(url);
 
                 if (isBlank(this.serverName) && manager.doesNeedURLServerName()) {
@@ -200,16 +193,15 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
             return "error.database.not.selected";
         }
 
-        String text = this.port.getText();
+        final String text = this.port.getText();
 
         if (!text.equals("")) {
             try {
-                int port = Integer.parseInt(text);
+                final int port = Integer.parseInt(text);
                 if (port < 0) {
                     return "error.port.zero";
                 }
-
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 return "error.port.degit";
             }
         }
@@ -225,13 +217,10 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void setupData() {
         if (this.dbSettings != null) {
-            String database = this.dbSettings.getDbsystem();
+            final String database = this.dbSettings.getDbsystem();
             this.dbList.setText(database);
 
             this.enableUseDefaultDriver();
@@ -246,11 +235,11 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
             this.driverClassName.setText(Format.null2blank(this.dbSettings.getDriverClassName()));
 
             if (!Check.isEmpty(database) && this.useDefaultDriverButton.getSelection()) {
-                DBManager manager = DBManagerFactory.getDBManager(this.getDBSName());
-                String url = manager.getURL(this.getServerName(), this.getDBName(), this.getPort());
+                final DBManager manager = DBManagerFactory.getDBManager(this.getDBSName());
+                final String url = manager.getURL(this.getServerName(), this.getDBName(), this.getPort());
                 this.url.setText(url);
 
-                String driverClassName = manager.getDriverClassName();
+                final String driverClassName = manager.getDriverClassName();
                 this.driverClassName.setText(driverClassName);
             }
         }
@@ -261,19 +250,15 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         return 2;
     }
 
-    /**
-     * dbSetting ���擾���܂�.
-     * @return dbSetting
-     */
     public DBSettings getDbSetting() {
         return this.dbSettings;
     }
 
     private void enableUseDefaultDriver() {
-        String database = this.getDBSName();
+        final String database = this.getDBSName();
 
         if (!Check.isEmpty(database)) {
-            DBManager dbManager = DBManagerFactory.getDBManager(database);
+            final DBManager dbManager = DBManagerFactory.getDBManager(database);
 
             if (StandardSQLDBManager.ID.equals(dbManager.getId())) {
                 this.useDefaultDriverButton.setSelection(false);
@@ -288,10 +273,10 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
     }
 
     private void enableField() {
-        String database = this.getDBSName();
+        final String database = this.getDBSName();
 
         if (this.useDefaultDriverButton.getSelection()) {
-            DBManager dbManager = DBManagerFactory.getDBManager(database);
+            final DBManager dbManager = DBManagerFactory.getDBManager(database);
 
             this.dbName.setEnabled(true);
             this.url.setEditable(false);
@@ -307,7 +292,6 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
                 this.port.setEnabled(false);
                 this.serverName.setEnabled(false);
             }
-
         } else {
             this.port.setEnabled(false);
             this.serverName.setEnabled(false);
@@ -318,14 +302,12 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addListener() {
         super.addListener();
 
         this.dbList.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 enableUseDefaultDriver();
                 enableField();
@@ -340,7 +322,6 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
                 enableField();
                 validate();
             }
-
         });
 
         ListenerAppender.addModifyListener(this.serverName, this);
@@ -350,6 +331,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
         ListenerAppender.addModifyListener(this.driverClassName, this);
 
         this.url.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 if (!useDefaultDriverButton.getSelection()) {
                     validate();
@@ -359,9 +341,6 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
 
         this.settingListButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
@@ -369,26 +348,21 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
                     if (isOnlyCurrentDatabase()) {
                         database = diagram.getDatabase();
                     }
-                    DBSettingListDialog dialog =
+                    final DBSettingListDialog dialog =
                             new DBSettingListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), database);
 
                     if (dialog.open() == IDialogConstants.OK_ID) {
                         dbSettings = dialog.getResult();
                         setupData();
                     }
-
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     Activator.showExceptionDialog(ex);
                 }
-
             }
         });
 
         this.settingAddButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
@@ -399,8 +373,7 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
 
                         Activator.showMessageDialog("dialog.message.add.to.connection.list");
                     }
-
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     Activator.showExceptionDialog(ex);
                 }
             }
@@ -412,13 +385,13 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
     }
 
     protected void setCurrentSetting() {
-        String database = this.getDBSName();
-        String url = this.url.getText().trim();
-        String driverClassName = this.driverClassName.getText().trim();
+        final String database = this.getDBSName();
+        final String url = this.url.getText().trim();
+        final String driverClassName = this.driverClassName.getText().trim();
         String serverName = this.getServerName();
         int port = this.getPort();
         String dbName = this.getDBName();
-        boolean useDefaultDriver = this.useDefaultDriverButton.getSelection();
+        final boolean useDefaultDriver = this.useDefaultDriverButton.getSelection();
 
         if (!useDefaultDriver) {
             serverName = null;
@@ -426,9 +399,8 @@ public abstract class AbstractDBSettingDialog extends AbstractDialog {
             dbName = null;
         }
 
-        this.dbSettings =
-                new DBSettings(database, serverName, port, dbName, this.getUserName(), this.getPassword(), useDefaultDriver, url,
-                        driverClassName);
+        this.dbSettings = new DBSettings(database, serverName, port, dbName, this.getUserName(), this.getPassword(), useDefaultDriver, url,
+                driverClassName);
 
         PreferenceInitializer.saveSetting(0, this.dbSettings);
     }

@@ -264,7 +264,6 @@ public class ExportToImageAction extends AbstractExportAction {
                             } else if (y > maxY) {
                                 maxY = y;
                             }
-
                         }
                     }
                 }

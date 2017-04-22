@@ -329,9 +329,6 @@ public class ImportFromFileAction extends AbstractImportAction {
         this.importedNodeElements = copyList.getDiagramWalkerList();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) throws Exception {
         DBObjectSet dbObjectSet = this.preImport();

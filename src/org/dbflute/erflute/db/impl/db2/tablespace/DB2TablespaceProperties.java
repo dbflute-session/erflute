@@ -33,131 +33,65 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     private String bufferPoolName;
 
-    /**
-     * type を取得します.
-     * @return type
-     */
     public String getType() {
         return type;
     }
 
-    /**
-     * type を設定します.
-     * @param type
-     *            type
-     */
     public void setType(String type) {
         this.type = type;
     }
 
-    /**
-     * pageSize を取得します.
-     * @return pageSize
-     */
     public String getPageSize() {
         return pageSize;
     }
 
-    /**
-     * pageSize を設定します.
-     * @param pageSize
-     *            pageSize
-     */
     public void setPageSize(String pageSize) {
         this.pageSize = pageSize;
     }
 
-    /**
-     * managedBy を取得します.
-     * @return managedBy
-     */
     public String getManagedBy() {
         return managedBy;
     }
 
-    /**
-     * managedBy を設定します.
-     * @param managedBy
-     *            managedBy
-     */
     public void setManagedBy(String managedBy) {
         this.managedBy = managedBy;
     }
 
-    /**
-     * extentSize を取得します.
-     * @return extentSize
-     */
     public String getExtentSize() {
         return extentSize;
     }
 
-    /**
-     * extentSize を設定します.
-     * @param extentSize
-     *            extentSize
-     */
     public void setExtentSize(String extentSize) {
         this.extentSize = extentSize;
     }
 
-    /**
-     * prefetchSize を取得します.
-     * @return prefetchSize
-     */
     public String getPrefetchSize() {
         return prefetchSize;
     }
 
-    /**
-     * prefetchSize を設定します.
-     * @param prefetchSize
-     *            prefetchSize
-     */
     public void setPrefetchSize(String prefetchSize) {
         this.prefetchSize = prefetchSize;
     }
 
-    /**
-     * bufferPoolName を取得します.
-     * @return bufferPoolName
-     */
     public String getBufferPoolName() {
         return bufferPoolName;
     }
 
-    /**
-     * bufferPoolName を設定します.
-     * @param bufferPoolName
-     *            bufferPoolName
-     */
     public void setBufferPoolName(String bufferPoolName) {
         this.bufferPoolName = bufferPoolName;
     }
 
-    /**
-     * container を取得します.
-     * @return container
-     */
     public String getContainer() {
         return container;
     }
 
-    /**
-     * container を設定します.
-     * @param container
-     *            container
-     */
     public void setContainer(String container) {
         this.container = container;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TablespaceProperties clone() {
-        DB2TablespaceProperties properties = new DB2TablespaceProperties();
+        final DB2TablespaceProperties properties = new DB2TablespaceProperties();
 
         properties.bufferPoolName = this.bufferPoolName;
         properties.container = this.container;
@@ -174,8 +108,9 @@ public class DB2TablespaceProperties implements TablespaceProperties {
         return properties;
     }
 
+    @Override
     public LinkedHashMap<String, String> getPropertiesMap() {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+        final LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
         map.put("label.tablespace.type", this.getType());
         map.put("label.tablespace.page.size", this.getPageSize());
@@ -188,8 +123,9 @@ public class DB2TablespaceProperties implements TablespaceProperties {
         return map;
     }
 
+    @Override
     public List<String> validate() {
-        List<String> errorMessage = new ArrayList<String>();
+        final List<String> errorMessage = new ArrayList<>();
         return errorMessage;
     }
 }

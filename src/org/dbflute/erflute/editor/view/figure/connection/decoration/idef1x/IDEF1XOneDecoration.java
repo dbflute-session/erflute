@@ -13,5 +13,4 @@ public class IDEF1XOneDecoration extends ERDecoration {
         this.setTemplate(pointList);
         this.setScale(1, 1);
     }
-
 }

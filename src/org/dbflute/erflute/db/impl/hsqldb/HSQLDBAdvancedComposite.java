@@ -9,9 +9,6 @@ public class HSQLDBAdvancedComposite extends AdvancedComposite {
         super(parent);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initComposite() {
     }

@@ -15,9 +15,9 @@ public class TableLayout extends AbstractHintLayout {
 
     private int colnum;
 
-    private int separatorWidth;
+    private final int separatorWidth;
 
-    private List<IFigure> separators;
+    private final List<IFigure> separators;
 
     public TableLayout(int colnum) {
         super();
@@ -27,7 +27,7 @@ public class TableLayout extends AbstractHintLayout {
             this.colnum = 1;
         }
 
-        this.separators = new ArrayList<IFigure>();
+        this.separators = new ArrayList<>();
         this.separatorWidth = 1;
     }
 
@@ -35,44 +35,44 @@ public class TableLayout extends AbstractHintLayout {
 
     }
 
+    @Override
     public void layout(IFigure parent) {
 
-        List children = this.clearSeparator(parent);
+        final List children = this.clearSeparator(parent);
 
-        List<List<IFigure>> table = this.getTable(children);
-        int[] columnWidth = this.getColumnWidth(table);
-        int[] rowHeight = this.getRowHeight(table);
+        final List<List<IFigure>> table = this.getTable(children);
+        final int[] columnWidth = this.getColumnWidth(table);
+        final int[] rowHeight = this.getRowHeight(table);
 
-        Rectangle rect = parent.getBounds();
+        final Rectangle rect = parent.getBounds();
 
         int x = rect.x + 1;
         int y = rect.y + 1;
 
         for (int i = 0; i < table.size(); i++) {
-            List<IFigure> tableRow = table.get(i);
+            final List<IFigure> tableRow = table.get(i);
 
             for (int j = 0; j < tableRow.size(); j++) {
-                Rectangle childRect = new Rectangle(x, y, columnWidth[j], rowHeight[i]);
+                final Rectangle childRect = new Rectangle(x, y, columnWidth[j], rowHeight[i]);
 
-                IFigure figure = tableRow.get(j);
+                final IFigure figure = tableRow.get(j);
                 figure.setBounds(childRect);
 
                 x += columnWidth[j];
 
                 if (j != tableRow.size() - 1) {
-                    Rectangle separetorRect = new Rectangle(x, y, separatorWidth, rowHeight[i]);
+                    final Rectangle separetorRect = new Rectangle(x, y, separatorWidth, rowHeight[i]);
                     this.addVerticalSeparator(parent, separetorRect);
 
                     x += separatorWidth;
                 }
-
             }
 
             x = rect.x + 1;
             y += rowHeight[i];
 
             if (i != table.size() - 1) {
-                Rectangle separetorRect = new Rectangle(x, y, rect.width, separatorWidth);
+                final Rectangle separetorRect = new Rectangle(x, y, rect.width, separatorWidth);
 
                 this.addHorizontalSeparator(parent, separetorRect);
 
@@ -82,15 +82,15 @@ public class TableLayout extends AbstractHintLayout {
     }
 
     private List<List<IFigure>> getTable(List children) {
-        int numChildren = children.size();
+        final int numChildren = children.size();
 
-        List<List<IFigure>> table = new ArrayList<List<IFigure>>();
+        final List<List<IFigure>> table = new ArrayList<>();
 
         List<IFigure> row = null;
 
         for (int i = 0; i < numChildren; i++) {
             if (i % colnum == 0) {
-                row = new ArrayList<IFigure>();
+                row = new ArrayList<>();
                 table.add(row);
             }
 
@@ -101,14 +101,14 @@ public class TableLayout extends AbstractHintLayout {
     }
 
     private int[] getColumnWidth(List<List<IFigure>> table) {
-        int[] columnWidth = new int[this.colnum];
+        final int[] columnWidth = new int[this.colnum];
 
         for (int i = 0; i < colnum; i++) {
-            for (List<IFigure> tableRow : table) {
+            for (final List<IFigure> tableRow : table) {
                 if (tableRow.size() > i) {
-                    IFigure figure = tableRow.get(i);
+                    final IFigure figure = tableRow.get(i);
 
-                    int width = figure.getPreferredSize().width;
+                    final int width = figure.getPreferredSize().width;
 
                     if (width > columnWidth[i]) {
                         columnWidth[i] = (int) (width * 1.3);
@@ -121,11 +121,11 @@ public class TableLayout extends AbstractHintLayout {
     }
 
     private int[] getRowHeight(List<List<IFigure>> table) {
-        int[] rowHeight = new int[table.size()];
+        final int[] rowHeight = new int[table.size()];
 
         for (int i = 0; i < rowHeight.length; i++) {
-            for (IFigure cell : table.get(i)) {
-                int height = cell.getPreferredSize().height;
+            for (final IFigure cell : table.get(i)) {
+                final int height = cell.getPreferredSize().height;
 
                 if (height > rowHeight[i]) {
                     rowHeight[i] = height;
@@ -137,10 +137,10 @@ public class TableLayout extends AbstractHintLayout {
     }
 
     private List<IFigure> getChildren(IFigure parent) {
-        List<IFigure> children = new ArrayList<IFigure>();
+        final List<IFigure> children = new ArrayList<>();
 
-        for (Iterator iter = parent.getChildren().iterator(); iter.hasNext();) {
-            IFigure child = (IFigure) iter.next();
+        for (final Iterator iter = parent.getChildren().iterator(); iter.hasNext();) {
+            final IFigure child = (IFigure) iter.next();
 
             if (!this.separators.contains(child)) {
                 children.add(child);
@@ -151,8 +151,8 @@ public class TableLayout extends AbstractHintLayout {
     }
 
     private List clearSeparator(IFigure parent) {
-        for (Iterator iter = parent.getChildren().iterator(); iter.hasNext();) {
-            IFigure child = (IFigure) iter.next();
+        for (final Iterator iter = parent.getChildren().iterator(); iter.hasNext();) {
+            final IFigure child = (IFigure) iter.next();
 
             if (this.separators.contains(child)) {
                 iter.remove();
@@ -164,16 +164,13 @@ public class TableLayout extends AbstractHintLayout {
         return parent.getChildren();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
-        List children = this.getChildren(container);
+        final List children = this.getChildren(container);
 
-        List<List<IFigure>> table = this.getTable(children);
-        int[] columnWidth = this.getColumnWidth(table);
-        int[] rowHeight = this.getRowHeight(table);
+        final List<List<IFigure>> table = this.getTable(children);
+        final int[] columnWidth = this.getColumnWidth(table);
+        final int[] rowHeight = this.getRowHeight(table);
 
         int width = 0;
         for (int i = 0; i < columnWidth.length; i++) {
@@ -200,7 +197,7 @@ public class TableLayout extends AbstractHintLayout {
 
     @SuppressWarnings("unchecked")
     private void addVerticalSeparator(IFigure figure, Rectangle rect) {
-        Polyline separator = new Polyline();
+        final Polyline separator = new Polyline();
         separator.setLineWidth(separatorWidth);
         separator.addPoint(new Point(rect.x, rect.y));
         separator.addPoint(new Point(rect.x, rect.y + rect.height));
@@ -213,7 +210,7 @@ public class TableLayout extends AbstractHintLayout {
 
     @SuppressWarnings("unchecked")
     private void addHorizontalSeparator(IFigure figure, Rectangle rect) {
-        Polyline separator = new Polyline();
+        final Polyline separator = new Polyline();
         separator.setLineWidth(separatorWidth);
         separator.addPoint(new Point(rect.x, rect.y));
         separator.addPoint(new Point(rect.x + rect.width, rect.y));
@@ -222,5 +219,4 @@ public class TableLayout extends AbstractHintLayout {
 
         this.separators.add(separator);
     }
-
 }

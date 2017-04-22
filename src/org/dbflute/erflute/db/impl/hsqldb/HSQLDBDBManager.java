@@ -19,34 +19,32 @@ public class HSQLDBDBManager extends DBManagerBase {
 
     public static final String ID = "HSQLDB";
 
+    @Override
     public String getId() {
         return ID;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDriverClassName() {
         return "org.hsqldb.jdbcDriver";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getURL() {
         return "jdbc:hsqldb:hsql://<SERVER NAME>:<PORT>/<DB NAME>";
     }
 
+    @Override
     public int getDefaultPort() {
         return 9001;
     }
 
+    @Override
     public SqlTypeManager getSqlTypeManager() {
         return new HSQLDBSqlTypeManager();
     }
 
+    @Override
     public TableProperties createTableProperties(TableProperties tableProperties) {
         if (tableProperties != null && tableProperties instanceof HSQLDBTableProperties) {
             return tableProperties;
@@ -55,12 +53,14 @@ public class HSQLDBDBManager extends DBManagerBase {
         return new HSQLDBTableProperties();
     }
 
+    @Override
     public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
         return new HSQLDBDDLCreator(diagram, semicolon);
     }
 
+    @Override
     public List<String> getIndexTypeList(ERTable table) {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("BTREE");
 
@@ -72,41 +72,44 @@ public class HSQLDBDBManager extends DBManagerBase {
         return new int[] { SUPPORT_SCHEMA, SUPPORT_SEQUENCE };
     }
 
+    @Override
     public ImportFromDBManager getTableImportManager() {
         return new HSQLDBTableImportManager();
     }
 
+    @Override
     public PreImportFromDBManager getPreTableImportManager() {
         return new HSQLDBPreTableImportManager();
     }
 
+    @Override
     public PreTableExportManager getPreTableExportManager() {
         return new HSQLDBPreTableExportManager();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean doesNeedURLDatabaseName() {
         return false;
     }
 
+    @Override
     public TablespaceProperties createTablespaceProperties() {
         return null;
     }
 
+    @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
         return null;
     }
 
+    @Override
     public String[] getCurrentTimeValue() {
         return new String[] { "CURRENT_TIMESTAMP" };
     }
 
     @Override
     public List<String> getSystemSchemaList() {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("information_schema");
         list.add("system_lobs");
@@ -114,8 +117,8 @@ public class HSQLDBDBManager extends DBManagerBase {
         return list;
     }
 
+    @Override
     public BigDecimal getSequenceMaxValue() {
         return null;
     }
-
 }

@@ -16,7 +16,7 @@ public class ColumnGroupSet extends AbstractModel implements Iterable<ColumnGrou
     private final List<ColumnGroup> columnGroupList;
 
     public ColumnGroupSet() {
-        this.columnGroupList = new ArrayList<ColumnGroup>();
+        this.columnGroupList = new ArrayList<>();
     }
 
     public void add(ColumnGroup group) {
@@ -55,19 +55,10 @@ public class ColumnGroupSet extends AbstractModel implements Iterable<ColumnGrou
         return this.columnGroupList.indexOf(group);
     }
 
-    /**
-     * database ���擾���܂�.
-     * @return database
-     */
     public String getDatabase() {
         return database;
     }
 
-    /**
-     * database ��ݒ肵�܂�.
-     * @param database
-     *            database
-     */
     public void setDatabase(String database) {
         this.database = database;
     }

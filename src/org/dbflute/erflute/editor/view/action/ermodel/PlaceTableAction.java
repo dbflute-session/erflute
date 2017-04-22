@@ -52,9 +52,7 @@ public class PlaceTableAction extends AbstractBaseAction {
                 //				oneEditor.refreshContents();
                 //				model.changeAll();
             }
-
         }
 
     }
-
 }

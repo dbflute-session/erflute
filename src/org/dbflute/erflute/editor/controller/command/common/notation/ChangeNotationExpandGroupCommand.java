@@ -7,13 +7,13 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeNotationExpandGroupCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private boolean oldNotationExpandGroup;
+    private final boolean oldNotationExpandGroup;
 
-    private boolean newNotationExpandGroup;
+    private final boolean newNotationExpandGroup;
 
-    private DiagramSettings settings;
+    private final DiagramSettings settings;
 
     public ChangeNotationExpandGroupCommand(ERDiagram diagram, boolean notationExpandGroup) {
         this.diagram = diagram;
@@ -22,25 +22,19 @@ public class ChangeNotationExpandGroupCommand extends AbstractCommand {
         this.oldNotationExpandGroup = this.settings.isNotationExpandGroup();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.settings.setNotationExpandGroup(this.newNotationExpandGroup);
 
-        for (TableView tableView : this.diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
+        for (final TableView tableView : this.diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
             tableView.setDirty();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.settings.setNotationExpandGroup(this.oldNotationExpandGroup);
-        for (TableView tableView : this.diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
+        for (final TableView tableView : this.diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
             tableView.setDirty();
         }
     }

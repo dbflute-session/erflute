@@ -37,9 +37,6 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
         this.setToolTipText(DisplayMessages.getMessage("action.title.horizontal.line"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean calculateEnabled() {
         Command cmd = this.createCommand();
@@ -49,9 +46,6 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
         return cmd.canExecute();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void execute(Event event) {
         execute(createCommand());
@@ -187,7 +181,6 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
 
             return rightX1 - rightX2;
         }
-
     }
 
     public static class HorizontalLineRetargetAction extends LabelRetargetAction {

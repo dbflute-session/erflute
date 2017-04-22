@@ -49,5 +49,4 @@ public class IEZeroOneDecoration extends ERDecoration {
         this.setScale(0.66, 0.66);
         //		this.setScale(1, 1);
     }
-
 }

@@ -14,50 +14,33 @@ public class EnvironmentSettings implements Serializable, Cloneable {
     private Environment currentEnvironment;
 
     public EnvironmentSettings() {
-        this.environments = new ArrayList<Environment>();
+        this.environments = new ArrayList<>();
     }
 
     public List<Environment> getEnvironments() {
         return environments;
     }
 
-    /**
-     * environments ��ݒ肵�܂�.
-     * @param environments
-     *            environments
-     */
     public void setEnvironments(List<Environment> environments) {
         this.environments = environments;
     }
 
-    /**
-     * currentEnvironment ���擾���܂�.
-     * @return currentEnvironment
-     */
     public Environment getCurrentEnvironment() {
         return currentEnvironment;
     }
 
-    /**
-     * currentEnvironment ��ݒ肵�܂�.
-     * @param currentEnvironment
-     *            currentEnvironment
-     */
     public void setCurrentEnvironment(Environment currentEnvironment) {
         this.currentEnvironment = currentEnvironment;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Object clone() {
         try {
             final EnvironmentSettings setting = (EnvironmentSettings) super.clone();
 
-            setting.environments = new ArrayList<Environment>();
+            setting.environments = new ArrayList<>();
 
-            final Map<Environment, Environment> oldNewMap = new HashMap<Environment, Environment>();
+            final Map<Environment, Environment> oldNewMap = new HashMap<>();
 
             for (final Environment environment : this.environments) {
                 final Environment newEnvironment = environment.clone();
@@ -73,5 +56,4 @@ public class EnvironmentSettings implements Serializable, Cloneable {
             return null;
         }
     }
-
 }

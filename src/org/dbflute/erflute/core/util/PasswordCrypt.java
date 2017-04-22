@@ -65,5 +65,4 @@ public class PasswordCrypt {
 
         return key;
     }
-
 }

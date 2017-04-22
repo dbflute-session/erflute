@@ -60,9 +60,6 @@ public class ExportTestDataSetting implements Serializable, Cloneable {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ExportTestDataSetting clone() {
         try {

@@ -27,9 +27,6 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
 
     private ImageData imageData;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected IFigure createFigure() {
         final InsertedImage model = (InsertedImage) this.getModel();
@@ -46,9 +43,6 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
         return figure;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void disposeFont() {
         if (this.image != null && !this.image.isDisposed()) {
@@ -57,9 +51,6 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
         super.disposeFont();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
@@ -132,9 +123,6 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
         this.image = new Image(Display.getDefault(), newImageData);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequestOpen() {
         final InsertedImage insertedImage = (InsertedImage) this.getModel();

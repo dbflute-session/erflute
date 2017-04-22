@@ -28,17 +28,11 @@ public class ChangeIndexCommand extends AbstractCommand {
         this.newIndexList.add(i, newIndex);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.table.setIndexes(this.newIndexList);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.table.setIndexes(this.oldIndexList);

@@ -17,9 +17,6 @@ public class ChangeShowReferredTablesAction extends AbstractBaseAction {
         this.setText(DisplayMessages.getMessage("action.title.category.show.referred.tables"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();

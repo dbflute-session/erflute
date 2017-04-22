@@ -365,7 +365,6 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             if (this.equals(multiPageEditorPart.getActiveEditor())) {
                 updateActions(this.getSelectionActions());
             }
-
         } else {
             super.selectionChanged(part, selection);
         }

@@ -11,9 +11,6 @@ public class ERDiagramMoveHandle extends MoveHandle {
         super(owner);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initialize() {
         setOpaque(false);

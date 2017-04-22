@@ -12,9 +12,6 @@ import org.eclipse.gef.commands.Command;
 
 public class GroupComponentEditPolicy extends NotElementComponentEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createDeleteCommand(ERDiagram diagram, Object model) {
         ColumnGroup deleteColumnGroup = (ColumnGroup) model;
@@ -29,5 +26,4 @@ public class GroupComponentEditPolicy extends NotElementComponentEditPolicy {
 
         return new ChangeColumnGroupCommand(diagram, diagram.getDiagramContents().getColumnGroupSet(), newColumnGroups);
     }
-
 }

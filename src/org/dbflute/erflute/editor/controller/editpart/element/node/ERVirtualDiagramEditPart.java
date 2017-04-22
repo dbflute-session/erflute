@@ -95,5 +95,4 @@ public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
         }
         return super.getTargetEditPart(request);
     }
-
 }

@@ -16,17 +16,11 @@ public class CreateTriggerCommand extends AbstractCommand {
         this.trigger = trigger;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.triggerSet.addTrigger(this.trigger);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.triggerSet.remove(this.trigger);

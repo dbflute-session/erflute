@@ -57,9 +57,6 @@ public class GroupColumnEditPart extends ColumnEditPart {
                 diagram.filter(groupColumn.getName()), isAdded, isUpdated, isRemoved);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setSelected(int value) {
         final GroupColumnFigure figure = (GroupColumnFigure) this.getFigure();
@@ -74,7 +71,6 @@ public class GroupColumnEditPart extends ColumnEditPart {
 
                 super.setSelected(value);
             }
-
         } else {
             figure.setBackgroundColor(null);
             figure.setForegroundColor(null);
@@ -82,6 +78,5 @@ public class GroupColumnEditPart extends ColumnEditPart {
 
             super.setSelected(value);
         }
-
     }
 }

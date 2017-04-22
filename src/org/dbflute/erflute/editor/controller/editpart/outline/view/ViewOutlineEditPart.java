@@ -27,9 +27,6 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
         this.refreshName();
@@ -40,9 +37,6 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequest(Request request) {
         ERView view = (ERView) this.getModel();
@@ -65,17 +59,11 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
         super.performRequest(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public DragTracker getDragTracker(Request req) {
         return new SelectEditPartTracker(this);
@@ -101,7 +89,6 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
             } else {
                 name = "";
             }
-
         } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             if (model.getLogicalName() != null) {
                 name = model.getLogicalName();
@@ -109,7 +96,6 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
             } else {
                 name = "";
             }
-
         } else {
             if (model.getLogicalName() != null) {
                 name = model.getLogicalName();

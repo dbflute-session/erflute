@@ -18,79 +18,69 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * �\��t���A�N�V����
- *
+ * 貼り付けアクション
  * @author nakajima
- *
  */
 public class PasteAction extends SelectionAction {
 
-    private MainDiagramEditor editor;
+    private final MainDiagramEditor editor;
 
     /**
-     * �R���X�g���N�^
-     *
+     * コンストラクタ
      * @param part
      */
     public PasteAction(IWorkbenchPart part) {
         super(part);
 
         this.setText(DisplayMessages.getMessage("action.title.paste"));
-        ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+        final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
         setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
 
         this.setId(ActionFactory.PASTE.getId());
 
-        MainDiagramEditor editor = (MainDiagramEditor) part;
+        final MainDiagramEditor editor = (MainDiagramEditor) part;
 
         this.editor = editor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean calculateEnabled() {
         return CopyManager.canCopy();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void run() {
         try {
             execute(createCommand());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.error(e);
         }
     }
 
     /**
-     * �\��t���R�}���h���쐬���܂��B<br>
-     * �R�s�[�̈�ɕ�������Ă���m�[�h������ɕ������ē\��t���܂�<br>
-     *
-     * @return �\��t���R�}���h
+     * 貼り付けコマンドを作成します。<br>
+     * コピー領域に複製されているノードをさらに複製して貼り付けます<br>
+     * @return 貼り付けコマンド
      */
     private Command createCommand() {
 
-        // �\��t���s�̏ꍇ
+        // 貼り付け不可の場合ꍇ
         if (!calculateEnabled()) {
             return null;
         }
 
-        // �\��t���Ώۂ̃m�[�h�ꗗ
-        DiagramWalkerSet pasteList = CopyManager.paste();
+        // 貼り付け対象のノード一覧
+        final DiagramWalkerSet pasteList = CopyManager.paste();
 
-        int numberOfCopy = CopyManager.getNumberOfCopy();
+        final int numberOfCopy = CopyManager.getNumberOfCopy();
 
-        // �\��t���R�}���h���쐬���܂��B
+        // 貼り付けコマンドを作成します。
         boolean first = true;
         int x = 0;
         int y = 0;
 
-        for (DiagramWalker nodeElement : pasteList) {
+        for (final DiagramWalker nodeElement : pasteList) {
             if (first || x > nodeElement.getX()) {
                 x = nodeElement.getX();
             }
@@ -101,29 +91,26 @@ public class PasteAction extends SelectionAction {
             first = false;
         }
 
-        EditPart editPart = this.editor.getGraphicalViewer().getContents();
-        Object model = editPart.getModel();
+        final EditPart editPart = this.editor.getGraphicalViewer().getContents();
+        final Object model = editPart.getModel();
 
         if (model instanceof ERDiagram) {
-            ERDiagram diagram = (ERDiagram) model;
+            final ERDiagram diagram = (ERDiagram) model;
 
-            Command command =
-                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20, diagram.mousePoint.y - y
-                            + (numberOfCopy - 1) * 20);
+            final Command command = new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
+                    diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
 
             return command;
         }
         if (model instanceof ERVirtualDiagram) {
-            ERVirtualDiagram erModel = (ERVirtualDiagram) model;
-            ERDiagram diagram = erModel.getDiagram();
+            final ERVirtualDiagram erModel = (ERVirtualDiagram) model;
+            final ERDiagram diagram = erModel.getDiagram();
 
-            Command command =
-                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20, diagram.mousePoint.y - y
-                            + (numberOfCopy - 1) * 20);
+            final Command command = new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
+                    diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
 
             return command;
         }
         return null;
     }
-
 }

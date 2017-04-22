@@ -16,5 +16,4 @@ public class ColumnSet implements ObjectListModel {
     public String getObjectType() {
         return "list";
     }
-
 }

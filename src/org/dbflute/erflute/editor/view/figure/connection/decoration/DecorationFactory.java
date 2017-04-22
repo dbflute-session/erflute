@@ -14,7 +14,7 @@ public class DecorationFactory {
 
     public static Decoration getDecoration(String notation, String parentCardinality, String childCardinality) {
 
-        Decoration decoration = new Decoration();
+        final Decoration decoration = new Decoration();
 
         if ("0..1".equals(parentCardinality)) {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
@@ -23,7 +23,6 @@ public class DecorationFactory {
             } else {
                 decoration.sourceDecoration = new IEZeroOneDecoration();
             }
-
         } else {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 decoration.sourceDecoration = new IDEF1XOneDecoration();
@@ -35,13 +34,12 @@ public class DecorationFactory {
 
         if ("0..n".equals(childCardinality)) {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
-                // �Y�� �Ȃ�
+                // 添字 なし
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
 
             } else {
                 decoration.targetDecoration = new IEOptionalTargetDecoration();
             }
-
         } else if ("1".equals(childCardinality)) {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 decoration.targetDecoration = new IDEF1XOneDecoration();
@@ -49,20 +47,18 @@ public class DecorationFactory {
             } else {
                 decoration.targetDecoration = new IEOneDecoration();
             }
-
         } else if ("0..1".equals(childCardinality)) {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
-                // �Y�� Z
+                // 添字 Z
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
                 decoration.targetLabel = "Z";
 
             } else {
                 decoration.targetDecoration = new IEZeroOneDecoration();
             }
-
         } else {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
-                // �Y�� P
+                // 添字 P
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
                 decoration.targetLabel = "P";
 
@@ -92,6 +88,5 @@ public class DecorationFactory {
         public String getTargetLabel() {
             return targetLabel;
         }
-
     }
 }

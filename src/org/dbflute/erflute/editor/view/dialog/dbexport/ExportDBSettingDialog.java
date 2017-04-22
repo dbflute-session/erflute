@@ -55,17 +55,11 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
         super.initializeBody(group);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initComponent(Composite parent) {
         super.initComponent(parent);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
         if (this.settingAddButton != null) {
@@ -83,9 +77,6 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
         return super.doValidate();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void performOK() throws InputException {
         this.setCurrentSetting();
@@ -151,17 +142,11 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getTitle() {
         return "dialog.title.export.db";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void setupData() {
         super.setupData();
@@ -174,39 +159,25 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
         this.environmentCombo.select(0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean isOnlyCurrentDatabase() {
         return true;
     }
 
-    /**
-     * ddl ���擾���܂�.
-     * @return ddl
-     */
     public String getDdl() {
         return ddl;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addListener() {
         super.addListener();
 
         this.environmentCombo.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 validate();
             }
         });
     }
-
 }

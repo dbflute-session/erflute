@@ -17,5 +17,4 @@ public class SqlServer2008DBManager extends SqlServerDBManager {
     public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
         return new SqlServer2008DDLCreator(diagram, semicolon);
     }
-
 }

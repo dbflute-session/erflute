@@ -13,9 +13,6 @@ import org.eclipse.gef.requests.GroupRequest;
 
 public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createDeleteCommand(GroupRequest request) {
         try {
@@ -41,7 +38,6 @@ public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
 
                             return command;
                         }
-
                     } else if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
                         ColumnGroup columnGroup = (ColumnGroup) normalColumn.getColumnHolder();
 
@@ -61,7 +57,6 @@ public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
 
                         return command;
                     }
-
                 } else if (this.getHost().getModel() instanceof ColumnGroup) {
                     ColumnGroup columnGroup = (ColumnGroup) this.getHost().getModel();
 
@@ -82,12 +77,10 @@ public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
                     return command;
                 }
             }
-
         } catch (Exception e) {
             Activator.showExceptionDialog(e);
         }
 
         return null;
     }
-
 }

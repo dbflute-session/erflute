@@ -41,7 +41,7 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
 
     @Override
     protected TablespaceProperties setTablespaceProperties() {
-        MySQLTablespaceProperties properties = new MySQLTablespaceProperties();
+        final MySQLTablespaceProperties properties = new MySQLTablespaceProperties();
 
         properties.setDataFile(this.dataFile.getText().trim());
         properties.setLogFileGroup(this.logFileGroup.getText().trim());
@@ -55,7 +55,7 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
     @Override
     protected void setData(TablespaceProperties tablespaceProperties) {
         if (tablespaceProperties instanceof MySQLTablespaceProperties) {
-            MySQLTablespaceProperties properties = (MySQLTablespaceProperties) tablespaceProperties;
+            final MySQLTablespaceProperties properties = (MySQLTablespaceProperties) tablespaceProperties;
 
             this.dataFile.setText(Format.toString(properties.getDataFile()));
             this.logFileGroup.setText(Format.toString(properties.getLogFileGroup()));
@@ -65,12 +65,9 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
-        String errorMessage = super.doValidate();
+        final String errorMessage = super.doValidate();
         if (errorMessage != null) {
             return errorMessage;
         }
@@ -97,5 +94,4 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
 
         return null;
     }
-
 }

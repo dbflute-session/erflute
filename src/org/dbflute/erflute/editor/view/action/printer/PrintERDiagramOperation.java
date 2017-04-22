@@ -25,9 +25,6 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
         return diagram;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Rectangle getPrintRegion() {
         ERDiagram diagram = this.getDiagram();
@@ -61,9 +58,6 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
         return shrinked;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void setupPrinterGraphicsFor(Graphics graphics, IFigure figure) {
         ERDiagram diagram = this.getDiagram();
@@ -97,9 +91,6 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
         graphics.setFont(figure.getFont());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void printPages() {
         Graphics graphics = getFreshPrinterGraphics();
@@ -125,5 +116,4 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
             y += clipRect.height;
         }
     }
-
 }

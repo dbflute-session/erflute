@@ -21,17 +21,14 @@ public class OracleDDLCreator extends DDLCreator {
         super(diagram, semicolon);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<String> doBuildCreateComment(ERTable table) {
-        List<String> ddlList = new ArrayList<String>();
+        final List<String> ddlList = new ArrayList<>();
 
-        String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
+        final String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
 
         if (!Check.isEmpty(tableComment)) {
-            StringBuilder ddl = new StringBuilder();
+            final StringBuilder ddl = new StringBuilder();
 
             ddl.append("COMMENT ON TABLE ");
             ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
@@ -45,14 +42,14 @@ public class OracleDDLCreator extends DDLCreator {
             ddlList.add(ddl.toString());
         }
 
-        for (ERColumn column : table.getColumns()) {
+        for (final ERColumn column : table.getColumns()) {
             if (column instanceof NormalColumn) {
-                NormalColumn normalColumn = (NormalColumn) column;
+                final NormalColumn normalColumn = (NormalColumn) column;
 
-                String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                 if (!Check.isEmpty(comment)) {
-                    StringBuilder ddl = new StringBuilder();
+                    final StringBuilder ddl = new StringBuilder();
 
                     ddl.append("COMMENT ON COLUMN ");
                     ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
@@ -67,15 +64,14 @@ public class OracleDDLCreator extends DDLCreator {
 
                     ddlList.add(ddl.toString());
                 }
-
             } else {
-                ColumnGroup columnGroup = (ColumnGroup) column;
+                final ColumnGroup columnGroup = (ColumnGroup) column;
 
-                for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                    String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                for (final NormalColumn normalColumn : columnGroup.getColumns()) {
+                    final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                     if (!Check.isEmpty(comment)) {
-                        StringBuilder ddl = new StringBuilder();
+                        final StringBuilder ddl = new StringBuilder();
 
                         ddl.append("COMMENT ON COLUMN ");
                         ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
@@ -97,12 +93,9 @@ public class OracleDDLCreator extends DDLCreator {
         return ddlList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String doBuildCreateForeignKey(Relationship relation) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         ddl.append("ALTER TABLE ");
         ddl.append(filter(relation.getTargetTableView().getNameWithSchema(this.getDiagram().getDatabase())));
@@ -117,7 +110,7 @@ public class OracleDDLCreator extends DDLCreator {
 
         boolean first = true;
 
-        for (NormalColumn column : relation.getForeignKeyColumns()) {
+        for (final NormalColumn column : relation.getForeignKeyColumns()) {
             if (!first) {
                 ddl.append(", ");
 
@@ -133,20 +126,19 @@ public class OracleDDLCreator extends DDLCreator {
 
         first = true;
 
-        for (NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
+        for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
             if (!first) {
                 ddl.append(", ");
 
             }
 
-            for (NormalColumn referencedColumn : foreignKeyColumn.getReferencedColumnList()) {
+            for (final NormalColumn referencedColumn : foreignKeyColumn.getReferencedColumnList()) {
                 if (referencedColumn.getColumnHolder() == relation.getSourceTableView()) {
                     ddl.append(filter(referencedColumn.getPhysicalName()));
                     first = false;
                     break;
                 }
             }
-
         }
 
         ddl.append(")\r\n");
@@ -165,10 +157,10 @@ public class OracleDDLCreator extends DDLCreator {
 
     @Override
     protected String doBuildCreateTablespace(Tablespace tablespace) {
-        OracleTablespaceProperties tablespaceProperties =
+        final OracleTablespaceProperties tablespaceProperties =
                 (OracleTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         ddl.append("CREATE TABLESPACE ");
         ddl.append(filter(tablespace.getName()));
@@ -269,9 +261,9 @@ public class OracleDDLCreator extends DDLCreator {
 
     @Override
     public String doBuildCreateSequence(Sequence sequence) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
-        String description = sequence.getDescription();
+        final String description = sequence.getDescription();
         if (this.semicolon && !Check.isEmpty(description) && this.ddlTarget.inlineTableComment) {
             ddl.append("-- ");
             ddl.append(description.replaceAll("\n", "\n-- "));

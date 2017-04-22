@@ -19,43 +19,25 @@ public class CategorySettings implements Serializable, Cloneable {
 
     private boolean showReferredTables;
 
-    /**
-     * freeLayout ���擾���܂�.
-     * @return freeLayout
-     */
     public boolean isFreeLayout() {
         return freeLayout;
     }
 
-    /**
-     * freeLayout ��ݒ肵�܂�.
-     * @param freeLayout
-     *            freeLayout
-     */
     public void setFreeLayout(boolean freeLayout) {
         this.freeLayout = freeLayout;
     }
 
-    /**
-     * showReferredTables ���擾���܂�.
-     * @return showReferredTables
-     */
     public boolean isShowReferredTables() {
         return showReferredTables;
     }
 
-    /**
-     * showReferredTables ��ݒ肵�܂�.
-     * @param showReferredTables
-     *            showReferredTables
-     */
     public void setShowReferredTables(boolean showReferredTables) {
         this.showReferredTables = showReferredTables;
     }
 
     public CategorySettings() {
-        this.allCategories = new ArrayList<Category>();
-        this.selectedCategories = new ArrayList<Category>();
+        this.allCategories = new ArrayList<>();
+        this.selectedCategories = new ArrayList<>();
     }
 
     public void setSelectedCategories(List<Category> selectedCategories) {
@@ -63,7 +45,7 @@ public class CategorySettings implements Serializable, Cloneable {
     }
 
     public boolean contains(String categoryName) {
-        for (Category category : this.selectedCategories) {
+        for (final Category category : this.selectedCategories) {
             if (category.getName().equals(categoryName)) {
                 return true;
             }
@@ -107,18 +89,15 @@ public class CategorySettings implements Serializable, Cloneable {
         return selectedCategories;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Object clone() {
         try {
-            CategorySettings settings = (CategorySettings) super.clone();
-            settings.allCategories = new ArrayList<Category>();
-            settings.selectedCategories = new ArrayList<Category>();
+            final CategorySettings settings = (CategorySettings) super.clone();
+            settings.allCategories = new ArrayList<>();
+            settings.selectedCategories = new ArrayList<>();
 
-            for (Category category : this.allCategories) {
-                Category clone = category.clone();
+            for (final Category category : this.allCategories) {
+                final Category clone = category.clone();
                 settings.allCategories.add(clone);
 
                 if (this.contains(category.getName())) {
@@ -128,7 +107,7 @@ public class CategorySettings implements Serializable, Cloneable {
 
             return settings;
 
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             return null;
         }
     }
@@ -137,5 +116,4 @@ public class CategorySettings implements Serializable, Cloneable {
         this.allCategories = allCategories;
         Collections.sort(this.allCategories);
     }
-
 }

@@ -71,13 +71,13 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         CompositeFactory.createExampleLabel(composite, "label.tablespace.size.example", 2);
         CompositeFactory.filler(composite, 1);
 
-        Group autoExtendGroup = new Group(composite, SWT.NONE);
-        GridLayout autoExtendGroupLayout = new GridLayout();
+        final Group autoExtendGroup = new Group(composite, SWT.NONE);
+        final GridLayout autoExtendGroupLayout = new GridLayout();
         autoExtendGroupLayout.numColumns = 5;
         autoExtendGroup.setLayout(autoExtendGroupLayout);
         autoExtendGroup.setText(DisplayMessages.getMessage("label.tablespace.auto.extend"));
 
-        GridData autoExtendGroupGridData = new GridData();
+        final GridData autoExtendGroupGridData = new GridData();
         autoExtendGroupGridData.horizontalSpan = this.getNumColumns();
         autoExtendGroupGridData.horizontalAlignment = GridData.FILL;
         autoExtendGroupGridData.grabExcessHorizontalSpace = true;
@@ -98,12 +98,12 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         CompositeFactory.createExampleLabel(composite, "label.tablespace.size.example");
         CompositeFactory.filler(composite, 4);
 
-        Group defaultStorageGroup = new Group(composite, SWT.NONE);
-        GridLayout layout = new GridLayout();
+        final Group defaultStorageGroup = new Group(composite, SWT.NONE);
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 3;
         defaultStorageGroup.setLayout(layout);
         defaultStorageGroup.setText("Default Storage");
-        GridData defaultStorageGroupGridData = new GridData();
+        final GridData defaultStorageGroupGridData = new GridData();
         defaultStorageGroupGridData.horizontalSpan = this.getNumColumns();
         defaultStorageGroupGridData.horizontalAlignment = GridData.FILL;
         defaultStorageGroupGridData.grabExcessHorizontalSpace = true;
@@ -129,7 +129,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
 
     @Override
     protected TablespaceProperties setTablespaceProperties() {
-        OracleTablespaceProperties properties = new OracleTablespaceProperties();
+        final OracleTablespaceProperties properties = new OracleTablespaceProperties();
 
         properties.setAutoExtend(this.autoExtend.getSelection());
         properties.setAutoExtendMaxSize(this.autoExtendMaxSize.getText().trim());
@@ -153,7 +153,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
     @Override
     protected void setData(TablespaceProperties tablespaceProperties) {
         if (tablespaceProperties instanceof OracleTablespaceProperties) {
-            OracleTablespaceProperties properties = (OracleTablespaceProperties) tablespaceProperties;
+            final OracleTablespaceProperties properties = (OracleTablespaceProperties) tablespaceProperties;
 
             this.autoExtend.setSelection(properties.isAutoExtend());
             this.autoExtendMaxSize.setText(Format.toString(properties.getAutoExtendMaxSize()));
@@ -175,18 +175,15 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         this.setAutoExtendEnabled();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
-        String errorMessage = super.doValidate();
+        final String errorMessage = super.doValidate();
         if (errorMessage != null) {
             return errorMessage;
         }
 
         if (this.autoExtend.getSelection()) {
-            String text = this.autoExtendSize.getText().trim();
+            final String text = this.autoExtendSize.getText().trim();
             if (text.equals("")) {
                 return "error.tablespace.auto.extend.size.empty";
             }
@@ -195,42 +192,31 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addListener() {
         super.addListener();
 
         this.autoExtend.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 setAutoExtendEnabled();
             }
-
         });
 
         this.calculatorButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                TablespaceSizeCaluculatorDialog dialog = new TablespaceSizeCaluculatorDialog();
+                final TablespaceSizeCaluculatorDialog dialog = new TablespaceSizeCaluculatorDialog();
                 dialog.init(diagram);
                 dialog.open();
             }
-
         });
     }
 
     private void setAutoExtendEnabled() {
-        boolean enabled = autoExtend.getSelection();
+        final boolean enabled = autoExtend.getSelection();
         autoExtendSize.setEnabled(enabled);
         autoExtendMaxSize.setEnabled(enabled);
     }
