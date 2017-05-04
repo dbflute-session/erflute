@@ -32,7 +32,7 @@ public class ERDiagram extends ViewableModel {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = 8729319470770699498L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_ALL = "all";
     public static final String PROPERTY_CHANGE_DATABASE = "database";
     public static final String PROPERTY_CHANGE_SETTINGS = "settings";

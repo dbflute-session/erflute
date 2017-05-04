@@ -6,7 +6,7 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
 
-    //	private static final long serialVersionUID = -7691417386790834828L;
+    //	private static final long serialVersionUID = 1L;
     //
     ////	private String modelName;
     //

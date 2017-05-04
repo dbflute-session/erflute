@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Location implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -6000221452172017444L;
+    private static final long serialVersionUID = 1L;
 
     public int x;
 

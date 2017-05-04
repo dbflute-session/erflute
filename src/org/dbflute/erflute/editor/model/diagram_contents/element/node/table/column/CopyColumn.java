@@ -5,7 +5,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 
 public class CopyColumn extends NormalColumn {
 
-    private static final long serialVersionUID = 5638703275130616851L;
+    private static final long serialVersionUID = 1L;
 
     private NormalColumn originalColumn;
 

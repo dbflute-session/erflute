@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.AbstractModel;
 
 public class ColumnGroupSet extends AbstractModel implements Iterable<ColumnGroup> {
 
-    private static final long serialVersionUID = 6192280105150073360L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_GROUP_SET = "column_group_set";
 
     private String database;

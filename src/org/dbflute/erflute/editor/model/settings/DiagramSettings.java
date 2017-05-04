@@ -17,7 +17,7 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = -3921093777077765516L;
+    private static final long serialVersionUID = 1L;
 
     public static final int VIEW_MODE_LOGICAL = 0;
     public static final int VIEW_MODE_PHYSICAL = 1;

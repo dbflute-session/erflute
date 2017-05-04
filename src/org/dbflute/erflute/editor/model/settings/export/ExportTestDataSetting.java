@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ExportTestDataSetting implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -1781076310117636599L;
+    private static final long serialVersionUID = 1L;
 
     private int exportFormat;
 

@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Display;
 
 public abstract class PanelCellEditor extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
 
-    private static final long serialVersionUID = -3646026286712349658L;
+    private static final long serialVersionUID = 1L;
 
     private JPanel editPanel;
 

@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
 
-    private static final long serialVersionUID = 811961394466466597L;
+    private static final long serialVersionUID = 1L;
 
     // ===================================================================================
     //                                                                           Attribute

@@ -6,7 +6,7 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
 
 public class IndexSet extends AbstractModel implements ObjectListModel {
 
-    private static final long serialVersionUID = 3691276015432133679L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_INDEXES = "indexes";
 

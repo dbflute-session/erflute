@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.settings.Environment;
 
 public class Tablespace extends AbstractModel implements ObjectModel, Comparable<Tablespace> {
 
-    private static final long serialVersionUID = 1861168804265437031L;
+    private static final long serialVersionUID = 1L;
 
     private String name;
 

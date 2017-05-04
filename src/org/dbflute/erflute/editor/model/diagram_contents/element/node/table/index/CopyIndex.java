@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 
 public class CopyIndex extends ERIndex {
 
-    private static final long serialVersionUID = -7896024413398953097L;
+    private static final long serialVersionUID = 1L;
 
     private ERIndex originalIndex;
 

@@ -12,7 +12,7 @@ public class ExportSettings implements Serializable, Cloneable {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = 3669486436464233526L;
+    private static final long serialVersionUID = 1L;
 
     // ===================================================================================
     //                                                                           Attribute

@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public class MySQLTablespaceProperties implements TablespaceProperties {
 
-    private static final long serialVersionUID = 7900101196638704362L;
+    private static final long serialVersionUID = 1L;
 
     private String dataFile;
 

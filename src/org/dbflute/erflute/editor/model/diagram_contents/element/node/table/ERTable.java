@@ -24,7 +24,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.uniq
  */
 public class ERTable extends TableView implements TablePropertiesHolder, ColumnHolder, ObjectModel {
 
-    private static final long serialVersionUID = 11185865758118654L;
+    private static final long serialVersionUID = 1L;
 
     public static final String NEW_PHYSICAL_NAME = DisplayMessages.getMessage("new.table.physical.name");
     public static final String NEW_LOGICAL_NAME = DisplayMessages.getMessage("new.table.logical.name");

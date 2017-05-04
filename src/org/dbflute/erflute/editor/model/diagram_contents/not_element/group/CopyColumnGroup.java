@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
  */
 public class CopyColumnGroup extends ColumnGroup {
 
-    private static final long serialVersionUID = 8453816730649838482L;
+    private static final long serialVersionUID = 1L;
 
     private ColumnGroup original;
 

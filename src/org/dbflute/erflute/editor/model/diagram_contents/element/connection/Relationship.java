@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
  */
 public class Relationship extends WalkerConnection implements Comparable<Relationship> {
 
-    private static final long serialVersionUID = 4456694342537711599L;
+    private static final long serialVersionUID = 1L;
 
     // ===================================================================================
     //                                                                           Attribute

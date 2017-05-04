@@ -19,7 +19,7 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = 5264397678674390103L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_TABLE_SET = "TableSet";
 
     // ===================================================================================

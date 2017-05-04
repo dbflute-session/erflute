@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class NameValue implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 7655291687176977202L;
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private String value;

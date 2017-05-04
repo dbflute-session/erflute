@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class EnvironmentSettings implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 4937234635221817893L;
+    private static final long serialVersionUID = 1L;
 
     private List<Environment> environments;
     private Environment currentEnvironment;

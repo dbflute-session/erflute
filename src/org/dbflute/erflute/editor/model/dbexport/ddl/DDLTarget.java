@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class DDLTarget implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 8212409392159961699L;
+    private static final long serialVersionUID = 1L;
 
     // ===================================================================================
     //                                                                           Attribute

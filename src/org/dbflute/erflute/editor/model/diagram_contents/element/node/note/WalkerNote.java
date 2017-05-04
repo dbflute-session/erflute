@@ -16,7 +16,7 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = -8810455349879962852L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_WALKER_NOTE = "walker_note";
 
     // ===================================================================================

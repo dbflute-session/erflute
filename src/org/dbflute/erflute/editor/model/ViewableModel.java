@@ -4,7 +4,7 @@ import org.eclipse.swt.graphics.Color;
 
 public abstract class ViewableModel extends AbstractModel {
 
-    private static final long serialVersionUID = 5866202173090969615L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_COLOR = "color";
 

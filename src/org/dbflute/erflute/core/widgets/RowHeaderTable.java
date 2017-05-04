@@ -596,7 +596,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
     }
 
     private class TablePopupMenu extends JPopupMenu {
-        private static final long serialVersionUID = 7496925348009972492L;
+        private static final long serialVersionUID = 1L;
 
         private JMenuItem cutMenu;
         private JMenuItem deleteMenu;
@@ -798,7 +798,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         }
 
         public static class IconListCellRenderer extends DefaultListCellRenderer {
-            private static final long serialVersionUID = -1712884508057784069L;
+            private static final long serialVersionUID = 1L;
 
             private static final ImageIcon ICON;
 

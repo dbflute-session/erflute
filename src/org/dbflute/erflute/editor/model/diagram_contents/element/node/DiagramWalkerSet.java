@@ -28,7 +28,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = -120487815554383179L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_DIAGRAM_WALKER = "diagram_walkers";
 
     // ===================================================================================

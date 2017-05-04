@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 
 public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ERIndex> {
 
-    private static final long serialVersionUID = -6734284409681329690L;
+    private static final long serialVersionUID = 1L;
 
     private String name;
 

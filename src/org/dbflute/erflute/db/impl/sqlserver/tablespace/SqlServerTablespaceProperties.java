@@ -8,7 +8,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public class SqlServerTablespaceProperties implements TablespaceProperties {
 
-    private static final long serialVersionUID = 3581869274788998047L;
+    private static final long serialVersionUID = 1L;
 
     // (REGULAR/LARGI/SYSTEM TEMPORARY/USER TEMPORARY)
     private String type;

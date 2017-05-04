@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public class OracleTablespaceProperties implements TablespaceProperties {
 
-    private static final long serialVersionUID = -6976279893674797115L;
+    private static final long serialVersionUID = 1L;
 
     private String dataFile;
 

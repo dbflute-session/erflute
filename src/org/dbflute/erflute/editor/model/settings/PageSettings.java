@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class PageSettings implements Serializable {
 
-    private static final long serialVersionUID = 7520875865783223474L;
+    private static final long serialVersionUID = 1L;
 
     private static final int DEFAULT_MARGIN = 30;
 

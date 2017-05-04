@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 
 public class InsertedImage extends DiagramWalker {
 
-    private static final long serialVersionUID = -2035035973213266486L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_IMAGE = "image";
 
     private String base64EncodedData;

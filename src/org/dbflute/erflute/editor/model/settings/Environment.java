@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Environment implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 2894497911334351672L;
+    private static final long serialVersionUID = 1L;
 
     private String name;
 

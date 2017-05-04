@@ -6,7 +6,7 @@ import javax.swing.text.PlainDocument;
 
 public class IntegerDocument extends PlainDocument {
 
-    private static final long serialVersionUID = 2217237305506835428L;
+    private static final long serialVersionUID = 1L;
 
     private int currentValue = 0;
 

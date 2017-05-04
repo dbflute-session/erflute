@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
  */
 public abstract class DiagramWalker extends ViewableModel implements ObjectModel {
 
-    private static final long serialVersionUID = -5143984125818569247L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_RECTANGLE = "rectangle";
     public static final String PROPERTY_CHANGE_INCOMING = "incoming";

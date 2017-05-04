@@ -15,7 +15,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = 4315217440968295922L;
+    private static final long serialVersionUID = 1L;
 
     private static final Comparator<Word> WITHOUT_NAME_COMPARATOR = new WordWithoutNameComparator();
     public static final Comparator<Word> PHYSICAL_NAME_COMPARATOR = new WordPhysicalNameComparator();

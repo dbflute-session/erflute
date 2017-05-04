@@ -4,6 +4,5 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 
 public class ViewProperties extends TableViewProperties {
 
-    private static final long serialVersionUID = -4482559358342532447L;
-
+    private static final long serialVersionUID = 1L;
 }

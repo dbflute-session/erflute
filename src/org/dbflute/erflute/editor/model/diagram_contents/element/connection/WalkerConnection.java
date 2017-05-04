@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Walke
  */
 public abstract class WalkerConnection extends AbstractModel {
 
-    private static final long serialVersionUID = -5418951773059063716L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_CONNECTION = "connection";
     public static final String PROPERTY_CHANGE_BEND_POINT = "bendPoint";
     public static final String PROPERTY_CHANGE_CONNECTION_ATTRIBUTE = "connection_attribute";

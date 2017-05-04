@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public class PostgresTablespaceProperties implements TablespaceProperties {
 
-    private static final long serialVersionUID = -1168759105844875794L;
+    private static final long serialVersionUID = 1L;
 
     private String location;
 

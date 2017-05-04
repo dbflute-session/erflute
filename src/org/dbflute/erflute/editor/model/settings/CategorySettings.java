@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.C
 
 public class CategorySettings implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -7691417386790834828L;
+    private static final long serialVersionUID = 1L;
 
     private List<Category> allCategories;
 

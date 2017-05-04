@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 
 public class Dictionary extends AbstractModel {
 
-    private static final long serialVersionUID = -4476318682977312216L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_DICTIONARY = "dictionary";
 

@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
 
 public class TriggerSet extends AbstractModel implements ObjectListModel, Iterable<Trigger> {
 
-    private static final long serialVersionUID = -5072692633977593382L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_TRIGGER_SET = "TriggerSet";
 
