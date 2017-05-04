@@ -4,5 +4,5 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 
 public interface ERTableCompositeHolder {
 
-    public void selectGroup(ColumnGroup selectedColumn);
+    void selectGroup(ColumnGroup selectedColumn);
 }

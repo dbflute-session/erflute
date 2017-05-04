@@ -13,6 +13,5 @@ public interface IERDiagramActionFactory {
      * @param editor
      * @return IAction
      */
-    public IAction createIAction(MainDiagramEditor editor);
-
+    IAction createIAction(MainDiagramEditor editor);
 }

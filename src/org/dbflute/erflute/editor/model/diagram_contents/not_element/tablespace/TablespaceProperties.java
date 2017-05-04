@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface TablespaceProperties extends Serializable, Cloneable {
 
-    public TablespaceProperties clone();
+    TablespaceProperties clone();
 
-    public LinkedHashMap<String, String> getPropertiesMap();
+    LinkedHashMap<String, String> getPropertiesMap();
 
-    public List<String> validate();
+    List<String> validate();
 }
