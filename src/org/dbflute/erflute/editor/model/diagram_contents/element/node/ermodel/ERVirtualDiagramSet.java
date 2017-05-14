@@ -11,6 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 
 /**
  * @author modified by jflute (originated in ermaster)
+ * @author kajiku
  */
 public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVirtualDiagram> {
 
@@ -49,19 +50,17 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public int remove(ERVirtualDiagram vdiagram) {
-        final int index = this.vdiagrams.indexOf(vdiagram);
-        vdiagrams.remove(index);
+    public void removeByName(String modelName) {
+        final ERVirtualDiagram vdiagram = getModelByName(modelName);
+        vdiagrams.remove(vdiagram);
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
-
-        return index;
     }
 
     public void changeModel(ERVirtualDiagram vdiagram) {
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public ERVirtualDiagram getModel(String modelName) {
+    public ERVirtualDiagram getModelByName(String modelName) {
         for (final ERVirtualDiagram vdiagram : vdiagrams) {
             if (vdiagram.getName().equals(modelName)) {
                 return vdiagram;
