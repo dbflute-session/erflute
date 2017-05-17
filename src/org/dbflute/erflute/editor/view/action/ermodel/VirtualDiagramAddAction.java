@@ -30,7 +30,7 @@ public class VirtualDiagramAddAction extends AbstractBaseAction {
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final String dialogTitle = "new VirtualDiagram()";
         final String dialogMessage = "input name for new Virtual Diagram";
-        final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator();
+        final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator(diagram);
         final InputDialog dialog = new InputDialog(shell, dialogTitle, dialogMessage, "", validator);
         if (dialog.open() == IDialogConstants.OK_ID) {
             final AddVirtualDiagramCommand addCommand = new AddVirtualDiagramCommand(diagram, dialog.getValue());

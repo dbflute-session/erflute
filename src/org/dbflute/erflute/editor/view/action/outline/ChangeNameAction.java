@@ -34,7 +34,7 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
         final Object model = editPart.getModel();
         if (model instanceof ERVirtualDiagram) {
             final ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
-            final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator();
+            final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator(diagram);
             final InputDialog dialog =
                     new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename", "Input new name",
                             ermodel.getName(), validator);
