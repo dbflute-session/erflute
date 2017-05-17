@@ -40,7 +40,7 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
     //		this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     //	}
     //
-    public void addModels(List<ERVirtualDiagram> vdiagrams) {
+    public void addVdiagams(List<ERVirtualDiagram> vdiagrams) {
         this.vdiagrams.addAll(vdiagrams);
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
@@ -50,19 +50,19 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public void removeByName(String modelName) {
-        final ERVirtualDiagram vdiagram = getModelByName(modelName);
+    public void removeByName(String vdiagramName) {
+        final ERVirtualDiagram vdiagram = getVdiagramByName(vdiagramName);
         vdiagrams.remove(vdiagram);
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public void changeModel(ERVirtualDiagram vdiagram) {
+    public void changeVdiagram(ERVirtualDiagram vdiagram) {
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public ERVirtualDiagram getModelByName(String modelName) {
+    public ERVirtualDiagram getVdiagramByName(String vdiagramName) {
         for (final ERVirtualDiagram vdiagram : vdiagrams) {
-            if (vdiagram.getName().equals(modelName)) {
+            if (vdiagram.getName().equals(vdiagramName)) {
                 return vdiagram;
             }
         }

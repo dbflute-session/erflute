@@ -117,7 +117,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         final String modelName = diagram.getDefaultModelName();
         if (modelName != null) {
             try {
-                final ERVirtualDiagram vdiagram = diagram.getDiagramContents().getVirtualDiagramSet().getModelByName(modelName);
+                final ERVirtualDiagram vdiagram = diagram.getDiagramContents().getVirtualDiagramSet().getVdiargamByName(modelName);
                 diagram.setCurrentVirtualDiagram(vdiagram, vdiagram.getName());
                 final VirtualDiagramEditor modelEditor =
                         new VirtualDiagramEditor(diagram, vdiagram, editPartFactory, zoomComboContributionItem, outlinePage);

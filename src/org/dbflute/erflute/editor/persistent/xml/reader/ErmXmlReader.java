@@ -90,8 +90,9 @@ public class ErmXmlReader {
         this.walkerGroupLoader = new ReadWalkerGroupLoader(persistentXml, assistLogic, diagramWalkerLoader);
         this.walkerNoteLoader = new ReadWalkerNoteLoader(persistentXml, assistLogic, diagramWalkerLoader);
         this.insertedImageLoader = new ReadInsertedImageLoader(persistentXml, assistLogic, diagramWalkerLoader);
-        this.tableLoader = new ReadTableLoader(persistentXml, assistLogic, diagramWalkerLoader, columnLoader, indexLoader, uniqueKeyLoader,
-                tablePropertiesLoader);
+        this.tableLoader =
+                new ReadTableLoader(persistentXml, assistLogic, diagramWalkerLoader, columnLoader, indexLoader, uniqueKeyLoader,
+                        tablePropertiesLoader);
         this.viewLoader = new ReadViewLoader(persistentXml, assistLogic, diagramWalkerLoader, columnLoader, viewPropertiesLoader);
         this.ermodelLoader = new ReadVirtualDiagramLoader(persistentXml, assistLogic, tableLoader, walkerNoteLoader, walkerGroupLoader);
     }
@@ -159,7 +160,7 @@ public class ErmXmlReader {
         columnGroups.clear();
         columnLoader.loadColumnGroups(columnGroups, parent, context, database);
         loadDiagramWalkers(diagramContents.getDiagramWalkers(), parent, context);
-        diagramContents.getVirtualDiagramSet().addModels(loadErmodels(parent, context));
+        diagramContents.getVirtualDiagramSet().addVdiagams(loadErmodels(parent, context));
         sequenceLoader.loadSequenceSet(diagramContents.getSequenceSet(), parent);
         triggerLoader.loadTriggerSet(diagramContents.getTriggerSet(), parent);
         context.resolve();
