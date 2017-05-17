@@ -11,9 +11,11 @@ import org.eclipse.jface.dialogs.IInputValidator;
 public class InputVirtualDiagramNameValidator implements IInputValidator {
 
     private final ERDiagram diagram;
+    private final String targetVdiagramName;
 
-    public InputVirtualDiagramNameValidator(ERDiagram diagram) {
+    public InputVirtualDiagramNameValidator(ERDiagram diagram, String targetVdiagramName) {
         this.diagram = diagram;
+        this.targetVdiagramName = targetVdiagramName;
     }
 
     @Override
@@ -28,6 +30,10 @@ public class InputVirtualDiagramNameValidator implements IInputValidator {
     }
 
     private boolean isDuplicateName(String paramString) {
+        if (targetVdiagramName != null && targetVdiagramName.equals(paramString)) {
+            return false;
+        }
+
         boolean isDuplicate = false;
         for (final ERVirtualDiagram vdiagram : diagram.getDiagramContents().getVirtualDiagramSet()) {
             if (vdiagram.getName().equals(paramString)) {
