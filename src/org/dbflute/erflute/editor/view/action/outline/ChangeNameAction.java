@@ -33,15 +33,15 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
         final EditPart editPart = (EditPart) selectedEditParts.get(0);
         final Object model = editPart.getModel();
         if (model instanceof ERVirtualDiagram) {
-            final ERVirtualDiagram ermodel = (ERVirtualDiagram) model;
-            final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator();
+            final ERVirtualDiagram vdiagram = (ERVirtualDiagram) model;
+            final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator(diagram, vdiagram.getName());
             final InputDialog dialog =
                     new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename", "Input new name",
-                            ermodel.getName(), validator);
+                            vdiagram.getName(), validator);
             if (dialog.open() == IDialogConstants.OK_ID) {
-                ermodel.setName(dialog.getValue());
-                diagram.getDiagramContents().getVirtualDiagramSet().changeModel(ermodel);
-                ermodel.getDiagram().getEditor().setDirty(true);
+                vdiagram.setName(dialog.getValue());
+                diagram.getDiagramContents().getVirtualDiagramSet().changeModel(vdiagram);
+                vdiagram.getDiagram().getEditor().setDirty(true);
                 //				ermodel.changeAll();
                 //				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());
                 //				this.execute(command);
