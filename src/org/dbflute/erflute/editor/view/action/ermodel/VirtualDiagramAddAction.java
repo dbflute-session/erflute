@@ -21,15 +21,15 @@ public class VirtualDiagramAddAction extends AbstractBaseAction {
     public static final String ID = VirtualDiagramAddAction.class.getName();
 
     public VirtualDiagramAddAction(MainDiagramEditor editor) {
-        super(ID, "new VirtualDiagram()", editor);
+        super(ID, "New VirtualDiagram", editor);
     }
 
     @Override
     public void execute(Event event) throws Exception {
         final ERDiagram diagram = this.getDiagram();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        final String dialogTitle = "new VirtualDiagram()";
-        final String dialogMessage = "input name for new Virtual Diagram";
+        final String dialogTitle = "New VirtualDiagram";
+        final String dialogMessage = "Input name for new Virtual Diagram";
         final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator(diagram);
         final InputDialog dialog = new InputDialog(shell, dialogTitle, dialogMessage, "", validator);
         if (dialog.open() == IDialogConstants.OK_ID) {
