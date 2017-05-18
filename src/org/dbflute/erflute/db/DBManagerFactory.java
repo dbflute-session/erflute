@@ -6,6 +6,7 @@ import java.util.List;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.db.impl.access.AccessDBManager;
 import org.dbflute.erflute.db.impl.db2.DB2DBManager;
+import org.dbflute.erflute.db.impl.h2.H2DBManager;
 import org.dbflute.erflute.db.impl.hsqldb.HSQLDBDBManager;
 import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
 import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
@@ -21,11 +22,12 @@ import org.dbflute.erflute.editor.model.ERDiagram;
  */
 public class DBManagerFactory {
 
-    private static final List<DBManager> DB_LIST = new ArrayList<DBManager>();
-    private static final List<String> DB_ID_LIST = new ArrayList<String>();
+    private static final List<DBManager> DB_LIST = new ArrayList<>();
+    private static final List<String> DB_ID_LIST = new ArrayList<>();
     static {
         new StandardSQLDBManager();
         new DB2DBManager();
+        new H2DBManager();
         new HSQLDBDBManager();
         new AccessDBManager();
         new MySQLDBManager();

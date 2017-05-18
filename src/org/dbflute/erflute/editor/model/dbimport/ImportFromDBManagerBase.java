@@ -150,7 +150,9 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
         try {
-            monitor.beginTask(DisplayMessages.getMessage("dialog.message.import.table"), this.dbObjectList.size());
+            if (monitor != null) {
+                monitor.beginTask(DisplayMessages.getMessage("dialog.message.import.table"), this.dbObjectList.size());
+            }
 
             this.importedSequences = this.importSequences(this.dbObjectList);
             this.importedTriggers = this.importTriggers(this.dbObjectList);
@@ -164,14 +166,14 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         } catch (final InterruptedException e) {
             throw e;
-
         } catch (final Exception e) {
             logger.log(Level.WARNING, e.getMessage(), e);
             this.exception = e;
-
         }
 
-        monitor.done();
+        if (monitor != null) {
+            monitor.done();
+        }
     }
 
     protected void cashColumnData(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException, InterruptedException {
@@ -344,9 +346,10 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 final String tableName = dbObject.getName();
                 final String schema = dbObject.getSchema();
                 final String tableNameWithSchema = this.dbSetting.getTableNameWithSchema(tableName, schema);
-
-                monitor.subTask("(" + i + "/" + this.dbObjectList.size() + ") " + tableNameWithSchema);
-                monitor.worked(1);
+                if (monitor != null) {
+                    monitor.subTask("(" + i + "/" + this.dbObjectList.size() + ") " + tableNameWithSchema);
+                    monitor.worked(1);
+                }
 
                 final ERTable table = this.importTable(tableNameWithSchema, tableName, schema);
 
@@ -355,7 +358,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 }
             }
 
-            if (monitor.isCanceled()) {
+            if (monitor != null && monitor.isCanceled()) {
                 throw new InterruptedException("Cancel has been requested.");
             }
         }
