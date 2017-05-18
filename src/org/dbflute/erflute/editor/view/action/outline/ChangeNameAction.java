@@ -40,7 +40,7 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
                             vdiagram.getName(), validator);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 vdiagram.setName(dialog.getValue());
-                diagram.getDiagramContents().getVirtualDiagramSet().changeModel(vdiagram);
+                diagram.getDiagramContents().getVirtualDiagramSet().changeVdiagram(vdiagram);
                 vdiagram.getDiagram().getEditor().setDirty(true);
                 //				ermodel.changeAll();
                 //				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());

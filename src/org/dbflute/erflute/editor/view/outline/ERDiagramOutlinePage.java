@@ -14,6 +14,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.view.action.outline.ChangeNameAction;
+import org.dbflute.erflute.editor.view.action.outline.DeleteVirtualDiagramAction;
 import org.dbflute.erflute.editor.view.action.outline.index.CreateIndexAction;
 import org.dbflute.erflute.editor.view.action.outline.notation.type.ChangeOutlineViewToBothAction;
 import org.dbflute.erflute.editor.view.action.outline.notation.type.ChangeOutlineViewToLogicalAction;
@@ -162,7 +163,8 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                         new CreateTablespaceAction(treeViewer), new ChangeOutlineViewToPhysicalAction(treeViewer),
                         new ChangeOutlineViewToLogicalAction(treeViewer), new ChangeOutlineViewToBothAction(treeViewer),
                         new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
-                        new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer), };
+                        new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer),
+                        new DeleteVirtualDiagramAction(treeViewer), };
         for (final IAction action : actions) {
             actionRegistry.registerAction(action);
         }

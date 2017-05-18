@@ -11,6 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 
 /**
  * @author modified by jflute (originated in ermaster)
+ * @author kajiku
  */
 public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVirtualDiagram> {
 
@@ -39,7 +40,7 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
     //		this.firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     //	}
     //
-    public void addModels(List<ERVirtualDiagram> vdiagrams) {
+    public void addVdiagams(List<ERVirtualDiagram> vdiagrams) {
         this.vdiagrams.addAll(vdiagrams);
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
@@ -49,21 +50,19 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public int remove(ERVirtualDiagram vdiagram) {
-        final int index = this.vdiagrams.indexOf(vdiagram);
-        vdiagrams.remove(index);
-        firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
-
-        return index;
-    }
-
-    public void changeModel(ERVirtualDiagram vdiagram) {
+    public void removeByName(String vdiagramName) {
+        final ERVirtualDiagram vdiagram = getVdiagramByName(vdiagramName);
+        vdiagrams.remove(vdiagram);
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 
-    public ERVirtualDiagram getModel(String modelName) {
+    public void changeVdiagram(ERVirtualDiagram vdiagram) {
+        firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
+    }
+
+    public ERVirtualDiagram getVdiagramByName(String vdiagramName) {
         for (final ERVirtualDiagram vdiagram : vdiagrams) {
-            if (vdiagram.getName().equals(modelName)) {
+            if (vdiagram.getName().equals(vdiagramName)) {
                 return vdiagram;
             }
         }
