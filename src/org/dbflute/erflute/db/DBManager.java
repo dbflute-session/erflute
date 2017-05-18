@@ -27,6 +27,7 @@ public interface DBManager {
     int SUPPORT_FULLTEXT_INDEX = 3;
     int SUPPORT_SCHEMA = 4;
     int SUPPORT_SEQUENCE = 5;
+    int SUPPORT_SEQUENCE_NOCACHE = 6;
 
     String INDEX_TYPE_BTREE = "BTREE";
 

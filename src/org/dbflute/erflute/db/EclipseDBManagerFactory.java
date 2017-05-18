@@ -6,6 +6,7 @@ import java.util.List;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.db.impl.access.AccessEclipseDBManager;
 import org.dbflute.erflute.db.impl.db2.DB2EclipseDBManager;
+import org.dbflute.erflute.db.impl.h2.H2DBManager;
 import org.dbflute.erflute.db.impl.hsqldb.HSQLDBEclipseDBManager;
 import org.dbflute.erflute.db.impl.mysql.MySQLEclipseDBManager;
 import org.dbflute.erflute.db.impl.oracle.OracleEclipseDBManager;
@@ -18,11 +19,12 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 
 public class EclipseDBManagerFactory {
 
-    private static final List<EclipseDBManager> DB_LIST = new ArrayList<EclipseDBManager>();
+    private static final List<EclipseDBManager> DB_LIST = new ArrayList<>();
 
     static {
         new StandardSQLEclipseDBManager();
         new DB2EclipseDBManager();
+        new H2DBManager();
         new HSQLDBEclipseDBManager();
         new AccessEclipseDBManager();
         new MySQLEclipseDBManager();
@@ -38,7 +40,7 @@ public class EclipseDBManagerFactory {
     }
 
     public static EclipseDBManager getEclipseDBManager(String database) {
-        for (EclipseDBManager manager : DB_LIST) {
+        for (final EclipseDBManager manager : DB_LIST) {
             if (manager.getId().equals(database)) {
                 return manager;
             }

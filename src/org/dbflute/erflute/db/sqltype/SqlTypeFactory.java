@@ -47,8 +47,8 @@ public class SqlTypeFactory {
                     break;
                 }
                 final Class<?> javaClass = Class.forName(row.get(1));
-                final boolean needArgs = Boolean.parseBoolean(row.get(2));
-                final boolean fullTextIndexable = Boolean.parseBoolean(row.get(3));
+                final boolean needArgs = row.size() < 3 ? false : Boolean.parseBoolean(row.get(2));
+                final boolean fullTextIndexable = row.size() < 4 ? false : Boolean.parseBoolean(row.get(3));
                 final SqlType sqlType = new SqlType(sqlTypeId, javaClass, needArgs, fullTextIndexable);
                 // #point sqlTypeId(tsvの1行目)のRDBごとの処理
                 for (int colNum = 4; colNum < row.size(); colNum++) {

@@ -69,7 +69,8 @@ public class StandardSQLDBManager extends DBManagerBase {
 
     @Override
     protected int[] getSupportItems() {
-        return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_SCHEMA, SUPPORT_SEQUENCE };
+        return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_SCHEMA, SUPPORT_SEQUENCE,
+                SUPPORT_SEQUENCE_NOCACHE };
     }
 
     @Override
