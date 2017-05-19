@@ -15,7 +15,7 @@ dropins
  |-ERFlute
     |-eclipse
        |-plugins
-          |-org.dbflute.erflute_0.4.4.jar
+          |-org.dbflute.erflute_0.5.0.jar
 ```
 
 ## License
