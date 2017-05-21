@@ -46,6 +46,7 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * @author modified by jflute (originated in ermaster)
+ * @author kajiku
  */
 public abstract class TableViewEditPart extends DiagramWalkerEditPart implements IResizable {
 
@@ -125,6 +126,10 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
             tableFigure.create(tableView.getColor());
             final ERDiagram diagram = this.getDiagram();
             tableFigure.setName(getTableViewName(tableView, diagram));
+            final List childrens = this.getChildren();
+            if (childrens == null || childrens.isEmpty()) {
+                refreshChildren();
+            }
             for (final Object child : this.getChildren()) {
                 if (child instanceof ColumnEditPart) {
                     final ColumnEditPart part = (ColumnEditPart) child;
