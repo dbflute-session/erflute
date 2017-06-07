@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.dbflute.erflute.editor.model.dbimport.DBObject;
 import org.dbflute.erflute.editor.model.dbimport.ImportFromDBManagerBase;
@@ -32,48 +34,50 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
 
     @Override
     protected void cashColumnData(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException, InterruptedException {
-        super.cashColumnData(dbObjectList, monitor);
+        // p1us2er0 exclude schemas such as SYS, SYSTEM (2017/06/08)
+        final List<String> schemaList = dbObjectList.stream()
+                .filter(dbObject -> DBObject.TYPE_TABLE.equals(dbObject.getType()))
+                .map(dbObject -> dbObject.getSchema())
+                .distinct()
+                .collect(Collectors.toList());
+        for (final String schema : schemaList) {
+            cashColumnDataX(schema, null, dbObjectList, monitor);
+        }
+        final String sql = "SELECT OWNER, TABLE_NAME, COLUMN_NAME, COMMENTS FROM SYS.ALL_COL_COMMENTS WHERE COMMENTS IS NOT NULL"
+                + schemaList.stream().map(schema -> "?").collect(Collectors.joining(", ", " AND OWNER IN (", ")"));
+        try (PreparedStatement stmt = this.con.prepareStatement(sql)) {
+            IntStream.range(0, schemaList.size()).forEach(index -> {
+                try {
+                    stmt.setString(index + 1, schemaList.get(index));
+                } catch (final SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String tableName = rs.getString("TABLE_NAME");
+                    final String schema = rs.getString("OWNER");
+                    final String columnName = rs.getString("COLUMN_NAME");
+                    final String comments = rs.getString("COMMENTS");
 
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+                    tableName = this.dbSetting.getTableNameWithSchema(tableName, schema);
 
-        try {
-            stmt = this.con.prepareStatement(
-                    "SELECT OWNER, TABLE_NAME, COLUMN_NAME, COMMENTS FROM SYS.ALL_COL_COMMENTS WHERE COMMENTS IS NOT NULL");
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String tableName = rs.getString("TABLE_NAME");
-                final String schema = rs.getString("OWNER");
-
-                final String columnName = rs.getString("COLUMN_NAME");
-                final String comments = rs.getString("COMMENTS");
-
-                tableName = this.dbSetting.getTableNameWithSchema(tableName, schema);
-
-                final Map<String, ColumnData> cash = this.columnDataCash.get(tableName);
-                if (cash != null) {
-                    final ColumnData columnData = cash.get(columnName);
-                    if (columnData != null) {
-                        columnData.description = comments;
+                    final Map<String, ColumnData> cash = this.columnDataCash.get(tableName);
+                    if (cash != null) {
+                        final ColumnData columnData = cash.get(columnName);
+                        if (columnData != null) {
+                            columnData.description = comments;
+                        }
                     }
                 }
             }
-        } finally {
-            this.close(rs);
-            this.close(stmt);
         }
     }
 
     @Override
     protected void cashTableComment(IProgressMonitor monitor) throws SQLException, InterruptedException {
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            stmt = this.con.prepareStatement("SELECT OWNER, TABLE_NAME, COMMENTS FROM SYS.ALL_TAB_COMMENTS WHERE COMMENTS IS NOT NULL");
-            rs = stmt.executeQuery();
-
+        final String sql = "SELECT OWNER, TABLE_NAME, COMMENTS FROM SYS.ALL_TAB_COMMENTS WHERE COMMENTS IS NOT NULL";
+        try (PreparedStatement stmt = this.con.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 String tableName = rs.getString("TABLE_NAME");
 
@@ -84,9 +88,6 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
 
                 this.tableCommentMap.put(tableName, comments);
             }
-        } finally {
-            this.close(rs);
-            this.close(stmt);
         }
     }
 
@@ -104,50 +105,43 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
     @Override
     protected Sequence importSequence(String schema, String sequenceName) throws SQLException {
         PreparedStatement stmt = null;
-        ResultSet rs = null;
-
         try {
             if (schema != null) {
                 stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_OWNER = ? AND SEQUENCE_NAME = ?");
                 stmt.setString(1, schema);
                 stmt.setString(2, sequenceName);
-
             } else {
                 stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_NAME = ?");
                 stmt.setString(1, sequenceName);
-
             }
 
-            rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    final Sequence sequence = new Sequence();
 
-            if (rs.next()) {
-                final Sequence sequence = new Sequence();
+                    sequence.setName(sequenceName);
+                    sequence.setSchema(schema);
+                    sequence.setIncrement(rs.getInt("INCREMENT_BY"));
+                    final BigDecimal minValue = rs.getBigDecimal("MIN_VALUE");
+                    sequence.setMinValue(minValue.longValue());
+                    final BigDecimal maxValue = rs.getBigDecimal("MAX_VALUE");
+                    sequence.setMaxValue(maxValue);
+                    final BigDecimal lastNumber = rs.getBigDecimal("LAST_NUMBER");
+                    sequence.setStart(lastNumber.longValue());
+                    sequence.setCache(rs.getInt("CACHE_SIZE"));
 
-                sequence.setName(sequenceName);
-                sequence.setSchema(schema);
-                sequence.setIncrement(rs.getInt("INCREMENT_BY"));
-                final BigDecimal minValue = rs.getBigDecimal("MIN_VALUE");
-                sequence.setMinValue(minValue.longValue());
-                final BigDecimal maxValue = rs.getBigDecimal("MAX_VALUE");
-                sequence.setMaxValue(maxValue);
-                final BigDecimal lastNumber = rs.getBigDecimal("LAST_NUMBER");
-                sequence.setStart(lastNumber.longValue());
-                sequence.setCache(rs.getInt("CACHE_SIZE"));
+                    final String cycle = rs.getString("CYCLE_FLAG").toLowerCase();
+                    if ("y".equals(cycle)) {
+                        sequence.setCycle(true);
+                    } else {
+                        sequence.setCycle(false);
+                    }
 
-                final String cycle = rs.getString("CYCLE_FLAG").toLowerCase();
-                if ("y".equals(cycle)) {
-                    sequence.setCycle(true);
-                } else {
-                    sequence.setCycle(false);
+                    return sequence;
                 }
-
-                return sequence;
             }
-
             return null;
-
         } finally {
-            this.close(rs);
             this.close(stmt);
         }
     }
@@ -155,37 +149,30 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
     @Override
     protected Trigger importTrigger(String schema, String name) throws SQLException {
         PreparedStatement stmt = null;
-        ResultSet rs = null;
-
         try {
             if (schema != null) {
                 stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_TRIGGERS WHERE OWNER = ? AND TRIGGER_NAME = ?");
                 stmt.setString(1, schema);
                 stmt.setString(2, name);
-
             } else {
                 stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_TRIGGERS WHERE TRIGGER_NAME = ?");
                 stmt.setString(1, name);
-
             }
 
-            rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    final Trigger trigger = new Trigger();
 
-            if (rs.next()) {
-                final Trigger trigger = new Trigger();
+                    trigger.setName(name);
+                    trigger.setSchema(schema);
+                    trigger.setDescription(rs.getString("DESCRIPTION"));
+                    trigger.setSql(rs.getString("TRIGGER_BODY"));
 
-                trigger.setName(name);
-                trigger.setSchema(schema);
-                trigger.setDescription(rs.getString("DESCRIPTION"));
-                trigger.setSql(rs.getString("TRIGGER_BODY"));
-
-                return trigger;
+                    return trigger;
+                }
             }
-
             return null;
-
         } finally {
-            this.close(rs);
             this.close(stmt);
         }
     }
@@ -203,13 +190,11 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
 
         try {
             return super.getIndexes(table, metaData, primaryKeys);
-
         } catch (final SQLException e) {
             if (e.getErrorCode() == 38029) {
                 logger.info(table.getPhysicalName() + " : " + e.getMessage());
                 return new ArrayList<>();
             }
-
             throw e;
         }
     }
@@ -217,7 +202,6 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
     @Override
     protected int getLength(String type, int size) {
         final int startIndex = type.indexOf("(");
-
         if (startIndex > 0) {
             final int endIndex = type.indexOf(")", startIndex + 1);
             if (endIndex != -1) {
@@ -225,7 +209,6 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
                 return Integer.parseInt(str);
             }
         }
-
         return size;
     }
 
@@ -323,7 +306,6 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
                 columnData.decimalDegits = 0;
             }
         }
-
         return columnData;
     }
 }

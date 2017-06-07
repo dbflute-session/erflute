@@ -30,7 +30,7 @@ public class SQLiteTableImportManager extends ImportFromDBManagerBase {
     @Override
     protected Map<String, ColumnData> getColumnDataMap(String tableNameWithSchema, String tableName, String schema)
             throws SQLException, InterruptedException {
-        this.cashColumnDataX(tableName, null, null);
+        this.cashColumnDataX(null, tableName, null, null);
 
         return super.getColumnDataMap(tableNameWithSchema, tableName, schema);
     }

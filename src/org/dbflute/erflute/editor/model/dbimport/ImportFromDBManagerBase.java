@@ -177,25 +177,19 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     protected void cashColumnData(List<DBObject> dbObjectList, IProgressMonitor monitor) throws SQLException, InterruptedException {
-        this.cashColumnDataX(null, dbObjectList, monitor);
+        this.cashColumnDataX(null, null, dbObjectList, monitor);
     }
 
-    protected void cashColumnDataX(String tableName, List<DBObject> dbObjectList, IProgressMonitor monitor)
+    protected void cashColumnDataX(String schemaPattern, String tableName, List<DBObject> dbObjectList, IProgressMonitor monitor)
             throws SQLException, InterruptedException {
-        ResultSet columnSet = null;
-
-        try {
-            columnSet = metaData.getColumns(null, null, tableName, null);
-
+        try (ResultSet columnSet = metaData.getColumns(null, schemaPattern, tableName, null)) {
             while (columnSet.next()) {
                 tableName = columnSet.getString("TABLE_NAME");
                 final String schema = columnSet.getString("TABLE_SCHEM");
 
                 final String tableNameWithSchema = this.dbSetting.getTableNameWithSchema(tableName, schema);
 
-                if (monitor != null) {
-                    monitor.subTask("reading : " + tableNameWithSchema);
-                }
+                monitor.subTask("reading : " + tableNameWithSchema);
 
                 Map<String, ColumnData> cash = this.columnDataCash.get(tableNameWithSchema);
                 if (cash == null) {
@@ -209,13 +203,9 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
                 cash.put(columnData.columnName, columnData);
 
-                if (monitor != null && monitor.isCanceled()) {
+                if (monitor.isCanceled()) {
                     throw new InterruptedException("Cancel has been requested.");
                 }
-            }
-        } finally {
-            if (columnSet != null) {
-                columnSet.close();
             }
         }
     }
@@ -272,14 +262,9 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     protected Sequence importSequence(String schema, String sequenceName) throws SQLException {
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
         final String sequenceNameWithSchema = this.getTableNameWithSchema(schema, sequenceName);
-
-        try {
-            stmt = this.con.prepareStatement("SELECT * FROM " + sequenceNameWithSchema);
-            rs = stmt.executeQuery();
+        try (PreparedStatement stmt = this.con.prepareStatement("SELECT * FROM " + sequenceNameWithSchema);
+                ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
                 final Sequence sequence = new Sequence();
@@ -298,12 +283,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
                 return sequence;
             }
-
             return null;
-
-        } finally {
-            this.close(rs);
-            this.close(stmt);
         }
     }
 
@@ -439,14 +419,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
     private String getAutoIncrementColumnName(Connection con, String tableNameWithSchema) throws SQLException {
         String autoIncrementColumnName = null;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            stmt = con.createStatement();
-
-            rs = stmt.executeQuery("SELECT * FROM " + tableNameWithSchema);
+        try (Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableNameWithSchema)) {
             final ResultSetMetaData md = rs.getMetaData();
 
             for (int i = 0; i < md.getColumnCount(); i++) {
@@ -455,26 +428,17 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                     break;
                 }
             }
-        } finally {
-            this.close(rs);
-            this.close(stmt);
         }
 
         return autoIncrementColumnName;
     }
 
     protected List<ERIndex> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
-
         final List<ERIndex> indexes = new ArrayList<>();
-
         final Map<String, ERIndex> indexMap = new HashMap<>();
 
-        ResultSet indexSet = null;
-
-        try {
-            indexSet = metaData.getIndexInfo(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
-                    table.getPhysicalName(), false, true);
-
+        try (ResultSet indexSet = metaData.getIndexInfo(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
+                table.getPhysicalName(), false, true)) {
             while (indexSet.next()) {
                 final String name = indexSet.getString("INDEX_NAME");
                 if (name == null) {
@@ -520,8 +484,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             }
         } catch (final SQLException e) {
             throw e;
-        } finally {
-            this.close(indexSet);
         }
 
         for (final Iterator<ERIndex> iter = indexes.iterator(); iter.hasNext();) {
@@ -565,24 +527,16 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     private List<PrimaryKeyData> getPrimaryKeys(ERTable table, DatabaseMetaData metaData) throws SQLException {
         final List<PrimaryKeyData> primaryKeys = new ArrayList<>();
 
-        ResultSet primaryKeySet = null;
-
-        try {
-            primaryKeySet = metaData.getPrimaryKeys(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
-                    table.getPhysicalName());
+        try (ResultSet primaryKeySet = metaData.getPrimaryKeys(null, table.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema(),
+                table.getPhysicalName())) {
             while (primaryKeySet.next()) {
                 final PrimaryKeyData data = new PrimaryKeyData();
-
                 data.columnName = primaryKeySet.getString("COLUMN_NAME");
                 data.constraintName = primaryKeySet.getString("PK_NAME");
-
                 primaryKeys.add(data);
             }
         } catch (final SQLException e) {
             // Microsoft Access does not support getPrimaryKeys
-
-        } finally {
-            this.close(primaryKeySet);
         }
 
         return primaryKeys;
@@ -751,10 +705,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     private void cashForeignKeyData() throws SQLException {
-        ResultSet foreignKeySet = null;
-        try {
-            foreignKeySet = metaData.getImportedKeys(null, null, null);
-
+        try (ResultSet foreignKeySet = metaData.getImportedKeys(null, null, null)) {
             while (foreignKeySet.next()) {
                 final ForeignKeyData foreignKeyData = new ForeignKeyData();
 
@@ -785,9 +736,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             }
         } catch (final SQLException e) {
             tableForeignKeyDataMap = null;
-
-        } finally {
-            this.close(foreignKeySet);
         }
     }
 
@@ -814,11 +762,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         final String tableName = target.getPhysicalName();
         final String schemaName = target.getTableViewProperties(this.dbSetting.getDbsystem()).getSchema();
 
-        ResultSet foreignKeySet = null;
-
-        try {
-            foreignKeySet = this.metaData.getImportedKeys(null, schemaName, tableName);
-
+        try (ResultSet foreignKeySet = this.metaData.getImportedKeys(null, schemaName, tableName)) {
             final List<ForeignKeyData> foreignKeyList = new ArrayList<>();
 
             while (foreignKeySet.next()) {
@@ -847,9 +791,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             }
         } catch (final SQLException e) {
             // microsoft access does not support getImportedKeys
-
-        } finally {
-            this.close(foreignKeySet);
         }
     }
 
@@ -1018,41 +959,32 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     protected ERView importView(String schema, String viewName) throws SQLException {
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
         final String sql = getViewDefinitionSQL(schema);
         if (sql == null) {
             return null;
         }
 
-        try {
-            stmt = this.con.prepareStatement(sql);
+        try (PreparedStatement stmt = this.con.prepareStatement(sql)) {
             if (schema != null) {
                 stmt.setString(1, schema);
                 stmt.setString(2, viewName);
             } else {
                 stmt.setString(1, viewName);
             }
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                final ERView view = new ERView();
-                view.setPhysicalName(viewName);
-                view.setLogicalName(viewName);
-                final String definitionSQL = rs.getString(1);
-                view.setSql(definitionSQL);
-                view.getTableViewProperties().setSchema(schema);
-                final List<ERColumn> columnList = this.getViewColumnList(definitionSQL);
-                view.setColumns(columnList);
-                return view;
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    final ERView view = new ERView();
+                    view.setPhysicalName(viewName);
+                    view.setLogicalName(viewName);
+                    final String definitionSQL = rs.getString(1);
+                    view.setSql(definitionSQL);
+                    view.getTableViewProperties().setSchema(schema);
+                    final List<ERColumn> columnList = this.getViewColumnList(definitionSQL);
+                    view.setColumns(columnList);
+                    return view;
+                }
             }
-
             return null;
-
-        } finally {
-            this.close(rs);
-            this.close(stmt);
         }
     }
 
