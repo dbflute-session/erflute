@@ -18,6 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CopyCompoundUniqueKey;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -36,8 +37,8 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     private List<CompoundUniqueKey> compoundUniqueKeyList;
 
     public ERTable() {
-        this.indexes = new ArrayList<ERIndex>();
-        this.compoundUniqueKeyList = new ArrayList<CompoundUniqueKey>();
+        this.indexes = new ArrayList<>();
+        this.compoundUniqueKeyList = new ArrayList<>();
     }
 
     public NormalColumn getAutoIncrementColumn() {
@@ -66,7 +67,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
         super.copyTableViewData(to);
 
-        final List<ERIndex> indexes = new ArrayList<ERIndex>();
+        final List<ERIndex> indexes = new ArrayList<>();
 
         for (final ERIndex fromIndex : this.getIndexes()) {
             indexes.add(new CopyIndex(to, fromIndex, to.getColumns()));
@@ -74,7 +75,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
         to.setIndexes(indexes);
 
-        final List<CompoundUniqueKey> complexUniqueKeyList = new ArrayList<CompoundUniqueKey>();
+        final List<CompoundUniqueKey> complexUniqueKeyList = new ArrayList<>();
 
         for (final CompoundUniqueKey complexUniqueKey : this.getCompoundUniqueKeyList()) {
             complexUniqueKeyList.add(new CopyCompoundUniqueKey(complexUniqueKey, to.getColumns()));
@@ -97,7 +98,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
         super.restructureData(to);
 
-        final List<ERIndex> indexes = new ArrayList<ERIndex>();
+        final List<ERIndex> indexes = new ArrayList<>();
 
         for (final ERIndex fromIndex : this.getIndexes()) {
             final CopyIndex copyIndex = (CopyIndex) fromIndex;
@@ -106,7 +107,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
         }
         table.setIndexes(indexes);
 
-        final List<CompoundUniqueKey> complexUniqueKeyList = new ArrayList<CompoundUniqueKey>();
+        final List<CompoundUniqueKey> complexUniqueKeyList = new ArrayList<>();
 
         for (final CompoundUniqueKey complexUniqueKey : this.getCompoundUniqueKeyList()) {
             final CopyCompoundUniqueKey copyComplexUniqueKey = (CopyCompoundUniqueKey) complexUniqueKey;
@@ -137,7 +138,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     }
 
     public List<NormalColumn> getPrimaryKeys() {
-        final List<NormalColumn> primaryKeys = new ArrayList<NormalColumn>();
+        final List<NormalColumn> primaryKeys = new ArrayList<>();
 
         for (final ERColumn column : this.columns) {
             if (column instanceof NormalColumn) {
@@ -322,5 +323,9 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
     public void setOption(String option) {
         this.option = option;
+    }
+
+    public DiagramSettings getDiagramSettings() {
+        return getDiagram().getDiagramContents().getSettings();
     }
 }

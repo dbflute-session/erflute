@@ -11,6 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
+import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -396,5 +397,9 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
         }
 
         return false;
+    }
+
+    public DiagramSettings getDiagramSettings() {
+        return this.getSourceTableView().getDiagram().getDiagramContents().getSettings();
     }
 }
