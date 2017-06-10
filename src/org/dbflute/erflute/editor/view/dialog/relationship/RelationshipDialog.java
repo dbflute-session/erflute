@@ -306,7 +306,7 @@ public class RelationshipDialog extends AbstractDialog {
     protected String doValidate() {
         final String foreignKeyName = foreignKeyNameText.getText().trim(); // not required for compatible
         if (Srl.is_NotNull_and_NotTrimmedEmpty(foreignKeyName)) {
-            if (!Check.isAlphabet(foreignKeyName)) {
+            if (relationship.getDiagramSettings().isValidatePhysicalName() && !Check.isAlphabet(foreignKeyName)) {
                 return "error.foreign.key.name.not.alphabet";
             }
             final ERDiagram diagram = relationship.getTargetTableView().getDiagram();

@@ -213,7 +213,7 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
             Activator.showErrorDialog("The constraint name for unique key is required: Change 'XXX' part: " + uniqueKeyName);
             return false;
         }
-        if (!Check.isAlphabet(uniqueKeyName)) {
+        if (table.getDiagramSettings().isValidatePhysicalName() && !Check.isAlphabet(uniqueKeyName)) {
             Activator.showErrorDialog("error.unique.key.name.not.alphabet");
             return false;
         }
@@ -272,7 +272,7 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
         //    throw new InputException("error.unique.key.name.empty");
         //}
         if (Srl.is_NotNull_and_NotTrimmedEmpty(uniqueKeyName)) {
-            if (!Check.isAlphabet(uniqueKeyName)) {
+            if (table.getDiagramSettings().isValidatePhysicalName() && !Check.isAlphabet(uniqueKeyName)) {
                 throw new InputException("error.unique.key.name.not.alphabet");
             }
             final List<ERTable> tableList = table.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet().getList();

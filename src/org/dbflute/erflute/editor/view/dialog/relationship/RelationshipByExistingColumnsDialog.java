@@ -292,7 +292,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         if (Srl.is_Null_or_TrimmedEmpty(foreignKeyName)) {
             return "Input foreign key name e.g. FK_XXX";
         }
-        if (!Check.isAlphabet(foreignKeyName)) {
+        if (source.getDiagramSettings().isValidatePhysicalName() && !Check.isAlphabet(foreignKeyName)) {
             return "error.foreign.key.name.not.alphabet";
         }
         final ERDiagram diagram = target.getDiagram();

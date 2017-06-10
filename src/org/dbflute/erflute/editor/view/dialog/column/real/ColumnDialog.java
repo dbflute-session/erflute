@@ -279,7 +279,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
             }
         }
         final String uniqueKeyName = uniqueKeyNameText.getText().trim();
-        if (!Check.isAlphabet(uniqueKeyName)) {
+        if (table.getDiagramSettings().isValidatePhysicalName() && !Check.isAlphabet(uniqueKeyName)) {
             return "error.unique.key.name.not.alphabet";
         }
         final String physicalName = physicalNameText.getText().trim();
