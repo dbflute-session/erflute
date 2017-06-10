@@ -11,5 +11,4 @@ public class ReplaceResult {
     public String getOriginal() {
         return original;
     }
-
 }

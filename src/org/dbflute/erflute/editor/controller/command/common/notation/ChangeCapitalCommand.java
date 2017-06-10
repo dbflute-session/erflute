@@ -6,13 +6,13 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeCapitalCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private boolean oldCapital;
+    private final boolean oldCapital;
 
-    private boolean newCapital;
+    private final boolean newCapital;
 
-    private DiagramSettings settings;
+    private final DiagramSettings settings;
 
     public ChangeCapitalCommand(ERDiagram diagram, boolean isCapital) {
         this.diagram = diagram;
@@ -21,18 +21,12 @@ public class ChangeCapitalCommand extends AbstractCommand {
         this.oldCapital = this.settings.isCapital();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.settings.setCapital(this.newCapital);
         this.diagram.changeAll();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.settings.setCapital(this.oldCapital);

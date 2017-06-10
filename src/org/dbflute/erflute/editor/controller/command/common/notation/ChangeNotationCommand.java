@@ -6,13 +6,13 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeNotationCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private String oldNotation;
+    private final String oldNotation;
 
-    private String newNotation;
+    private final String newNotation;
 
-    private DiagramSettings settings;
+    private final DiagramSettings settings;
 
     public ChangeNotationCommand(ERDiagram diagram, String notation) {
         this.diagram = diagram;
@@ -21,18 +21,12 @@ public class ChangeNotationCommand extends AbstractCommand {
         this.oldNotation = this.settings.getNotation();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.settings.setNotation(this.newNotation);
         this.diagram.changeAll();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.settings.setNotation(this.oldNotation);

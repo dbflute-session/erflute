@@ -1,6 +1,5 @@
 package org.dbflute.erflute.editor.persistent.xml;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,15 +34,15 @@ public class PersistentXml extends Persistent {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public class PersistentContext {
-        public final Map<DiagramWalker, String> walkerMap = new LinkedHashMap<DiagramWalker, String>();
-        public final Map<WalkerConnection, String> connectionMap = new LinkedHashMap<WalkerConnection, String>();
-        public final Map<ColumnGroup, String> columnGroupMap = new LinkedHashMap<ColumnGroup, String>(); // group = groupName
-        public final Map<ERColumn, String> columnMap = new LinkedHashMap<ERColumn, String>(); // column = ID
-        public final Map<CompoundUniqueKey, Integer> complexUniqueKeyMap = new LinkedHashMap<CompoundUniqueKey, Integer>();
-        public final Map<Word, Integer> wordMap = new LinkedHashMap<Word, Integer>();
-        public final Map<Tablespace, Integer> tablespaceMap = new LinkedHashMap<Tablespace, Integer>();
-        public final Map<Environment, Integer> environmentMap = new LinkedHashMap<Environment, Integer>();
-        public final Map<ERVirtualDiagram, Integer> virtualDiagramMap = new LinkedHashMap<ERVirtualDiagram, Integer>();
+        public final Map<DiagramWalker, String> walkerMap = new LinkedHashMap<>();
+        public final Map<WalkerConnection, String> connectionMap = new LinkedHashMap<>();
+        public final Map<ColumnGroup, String> columnGroupMap = new LinkedHashMap<>(); // group = groupName
+        public final Map<ERColumn, String> columnMap = new LinkedHashMap<>(); // column = ID
+        public final Map<CompoundUniqueKey, Integer> complexUniqueKeyMap = new LinkedHashMap<>();
+        public final Map<Word, Integer> wordMap = new LinkedHashMap<>();
+        public final Map<Tablespace, Integer> tablespaceMap = new LinkedHashMap<>();
+        public final Map<Environment, Integer> environmentMap = new LinkedHashMap<>();
+        public final Map<ERVirtualDiagram, Integer> virtualDiagramMap = new LinkedHashMap<>();
     }
 
     public PersistentContext getCurrentContext(ERDiagram diagram) { // called by writer
@@ -147,7 +146,7 @@ public class PersistentXml extends Persistent {
     //                                                                               Read
     //                                                                              ======
     @Override
-    public ERDiagram read(InputStream ins) throws Exception {
+    public ERDiagram read(InputStream ins) {
         return new ErmXmlReader(this).read(ins);
     }
 
@@ -155,7 +154,7 @@ public class PersistentXml extends Persistent {
     //                                                                               Write
     //                                                                               =====
     @Override
-    public InputStream write(ERDiagram diagram) throws IOException {
+    public InputStream write(ERDiagram diagram) {
         return new ErmXmlWriter(this).write(diagram);
     }
 }

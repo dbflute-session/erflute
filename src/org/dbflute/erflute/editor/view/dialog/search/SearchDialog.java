@@ -57,7 +57,7 @@ public class SearchDialog extends Dialog {
 
     private Button allCheckBox;
 
-    // �P��
+    // 単語
     private Button wordCheckBox;
 
     private Button physicalWordNameCheckBox;
@@ -72,7 +72,7 @@ public class SearchDialog extends Dialog {
 
     private Button wordDescriptionCheckBox;
 
-    // �e�[�u��
+    // テーブル
     private Button tableCheckBox;
 
     private Button physicalTableNameCheckBox;
@@ -95,7 +95,7 @@ public class SearchDialog extends Dialog {
 
     private Button columnGroupNameCheckBox;
 
-    // �O���[�v
+    // グループ
     private Button groupCheckBox;
 
     private Button groupNameCheckBox;
@@ -114,7 +114,7 @@ public class SearchDialog extends Dialog {
 
     private Button groupColumnDescriptionCheckBox;
 
-    // ���̑�
+    // その他
     private Button modelPropertiesCheckBox;
 
     private Button indexCheckBox;
@@ -123,12 +123,12 @@ public class SearchDialog extends Dialog {
 
     private Button noteCheckBox;
 
-    // �����E�u����
+    // 検索・置換語
     private Combo keywordCombo;
 
     private Combo replaceCombo;
 
-    // ��������
+    // 検索結果
     private Table resultTable;
 
     private final GraphicalViewer viewer;
@@ -157,9 +157,6 @@ public class SearchDialog extends Dialog {
         this.searchManager = new SearchManager(this.diagram);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Control createDialogArea(Composite parent) {
         this.getShell().setText(DisplayMessages.getMessage("dialog.title.search"));
@@ -220,9 +217,6 @@ public class SearchDialog extends Dialog {
 
         this.allCheckBox.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 selectAllCheckBox(allCheckBox.getSelection());
@@ -233,9 +227,6 @@ public class SearchDialog extends Dialog {
         wordCheckBox.setText(DisplayMessages.getMessage("label.search.range.word"));
         this.wordCheckBox.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 selectWordCheckBox(wordCheckBox.getSelection());
@@ -248,9 +239,6 @@ public class SearchDialog extends Dialog {
         tableCheckBox.setText(DisplayMessages.getMessage("label.search.range.table"));
         this.tableCheckBox.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 selectTableCheckBox(tableCheckBox.getSelection());
@@ -263,9 +251,6 @@ public class SearchDialog extends Dialog {
         groupCheckBox.setText(DisplayMessages.getMessage("label.search.range.group"));
         this.groupCheckBox.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 selectGroupCheckBox(groupCheckBox.getSelection());
@@ -567,9 +552,6 @@ public class SearchDialog extends Dialog {
 
         this.resultTable.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = resultTable.getSelectionIndex();
@@ -628,7 +610,6 @@ public class SearchDialog extends Dialog {
                         //							viewer.getEditDomain().getCommandStack().execute(command.unwrap());
                         //						}
                     }
-
                 }
             }
         });
@@ -656,9 +637,6 @@ public class SearchDialog extends Dialog {
         tabItem.setControl(resultGroup);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
         createButton(parent, REPLACE_ID, DisplayMessages.getMessage("label.search.replace.button"), false);
@@ -670,9 +648,6 @@ public class SearchDialog extends Dialog {
         createButton(parent, IDialogConstants.CLOSE_ID, IDialogConstants.CLOSE_LABEL, false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.CLOSE_ID) {
@@ -689,22 +664,20 @@ public class SearchDialog extends Dialog {
             }
 
             final String keyword = this.keywordCombo.getText();
-            this.searchResult =
-                    this.searchManager.search(keyword, this.all, this.physicalWordNameCheckBox.getSelection(),
-                            this.logicalWordNameCheckBox.getSelection(), this.wordTypeCheckBox.getSelection(),
-                            this.wordLengthCheckBox.getSelection(), this.wordDecimalCheckBox.getSelection(),
-                            this.wordDescriptionCheckBox.getSelection(), this.physicalTableNameCheckBox.getSelection(),
-                            this.logicalTableNameCheckBox.getSelection(), this.physicalColumnNameCheckBox.getSelection(),
-                            this.logicalColumnNameCheckBox.getSelection(), this.columnTypeCheckBox.getSelection(),
-                            this.columnLengthCheckBox.getSelection(), this.columnDecimalCheckBox.getSelection(),
-                            this.columnDefaultValueCheckBox.getSelection(), this.columnDescriptionCheckBox.getSelection(),
-                            this.columnGroupNameCheckBox.getSelection(), this.indexCheckBox.getSelection(),
-                            this.noteCheckBox.getSelection(), this.modelPropertiesCheckBox.getSelection(),
-                            this.relationCheckBox.getSelection(), this.groupNameCheckBox.getSelection(),
-                            this.physicalGroupColumnNameCheckBox.getSelection(), this.logicalGroupColumnNameCheckBox.getSelection(),
-                            this.groupColumnTypeCheckBox.getSelection(), this.groupColumnLengthCheckBox.getSelection(),
-                            this.groupColumnDecimalCheckBox.getSelection(), this.groupColumnDefaultValueCheckBox.getSelection(),
-                            this.groupColumnDescriptionCheckBox.getSelection());
+            this.searchResult = this.searchManager.search(keyword, this.all, this.physicalWordNameCheckBox.getSelection(),
+                    this.logicalWordNameCheckBox.getSelection(), this.wordTypeCheckBox.getSelection(),
+                    this.wordLengthCheckBox.getSelection(), this.wordDecimalCheckBox.getSelection(),
+                    this.wordDescriptionCheckBox.getSelection(), this.physicalTableNameCheckBox.getSelection(),
+                    this.logicalTableNameCheckBox.getSelection(), this.physicalColumnNameCheckBox.getSelection(),
+                    this.logicalColumnNameCheckBox.getSelection(), this.columnTypeCheckBox.getSelection(),
+                    this.columnLengthCheckBox.getSelection(), this.columnDecimalCheckBox.getSelection(),
+                    this.columnDefaultValueCheckBox.getSelection(), this.columnDescriptionCheckBox.getSelection(),
+                    this.columnGroupNameCheckBox.getSelection(), this.indexCheckBox.getSelection(), this.noteCheckBox.getSelection(),
+                    this.modelPropertiesCheckBox.getSelection(), this.relationCheckBox.getSelection(),
+                    this.groupNameCheckBox.getSelection(), this.physicalGroupColumnNameCheckBox.getSelection(),
+                    this.logicalGroupColumnNameCheckBox.getSelection(), this.groupColumnTypeCheckBox.getSelection(),
+                    this.groupColumnLengthCheckBox.getSelection(), this.groupColumnDecimalCheckBox.getSelection(),
+                    this.groupColumnDefaultValueCheckBox.getSelection(), this.groupColumnDescriptionCheckBox.getSelection());
 
             this.showSearchResult();
 
@@ -758,7 +731,6 @@ public class SearchDialog extends Dialog {
             if (object != null) {
                 this.focus(object);
             }
-
         } else {
             this.resultTable.removeAll();
         }
@@ -798,7 +770,7 @@ public class SearchDialog extends Dialog {
     }
 
     private List<SearchResultRow> getReplaceRows() {
-        final List<SearchResultRow> replaceRows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> replaceRows = new ArrayList<>();
 
         if (this.searchResult == null) {
             return replaceRows;
@@ -826,9 +798,6 @@ public class SearchDialog extends Dialog {
             this.sortType = sortType;
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public void widgetSelected(SelectionEvent e) {
             if (searchResult == null) {
@@ -839,6 +808,5 @@ public class SearchDialog extends Dialog {
 
             showSearchResult();
         }
-
     }
 }

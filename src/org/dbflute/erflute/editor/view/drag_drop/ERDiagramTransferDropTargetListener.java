@@ -47,7 +47,6 @@ public class ERDiagramTransferDropTargetListener extends AbstractTransferDropTar
                 request.setLocation(this.getDropLocation());
                 return request;
             }
-
         } else if (object instanceof Word) {
             final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD);
             request.setDirectEditFeature(object);

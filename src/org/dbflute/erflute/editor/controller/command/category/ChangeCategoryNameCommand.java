@@ -6,13 +6,13 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.C
 
 public class ChangeCategoryNameCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private String oldName;
+    private final String oldName;
 
-    private String newName;
+    private final String newName;
 
-    private Category category;
+    private final Category category;
 
     public ChangeCategoryNameCommand(ERDiagram diagram, Category category, String newName) {
         this.diagram = diagram;
@@ -22,22 +22,15 @@ public class ChangeCategoryNameCommand extends AbstractCommand {
         this.oldName = category.getName();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.category.setName(this.newName);
         this.diagram.setCurrentCategoryPageName();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.category.setName(this.oldName);
         this.diagram.setCurrentCategoryPageName();
     }
-
 }

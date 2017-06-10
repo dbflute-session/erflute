@@ -17,5 +17,4 @@ public class MySQLPreTableExportManager extends PreTableExportManager {
     @Override
     protected void prepareNewNames() {
     }
-
 }

@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.prope
  */
 public class ERView extends TableView implements ObjectModel, ColumnHolder {
 
-    private static final long serialVersionUID = -4492787972500741281L;
+    private static final long serialVersionUID = 1L;
 
     public static final String NEW_PHYSICAL_NAME = DisplayMessages.getMessage("new.view.physical.name");
     public static final String NEW_LOGICAL_NAME = DisplayMessages.getMessage("new.view.logical.name");

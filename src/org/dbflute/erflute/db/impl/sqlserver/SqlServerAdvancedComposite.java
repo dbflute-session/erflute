@@ -8,5 +8,4 @@ public class SqlServerAdvancedComposite extends AdvancedComposite {
     public SqlServerAdvancedComposite(Composite parent) {
         super(parent);
     }
-
 }

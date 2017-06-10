@@ -30,5 +30,4 @@ public class Debug {
         logger.info("Total Memory : " + Format.getFileSizeStr(total));
         logger.info("Free  Memory : " + Format.getFileSizeStr(free));
     }
-
 }

@@ -38,5 +38,4 @@ public class FontNameContributionItem extends ComboContributionItem {
             combo.add(name);
         }
     }
-
 }

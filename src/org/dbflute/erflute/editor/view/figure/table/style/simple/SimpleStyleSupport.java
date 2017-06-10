@@ -24,21 +24,15 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
         super(tableFigure, settings);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void init(TableFigure tableFigure) {
         tableFigure.setCornerDimensions(new Dimension(10, 10));
         tableFigure.setBorder(null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void initTitleBar(Figure top) {
-        ToolbarLayout topLayout = new ToolbarLayout();
+        final ToolbarLayout topLayout = new ToolbarLayout();
 
         topLayout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
         topLayout.setStretchMinorAxis(true);
@@ -48,7 +42,7 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
         this.nameLabel.setBorder(new MarginBorder(new Insets(5, 20, 5, 20)));
         top.add(nameLabel);
 
-        Figure separater = new Figure();
+        final Figure separater = new Figure();
         separater.setSize(-1, 1);
         separater.setBackgroundColor(this.getTextColor());
         separater.setOpaque(true);
@@ -56,23 +50,26 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
         top.add(separater);
     }
 
+    @Override
     public void setName(String name) {
         this.nameLabel.setForegroundColor(this.getTextColor());
         this.nameLabel.setText(name);
     }
 
+    @Override
     public void setFont(Font font, Font titleFont) {
         this.nameLabel.setFont(titleFont);
     }
 
+    @Override
     public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode, String physicalName,
             String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
             boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
-        Label label = this.createColumnLabel();
+        final Label label = this.createColumnLabel();
         label.setForegroundColor(this.getTextColor());
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append(this.getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull, uniqueKey, displayDetail,
                 displayType));
 
@@ -104,6 +101,7 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
         columnFigure.add(label);
     }
 
+    @Override
     public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
         // TODO Auto-generated method stub
 

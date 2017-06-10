@@ -47,5 +47,4 @@ public class ERDiagramMatchHeightAction extends MatchHeightAction {
 
         return objects;
     }
-
 }

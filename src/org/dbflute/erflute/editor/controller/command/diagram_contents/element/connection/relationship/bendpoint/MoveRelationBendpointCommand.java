@@ -21,9 +21,6 @@ public class MoveRelationBendpointCommand extends AbstractCommand {
         this.index = index;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         Relationship relation = (Relationship) editPart.getModel();
@@ -50,9 +47,6 @@ public class MoveRelationBendpointCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         Relationship relation = (Relationship) editPart.getModel();
@@ -73,5 +67,4 @@ public class MoveRelationBendpointCommand extends AbstractCommand {
             relation.replaceBendpoint(index, this.oldBendpoint);
         }
     }
-
 }

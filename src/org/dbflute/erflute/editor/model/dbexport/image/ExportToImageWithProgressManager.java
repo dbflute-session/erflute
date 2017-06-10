@@ -18,14 +18,14 @@ public class ExportToImageWithProgressManager extends ExportToImageManager imple
     }
 
     /**
-     * exception ���擾���܂�.
-     * 
+     * exception を取得します。
      * @return exception
      */
     public Exception getException() {
         return exception;
     }
 
+    @Override
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
         monitor.beginTask(DisplayMessages.getMessage("dialog.message.export.image"), img.getBounds().width * img.getBounds().height);
@@ -34,10 +34,10 @@ public class ExportToImageWithProgressManager extends ExportToImageManager imple
             this.monitor = monitor;
             doProcess();
 
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             throw e;
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             this.exception = e;
         }
 
@@ -52,5 +52,4 @@ public class ExportToImageWithProgressManager extends ExportToImageManager imple
             throw new InterruptedException("Cancel has been requested.");
         }
     }
-
 }

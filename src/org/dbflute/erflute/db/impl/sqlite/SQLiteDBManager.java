@@ -19,34 +19,32 @@ public class SQLiteDBManager extends DBManagerBase {
 
     public static final String ID = "SQLite";
 
+    @Override
     public String getId() {
         return ID;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDriverClassName() {
         return "org.sqlite.JDBC";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getURL() {
         return "jdbc:sqlite:<DB NAME>";
     }
 
+    @Override
     public int getDefaultPort() {
         return 0;
     }
 
+    @Override
     public SqlTypeManager getSqlTypeManager() {
         return new SQLiteSqlTypeManager();
     }
 
+    @Override
     public TableProperties createTableProperties(TableProperties tableProperties) {
         if (tableProperties != null && tableProperties instanceof SQLiteTableProperties) {
             return tableProperties;
@@ -55,12 +53,14 @@ public class SQLiteDBManager extends DBManagerBase {
         return new SQLiteTableProperties();
     }
 
+    @Override
     public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
         return new SQLiteDDLCreator(diagram, semicolon);
     }
 
+    @Override
     public List<String> getIndexTypeList(ERTable table) {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("BTREE");
 
@@ -72,40 +72,43 @@ public class SQLiteDBManager extends DBManagerBase {
         return new int[] { SUPPORT_SCHEMA, SUPPORT_AUTO_INCREMENT };
     }
 
+    @Override
     public ImportFromDBManager getTableImportManager() {
         return new SQLiteTableImportManager();
     }
 
+    @Override
     public PreImportFromDBManager getPreTableImportManager() {
         return new SQLitePreTableImportManager();
     }
 
+    @Override
     public PreTableExportManager getPreTableExportManager() {
         return new SQLitePreTableExportManager();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean doesNeedURLServerName() {
         return false;
     }
 
+    @Override
     public TablespaceProperties createTablespaceProperties() {
         return null;
     }
 
+    @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
         return null;
     }
 
+    @Override
     public String[] getCurrentTimeValue() {
         return new String[] { "CURRENT_TIMESTAMP" };
     }
 
+    @Override
     public BigDecimal getSequenceMaxValue() {
         return BigDecimal.ZERO;
     }
-
 }

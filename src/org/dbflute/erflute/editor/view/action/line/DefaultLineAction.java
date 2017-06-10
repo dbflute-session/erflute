@@ -25,9 +25,6 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
         super(ID, DisplayMessages.getMessage("action.title.default"), editor);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List<Command> getCommand(EditPart editPart, Event event) {
         List<Command> commandList = new ArrayList<Command>();
@@ -42,7 +39,6 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
                     commandList.add(new DefaultLineCommand(this.getDiagram(), (WalkerConnection) connectionEditPart.getModel()));
                 }
             }
-
         } else if (editPart instanceof AbstractConnectionEditPart) {
             AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) editPart;
 

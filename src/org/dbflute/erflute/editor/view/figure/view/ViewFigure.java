@@ -14,5 +14,4 @@ public class ViewFigure extends TableFigure {
     public String getImageKey() {
         return ImageKey.VIEW;
     }
-
 }

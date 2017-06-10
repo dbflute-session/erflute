@@ -17,5 +17,4 @@ public class IEOneDecoration extends ERDecoration {
         this.setScale(0.66, 0.66);
         //		this.setScale(1, 1);
     }
-
 }

@@ -43,9 +43,6 @@ public abstract class AbstractBaseSelectionAction extends SelectionAction {
         return this.editor.getGraphicalViewer();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final void runWithEvent(Event event) {
         try {
@@ -55,9 +52,6 @@ public abstract class AbstractBaseSelectionAction extends SelectionAction {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void execute(Command command) {
         this.editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);

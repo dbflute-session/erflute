@@ -19,5 +19,4 @@ public class DB2EclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return new DB2TablespaceDialog();
     }
-
 }

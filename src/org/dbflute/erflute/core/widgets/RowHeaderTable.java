@@ -95,7 +95,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                         if (!"".equals(value.toString()) && getEditingRow() == getRowCount() - 1) {
                             cellEditWorker.addNewRow();
                         }
-
                     }
                 }
                 super.editingStopped(e);
@@ -393,7 +392,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
             for (int i = rows.length - 1; i >= 0; i--) {
                 removeRow(rows[i]);
             }
-
         } else {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
@@ -420,7 +418,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                     listModel.set(i, String.valueOf(i + 1));
                 }
             }
-
         } else {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
@@ -577,7 +574,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                         final String text = lineScanner.next();
                         this.setValueAt(text, row, column++);
                     }
-
                 } else {
                     final List<String> texts = new ArrayList<String>();
 
@@ -592,7 +588,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 row++;
                 count++;
             }
-
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
@@ -601,7 +596,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
     }
 
     private class TablePopupMenu extends JPopupMenu {
-        private static final long serialVersionUID = 7496925348009972492L;
+        private static final long serialVersionUID = 1L;
 
         private JMenuItem cutMenu;
         private JMenuItem deleteMenu;
@@ -621,15 +616,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
                         /**
                          * 「切り取り」メニュー選択時処理
-                         * 
-                         * @param even
+                                             * @param even
                          *            イベント
                          */
                         @Override
                         public void actionPerformed(ActionEvent even) {
                             cutRows();
                         }
-
                     });
                 }
 
@@ -641,15 +634,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
                     /**
                      * 「コピー」メニュー選択時処理
-                     * 
-                     * @param even
+                                     * @param even
                      *            イベント
                      */
                     @Override
                     public void actionPerformed(ActionEvent even) {
                         copyRows();
                     }
-
                 });
 
                 if (editable) {
@@ -661,15 +652,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
                         /**
                          * 「貼り付け」メニュー選択時処理
-                         * 
-                         * @param even
+                                             * @param even
                          *            イベント
                          */
                         @Override
                         public void actionPerformed(ActionEvent even) {
                             pasteRows();
                         }
-
                     });
 
                     this.addSeparator();
@@ -685,15 +674,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
                     /**
                      * 「挿入」メニュー選択時処理
-                     * 
-                     * @param even
+                                     * @param even
                      *            イベント
                      */
                     @Override
                     public void actionPerformed(ActionEvent even) {
                         insertRow();
                     }
-
                 });
 
                 if (clipbordOn) {
@@ -705,15 +692,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
                         /**
                          * 「挿入 して貼り付け」メニュー選択時処理
-                         * 
-                         * @param even
+                                             * @param even
                          *            イベント
                          */
                         @Override
                         public void actionPerformed(ActionEvent even) {
                             insertAndPasteRows();
                         }
-
                     });
                 }
 
@@ -725,15 +710,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
                     /**
                      * 「削除」メニュー選択時処理
-                     * 
-                     * @param even
+                                     * @param even
                      *            イベント
                      */
                     @Override
                     public void actionPerformed(ActionEvent even) {
                         deleteRows();
                     }
-
                 });
             }
         }
@@ -746,7 +729,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                     this.cutMenu.setEnabled(false);
                     this.deleteMenu.setEnabled(false);
                 }
-
             } else {
                 if (this.cutMenu != null) {
                     this.cutMenu.setEnabled(true);
@@ -756,7 +738,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
             super.show(invoker, x, y);
         }
-
     }
 
     private static class RowHeaderRenderer extends JLabel implements ListCellRenderer {
@@ -817,7 +798,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         }
 
         public static class IconListCellRenderer extends DefaultListCellRenderer {
-            private static final long serialVersionUID = -1712884508057784069L;
+            private static final long serialVersionUID = 1L;
 
             private static final ImageIcon ICON;
 
@@ -851,7 +832,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 return label;
             }
         }
-
     }
 
     public void setClipbordOn(boolean clipbordOn) {

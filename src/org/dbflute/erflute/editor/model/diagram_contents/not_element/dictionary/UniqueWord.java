@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary
 
 public class UniqueWord extends Word {
 
-    private static final long serialVersionUID = 6795589487175949331L;
+    private static final long serialVersionUID = 1L;
 
     public UniqueWord(Word word) {
         super(word);

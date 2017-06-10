@@ -18,5 +18,4 @@ public class StandardSQLEclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return null;
     }
-
 }

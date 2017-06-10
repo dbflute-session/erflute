@@ -30,9 +30,6 @@ public class InsertedImageDialog extends AbstractDialog {
         this.insertedImage = insertedImage;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initComponent(Composite composite) {
         this.hueSpinner = CompositeFactory.createSpinnerWithScale(this, composite, "label.image.hue", "", 0, 360);
@@ -47,9 +44,6 @@ public class InsertedImageDialog extends AbstractDialog {
         this.fixAspectRatioCheckbox = CompositeFactory.createCheckbox(this, composite, "label.image.fix.aspect.ratio", 3);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
         this.insertedImage.setHue(this.hueSpinner.getSelection());
@@ -64,9 +58,6 @@ public class InsertedImageDialog extends AbstractDialog {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void performOK() {
         this.newInsertedImage = new InsertedImage();
@@ -94,5 +85,4 @@ public class InsertedImageDialog extends AbstractDialog {
     public InsertedImage getNewInsertedImage() {
         return newInsertedImage;
     }
-
 }

@@ -19,5 +19,4 @@ public class SqlServerEclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return new SqlServerTablespaceDialog();
     }
-
 }

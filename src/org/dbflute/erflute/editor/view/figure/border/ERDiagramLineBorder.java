@@ -12,9 +12,6 @@ public class ERDiagramLineBorder extends LineBorder {
 
     private static final int DELTA = 255 / 10;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void paint(IFigure figure, Graphics graphics, Insets insets) {
         if (getColor() != null) {

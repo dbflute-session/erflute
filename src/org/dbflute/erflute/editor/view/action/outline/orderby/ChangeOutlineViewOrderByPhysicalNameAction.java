@@ -18,9 +18,6 @@ public class ChangeOutlineViewOrderByPhysicalNameAction extends AbstractOutlineB
         this.setText(DisplayMessages.getMessage("label.physical.name"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
@@ -29,5 +26,4 @@ public class ChangeOutlineViewOrderByPhysicalNameAction extends AbstractOutlineB
 
         this.execute(command);
     }
-
 }

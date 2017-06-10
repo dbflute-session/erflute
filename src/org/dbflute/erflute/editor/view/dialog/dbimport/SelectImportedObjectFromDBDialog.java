@@ -25,5 +25,4 @@ public class SelectImportedObjectFromDBDialog extends AbstractSelectImportedObje
 
         this.resultUseCommentAsLogicalName = this.useCommentAsLogicalNameButton.getSelection();
     }
-
 }

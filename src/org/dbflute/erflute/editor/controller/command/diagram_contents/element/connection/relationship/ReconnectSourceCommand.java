@@ -22,9 +22,6 @@ public class ReconnectSourceCommand extends AbstractCommand {
         this.yp = yp;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.oldXp = relation.getSourceXp();
@@ -34,13 +31,9 @@ public class ReconnectSourceCommand extends AbstractCommand {
         relation.setParentMove();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         relation.setSourceLocationp(this.oldXp, this.oldYp);
         relation.setParentMove();
     }
-
 }

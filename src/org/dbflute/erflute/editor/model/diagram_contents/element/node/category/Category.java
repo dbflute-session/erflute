@@ -15,7 +15,7 @@ import org.dbflute.erflute.editor.model.settings.CategorySettings;
 
 public class Category extends DiagramWalker implements IResizable, Comparable<Category> {
 
-    private static final long serialVersionUID = -7691417386790834828L;
+    private static final long serialVersionUID = 1L;
 
     private List<DiagramWalker> walkerList;
     private String name;
@@ -59,7 +59,6 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
                     if (y - categoryY + height > categoryHeight) {
                         categoryHeight = y - categoryY + height;
                     }
-
                 }
             }
 

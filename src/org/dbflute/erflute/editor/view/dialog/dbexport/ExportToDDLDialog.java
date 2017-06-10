@@ -297,7 +297,7 @@ public class ExportToDDLDialog extends AbstractDialog {
 
     // ===================================================================================
     //                                                                         Set up Data
-    //                                                                         =========== 
+    //                                                                         ===========
     @Override
     protected void setupData() {
         final DiagramSettings settings = this.diagram.getDiagramContents().getSettings();

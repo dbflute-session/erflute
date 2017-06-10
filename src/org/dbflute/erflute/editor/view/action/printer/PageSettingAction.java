@@ -17,9 +17,6 @@ public class PageSettingAction extends AbstractBaseAction {
         super(ID, DisplayMessages.getMessage("action.title.page.setting"), editor);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
@@ -30,5 +27,4 @@ public class PageSettingAction extends AbstractBaseAction {
 
         }
     }
-
 }

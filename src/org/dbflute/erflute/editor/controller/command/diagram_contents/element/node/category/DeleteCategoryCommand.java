@@ -26,9 +26,6 @@ public class DeleteCategoryCommand extends AbstractCommand {
         this.category = category;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.oldAllCategories = new ArrayList<Category>(this.categorySettings.getAllCategories());
@@ -37,9 +34,6 @@ public class DeleteCategoryCommand extends AbstractCommand {
         this.diagram.removeCategory(category);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.categorySettings.setAllCategories(oldAllCategories);

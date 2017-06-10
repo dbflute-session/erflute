@@ -15,9 +15,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class DuplicatedColumnNameRule extends TableRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERTable table) {
         Set<String> columnNameSet = new HashSet<String>();

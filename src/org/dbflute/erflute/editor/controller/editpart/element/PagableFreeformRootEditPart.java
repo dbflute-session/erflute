@@ -17,9 +17,6 @@ public class PagableFreeformRootEditPart extends ScalableFreeformRootEditPart {
         this.diagram = diagram;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected GridLayer createGridLayer() {
         return new PagableGridLayer();
@@ -29,9 +26,6 @@ public class PagableFreeformRootEditPart extends ScalableFreeformRootEditPart {
 
         private int i = 0;
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         protected void paintGrid(Graphics g) {
             super.paintGrid(g);

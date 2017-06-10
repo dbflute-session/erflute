@@ -6,9 +6,6 @@ import org.eclipse.draw2d.SchemeBorder;
 
 public class ImageFrameBorder extends FrameBorder {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createBorders() {
         inner = new ImageTitleBarBorder();
@@ -16,9 +13,8 @@ public class ImageFrameBorder extends FrameBorder {
     }
 
     /**
-     * �^�C�g���̈�̕���Ԃ��܂�
-     * 
-     * @return �^�C�g���̈�̕�
+     * タイトル領域の幅を返します
+     * @return タイトル領域の幅
      */
     public int getTitleBarWidth(IFigure figure) {
         return ((ImageTitleBarBorder) this.inner).getWidth(figure);

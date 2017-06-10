@@ -22,9 +22,6 @@ public class SelectAllContentsAction extends SelectAllAction {
         this.setActionDefinitionId("org.eclipse.ui.edit.selectAll");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void run() {
         GraphicalViewer viewer = (GraphicalViewer) part.getAdapter(GraphicalViewer.class);

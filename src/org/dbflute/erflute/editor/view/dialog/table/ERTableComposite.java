@@ -183,9 +183,6 @@ public class ERTableComposite extends Composite {
 
         this.columnAddButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 addOrEditColumn(null, true);
@@ -196,9 +193,6 @@ public class ERTableComposite extends Composite {
 
         this.columnEditButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final ERColumn targetColumn = getTargetColumn();
@@ -209,16 +203,12 @@ public class ERTableComposite extends Composite {
 
                 addOrEditColumn((CopyColumn) targetColumn, false);
             }
-
         });
 
         this.columnDeleteButton = CompositeFactory.createButton(buttonComposite, "label.button.delete");
 
         this.columnDeleteButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 int index = table.getSelectionIndex();
@@ -231,7 +221,6 @@ public class ERTableComposite extends Composite {
 
                 selectTable(index);
             }
-
         });
 
         CompositeFactory.filler(buttonComposite, 1, 30);
@@ -240,14 +229,10 @@ public class ERTableComposite extends Composite {
 
         this.upButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 upColumn();
             }
-
         });
 
         this.downButton = CompositeFactory.createButton(buttonComposite, "label.down.arrow");
@@ -373,9 +358,6 @@ public class ERTableComposite extends Composite {
         if (this.checkboxEnabled) {
             notNullCheckButton.addSelectionListener(new SelectionAdapter() {
 
-                /**
-                 * {@inheritDoc}
-                 */
                 @Override
                 public void widgetSelected(SelectionEvent e) {
                     normalColumn.setNotNull(notNullCheckButton.getSelection());
@@ -385,9 +367,6 @@ public class ERTableComposite extends Composite {
 
             uniqueCheckButton.addSelectionListener(new SelectionAdapter() {
 
-                /**
-                 * {@inheritDoc}
-                 */
                 @Override
                 public void widgetSelected(SelectionEvent e) {
                     normalColumn.setUniqueKey(uniqueCheckButton.getSelection());
@@ -452,7 +431,6 @@ public class ERTableComposite extends Composite {
                         removeColumn(index);
                     }
                 }
-
             } else {
                 this.removeColumn(index);
             }
@@ -603,5 +581,4 @@ public class ERTableComposite extends Composite {
             this.setButtonEnabled(false);
         }
     }
-
 }

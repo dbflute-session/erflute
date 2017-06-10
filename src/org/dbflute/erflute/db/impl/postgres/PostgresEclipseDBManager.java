@@ -19,5 +19,4 @@ public class PostgresEclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return new PostgresTablespaceDialog();
     }
-
 }

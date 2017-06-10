@@ -6,18 +6,15 @@ import org.eclipse.gef.commands.Command;
 
 public class WithoutUpdateCommandWrapper extends Command {
 
-    private Command command;
+    private final Command command;
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
     public WithoutUpdateCommandWrapper(Command command, ERDiagram diagram) {
         this.command = command;
         this.diagram = diagram;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute() {
         ERDiagramEditPart.setUpdateable(false);
@@ -29,9 +26,6 @@ public class WithoutUpdateCommandWrapper extends Command {
         this.diagram.changeAll();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void undo() {
         ERDiagramEditPart.setUpdateable(false);
@@ -43,20 +37,13 @@ public class WithoutUpdateCommandWrapper extends Command {
         this.diagram.changeAll();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean canExecute() {
         return command.canExecute();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean canUndo() {
         return command.canUndo();
     }
-
 }

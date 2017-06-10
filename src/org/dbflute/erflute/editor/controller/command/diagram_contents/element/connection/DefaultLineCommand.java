@@ -37,9 +37,6 @@ public class DefaultLineCommand extends AbstractCommand {
         this.oldBendpointList = this.connection.getBendpoints();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.connection.setBendpoints(new ArrayList<Bendpoint>());
@@ -52,9 +49,6 @@ public class DefaultLineCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.connection.setBendpoints(this.oldBendpointList);

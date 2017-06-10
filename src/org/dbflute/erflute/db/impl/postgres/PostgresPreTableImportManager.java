@@ -8,5 +8,4 @@ public class PostgresPreTableImportManager extends PreImportFromDBManager {
     protected String getTableNameWithSchema(String schema, String tableName) {
         return this.dbSetting.getTableNameWithSchema("\"" + tableName + "\"", schema);
     }
-
 }

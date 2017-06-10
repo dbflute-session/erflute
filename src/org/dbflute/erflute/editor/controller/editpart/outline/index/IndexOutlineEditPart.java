@@ -24,9 +24,6 @@ public class IndexOutlineEditPart extends AbstractOutlineEditPart implements Del
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
         ERIndex index = (ERIndex) this.getModel();
@@ -35,17 +32,11 @@ public class IndexOutlineEditPart extends AbstractOutlineEditPart implements Del
         this.setWidgetImage(Activator.getImage(ImageKey.INDEX));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new IndexComponentEditPolicy());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public DragTracker getDragTracker(Request req) {
         return new SelectEditPartTracker(this);
@@ -55,9 +46,6 @@ public class IndexOutlineEditPart extends AbstractOutlineEditPart implements Del
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequest(Request request) {
         ERIndex index = (ERIndex) this.getModel();

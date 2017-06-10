@@ -6,8 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * CSV�o�̓N���X
- * 
+ * CSV出力クラス
  * @author generator
  * @version $Id: CsvWriter.java,v 1.1 2008/08/17 10:49:17 h_nakajima Exp $
  */
@@ -17,17 +16,15 @@ public class CsvWriter {
 
     private static final String DELIMITER = ",";
 
-    private PrintWriter writer;
+    private final PrintWriter writer;
 
     private DateFormat dateFormat;
 
     private String delimiter;
 
     /**
-     * �R���X�g���N�^
-     * 
-     * @param writer
-     *            �o�͐�
+     * コンストラクタ
+     * @param writer 出力先
      */
     public CsvWriter(PrintWriter writer) {
         this.writer = writer;
@@ -36,21 +33,17 @@ public class CsvWriter {
     }
 
     /**
-     * Date �^�̃f�[�^���o�͂���ۂ̃t�H�[�}�b�g�`�����w�肵�܂�
-     * 
-     * @param format
-     *            �t�H�[�}�b�g�`��
+     * Date 型のデータを出力する際のフォーマット形式を指定します
+     * @param format フォーマット形式
      */
     public void setDateFormat(String format) {
         this.dateFormat = new SimpleDateFormat(format);
     }
 
     /**
-     * CSV�̂��߂ɕ�������G�X�P�[�v���܂��B
-     * 
-     * @param str
-     *            �G�X�P�[�v�O�̕�����
-     * @return �G�X�P�[�v���ꂽ������
+     * CSVのために文字列をエスケープします。
+     * @param str エスケープ前の文字列
+     * @return エスケープされた文字列
      */
     public static String escape(String str) {
         if (str == null) {
@@ -60,10 +53,8 @@ public class CsvWriter {
     }
 
     /**
-     * �I�u�W�F�N�g�̕�����\�����o�͂��܂�
-     * 
-     * @param object
-     *            �I�u�W�F�N�g
+     * オブジェクトの文字列表現を出力します
+     * @param object オブジェクト
      */
     public void print(Object object) {
         String value = null;
@@ -88,21 +79,21 @@ public class CsvWriter {
     }
 
     /**
-     * �f���~�^�[���o�͑ΏۂɃZ�b�g���܂�
+     * デリミターを出力対象にセットします
      */
     private void setDelimiter() {
         this.delimiter = DELIMITER;
     }
 
     /**
-     * �f���~�^�[���o�͑Ώۂ��烊�Z�b�g���܂�
+     * デリミターを出力対象からリセットします
      */
     private void resetDelimiter() {
         this.delimiter = "";
     }
 
     /**
-     * ���s�R�[�h���o�͂��܂�
+     * 改行コードを出力します
      */
     public void crln() {
         writer.print("\r\n");
@@ -111,10 +102,9 @@ public class CsvWriter {
     }
 
     /**
-     * �o�͐����܂�
+     * 出力先を閉じます
      */
     public void close() {
         this.writer.close();
     }
-
 }

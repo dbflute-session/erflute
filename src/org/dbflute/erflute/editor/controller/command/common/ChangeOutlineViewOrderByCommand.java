@@ -6,13 +6,13 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeOutlineViewOrderByCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private int oldViewOrderBy;
+    private final int oldViewOrderBy;
 
-    private int newViewOrderBy;
+    private final int newViewOrderBy;
 
-    private DiagramSettings settings;
+    private final DiagramSettings settings;
 
     public ChangeOutlineViewOrderByCommand(ERDiagram diagram, int viewOrderBy) {
         this.diagram = diagram;
@@ -21,18 +21,12 @@ public class ChangeOutlineViewOrderByCommand extends AbstractCommand {
         this.oldViewOrderBy = this.settings.getViewOrderBy();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.settings.setViewOrderBy(this.newViewOrderBy);
         this.diagram.changeAll();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.settings.setViewOrderBy(this.oldViewOrderBy);

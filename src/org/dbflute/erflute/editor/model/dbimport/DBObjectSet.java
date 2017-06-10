@@ -10,7 +10,7 @@ import org.dbflute.erflute.core.util.Format;
 
 public class DBObjectSet implements Serializable {
 
-    private static final long serialVersionUID = 5632573903492090359L;
+    private static final long serialVersionUID = 1L;
 
     private Map<String, List<DBObject>> schemaDbObjectListMap;
 
@@ -70,5 +70,4 @@ public class DBObjectSet implements Serializable {
             dbObjectList.add(dbObject);
         }
     }
-
 }

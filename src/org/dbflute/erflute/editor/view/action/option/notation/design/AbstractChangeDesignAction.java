@@ -18,9 +18,6 @@ public class AbstractChangeDesignAction extends AbstractBaseAction {
         this.type = type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         if (!this.isChecked()) {
@@ -32,5 +29,4 @@ public class AbstractChangeDesignAction extends AbstractBaseAction {
 
         this.execute(command);
     }
-
 }

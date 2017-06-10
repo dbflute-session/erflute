@@ -9,14 +9,14 @@ import org.dbflute.erflute.editor.model.AbstractModel;
 
 public class ColumnGroupSet extends AbstractModel implements Iterable<ColumnGroup> {
 
-    private static final long serialVersionUID = 6192280105150073360L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_GROUP_SET = "column_group_set";
 
     private String database;
     private final List<ColumnGroup> columnGroupList;
 
     public ColumnGroupSet() {
-        this.columnGroupList = new ArrayList<ColumnGroup>();
+        this.columnGroupList = new ArrayList<>();
     }
 
     public void add(ColumnGroup group) {
@@ -55,21 +55,10 @@ public class ColumnGroupSet extends AbstractModel implements Iterable<ColumnGrou
         return this.columnGroupList.indexOf(group);
     }
 
-    /**
-     * database ���擾���܂�.
-     * 
-     * @return database
-     */
     public String getDatabase() {
         return database;
     }
 
-    /**
-     * database ��ݒ肵�܂�.
-     * 
-     * @param database
-     *            database
-     */
     public void setDatabase(String database) {
         this.database = database;
     }

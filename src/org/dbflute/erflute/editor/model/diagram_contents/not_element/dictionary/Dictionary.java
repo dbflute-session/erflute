@@ -13,18 +13,18 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 
 public class Dictionary extends AbstractModel {
 
-    private static final long serialVersionUID = -4476318682977312216L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_DICTIONARY = "dictionary";
 
-    private Map<Word, List<NormalColumn>> wordMap;
+    private final Map<Word, List<NormalColumn>> wordMap;
 
     public Dictionary() {
-        this.wordMap = new HashMap<Word, List<NormalColumn>>();
+        this.wordMap = new HashMap<>();
     }
 
     public void add(NormalColumn column) {
-        Word word = column.getWord();
+        final Word word = column.getWord();
 
         if (word == null) {
             return;
@@ -33,7 +33,7 @@ public class Dictionary extends AbstractModel {
         List<NormalColumn> useColumns = this.wordMap.get(word);
 
         if (useColumns == null) {
-            useColumns = new ArrayList<NormalColumn>();
+            useColumns = new ArrayList<>();
             this.wordMap.put(word, useColumns);
         }
 
@@ -45,13 +45,13 @@ public class Dictionary extends AbstractModel {
     }
 
     public void remove(NormalColumn column) {
-        Word word = column.getWord();
+        final Word word = column.getWord();
 
         if (word == null) {
             return;
         }
 
-        List<NormalColumn> useColumns = this.wordMap.get(word);
+        final List<NormalColumn> useColumns = this.wordMap.get(word);
 
         if (useColumns != null) {
             useColumns.remove(column);
@@ -65,9 +65,9 @@ public class Dictionary extends AbstractModel {
 
     public void remove(TableView tableView) {
         if (tableView instanceof ERVirtualTable) {
-            return; // ���z�e�[�u���������Ƃ��̓��[�h�͏����Ȃ�
+            return; // 仮想テーブルを消すときはワードは消さない
         }
-        for (NormalColumn normalColumn : tableView.getNormalColumns()) {
+        for (final NormalColumn normalColumn : tableView.getNormalColumns()) {
             this.remove(normalColumn);
         }
     }
@@ -77,7 +77,7 @@ public class Dictionary extends AbstractModel {
     }
 
     public List<Word> getWordList() {
-        List<Word> list = new ArrayList<Word>(this.wordMap.keySet());
+        final List<Word> list = new ArrayList<>(this.wordMap.keySet());
 
         Collections.sort(list);
 

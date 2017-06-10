@@ -2,6 +2,5 @@ package org.dbflute.erflute.editor.model.diagram_contents.element.node.table.pro
 
 public interface TablePropertiesHolder {
 
-    public TableViewProperties getTableViewProperties();
-
+    TableViewProperties getTableViewProperties();
 }

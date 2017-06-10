@@ -16,9 +16,6 @@ public class ToggleMainColumnAction extends AbstractBaseAction {
         this.setText(DisplayMessages.getMessage("action.title.display.mainColumn"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();

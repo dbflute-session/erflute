@@ -12,25 +12,16 @@ public class ERDiagramResizeHandle extends ResizeHandle {
         super(owner, direction);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void init() {
         setPreferredSize(new Dimension(7, 7));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Color getBorderColor() {
         return ColorConstants.gray;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Color getFillColor() {
         return ColorConstants.white;

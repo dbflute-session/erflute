@@ -8,14 +8,10 @@ import org.eclipse.gef.requests.GroupRequest;
 
 public class CommentConnectionEditPolicy extends ConnectionEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getDeleteCommand(GroupRequest grouprequest) {
         WalkerConnection connection = (WalkerConnection) this.getHost().getModel();
 
         return new DeleteConnectionCommand(connection);
     }
-
 }

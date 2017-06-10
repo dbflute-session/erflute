@@ -30,9 +30,6 @@ public abstract class AbstractCreateConnectionCommand extends AbstractCommand {
         return (DiagramWalker) this.target.getModel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean canExecute() {
         return source != null && target != null && source != target;

@@ -62,5 +62,4 @@ public class HSQLDBDDLCreator extends DDLCreator {
         return ddl.toString();
 
     }
-
 }

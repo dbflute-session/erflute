@@ -53,9 +53,6 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
         this.dbObjectSet = dbObjectSet;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initComponent(Composite composite) {
         this.createObjectListComposite(composite);
@@ -124,13 +121,9 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
             public void checkStateChanged(CheckStateChangedEvent event) {
                 validate();
             }
-
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
         this.createButton(parent, IDialogConstants.BACK_ID, IDialogConstants.BACK_LABEL, false);
@@ -138,9 +131,6 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
         this.createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void performOK() throws InputException {
         Object[] selectedNodes = this.viewer.getCheckedElements();
@@ -159,9 +149,6 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
         this.resultMergeGroup = this.mergeGroupButton.getSelection();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
         if (this.viewer.getCheckedElements().length == 0) {
@@ -267,5 +254,4 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
     public List<DBObject> getSelectedDbObjects() {
         return resultSelectedDbObjects;
     }
-
 }

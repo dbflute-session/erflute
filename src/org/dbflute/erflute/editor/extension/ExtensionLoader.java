@@ -32,5 +32,4 @@ public class ExtensionLoader {
             menuMgr.findMenuUsingPath(extendPopupMenu.getPath()).add(extendPopupMenu.getAction());
         }
     }
-
 }

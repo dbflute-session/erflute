@@ -5,9 +5,6 @@ import org.eclipse.gef.commands.Command;
 
 public abstract class AbstractCommand extends Command {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     final public void execute() {
         try {
@@ -18,9 +15,6 @@ public abstract class AbstractCommand extends Command {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     final public void undo() {
         try {

@@ -53,9 +53,6 @@ public class ModelPropertiesDialog extends AbstractDialog {
         this.modelProperties = modelProperties;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initComponent(Composite composite) {
         this.createTableComposite(composite);
@@ -64,7 +61,6 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
     /**
      * This method initializes composite1
-     * 
      */
     private void createTableComposite(Composite parent) {
         GridLayout gridLayout = new GridLayout();
@@ -124,7 +120,6 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
                 edit(item, tableEditor);
             }
-
         });
     }
 
@@ -139,7 +134,6 @@ public class ModelPropertiesDialog extends AbstractDialog {
                 item.setText(targetColumn, text.getText());
                 text.dispose();
             }
-
         });
 
         tableEditor.setEditor(text, item, targetColumn);
@@ -158,7 +152,6 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
     /**
      * This method initializes composite2
-     * 
      */
     private void createButtonComposite(Composite parent) {
         GridLayout gridLayout = new GridLayout();
@@ -180,14 +173,10 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
         this.addButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 addRow();
             }
-
         });
 
         this.deleteButton = new Button(composite, SWT.NONE);
@@ -196,14 +185,10 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
         this.deleteButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 removeColumn();
             }
-
         });
 
         Label filler = new Label(composite, SWT.NONE);
@@ -217,14 +202,10 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
         this.upButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 upColumn();
             }
-
         });
 
         this.downButton = new Button(composite, SWT.NONE);
@@ -233,14 +214,10 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
         this.downButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 downColumn();
             }
-
         });
     }
 
@@ -286,17 +263,11 @@ public class ModelPropertiesDialog extends AbstractDialog {
         item2.setText(1, value1);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void performOK() {
         this.modelProperties.clear();

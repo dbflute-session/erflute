@@ -4,7 +4,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 
 public class MySQLTableProperties extends TableProperties {
 
-    private static final long serialVersionUID = 3126556935094407067L;
+    private static final long serialVersionUID = 1L;
 
     private String storageEngine;
 
@@ -45,5 +45,4 @@ public class MySQLTableProperties extends TableProperties {
     public void setPrimaryKeyLengthOfText(Integer primaryKeyLengthOfText) {
         this.primaryKeyLengthOfText = primaryKeyLengthOfText;
     }
-
 }

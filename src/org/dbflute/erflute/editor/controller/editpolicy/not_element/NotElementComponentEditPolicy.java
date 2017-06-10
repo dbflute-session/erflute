@@ -8,9 +8,6 @@ import org.eclipse.gef.requests.GroupRequest;
 
 public abstract class NotElementComponentEditPolicy extends ComponentEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createDeleteCommand(GroupRequest request) {
         if (this.getHost() instanceof DeleteableEditPart) {
@@ -19,7 +16,6 @@ public abstract class NotElementComponentEditPolicy extends ComponentEditPolicy 
             if (!editPart.isDeleteable()) {
                 return null;
             }
-
         } else {
             return null;
         }

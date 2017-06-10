@@ -15,9 +15,6 @@ public abstract class AbstractChangeViewAction extends AbstractBaseAction {
         this.setText(DisplayMessages.getMessage("action.title.change.mode.to." + type));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         if (!this.isChecked()) {

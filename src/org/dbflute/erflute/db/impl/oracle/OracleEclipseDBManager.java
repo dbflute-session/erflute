@@ -19,5 +19,4 @@ public class OracleEclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return new OracleTablespaceDialog();
     }
-
 }

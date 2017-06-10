@@ -26,22 +26,19 @@ public class PostgresDDLCreator extends DDLCreator {
         super(diagram, semicolon);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String buildTableOptionPart(ERTable table) {
-        PostgresTableProperties commonTableProperties =
+        final PostgresTableProperties commonTableProperties =
                 (PostgresTableProperties) this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
 
-        PostgresTableProperties tableProperties = (PostgresTableProperties) table.getTableViewProperties();
+        final PostgresTableProperties tableProperties = (PostgresTableProperties) table.getTableViewProperties();
 
         boolean isWithoutOIDs = tableProperties.isWithoutOIDs();
         if (!isWithoutOIDs) {
             isWithoutOIDs = commonTableProperties.isWithoutOIDs();
         }
 
-        StringBuilder postDDL = new StringBuilder();
+        final StringBuilder postDDL = new StringBuilder();
 
         if (isWithoutOIDs) {
             postDDL.append(" WITHOUT OIDS");
@@ -52,17 +49,14 @@ public class PostgresDDLCreator extends DDLCreator {
         return postDDL.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<String> doBuildCreateComment(ERTable table) {
-        List<String> ddlList = new ArrayList<String>();
+        final List<String> ddlList = new ArrayList<>();
 
-        String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
+        final String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
 
         if (!Check.isEmpty(tableComment)) {
-            StringBuilder ddl = new StringBuilder();
+            final StringBuilder ddl = new StringBuilder();
 
             ddl.append("COMMENT ON TABLE ");
             ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
@@ -76,14 +70,14 @@ public class PostgresDDLCreator extends DDLCreator {
             ddlList.add(ddl.toString());
         }
 
-        for (ERColumn column : table.getColumns()) {
+        for (final ERColumn column : table.getColumns()) {
             if (column instanceof NormalColumn) {
-                NormalColumn normalColumn = (NormalColumn) column;
+                final NormalColumn normalColumn = (NormalColumn) column;
 
-                String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                 if (!Check.isEmpty(comment)) {
-                    StringBuilder ddl = new StringBuilder();
+                    final StringBuilder ddl = new StringBuilder();
 
                     ddl.append("COMMENT ON COLUMN ");
                     ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
@@ -98,15 +92,14 @@ public class PostgresDDLCreator extends DDLCreator {
 
                     ddlList.add(ddl.toString());
                 }
-
             } else {
-                ColumnGroup columnGroup = (ColumnGroup) column;
+                final ColumnGroup columnGroup = (ColumnGroup) column;
 
-                for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                    String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                for (final NormalColumn normalColumn : columnGroup.getColumns()) {
+                    final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                     if (!Check.isEmpty(comment)) {
-                        StringBuilder ddl = new StringBuilder();
+                        final StringBuilder ddl = new StringBuilder();
 
                         ddl.append("COMMENT ON COLUMN ");
                         ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
@@ -130,10 +123,10 @@ public class PostgresDDLCreator extends DDLCreator {
 
     @Override
     protected String doBuildCreateTablespace(Tablespace tablespace) {
-        PostgresTablespaceProperties tablespaceProperties =
+        final PostgresTablespaceProperties tablespaceProperties =
                 (PostgresTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         ddl.append("CREATE TABLESPACE ");
         ddl.append(filter(tablespace.getName()));
@@ -157,9 +150,9 @@ public class PostgresDDLCreator extends DDLCreator {
     }
 
     private String getAutoIncrementSettingDDL(ERTable table, NormalColumn column) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
-        Sequence sequence = column.getAutoIncrementSetting();
+        final Sequence sequence = column.getAutoIncrementSetting();
 
         if (sequence.getIncrement() != null || sequence.getMinValue() != null || sequence.getMaxValue() != null
                 || sequence.getStart() != null || sequence.getCache() != null || sequence.isCycle()) {
@@ -200,14 +193,14 @@ public class PostgresDDLCreator extends DDLCreator {
 
     @Override
     protected String getTableSettingDDL(ERTable table) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         boolean first = true;
 
-        for (NormalColumn column : table.getNormalColumns()) {
+        for (final NormalColumn column : table.getNormalColumns()) {
             if (SqlType.SQL_TYPE_ID_SERIAL.equals(column.getType().getId())
                     || SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(column.getType().getId())) {
-                String autoIncrementSettingDDL = getAutoIncrementSettingDDL(table, column);
+                final String autoIncrementSettingDDL = getAutoIncrementSettingDDL(table, column);
                 if (!Check.isEmpty(autoIncrementSettingDDL)) {
                     ddl.append(autoIncrementSettingDDL);
                     ddl.append("\r\n");
@@ -226,14 +219,14 @@ public class PostgresDDLCreator extends DDLCreator {
 
     @Override
     public String doBuildDropTrigger(Trigger trigger) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP TRIGGER ");
         ddl.append(this.getIfExistsOption());
         ddl.append(filter(trigger.getName()));
         ddl.append(" ON ");
 
-        Matcher matcher = DROP_TRIGGER_TABLE_PATTERN.matcher(trigger.getSql());
+        final Matcher matcher = DROP_TRIGGER_TABLE_PATTERN.matcher(trigger.getSql());
         if (matcher.find()) {
             ddl.append(matcher.group(1));
         }

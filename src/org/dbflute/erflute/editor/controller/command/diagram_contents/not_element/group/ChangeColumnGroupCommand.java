@@ -42,12 +42,8 @@ public class ChangeColumnGroupCommand extends AbstractCommand {
             CopyColumnGroup oldCopyGroup = new CopyColumnGroup(columnGroup);
             this.oldCopyGroups.add(oldCopyGroup);
         }
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         ERDiagram diagram = this.diagram;
@@ -85,9 +81,6 @@ public class ChangeColumnGroupCommand extends AbstractCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         ERDiagram diagram = this.diagram;

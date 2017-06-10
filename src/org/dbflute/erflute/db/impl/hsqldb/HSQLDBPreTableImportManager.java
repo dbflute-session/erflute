@@ -42,7 +42,6 @@ public class HSQLDBPreTableImportManager extends PreImportFromDBManager {
                     DBObject dbObject = new DBObject(schema, name, DBObject.TYPE_SEQUENCE);
                     list.add(dbObject);
                 }
-
             } finally {
                 if (resultSet != null) {
                     resultSet.close();

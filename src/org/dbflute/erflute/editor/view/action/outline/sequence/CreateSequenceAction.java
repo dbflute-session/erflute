@@ -18,9 +18,6 @@ public class CreateSequenceAction extends AbstractOutlineBaseAction {
         super(ID, DisplayMessages.getMessage("action.title.create.sequence"), treeViewer);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
@@ -32,5 +29,4 @@ public class CreateSequenceAction extends AbstractOutlineBaseAction {
             this.execute(command);
         }
     }
-
 }

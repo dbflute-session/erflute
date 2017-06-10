@@ -36,9 +36,6 @@ public class IndexEditPart extends AbstractModelEditPart {
     public void doPropertyChange(PropertyChangeEvent evt) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public EditPart getTargetEditPart(Request request) {
         final EditPart editPart = super.getTargetEditPart(request);
@@ -112,14 +109,13 @@ public class IndexEditPart extends AbstractModelEditPart {
             //			}
 
             addColumnFigure(diagram, tableFigure, indexFigure, index, isFirst,
-            /* isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, */
-            false);
+                    /* isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, */
+                    false);
 
             if (selected) {
                 indexFigure.setBackgroundColor(ColorConstants.titleBackground);
                 indexFigure.setForegroundColor(ColorConstants.titleForeground);
             }
-
         } else {
             indexFigure.clearLabel();
             return;
@@ -127,8 +123,8 @@ public class IndexEditPart extends AbstractModelEditPart {
     }
 
     public static void addColumnFigure(ERDiagram diagram, TableFigure tableFigure, IndexFigure indexFigure, ERIndex index,
-    /*boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated, */
-    boolean isFirst, boolean isRemoved) {
+            /*boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated, */
+            boolean isFirst, boolean isRemoved) {
         //		int notationLevel = diagram.getDiagramContents().getSettings()
         //				.getNotationLevel();
         //
@@ -221,9 +217,6 @@ public class IndexEditPart extends AbstractModelEditPart {
     //		return foreignKeyColulmnList;
     //	}
 
-    //	/**
-    //	 * {@inheritDoc}
-    //	 */
     //	@Override
     //	public void setSelected(int value) {
     //		NormalColumnFigure figure = (NormalColumnFigure) this.getFigure();
@@ -312,5 +305,4 @@ public class IndexEditPart extends AbstractModelEditPart {
     //			}
     //		}
     //	}
-
 }

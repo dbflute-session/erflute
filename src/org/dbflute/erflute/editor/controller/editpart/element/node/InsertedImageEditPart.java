@@ -2,8 +2,8 @@ package org.dbflute.erflute.editor.controller.editpart.element.node;
 
 import java.beans.PropertyChangeEvent;
 import java.io.ByteArrayInputStream;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.image.ChangeInsertedImagePropertyCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
@@ -27,28 +27,22 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
 
     private ImageData imageData;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected IFigure createFigure() {
-        InsertedImage model = (InsertedImage) this.getModel();
+        final InsertedImage model = (InsertedImage) this.getModel();
 
-        byte[] data = Base64.decodeBase64((model.getBase64EncodedData().getBytes()));
-        ByteArrayInputStream in = new ByteArrayInputStream(data);
+        final byte[] data = Base64.getDecoder().decode(model.getBase64EncodedData().getBytes());
+        final ByteArrayInputStream in = new ByteArrayInputStream(data);
 
         this.imageData = new ImageData(in);
         this.changeImage();
 
-        InsertedImageFigure figure = new InsertedImageFigure(this.image, model.isFixAspectRatio(), model.getAlpha());
+        final InsertedImageFigure figure = new InsertedImageFigure(this.image, model.isFixAspectRatio(), model.getAlpha());
         figure.setMinimumSize(new Dimension(1, 1));
 
         return figure;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void disposeFont() {
         if (this.image != null && !this.image.isDisposed()) {
@@ -57,9 +51,6 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
         super.disposeFont();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
@@ -72,8 +63,8 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
         if (event.getPropertyName().equals(InsertedImage.PROPERTY_CHANGE_IMAGE)) {
             changeImage();
 
-            InsertedImageFigure figure = (InsertedImageFigure) this.getFigure();
-            InsertedImage model = (InsertedImage) this.getModel();
+            final InsertedImageFigure figure = (InsertedImageFigure) this.getFigure();
+            final InsertedImage model = (InsertedImage) this.getModel();
 
             figure.setImg(this.image, model.isFixAspectRatio(), model.getAlpha());
 
@@ -88,14 +79,15 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
     }
 
     private void changeImage() {
-        InsertedImage model = (InsertedImage) this.getModel();
+        final InsertedImage model = (InsertedImage) this.getModel();
 
-        ImageData newImageData = new ImageData(this.imageData.width, this.imageData.height, this.imageData.depth, this.imageData.palette);
+        final ImageData newImageData =
+                new ImageData(this.imageData.width, this.imageData.height, this.imageData.depth, this.imageData.palette);
 
         for (int x = 0; x < this.imageData.width; x++) {
             for (int y = 0; y < this.imageData.height; y++) {
-                RGB rgb = this.imageData.palette.getRGB(this.imageData.getPixel(x, y));
-                float[] hsb = rgb.getHSB();
+                final RGB rgb = this.imageData.palette.getRGB(this.imageData.getPixel(x, y));
+                final float[] hsb = rgb.getHSB();
 
                 if (model.getHue() != 0) {
                     hsb[0] = model.getHue() & 360;
@@ -116,9 +108,9 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
                     hsb[2] = 0f;
                 }
 
-                RGB newRGB = new RGB(hsb[0], hsb[1], hsb[2]);
+                final RGB newRGB = new RGB(hsb[0], hsb[1], hsb[2]);
 
-                int pixel = imageData.palette.getPixel(newRGB);
+                final int pixel = imageData.palette.getPixel(newRGB);
 
                 newImageData.setPixel(x, y, pixel);
             }
@@ -131,28 +123,25 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
         this.image = new Image(Display.getDefault(), newImageData);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void performRequestOpen() {
-        InsertedImage insertedImage = (InsertedImage) this.getModel();
+        final InsertedImage insertedImage = (InsertedImage) this.getModel();
 
-        InsertedImage oldInsertedImage = (InsertedImage) insertedImage.clone();
+        final InsertedImage oldInsertedImage = (InsertedImage) insertedImage.clone();
 
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = this.getDiagram();
 
-        InsertedImageDialog dialog =
+        final InsertedImageDialog dialog =
                 new InsertedImageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), insertedImage);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
-            ChangeInsertedImagePropertyCommand command =
+            final ChangeInsertedImagePropertyCommand command =
                     new ChangeInsertedImagePropertyCommand(diagram, insertedImage, dialog.getNewInsertedImage(), oldInsertedImage);
 
             this.executeCommand(command);
 
         } else {
-            ChangeInsertedImagePropertyCommand command =
+            final ChangeInsertedImagePropertyCommand command =
                     new ChangeInsertedImagePropertyCommand(diagram, insertedImage, oldInsertedImage, oldInsertedImage);
             command.execute();
 

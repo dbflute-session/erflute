@@ -8,9 +8,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class ReservedWordViewNameRule extends ViewRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERView view) {
         if (view.getPhysicalName() != null) {
@@ -27,5 +24,4 @@ public class ReservedWordViewNameRule extends ViewRule {
 
         return true;
     }
-
 }

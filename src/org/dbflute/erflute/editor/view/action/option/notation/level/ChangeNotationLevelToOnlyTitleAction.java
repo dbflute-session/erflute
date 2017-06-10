@@ -15,5 +15,4 @@ public class ChangeNotationLevelToOnlyTitleAction extends AbstractChangeNotation
     protected int getLevel() {
         return DiagramSettings.NOTATION_LEVLE_TITLE;
     }
-
 }

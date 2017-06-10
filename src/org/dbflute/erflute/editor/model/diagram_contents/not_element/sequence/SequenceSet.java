@@ -11,7 +11,7 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
 
 public class SequenceSet extends AbstractModel implements ObjectListModel, Iterable<Sequence> {
 
-    private static final long serialVersionUID = -120487815554383179L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_SEQUENCE_SET = "SequenceSet";
 
@@ -64,9 +64,6 @@ public class SequenceSet extends AbstractModel implements ObjectListModel, Itera
         return this.sequenceList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public SequenceSet clone() {
         SequenceSet sequenceSet = (SequenceSet) super.clone();

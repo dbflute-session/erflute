@@ -8,9 +8,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class NoTableNameRule extends TableRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERTable table) {
         if (table.getPhysicalName() == null || table.getPhysicalName().trim().equals("")) {

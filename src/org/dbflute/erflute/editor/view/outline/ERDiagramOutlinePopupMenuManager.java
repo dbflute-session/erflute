@@ -18,6 +18,7 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.group.ColumnGroupManageAction;
 import org.dbflute.erflute.editor.view.action.outline.ChangeNameAction;
+import org.dbflute.erflute.editor.view.action.outline.DeleteVirtualDiagramAction;
 import org.dbflute.erflute.editor.view.action.outline.index.CreateIndexAction;
 import org.dbflute.erflute.editor.view.action.outline.notation.type.ChangeOutlineViewToBothAction;
 import org.dbflute.erflute.editor.view.action.outline.notation.type.ChangeOutlineViewToLogicalAction;
@@ -52,6 +53,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
         ACTION_MAP.put(TableOutlineEditPart.class, CreateIndexAction.ID);
         ACTION_MAP.put(TablespaceSetOutlineEditPart.class, CreateTablespaceAction.ID);
         ACTION_MAP.put(ERVirtualDiagramOutlineEditPart.class, ChangeNameAction.ID);
+        ACTION_MAP.put(ERVirtualDiagramOutlineEditPart.class, DeleteVirtualDiagramAction.ID);
     }
 
     private ActionRegistry actionRegistry;
@@ -69,6 +71,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
             this.add(this.getAction(CreateTriggerAction.ID));
             this.add(this.getAction(CreateIndexAction.ID));
             this.add(this.getAction(CreateTablespaceAction.ID));
+            this.add(this.getAction(DeleteVirtualDiagramAction.ID));
 
             this.add(new Separator());
 
@@ -183,5 +186,4 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
         // }
         // }
     }
-
 }

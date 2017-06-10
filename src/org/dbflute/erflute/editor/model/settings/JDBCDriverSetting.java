@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.util.Format;
 
 public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSetting> {
 
-    private static final long serialVersionUID = -14161958891939683L;
+    private static final long serialVersionUID = 1L;
 
     private String db;
 
@@ -92,5 +92,4 @@ public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSet
 
         return 0;
     }
-
 }

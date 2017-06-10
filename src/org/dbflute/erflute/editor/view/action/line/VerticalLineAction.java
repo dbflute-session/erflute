@@ -35,9 +35,6 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
         this.setToolTipText(DisplayMessages.getMessage("action.title.vertical.line"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean calculateEnabled() {
         Command cmd = this.createCommand();
@@ -47,9 +44,6 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
         return cmd.canExecute();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void execute(Event event) {
         execute(createCommand());
@@ -184,7 +178,6 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
 
             return rightY1 - rightY2;
         }
-
     }
 
     public static class VerticalLineRetargetAction extends LabelRetargetAction {

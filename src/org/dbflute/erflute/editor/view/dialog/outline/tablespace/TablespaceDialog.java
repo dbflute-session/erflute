@@ -129,23 +129,15 @@ public abstract class TablespaceDialog extends AbstractDialog {
         return environmentList.get(index);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addListener() {
         this.environmentCombo.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 performOK();
                 setPropertiesData();
             }
-
         });
     }
-
 }

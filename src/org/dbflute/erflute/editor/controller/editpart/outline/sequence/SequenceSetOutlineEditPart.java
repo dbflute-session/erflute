@@ -24,9 +24,6 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List getModelChildren() {
         SequenceSet sequenceSet = (SequenceSet) this.getModel();
@@ -38,9 +35,6 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
         return sequenceList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
         if (!DBManagerFactory.getDBManager(this.getDiagram()).isSupported(DBManager.SUPPORT_SEQUENCE)) {
@@ -55,9 +49,6 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
@@ -67,5 +58,4 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
             part.refresh();
         }
     }
-
 }

@@ -8,12 +8,8 @@ import org.eclipse.gef.commands.Command;
 
 public class TriggerComponentEditPolicy extends NotElementComponentEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command createDeleteCommand(ERDiagram diagram, Object model) {
         return new DeleteTriggerCommand(diagram, (Trigger) model);
     }
-
 }

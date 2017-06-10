@@ -1,4 +1,4 @@
-package org.dbflute.erflute;
+package org.dbflute.erflute; 
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -51,7 +51,7 @@ public class Activator extends AbstractUIPlugin {
     //                                                                          Definition
     //                                                                          ==========
     public static final String PLUGIN_ID = "org.dbflute.erflute";
-    private static Activator plugin; // shared instance 
+    private static Activator plugin; // shared instance
 
     // ===================================================================================
     //                                                                         Constructor

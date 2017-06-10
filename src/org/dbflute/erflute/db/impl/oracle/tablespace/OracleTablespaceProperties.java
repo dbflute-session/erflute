@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public class OracleTablespaceProperties implements TablespaceProperties {
 
-    private static final long serialVersionUID = -6976279893674797115L;
+    private static final long serialVersionUID = 1L;
 
     private String dataFile;
 
@@ -41,297 +41,129 @@ public class OracleTablespaceProperties implements TablespaceProperties {
 
     private boolean autoSegmentSpaceManagement;
 
-    /**
-     * dataFile を取得します.
-     * 
-     * @return dataFile
-     */
     public String getDataFile() {
         return dataFile;
     }
 
-    /**
-     * dataFile を設定します.
-     * 
-     * @param dataFile
-     *            dataFile
-     */
     public void setDataFile(String dataFile) {
         this.dataFile = dataFile;
     }
 
-    /**
-     * fileSize を取得します.
-     * 
-     * @return fileSize
-     */
     public String getFileSize() {
         return fileSize;
     }
 
-    /**
-     * fileSize を設定します.
-     * 
-     * @param fileSize
-     *            fileSize
-     */
     public void setFileSize(String fileSize) {
         this.fileSize = fileSize;
     }
 
-    /**
-     * autoExtend を取得します.
-     * 
-     * @return autoExtend
-     */
     public boolean isAutoExtend() {
         return autoExtend;
     }
 
-    /**
-     * autoExtend を設定します.
-     * 
-     * @param autoExtend
-     *            autoExtend
-     */
     public void setAutoExtend(boolean autoExtend) {
         this.autoExtend = autoExtend;
     }
 
-    /**
-     * autoExtendSize を取得します.
-     * 
-     * @return autoExtendSize
-     */
     public String getAutoExtendSize() {
         return autoExtendSize;
     }
 
-    /**
-     * autoExtendSize を設定します.
-     * 
-     * @param autoExtendSize
-     *            autoExtendSize
-     */
     public void setAutoExtendSize(String autoExtendSize) {
         this.autoExtendSize = autoExtendSize;
     }
 
-    /**
-     * autoExtendMaxSize を取得します.
-     * 
-     * @return autoExtendMaxSize
-     */
     public String getAutoExtendMaxSize() {
         return autoExtendMaxSize;
     }
 
-    /**
-     * autoExtendMaxSize を設定します.
-     * 
-     * @param autoExtendMaxSize
-     *            autoExtendMaxSize
-     */
     public void setAutoExtendMaxSize(String autoExtendMaxSize) {
         this.autoExtendMaxSize = autoExtendMaxSize;
     }
 
-    /**
-     * minimumExtentSize を取得します.
-     * 
-     * @return minimumExtentSize
-     */
     public String getMinimumExtentSize() {
         return minimumExtentSize;
     }
 
-    /**
-     * minimumExtentSize を設定します.
-     * 
-     * @param minimumExtentSize
-     *            minimumExtentSize
-     */
     public void setMinimumExtentSize(String minimumExtentSize) {
         this.minimumExtentSize = minimumExtentSize;
     }
 
-    /**
-     * logging を取得します.
-     * 
-     * @return logging
-     */
     public boolean isLogging() {
         return logging;
     }
 
-    /**
-     * logging を設定します.
-     * 
-     * @param logging
-     *            logging
-     */
     public void setLogging(boolean logging) {
         this.logging = logging;
     }
 
-    /**
-     * offline を取得します.
-     * 
-     * @return offline
-     */
     public boolean isOffline() {
         return offline;
     }
 
-    /**
-     * offline を設定します.
-     * 
-     * @param offline
-     *            offline
-     */
     public void setOffline(boolean offline) {
         this.offline = offline;
     }
 
-    /**
-     * temporary を取得します.
-     * 
-     * @return temporary
-     */
     public boolean isTemporary() {
         return temporary;
     }
 
-    /**
-     * temporary を設定します.
-     * 
-     * @param temporary
-     *            temporary
-     */
     public void setTemporary(boolean temporary) {
         this.temporary = temporary;
     }
 
-    /**
-     * autoSegmentSpaceManagement を取得します.
-     * 
-     * @return autoSegmentSpaceManagement
-     */
     public boolean isAutoSegmentSpaceManagement() {
         return autoSegmentSpaceManagement;
     }
 
-    /**
-     * autoSegmentSpaceManagement を設定します.
-     * 
-     * @param autoSegmentSpaceManagement
-     *            autoSegmentSpaceManagement
-     */
     public void setAutoSegmentSpaceManagement(boolean autoSegmentSpaceManagement) {
         this.autoSegmentSpaceManagement = autoSegmentSpaceManagement;
     }
 
-    /**
-     * initial を取得します.
-     * 
-     * @return initial
-     */
     public String getInitial() {
         return initial;
     }
 
-    /**
-     * initial を設定します.
-     * 
-     * @param initial
-     *            initial
-     */
     public void setInitial(String initial) {
         this.initial = initial;
     }
 
-    /**
-     * next を取得します.
-     * 
-     * @return next
-     */
     public String getNext() {
         return next;
     }
 
-    /**
-     * next を設定します.
-     * 
-     * @param next
-     *            next
-     */
     public void setNext(String next) {
         this.next = next;
     }
 
-    /**
-     * minExtents を取得します.
-     * 
-     * @return minExtents
-     */
     public String getMinExtents() {
         return minExtents;
     }
 
-    /**
-     * minExtents を設定します.
-     * 
-     * @param minExtents
-     *            minExtents
-     */
     public void setMinExtents(String minExtents) {
         this.minExtents = minExtents;
     }
 
-    /**
-     * maxExtents を取得します.
-     * 
-     * @return maxExtents
-     */
     public String getMaxExtents() {
         return maxExtents;
     }
 
-    /**
-     * maxExtents を設定します.
-     * 
-     * @param maxExtents
-     *            maxExtents
-     */
     public void setMaxExtents(String maxExtents) {
         this.maxExtents = maxExtents;
     }
 
-    /**
-     * pctIncrease を取得します.
-     * 
-     * @return pctIncrease
-     */
     public String getPctIncrease() {
         return pctIncrease;
     }
 
-    /**
-     * pctIncrease を設定します.
-     * 
-     * @param pctIncrease
-     *            pctIncrease
-     */
     public void setPctIncrease(String pctIncrease) {
         this.pctIncrease = pctIncrease;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TablespaceProperties clone() {
-        OracleTablespaceProperties properties = new OracleTablespaceProperties();
+        final OracleTablespaceProperties properties = new OracleTablespaceProperties();
 
         properties.autoExtend = this.autoExtend;
         properties.autoExtendMaxSize = this.autoExtendMaxSize;
@@ -352,8 +184,9 @@ public class OracleTablespaceProperties implements TablespaceProperties {
         return properties;
     }
 
+    @Override
     public LinkedHashMap<String, String> getPropertiesMap() {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+        final LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
         map.put("label.tablespace.data.file", this.getDataFile());
         map.put("label.size", this.getFileSize());
@@ -373,8 +206,9 @@ public class OracleTablespaceProperties implements TablespaceProperties {
         return map;
     }
 
+    @Override
     public List<String> validate() {
-        List<String> errorMessage = new ArrayList<String>();
+        final List<String> errorMessage = new ArrayList<>();
 
         if (this.isAutoExtend() && Check.isEmptyTrim(this.getAutoExtendSize())) {
             errorMessage.add("error.tablespace.auto.extend.size.empty");

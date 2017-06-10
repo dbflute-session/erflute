@@ -17,9 +17,6 @@ public class ChangeNotationExpandGroupAction extends AbstractBaseAction {
         this.setText(DisplayMessages.getMessage("action.title.notation.expand.group"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();

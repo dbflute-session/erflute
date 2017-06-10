@@ -105,7 +105,7 @@ public class Srl {
     //                                                                        Null & Empty
     //                                                                        ============
     /**
-     * Is the string null or empty string? 
+     * Is the string null or empty string?
      * @param str A judged string. (NullAllowed)
      * @return The determination.
      */
@@ -114,7 +114,7 @@ public class Srl {
     }
 
     /**
-     * Is the string null or trimmed-empty string? 
+     * Is the string null or trimmed-empty string?
      * @param str A judged string. (NullAllowed)
      * @return The determination.
      */
@@ -123,7 +123,7 @@ public class Srl {
     }
 
     /**
-     * Is the string not null and not empty string? 
+     * Is the string not null and not empty string?
      * @param str A judged string. (NullAllowed)
      * @return The determination.
      */
@@ -132,7 +132,7 @@ public class Srl {
     }
 
     /**
-     * Is the string not null and not trimmed-empty string? 
+     * Is the string not null and not trimmed-empty string?
      * @param str A judged string. (NullAllowed)
      * @return The determination.
      */
@@ -141,7 +141,7 @@ public class Srl {
     }
 
     /**
-     * Is the string empty string? 
+     * Is the string empty string?
      * @param str A judged string. (NullAllowed)
      * @return The determination.
      */
@@ -150,7 +150,7 @@ public class Srl {
     }
 
     /**
-     * Is the string trimmed-empty string? 
+     * Is the string trimmed-empty string?
      * @param str A judged string. (NullAllowed)
      * @return The determination.
      */
@@ -268,7 +268,7 @@ public class Srl {
         do {
             pos = str.indexOf(fromStr, pos2);
             if (pos2 == 0 && pos < 0) { // first loop and not found
-                return str; // without creating StringBuilder 
+                return str; // without creating StringBuilder
             }
             if (sb == null) {
                 sb = new StringBuilder();
@@ -361,7 +361,7 @@ public class Srl {
      * returns the index of ".bar"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The information of index. (NullAllowed: if delimiter not found)
      */
     public static IndexOfInfo indexOfFirst(final String str, final String... delimiters) {
@@ -375,7 +375,7 @@ public class Srl {
      * returns the index of "ar/baz..."
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The information of index. (NullAllowed: if delimiter not found)
      */
     public static IndexOfInfo indexOfFirstIgnoreCase(final String str, final String... delimiters) {
@@ -393,7 +393,7 @@ public class Srl {
      * returns the index of ".qux"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The information of index. (NullAllowed: if delimiter not found)
      */
     public static IndexOfInfo indexOfLast(final String str, final String... delimiters) {
@@ -407,7 +407,7 @@ public class Srl {
      * returns the index of "ux"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The information of index. (NullAllowed: if delimiter not found)
      */
     public static IndexOfInfo indexOfLastIgnoreCase(final String str, final String... delimiters) {
@@ -518,7 +518,7 @@ public class Srl {
      * returns "ute"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param beginIndex The from-index. 
+     * @param beginIndex The from-index.
      * @return The part of string. (NotNull)
      */
     public static String substring(final String str, final int beginIndex) {
@@ -569,7 +569,7 @@ public class Srl {
      * returns "fl"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param index The index from rear. 
+     * @param index The index from rear.
      * @return The rear string. (NotNull)
      */
     public static String frontstring(final String str, final int index) {
@@ -589,7 +589,7 @@ public class Srl {
      * returns "te"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param reverseIndex The index from rear. 
+     * @param reverseIndex The index from rear.
      * @return The rear string. (NotNull)
      */
     public static String rearstring(final String str, final int reverseIndex) {
@@ -609,7 +609,7 @@ public class Srl {
      * returns "foo"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The part of string. (NotNull: if delimiter not found, returns argument-plain string)
      */
     public static String substringFirstFront(final String str, final String... delimiters) {
@@ -624,7 +624,7 @@ public class Srl {
      * returns "foo.b"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The part of string. (NotNull: if delimiter not found, returns argument-plain string)
      */
     public static String substringFirstFrontIgnoreCase(final String str, final String... delimiters) {
@@ -639,7 +639,7 @@ public class Srl {
      * returns "bar/baz.qux"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The part of string. (NotNull: if delimiter not found, returns argument-plain string)
      */
     public static String substringFirstRear(String str, String... delimiters) {
@@ -654,7 +654,7 @@ public class Srl {
      * returns "ar/baz.qux"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The part of string. (NotNull: if delimiter not found, returns argument-plain string)
      */
     public static String substringFirstRearIgnoreCase(String str, String... delimiters) {
@@ -669,7 +669,7 @@ public class Srl {
      * returns "foo.bar/baz"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The part of string. (NotNull: if delimiter not found, returns argument-plain string)
      */
     public static String substringLastFront(String str, String... delimiters) {
@@ -684,7 +684,7 @@ public class Srl {
      * returns "foo.bar/baz.q"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The part of string. (NotNull: if delimiter not found, returns argument-plain string)
      */
     public static String substringLastFrontIgnoreCase(String str, String... delimiters) {
@@ -699,7 +699,7 @@ public class Srl {
      * returns "qux"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The part of string. (NotNull: if delimiter not found, returns argument-plain string)
      */
     public static String substringLastRear(String str, String... delimiters) {
@@ -714,7 +714,7 @@ public class Srl {
      * returns "x"
      * </pre>
      * @param str The target string. (NotNull)
-     * @param delimiters The array of delimiters. (NotNull) 
+     * @param delimiters The array of delimiters. (NotNull)
      * @return The part of string. (NotNull: if delimiter not found, returns argument-plain string)
      */
     public static String substringLastRearIgnoreCase(String str, String... delimiters) {

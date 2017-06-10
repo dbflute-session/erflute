@@ -17,9 +17,9 @@ import org.eclipse.swt.widgets.Text;
  */
 public class DirectoryText {
 
-    private Text text;
+    private final Text text;
 
-    private Button openBrowseButton;
+    private final Button openBrowseButton;
 
     public DirectoryText(Composite parent, int style) {
         this.text = new Text(parent, style);
@@ -29,12 +29,9 @@ public class DirectoryText {
 
         this.openBrowseButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String filePath = Activator.showDirectoryDialog(text.getText());
+                final String filePath = Activator.showDirectoryDialog(text.getText());
                 text.setText(filePath);
             }
         });
@@ -64,5 +61,4 @@ public class DirectoryText {
     public void addModifyListener(ModifyListener listener) {
         this.text.addModifyListener(listener);
     }
-
 }

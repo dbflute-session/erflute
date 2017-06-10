@@ -34,7 +34,7 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
 
     public static final String REQUEST_TYPE_PLACE_TABLE = "place table";
 
-    private EditPartViewer dragSourceViewer;
+    private final EditPartViewer dragSourceViewer;
 
     public ERDiagramTransferDragSourceListener(EditPartViewer dragSourceViewer, Transfer xfer) {
         super(dragSourceViewer, xfer);
@@ -46,13 +46,13 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
     public void dragStart(DragSourceEvent dragsourceevent) {
         super.dragStart(dragsourceevent);
 
-        Object target = this.getTargetModel(dragsourceevent);
+        final Object target = this.getTargetModel(dragsourceevent);
 
         if (target != null) {
             // && target == dragSourceViewer.findObjectAt(
             // new Point(dragsourceevent.x, dragsourceevent.y))
             // .getModel()) {
-            TemplateTransfer transfer = (TemplateTransfer) this.getTransfer();
+            final TemplateTransfer transfer = (TemplateTransfer) this.getTransfer();
             transfer.setObject(target);
 
         } else {
@@ -63,44 +63,45 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
     //	@Override
     //	public void dragFinished(DragSourceEvent event) {
     //		super.dragFinished(event);
-    //		
+    //
     //		ERTable table = (ERTable) ((TemplateTransfer)getTransfer()).getObject();
     //	}
 
+    @Override
     public void dragSetData(DragSourceEvent event) {
         event.data = this.getTargetModel(event);
     }
 
     private Object getTargetModel(DragSourceEvent event) {
-        List editParts = dragSourceViewer.getSelectedEditParts();
+        final List editParts = dragSourceViewer.getSelectedEditParts();
         if (editParts.isEmpty()) {
             return null;
         }
         if (editParts.size() != 1) {
-            List<Object> results = new ArrayList<Object>();
-            for (Object partObj : editParts) {
-                EditPart editPart = (EditPart) partObj;
-                Object model = editPart.getModel();
+            final List<Object> results = new ArrayList<>();
+            for (final Object partObj : editParts) {
+                final EditPart editPart = (EditPart) partObj;
+                final Object model = editPart.getModel();
                 if (model instanceof ERTable && editPart instanceof TableOutlineEditPart) {
-                    // �A�E�g���C������̃e�[�u�������I��
+                    // アウトラインからのテーブル複数選択
                     results.add(model);
                 }
                 if (model instanceof ERVirtualTable) {
-                    // �G�f�B�^������̉��z�e�[�u�������I��
-                    return null; // �����̓h���b�O�͂����A��ʂ̈ړ��@�\�i�H�j�ɉ񂷁B����ŕ����e�[�u�����G�f�B�^���ňړ��\�ɂȂ�
+                    // エディタ内からの仮想テーブル複数選択
+                    return null; // ここはドラッグはせず、上位の移動機構（？）に回す。これで複数テーブルをエディタ内で移動可能になる
                 }
             }
             return results;
         }
 
-        EditPart editPart = (EditPart) editParts.get(0);
+        final EditPart editPart = (EditPart) editParts.get(0);
 
-        Object model = editPart.getModel();
+        final Object model = editPart.getModel();
 
         if (model instanceof NormalColumn) {
-            NormalColumn normalColumn = (NormalColumn) model;
+            final NormalColumn normalColumn = (NormalColumn) model;
             if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
-                Map<String, Object> map = new HashMap<String, Object>();
+                final Map<String, Object> map = new HashMap<>();
                 map.put(MOVE_COLUMN_GROUP_PARAM_PARENT, editPart.getParent().getModel());
                 map.put(MOVE_COLUMN_GROUP_PARAM_GROUP, normalColumn.getColumnHolder());
 
@@ -110,7 +111,7 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
             return model;
 
         } else if (model instanceof ColumnGroup) {
-            Map<String, Object> map = new HashMap<String, Object>();
+            final Map<String, Object> map = new HashMap<>();
             map.put(MOVE_COLUMN_GROUP_PARAM_PARENT, editPart.getParent().getModel());
             map.put(MOVE_COLUMN_GROUP_PARAM_GROUP, model);
 
@@ -126,5 +127,4 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
 
         return null;
     }
-
 }

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class MyColor {
 
-    private int[] colors;
+    private final int[] colors;
 
     public MyColor(int[] color) {
         this.colors = color;
@@ -18,19 +18,14 @@ public class MyColor {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof MyColor) {
-            MyColor other = (MyColor) obj;
+            final MyColor other = (MyColor) obj;
             return Arrays.equals(other.colors, this.colors);
         } else {
             return false;
         }
     }
 
-    /**
-     * colors���擾���܂��B
-     * @return colors
-     */
     public int[] getColors() {
         return colors;
     }
-
 }

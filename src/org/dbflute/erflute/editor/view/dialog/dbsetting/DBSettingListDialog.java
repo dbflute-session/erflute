@@ -75,18 +75,12 @@ public class DBSettingListDialog extends AbstractDialog {
         urlTableColumn.setText(DisplayMessages.getMessage("label.url"));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void addListener() {
         super.addListener();
 
         this.settingTable.addMouseListener(new MouseAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void mouseDoubleClick(MouseEvent e) {
                 buttonPressed(IDialogConstants.OK_ID);
@@ -95,9 +89,6 @@ public class DBSettingListDialog extends AbstractDialog {
 
         this.settingTable.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 validate();
@@ -146,9 +137,6 @@ public class DBSettingListDialog extends AbstractDialog {
         this.setButtonEnabled(false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
         createButton(parent, IDialogConstants.OK_ID, DisplayMessages.getMessage("label.load.setting"), true);
@@ -195,9 +183,6 @@ public class DBSettingListDialog extends AbstractDialog {
         return "label.load.database.setting";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.STOP_ID) {
@@ -219,5 +204,4 @@ public class DBSettingListDialog extends AbstractDialog {
 
         super.buttonPressed(buttonId);
     }
-
 }

@@ -19,5 +19,4 @@ public class StringObjectModel implements ObjectModel {
     public String getObjectType() {
         return "other";
     }
-
 }

@@ -41,9 +41,6 @@ public class ViewDialog extends AbstractDialog {
         this.tabWrapperList = new ArrayList<ValidatableTabWrapper>();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void initComponent(Composite composite) {
         GridData gridData = new GridData();
@@ -73,22 +70,17 @@ public class ViewDialog extends AbstractDialog {
                 ValidatableTabWrapper selectedTabWrapper = tabWrapperList.get(index);
                 selectedTabWrapper.setInitFocus();
             }
-
         });
 
         attributeTabWrapper.setInitFocus();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
         try {
             for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
                 tabWrapper.validatePage();
             }
-
         } catch (InputException e) {
             return e.getMessage();
         }
@@ -96,9 +88,6 @@ public class ViewDialog extends AbstractDialog {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getTitle() {
         return "dialog.title.view";

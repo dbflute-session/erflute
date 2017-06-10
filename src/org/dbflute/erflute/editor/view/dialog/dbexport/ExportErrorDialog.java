@@ -36,5 +36,4 @@ public class ExportErrorDialog extends AbstractErrorDialog {
     protected String getTitle() {
         return "dialog.title.export.db";
     }
-
 }

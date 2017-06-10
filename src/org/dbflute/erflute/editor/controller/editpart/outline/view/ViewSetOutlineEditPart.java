@@ -22,9 +22,6 @@ public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List getModelChildren() {
         ViewSet viewSet = (ViewSet) this.getModel();
@@ -42,18 +39,12 @@ public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
         return list;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
         this.setWidgetText(DisplayMessages.getMessage("label.view") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
@@ -63,5 +54,4 @@ public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
             part.refresh();
         }
     }
-
 }

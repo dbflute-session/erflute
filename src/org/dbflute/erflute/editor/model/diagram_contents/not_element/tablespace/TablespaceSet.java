@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.AbstractModel;
 
 public class TablespaceSet extends AbstractModel implements Iterable<Tablespace> {
 
-    private static final long serialVersionUID = 9018173533566296453L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_TABLESPACE_SET = "TablespaceSet";
 
@@ -52,9 +52,6 @@ public class TablespaceSet extends AbstractModel implements Iterable<Tablespace>
         return this.tablespaceList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TablespaceSet clone() {
         TablespaceSet tablespaceSet = (TablespaceSet) super.clone();

@@ -21,9 +21,6 @@ public class MoveBendpointCommand extends AbstractCommand {
         this.index = index;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         WalkerConnection connection = (WalkerConnection) editPart.getModel();
@@ -32,13 +29,9 @@ public class MoveBendpointCommand extends AbstractCommand {
         connection.replaceBendpoint(index, this.bendPoint);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         WalkerConnection connection = (WalkerConnection) editPart.getModel();
         connection.replaceBendpoint(index, this.oldBendpoint);
     }
-
 }

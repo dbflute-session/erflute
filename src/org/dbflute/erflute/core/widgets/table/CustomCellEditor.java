@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class CustomCellEditor extends DefaultCellEditor implements TableCellEditor {
 
-    private static final long serialVersionUID = 1715411332743091739L;
+    private static final long serialVersionUID = 1L;
 
     public CustomCellEditor(final JTable table) {
         super(new JTextField());
@@ -53,7 +53,6 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
 
                 super.keyPressed(e);
             }
-
         });
 
         component.setComponentPopupMenu(new TextFieldPopupMenu());
@@ -76,7 +75,7 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
 
     private static class TextFieldPopupMenu extends JPopupMenu {
 
-        private static final long serialVersionUID = 5180658114688605208L;
+        private static final long serialVersionUID = 1L;
 
         private TextFieldPopupMenu() {
             FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
@@ -92,12 +91,11 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
             JMenuItem pasteMenuItem = this.add(new PasteAction());
             pasteMenuItem.setFont(font);
         }
-
     }
 
     private static class CutAction extends TextAction {
 
-        private static final long serialVersionUID = 9018455792592465382L;
+        private static final long serialVersionUID = 1L;
 
         public CutAction() {
             super(DisplayMessages.getMessage("action.title.cut"));
@@ -113,7 +111,7 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
 
     private static class CopyAction extends TextAction {
 
-        private static final long serialVersionUID = 9018455792592465382L;
+        private static final long serialVersionUID = 1L;
 
         public CopyAction() {
             super(DisplayMessages.getMessage("action.title.copy"));
@@ -129,7 +127,7 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
 
     private static class PasteAction extends TextAction {
 
-        private static final long serialVersionUID = 9018455792592465382L;
+        private static final long serialVersionUID = 1L;
 
         public PasteAction() {
             super(DisplayMessages.getMessage("action.title.paste"));

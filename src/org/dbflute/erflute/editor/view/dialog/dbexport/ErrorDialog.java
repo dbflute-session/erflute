@@ -21,5 +21,4 @@ public class ErrorDialog extends AbstractErrorDialog {
     protected String getTitle() {
         return "dialog.title.error";
     }
-
 }

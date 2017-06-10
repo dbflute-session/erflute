@@ -8,9 +8,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class NoViewNameRule extends ViewRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERView view) {
         if (view.getPhysicalName() == null || view.getPhysicalName().trim().equals("")) {

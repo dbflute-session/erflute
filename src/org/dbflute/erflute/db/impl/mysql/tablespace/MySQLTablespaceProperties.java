@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public class MySQLTablespaceProperties implements TablespaceProperties {
 
-    private static final long serialVersionUID = 7900101196638704362L;
+    private static final long serialVersionUID = 1L;
 
     private String dataFile;
 
@@ -21,107 +21,49 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
     private String engine;
 
-    /**
-     * dataFile を取得します.
-     * 
-     * @return dataFile
-     */
     public String getDataFile() {
         return dataFile;
     }
 
-    /**
-     * dataFile を設定します.
-     * 
-     * @param dataFile
-     *            dataFile
-     */
     public void setDataFile(String dataFile) {
         this.dataFile = dataFile;
     }
 
-    /**
-     * logFileGroup を取得します.
-     * 
-     * @return logFileGroup
-     */
     public String getLogFileGroup() {
         return logFileGroup;
     }
 
-    /**
-     * logFileGroup を設定します.
-     * 
-     * @param logFileGroup
-     *            logFileGroup
-     */
     public void setLogFileGroup(String logFileGroup) {
         this.logFileGroup = logFileGroup;
     }
 
-    /**
-     * extentSize を取得します.
-     * 
-     * @return extentSize
-     */
     public String getExtentSize() {
         return extentSize;
     }
 
-    /**
-     * extentSize を設定します.
-     * 
-     * @param extentSize
-     *            extentSize
-     */
     public void setExtentSize(String extentSize) {
         this.extentSize = extentSize;
     }
 
-    /**
-     * initialSize を取得します.
-     * 
-     * @return initialSize
-     */
     public String getInitialSize() {
         return initialSize;
     }
 
-    /**
-     * initialSize を設定します.
-     * 
-     * @param initialSize
-     *            initialSize
-     */
     public void setInitialSize(String initialSize) {
         this.initialSize = initialSize;
     }
 
-    /**
-     * engine を取得します.
-     * 
-     * @return engine
-     */
     public String getEngine() {
         return engine;
     }
 
-    /**
-     * engine を設定します.
-     * 
-     * @param engine
-     *            engine
-     */
     public void setEngine(String engine) {
         this.engine = engine;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TablespaceProperties clone() {
-        MySQLTablespaceProperties properties = new MySQLTablespaceProperties();
+        final MySQLTablespaceProperties properties = new MySQLTablespaceProperties();
 
         properties.dataFile = this.dataFile;
         properties.engine = this.engine;
@@ -132,8 +74,9 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
         return properties;
     }
 
+    @Override
     public LinkedHashMap<String, String> getPropertiesMap() {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+        final LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
         map.put("label.tablespace.data.file", this.getDataFile());
         map.put("label.tablespace.log.file.group", this.getLogFileGroup());
@@ -144,8 +87,9 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
         return map;
     }
 
+    @Override
     public List<String> validate() {
-        List<String> errorMessage = new ArrayList<String>();
+        final List<String> errorMessage = new ArrayList<>();
 
         if (Check.isEmptyTrim(this.getDataFile())) {
             errorMessage.add("error.tablespace.data.file.empty");
@@ -159,5 +103,4 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
 
         return errorMessage;
     }
-
 }

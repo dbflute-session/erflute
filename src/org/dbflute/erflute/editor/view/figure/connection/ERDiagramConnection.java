@@ -33,9 +33,6 @@ public class ERDiagramConnection extends PolylineConnection {
         this.bezier = bezier;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void outlineShape(Graphics g) {
         g.setAntialias(SWT.ON);

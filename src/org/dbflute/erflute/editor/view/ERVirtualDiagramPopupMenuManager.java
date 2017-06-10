@@ -280,7 +280,6 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
                     changeShowReferredTablesAction.setChecked(true);
                 }
             }
-
         });
     }
 

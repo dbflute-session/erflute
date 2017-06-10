@@ -117,7 +117,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         final String modelName = diagram.getDefaultModelName();
         if (modelName != null) {
             try {
-                final ERVirtualDiagram vdiagram = diagram.getDiagramContents().getVirtualDiagramSet().getModel(modelName);
+                final ERVirtualDiagram vdiagram = diagram.getDiagramContents().getVirtualDiagramSet().getVdiagramByName(modelName);
                 diagram.setCurrentVirtualDiagram(vdiagram, vdiagram.getName());
                 final VirtualDiagramEditor modelEditor =
                         new VirtualDiagramEditor(diagram, vdiagram, editPartFactory, zoomComboContributionItem, outlinePage);
@@ -208,7 +208,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
     }
 
     private List<ValidateResult> validateTodo() {
-        final List<ValidateResult> resultList = new ArrayList<ValidateResult>();
+        final List<ValidateResult> resultList = new ArrayList<>();
         for (final ERTable table : this.diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
             String description = table.getDescription();
             resultList.addAll(this.createTodo(description, table.getLogicalName(), table));
@@ -241,7 +241,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
     }
 
     private List<ValidateResult> createTodo(String description, String location, Object object) {
-        final List<ValidateResult> resultList = new ArrayList<ValidateResult>();
+        final List<ValidateResult> resultList = new ArrayList<>();
         if (description != null) {
             final StringTokenizer tokenizer = new StringTokenizer(description, "\n\r");
             while (tokenizer.hasMoreElements()) {

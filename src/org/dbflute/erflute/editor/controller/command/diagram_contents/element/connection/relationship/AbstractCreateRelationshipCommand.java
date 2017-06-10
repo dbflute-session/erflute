@@ -7,9 +7,6 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 
 public abstract class AbstractCreateRelationshipCommand extends AbstractCreateConnectionCommand {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String validate() {
         ERTable sourceTable = (ERTable) this.getSourceModel();
@@ -21,9 +18,6 @@ public abstract class AbstractCreateRelationshipCommand extends AbstractCreateCo
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean canExecute() {
         if (!super.canExecute()) {
@@ -36,5 +30,4 @@ public abstract class AbstractCreateRelationshipCommand extends AbstractCreateCo
 
         return true;
     }
-
 }

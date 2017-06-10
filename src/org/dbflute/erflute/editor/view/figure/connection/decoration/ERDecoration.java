@@ -6,9 +6,6 @@ import org.eclipse.swt.SWT;
 
 public class ERDecoration extends PolygonDecoration {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void paintFigure(Graphics graphics) {
         graphics.setAntialias(SWT.ON);

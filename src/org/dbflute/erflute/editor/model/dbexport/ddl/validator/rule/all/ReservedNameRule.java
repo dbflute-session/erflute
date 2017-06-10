@@ -80,5 +80,4 @@ public class ReservedNameRule extends BaseRule {
 
         return true;
     }
-
 }

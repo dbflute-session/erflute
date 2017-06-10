@@ -33,5 +33,4 @@ public class AccessDDLCreator extends DDLCreator {
     protected String doBuildCreateTablespace(Tablespace object) {
         return null;
     }
-
 }

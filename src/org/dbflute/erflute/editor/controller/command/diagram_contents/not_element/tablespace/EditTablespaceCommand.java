@@ -22,18 +22,12 @@ public class EditTablespaceCommand extends AbstractCommand {
         this.newTablespace = newTablespace;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.newTablespace.copyTo(this.tablespace);
         this.tablespaceSet.addTablespace(this.tablespace);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.oldTablespace.copyTo(this.tablespace);

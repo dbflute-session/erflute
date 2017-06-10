@@ -8,5 +8,4 @@ public class StandardSQLSqlTypeManager extends SqlTypeManagerBase {
     public int getByteLength(SqlType type, Integer length, Integer decimal) {
         return 0;
     }
-
 }

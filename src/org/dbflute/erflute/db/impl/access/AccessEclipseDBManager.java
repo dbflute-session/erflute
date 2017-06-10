@@ -18,5 +18,4 @@ public class AccessEclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return null;
     }
-
 }

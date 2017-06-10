@@ -2,10 +2,9 @@ package org.dbflute.erflute.core.widgets.table;
 
 public interface CellEditWorker {
 
-    public void addNewRow();
+    void addNewRow();
 
-    public void changeRowNum();
+    void changeRowNum();
 
-    public boolean isModified(int row, int column);
-
+    boolean isModified(int row, int column);
 }

@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.model.WithSchemaModel;
  */
 public class Sequence extends WithSchemaModel implements ObjectModel {
 
-    private static final long serialVersionUID = -4492787972500741281L;
+    private static final long serialVersionUID = 1L;
 
     // ===================================================================================
     //                                                                           Attribute

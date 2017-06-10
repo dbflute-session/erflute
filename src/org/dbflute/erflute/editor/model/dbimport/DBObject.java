@@ -37,18 +37,10 @@ public class DBObject {
         this.model = model;
     }
 
-    /**
-     * logicalName���擾���܂��B
-     * @return logicalName
-     */
     public String getLogicalName() {
         return logicalName;
     }
 
-    /**
-     * logicalName��ݒ肵�܂��B
-     * @param logicalName logicalName
-     */
     public void setLogicalName(String logicalName) {
         this.logicalName = logicalName;
     }
@@ -57,59 +49,26 @@ public class DBObject {
         return model;
     }
 
-    /**
-     * schema ���擾���܂�.
-     * 
-     * @return schema
-     */
     public String getSchema() {
         return schema;
     }
 
-    /**
-     * schema ��ݒ肵�܂�.
-     * 
-     * @param schema
-     *            schema
-     */
     public void setSchema(String schema) {
         this.schema = schema;
     }
 
-    /**
-     * name ���擾���܂�.
-     * 
-     * @return name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * name ��ݒ肵�܂�.
-     * 
-     * @param name
-     *            name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * type ���擾���܂�.
-     * 
-     * @return type
-     */
     public String getType() {
         return type;
     }
 
-    /**
-     * type ��ݒ肵�܂�.
-     * 
-     * @param type
-     *            type
-     */
     public void setType(String type) {
         this.type = type;
     }

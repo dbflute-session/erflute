@@ -1,6 +1,5 @@
 package org.dbflute.erflute.editor.persistent;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -17,7 +16,7 @@ public abstract class Persistent {
         return persistent;
     }
 
-    public abstract ERDiagram read(InputStream in) throws Exception;
+    public abstract ERDiagram read(InputStream in);
 
-    public abstract InputStream write(ERDiagram diagram) throws IOException;
+    public abstract InputStream write(ERDiagram diagram);
 }

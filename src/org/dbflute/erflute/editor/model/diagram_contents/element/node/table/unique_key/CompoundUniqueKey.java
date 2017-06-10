@@ -13,7 +13,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 
 public class CompoundUniqueKey extends AbstractModel {
 
-    private static final long serialVersionUID = -3970737521746421701L;
+    private static final long serialVersionUID = 1L;
 
     private String uniqueKeyName;
     private List<NormalColumn> columnList;

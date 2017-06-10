@@ -32,7 +32,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = -4492787972500741281L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_PHYSICAL_NAME = "table_view_physicalName";
     public static final String PROPERTY_CHANGE_LOGICAL_NAME = "table_view_logicalName";
     public static final String PROPERTY_CHANGE_COLUMNS = "columns";

@@ -55,5 +55,4 @@ public class ERTablePropertySource implements IPropertySource {
             this.table.setLogicalName(String.valueOf(value));
         }
     }
-
 }

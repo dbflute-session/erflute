@@ -8,13 +8,9 @@ import org.eclipse.gef.requests.GroupRequest;
 
 public class RelationEditPolicy extends ConnectionEditPolicy {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Command getDeleteCommand(GroupRequest grouprequest) {
         Relationship relation = (Relationship) this.getHost().getModel();
         return new DeleteRelationshipCommand(relation, null);
     }
-
 }

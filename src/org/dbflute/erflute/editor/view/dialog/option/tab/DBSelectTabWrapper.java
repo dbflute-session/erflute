@@ -48,9 +48,6 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
 
         this.databaseCombo.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 changeDatabase();
@@ -71,9 +68,6 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void validatePage() throws InputException {
         this.settings.setDatabase(this.databaseCombo.getText());

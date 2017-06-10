@@ -24,9 +24,6 @@ public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List getModelChildren() {
         List<ERIndex> children = new ArrayList<ERIndex>();
@@ -45,18 +42,12 @@ public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
         return children;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshOutlineVisuals() {
         this.setWidgetText(DisplayMessages.getMessage("label.index") + " (" + this.getModelChildren().size() + ")");
         this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
@@ -66,5 +57,4 @@ public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
             part.refresh();
         }
     }
-
 }

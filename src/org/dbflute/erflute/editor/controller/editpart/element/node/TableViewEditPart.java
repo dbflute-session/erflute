@@ -46,6 +46,7 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * @author modified by jflute (originated in ermaster)
+ * @author kajiku
  */
 public abstract class TableViewEditPart extends DiagramWalkerEditPart implements IResizable {
 
@@ -125,6 +126,10 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
             tableFigure.create(tableView.getColor());
             final ERDiagram diagram = this.getDiagram();
             tableFigure.setName(getTableViewName(tableView, diagram));
+            final List childrens = this.getChildren();
+            if (childrens == null || childrens.isEmpty()) {
+                refreshChildren();
+            }
             for (final Object child : this.getChildren()) {
                 if (child instanceof ColumnEditPart) {
                     final ColumnEditPart part = (ColumnEditPart) child;
@@ -232,9 +237,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart editPart) {
         if (!(editPart instanceof RelationEditPart)) {
@@ -255,9 +257,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return anchor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
         if (request instanceof ReconnectRequest) {
@@ -311,9 +310,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return new XYChopboxAnchor(this.getFigure());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart editPart) {
         if (!(editPart instanceof RelationEditPart)) {
@@ -334,9 +330,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return anchor;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
         if (request instanceof ReconnectRequest) {
@@ -431,9 +424,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return new Point(x, y);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public IFigure getContentPane() {
         final TableFigure figure = (TableFigure) super.getContentPane();
@@ -441,9 +431,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         return figure.getColumns();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new TableViewComponentEditPolicy());

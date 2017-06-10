@@ -6,11 +6,10 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
 
-    //	private static final long serialVersionUID = -7691417386790834828L;
+    //	private static final long serialVersionUID = 1L;
     //
-    ////	/** �z�u�������f���� */
     ////	private String modelName;
-    //	
+    //
     //	private List<VGroup> allCategories;
     //
     //	private List<VGroup> selectedCategories;
@@ -24,40 +23,18 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     ////		this.modelName = modelName;
     ////	}
     //
-    //	/**
-    //	 * freeLayout ���擾���܂�.
-    //	 * 
-    //	 * @return freeLayout
-    //	 */
     //	public boolean isFreeLayout() {
     //		return freeLayout;
     //	}
     //
-    //	/**
-    //	 * freeLayout ��ݒ肵�܂�.
-    //	 * 
-    //	 * @param freeLayout
-    //	 *            freeLayout
-    //	 */
     //	public void setFreeLayout(boolean freeLayout) {
     //		this.freeLayout = freeLayout;
     //	}
     //
-    //	/**
-    //	 * showReferredTables ���擾���܂�.
-    //	 * 
-    //	 * @return showReferredTables
-    //	 */
     //	public boolean isShowReferredTables() {
     //		return showReferredTables;
     //	}
     //
-    //	/**
-    //	 * showReferredTables ��ݒ肵�܂�.
-    //	 * 
-    //	 * @param showReferredTables
-    //	 *            showReferredTables
-    //	 */
     //	public void setShowReferredTables(boolean showReferredTables) {
     //		this.showReferredTables = showReferredTables;
     //	}
@@ -81,10 +58,6 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     //		return false;
     //	}
     //
-    ////	/**
-    ////	 * �z�u�������f�������擾���܂��B
-    ////	 * @return �z�u�������f����
-    ////	 */
     ////	public String getModelName() {
     ////	    return modelName;
     ////	}
@@ -124,9 +97,6 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     //		return selectedCategories;
     //	}
     //
-    //	/**
-    //	 * {@inheritDoc}
-    //	 */
     //	@Override
     //	public Object clone() {
     //		try {
@@ -154,5 +124,4 @@ public class WalkerGroupSettingOrg implements Serializable, Cloneable {
     //		this.allCategories = allCategories;
     //		Collections.sort(this.allCategories);
     //	}
-
 }

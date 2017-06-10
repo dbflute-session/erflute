@@ -4,9 +4,6 @@ import org.dbflute.erflute.editor.model.dbimport.ImportFromDBManagerBase;
 
 public class StandardSQLTableImportManager extends ImportFromDBManagerBase {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getViewDefinitionSQL(String schema) {
         return null;

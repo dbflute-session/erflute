@@ -14,16 +14,16 @@ import org.eclipse.jface.action.IAction;
 
 public class ExtendPopupMenu {
 
-    /** �g���|�C���g��ID */
+    /** 拡張ポイントのID */
     private static final String EXTENSION_POINT_ID = "org.insightech.er.popupMenus";
 
-    /** �g���|�C���g�� element �̖��O */
+    /** 拡張ポイントの element の名前 */
     private static final String EXTENSION_NAME = "popupMenu";
 
-    /** ���j���[��ǉ�����ʒu���w�肷�� Attribute �̖��O */
+    /** メニューを追加する位置を指定する Attribute の名前 */
     private static final String ATTRIBUTE_PATH = "path";
 
-    /** �ǉ����郁�j���[�̃A�N�V�����t�@�N�g���[�N���X���w�肷�� Attribute �̖��O */
+    /** 追加するメニューのアクションファクトリークラスを指定する Attribute の名前 */
     private static final String ATTRIBUTE_CLASS = "class";
 
     private IAction action;
@@ -45,12 +45,12 @@ public class ExtendPopupMenu {
         if (ExtendPopupMenu.EXTENSION_NAME.equals(configurationElement.getName())) {
 
         }
-        String path = configurationElement.getAttribute(ATTRIBUTE_PATH);
-        Object obj = configurationElement.createExecutableExtension(ATTRIBUTE_CLASS);
+        final String path = configurationElement.getAttribute(ATTRIBUTE_PATH);
+        final Object obj = configurationElement.createExecutableExtension(ATTRIBUTE_CLASS);
 
         if (obj instanceof IERDiagramActionFactory) {
             menu = new ExtendPopupMenu();
-            IERDiagramActionFactory actionFactory = (IERDiagramActionFactory) obj;
+            final IERDiagramActionFactory actionFactory = (IERDiagramActionFactory) obj;
 
             menu.action = actionFactory.createIAction(editor);
             menu.path = path;
@@ -60,23 +60,21 @@ public class ExtendPopupMenu {
     }
 
     /**
-     * plugin.xml����^�O��ǂݍ���.
-     * 
+     * plugin.xmlからタグを読み込む.
      * @throws CoreException
-     * 
      * @throws CoreException
      */
     public static List<ExtendPopupMenu> loadExtensions(MainDiagramEditor editor) throws CoreException {
-        List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<ExtendPopupMenu>();
+        final List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<>();
 
-        IExtensionRegistry registry = Platform.getExtensionRegistry();
-        IExtensionPoint extensionPoint = registry.getExtensionPoint(EXTENSION_POINT_ID);
+        final IExtensionRegistry registry = Platform.getExtensionRegistry();
+        final IExtensionPoint extensionPoint = registry.getExtensionPoint(EXTENSION_POINT_ID);
 
         if (extensionPoint != null) {
-            for (IExtension extension : extensionPoint.getExtensions()) {
-                for (IConfigurationElement configurationElement : extension.getConfigurationElements()) {
+            for (final IExtension extension : extensionPoint.getExtensions()) {
+                for (final IConfigurationElement configurationElement : extension.getConfigurationElements()) {
 
-                    ExtendPopupMenu extendPopupMenu = ExtendPopupMenu.createExtendPopupMenu(configurationElement, editor);
+                    final ExtendPopupMenu extendPopupMenu = ExtendPopupMenu.createExtendPopupMenu(configurationElement, editor);
 
                     if (extendPopupMenu != null) {
                         extendPopupMenuList.add(extendPopupMenu);
@@ -84,8 +82,6 @@ public class ExtendPopupMenu {
                 }
             }
         }
-
         return extendPopupMenuList;
     }
-
 }

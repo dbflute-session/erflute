@@ -62,7 +62,6 @@ public class MoveCategoryCommand extends MoveElementCommand {
                 if (nodeElementY - y + nodeElementHeight > height) {
                     height = nodeElementY - y + nodeElementHeight;
                 }
-
             }
 
             this.setNewRectangle(x, y, width, height);
@@ -148,5 +147,4 @@ public class MoveCategoryCommand extends MoveElementCommand {
             }
         }
     }
-
 }

@@ -89,10 +89,14 @@ public class ErmXmlWriter {
     // ===================================================================================
     //                                                                              Write
     //                                                                             =======
-    public InputStream write(ERDiagram diagram) throws IOException {
+    public InputStream write(ERDiagram diagram) {
         final String xml = buildDiagram(diagram);
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        out.write(xml.getBytes("UTF-8"));
+        try {
+            out.write(xml.getBytes("UTF-8"));
+        } catch (final IOException e) {
+            throw new IllegalStateException("failed to write xml.", e);
+        }
         return new ByteArrayInputStream(out.toByteArray());
     }
 

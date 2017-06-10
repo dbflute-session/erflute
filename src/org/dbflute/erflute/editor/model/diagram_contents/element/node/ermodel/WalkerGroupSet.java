@@ -14,7 +14,7 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
  */
 public class WalkerGroupSet extends AbstractModel implements ObjectListModel, Iterable<WalkerGroup> {
 
-    private static final long serialVersionUID = 5264397678674390103L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_WALKER_GROUP_SET = "GroupSet";
 
     private List<WalkerGroup> groupList;

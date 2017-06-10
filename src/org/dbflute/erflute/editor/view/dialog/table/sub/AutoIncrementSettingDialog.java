@@ -203,5 +203,4 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
     public Sequence getResult() {
         return result;
     }
-
 }

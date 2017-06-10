@@ -8,5 +8,4 @@ public class DB2AdvancedComposite extends AdvancedComposite {
     public DB2AdvancedComposite(Composite parent) {
         super(parent);
     }
-
 }

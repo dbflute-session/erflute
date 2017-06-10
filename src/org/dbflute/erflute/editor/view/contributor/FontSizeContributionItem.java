@@ -34,5 +34,4 @@ public class FontSizeContributionItem extends ComboContributionItem {
             combo.add(String.valueOf(i));
         }
     }
-
 }

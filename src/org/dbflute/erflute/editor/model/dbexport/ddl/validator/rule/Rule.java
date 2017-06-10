@@ -7,9 +7,9 @@ import org.dbflute.erflute.editor.model.dbexport.ddl.validator.ValidateResult;
 
 public interface Rule {
 
-    public List<ValidateResult> getErrorList();
+    List<ValidateResult> getErrorList();
 
-    public void clear();
+    void clear();
 
-    abstract public boolean validate(ERDiagram diagram);
+    boolean validate(ERDiagram diagram);
 }

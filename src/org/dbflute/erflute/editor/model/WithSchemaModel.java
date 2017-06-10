@@ -6,7 +6,7 @@ import org.dbflute.erflute.db.DBManagerFactory;
 
 public abstract class WithSchemaModel extends AbstractModel implements Comparable<WithSchemaModel> {
 
-    private static final long serialVersionUID = -7450893485538582071L;
+    private static final long serialVersionUID = 1L;
 
     private String schema;
 

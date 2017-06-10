@@ -19,9 +19,9 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
 
     private TableView oldTargetCopyTable;
 
-    private TableView oldTargetTable;
+    private final TableView oldTargetTable;
 
-    private Relationship relation;
+    private final Relationship relation;
 
     private Boolean removeForeignKey;
 
@@ -35,29 +35,26 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
 
         this.removeForeignKey = removeForeignKey;
 
-        this.referencedColumnMap = new HashMap<NormalColumn, NormalColumn>();
+        this.referencedColumnMap = new HashMap<>();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         if (this.oldTargetCopyTable == null) {
-            for (NormalColumn foreignKey : relation.getForeignKeyColumns()) {
-                NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
+            for (final NormalColumn foreignKey : relation.getForeignKeyColumns()) {
+                final NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
                 this.referencedColumnMap.put(foreignKey, referencedColumn);
             }
             this.oldTargetCopyTable = this.oldTargetTable.copyData();
         }
 
-        Dictionary dictionary = this.oldTargetTable.getDiagram().getDiagramContents().getDictionary();
+        final Dictionary dictionary = this.oldTargetTable.getDiagram().getDiagramContents().getDictionary();
 
         this.relation.delete(this.removeForeignKey, dictionary);
 
         if (this.relation.getWalkerSource() instanceof ERTable || this.relation.getWalkerTarget() instanceof ERTable) {
-            // �r���[���Ń����[�V�������������ꍇ�A�����ɂ�ERVirtualTable�łȂ�ERTable�ŗ���
-            ERVirtualDiagramSet modelSet = this.relation.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+            // ビュー内でリレーションを消した場合、ここにはERVirtualTableでなくERTableで来る
+            final ERVirtualDiagramSet modelSet = this.relation.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
             modelSet.deleteRelationship(relation);
 
         }
@@ -67,39 +64,35 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
         //
         //		if (tableView instanceof ERVirtualTable) {
         //			ERVirtualTable vtable = (ERVirtualTable) tableView;
-        //			
-        //			// ���C���r���[���X�V�i�g�̍Đ����j
+        //
+        //			// メインビューを更新（枠の再生成）
         //			this.newCopyTableView.restructureData(vtable.getRawTable());
         //			// TableView.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
-        //			
-        //			// �T�u�r���[���X�V
+        //
+        //			// サブビューも更新
         //			vtable.doChangeTable();
         //
-        //			// �e�[�u���̍X�V�i�����܂߂��Đ����j
+        //			// テーブルの更新（線も含めた再生成）
         //			this.tableView.getDiagram().changeTable(newCopyTableView);
         //			// ERDiagram.firePropertyChange(PROPERTY_CHANGE_TABLE)
-        //			
+        //
         //		} else {
-        //			// ���C���r���[���X�V
+        //			// メインビューを更新
         //			this.newCopyTableView.restructureData(tableView);
         //			this.tableView.getDiagram().changeTable(newCopyTableView);
-        //			
-        //			// �T�u�r���[���X�V
+        //
+        //			// サブビューも更新
         //			tableView.getDiagram().doChangeTable(newCopyTableView);
         //		}
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         super.doUndo();
 
-        for (NormalColumn foreignKey : this.referencedColumnMap.keySet()) {
+        for (final NormalColumn foreignKey : this.referencedColumnMap.keySet()) {
             if (!this.removeForeignKey) {
-                Dictionary dictionary = this.oldTargetTable.getDiagram().getDiagramContents().getDictionary();
+                final Dictionary dictionary = this.oldTargetTable.getDiagram().getDiagramContents().getDictionary();
                 dictionary.remove(foreignKey);
             }
 
@@ -120,10 +113,10 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
 
                 this.removeForeignKey = false;
 
-                this.referencedColumnMap = new HashMap<NormalColumn, NormalColumn>();
+                this.referencedColumnMap = new HashMap<>();
 
-                for (NormalColumn foreignKey : relation.getForeignKeyColumns()) {
-                    NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
+                for (final NormalColumn foreignKey : relation.getForeignKeyColumns()) {
+                    final NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
 
                     this.referencedColumnMap.put(foreignKey, referencedColumn);
                 }
@@ -137,10 +130,10 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
             } else {
                 this.removeForeignKey = false;
 
-                this.referencedColumnMap = new HashMap<NormalColumn, NormalColumn>();
+                this.referencedColumnMap = new HashMap<>();
 
-                for (NormalColumn foreignKey : relation.getForeignKeyColumns()) {
-                    NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
+                for (final NormalColumn foreignKey : relation.getForeignKeyColumns()) {
+                    final NormalColumn referencedColumn = foreignKey.getReferredColumn(relation);
 
                     this.referencedColumnMap.put(foreignKey, referencedColumn);
                 }
@@ -151,12 +144,12 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
     }
 
     private boolean isReferencedByMultiRelations() {
-        for (NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
-            for (NormalColumn childForeignKeyColumn : foreignKeyColumn.getForeignKeyList()) {
+        for (final NormalColumn foreignKeyColumn : relation.getForeignKeyColumns()) {
+            for (final NormalColumn childForeignKeyColumn : foreignKeyColumn.getForeignKeyList()) {
                 if (childForeignKeyColumn.getRelationshipList().size() >= 2) {
-                    Set<TableView> referencedTables = new HashSet<TableView>();
+                    final Set<TableView> referencedTables = new HashSet<>();
 
-                    for (Relationship relation : childForeignKeyColumn.getRelationshipList()) {
+                    for (final Relationship relation : childForeignKeyColumn.getRelationshipList()) {
                         referencedTables.add(relation.getSourceTableView());
                     }
 
@@ -169,5 +162,4 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
 
         return false;
     }
-
 }

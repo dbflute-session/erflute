@@ -41,9 +41,9 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
         if (diagram.isShowMainColumn()) {
             if (normalColumn.isAutoIncrement() || normalColumn.getWord() == null) {
-                // �\������
+                // 表示する
             } else {
-                return; // �\�����Ȃ�
+                return; // 表示しない
             }
         }
 
@@ -79,7 +79,6 @@ public class NormalColumnEditPart extends ColumnEditPart {
                 columnFigure.setBackgroundColor(ColorConstants.titleBackground);
                 columnFigure.setForegroundColor(ColorConstants.titleForeground);
             }
-
         } else {
             columnFigure.clearLabel();
             return;
@@ -125,7 +124,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
     }
 
     private List<NormalColumn> getSelectedReferencedColulmnList() {
-        final List<NormalColumn> referencedColulmnList = new ArrayList<NormalColumn>();
+        final List<NormalColumn> referencedColulmnList = new ArrayList<>();
 
         final TableViewEditPart parent = (TableViewEditPart) this.getParent();
         final TableView tableView = (TableView) parent.getModel();
@@ -152,13 +151,12 @@ public class NormalColumnEditPart extends ColumnEditPart {
                     }
                 }
             }
-
         }
         return referencedColulmnList;
     }
 
     private List<NormalColumn> getSelectedForeignKeyColulmnList() {
-        final List<NormalColumn> foreignKeyColulmnList = new ArrayList<NormalColumn>();
+        final List<NormalColumn> foreignKeyColulmnList = new ArrayList<>();
         final TableViewEditPart parent = (TableViewEditPart) this.getParent();
         for (final Object object : parent.getTargetConnections()) {
             final ConnectionEditPart connectionEditPart = (ConnectionEditPart) object;

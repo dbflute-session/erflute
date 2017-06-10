@@ -32,11 +32,12 @@ public class ERDiagram extends ViewableModel {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = 8729319470770699498L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_ALL = "all";
     public static final String PROPERTY_CHANGE_DATABASE = "database";
     public static final String PROPERTY_CHANGE_SETTINGS = "settings";
     public static final String PROPERTY_CHANGE_ADD = "add";
+    public static final String PROPERTY_CHANGE_DELETE = "delete";
     public static final String PROPERTY_CHANGE_ERMODEL = "ermodel";
     public static final String PROPERTY_CHANGE_TABLE = "table";
 
@@ -178,6 +179,11 @@ public class ERDiagram extends ViewableModel {
     public void addVirtualDiagram(ERVirtualDiagram ermodel) {
         diagramContents.getVirtualDiagramSet().add(ermodel);
         firePropertyChange(PROPERTY_CHANGE_ADD, null, ermodel);
+    }
+
+    public void removeVirtualDiagram(ERVirtualDiagram ermodel) {
+        diagramContents.getVirtualDiagramSet().removeByName(ermodel.getName());
+        firePropertyChange(PROPERTY_CHANGE_DELETE, ermodel, null);
     }
 
     public void changeTable(TableView tableView) {

@@ -8,5 +8,4 @@ public class OracleAdvancedComposite extends AdvancedComposite {
     public OracleAdvancedComposite(Composite parent) {
         super(parent);
     }
-
 }

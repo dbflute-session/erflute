@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 
 public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ERIndex> {
 
-    private static final long serialVersionUID = -6734284409681329690L;
+    private static final long serialVersionUID = 1L;
 
     private String name;
 
@@ -37,10 +37,10 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
         this.type = type;
         this.description = description;
 
-        this.descs = new ArrayList<Boolean>();
+        this.descs = new ArrayList<>();
 
-        this.columns = new ArrayList<NormalColumn>();
-        this.columnNames = new ArrayList<String>();
+        this.columns = new ArrayList<>();
+        this.columnNames = new ArrayList<>();
 
         this.name = name;
     }
@@ -91,6 +91,7 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
         return descs;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -111,22 +112,19 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
         this.type = type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ERIndex clone() {
-        ERIndex clone = (ERIndex) super.clone();
+        final ERIndex clone = (ERIndex) super.clone();
 
-        List<Boolean> cloneDescs = new ArrayList<Boolean>();
-        for (Boolean desc : this.descs) {
+        final List<Boolean> cloneDescs = new ArrayList<>();
+        for (final Boolean desc : this.descs) {
             cloneDescs.add(desc);
         }
 
         clone.descs = cloneDescs;
 
-        List<String> cloneColumnNames = new ArrayList<String>();
-        for (String columnName : this.columnNames) {
+        final List<String> cloneColumnNames = new ArrayList<>();
+        for (final String columnName : this.columnNames) {
             cloneColumnNames.add(columnName);
         }
 
@@ -135,6 +133,7 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
         return clone;
     }
 
+    @Override
     public int compareTo(ERIndex other) {
         return this.name.toUpperCase().compareTo(other.name.toUpperCase());
     }
@@ -147,25 +146,16 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
         this.table = table;
     }
 
-    /**
-     * description ���擾���܂�.
-     * 
-     * @return description
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * description ��ݒ肵�܂�.
-     * 
-     * @param description
-     *            description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public String getObjectType() {
         return "index";
     }

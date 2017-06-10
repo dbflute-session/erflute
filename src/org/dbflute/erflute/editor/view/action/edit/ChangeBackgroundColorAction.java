@@ -102,9 +102,6 @@ public class ChangeBackgroundColorAction extends SelectionAction {
         this.setColorToImage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void runWithEvent(Event event) {
         final Command command = this.createCommand(this.getSelectedObjects(), rgb);
@@ -123,9 +120,6 @@ public class ChangeBackgroundColorAction extends SelectionAction {
         return objects;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean calculateEnabled() {
         final List objects = this.getSelectedObjects();
@@ -168,7 +162,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
             this.setDisabledImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR_DISABLED));
             this.setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
 
-            // �T�u���j���[�̐���
+            // サブメニューの生成
             setMenuCreator(new IMenuCreator() {
                 @Override
                 public Menu getMenu(Control parent) {
@@ -181,9 +175,6 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
                         item1.addSelectionListener(new SelectionAdapter() {
 
-                            /**
-                             * {@inheritDoc}
-                             */
                             @Override
                             public void widgetSelected(SelectionEvent e) {
                                 final ColorDialog colorDialog =

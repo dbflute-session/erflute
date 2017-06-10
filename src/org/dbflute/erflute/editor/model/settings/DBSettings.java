@@ -13,7 +13,7 @@ import org.dbflute.erflute.db.DBManagerFactory;
 
 public class DBSettings implements Serializable, Comparable<DBSettings> {
 
-    private static final long serialVersionUID = 1753636902211017613L;
+    private static final long serialVersionUID = 1L;
 
     private String dbsystem;
 

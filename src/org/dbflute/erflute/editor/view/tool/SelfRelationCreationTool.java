@@ -8,9 +8,6 @@ import org.eclipse.swt.SWT;
 
 public class SelfRelationCreationTool extends ConnectionCreationTool {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean handleButtonDown(int button) {
         if (button == SWT.KeyDown) {
@@ -20,14 +17,11 @@ public class SelfRelationCreationTool extends ConnectionCreationTool {
         return super.handleButtonDown(button);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean handleCreateConnection() {
-        CreateSelfRelationshipCommand command = (CreateSelfRelationshipCommand) this.getCommand();
+        final CreateSelfRelationshipCommand command = (CreateSelfRelationshipCommand) this.getCommand();
 
-        ERTable target = (ERTable) command.getSourceModel();
+        final ERTable target = (ERTable) command.getSourceModel();
 
         if (!target.isReferable()) {
             Activator.showErrorDialog("error.no.referenceable.column");

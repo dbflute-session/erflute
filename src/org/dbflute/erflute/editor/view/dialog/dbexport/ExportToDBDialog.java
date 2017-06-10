@@ -40,9 +40,6 @@ public class ExportToDBDialog extends AbstractDialog {
         this.textArea = CompositeFactory.createTextArea(null, composite, "dialog.message.export.db.sql", 600, 400, 1, false, false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
         this.createButton(parent, IDialogConstants.OK_ID, DisplayMessages.getMessage("label.button.execute"), true);
@@ -94,9 +91,7 @@ public class ExportToDBDialog extends AbstractDialog {
                 } else {
                     Activator.showMessageDialog("dialog.message.export.db.finish");
                 }
-
             } catch (InvocationTargetException e) {} catch (InterruptedException e) {}
-
         } catch (InputException e) {
             throw e;
 
@@ -120,12 +115,10 @@ public class ExportToDBDialog extends AbstractDialog {
                 }
             }
         }
-
     }
 
     @Override
     protected void setupData() {
         this.textArea.setText(this.ddl);
     }
-
 }

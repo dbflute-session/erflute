@@ -4,5 +4,4 @@ public abstract class SqlTypeManagerBase implements SqlTypeManager {
 
     protected SqlTypeManagerBase() {
     }
-
 }

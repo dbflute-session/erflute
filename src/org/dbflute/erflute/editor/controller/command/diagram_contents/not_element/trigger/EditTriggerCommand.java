@@ -19,18 +19,12 @@ public class EditTriggerCommand extends AbstractCommand {
         this.newTrigger = newTrigger;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.triggerSet.remove(this.oldTrigger);
         this.triggerSet.addTrigger(this.newTrigger);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.triggerSet.remove(this.newTrigger);

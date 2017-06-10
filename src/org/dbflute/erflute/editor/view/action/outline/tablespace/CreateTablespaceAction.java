@@ -19,9 +19,6 @@ public class CreateTablespaceAction extends AbstractOutlineBaseAction {
         super(ID, DisplayMessages.getMessage("action.title.create.tablespace"), treeViewer);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
         ERDiagram diagram = this.getDiagram();
@@ -39,5 +36,4 @@ public class CreateTablespaceAction extends AbstractOutlineBaseAction {
             }
         }
     }
-
 }

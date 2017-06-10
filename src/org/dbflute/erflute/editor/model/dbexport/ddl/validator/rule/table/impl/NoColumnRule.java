@@ -8,9 +8,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class NoColumnRule extends TableRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERTable table) {
         if (table.getColumns().isEmpty()) {

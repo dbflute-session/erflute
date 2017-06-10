@@ -5,7 +5,7 @@ import org.dbflute.erflute.editor.model.WithSchemaModel;
 
 public class Trigger extends WithSchemaModel implements ObjectModel {
 
-    private static final long serialVersionUID = -4766050732350578313L;
+    private static final long serialVersionUID = 1L;
 
     private String sql;
 
@@ -19,25 +19,16 @@ public class Trigger extends WithSchemaModel implements ObjectModel {
         this.sql = sql;
     }
 
-    /**
-     * description ���擾���܂�.
-     * 
-     * @return description
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * description ��ݒ肵�܂�.
-     * 
-     * @param description
-     *            description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public String getObjectType() {
         return "trigger";
     }

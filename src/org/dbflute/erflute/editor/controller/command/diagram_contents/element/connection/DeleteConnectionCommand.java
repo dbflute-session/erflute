@@ -11,17 +11,11 @@ public class DeleteConnectionCommand extends AbstractCommand {
         this.connection = connection;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.connection.delete();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.connection.connect();

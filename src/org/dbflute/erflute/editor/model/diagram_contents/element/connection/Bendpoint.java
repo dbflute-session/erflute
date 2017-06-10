@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Bendpoint implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -5052242525570844155L;
+    private static final long serialVersionUID = 1L;
 
     private int x;
 
@@ -53,9 +53,6 @@ public class Bendpoint implements Serializable, Cloneable {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Object clone() {
         Bendpoint clone = null;

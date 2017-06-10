@@ -68,7 +68,7 @@ public class WrittenIndexBuilder {
             if (descs.size() > count) {
                 desc = descs.get(count);
             }
-            if (desc) {
+            if (Boolean.TRUE.equals(desc)) {
                 xml.append("\t\t\t<desc>").append(desc).append("</desc>\n");
             }
             xml.append("\t\t</column>\n");

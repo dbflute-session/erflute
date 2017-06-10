@@ -33,9 +33,6 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         super(tableFigure, settings);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void init(TableFigure tableFigure) {
         tableFigure.setCornerDimensions(new Dimension(10, 10));
@@ -43,16 +40,13 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         tableFigure.setBorder(null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void initTitleBar(Figure top) {
         top.setLayoutManager(new BorderLayout());
 
-        FlowLayout layout = new FlowLayout();
+        final FlowLayout layout = new FlowLayout();
         layout.setStretchMinorAxis(true);
-        Figure title = new Figure();
+        final Figure title = new Figure();
         top.add(title, BorderLayout.TOP);
         title.setLayoutManager(layout);
 
@@ -62,7 +56,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
             title.setBorder(new MarginBorder(new Insets(4, 4, 4, 4)));
         }
 
-        ImageFigure image = new ImageFigure();
+        final ImageFigure image = new ImageFigure();
         image.setBorder(new MarginBorder(new Insets(0, 0, 0, 0)));
         image.setImage(Activator.getImage(this.getTableFigure().getImageKey()));
         title.add(image);
@@ -71,7 +65,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         this.nameLabel.setBorder(new MarginBorder(new Insets(0, 0, 0, 20)));
         title.add(this.nameLabel);
 
-        Figure separater = new Figure();
+        final Figure separater = new Figure();
         separater.setSize(-1, 1);
         separater.setBackgroundColor(ColorConstants.black);
         separater.setOpaque(true);
@@ -79,9 +73,6 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         top.add(separater, BorderLayout.BOTTOM);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void createColumnArea(IFigure columns) {
         this.initColumnArea(columns);
@@ -90,7 +81,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         columns.setBackgroundColor(ColorConstants.white);
         columns.setOpaque(true);
 
-        Figure centerFigure = new Figure();
+        final Figure centerFigure = new Figure();
         centerFigure.setLayoutManager(new BorderLayout());
         centerFigure.setBorder(new MarginBorder(new Insets(0, 2, 0, 2)));
 
@@ -98,47 +89,47 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         this.getTableFigure().add(centerFigure, BorderLayout.CENTER);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void createFooter() {
-        IFigure footer = new Figure();
-        BorderLayout footerLayout = new BorderLayout();
+        final IFigure footer = new Figure();
+        final BorderLayout footerLayout = new BorderLayout();
         footer.setLayoutManager(footerLayout);
         footer.setBorder(new MarginBorder(new Insets(0, 0, 0, 0)));
 
-        IFigure footer1 = new Figure();
+        final IFigure footer1 = new Figure();
         footer1.setSize(-1, 1);
         footer1.setBackgroundColor(ColorConstants.black);
         footer1.setOpaque(true);
         footer.add(footer1, BorderLayout.TOP);
 
-        IFigure footer2 = new Figure();
+        final IFigure footer2 = new Figure();
         footer2.setSize(-1, 6);
         footer.add(footer2, BorderLayout.BOTTOM);
 
         this.getTableFigure().add(footer, BorderLayout.BOTTOM);
     }
 
+    @Override
     public void setName(String name) {
         this.nameLabel.setForegroundColor(this.getTextColor());
         nameLabel.setFont(getTableFigure().getLargeFont());
         this.nameLabel.setText(name);
     }
 
+    @Override
     public void setFont(Font font, Font titleFont) {
         this.nameLabel.setFont(titleFont);
     }
 
     @Override
     protected Label createColumnLabel() {
-        Label label = new Label();
+        final Label label = new Label();
         label.setBorder(new MarginBorder(new Insets(1, 5, 1, 5)));
         label.setLabelAlignment(PositionConstants.LEFT);
         return label;
     }
 
+    @Override
     public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode, String physicalName,
             String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
             boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
@@ -146,26 +137,26 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
         columnFigure.setBorder(new MarginBorder(new Insets(1, 0, 1, 0)));
 
-        Label label = this.createColumnLabel();
+        final Label label = this.createColumnLabel();
         label.setForegroundColor(ColorConstants.black);
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append(getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull, uniqueKey, displayDetail,
                 displayType));
 
         if (displayKey) {
             if (primaryKey) {
-                ImageFigure image = new ImageFigure();
+                final ImageFigure image = new ImageFigure();
                 image.setBorder(new MarginBorder(new Insets(0, 4, 0, 0)));
                 image.setImage(Activator.getImage(ImageKey.PRIMARY_KEY));
                 columnFigure.add(image);
             } else if (foreignKey) {
-                ImageFigure image = new ImageFigure();
+                final ImageFigure image = new ImageFigure();
                 image.setBorder(new MarginBorder(new Insets(0, 4, 0, 0)));
                 image.setImage(Activator.getImage(ImageKey.FOREIGN_KEY));
                 columnFigure.add(image);
             } else {
-                ImageFigure image = new ImageFigure();
+                final ImageFigure image = new ImageFigure();
                 image.setBorder(new MarginBorder(new Insets(0, 4, 0, 15)));
                 image.setImage(Activator.getImage(ImageKey.BLANK_WHITE));
                 image.setOpaque(true);
@@ -182,12 +173,12 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
             //				columnFigure.add(filler);
             //			}
             if (isNotNull) {
-                ImageFigure image = new ImageFigure();
+                final ImageFigure image = new ImageFigure();
                 image.setBorder(new MarginBorder(new Insets(0, 1, 0, 0)));
                 image.setImage(Activator.getImage(ImageKey.NON_NULL));
                 columnFigure.add(image);
             } else {
-                ImageFigure image = new ImageFigure();
+                final ImageFigure image = new ImageFigure();
                 image.setBorder(new MarginBorder(new Insets(0, 1, 0, 6)));
                 image.setImage(Activator.getImage(ImageKey.BLANK_WHITE));
                 columnFigure.add(image);
@@ -208,7 +199,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
         this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
 
-        Figure figure = new Figure();
+        final Figure figure = new Figure();
 
         columnFigure.add(label);
     }
@@ -219,7 +210,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
         columnFigure.setBorder(new MarginBorder(new Insets(1, 0, 1, 0)));
 
-        ImageFigure image = new ImageFigure();
+        final ImageFigure image = new ImageFigure();
         image.setBorder(new MarginBorder(new Insets(0, 4, 0, 7)));
         image.setImage(Activator.getImage(ImageKey.GROUP));
         columnFigure.add(image);
@@ -233,13 +224,13 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         //		filler.setBorder(new MarginBorder(new Insets(0, 0, 0, 16)));
         //		columnFigure.add(filler);
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append(name);
         text.append(" (GROUP)");
 
         this.setColumnFigureColor(columnFigure, false, false, isAdded, isUpdated, isRemoved);
 
-        Label label = this.createColumnLabel();
+        final Label label = this.createColumnLabel();
 
         label.setForegroundColor(ColorConstants.black);
         label.setLabelAlignment(PositionConstants.RIGHT);
@@ -250,9 +241,10 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         columnFigure.add(label);
     }
 
+    @Override
     public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
 
-        ImageFigure image = new ImageFigure();
+        final ImageFigure image = new ImageFigure();
         image.setBorder(new MarginBorder(new Insets(0, 0, 0, 19)));
         image.setImage(Activator.getImage(ImageKey.BLANK_WHITE));
         image.setOpaque(true);
@@ -262,14 +254,13 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         //		filler.setBorder(new MarginBorder(new Insets(1, 4, 0, 16)));
         //		indexFigure.add(filler);
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append(name);
-        Label label = this.createColumnLabel();
+        final Label label = this.createColumnLabel();
         label.setBorder(new MarginBorder(new Insets(1, 0, 0, 4)));
         label.setForegroundColor(ColorConstants.black);
         label.setText(text.toString());
 
         indexFigure.add(label);
     }
-
 }

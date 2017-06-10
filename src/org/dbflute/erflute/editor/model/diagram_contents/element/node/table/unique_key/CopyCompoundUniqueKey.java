@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 
 public class CopyCompoundUniqueKey extends CompoundUniqueKey {
 
-    private static final long serialVersionUID = 4099783813887218599L;
+    private static final long serialVersionUID = 1L;
 
     private CompoundUniqueKey originalComplexUniqueKey;
 

@@ -9,7 +9,7 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
 
 public class InsertedImageSet extends AbstractModel implements ObjectListModel, Iterable<InsertedImage> {
 
-    private static final long serialVersionUID = 6136074447375448999L;
+    private static final long serialVersionUID = 1L;
 
     public static final String PROPERTY_CHANGE_INSERTED_IMAGE_SET = "InsertedImageSet";
 
@@ -40,9 +40,6 @@ public class InsertedImageSet extends AbstractModel implements ObjectListModel, 
         return this.insertedImageList.iterator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InsertedImageSet clone() {
         InsertedImageSet insertedImageSet = (InsertedImageSet) super.clone();
@@ -69,5 +66,4 @@ public class InsertedImageSet extends AbstractModel implements ObjectListModel, 
     public String getObjectType() {
         return "list";
     }
-
 }

@@ -20,34 +20,32 @@ public class PostgresDBManager extends DBManagerBase {
 
     public static final String ID = "PostgreSQL";
 
+    @Override
     public String getId() {
         return ID;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDriverClassName() {
         return "org.postgresql.Driver";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getURL() {
         return "jdbc:postgresql://<SERVER NAME>:<PORT>/<DB NAME>";
     }
 
+    @Override
     public int getDefaultPort() {
         return 5432;
     }
 
+    @Override
     public SqlTypeManager getSqlTypeManager() {
         return new PostgresSqlTypeManager();
     }
 
+    @Override
     public TableProperties createTableProperties(TableProperties tableProperties) {
         if (tableProperties != null && tableProperties instanceof PostgresTableProperties) {
             return tableProperties;
@@ -56,12 +54,14 @@ public class PostgresDBManager extends DBManagerBase {
         return new PostgresTableProperties();
     }
 
+    @Override
     public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
         return new PostgresDDLCreator(diagram, semicolon);
     }
 
+    @Override
     public List<String> getIndexTypeList(ERTable table) {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("BTREE");
 
@@ -73,22 +73,27 @@ public class PostgresDBManager extends DBManagerBase {
         return new int[] { SUPPORT_AUTO_INCREMENT_SETTING, SUPPORT_SCHEMA, SUPPORT_SEQUENCE };
     }
 
+    @Override
     public ImportFromDBManager getTableImportManager() {
         return new PostgresTableImportManager();
     }
 
+    @Override
     public PreImportFromDBManager getPreTableImportManager() {
         return new PostgresPreTableImportManager();
     }
 
+    @Override
     public PreTableExportManager getPreTableExportManager() {
         return new PostgresPreTableExportManager();
     }
 
+    @Override
     public TablespaceProperties createTablespaceProperties() {
         return new PostgresTablespaceProperties();
     }
 
+    @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
 
         if (!(tablespaceProperties instanceof PostgresTablespaceProperties)) {
@@ -98,13 +103,14 @@ public class PostgresDBManager extends DBManagerBase {
         return tablespaceProperties;
     }
 
+    @Override
     public String[] getCurrentTimeValue() {
         return new String[] { "CURRENT_TIMESTAMP", "now()" };
     }
 
     @Override
     public List<String> getSystemSchemaList() {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("information_schema");
         list.add("pg_catalog");
@@ -113,6 +119,7 @@ public class PostgresDBManager extends DBManagerBase {
         return list;
     }
 
+    @Override
     public BigDecimal getSequenceMaxValue() {
         return BigDecimal.valueOf(Long.MAX_VALUE);
     }

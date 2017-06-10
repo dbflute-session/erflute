@@ -11,5 +11,4 @@ public class ChangeDesignToFrameAction extends AbstractChangeDesignAction {
     public ChangeDesignToFrameAction(MainDiagramEditor editor) {
         super(ID, TYPE, editor);
     }
-
 }

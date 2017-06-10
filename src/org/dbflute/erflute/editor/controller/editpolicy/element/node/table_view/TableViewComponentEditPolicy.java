@@ -26,9 +26,6 @@ public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPoli
         super.showTargetFeedback(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public EditPart getTargetEditPart(Request request) {
         if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP.equals(request.getType())
@@ -41,7 +38,6 @@ public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPoli
             if (!tableView.getColumns().contains(columnGroup)) {
                 return getHost();
             }
-
         } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD.equals(request.getType())) {
             return getHost();
 
@@ -53,9 +49,6 @@ public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPoli
         return super.getTargetEditPart(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Command getCommand(Request request) {
         try {
@@ -68,7 +61,6 @@ public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPoli
                 if (!tableView.getColumns().contains(columnGroup)) {
                     return new AddColumnGroupCommand(tableView, columnGroup, this.getColumnIndex(editRequest));
                 }
-
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD.equals(request.getType())) {
                 DirectEditRequest editRequest = (DirectEditRequest) request;
 
@@ -89,7 +81,6 @@ public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPoli
                 return ColumnSelectionHandlesEditPolicy.createMoveColumnGroupCommand(editRequest, (TableView) this.getHost().getModel(),
                         this.getColumnIndex(editRequest));
             }
-
         } catch (Exception e) {
             Activator.showExceptionDialog(e);
         }

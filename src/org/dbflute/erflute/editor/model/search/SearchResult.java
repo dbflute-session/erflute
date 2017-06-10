@@ -79,6 +79,5 @@ public class SearchResult {
 
             return value1.compareTo(value2);
         }
-
     }
 }

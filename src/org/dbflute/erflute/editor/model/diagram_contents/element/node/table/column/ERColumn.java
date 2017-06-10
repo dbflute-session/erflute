@@ -7,7 +7,7 @@ import org.dbflute.erflute.editor.model.AbstractModel;
  */
 public abstract class ERColumn extends AbstractModel {
 
-    private static final long serialVersionUID = -7808147996469841719L;
+    private static final long serialVersionUID = 1L;
 
     private ColumnHolder columnHolder;
 

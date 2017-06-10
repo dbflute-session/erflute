@@ -189,5 +189,4 @@ public class OracleSqlTypeManager extends SqlTypeManagerBase {
         // }
         return 0;
     }
-
 }

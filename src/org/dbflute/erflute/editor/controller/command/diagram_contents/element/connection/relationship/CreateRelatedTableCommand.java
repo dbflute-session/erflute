@@ -43,9 +43,6 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
         this.targetY = y;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setTarget(EditPart target) {
         super.setTarget(target);
@@ -60,9 +57,6 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         ERDiagramEditPart.setUpdateable(false);
@@ -82,9 +76,6 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
         this.diagram.getDiagramContents().getDiagramWalkers().getTableSet().setDirty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
@@ -120,9 +111,6 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean canExecute() {
         if (!super.canExecute()) {

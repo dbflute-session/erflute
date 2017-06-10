@@ -23,9 +23,9 @@ public class SearchManager {
 
     private static final int COLUMN_TYPE_GROUP = 2;
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    // �P��
+    // 単語
     private boolean physicalWordNameCheckBox;
 
     private boolean logicalWordNameCheckBox;
@@ -38,7 +38,7 @@ public class SearchManager {
 
     private boolean wordDescriptionCheckBox;
 
-    // �e�[�u��
+    // テーブル
     private boolean physicalTableNameCheckBox;
 
     private boolean logicalTableNameCheckBox;
@@ -57,7 +57,7 @@ public class SearchManager {
 
     private boolean columnGroupNameCheckBox;
 
-    // �O���[�v
+    // グループ
     private boolean groupNameCheckBox;
 
     private boolean physicalGroupColumnNameCheckBox;
@@ -66,7 +66,7 @@ public class SearchManager {
 
     private boolean groupColumnDefaultValueCheckBox;
 
-    // ���̑�
+    // その他
     private boolean indexCheckBox;
 
     private boolean noteCheckBox;
@@ -81,7 +81,7 @@ public class SearchManager {
 
     private boolean all;
 
-    private static final List<String> keywordList = new ArrayList<String>();
+    private static final List<String> keywordList = new ArrayList<>();
 
     public SearchManager(ERDiagram diagram) {
         this.diagram = diagram;
@@ -97,14 +97,14 @@ public class SearchManager {
             boolean groupColumnLengthCheckBox, boolean groupColumnDecimalCheckBox, boolean groupColumnDefaultValueCheckBox,
             boolean groupColumnDescriptionCheckBox) {
 
-        // �P��
+        // 単語
         this.physicalWordNameCheckBox = physicalWordNameCheckBox;
         this.logicalWordNameCheckBox = logicalWordNameCheckBox;
         this.wordTypeCheckBox = wordTypeCheckBox;
         this.wordLengthCheckBox = wordLengthCheckBox;
         this.wordDecimalCheckBox = wordDecimalCheckBox;
         this.wordDescriptionCheckBox = wordDescriptionCheckBox;
-        // �e�[�u��
+        // テーブル
         this.physicalTableNameCheckBox = physicalTableNameCheckBox;
         this.logicalTableNameCheckBox = logicalTableNameCheckBox;
         this.physicalColumnNameCheckBox = physicalColumnNameCheckBox;
@@ -114,18 +114,18 @@ public class SearchManager {
         this.columnDecimalCheckBox = columnDecimalCheckBox;
         this.columnDefaultValueCheckBox = columnDefaultValueCheckBox;
         this.columnGroupNameCheckBox = columnGroupNameCheckBox;
-        // ���̑�
+        // その他
         this.indexCheckBox = indexCheckBox;
         this.noteCheckBox = noteCheckBox;
         this.modelPropertiesCheckBox = modelPropertiesCheckBox;
         this.relationCheckBox = relationCheckBox;
-        // �O���[�v
+        // グループ
         this.groupNameCheckBox = groupNameCheckBox;
         this.physicalGroupColumnNameCheckBox = physicalGroupColumnNameCheckBox;
         this.logicalGroupColumnNameCheckBox = logicalGroupColumnNameCheckBox;
         this.groupColumnDefaultValueCheckBox = groupColumnDefaultValueCheckBox;
 
-        // ���ׂČ����i�u���j
+        // すべて検索（置換）
         this.all = all;
 
         if (keyword.equals("")) {
@@ -136,9 +136,9 @@ public class SearchManager {
         this.currentKeyword = keyword.toUpperCase();
 
         SearchResult result = null;
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
-        // ���݂̌�����₪�ݒ肳��Ă���ꍇ�́A���̌������܂ŁA�������X�L�b�v���܂�
+        // 現在の検索候補が設定されている場合は、その検索候補まで、検索をスキップします
         boolean skip = false;
         if (this.currentTarget != null) {
             skip = true;
@@ -147,9 +147,9 @@ public class SearchManager {
         boolean loop = true;
 
         while (loop) {
-            for (Word word : this.diagram.getDiagramContents().getDictionary().getWordList()) {
+            for (final Word word : this.diagram.getDiagramContents().getDictionary().getWordList()) {
                 if (skip) {
-                    // �X�L�b�v���̏ꍇ
+                    // スキップ中の場合
                     if (word != this.currentTarget) {
                         continue;
 
@@ -158,9 +158,9 @@ public class SearchManager {
                         continue;
                     }
                 } else {
-                    // ���̌�������T����
+                    // 次の検索候補を探し中
                     if (word == this.currentTarget) {
-                        // ���݂̌������܂Ŗ߂��Ă��Ă��܂����ꍇ
+                        // 現在の検索候補まで戻ってきてしまった場合
                         loop = false;
                     }
                 }
@@ -168,9 +168,8 @@ public class SearchManager {
                 rows.addAll(this.search(word, this.currentKeyword, DisplayMessages.getMessage("label.dictionary")));
 
                 if (!rows.isEmpty() && !all) {
-                    // ������₪�������āA���ׂČ����ł͂Ȃ��ꍇ
-
-                    // �������ʂ��쐬���ďI��
+                    // 検索候補が見つかって、すべて検索ではない場合
+                    // 検索結果を作成して終了
                     result = new SearchResult(word, rows);
                     loop = false;
                 }
@@ -184,7 +183,7 @@ public class SearchManager {
                 break;
             }
 
-            for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
+            for (final DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                 if (skip) {
                     if (nodeElement != this.currentTarget) {
                         continue;
@@ -224,11 +223,11 @@ public class SearchManager {
             }
 
             if (this.relationCheckBox) {
-                for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
+                for (final DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                     if (nodeElement instanceof ERTable) {
-                        ERTable table = (ERTable) nodeElement;
+                        final ERTable table = (ERTable) nodeElement;
 
-                        for (Relationship relation : table.getIncomingRelationshipList()) {
+                        for (final Relationship relation : table.getIncomingRelationshipList()) {
                             if (skip) {
                                 if (relation != this.currentTarget) {
                                     continue;
@@ -253,7 +252,6 @@ public class SearchManager {
                                 break;
                             }
                         }
-
                     }
 
                     if (!loop) {
@@ -266,7 +264,7 @@ public class SearchManager {
                 break;
             }
 
-            for (ColumnGroup columnGroup : this.diagram.getDiagramContents().getColumnGroupSet()) {
+            for (final ColumnGroup columnGroup : this.diagram.getDiagramContents().getColumnGroupSet()) {
                 if (skip) {
                     if (columnGroup != this.currentTarget) {
                         continue;
@@ -293,8 +291,8 @@ public class SearchManager {
             }
 
             if (skip || this.currentTarget == null) {
-                // �O��̌����Ώۂ��Ȃ��Ȃ��Ă��܂����ꍇ
-                // �܂��́A�ŏ��̌������P�����q�b�g���Ȃ������ꍇ
+                // 前回の検索対象がなくなってしまった場合
+                // または、最初の検索が１件もヒットしなかった場合
                 loop = false;
             }
         }
@@ -311,7 +309,7 @@ public class SearchManager {
 
     public SearchResult research() {
         SearchResult result = null;
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
         boolean skip = false;
         if (this.currentTarget != null) {
@@ -321,9 +319,9 @@ public class SearchManager {
         boolean loop = true;
 
         while (loop) {
-            for (Word word : this.diagram.getDiagramContents().getDictionary().getWordList()) {
+            for (final Word word : this.diagram.getDiagramContents().getDictionary().getWordList()) {
                 if (skip) {
-                    // �X�L�b�v���̏ꍇ
+                    // スキップ中の場合
                     if (word != this.currentTarget) {
                         continue;
 
@@ -331,9 +329,9 @@ public class SearchManager {
                         skip = false;
                     }
                 } else {
-                    // ���̌�������T����
+                    // 次の検索候補を探し中
                     if (word == this.currentTarget) {
-                        // ���݂̌������܂Ŗ߂��Ă��Ă��܂����ꍇ
+                        // 現在の検索候補まで戻ってきてしまった場合
                         loop = false;
                         break;
                     }
@@ -342,9 +340,8 @@ public class SearchManager {
                 rows.addAll(this.search(word, this.currentKeyword, DisplayMessages.getMessage("label.dictionary")));
 
                 if (!rows.isEmpty() && !all) {
-                    // ������₪�������āA���ׂČ����ł͂Ȃ��ꍇ
-
-                    // �������ʂ��쐬���ďI��
+                    // 検索候補が見つかって、すべて検索ではない場合
+                    // 検索結果を作成して終了
                     result = new SearchResult(word, rows);
                     loop = false;
                 }
@@ -358,7 +355,7 @@ public class SearchManager {
                 break;
             }
 
-            for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
+            for (final DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                 if (skip) {
                     if (nodeElement != this.currentTarget) {
                         continue;
@@ -398,11 +395,11 @@ public class SearchManager {
             }
 
             if (this.relationCheckBox) {
-                for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
+                for (final DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
                     if (nodeElement instanceof ERTable) {
-                        ERTable table = (ERTable) nodeElement;
+                        final ERTable table = (ERTable) nodeElement;
 
-                        for (Relationship relation : table.getIncomingRelationshipList()) {
+                        for (final Relationship relation : table.getIncomingRelationshipList()) {
                             if (skip) {
                                 if (relation != this.currentTarget) {
                                     continue;
@@ -427,7 +424,6 @@ public class SearchManager {
                                 break;
                             }
                         }
-
                     }
 
                     if (!loop) {
@@ -440,7 +436,7 @@ public class SearchManager {
                 break;
             }
 
-            for (ColumnGroup columnGroup : this.diagram.getDiagramContents().getColumnGroupSet()) {
+            for (final ColumnGroup columnGroup : this.diagram.getDiagramContents().getColumnGroupSet()) {
                 if (skip) {
                     if (columnGroup != this.currentTarget) {
                         continue;
@@ -482,9 +478,9 @@ public class SearchManager {
     }
 
     private List<SearchResultRow> search(ERTable table, String keyword) {
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
-        String path = table.getLogicalName();
+        final String path = table.getLogicalName();
 
         if (this.physicalTableNameCheckBox) {
             if (this.search(table.getPhysicalName(), keyword)) {
@@ -501,18 +497,19 @@ public class SearchManager {
         if (this.physicalColumnNameCheckBox || this.logicalColumnNameCheckBox || this.columnTypeCheckBox || this.columnLengthCheckBox
                 || this.columnDecimalCheckBox || this.columnDefaultValueCheckBox || this.columnGroupNameCheckBox) {
 
-            for (ERColumn column : table.getColumns()) {
+            for (final ERColumn column : table.getColumns()) {
                 if (column instanceof NormalColumn) {
-                    NormalColumn normalColumn = (NormalColumn) column;
+                    final NormalColumn normalColumn = (NormalColumn) column;
 
                     rows.addAll(search(table, normalColumn, keyword, COLUMN_TYPE_NORMAL, path));
 
                 } else if (column instanceof ColumnGroup) {
                     if (this.columnGroupNameCheckBox) {
                         if (this.search(column.getName(), keyword)) {
-                            String childPath = path + column.getName();
+                            final String childPath = path + column.getName();
 
-                            rows.add(new SearchResultRow(SearchResultRow.TYPE_COLUMN_GROUP_NAME, column.getName(), childPath, column, table));
+                            rows.add(new SearchResultRow(SearchResultRow.TYPE_COLUMN_GROUP_NAME, column.getName(), childPath, column,
+                                    table));
                         }
                     }
                 }
@@ -520,7 +517,7 @@ public class SearchManager {
         }
 
         if (this.indexCheckBox) {
-            for (ERIndex index : table.getIndexes()) {
+            for (final ERIndex index : table.getIndexes()) {
                 rows.addAll(search(table, index, keyword, path));
             }
         }
@@ -529,11 +526,11 @@ public class SearchManager {
     }
 
     private List<SearchResultRow> search(WalkerNote note, String keyword) {
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
         if (this.noteCheckBox) {
 
-            String path = null;
+            final String path = null;
 
             if (this.search(note.getNoteText(), keyword)) {
                 rows.add(new SearchResultRow(SearchResultRow.TYPE_NOTE, note.getNoteText(), path, note, note));
@@ -544,13 +541,13 @@ public class SearchManager {
     }
 
     private List<SearchResultRow> search(ModelProperties modelProperties, String keyword) {
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
         if (this.modelPropertiesCheckBox) {
 
-            String path = null;
+            final String path = null;
 
-            for (NameValue property : modelProperties.getProperties()) {
+            for (final NameValue property : modelProperties.getProperties()) {
                 if (this.search(property.getName(), keyword)) {
                     rows.add(new SearchResultRow(SearchResultRow.TYPE_MODEL_PROPERTY_NAME, property.getName(), path, property,
                             modelProperties));
@@ -567,14 +564,14 @@ public class SearchManager {
     }
 
     private List<SearchResultRow> search(ERTable table, NormalColumn normalColumn, String keyword, int type, String parentPath) {
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
-        String path = parentPath + "/" + normalColumn.getLogicalName();
+        final String path = parentPath + "/" + normalColumn.getLogicalName();
 
         if (type == COLUMN_TYPE_GROUP && this.physicalGroupColumnNameCheckBox) {
             if (this.search(normalColumn.getForeignKeyPhysicalName(), keyword)) {
-                rows.add(new SearchResultRow(SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME, normalColumn
-                        .getForeignKeyPhysicalName(), path, normalColumn, table));
+                rows.add(new SearchResultRow(SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME,
+                        normalColumn.getForeignKeyPhysicalName(), path, normalColumn, table));
             }
         } else if (physicalColumnNameCheckBox) {
             if (this.search(normalColumn.getForeignKeyPhysicalName(), keyword)) {
@@ -584,8 +581,8 @@ public class SearchManager {
         }
         if (type == COLUMN_TYPE_GROUP && this.logicalGroupColumnNameCheckBox) {
             if (this.search(normalColumn.getForeignKeyLogicalName(), keyword)) {
-                rows.add(new SearchResultRow(SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME,
-                        normalColumn.getForeignKeyLogicalName(), path, normalColumn, table));
+                rows.add(new SearchResultRow(SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME, normalColumn.getForeignKeyLogicalName(),
+                        path, normalColumn, table));
             }
         } else if (this.logicalColumnNameCheckBox) {
             if (this.search(normalColumn.getForeignKeyLogicalName(), keyword)) {
@@ -610,9 +607,9 @@ public class SearchManager {
     }
 
     private List<SearchResultRow> search(Word word, String keyword, String parentPath) {
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
-        String path = parentPath + "/" + word.getLogicalName();
+        final String path = parentPath + "/" + word.getLogicalName();
 
         if (physicalWordNameCheckBox) {
             if (this.search(word.getPhysicalName(), keyword)) {
@@ -642,8 +639,8 @@ public class SearchManager {
 
         if (this.wordDecimalCheckBox) {
             if (this.search(word.getTypeData().getDecimal(), keyword)) {
-                rows.add(new SearchResultRow(SearchResultRow.TYPE_WORD_DECIMAL, String.valueOf(word.getTypeData().getDecimal()), path,
-                        word, null));
+                rows.add(new SearchResultRow(SearchResultRow.TYPE_WORD_DECIMAL, String.valueOf(word.getTypeData().getDecimal()), path, word,
+                        null));
             }
         }
 
@@ -657,14 +654,14 @@ public class SearchManager {
     }
 
     private List<SearchResultRow> search(ERTable table, ERIndex index, String keyword, String parentPath) {
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
-        String path = parentPath + "/" + index.getName();
+        final String path = parentPath + "/" + index.getName();
 
         if (this.search(index.getName(), keyword)) {
             rows.add(new SearchResultRow(SearchResultRow.TYPE_INDEX_NAME, index.getName(), path, index, table));
         }
-        for (NormalColumn normalColumn : index.getColumns()) {
+        for (final NormalColumn normalColumn : index.getColumns()) {
             if (this.search(normalColumn.getPhysicalName(), keyword)) {
                 rows.add(new SearchResultRow(SearchResultRow.TYPE_INDEX_COLUMN_NAME, normalColumn.getPhysicalName(), path, normalColumn,
                         table));
@@ -675,10 +672,10 @@ public class SearchManager {
     }
 
     private List<SearchResultRow> search(Relationship relation, String keyword) {
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
         if (this.search(relation.getForeignKeyName(), keyword)) {
-            String path = relation.getForeignKeyName();
+            final String path = relation.getForeignKeyName();
             rows.add(new SearchResultRow(SearchResultRow.TYPE_RELATION_NAME, relation.getForeignKeyName(), path, relation, relation));
 
         }
@@ -687,15 +684,15 @@ public class SearchManager {
     }
 
     private List<SearchResultRow> search(ColumnGroup columnGroup, String keyword) {
-        List<SearchResultRow> rows = new ArrayList<SearchResultRow>();
+        final List<SearchResultRow> rows = new ArrayList<>();
 
-        String path = columnGroup.getGroupName();
+        final String path = columnGroup.getGroupName();
 
         if (this.groupNameCheckBox && this.search(columnGroup.getName(), keyword)) {
             rows.add(new SearchResultRow(SearchResultRow.TYPE_COLUMN_GROUP_NAME, columnGroup.getName(), path, columnGroup, columnGroup));
         }
 
-        for (NormalColumn normalColumn : columnGroup.getColumns()) {
+        for (final NormalColumn normalColumn : columnGroup.getColumns()) {
             rows.addAll(search(null, normalColumn, keyword, COLUMN_TYPE_GROUP, path));
         }
 

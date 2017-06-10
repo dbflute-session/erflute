@@ -11,6 +11,7 @@ import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.db.DBManager;
 import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.db.impl.db2.DB2DBManager;
+import org.dbflute.erflute.db.impl.h2.H2DBManager;
 import org.dbflute.erflute.db.impl.hsqldb.HSQLDBDBManager;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Sequence;
@@ -49,11 +50,11 @@ public class SequenceDialog extends AbstractDialog {
 
     private Text decimalSizeText;
 
-    private Sequence sequence;
+    private final Sequence sequence;
 
     private Sequence result;
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
     public SequenceDialog(Shell parentShell, Sequence sequence, ERDiagram diagram) {
         super(parentShell, 5);
@@ -97,6 +98,14 @@ public class SequenceDialog extends AbstractDialog {
 
         this.maxValueText = CompositeFactory.createNumText(this, composite, "MaxValue", TEXT_SIZE);
         CompositeFactory.filler(composite, 3);
+
+        if (!H2DBManager.ID.equals(diagram.getDatabase())) {
+            this.startText = CompositeFactory.createNumText(this, composite, "Start", 4, TEXT_SIZE);
+
+            this.minValueText = CompositeFactory.createNumText(this, composite, "MinValue", 4, TEXT_SIZE);
+
+            this.maxValueText = CompositeFactory.createNumText(this, composite, "MaxValue", 4, TEXT_SIZE);
+        }
 
         if (!HSQLDBDBManager.ID.equals(diagram.getDatabase())) {
             this.cacheText = CompositeFactory.createNumText(this, composite, "Cache", TEXT_SIZE);
@@ -144,7 +153,7 @@ public class SequenceDialog extends AbstractDialog {
             try {
                 Integer.parseInt(text);
 
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 return "error.sequence.increment.degit";
             }
         }
@@ -156,7 +165,7 @@ public class SequenceDialog extends AbstractDialog {
                 try {
                     Long.parseLong(text);
 
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     return "error.sequence.minValue.degit";
                 }
             }
@@ -169,7 +178,7 @@ public class SequenceDialog extends AbstractDialog {
                 try {
                     new BigDecimal(text);
 
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     return "error.sequence.maxValue.degit";
                 }
             }
@@ -181,7 +190,7 @@ public class SequenceDialog extends AbstractDialog {
             try {
                 Long.parseLong(text);
 
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 return "error.sequence.start.degit";
             }
         }
@@ -191,7 +200,7 @@ public class SequenceDialog extends AbstractDialog {
 
             if (!text.equals("")) {
                 try {
-                    int cache = Integer.parseInt(text);
+                    final int cache = Integer.parseInt(text);
                     if (DB2DBManager.ID.equals(this.diagram.getDatabase())) {
                         if (cache < 2) {
                             return "error.sequence.cache.min2";
@@ -201,7 +210,7 @@ public class SequenceDialog extends AbstractDialog {
                             return "error.sequence.cache.min1";
                         }
                     }
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     return "error.sequence.cache.degit";
                 }
             }
@@ -213,12 +222,11 @@ public class SequenceDialog extends AbstractDialog {
             if (!text.equals("")) {
 
                 try {
-                    int size = Integer.parseInt(text);
+                    final int size = Integer.parseInt(text);
                     if (size < 0) {
                         return "error.sequence.size.zero";
                     }
-
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     return "error.sequence.size.degit";
                 }
             }
@@ -297,7 +305,7 @@ public class SequenceDialog extends AbstractDialog {
             int decimalSize = 0;
             try {
                 decimalSize = Integer.parseInt(this.decimalSizeText.getText().trim());
-            } catch (NumberFormatException e) {}
+            } catch (final NumberFormatException e) {}
             this.result.setDecimalSize(decimalSize);
         }
     }
@@ -328,7 +336,7 @@ public class SequenceDialog extends AbstractDialog {
             this.descriptionText.setText(Format.toString(this.sequence.getDescription()));
 
             if (this.dataTypeCombo != null) {
-                String dataType = Format.toString(this.sequence.getDataType());
+                final String dataType = Format.toString(this.sequence.getDataType());
                 this.dataTypeCombo.setText(dataType);
                 if (dataType.equals("DECIMAL(p)") && this.decimalSizeText != null) {
                     this.decimalSizeText.setEnabled(true);
@@ -351,7 +359,7 @@ public class SequenceDialog extends AbstractDialog {
 
                 @Override
                 public void widgetSelected(SelectionEvent e) {
-                    String dataType = dataTypeCombo.getText();
+                    final String dataType = dataTypeCombo.getText();
 
                     if (dataType.equals("DECIMAL(p)")) {
                         decimalSizeText.setEnabled(true);
@@ -360,9 +368,7 @@ public class SequenceDialog extends AbstractDialog {
                         decimalSizeText.setEnabled(false);
                     }
                 }
-
             });
         }
     }
-
 }

@@ -21,5 +21,4 @@ public class PrintAction extends AbstractBaseAction {
         PrintDialog dialog = new PrintDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 0);
         dialog.open();
     }
-
 }

@@ -11,5 +11,4 @@ public class ChangeDesignToFunnyAction extends AbstractChangeDesignAction {
     public ChangeDesignToFunnyAction(MainDiagramEditor editor) {
         super(ID, TYPE, editor);
     }
-
 }

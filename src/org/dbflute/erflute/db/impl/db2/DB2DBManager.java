@@ -20,34 +20,32 @@ public class DB2DBManager extends DBManagerBase {
 
     public static final String ID = "DB2";
 
+    @Override
     public String getId() {
         return ID;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDriverClassName() {
         return "com.ibm.db2.jcc.DB2Driver";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getURL() {
         return "jdbc:db2://<SERVER NAME>:<PORT>/<DB NAME>";
     }
 
+    @Override
     public int getDefaultPort() {
         return 50000;
     }
 
+    @Override
     public SqlTypeManager getSqlTypeManager() {
         return new DB2SqlTypeManager();
     }
 
+    @Override
     public TableProperties createTableProperties(TableProperties tableProperties) {
         if (tableProperties != null && tableProperties instanceof DB2TableProperties) {
             return tableProperties;
@@ -56,12 +54,14 @@ public class DB2DBManager extends DBManagerBase {
         return new DB2TableProperties();
     }
 
+    @Override
     public DDLCreator getDDLCreator(ERDiagram diagram, boolean semicolon) {
         return new DB2DDLCreator(diagram, semicolon);
     }
 
+    @Override
     public List<String> getIndexTypeList(ERTable table) {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("BTREE");
 
@@ -70,25 +70,30 @@ public class DB2DBManager extends DBManagerBase {
 
     @Override
     protected int[] getSupportItems() {
-        return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_SCHEMA, SUPPORT_SEQUENCE };
+        return new int[] { SUPPORT_AUTO_INCREMENT, SUPPORT_SCHEMA, SUPPORT_SEQUENCE, SUPPORT_SEQUENCE_NOCACHE };
     }
 
+    @Override
     public ImportFromDBManager getTableImportManager() {
         return new DB2TableImportManager();
     }
 
+    @Override
     public PreImportFromDBManager getPreTableImportManager() {
         return new DB2PreTableImportManager();
     }
 
+    @Override
     public PreTableExportManager getPreTableExportManager() {
         return new DB2PreTableExportManager();
     }
 
+    @Override
     public TablespaceProperties createTablespaceProperties() {
         return new DB2TablespaceProperties();
     }
 
+    @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
 
         if (!(tablespaceProperties instanceof DB2TablespaceProperties)) {
@@ -98,13 +103,14 @@ public class DB2DBManager extends DBManagerBase {
         return tablespaceProperties;
     }
 
+    @Override
     public String[] getCurrentTimeValue() {
         return new String[] { "CURRENT TIMESTAMP" };
     }
 
     @Override
     public List<String> getSystemSchemaList() {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<>();
 
         list.add("nullid");
         list.add("sqlj");
@@ -122,8 +128,8 @@ public class DB2DBManager extends DBManagerBase {
         return list;
     }
 
+    @Override
     public BigDecimal getSequenceMaxValue() {
         return null;
     }
-
 }

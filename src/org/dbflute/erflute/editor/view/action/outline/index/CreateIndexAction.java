@@ -22,9 +22,6 @@ public class CreateIndexAction extends AbstractOutlineBaseAction {
         super(ID, DisplayMessages.getMessage("action.title.create.index"), treeViewer);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void execute(Event event) {
 
@@ -42,5 +39,4 @@ public class CreateIndexAction extends AbstractOutlineBaseAction {
             this.execute(command);
         }
     }
-
 }

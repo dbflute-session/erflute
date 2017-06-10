@@ -6,13 +6,13 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 public class ChangeDesignCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
-    private String oldDesign;
+    private final String oldDesign;
 
-    private String newDesign;
+    private final String newDesign;
 
-    private DiagramSettings settings;
+    private final DiagramSettings settings;
 
     public ChangeDesignCommand(ERDiagram diagram, String design) {
         this.diagram = diagram;
@@ -21,18 +21,12 @@ public class ChangeDesignCommand extends AbstractCommand {
         this.oldDesign = this.settings.getTableStyle();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doExecute() {
         this.settings.setTableStyle(this.newDesign);
         this.diagram.change();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void doUndo() {
         this.settings.setTableStyle(this.oldDesign);

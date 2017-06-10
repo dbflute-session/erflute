@@ -9,9 +9,6 @@ import org.eclipse.core.resources.IMarker;
 
 public class NoColumnTypeRule extends ColumnRule {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean validate(ERTable table, NormalColumn column) {
         if (column.getType() == null || column.getType().getAlias(table.getDiagram().getDatabase()) == null) {

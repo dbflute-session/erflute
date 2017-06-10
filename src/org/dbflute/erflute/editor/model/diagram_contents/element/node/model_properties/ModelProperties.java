@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
  */
 public class ModelProperties extends DiagramWalker implements Cloneable {
 
-    private static final long serialVersionUID = 5311013351131568260L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_MODEL_PROPERTIES = "model_properties";
 
     private boolean display; // show model properties table on editor, true if menu "show stamp"

@@ -71,5 +71,4 @@ public class TableViewGraphicalNodeEditPolicy extends DiagramWalkerGraphicalNode
 
         super.eraseTargetFeedback(request);
     }
-
 }

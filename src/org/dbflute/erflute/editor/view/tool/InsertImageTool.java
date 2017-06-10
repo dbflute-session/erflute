@@ -50,7 +50,5 @@ public class InsertImageTool extends CreationToolEntry {
 
             return fileDialog.open();
         }
-
     }
-
 }

@@ -16,9 +16,6 @@ public class CategoryEditPart extends DiagramWalkerEditPart implements IResizabl
         super();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected IFigure createFigure() {
         Category category = (Category) this.getModel();
@@ -27,9 +24,6 @@ public class CategoryEditPart extends DiagramWalkerEditPart implements IResizabl
         return figure;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Rectangle getRectangle() {
         Rectangle rectangle = super.getRectangle();
@@ -61,9 +55,6 @@ public class CategoryEditPart extends DiagramWalkerEditPart implements IResizabl
         return rectangle;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void createEditPolicies() {
         this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());

@@ -15,5 +15,4 @@ public class ChangeNotationLevelToColumnAction extends AbstractChangeNotationLev
     protected int getLevel() {
         return DiagramSettings.NOTATION_LEVLE_COLUMN;
     }
-
 }

@@ -9,8 +9,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 
 public class OpenERModelCommand extends AbstractCommand {
 
-    private ERVirtualDiagram model;
-    private ERDiagram diagram;
+    private final ERVirtualDiagram model;
+    private final ERDiagram diagram;
     //	private EditPart editPart;
     private ERTable table;
 
@@ -21,7 +21,7 @@ public class OpenERModelCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        ERFluteMultiPageEditor editor = diagram.getEditor();
+        final ERFluteMultiPageEditor editor = diagram.getEditor();
 
         editor.setCurrentErmodel(model);
 
@@ -53,12 +53,7 @@ public class OpenERModelCommand extends AbstractCommand {
         // not support
     }
 
-    /**
-     * table��ݒ肵�܂��B
-     * @param table table
-     */
     public void setTable(ERTable table) {
         this.table = table;
     }
-
 }

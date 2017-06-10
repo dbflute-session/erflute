@@ -19,7 +19,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Se
  */
 public class NormalColumn extends ERColumn {
 
-    private static final long serialVersionUID = -3177788331933357906L;
+    private static final long serialVersionUID = 1L;
 
     // ===================================================================================
     //                                                                           Attribute

@@ -18,7 +18,7 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final long serialVersionUID = -5923128797828160786L;
+    private static final long serialVersionUID = 1L;
 
     // ===================================================================================
     //                                                                           Attribute

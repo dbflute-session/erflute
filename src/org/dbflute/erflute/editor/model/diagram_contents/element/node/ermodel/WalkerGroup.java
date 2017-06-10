@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERVie
  */
 public class WalkerGroup extends DiagramWalker implements IResizable, Comparable<WalkerGroup> {
 
-    private static final long serialVersionUID = 8251435120903384808L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_WALKER_GROUP = "walker_group";
 
     private String name;

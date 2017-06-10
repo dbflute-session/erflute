@@ -93,9 +93,6 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
     protected void addListener() {
         this.environmentList.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 int targetIndex = environmentList.getSelectionIndex();
@@ -111,9 +108,6 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
         this.addButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 String name = nameText.getText().trim();
@@ -127,9 +121,6 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
         this.editButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 int targetIndex = environmentList.getSelectionIndex();
@@ -149,9 +140,6 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
         this.deleteButton.addSelectionListener(new SelectionAdapter() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 int targetIndex = environmentList.getSelectionIndex();
@@ -202,9 +190,6 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
         this.deleteButton.setEnabled(enabled);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void validatePage() throws InputException {
     }
@@ -214,9 +199,6 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
         this.environmentList.setFocus();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void setupData() {
         super.setupData();
@@ -231,5 +213,4 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
     @Override
     public void perfomeOK() {
     }
-
 }

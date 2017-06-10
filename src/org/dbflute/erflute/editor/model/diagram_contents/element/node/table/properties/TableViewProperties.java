@@ -6,7 +6,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public abstract class TableViewProperties implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -4482559358342532447L;
+    private static final long serialVersionUID = 1L;
 
     private String schema;
 
@@ -28,9 +28,6 @@ public abstract class TableViewProperties implements Serializable, Cloneable {
         this.tableSpace = tableSpace;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TableViewProperties clone() {
         TableViewProperties clone = null;
@@ -42,5 +39,4 @@ public abstract class TableViewProperties implements Serializable, Cloneable {
 
         return clone;
     }
-
 }

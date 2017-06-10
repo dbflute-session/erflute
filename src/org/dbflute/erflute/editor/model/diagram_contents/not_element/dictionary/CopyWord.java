@@ -2,7 +2,7 @@ package org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary
 
 public class CopyWord extends Word {
 
-    private static final long serialVersionUID = 5610038803601000225L;
+    private static final long serialVersionUID = 1L;
 
     private Word original;
 
@@ -31,5 +31,4 @@ public class CopyWord extends Word {
     public void setOriginal(Word original) {
         this.original = original;
     }
-
 }

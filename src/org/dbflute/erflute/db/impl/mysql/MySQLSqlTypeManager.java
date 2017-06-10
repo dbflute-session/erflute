@@ -8,5 +8,4 @@ public class MySQLSqlTypeManager extends SqlTypeManagerBase {
     public int getByteLength(SqlType type, Integer length, Integer decimal) {
         return 0;
     }
-
 }

@@ -4,7 +4,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 
 public class PostgresTableProperties extends TableProperties {
 
-    private static final long serialVersionUID = 2802345970023438938L;
+    private static final long serialVersionUID = 1L;
 
     private boolean withoutOIDs;
 
@@ -19,5 +19,4 @@ public class PostgresTableProperties extends TableProperties {
     public void setWithoutOIDs(boolean withoutOIDs) {
         this.withoutOIDs = withoutOIDs;
     }
-
 }

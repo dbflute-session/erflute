@@ -7,7 +7,7 @@ import org.eclipse.draw2d.Graphics;
 public class GroupColumnFigure extends Figure {
 
     public GroupColumnFigure() {
-        FlowLayout layout = new FlowLayout();
+        final FlowLayout layout = new FlowLayout();
         layout.setStretchMinorAxis(true);
         layout.setMajorSpacing(0);
         layout.setMinorSpacing(0);
@@ -18,9 +18,6 @@ public class GroupColumnFigure extends Figure {
         this.removeAll();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void paintFigure(Graphics graphics) {
         if (graphics.getBackgroundColor().equals(this.getParent().getBackgroundColor())) {
@@ -29,5 +26,4 @@ public class GroupColumnFigure extends Figure {
 
         super.paintFigure(graphics);
     }
-
 }

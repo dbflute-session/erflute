@@ -25,7 +25,7 @@ public class PostgresTablespaceDialog extends TablespaceDialog {
 
     @Override
     protected TablespaceProperties setTablespaceProperties() {
-        PostgresTablespaceProperties properties = new PostgresTablespaceProperties();
+        final PostgresTablespaceProperties properties = new PostgresTablespaceProperties();
 
         properties.setLocation(this.location.getText().trim());
         properties.setOwner(this.owner.getText().trim());
@@ -36,24 +36,21 @@ public class PostgresTablespaceDialog extends TablespaceDialog {
     @Override
     protected void setData(TablespaceProperties tablespaceProperties) {
         if (tablespaceProperties instanceof PostgresTablespaceProperties) {
-            PostgresTablespaceProperties properties = (PostgresTablespaceProperties) tablespaceProperties;
+            final PostgresTablespaceProperties properties = (PostgresTablespaceProperties) tablespaceProperties;
 
             this.location.setText(Format.toString(properties.getLocation()));
             this.owner.setText(Format.toString(properties.getOwner()));
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String doValidate() {
-        String errorMessage = super.doValidate();
+        final String errorMessage = super.doValidate();
         if (errorMessage != null) {
             return errorMessage;
         }
 
-        String text = this.location.getText().trim();
+        final String text = this.location.getText().trim();
         if (text.equals("")) {
             return "error.tablespace.location.empty";
         }

@@ -4,16 +4,14 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.eclipse.jface.action.IAction;
 
 /**
- * �g���|�C���g����ǂݍ��ރN���X�̃C���^�[�t�F�C�X
+ * 拡張ポイントから読み込むクラスのインターフェイス
  */
 public interface IERDiagramActionFactory {
 
     /**
-     * IAction �����������N���X��Ԃ�
-     * 
+     * IAction を実装したクラスを返す
      * @param editor
      * @return IAction
      */
-    public IAction createIAction(MainDiagramEditor editor);
-
+    IAction createIAction(MainDiagramEditor editor);
 }

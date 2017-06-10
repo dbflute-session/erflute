@@ -22,5 +22,4 @@ public class IETargetDecoration extends ERDecoration {
         this.setScale(0.66, 0.66);
         //		this.setScale(1, 1);
     }
-
 }

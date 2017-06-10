@@ -10,7 +10,7 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
 
 public class WalkerNoteSet extends AbstractModel implements ObjectListModel, Iterable<WalkerNote> {
 
-    private static final long serialVersionUID = -7000722010136664297L;
+    private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_WALKER_NOTE_SET = "NoteSet";
 
     private List<WalkerNote> noteList;
