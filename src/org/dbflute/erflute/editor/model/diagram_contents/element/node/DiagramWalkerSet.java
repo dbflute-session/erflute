@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
@@ -15,6 +16,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.Inse
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNoteSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -50,7 +52,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         this.walkerGroupSet = new WalkerGroupSet();
         this.walkerNoteSet = new WalkerNoteSet();
         this.insertedImageSet = new InsertedImageSet();
-        this.walkerList = new ArrayList<DiagramWalker>();
+        this.walkerList = new ArrayList<>();
     }
 
     // ===================================================================================
@@ -114,15 +116,17 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     }
 
     public List<TableView> getTableViewList() {
-        final List<TableView> nodeElementList = new ArrayList<TableView>();
+        final List<TableView> nodeElementList = new ArrayList<>();
         nodeElementList.addAll(this.tableSet.getList());
         nodeElementList.addAll(this.viewSet.getList());
         return nodeElementList;
     }
 
     public Set<DiagramWalker> getPersistentSet() { // #for_erflute
-        final List<DiagramWalker> elementList = getDiagramWalkerList();
-        final TreeSet<DiagramWalker> treeSet = new TreeSet<DiagramWalker>(new Comparator<DiagramWalker>() {
+        final List<DiagramWalker> elementList = getDiagramWalkerList().stream()
+                .map(w -> w instanceof ERVirtualTable ? ((ERVirtualTable) w).getRawTable() : w)
+                .collect(Collectors.toList());
+        final TreeSet<DiagramWalker> treeSet = new TreeSet<>(new Comparator<DiagramWalker>() {
             @Override
             public int compare(DiagramWalker o1, DiagramWalker o2) {
                 if (o1.getPersistentOrder() != o2.getPersistentOrder()) {

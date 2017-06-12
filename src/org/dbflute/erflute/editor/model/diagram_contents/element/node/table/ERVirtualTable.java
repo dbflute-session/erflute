@@ -78,7 +78,7 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<WalkerConnection> getIncomings() {
-        final List<WalkerConnection> connectionList = new ArrayList<WalkerConnection>();
+        final List<WalkerConnection> connectionList = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final WalkerConnection connection : rawTable.getIncomings()) {
             final DiagramWalker walker = connection.getWalkerSource();
@@ -100,7 +100,7 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<WalkerConnection> getOutgoings() {
-        final List<WalkerConnection> connectionList = new ArrayList<WalkerConnection>();
+        final List<WalkerConnection> connectionList = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final WalkerConnection connection : rawTable.getOutgoings()) {
             final DiagramWalker walker = connection.getWalkerTarget();
@@ -177,7 +177,7 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relationship> getIncomingRelationshipList() {
-        final List<Relationship> relationships = new ArrayList<Relationship>();
+        final List<Relationship> relationships = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final Relationship relationship : rawTable.getIncomingRelationshipList()) {
             final DiagramWalker walker = relationship.getWalkerSource();
@@ -193,7 +193,7 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relationship> getOutgoingRelationshipList() {
-        final List<Relationship> relationships = new ArrayList<Relationship>();
+        final List<Relationship> relationships = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final Relationship relationship : rawTable.getOutgoingRelationshipList()) {
             final DiagramWalker walker = relationship.getWalkerSource();
@@ -276,5 +276,11 @@ public class ERVirtualTable extends ERTable {
 
     public ERTable getRawTable() {
         return rawTable;
+    }
+
+    @Override
+    public ERVirtualTable clone() {
+        final ERVirtualTable clone = new ERVirtualTable(vdiagram, rawTable.clone());
+        return clone;
     }
 }
