@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
@@ -123,12 +122,12 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     }
 
     public Set<DiagramWalker> getPersistentSet() { // #for_erflute
-        final List<DiagramWalker> elementList = getDiagramWalkerList().stream()
-                .map(w -> w instanceof ERVirtualTable ? ((ERVirtualTable) w).getRawTable() : w)
-                .collect(Collectors.toList());
+        final List<DiagramWalker> elementList = getDiagramWalkerList();
         final TreeSet<DiagramWalker> treeSet = new TreeSet<>(new Comparator<DiagramWalker>() {
             @Override
-            public int compare(DiagramWalker o1, DiagramWalker o2) {
+            public int compare(DiagramWalker p1, DiagramWalker p2) {
+                final DiagramWalker o1 = getDiagramWalkerForComparison(p1);
+                final DiagramWalker o2 = getDiagramWalkerForComparison(p2);
                 if (o1.getPersistentOrder() != o2.getPersistentOrder()) {
                     return o1.getPersistentOrder() - o2.getPersistentOrder();
                 } else {
@@ -142,6 +141,14 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         });
         treeSet.addAll(elementList);
         return treeSet;
+    }
+
+    /**
+     * diagramWalkerがERVirtualTableの場合、同じERTableを参照していても、Comparatorが異なるオブジェクトとして認識してしまう。
+     * その結果、同一IDのテーブルがXMLに出力されるため、比較用DiagramWalkerとしてERVirtualTableが参照しているERTableを返す。
+     */
+    private DiagramWalker getDiagramWalkerForComparison(DiagramWalker diagramWalker) {
+        return diagramWalker instanceof ERVirtualTable ? ((ERVirtualTable) diagramWalker).getRawTable() : diagramWalker;
     }
 
     @Override
