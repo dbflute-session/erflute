@@ -1,7 +1,10 @@
 package org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -30,9 +33,9 @@ public class ERVirtualDiagram extends DiagramWalker {
 
     public ERVirtualDiagram(ERDiagram diagram) {
         setDiagram(diagram);
-        tables = new ArrayList<ERVirtualTable>();
-        notes = new ArrayList<WalkerNote>();
-        groups = new ArrayList<WalkerGroup>();
+        tables = new ArrayList<>();
+        notes = new ArrayList<>();
+        groups = new ArrayList<>();
     }
 
     @Override
@@ -227,5 +230,11 @@ public class ERVirtualDiagram extends DiagramWalker {
     public void setWalkerGroups(List<WalkerGroup> groups) {
         this.groups = groups;
         this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
+
+    public Set<ERVirtualTable> getVirtualTableSet() {
+        final TreeSet<ERVirtualTable> set = new TreeSet<>(Comparator.comparing(o -> o.getRawTable()));
+        set.addAll(getVirtualTables());
+        return set;
     }
 }
