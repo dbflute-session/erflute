@@ -83,7 +83,8 @@ public class ERVirtualTable extends ERTable {
         for (final WalkerConnection connection : rawTable.getIncomings()) {
             final DiagramWalker walker = connection.getWalkerSource();
             if (walker instanceof WalkerNote) {
-                if (((WalkerNote) walker).getVirtualDiagram().equals(vdiagram)) {
+                final WalkerNote note = (WalkerNote) walker;
+                if (note.getVirtualDiagram() != null && note.getVirtualDiagram().equals(vdiagram)) {
                     connectionList.add(connection);
                 }
             } else {
