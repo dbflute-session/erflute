@@ -6,11 +6,13 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -91,7 +93,11 @@ public class PasteCommand extends AbstractCommand {
         // 図にノードを追加します。
         for (final DiagramWalker walker : this.walkers) {
             if (walker instanceof ERVirtualTable) {
-                this.diagram.addWalkerPlainly(((ERVirtualTable) walker).getRawTable());
+                final ERTable rawTable = ((ERVirtualTable) walker).getRawTable();
+                rawTable.setLocation(new Location(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
+                this.diagram.addWalkerPlainly(rawTable);
+            } else if (this.diagram.getCurrentVirtualDiagram() != null && walker instanceof WalkerNote) {
+                this.diagram.getCurrentVirtualDiagram().addNewWalker(walker);
             } else {
                 this.diagram.addWalkerPlainly(walker);
             }
@@ -105,7 +111,7 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新を再開します。
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.changeAll();
+        ERModelUtil.refreshDiagram(diagram);
 
         // 貼り付けられたテーブルを選択状態にします。
         this.setFocus();
@@ -134,7 +140,7 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新を再開します。
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.changeAll();
+        ERModelUtil.refreshDiagram(diagram);
     }
 
     /**

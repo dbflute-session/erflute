@@ -3,6 +3,7 @@ package org.dbflute.erflute.editor.view.action.edit;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.MainDiagramEditor;
+import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.PasteCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
@@ -12,6 +13,8 @@ import org.dbflute.erflute.editor.model.edit.CopyManager;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -106,8 +109,13 @@ public class PasteAction extends SelectionAction {
             final ERVirtualDiagram erModel = (ERVirtualDiagram) model;
             final ERDiagram diagram = erModel.getDiagram();
 
-            final Command command = new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
-                    diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
+            // diagram.mousePointはメインダイアグラムのマウス座標を参照するため、使えない。代替としてカーソル座標を使用する。
+            final Point cursorLocation = Display.getCurrent().getCursorLocation();
+            final VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) diagram.getEditor().getActiveEditor();
+            final Point point = modelEditor.getGraphicalViewer().getControl().toControl(cursorLocation);
+
+            final Command command =
+                    new PasteCommand(editor, pasteList, point.x - x + (numberOfCopy - 1) * 20, point.y - y + (numberOfCopy - 1) * 20);
 
             return command;
         }
