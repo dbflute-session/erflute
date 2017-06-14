@@ -14,6 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Walke
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -30,6 +31,7 @@ public class ERVirtualDiagram extends DiagramWalker {
     private List<ERVirtualTable> tables;
     private List<WalkerNote> notes;
     private List<WalkerGroup> groups;
+    private Point mousePoint = new Point();
 
     public ERVirtualDiagram(ERDiagram diagram) {
         setDiagram(diagram);
@@ -236,5 +238,13 @@ public class ERVirtualDiagram extends DiagramWalker {
         final TreeSet<ERVirtualTable> set = new TreeSet<>(Comparator.comparing(o -> o.getRawTable()));
         set.addAll(getVirtualTables());
         return set;
+    }
+
+    public Point getMousePoint() {
+        return mousePoint;
+    }
+
+    public void setMousePoint(Point mousePoint) {
+        this.mousePoint = mousePoint;
     }
 }

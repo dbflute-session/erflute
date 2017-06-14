@@ -27,7 +27,7 @@ public class ERVirtualTable extends ERTable {
     //                                                                           Attribute
     //                                                                           =========
     private final ERVirtualDiagram vdiagram;
-    private final ERTable rawTable;
+    private ERTable rawTable;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -281,7 +281,8 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public ERVirtualTable clone() {
-        final ERVirtualTable clone = new ERVirtualTable(vdiagram, rawTable.clone());
+        final ERVirtualTable clone = (ERVirtualTable) super.clone();
+        clone.rawTable = rawTable.clone();
         return clone;
     }
 }

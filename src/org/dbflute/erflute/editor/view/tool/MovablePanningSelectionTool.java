@@ -6,6 +6,7 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.no
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
@@ -123,6 +124,14 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
             diagram.mousePoint = new Point(e.x, e.y);
             editPart.getFigure().translateToRelative(diagram.mousePoint);
         }
+
+        if (viewer.getContents() instanceof ERVirtualDiagramEditPart) {
+            final ERVirtualDiagramEditPart editPart = (ERVirtualDiagramEditPart) viewer.getContents();
+            final ERVirtualDiagram diagram = (ERVirtualDiagram) editPart.getModel();
+            diagram.setMousePoint(new Point(e.x, e.y));
+            editPart.getFigure().translateToRelative(diagram.getMousePoint());
+        }
+
         super.mouseDown(e, viewer);
     }
 }
