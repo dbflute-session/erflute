@@ -12,7 +12,6 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
@@ -96,7 +95,7 @@ public class PasteCommand extends AbstractCommand {
                 final ERTable rawTable = ((ERVirtualTable) walker).getRawTable();
                 rawTable.setLocation(new Location(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
                 this.diagram.addWalkerPlainly(rawTable);
-            } else if (this.diagram.getCurrentVirtualDiagram() != null && walker instanceof WalkerNote) {
+            } else if (this.diagram.getCurrentVirtualDiagram() != null) {
                 this.diagram.getCurrentVirtualDiagram().addNewWalker(walker);
             } else {
                 this.diagram.addWalkerPlainly(walker);
