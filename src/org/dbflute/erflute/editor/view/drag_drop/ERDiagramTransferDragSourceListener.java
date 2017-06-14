@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.dbflute.erflute.editor.controller.editpart.outline.table.TableOutlineEditPart;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -86,8 +85,8 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
                     // アウトラインからのテーブル複数選択
                     results.add(model);
                 }
-                if (model instanceof ERVirtualTable) {
-                    // エディタ内からの仮想テーブル複数選択
+                if (model instanceof ERTable) {
+                    // エディタ内からの実テーブルおよび仮想テーブル複数選択
                     return null; // ここはドラッグはせず、上位の移動機構（？）に回す。これで複数テーブルをエディタ内で移動可能になる
                 }
             }
