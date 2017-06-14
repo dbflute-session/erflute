@@ -91,11 +91,7 @@ public class PasteCommand extends AbstractCommand {
 
         // 図にノードを追加します。
         for (final DiagramWalker walker : this.walkers) {
-            if (walker instanceof ERVirtualTable) {
-                final ERTable rawTable = ((ERVirtualTable) walker).getRawTable();
-                rawTable.setLocation(new Location(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
-                this.diagram.addWalkerPlainly(rawTable);
-            } else if (this.diagram.getCurrentVirtualDiagram() != null) {
+            if (this.diagram.getCurrentVirtualDiagram() != null && !(walker instanceof ERTable)) {
                 this.diagram.getCurrentVirtualDiagram().addNewWalker(walker);
             } else {
                 this.diagram.addWalkerPlainly(walker);
