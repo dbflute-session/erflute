@@ -71,7 +71,15 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         } else {
             System.out.println("*Unsupported diagram walker: " + walker);
         }
-        walkerList.add(walker);
+
+        if (walker instanceof WalkerGroup) {
+            // エディタ上で、テーブルグループをテーブルの背面に配置するため。
+            // テーブルの後にテーブルグループを追加すると、テーブルグループの後ろにテーブルが隠れてしまう。
+            walkerList.add(0, walker);
+        } else {
+            walkerList.add(walker);
+        }
+
         firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
