@@ -98,17 +98,21 @@ public class ERDiagram extends ViewableModel {
 
     public void addWalkerPlainly(DiagramWalker diagramWalker) {
         DiagramWalker walker = diagramWalker;
-        if (walker instanceof ERVirtualTable) {
-            final ERVirtualTable virtualTable = (ERVirtualTable) walker;
-            walker = virtualTable.getRawTable();
-
-            if (getCurrentVirtualDiagram() != null) {
-                // 仮想ダイアグラム上に仮想テーブルを追加する
-                getCurrentVirtualDiagram().addTable(virtualTable);
-
-                // メインダイアグラム上では左上に配置
-                walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
+        if (getCurrentVirtualDiagram() != null && walker instanceof ERTable) {
+            ERVirtualTable virtualTable;
+            if (walker instanceof ERVirtualTable) {
+                virtualTable = (ERVirtualTable) walker;
+                walker = virtualTable.getRawTable();
+            } else {
+                virtualTable = new ERVirtualTable(getCurrentVirtualDiagram(), (ERTable) walker);
+                virtualTable.setLocation(new Location(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
             }
+
+            // 仮想ダイアグラム上に仮想テーブルを追加する
+            getCurrentVirtualDiagram().addTable(virtualTable);
+
+            // メインダイアグラム上では左上に配置
+            walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
         }
         walker.setDiagram(this);
         diagramContents.getDiagramWalkers().addDiagramWalker(walker);
