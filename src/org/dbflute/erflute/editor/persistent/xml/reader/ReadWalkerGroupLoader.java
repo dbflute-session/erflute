@@ -47,7 +47,7 @@ public class ReadWalkerGroupLoader {
             keys = getTagValues(node, "diagram_walker"); // #for_erflute
         }
         final List<? extends TableView> tableList = tablesProvider.provide();
-        final List<DiagramWalker> walkerList = new ArrayList<DiagramWalker>();
+        final List<DiagramWalker> walkerList = new ArrayList<>();
         for (final String key : keys) {
             final DiagramWalker walker = context.walkerMap.get(key);
             if (walker != null) {

@@ -132,4 +132,3 @@ src/org.insightech.er
  |-ResourceString
  |-ERDiagram_ja.properties
  |-ERDiagram.properties
-

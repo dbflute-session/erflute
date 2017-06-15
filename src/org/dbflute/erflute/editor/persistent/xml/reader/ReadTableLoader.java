@@ -94,9 +94,8 @@ public class ReadTableLoader {
 
     private void assertRawTableExists(ERVirtualDiagram vdiagram, LoadContext context, String tableId, final ERTable rawTable) {
         if (rawTable == null) {
-            final String msg =
-                    "Not found the raw table by the ID: " + tableId + ", vdiagram=" + vdiagram.getName() + ", walkers="
-                            + context.walkerMap.keySet();
+            final String msg = "Not found the raw table by the ID: " + tableId + ", vdiagram=" + vdiagram.getName() + ", walkers="
+                    + context.walkerMap.keySet();
             throw new IllegalStateException(msg);
         }
     }

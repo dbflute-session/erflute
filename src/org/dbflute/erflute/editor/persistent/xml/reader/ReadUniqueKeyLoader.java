@@ -37,7 +37,7 @@ public class ReadUniqueKeyLoader {
     //                                                                  Complex Unique Key
     //                                                                  ==================
     public List<CompoundUniqueKey> loadComplexUniqueKeyList(Element parent, ERTable table, LoadContext context) {
-        final List<CompoundUniqueKey> compoundUniqueKeyList = new ArrayList<CompoundUniqueKey>();
+        final List<CompoundUniqueKey> compoundUniqueKeyList = new ArrayList<>();
         Element element = getElement(parent, "complex_unique_key_list"); // migration from ERMaster
         if (element == null || element.getChildNodes().getLength() == 0) {
             element = getElement(parent, "compound_unique_key_list"); // #for_erflute rename
