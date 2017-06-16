@@ -32,8 +32,6 @@ public class ChangeTableViewPropertyCommand extends AbstractCommand {
 
             // テーブルの更新（線も含めた再生成）
             this.tableView.getDiagram().changeTable(newCopyTableView);
-            // ERDiagram.firePropertyChange(PROPERTY_CHANGE_TABLE)
-
         } else {
             // メインビューを更新
             this.newCopyTableView.restructureData(tableView);
@@ -46,7 +44,25 @@ public class ChangeTableViewPropertyCommand extends AbstractCommand {
 
     @Override
     protected void doUndo() {
-        this.oldCopyTableView.restructureData(tableView);
-        this.tableView.getDiagram().changeAll();
+        if (tableView instanceof ERVirtualTable) {
+            final ERVirtualTable vtable = (ERVirtualTable) tableView;
+
+            // メインビューを更新（枠の再生成）
+            this.oldCopyTableView.restructureData(vtable.getRawTable());
+            // TableView.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
+
+            // サブビューも更新
+            vtable.changeTable();
+
+            // テーブルの更新（線も含めた再生成）
+            this.tableView.getDiagram().changeTable(oldCopyTableView);
+        } else {
+            // メインビューを更新
+            this.oldCopyTableView.restructureData(tableView);
+            this.tableView.getDiagram().changeTable(oldCopyTableView);
+
+            // サブビューも更新
+            tableView.getDiagram().doChangeTable(oldCopyTableView);
+        }
     }
 }
