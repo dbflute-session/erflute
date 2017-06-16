@@ -130,15 +130,21 @@ public class WrittenColumnBuilder {
     }
 
     private void setupTypeData(StringBuilder xml, Word word) {
-        // not write if empty or false to slim XML
+        if (word == null) {
+            org.dbflute.erflute.Activator.debug(this, "setupTypeData", "word is null");
+            return;
+        }
+
         final TypeData typeData = word.getTypeData();
-        final Integer length = word != null ? typeData.getLength() : null;
-        final Integer decimal = word != null ? typeData.getDecimal() : null;
-        final boolean array = word != null ? typeData.isArray() : null;
-        final Integer arrayDimension = word != null ? typeData.getArrayDimension() : null;
-        final boolean unsigned = word != null ? typeData.isUnsigned() : null;
-        final String args = word != null ? typeData.getArgs() : null;
+        final Integer length = typeData.getLength();
+        final Integer decimal = typeData.getDecimal();
+        final boolean array = typeData.isArray();
+        final Integer arrayDimension = typeData.getArrayDimension();
+        final boolean unsigned = typeData.isUnsigned();
+        final String args = typeData.getArgs();
         final boolean charSemantics = typeData.isCharSemantics();
+
+        // not write if empty or false to slim XML
         if (length != null) {
             xml.append("\t<length>").append(escape(length)).append("</length>\n");
         }

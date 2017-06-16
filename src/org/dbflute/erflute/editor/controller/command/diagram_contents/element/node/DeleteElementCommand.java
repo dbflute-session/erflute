@@ -21,8 +21,7 @@ public class DeleteElementCommand extends AbstractCommand {
     @Override
     protected void doExecute() {
         diagram.removeContent(element);
-        ERModelUtil.refreshDiagram(element.getDiagram());
-
+        ERModelUtil.refreshDiagram(diagram);
     }
 
     @Override

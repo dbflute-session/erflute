@@ -96,7 +96,24 @@ public class ERDiagram extends ViewableModel {
         addWalkerPlainly(walker);
     }
 
-    public void addWalkerPlainly(DiagramWalker walker) {
+    public void addWalkerPlainly(DiagramWalker diagramWalker) {
+        DiagramWalker walker = diagramWalker;
+        if (getCurrentVirtualDiagram() != null && walker instanceof ERTable) {
+            ERVirtualTable virtualTable;
+            if (walker instanceof ERVirtualTable) {
+                virtualTable = (ERVirtualTable) walker;
+                walker = virtualTable.getRawTable();
+            } else {
+                virtualTable = new ERVirtualTable(getCurrentVirtualDiagram(), (ERTable) walker);
+                virtualTable.setLocation(new Location(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
+            }
+
+            // 仮想ダイアグラム上に仮想テーブルを追加する
+            getCurrentVirtualDiagram().addTable(virtualTable);
+
+            // メインダイアグラム上では左上に配置
+            walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
+        }
         walker.setDiagram(this);
         diagramContents.getDiagramWalkers().addDiagramWalker(walker);
         if (editor != null) {
@@ -108,34 +125,6 @@ public class ERDiagram extends ViewableModel {
         if (walker instanceof TableView) {
             for (final NormalColumn normalColumn : ((TableView) walker).getNormalColumns()) {
                 getDiagramContents().getDictionary().add(normalColumn);
-            }
-        }
-        if (walker instanceof ERTable) {
-            final ERTable table = (ERTable) walker;
-            if (getCurrentVirtualDiagram() != null) {
-                // ビュー上に仮想テーブルを追加する
-                final ERVirtualDiagram model = getCurrentVirtualDiagram();
-                final ERVirtualTable virtualTable = new ERVirtualTable(model, table);
-                virtualTable.setPoint(walker.getX(), walker.getY());
-
-                // メインビュー上では左上に配置
-                walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
-
-                model.addTable(virtualTable);
-            }
-        }
-        if (walker instanceof ERVirtualTable) {
-            final ERVirtualTable virtualTable = (ERVirtualTable) walker;
-            if (getCurrentVirtualDiagram() != null) {
-                // ビュー上に仮想テーブルを追加する
-                final ERVirtualDiagram model = getCurrentVirtualDiagram();
-                //ERVirtualTable virtualTable = new ERVirtualTable(model, table);
-                virtualTable.setPoint(walker.getX(), walker.getY());
-
-                // メインビュー上では左上に配置
-                walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
-
-                model.addTable(virtualTable);
             }
         }
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);

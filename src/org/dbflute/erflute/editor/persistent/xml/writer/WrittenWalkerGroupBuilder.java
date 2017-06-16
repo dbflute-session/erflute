@@ -21,7 +21,8 @@ public class WrittenWalkerGroupBuilder {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenWalkerGroupBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder walkerBuilder) {
+    public WrittenWalkerGroupBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic,
+            WrittenDiagramWalkerBuilder walkerBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.walkerBuilder = walkerBuilder;

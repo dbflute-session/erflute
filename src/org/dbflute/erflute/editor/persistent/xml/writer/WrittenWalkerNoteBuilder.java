@@ -19,7 +19,8 @@ public class WrittenWalkerNoteBuilder {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public WrittenWalkerNoteBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic, WrittenDiagramWalkerBuilder walkerBuilder) {
+    public WrittenWalkerNoteBuilder(PersistentXml persistentXml, WrittenAssistLogic assistLogic,
+            WrittenDiagramWalkerBuilder walkerBuilder) {
         this.persistentXml = persistentXml;
         this.assistLogic = assistLogic;
         this.walkerBuilder = walkerBuilder;

@@ -27,7 +27,7 @@ public class ERVirtualTable extends ERTable {
     //                                                                           Attribute
     //                                                                           =========
     private final ERVirtualDiagram vdiagram;
-    private final ERTable rawTable;
+    private ERTable rawTable;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -78,12 +78,13 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<WalkerConnection> getIncomings() {
-        final List<WalkerConnection> connectionList = new ArrayList<WalkerConnection>();
+        final List<WalkerConnection> connectionList = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final WalkerConnection connection : rawTable.getIncomings()) {
             final DiagramWalker walker = connection.getWalkerSource();
             if (walker instanceof WalkerNote) {
-                if (((WalkerNote) walker).getVirtualDiagram().equals(vdiagram)) {
+                final WalkerNote note = (WalkerNote) walker;
+                if (note.getVirtualDiagram() != null && note.getVirtualDiagram().equals(vdiagram)) {
                     connectionList.add(connection);
                 }
             } else {
@@ -100,7 +101,7 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<WalkerConnection> getOutgoings() {
-        final List<WalkerConnection> connectionList = new ArrayList<WalkerConnection>();
+        final List<WalkerConnection> connectionList = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final WalkerConnection connection : rawTable.getOutgoings()) {
             final DiagramWalker walker = connection.getWalkerTarget();
@@ -177,7 +178,7 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relationship> getIncomingRelationshipList() {
-        final List<Relationship> relationships = new ArrayList<Relationship>();
+        final List<Relationship> relationships = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final Relationship relationship : rawTable.getIncomingRelationshipList()) {
             final DiagramWalker walker = relationship.getWalkerSource();
@@ -193,7 +194,7 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relationship> getOutgoingRelationshipList() {
-        final List<Relationship> relationships = new ArrayList<Relationship>();
+        final List<Relationship> relationships = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final Relationship relationship : rawTable.getOutgoingRelationshipList()) {
             final DiagramWalker walker = relationship.getWalkerSource();
@@ -276,5 +277,15 @@ public class ERVirtualTable extends ERTable {
 
     public ERTable getRawTable() {
         return rawTable;
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public ERVirtualTable clone() {
+        final ERVirtualTable clone = (ERVirtualTable) super.clone();
+        clone.rawTable = rawTable.clone();
+        return clone;
     }
 }

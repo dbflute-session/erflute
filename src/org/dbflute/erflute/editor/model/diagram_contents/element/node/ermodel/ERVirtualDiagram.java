@@ -1,7 +1,10 @@
 package org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -11,6 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.Walke
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -27,12 +31,13 @@ public class ERVirtualDiagram extends DiagramWalker {
     private List<ERVirtualTable> tables;
     private List<WalkerNote> notes;
     private List<WalkerGroup> groups;
+    private Point mousePoint = new Point();
 
     public ERVirtualDiagram(ERDiagram diagram) {
         setDiagram(diagram);
-        tables = new ArrayList<ERVirtualTable>();
-        notes = new ArrayList<WalkerNote>();
-        groups = new ArrayList<WalkerGroup>();
+        tables = new ArrayList<>();
+        notes = new ArrayList<>();
+        groups = new ArrayList<>();
     }
 
     @Override
@@ -227,5 +232,19 @@ public class ERVirtualDiagram extends DiagramWalker {
     public void setWalkerGroups(List<WalkerGroup> groups) {
         this.groups = groups;
         this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
+
+    public Set<ERVirtualTable> getVirtualTableSet() {
+        final TreeSet<ERVirtualTable> set = new TreeSet<>(Comparator.comparing(o -> o.getRawTable()));
+        set.addAll(getVirtualTables());
+        return set;
+    }
+
+    public Point getMousePoint() {
+        return mousePoint;
+    }
+
+    public void setMousePoint(Point mousePoint) {
+        this.mousePoint = mousePoint;
     }
 }

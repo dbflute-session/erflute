@@ -39,7 +39,7 @@ public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
 
     @Override
     protected List<Object> getModelChildren() {
-        final List<Object> modelChildren = new ArrayList<Object>();
+        final List<Object> modelChildren = new ArrayList<>();
         final ERVirtualDiagram vdiagram = (ERVirtualDiagram) getModel();
         modelChildren.addAll(vdiagram.getWalkerGroups());
         modelChildren.addAll(vdiagram.getVirtualTables());

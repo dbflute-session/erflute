@@ -64,7 +64,6 @@ public class PasteAction extends SelectionAction {
      * @return 貼り付けコマンド
      */
     private Command createCommand() {
-
         // 貼り付け不可の場合ꍇ
         if (!calculateEnabled()) {
             return null;
@@ -102,15 +101,17 @@ public class PasteAction extends SelectionAction {
 
             return command;
         }
-        if (model instanceof ERVirtualDiagram) {
-            final ERVirtualDiagram erModel = (ERVirtualDiagram) model;
-            final ERDiagram diagram = erModel.getDiagram();
 
-            final Command command = new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20,
-                    diagram.mousePoint.y - y + (numberOfCopy - 1) * 20);
+        if (model instanceof ERVirtualDiagram) {
+            final ERVirtualDiagram virtualDiagram = (ERVirtualDiagram) model;
+
+            // diagram.mousePointはメインダイアグラムのマウス座標を参照するため、使えない。
+            final Command command = new PasteCommand(editor, pasteList, virtualDiagram.getMousePoint().x - x + (numberOfCopy - 1) * 20,
+                    virtualDiagram.getMousePoint().y - y + (numberOfCopy - 1) * 20);
 
             return command;
         }
+
         return null;
     }
 }

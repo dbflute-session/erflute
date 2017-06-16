@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
+import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -64,8 +65,7 @@ public class PlaceTableCommand extends AbstractCommand {
                 point.x += 32;
                 point.y += 32;
             }
-            //			modelEditor.setContents(orgTables.get(0).getDiagram().getCurrentErmodel());
-            modelEditor.refresh();
+            ERModelUtil.refreshDiagram(modelEditor.getDiagram());
         } else {
             final ERTable curTable = orgTable;
 
@@ -92,8 +92,7 @@ public class PlaceTableCommand extends AbstractCommand {
             virtualTable = new ERVirtualTable(model, curTable);
             virtualTable.setPoint(point.x, point.y);
             model.addTable(virtualTable);
-            //			modelEditor.setContents(model);
-            modelEditor.refresh();
+            ERModelUtil.refreshDiagram(modelEditor.getDiagram());
         }
     }
 

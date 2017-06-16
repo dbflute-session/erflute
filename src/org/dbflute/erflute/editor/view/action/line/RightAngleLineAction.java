@@ -7,8 +7,8 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.RightAngleLineCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.IResizable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.view.action.AbstractBaseSelectionAction;
 import org.eclipse.draw2d.geometry.Point;
@@ -31,7 +31,7 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
 
     @Override
     protected List<Command> getCommand(EditPart editPart, Event event) {
-        final List<Command> commandList = new ArrayList<Command>();
+        final List<Command> commandList = new ArrayList<>();
         if (editPart instanceof IResizable) {
             final DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) editPart;
             for (final Object obj : nodeElementEditPart.getSourceConnections()) {

@@ -45,7 +45,7 @@ public class ReadVirtualDiagramLoader {
     //                                                                      VirtualDiagram
     //                                                                      ==============
     public List<ERVirtualDiagram> loadVirtualDiagram(Element parent, LoadContext context, ERDiagram diagram) {
-        final List<ERVirtualDiagram> results = new ArrayList<ERVirtualDiagram>();
+        final List<ERVirtualDiagram> results = new ArrayList<>();
         Element element = getElement(parent, "ermodels"); // migration from ERMaster
         if (element == null) {
             element = getElement(parent, "vdiagrams"); // #for_erflute
@@ -64,7 +64,7 @@ public class ReadVirtualDiagramLoader {
                 }
                 vdiagram.setName(vdiagramName);
                 assistLogic.loadColor(vdiagram, modelElement);
-                final List<ERVirtualTable> tables = new ArrayList<ERVirtualTable>();
+                final List<ERVirtualTable> tables = new ArrayList<>();
                 final Element vtables = getElement(modelElement, "vtables");
                 if (vtables != null) {
                     final NodeList tableEls = vtables.getElementsByTagName("vtable");
@@ -85,7 +85,7 @@ public class ReadVirtualDiagramLoader {
     }
 
     private void loadWalkerNotes(LoadContext context, Element modelElement, ERVirtualDiagram vdiagram, ERDiagram diagram) {
-        final List<WalkerNote> notes = new ArrayList<WalkerNote>();
+        final List<WalkerNote> notes = new ArrayList<>();
         Element notesElement = getElement(modelElement, "notes");
         if (notesElement == null) {
             notesElement = getElement(modelElement, "walker_notes"); // #for_erflute
@@ -111,7 +111,7 @@ public class ReadVirtualDiagramLoader {
     }
 
     private void loadWalkerGroups(LoadContext context, Element modelElement, final ERVirtualDiagram vdiagram) {
-        final List<WalkerGroup> groups = new ArrayList<WalkerGroup>();
+        final List<WalkerGroup> groups = new ArrayList<>();
         Element groupsElement = getElement(modelElement, "groups"); // migration from ERMaster
         if (groupsElement == null) {
             groupsElement = getElement(modelElement, "walker_groups"); // #for_erflute

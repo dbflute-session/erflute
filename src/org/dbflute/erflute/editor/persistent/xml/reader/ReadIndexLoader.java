@@ -35,7 +35,7 @@ public class ReadIndexLoader {
     //                                                                               Index
     //                                                                               =====
     public List<ERIndex> loadIndexes(Element parent, ERTable table, LoadContext context) {
-        final List<ERIndex> indexes = new ArrayList<ERIndex>();
+        final List<ERIndex> indexes = new ArrayList<>();
         final Element element = getElement(parent, "indexes");
         final NodeList nodeList = element.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -61,7 +61,7 @@ public class ReadIndexLoader {
     private void loadIndexColumns(ERIndex index, Element parent, LoadContext context) {
         final Element element = getElement(parent, "columns");
         final NodeList nodeList = element.getChildNodes();
-        final List<Boolean> descs = new ArrayList<Boolean>();
+        final List<Boolean> descs = new ArrayList<>();
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
