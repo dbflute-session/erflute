@@ -279,6 +279,9 @@ public class ERVirtualTable extends ERTable {
         return rawTable;
     }
 
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
     @Override
     public ERVirtualTable clone() {
         final ERVirtualTable clone = (ERVirtualTable) super.clone();
