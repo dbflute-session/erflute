@@ -386,8 +386,9 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         newCreatedRelationship = createRelationship();
         newCreatedRelationship.setForeignKeyName(foreignKeyNameText.getText().trim());
         if (isCreateNewColumn()) {
+            // TODO コマンド外の操作でカラムを追加しているため、undoしてもカラムが削除されない。
             for (final NormalColumn referredColumn : selectedReferredColumnList) {
-                final NormalColumn newColumn = createForeignKeyColumn(referredColumn, newCreatedRelationship, resultReferenceForPK);
+                final NormalColumn newColumn = new NormalColumn(referredColumn, resultReferenceForPK);
                 adjustNewForeignKeyColumn(newColumn);
                 selectedForeignKeyColumnList.add(newColumn);
                 target.addColumn(newColumn);
@@ -401,10 +402,6 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
 
     private Relationship createRelationship() {
         return new Relationship(resultReferenceForPK, resultReferredComplexUniqueKey, resultReferredSimpleUniqueColumn);
-    }
-
-    private NormalColumn createForeignKeyColumn(NormalColumn referredColumn, Relationship relationship, boolean referenceForPK) {
-        return new NormalColumn(referredColumn, referredColumn, relationship, referenceForPK);
     }
 
     private void adjustNewForeignKeyColumn(NormalColumn newColumn) {

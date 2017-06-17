@@ -37,8 +37,8 @@ public class NormalColumn extends ERColumn {
     private String uniqueKeyName;
     private String characterSet;
     private String collation;
-    private List<NormalColumn> referredColumnList = new ArrayList<NormalColumn>();
-    private List<Relationship> relationshipList = new ArrayList<Relationship>();
+    private List<NormalColumn> referredColumnList = new ArrayList<>();
+    private List<Relationship> relationshipList = new ArrayList<>();
     private Sequence autoIncrementSetting; // same as sequence
 
     // ===================================================================================
@@ -57,8 +57,8 @@ public class NormalColumn extends ERColumn {
         this.foreignKeyPhysicalName = from.foreignKeyPhysicalName;
         this.foreignKeyLogicalName = from.foreignKeyLogicalName;
         this.foreignKeyDescription = from.foreignKeyDescription;
-        this.init(from.notNull, from.primaryKey, from.uniqueKey, from.autoIncrement, from.defaultValue, from.constraint,
-                from.uniqueKeyName, from.characterSet, from.collation);
+        this.init(from.notNull, from.primaryKey, from.uniqueKey, from.autoIncrement, from.defaultValue, from.constraint, from.uniqueKeyName,
+                from.characterSet, from.collation);
         this.word = from.word;
         this.autoIncrementSetting = (Sequence) from.autoIncrementSetting.clone();
     }
@@ -67,6 +67,14 @@ public class NormalColumn extends ERColumn {
         this.word = null;
         this.referredColumnList.add(referredColumn);
         this.relationshipList.add(relationship);
+        copyData(from, this);
+        this.primaryKey = primaryKey;
+        this.autoIncrement = false;
+        this.autoIncrementSetting = new Sequence();
+    }
+
+    public NormalColumn(NormalColumn from, boolean primaryKey) {
+        this.word = (Word) from.getWord().clone();
         copyData(from, this);
         this.primaryKey = primaryKey;
         this.autoIncrement = false;
@@ -113,7 +121,7 @@ public class NormalColumn extends ERColumn {
     }
 
     public List<Relationship> getOutgoingRelationList() {
-        final List<Relationship> outgoingRelationList = new ArrayList<Relationship>();
+        final List<Relationship> outgoingRelationList = new ArrayList<>();
         final ColumnHolder columnHolder = this.getColumnHolder();
         if (columnHolder instanceof ERTable) {
             final ERTable table = (ERTable) columnHolder;
@@ -133,7 +141,7 @@ public class NormalColumn extends ERColumn {
     }
 
     public List<NormalColumn> getForeignKeyList() {
-        final List<NormalColumn> foreignKeyList = new ArrayList<NormalColumn>();
+        final List<NormalColumn> foreignKeyList = new ArrayList<>();
         final ColumnHolder columnHolder = this.getColumnHolder();
         if (columnHolder instanceof ERTable) {
             final ERTable table = (ERTable) columnHolder;
@@ -166,14 +174,14 @@ public class NormalColumn extends ERColumn {
         this.foreignKeyDescription = getDescription();
         this.foreignKeyLogicalName = getLogicalName();
         this.foreignKeyPhysicalName = getPhysicalName();
-        this.referredColumnList.add(referredColumn);
-        this.relationshipList.add(relationship);
+        referredColumnList.add(referredColumn);
+        relationshipList.add(relationship);
         copyData(this, this);
         this.word = null;
     }
 
     public void renewRelationList() {
-        final List<Relationship> newRelationList = new ArrayList<Relationship>();
+        final List<Relationship> newRelationList = new ArrayList<>();
         newRelationList.addAll(this.relationshipList);
         this.relationshipList = newRelationList;
     }
@@ -363,8 +371,8 @@ public class NormalColumn extends ERColumn {
     @Override
     public NormalColumn clone() {
         final NormalColumn clone = (NormalColumn) super.clone();
-        clone.relationshipList = new ArrayList<Relationship>(this.relationshipList);
-        clone.referredColumnList = new ArrayList<NormalColumn>(this.referredColumnList);
+        clone.relationshipList = new ArrayList<>(this.relationshipList);
+        clone.referredColumnList = new ArrayList<>(this.referredColumnList);
         return clone;
     }
 
@@ -557,7 +565,7 @@ public class NormalColumn extends ERColumn {
     }
 
     public void clearRelations() {
-        relationshipList = new ArrayList<Relationship>();
+        relationshipList = new ArrayList<>();
     }
 
     public Sequence getAutoIncrementSetting() {
