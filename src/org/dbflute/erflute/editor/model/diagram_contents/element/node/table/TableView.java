@@ -105,13 +105,13 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public void addColumn(ERColumn column) {
-        this.columns.add(column);
+        this.getColumns().add(column);
         column.setColumnHolder(this);
         this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
     public void addColumn(int index, ERColumn column) {
-        this.columns.add(index, column);
+        this.getColumns().add(index, column);
         column.setColumnHolder(this);
         this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
