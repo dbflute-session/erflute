@@ -117,7 +117,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public void removeColumn(ERColumn column) {
-        this.columns.remove(column);
+        this.getColumns().remove(column);
         this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
