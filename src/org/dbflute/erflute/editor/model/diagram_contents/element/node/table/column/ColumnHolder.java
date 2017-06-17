@@ -5,6 +5,9 @@ public interface ColumnHolder {
     String getName();
 
     default boolean same(ColumnHolder columnHolder) {
+        if (columnHolder == null) {
+            return false;
+        }
         return getName().equals(columnHolder.getName());
     }
 }
