@@ -3,4 +3,8 @@ package org.dbflute.erflute.editor.model.diagram_contents.element.node.table.col
 public interface ColumnHolder {
 
     String getName();
+
+    default boolean same(ColumnHolder columnHolder) {
+        return getName().equals(columnHolder.getName());
+    }
 }

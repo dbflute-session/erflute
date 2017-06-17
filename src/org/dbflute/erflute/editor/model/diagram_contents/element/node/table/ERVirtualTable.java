@@ -279,6 +279,18 @@ public class ERVirtualTable extends ERTable {
         return rawTable;
     }
 
+    @Override
+    public void changeTableViewProperty(final TableView sourceTableView) {
+        // メインビューを更新（枠の再生成）
+        sourceTableView.restructureData(getRawTable());
+
+        // サブビューも更新
+        changeTable();
+
+        // テーブルの更新（線も含めた再生成）
+        getDiagram().changeTable(sourceTableView);
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
