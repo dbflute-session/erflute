@@ -4,6 +4,9 @@ import org.eclipse.draw2d.FrameBorder;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SchemeBorder;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ImageFrameBorder extends FrameBorder {
 
     @Override
@@ -12,10 +15,6 @@ public class ImageFrameBorder extends FrameBorder {
         outer = new SchemeBorder(SCHEME_FRAME);
     }
 
-    /**
-     * タイトル領域の幅を返します
-     * @return タイトル領域の幅
-     */
     public int getTitleBarWidth(IFigure figure) {
         return ((ImageTitleBarBorder) this.inner).getWidth(figure);
     }

@@ -41,7 +41,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.IContributedContentsView;
@@ -578,7 +577,6 @@ public class SearchDialog extends Dialog {
                         table = (ERTable) searchResultRow.getTargetNode();
                     }
                     if (table != null) {
-
                         try {
                             final IViewPart view = page.showView("org.eclipse.ui.views.ContentOutline");
                             final ContentOutline outlineView = (ContentOutline) view;
@@ -590,7 +588,7 @@ public class SearchDialog extends Dialog {
 
                             final IContributedContentsView v =
                                     (IContributedContentsView) outlineView.getAdapter(IContributedContentsView.class);
-                            final IWorkbenchPart contributingPart = v.getContributingPart();
+                            v.getContributingPart();
                         } catch (final PartInitException e1) {
                             e1.printStackTrace();
                         }
@@ -664,20 +662,22 @@ public class SearchDialog extends Dialog {
             }
 
             final String keyword = this.keywordCombo.getText();
-            this.searchResult = this.searchManager.search(keyword, this.all, this.physicalWordNameCheckBox.getSelection(),
-                    this.logicalWordNameCheckBox.getSelection(), this.wordTypeCheckBox.getSelection(),
-                    this.wordLengthCheckBox.getSelection(), this.wordDecimalCheckBox.getSelection(),
-                    this.wordDescriptionCheckBox.getSelection(), this.physicalTableNameCheckBox.getSelection(),
-                    this.logicalTableNameCheckBox.getSelection(), this.physicalColumnNameCheckBox.getSelection(),
-                    this.logicalColumnNameCheckBox.getSelection(), this.columnTypeCheckBox.getSelection(),
-                    this.columnLengthCheckBox.getSelection(), this.columnDecimalCheckBox.getSelection(),
-                    this.columnDefaultValueCheckBox.getSelection(), this.columnDescriptionCheckBox.getSelection(),
-                    this.columnGroupNameCheckBox.getSelection(), this.indexCheckBox.getSelection(), this.noteCheckBox.getSelection(),
-                    this.modelPropertiesCheckBox.getSelection(), this.relationCheckBox.getSelection(),
-                    this.groupNameCheckBox.getSelection(), this.physicalGroupColumnNameCheckBox.getSelection(),
-                    this.logicalGroupColumnNameCheckBox.getSelection(), this.groupColumnTypeCheckBox.getSelection(),
-                    this.groupColumnLengthCheckBox.getSelection(), this.groupColumnDecimalCheckBox.getSelection(),
-                    this.groupColumnDefaultValueCheckBox.getSelection(), this.groupColumnDescriptionCheckBox.getSelection());
+            this.searchResult =
+                    this.searchManager.search(keyword, this.all, this.physicalWordNameCheckBox.getSelection(),
+                            this.logicalWordNameCheckBox.getSelection(), this.wordTypeCheckBox.getSelection(),
+                            this.wordLengthCheckBox.getSelection(), this.wordDecimalCheckBox.getSelection(),
+                            this.wordDescriptionCheckBox.getSelection(), this.physicalTableNameCheckBox.getSelection(),
+                            this.logicalTableNameCheckBox.getSelection(), this.physicalColumnNameCheckBox.getSelection(),
+                            this.logicalColumnNameCheckBox.getSelection(), this.columnTypeCheckBox.getSelection(),
+                            this.columnLengthCheckBox.getSelection(), this.columnDecimalCheckBox.getSelection(),
+                            this.columnDefaultValueCheckBox.getSelection(), this.columnDescriptionCheckBox.getSelection(),
+                            this.columnGroupNameCheckBox.getSelection(), this.indexCheckBox.getSelection(),
+                            this.noteCheckBox.getSelection(), this.modelPropertiesCheckBox.getSelection(),
+                            this.relationCheckBox.getSelection(), this.groupNameCheckBox.getSelection(),
+                            this.physicalGroupColumnNameCheckBox.getSelection(), this.logicalGroupColumnNameCheckBox.getSelection(),
+                            this.groupColumnTypeCheckBox.getSelection(), this.groupColumnLengthCheckBox.getSelection(),
+                            this.groupColumnDecimalCheckBox.getSelection(), this.groupColumnDefaultValueCheckBox.getSelection(),
+                            this.groupColumnDescriptionCheckBox.getSelection());
 
             this.showSearchResult();
 

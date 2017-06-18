@@ -11,6 +11,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.MatchWidthAction;
 import org.eclipse.ui.IWorkbenchPart;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramMatchWidthAction extends MatchWidthAction {
 
     public ERDiagramMatchWidthAction(IWorkbenchPart part) {
@@ -19,23 +22,19 @@ public class ERDiagramMatchWidthAction extends MatchWidthAction {
         this.setDisabledImageDescriptor(null);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected List getSelectedObjects() {
-        List objects = new ArrayList(super.getSelectedObjects());
+        final List<?> objects = new ArrayList<Object>(super.getSelectedObjects());
         boolean first = true;
-
-        for (Iterator iter = objects.iterator(); iter.hasNext();) {
-            Object object = iter.next();
+        for (final Iterator<?> iter = objects.iterator(); iter.hasNext();) {
+            final Object object = iter.next();
             if (!(object instanceof EditPart)) {
                 iter.remove();
-
             } else {
-                EditPart editPart = (EditPart) object;
-
+                final EditPart editPart = (EditPart) object;
                 if (editPart instanceof NormalColumnEditPart) {
                     iter.remove();
-
                 } else {
                     if (first) {
                         editPart.setSelected(2);

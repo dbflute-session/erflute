@@ -234,7 +234,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         this.table.setModel(this.tableModel);
 
         if (rowHeaderWidth > 0) {
-            final JList rowHeader = new JList() {
+            final JList<?> rowHeader = new JList<Object>() {
 
                 private static final long serialVersionUID = 1L;
 

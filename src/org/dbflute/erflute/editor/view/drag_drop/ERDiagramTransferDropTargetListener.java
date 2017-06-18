@@ -15,6 +15,9 @@ import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramTransferDropTargetListener extends AbstractTransferDropTargetListener {
 
     public ERDiagramTransferDropTargetListener(EditPartViewer dropTargetViewer, Transfer xfer) {
@@ -35,12 +38,11 @@ public class ERDiagramTransferDropTargetListener extends AbstractTransferDropTar
         final Object object = this.getTargetModel();
 
         if (object instanceof Map) {
-            if (((Map) object).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_PARENT) instanceof TableView) {
+            if (((Map<?, ?>) object).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_PARENT) instanceof TableView) {
                 final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN_GROUP);
                 request.setDirectEditFeature(object);
                 request.setLocation(this.getDropLocation());
                 return request;
-
             } else {
                 final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP);
                 request.setDirectEditFeature(object);
