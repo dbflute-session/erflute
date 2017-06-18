@@ -11,6 +11,7 @@ import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.editor.controller.command.category.ChangeCategoryNameCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.ValidateResult;
 import org.dbflute.erflute.editor.model.dbexport.ddl.validator.Validator;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
@@ -339,6 +340,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         if (selectedEditor instanceof VirtualDiagramEditor) { // sub editor
             final VirtualDiagramEditor editor = (VirtualDiagramEditor) selectedEditor;
             this.diagram.setCurrentVirtualDiagram(editor.getVirtualDiagram(), editor.getVirtualDiagram().getName());
+            ERModelUtil.refreshDiagram(diagram);
         } else { // main editor
             this.diagram.setCurrentVirtualDiagram(null, null);
             this.diagram.changeAll();
