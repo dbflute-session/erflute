@@ -1,7 +1,5 @@
 package org.dbflute.erflute.editor.view.figure;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
@@ -17,10 +15,6 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.swt.graphics.Color;
 
 public class ModelPropertiesFigure extends RectangleFigure {
-
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
-    private static final long serialVersionUID = 1L;
 
     private Color foregroundColor;
 

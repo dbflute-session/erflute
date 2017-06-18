@@ -41,24 +41,21 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.LabelRetargetAction;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ChangeBackgroundColorAction extends SelectionAction {
 
     public static final String ID = ChangeBackgroundColorAction.class.getName();
-
     private RGB rgb;
-
     private Image image;
 
     public ChangeBackgroundColorAction(IWorkbenchPart part, ERDiagram diagram) {
         super(part, Action.AS_DROP_DOWN_MENU);
-
         this.setId(ID);
-
         this.setText(DisplayMessages.getMessage("action.title.change.background.color"));
         this.setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
-
         final int[] defaultColor = diagram.getDefaultColor();
-
         this.rgb = new RGB(defaultColor[0], defaultColor[1], defaultColor[2]);
         this.setColorToImage();
     }
@@ -88,9 +85,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
     private void setRGB(RGB rgb) {
         this.rgb = rgb;
-
         final EditPart editPart = ((MainDiagramEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
-
         if (editPart.getModel() instanceof ERVirtualDiagram) {
             final ERVirtualDiagram model = (ERVirtualDiagram) editPart.getModel();
             model.setDefaultColor(DesignResources.getColor(rgb));
@@ -98,7 +93,6 @@ public class ChangeBackgroundColorAction extends SelectionAction {
             final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
             diagram.setDefaultColor(DesignResources.getColor(rgb));
         }
-
         this.setColorToImage();
     }
 
@@ -108,11 +102,11 @@ public class ChangeBackgroundColorAction extends SelectionAction {
         this.getCommandStack().execute(command);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected List getSelectedObjects() {
-        final List objects = new ArrayList(super.getSelectedObjects());
-        for (final Iterator iter = objects.iterator(); iter.hasNext();) {
+        final List<?> objects = new ArrayList<Object>(super.getSelectedObjects());
+        for (final Iterator<?> iter = objects.iterator(); iter.hasNext();) {
             if (iter.next() instanceof NormalColumnEditPart) {
                 iter.remove();
             }
@@ -122,35 +116,28 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        final List objects = this.getSelectedObjects();
-
+        final List<?> objects = this.getSelectedObjects();
         if (objects.isEmpty()) {
             return false;
         }
-
         if (!(objects.get(0) instanceof GraphicalEditPart)) {
             return false;
         }
-
         return true;
     }
 
-    private Command createCommand(List objects, RGB rgb) {
+    private Command createCommand(List<?> objects, RGB rgb) {
         if (objects.isEmpty()) {
             return null;
         }
-
         if (!(objects.get(0) instanceof GraphicalEditPart)) {
             return null;
         }
-
         final CompoundCommand command = new CompoundCommand();
-
         for (int i = 0; i < objects.size(); i++) {
             final GraphicalEditPart part = (GraphicalEditPart) objects.get(i);
             command.add(new ChangeBackgroundColorCommand((ViewableModel) part.getModel(), rgb.red, rgb.green, rgb.blue));
         }
-
         return command;
     }
 
@@ -162,30 +149,22 @@ public class ChangeBackgroundColorAction extends SelectionAction {
             this.setDisabledImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR_DISABLED));
             this.setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
 
-            // サブメニューの生成
-            setMenuCreator(new IMenuCreator() {
+            setMenuCreator(new IMenuCreator() { // for sub menu
                 @Override
                 public Menu getMenu(Control parent) {
                     final Menu menu = new Menu(parent);
-
                     try {
                         final MenuItem item1 = new MenuItem(menu, SWT.NONE);
                         item1.setText(DisplayMessages.getMessage("action.title.select.color"));
                         item1.setImage(Activator.getImage(ImageKey.PALETTE));
-
                         item1.addSelectionListener(new SelectionAdapter() {
-
                             @Override
                             public void widgetSelected(SelectionEvent e) {
                                 final ColorDialog colorDialog =
                                         new ColorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.NULL);
-
                                 colorDialog.setText(DisplayMessages.getMessage("dialog.title.change.background.color"));
-
                                 final ChangeBackgroundColorAction action = (ChangeBackgroundColorAction) getActionHandler();
-
                                 final RGB rgb = colorDialog.open();
-
                                 action.setRGB(rgb);
                                 action.runWithEvent(null);
                             }
@@ -203,7 +182,6 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
                 @Override
                 public void dispose() {
-
                 }
             });
         }
@@ -212,7 +190,6 @@ public class ChangeBackgroundColorAction extends SelectionAction {
     @Override
     public void dispose() {
         image.dispose();
-
         super.dispose();
     }
 }
