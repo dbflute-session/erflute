@@ -70,7 +70,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
         super.createActions();
         final ActionRegistry registry = getActionRegistry();
         final List<IAction> actionList =
-                new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new WalkerGroupManageAction(this), }));
+                new ArrayList<>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new WalkerGroupManageAction(this), }));
         for (final IAction action : actionList) {
             registry.registerAction(action);
         }
@@ -81,24 +81,24 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     //                                                                     ===============
     @Override
     protected void initializeGraphicalViewer() {
-        final GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = getGraphicalViewer();
         viewer.setEditPartFactory(editPartFactory);
-
-        this.initViewerAction(viewer);
-        this.initDragAndDrop(viewer);
-
+        initViewerAction(viewer);
+        initDragAndDrop(viewer);
         viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, true);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
 
-        final MenuManager menuMgr = new ERVirtualDiagramPopupMenuManager(this.getActionRegistry(), this.vdiagram);
-        this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
+        final MenuManager menuMgr = new ERVirtualDiagramPopupMenuManager(getActionRegistry(), vdiagram);
+        this.extensionLoader.addERDiagramPopupMenu(menuMgr, getActionRegistry());
         viewer.setContextMenu(menuMgr);
         viewer.setContents(vdiagram);
-        this.outlineMenuMgr =
-                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
-                        this.outlinePage.getViewer());
+
+        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(),
+                outlinePage.getViewer());
+        outlinePage.setContextMenu(outlineMenuMgr);
+
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 

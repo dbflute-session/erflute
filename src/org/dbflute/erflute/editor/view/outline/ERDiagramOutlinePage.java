@@ -121,9 +121,12 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         this.graphicalViewer.addDropTargetListener(dropTargetListener);
     }
 
-    public void setCategory(EditDomain editDomain, GraphicalViewer graphicalViewer, MenuManager outlineMenuMgr, ActionRegistry registry) {
-        this.graphicalViewer = graphicalViewer;
+    public void setContextMenu(MenuManager outlineMenuMgr) {
         this.viewer.setContextMenu(outlineMenuMgr);
+    }
+
+    public void setCategory(EditDomain editDomain, GraphicalViewer graphicalViewer, ActionRegistry registry) {
+        this.graphicalViewer = graphicalViewer;
 
         this.viewer.setEditDomain(editDomain);
         this.registry = registry;
@@ -158,13 +161,12 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
     }
 
     private void registerAction(TreeViewer treeViewer, ActionRegistry actionRegistry) {
-        final IAction[] actions =
-                { new CreateIndexAction(treeViewer), new CreateSequenceAction(treeViewer), new CreateTriggerAction(treeViewer),
-                        new CreateTablespaceAction(treeViewer), new ChangeOutlineViewToPhysicalAction(treeViewer),
-                        new ChangeOutlineViewToLogicalAction(treeViewer), new ChangeOutlineViewToBothAction(treeViewer),
-                        new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
-                        new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer),
-                        new DeleteVirtualDiagramAction(treeViewer), };
+        final IAction[] actions = { new CreateIndexAction(treeViewer), new CreateSequenceAction(treeViewer),
+                new CreateTriggerAction(treeViewer), new CreateTablespaceAction(treeViewer),
+                new ChangeOutlineViewToPhysicalAction(treeViewer), new ChangeOutlineViewToLogicalAction(treeViewer),
+                new ChangeOutlineViewToBothAction(treeViewer), new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
+                new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer),
+                new DeleteVirtualDiagramAction(treeViewer), };
         for (final IAction action : actions) {
             actionRegistry.registerAction(action);
         }

@@ -185,21 +185,22 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     @Override
     protected void initializeGraphicalViewer() {
-        final GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = getGraphicalViewer();
         viewer.setEditPartFactory(editPartFactory);
-        this.initViewerAction(viewer);
-        this.initDragAndDrop(viewer);
+        initViewerAction(viewer);
+        initDragAndDrop(viewer);
         viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, true);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
-        final ActionRegistry actionRegistry = getActionRegistry();
-        final MenuManager menuMgr = new ERDiagramPopupMenuManager(actionRegistry, this.diagram);
-        this.extensionLoader.addERDiagramPopupMenu(menuMgr, actionRegistry);
+
+        final MenuManager menuMgr = new ERDiagramPopupMenuManager(getActionRegistry(), diagram);
+        this.extensionLoader.addERDiagramPopupMenu(menuMgr, getActionRegistry());
         viewer.setContextMenu(menuMgr);
-        final ActionRegistry outlineActionRegistory = outlinePage.getOutlineActionRegistory();
-        this.outlineMenuMgr =
-                new ERDiagramOutlinePopupMenuManager(diagram, actionRegistry, outlineActionRegistory, outlinePage.getViewer());
+
+        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(),
+                outlinePage.getViewer());
+        outlinePage.setContextMenu(outlineMenuMgr);
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
@@ -227,7 +228,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     }
 
     public void changeCategory() {
-        this.outlinePage.setCategory(this.getEditDomain(), this.getGraphicalViewer(), this.outlineMenuMgr, this.getActionRegistry());
+        this.outlinePage.setCategory(this.getEditDomain(), this.getGraphicalViewer(), this.getActionRegistry());
         this.getSelectionSynchronizer().addViewer(this.outlinePage.getViewer());
     }
 
