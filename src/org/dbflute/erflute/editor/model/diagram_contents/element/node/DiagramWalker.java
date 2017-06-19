@@ -22,8 +22,8 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
 
     protected ERDiagram diagram; // null allowed: when virtual model element
     protected Location location;
-    protected List<WalkerConnection> incomings = new ArrayList<WalkerConnection>(); // target
-    protected List<WalkerConnection> outgoings = new ArrayList<WalkerConnection>(); // source
+    protected List<WalkerConnection> incomings = new ArrayList<>(); // target
+    protected List<WalkerConnection> outgoings = new ArrayList<>(); // source
 
     public abstract boolean needsUpdateOtherModel();
 
@@ -32,8 +32,8 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
     }
 
     public List<DiagramWalker> getReferringElementList() {
-        final List<DiagramWalker> referringElementList = new ArrayList<DiagramWalker>();
-        for (final WalkerConnection connectionElement : this.getOutgoings()) {
+        final List<DiagramWalker> referringElementList = new ArrayList<>();
+        for (final WalkerConnection connectionElement : getOutgoings()) {
             final DiagramWalker targetElement = connectionElement.getWalkerTarget();
             referringElementList.add(targetElement);
         }
@@ -41,8 +41,8 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
     }
 
     public List<DiagramWalker> getReferedElementList() {
-        final List<DiagramWalker> referedElementList = new ArrayList<DiagramWalker>();
-        for (final WalkerConnection connectionElement : this.getIncomings()) {
+        final List<DiagramWalker> referedElementList = new ArrayList<>();
+        for (final WalkerConnection connectionElement : getIncomings()) {
             final DiagramWalker sourceElement = connectionElement.getWalkerSource();
             referedElementList.add(sourceElement);
         }
@@ -52,7 +52,7 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
     @Override
     public DiagramWalker clone() {
         final DiagramWalker clone = (DiagramWalker) super.clone();
-        clone.location = this.location.clone();
+        clone.location = location.clone();
         clone.setIncoming(new ArrayList<WalkerConnection>());
         clone.setOutgoing(new ArrayList<WalkerConnection>());
         return clone;
@@ -87,17 +87,25 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
         return location.width;
     }
 
+    public void setWidth(final int width) {
+        location.width = width;
+    }
+
     public int getHeight() {
         return location.height;
     }
 
+    public void setHeight(final int height) {
+        location.height = height;
+    }
+
     public void setLocation(Location location) {
         this.location = location;
-        this.firePropertyChange(PROPERTY_CHANGE_RECTANGLE, null, null);
+        firePropertyChange(PROPERTY_CHANGE_RECTANGLE, null, null);
     }
 
     public List<WalkerConnection> getPersistentConnections() {
-        final List<WalkerConnection> filteredList = new ArrayList<WalkerConnection>();
+        final List<WalkerConnection> filteredList = new ArrayList<>();
         for (final WalkerConnection conn : incomings) {
             if (conn instanceof CommentConnection) {
                 continue;
@@ -113,17 +121,17 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
 
     public void setIncoming(List<WalkerConnection> relations) { // target
         this.incomings = relations;
-        this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
+        firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
     }
 
     public void addIncoming(WalkerConnection relation) { // called by e.g. setTarget()
-        this.incomings.add(relation);
-        this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
+        incomings.add(relation);
+        firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
     }
 
     public void removeIncoming(WalkerConnection relation) {
-        this.incomings.remove(relation);
-        this.firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
+        incomings.remove(relation);
+        firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
     }
 
     public List<WalkerConnection> getOutgoings() { // source
@@ -132,16 +140,16 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
 
     public void setOutgoing(List<WalkerConnection> relations) { // source
         this.outgoings = relations;
-        this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
+        firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
     }
 
     public void addOutgoing(WalkerConnection relation) { // called by e.g. setSource()
-        this.outgoings.add(relation);
-        this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
+        outgoings.add(relation);
+        firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
     }
 
     public void removeOutgoing(WalkerConnection relation) {
-        this.outgoings.remove(relation);
-        this.firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
+        outgoings.remove(relation);
+        firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
     }
 }

@@ -63,7 +63,7 @@ public class ERVirtualTable extends ERTable {
     }
 
     public void setPoint(int x, int y) {
-        this.setLocation(new Location(x, y, getWidth(), getHeight()));
+        super.setLocation(new Location(x, y, getWidth(), getHeight()));
     }
 
     @Override
@@ -265,7 +265,14 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public void setColumns(List<ERColumn> columns) {
-        this.rawTable.setColumns(columns);
+        rawTable.setColumns(columns);
+    }
+
+    @Override
+    public void setLocation(Location location) {
+        rawTable.setWidth(location.width);
+        rawTable.setHeight(location.height);
+        super.setLocation(location);
     }
 
     // ===================================================================================
