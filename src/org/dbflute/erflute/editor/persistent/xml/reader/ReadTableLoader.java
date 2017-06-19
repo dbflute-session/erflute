@@ -87,7 +87,7 @@ public class ReadTableLoader {
         final ERTable rawTable = (ERTable) context.walkerMap.get(tableId);
         assertRawTableExists(vdiagram, context, tableId, rawTable);
         final ERVirtualTable vtable = new ERVirtualTable(vdiagram, rawTable);
-        assistLogic.loadLocation(vtable, element);
+        assistLogic.loadLocation(vtable, element, rawTable.getWidth(), rawTable.getHeight());
         assistLogic.loadFont(vtable, element);
         return vtable;
     }
