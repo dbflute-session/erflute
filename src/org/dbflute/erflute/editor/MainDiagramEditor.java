@@ -194,14 +194,18 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
 
-        final MenuManager menuMgr = new ERDiagramPopupMenuManager(getActionRegistry(), diagram);
-        this.extensionLoader.addERDiagramPopupMenu(menuMgr, getActionRegistry());
-        viewer.setContextMenu(menuMgr);
+        prepareERDiagramPopupMenu(viewer);
 
         this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(),
                 outlinePage.getViewer());
         outlinePage.setContextMenu(outlineMenuMgr);
         this.gotoMaker = new ERDiagramGotoMarker(this);
+    }
+
+    protected void prepareERDiagramPopupMenu(final GraphicalViewer viewer) {
+        final MenuManager menuMgr = new ERDiagramPopupMenuManager(getActionRegistry(), diagram);
+        extensionLoader.addERDiagramPopupMenu(menuMgr, getActionRegistry());
+        viewer.setContextMenu(menuMgr);
     }
 
     @Override
