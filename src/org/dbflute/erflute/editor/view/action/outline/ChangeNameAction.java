@@ -26,7 +26,6 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
 
     @Override
     public void execute(Event event) {
-
         final ERDiagram diagram = this.getDiagram();
 
         final List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
@@ -35,12 +34,13 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
         if (model instanceof ERVirtualDiagram) {
             final ERVirtualDiagram vdiagram = (ERVirtualDiagram) model;
             final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator(diagram, vdiagram.getName());
-            final InputDialog dialog =
-                    new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename", "Input new name",
-                            vdiagram.getName(), validator);
+            final InputDialog dialog = new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename",
+                    "Input new name", vdiagram.getName(), validator);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 vdiagram.setName(dialog.getValue());
                 diagram.getDiagramContents().getVirtualDiagramSet().changeVdiagram(vdiagram);
+                // ここでsetDirtyしてるが多分無駄。
+                // ファイル編集中にしたかったら、コマンド化してコマンドスタックに積んで実行しないと無理そう。
                 vdiagram.getDiagram().getEditor().setDirty(true);
                 //				ermodel.changeAll();
                 //				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());
