@@ -263,6 +263,11 @@ public class ERVirtualTable extends ERTable {
         return rawTable.getNameWithSchema(database);
     }
 
+    @Override
+    public void setColumns(List<ERColumn> columns) {
+        this.rawTable.setColumns(columns);
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
