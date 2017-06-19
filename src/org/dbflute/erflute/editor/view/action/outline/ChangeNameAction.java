@@ -39,7 +39,7 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
             if (dialog.open() == IDialogConstants.OK_ID) {
                 vdiagram.setName(dialog.getValue());
                 diagram.getDiagramContents().getVirtualDiagramSet().changeVdiagram(vdiagram);
-                // ここでsetDirtyしてるが多分無駄。
+                // TODO ここでsetDirtyしてるが多分無駄。
                 // ファイル編集中にしたかったら、コマンド化してコマンドスタックに積んで実行しないと無理そう。
                 vdiagram.getDiagram().getEditor().setDirty(true);
                 //				ermodel.changeAll();
