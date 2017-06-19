@@ -300,6 +300,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             } else {
                 file.setContents(source, true, false, monitor);
             }
+            setDirty(false);
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
