@@ -56,7 +56,9 @@ public abstract class DBManagerBase implements DBManager {
             } catch (final ClassNotFoundException e) {
                 path = PreferenceInitializer.getJDBCDriverPath(this.getId(), driverClassName);
                 if (Check.isEmpty(path)) {
-                    throw new IllegalStateException(String.format("JDBC Driver Class \"%s\" is not found", driverClassName));
+                    throw new IllegalStateException(
+                            String.format("JDBC Driver Class \"%s\" is not found.\rIs \"Preferences> ERFlute> JDBC Driver\" set correctly?",
+                                    driverClassName));
                 }
                 final ClassLoader loader = this.getClassLoader(path);
                 @SuppressWarnings("unchecked")
