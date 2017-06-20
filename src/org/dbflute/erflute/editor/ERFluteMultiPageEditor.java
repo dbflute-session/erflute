@@ -91,8 +91,6 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         if (diagram.getCurrentVirtualDiagram() == null) {
             final MainDiagramEditor diagramEditor = (MainDiagramEditor) getActiveEditor();
             diagramEditor.getGraphicalViewer().setContents(diagram);
-            // TODO コミット：4d16e401721d04f29b437c3c1c15fe569ebf1c5に関連
-            diagramEditor.changeCategory();
         }
     }
 
@@ -338,12 +336,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             editor.removeSelection();
         }
         final MainDiagramEditor selectedEditor = (MainDiagramEditor) getActiveEditor();
-        // TODO バグ修正のためコメント化(コミット：4d16e401721d04f29b437c3c1c15fe569ebf1c5)
-        // "アウトラインで仮想ダイアグラムをダブルクリックで開く→開いたエディタクリック→別の仮想ダイアグラムをダブルクリックで開く"操作をする。
-        // するとアウトライン上で、ダブルクリックした仮想ダイアグラムでなく、エディタクリック時の仮想ダイアグラムが選択されている。
-        // この問題を修正するため、以下"selectedEditor.changeCategory();"をコメント化した。
-        // 何か別の問題が発生したらコメントを外すこと。
-        //selectedEditor.changeCategory();
+        selectedEditor.changeCategory();
         if (selectedEditor instanceof VirtualDiagramEditor) { // sub editor
             final VirtualDiagramEditor editor = (VirtualDiagramEditor) selectedEditor;
             this.diagram.setCurrentVirtualDiagram(editor.getVirtualDiagram(), editor.getVirtualDiagram().getName());

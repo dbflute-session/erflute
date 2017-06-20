@@ -233,7 +233,17 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     public void changeCategory() {
         this.outlinePage.setCategory(this.getEditDomain(), this.getGraphicalViewer(), this.getActionRegistry());
-        this.getSelectionSynchronizer().addViewer(this.outlinePage.getViewer());
+        /*
+         * TODO バグ修正のためコメント化
+         * "アウトラインで仮想ダイアグラムをダブルクリックで開く→開いたエディタクリック→別の仮想ダイアグラムをダブルクリックで開く"操作をする。
+         * するとアウトライン上で、ダブルクリックした仮想ダイアグラムでなく、エディタクリック時の仮想ダイアグラムが選択されている。
+         * この問題を修正するため、以下をコメント化した。
+         *
+         * [既知の副作用]
+         * ・仮想ダイアグラムエディタをクリックしてもツリー上の仮想ダイアグラムが選択されない。
+         *  →ツリービューの選択している箇所から強制スクロールされなくなるので、むしろ良いかもしれない。
+         */
+        //this.getSelectionSynchronizer().addViewer(this.outlinePage.getViewer());
     }
 
     @Override
