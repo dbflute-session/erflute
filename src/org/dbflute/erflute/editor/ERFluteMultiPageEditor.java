@@ -300,7 +300,6 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             } else {
                 file.setContents(source, true, false, monitor);
             }
-            setDirty(false);
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
@@ -443,7 +442,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         return this.dirty || super.isDirty();
     }
 
-    public void setDirty(boolean dirty) {
-        this.dirty = dirty;
+    public void setPageText(String text) {
+        setPageText(1, text);
     }
 }

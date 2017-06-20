@@ -2,6 +2,7 @@ package org.dbflute.erflute.editor.view.action.outline;
 
 import java.util.List;
 
+import org.dbflute.erflute.editor.controller.command.ermodel.ChangeVirtualDiagramNameCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.view.dialog.vdiagram.InputVirtualDiagramNameValidator;
@@ -27,7 +28,6 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
     @Override
     public void execute(Event event) {
         final ERDiagram diagram = this.getDiagram();
-
         final List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
         final EditPart editPart = (EditPart) selectedEditParts.get(0);
         final Object model = editPart.getModel();
@@ -37,14 +37,8 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
             final InputDialog dialog = new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename",
                     "Input new name", vdiagram.getName(), validator);
             if (dialog.open() == IDialogConstants.OK_ID) {
-                vdiagram.setName(dialog.getValue());
-                diagram.getDiagramContents().getVirtualDiagramSet().changeVdiagram(vdiagram);
-                // TODO ここでsetDirtyしてるが多分無駄。
-                // ファイル編集中にしたかったら、コマンド化してコマンドスタックに積んで実行しないと無理そう。
-                vdiagram.getDiagram().getEditor().setDirty(true);
-                //				ermodel.changeAll();
-                //				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());
-                //				this.execute(command);
+                final ChangeVirtualDiagramNameCommand command = new ChangeVirtualDiagramNameCommand(vdiagram, dialog.getValue());
+                this.execute(command);
             }
         }
     }
