@@ -12,7 +12,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public abstract class DiagramWalker extends ViewableModel implements ObjectModel {
+public abstract class DiagramWalker extends ViewableModel implements ObjectModel, Materializable<DiagramWalker> {
 
     private static final long serialVersionUID = 1L;
 

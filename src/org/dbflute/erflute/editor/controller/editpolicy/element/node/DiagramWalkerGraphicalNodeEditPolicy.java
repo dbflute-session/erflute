@@ -124,7 +124,7 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
         if (relation.getWalkerSource() == relation.getWalkerTarget()) {
             return null;
         }
-        final DiagramWalker newSource = (DiagramWalker) reconnectrequest.getTarget().getModel();
+        final DiagramWalker newSource = ((DiagramWalker) reconnectrequest.getTarget().getModel()).toMaterialize();
         if (!relation.getWalkerSource().equals(newSource)) {
             return null;
         }

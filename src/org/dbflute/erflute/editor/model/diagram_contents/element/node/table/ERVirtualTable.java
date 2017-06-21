@@ -275,6 +275,11 @@ public class ERVirtualTable extends ERTable {
         super.setLocation(location);
     }
 
+    @Override
+    public ERTable toMaterialize() {
+        return this.rawTable;
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
