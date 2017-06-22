@@ -7,42 +7,29 @@ import java.util.Map;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 public class MoveElementCommand extends AbstractCommand {
 
     protected int x;
-
     protected int oldX;
-
     protected int y;
-
     protected int oldY;
-
     protected int width;
-
     protected int oldWidth;
-
     protected int height;
-
     protected int oldHeight;
 
-    private DiagramWalker element;
-
-    private Map<Category, Rectangle> oldCategoryRectangleMap;
-
-    private Map<Category, Rectangle> newCategoryRectangleMap;
-
-    private List<Category> removedCategories;
-
-    private List<Category> addCategories;
-
-    private ERDiagram diagram;
-
-    private Rectangle bounds;
+    private final DiagramWalker element;
+    private final Map<Category, Rectangle> oldCategoryRectangleMap;
+    private final Map<Category, Rectangle> newCategoryRectangleMap;
+    private final List<Category> removedCategories;
+    private final List<Category> addCategories;
+    private final ERDiagram diagram;
+    private final Rectangle bounds;
 
     public MoveElementCommand(ERDiagram diagram, Rectangle bounds, int x, int y, int width, int height, DiagramWalker element) {
         this.element = element;
@@ -53,11 +40,11 @@ public class MoveElementCommand extends AbstractCommand {
         this.oldWidth = element.getWidth();
         this.oldHeight = element.getHeight();
 
-        this.oldCategoryRectangleMap = new HashMap<Category, Rectangle>();
-        this.newCategoryRectangleMap = new HashMap<Category, Rectangle>();
+        this.oldCategoryRectangleMap = new HashMap<>();
+        this.newCategoryRectangleMap = new HashMap<>();
 
-        this.removedCategories = new ArrayList<Category>();
-        this.addCategories = new ArrayList<Category>();
+        this.removedCategories = new ArrayList<>();
+        this.addCategories = new ArrayList<>();
 
         this.bounds = bounds;
         this.diagram = diagram;
@@ -71,15 +58,14 @@ public class MoveElementCommand extends AbstractCommand {
     }
 
     private void initCategory(ERDiagram diagram, Rectangle bounds) {
-
-        for (Category category : diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories()) {
+        for (final Category category : diagram.getDiagramContents().getSettings().getCategorySetting().getSelectedCategories()) {
             if (category.contains(element)) {
                 int categoryX = category.getX();
                 int categoryY = category.getY();
                 int categoryWidth = category.getWidth();
                 int categoryHeight = category.getHeight();
 
-                Rectangle oldRectangle = new Rectangle(categoryX, categoryY, categoryWidth, categoryHeight);
+                final Rectangle oldRectangle = new Rectangle(categoryX, categoryY, categoryWidth, categoryHeight);
 
                 boolean isDirty = false;
 
@@ -128,7 +114,7 @@ public class MoveElementCommand extends AbstractCommand {
     @Override
     protected void doExecute() {
         if (this.bounds != null) {
-            Rectangle rectangle = new Rectangle(bounds);
+            final Rectangle rectangle = new Rectangle(bounds);
 
             if (rectangle.x != x) {
                 rectangle.x = x;
@@ -146,16 +132,16 @@ public class MoveElementCommand extends AbstractCommand {
             this.initCategory(diagram, rectangle);
         }
 
-        for (Category category : this.newCategoryRectangleMap.keySet()) {
-            Rectangle rectangle = this.newCategoryRectangleMap.get(category);
+        for (final Category category : this.newCategoryRectangleMap.keySet()) {
+            final Rectangle rectangle = this.newCategoryRectangleMap.get(category);
             category.setLocation(new Location(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
         }
 
-        for (Category category : removedCategories) {
+        for (final Category category : removedCategories) {
             category.getContents().remove(this.element);
         }
 
-        for (Category category : addCategories) {
+        for (final Category category : addCategories) {
             category.getContents().add(this.element);
         }
 
@@ -166,16 +152,16 @@ public class MoveElementCommand extends AbstractCommand {
     protected void doUndo() {
         this.element.setLocation(new Location(oldX, oldY, oldWidth, oldHeight));
 
-        for (Category category : this.oldCategoryRectangleMap.keySet()) {
-            Rectangle rectangle = this.oldCategoryRectangleMap.get(category);
+        for (final Category category : this.oldCategoryRectangleMap.keySet()) {
+            final Rectangle rectangle = this.oldCategoryRectangleMap.get(category);
             category.setLocation(new Location(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
         }
 
-        for (Category category : removedCategories) {
+        for (final Category category : removedCategories) {
             category.getContents().add(this.element);
         }
 
-        for (Category category : addCategories) {
+        for (final Category category : addCategories) {
             category.getContents().remove(this.element);
         }
     }
