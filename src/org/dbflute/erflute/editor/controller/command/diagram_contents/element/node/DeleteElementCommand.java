@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.n
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
 /**
@@ -21,7 +20,6 @@ public class DeleteElementCommand extends AbstractCommand {
     @Override
     protected void doExecute() {
         diagram.removeContent(element);
-        ERModelUtil.refreshDiagram(diagram);
     }
 
     @Override
