@@ -876,6 +876,7 @@ public abstract class DDLCreator {
                     ddl.append(commentDDL);
                     ddl.append(LN);
                 }
+                ddl.append(LN);
             }
         }
         if (!first) {
