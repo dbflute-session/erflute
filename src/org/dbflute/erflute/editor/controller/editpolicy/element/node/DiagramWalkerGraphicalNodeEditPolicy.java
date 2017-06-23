@@ -59,7 +59,7 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
         final EditPart editPart = request.getTargetEditPart();
         final Object object = request.getNewObject();
         if (editPart instanceof ERTableEditPart) {
-            final Command command = this.getRelationCreateCommand(request, object);
+            final Command command = getRelationCreateCommand(request, object);
             if (command != null) {
                 return command;
             }
