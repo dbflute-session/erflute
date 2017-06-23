@@ -20,9 +20,11 @@ public abstract class WalkerConnection extends AbstractModel {
     protected DiagramWalker ownerWalker; // e.g. ERTable, WalkerNote
     protected DiagramWalker sourceWalker; // e.g. MEMBER_STATUS, note
     protected DiagramWalker targetWalker; // e.g. MEMBER, noted table
-    private List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
+    private List<Bendpoint> bendPoints = new ArrayList<>();
+    private boolean deleted = false;
 
     public void delete() {
+        this.deleted = true;
         sourceWalker.removeOutgoing(this);
         targetWalker.removeIncoming(this);
     }
@@ -73,7 +75,7 @@ public abstract class WalkerConnection extends AbstractModel {
     @Override
     public WalkerConnection clone() {
         final WalkerConnection clone = (WalkerConnection) super.clone();
-        final List<Bendpoint> cloneBendPoints = new ArrayList<Bendpoint>();
+        final List<Bendpoint> cloneBendPoints = new ArrayList<>();
         for (final Bendpoint bendPoint : bendPoints) {
             cloneBendPoints.add((Bendpoint) bendPoint.clone());
         }
@@ -119,10 +121,14 @@ public abstract class WalkerConnection extends AbstractModel {
         if (this.targetWalker != null) {
             this.targetWalker.addIncoming(this);
         }
-        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, sourceWalker);
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, targetWalker);
     }
 
     public List<Bendpoint> getBendpoints() {
         return bendPoints;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

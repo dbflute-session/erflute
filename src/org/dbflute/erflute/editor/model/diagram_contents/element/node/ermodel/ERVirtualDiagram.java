@@ -45,6 +45,21 @@ public class ERVirtualDiagram extends DiagramWalker {
         return "virtual_diagram";
     }
 
+    public boolean contains(Object model) {
+        final List<DiagramWalker> walkers = new ArrayList<>(tables);
+        walkers.addAll(notes);
+        walkers.addAll(groups);
+        return walkers.stream().anyMatch(w -> w.toMaterialize().equals(convertToMaterializedIfCan(model)));
+    }
+
+    private static Object convertToMaterializedIfCan(Object model) {
+        if (model instanceof DiagramWalker) {
+            return ((DiagramWalker) model).toMaterialize();
+        } else {
+            return model;
+        }
+    }
+
     public boolean containsTable(ERTable table) {
         for (final ERVirtualTable vtable : tables) {
             if (vtable.getRawTable().equals(table)) {

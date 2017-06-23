@@ -9,6 +9,8 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
 /**
@@ -19,13 +21,13 @@ public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEdit
     @Override
     public void activate() {
         super.activate();
-        final AbstractModel model = (AbstractModel) this.getModel();
+        final AbstractModel model = (AbstractModel) getModel();
         model.addPropertyChangeListener(this);
     }
 
     @Override
     public void deactivate() {
-        final AbstractModel model = (AbstractModel) this.getModel();
+        final AbstractModel model = (AbstractModel) getModel();
         model.removePropertyChangeListener(this);
         super.deactivate();
     }
@@ -34,9 +36,9 @@ public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEdit
     public void propertyChange(PropertyChangeEvent event) {
         try {
             if (event.getPropertyName().equals(WalkerConnection.PROPERTY_CHANGE_BEND_POINT)) {
-                this.refreshBendpoints();
+                refreshBendpoints();
             } else if (event.getPropertyName().equals(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE)) {
-                this.refreshVisuals();
+                refreshVisuals();
             }
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
@@ -44,58 +46,43 @@ public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEdit
     }
 
     protected ERDiagram getDiagram() {
-        return ERModelUtil.getDiagram(this.getRoot().getContents());
+        return ERModelUtil.getDiagram(getRoot().getContents());
     }
 
     protected Category getCurrentCategory() {
-        return this.getDiagram().getCurrentCategory();
+        return getDiagram().getCurrentCategory();
+    }
+
+    @Override
+    public WalkerConnection getModel() {
+        return (WalkerConnection) super.getModel();
     }
 
     @Override
     protected void refreshVisuals() {
-        final ERDiagram diagram = this.getDiagram();
-        if (diagram != null) {
-            this.figure.setVisible(false);
-            //			Category category = this.getCurrentCategory();
-            //
-            //			if (category != null) {
-            //				CategorySetting categorySettings = this.getDiagram()
-            //						.getDiagramContents().getSettings()
-            //						.getCategorySetting();
-            //				if (sourceEditPart != null && targetEditPart != null) {
-            //					NodeElement sourceModel = (NodeElement) sourceEditPart
-            //							.getModel();
-            //					NodeElement targetModel = (NodeElement) targetEditPart
-            //							.getModel();
-            //					boolean containsSource = false;
-            //					if (category.contains(sourceModel)) {
-            //						containsSource = true;
-            //					} else if (categorySettings.isShowReferredTables()) {
-            //						for (NodeElement referringElement : sourceModel
-            //								.getReferringElementList()) {
-            //							if (category.contains(referringElement)) {
-            //								containsSource = true;
-            //								break;
-            //							}
-            //						}
-            //					}
-            //					if (containsSource) {
-            //						if (category.contains(targetModel)) {
-            //							this.figure.setVisible(true);
-            //						} else if (categorySettings.isShowReferredTables()) {
-            //							for (NodeElement referringElement : targetModel
-            //									.getReferringElementList()) {
-            //								if (category.contains(referringElement)) {
-            //									this.figure.setVisible(true);
-            //									break;
-            //								}
-            //							}
-            //						}
-            //					}
-            //				}
-            //			} else {
-            this.figure.setVisible(true);
-            //			}
+        if (getModel().isDeleted()) {
+            figure.setVisible(false);
+            return;
+        }
+
+        if (getDiagram() != null) {
+            final ERVirtualDiagram vdiagram = getDiagram().getCurrentVirtualDiagram();
+            final EditPart sourceEditPart = getSource();
+            final EditPart targetEditPart = getTarget();
+            if (vdiagram != null) {
+                if (sourceEditPart != null && vdiagram.contains(sourceEditPart.getModel())
+                        && targetEditPart != null && vdiagram.contains(targetEditPart.getModel())) {
+                    figure.setVisible(true);
+                    return;
+                } else {
+                    figure.setVisible(false);
+                    return;
+                }
+            }
+
+            figure.setVisible(true);
+        } else {
+            figure.setVisible(false);
         }
     }
 

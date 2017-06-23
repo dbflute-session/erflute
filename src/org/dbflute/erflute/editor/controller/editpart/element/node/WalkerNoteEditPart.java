@@ -4,6 +4,7 @@ import java.beans.PropertyChangeEvent;
 
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.note.WalkerNoteDirectEditPolicy;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.view.editmanager.WalkerNoteCellEditor;
 import org.dbflute.erflute.editor.view.editmanager.WalkerNoteEditManager;
@@ -29,6 +30,8 @@ public class WalkerNoteEditPart extends DiagramWalkerEditPart implements IResiza
     public void doPropertyChange(PropertyChangeEvent event) {
         if (event.getPropertyName().equals(WalkerNote.PROPERTY_CHANGE_WALKER_NOTE)) {
             refreshVisuals();
+        } else if (event.getPropertyName().equals(DiagramWalker.PROPERTY_CHANGE_OUTGOING)) {
+            refreshConnections();
         }
         super.doPropertyChange(event);
     }
