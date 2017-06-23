@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.util.Check;
-import org.dbflute.erflute.db.impl.db2.tablespace.DB2TablespaceProperties;
+import org.dbflute.erflute.db.impl.sqlserver.tablespace.SqlServerTablespaceProperties;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.dbexport.ddl.DDLCreator;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -54,8 +54,8 @@ public class SqlServerDDLCreator extends DDLCreator {
 
     @Override
     protected String doBuildCreateTablespace(Tablespace tablespace) {
-        final DB2TablespaceProperties tablespaceProperties =
-                (DB2TablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
+        final SqlServerTablespaceProperties tablespaceProperties =
+                (SqlServerTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
 
         final StringBuilder ddl = new StringBuilder();
 
