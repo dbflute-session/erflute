@@ -8,7 +8,7 @@ import org.eclipse.gef.EditPart;
 
 public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCommand {
 
-    private Relationship relation;
+    private final Relationship relation;
 
     public CreateSelfRelationshipCommand(Relationship relation) {
         super();
@@ -19,7 +19,6 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
     public void setSource(EditPart source) {
         this.source = source;
         this.target = source;
-
     }
 
     @Override
@@ -28,9 +27,9 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         boolean anotherSelfRelation = false;
 
-        ERTable sourceTable = (ERTable) this.source.getModel();
+        final ERTable sourceTable = (ERTable) this.source.getModel();
 
-        for (Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
+        for (final Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
             if (otherRelation.getWalkerSource() == otherRelation.getWalkerTarget()) {
                 anotherSelfRelation = true;
                 break;
@@ -46,11 +45,11 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
             rate = 100;
         }
 
-        Bendpoint bendpoint0 = new Bendpoint(rate, rate);
+        final Bendpoint bendpoint0 = new Bendpoint(rate, rate);
         bendpoint0.setRelative(true);
 
-        int xp = 100 - (rate / 2);
-        int yp = 100 - (rate / 2);
+        final int xp = 100 - (rate / 2);
+        final int yp = 100 - (rate / 2);
 
         relation.setSourceLocationp(100, yp);
         relation.setTargetLocationp(xp, 100);
@@ -78,7 +77,7 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         this.relation.removeBendpoint(0);
 
-        ERTable targetTable = (ERTable) this.target.getModel();
+        final ERTable targetTable = (ERTable) this.target.getModel();
         targetTable.setDirty();
     }
 
