@@ -58,6 +58,10 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     //                                                                            Add Node
     //                                                                            ========
     public void addDiagramWalker(DiagramWalker walker) {
+        if (contains(walker)) {
+            return;
+        }
+
         if (walker instanceof ERTable) {
             this.tableSet.add((ERTable) walker);
         } else if (walker instanceof ERView) {
