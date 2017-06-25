@@ -33,7 +33,6 @@ public class PlaceTableCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-
         if (orgTables != null) {
             // 複数配置
             final VirtualDiagramEditor modelEditor = (VirtualDiagramEditor) orgTables.get(0).getDiagram().getEditor().getActiveEditor();
