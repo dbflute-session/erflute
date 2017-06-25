@@ -29,6 +29,11 @@ public class CreateElementCommand extends AbstractCommand {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
+    public CreateElementCommand(ERDiagram diagram, DiagramWalker element, int x, int y, int width, int height,
+            List<DiagramWalker> enclosedElementList) {
+        this(diagram, element, x, y, new Dimension(width, height), enclosedElementList);
+    }
+
     public CreateElementCommand(ERDiagram diagram, DiagramWalker element, int x, int y, Dimension size,
             List<DiagramWalker> enclosedElementList) {
         this.diagram = diagram;

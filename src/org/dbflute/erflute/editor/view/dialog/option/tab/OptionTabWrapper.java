@@ -53,7 +53,15 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
         final GridLayout innerLayout = new GridLayout();
         innerLayout.numColumns = 3;
         innerComp.setLayout(innerLayout);
-        CompositeFactory.createLabel(innerComp, "???"); // #willanalyze what is this? by jflute
+        /*
+         * #willanalyze what is this? by jflute
+         *
+         * modified by ymd
+         * 下記ラベルのテキストは、文字化けしていて解読できなかった。
+         * ERMaster-bを起動して確認したところ「マスタデータ基準ディレクトリ」となっていた。
+         * これをそのまま翻訳して修正した。これがどんな機能かは調べていない。
+         */
+        CompositeFactory.createLabel(innerComp, "Master data reference directory");
         this.outputFileText = new InnerDirectoryText(innerComp, SWT.BORDER);
         final GridData gridData = new GridData();
         gridData.widthHint = 200;
