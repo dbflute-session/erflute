@@ -30,6 +30,7 @@ public abstract class WalkerConnection extends AbstractModel {
     }
 
     public void connect() {
+        this.deleted = false;
         if (sourceWalker != null) {
             sourceWalker.addOutgoing(this);
         }
@@ -99,12 +100,12 @@ public abstract class WalkerConnection extends AbstractModel {
     }
 
     public void setSourceWalker(DiagramWalker sourceWalker) {
-        if (this.sourceWalker != null) {
-            this.sourceWalker.removeOutgoing(this);
+        if (sourceWalker != null) {
+            sourceWalker.removeOutgoing(this);
         }
         this.sourceWalker = sourceWalker;
-        if (this.sourceWalker != null) {
-            this.sourceWalker.addOutgoing(this);
+        if (sourceWalker != null) {
+            sourceWalker.addOutgoing(this);
         }
         firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, sourceWalker);
     }
@@ -114,12 +115,12 @@ public abstract class WalkerConnection extends AbstractModel {
     }
 
     public void setTargetWalker(DiagramWalker targetWalker) {
-        if (this.targetWalker != null) {
-            this.targetWalker.removeIncoming(this);
+        if (targetWalker != null) {
+            targetWalker.removeIncoming(this);
         }
         this.targetWalker = targetWalker;
-        if (this.targetWalker != null) {
-            this.targetWalker.addIncoming(this);
+        if (targetWalker != null) {
+            targetWalker.addIncoming(this);
         }
         firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, targetWalker);
     }
