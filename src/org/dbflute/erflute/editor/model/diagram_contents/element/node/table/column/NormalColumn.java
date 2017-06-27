@@ -171,6 +171,11 @@ public class NormalColumn extends ERColumn {
     }
 
     public void addReference(NormalColumn referredColumn, Relationship relationship) {
+        // 参照列とリレーションが重複して追加されることがあるため、ここでガードする。
+        if (referredColumnList.contains(referredColumn) || relationshipList.contains(relationship)) {
+            return;
+        }
+
         this.foreignKeyDescription = getDescription();
         this.foreignKeyLogicalName = getLogicalName();
         this.foreignKeyPhysicalName = getPhysicalName();
