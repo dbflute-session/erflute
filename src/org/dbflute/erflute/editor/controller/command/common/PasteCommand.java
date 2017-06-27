@@ -43,7 +43,7 @@ public class PasteCommand extends AbstractCommand {
 
         this.columnGroups = new ColumnGroupSet();
 
-        // 貼り付け対象に対して処理を繰り返します
+        // 貼り付け対象に対して処理を繰り返します。
         for (final DiagramWalker walker : walkers) {
             walker.setLocation(new Location(walker.getX() + x, walker.getY() + y, walker.getWidth(), walker.getHeight()));
 
@@ -61,7 +61,7 @@ public class PasteCommand extends AbstractCommand {
                     }
                 }
 
-                // 列に対して処理を繰り返します
+                // 列に対して処理を繰り返します。
                 for (final ERColumn column : table.getColumns()) {
 
                     // 列がグループ列の場合
@@ -87,19 +87,15 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新をとめます。
         ERDiagramEditPart.setUpdateable(false);
 
-        final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
+        final ColumnGroupSet columnGroupSet = diagram.getDiagramContents().getColumnGroupSet();
 
         // 図にノードを追加します。
-        for (final DiagramWalker walker : this.walkers) {
-            if (this.diagram.getCurrentVirtualDiagram() != null && !(walker instanceof ERTable)) {
-                this.diagram.getCurrentVirtualDiagram().addNewWalker(walker);
-            } else {
-                this.diagram.addWalkerPlainly(walker);
-            }
+        for (final DiagramWalker walker : walkers) {
+            diagram.addWalkerPlainly(walker);
         }
 
         // グループ列を追加します。
-        for (final ColumnGroup columnGroup : this.columnGroups) {
+        for (final ColumnGroup columnGroup : columnGroups) {
             columnGroupSet.add(columnGroup);
         }
 
@@ -109,7 +105,7 @@ public class PasteCommand extends AbstractCommand {
         ERModelUtil.refreshDiagram(diagram);
 
         // 貼り付けられたテーブルを選択状態にします。
-        this.setFocus();
+        setFocus();
     }
 
     /**
@@ -120,15 +116,15 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新をとめます。
         ERDiagramEditPart.setUpdateable(false);
 
-        final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
+        final ColumnGroupSet columnGroupSet = diagram.getDiagramContents().getColumnGroupSet();
 
         // 図からノードを削除します。
-        for (final DiagramWalker walker : this.walkers) {
-            this.diagram.removeContent(walker);
+        for (final DiagramWalker walker : walkers) {
+            diagram.removeContent(walker);
         }
 
         // グループ列を削除します。
-        for (final ColumnGroup columnGroup : this.columnGroups) {
+        for (final ColumnGroup columnGroup : columnGroups) {
             columnGroupSet.remove(columnGroup);
         }
 
@@ -143,11 +139,11 @@ public class PasteCommand extends AbstractCommand {
      */
     private void setFocus() {
         // 貼り付けられたテーブルを選択状態にします。
-        for (final DiagramWalker walker : this.walkers) {
+        for (final DiagramWalker walker : walkers) {
             final EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(walker);
 
             if (editPart != null) {
-                this.viewer.getSelectionManager().appendSelection(editPart);
+                viewer.getSelectionManager().appendSelection(editPart);
             }
         }
     }

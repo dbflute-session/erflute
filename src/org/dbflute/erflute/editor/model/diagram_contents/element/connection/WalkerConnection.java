@@ -21,16 +21,13 @@ public abstract class WalkerConnection extends AbstractModel {
     protected DiagramWalker sourceWalker; // e.g. MEMBER_STATUS, note
     protected DiagramWalker targetWalker; // e.g. MEMBER, noted table
     private List<Bendpoint> bendPoints = new ArrayList<>();
-    private boolean deleted = false;
 
     public void delete() {
-        this.deleted = true;
         sourceWalker.removeOutgoing(this);
         targetWalker.removeIncoming(this);
     }
 
     public void connect() {
-        this.deleted = false;
         if (sourceWalker != null) {
             sourceWalker.addOutgoing(this);
         }
@@ -127,9 +124,5 @@ public abstract class WalkerConnection extends AbstractModel {
 
     public List<Bendpoint> getBendpoints() {
         return bendPoints;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
     }
 }

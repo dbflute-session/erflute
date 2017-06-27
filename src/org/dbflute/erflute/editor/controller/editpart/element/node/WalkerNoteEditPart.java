@@ -4,7 +4,6 @@ import java.beans.PropertyChangeEvent;
 
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.note.WalkerNoteDirectEditPolicy;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.view.editmanager.WalkerNoteCellEditor;
 import org.dbflute.erflute.editor.view.editmanager.WalkerNoteEditManager;
@@ -22,7 +21,7 @@ public class WalkerNoteEditPart extends DiagramWalkerEditPart implements IResiza
     @Override
     protected IFigure createFigure() {
         final WalkerNoteFigure noteFigure = new WalkerNoteFigure();
-        this.changeFont(noteFigure);
+        changeFont(noteFigure);
         return noteFigure;
     }
 
@@ -30,23 +29,21 @@ public class WalkerNoteEditPart extends DiagramWalkerEditPart implements IResiza
     public void doPropertyChange(PropertyChangeEvent event) {
         if (event.getPropertyName().equals(WalkerNote.PROPERTY_CHANGE_WALKER_NOTE)) {
             refreshVisuals();
-        } else if (event.getPropertyName().equals(DiagramWalker.PROPERTY_CHANGE_OUTGOING)) {
-            refreshConnections();
         }
         super.doPropertyChange(event);
     }
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
-        this.installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new WalkerNoteDirectEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
+        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new WalkerNoteDirectEditPolicy());
         super.createEditPolicies();
     }
 
     @Override
     public void refreshVisuals() {
-        final WalkerNote note = (WalkerNote) this.getModel();
-        final WalkerNoteFigure figure = (WalkerNoteFigure) this.getFigure();
+        final WalkerNote note = (WalkerNote) getModel();
+        final WalkerNoteFigure figure = (WalkerNoteFigure) getFigure();
         figure.setText(note.getNoteText(), note.getColor());
         super.refreshVisuals();
     }
@@ -59,10 +56,10 @@ public class WalkerNoteEditPart extends DiagramWalkerEditPart implements IResiza
     }
 
     private void performDirectEdit() {
-        if (this.editManager == null) {
+        if (editManager == null) {
             this.editManager = new WalkerNoteEditManager(this, WalkerNoteCellEditor.class, new WalkerNoteEditorLocator(getFigure()));
         }
-        this.editManager.show();
+        editManager.show();
     }
 
     @Override

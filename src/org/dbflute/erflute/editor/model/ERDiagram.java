@@ -8,10 +8,8 @@ import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
 import org.dbflute.erflute.editor.model.diagram_contents.DiagramContents;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -26,6 +24,12 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * @author modified by jflute (originated in ermaster)
+ *
+ * TODO 現状2つの債務を持っている。
+ * 1.メインダイアグラムのモデル
+ * 2.メインダイアグラムと仮想ダイアグラムのコントローラ
+ *
+ * この2つの債務を分離したい。ERDiagramにはコントローラの債務だけ残す。
  */
 public class ERDiagram extends ViewableModel {
 
@@ -68,8 +72,8 @@ public class ERDiagram extends ViewableModel {
         this.diagramContents = new DiagramContents();
         this.diagramContents.getSettings().setDatabase(database);
         this.pageSetting = new PageSettings();
-        this.setDefaultColor(DesignResources.ERDIAGRAM_DEFAULT_COLOR);
-        this.setColor(DesignResources.WHITE);
+        setDefaultColor(DesignResources.ERDIAGRAM_DEFAULT_COLOR);
+        setColor(DesignResources.WHITE);
     }
 
     // ===================================================================================
@@ -86,80 +90,75 @@ public class ERDiagram extends ViewableModel {
     //                                                                    ================
     public void addNewWalker(DiagramWalker walker) {
         Activator.debug(this, "addNewWalker()", "...Adding new walker: " + walker);
+
         if (walker instanceof WalkerNote) {
             walker.setColor(DesignResources.NOTE_DEFAULT_COLOR);
         } else {
             walker.setColor(DesignResources.ERDIAGRAM_DEFAULT_COLOR);
         }
+
         walker.setFontName(getFontName());
         walker.setFontSize(getFontSize());
+
         addWalkerPlainly(walker);
     }
 
-    public void addWalkerPlainly(DiagramWalker diagramWalker) {
-        DiagramWalker walker = diagramWalker;
-        if (getCurrentVirtualDiagram() != null && walker instanceof ERTable) {
-            ERVirtualTable virtualTable;
-            if (walker instanceof ERVirtualTable) {
-                virtualTable = (ERVirtualTable) walker;
-                walker = virtualTable.getRawTable();
-            } else {
-                virtualTable = new ERVirtualTable(getCurrentVirtualDiagram(), (ERTable) walker);
-                virtualTable.setLocation(new Location(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
-            }
-
-            // 仮想ダイアグラム上に仮想テーブルを追加する
-            getCurrentVirtualDiagram().addTable(virtualTable);
-
-            // メインダイアグラム上では左上に配置
-            walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight()));
+    public void addWalkerPlainly(final DiagramWalker walker) {
+        if (getCurrentVirtualDiagram() != null) {
+            getCurrentVirtualDiagram().addWalkerPlainly(walker);
         }
+
         walker.setDiagram(this);
-        diagramContents.getDiagramWalkers().addDiagramWalker(walker);
+
+        // 仮想ダイアグラムへのノート追加でない場合
+        if (!(getCurrentVirtualDiagram() != null && walker instanceof WalkerNote)) {
+            diagramContents.getDiagramWalkers().addDiagramWalker(walker);
+        }
+
         if (editor != null) {
             final Category category = editor.getCurrentPageCategory();
             if (category != null) {
                 category.getContents().add(walker);
             }
         }
+
         if (walker instanceof TableView) {
             for (final NormalColumn normalColumn : ((TableView) walker).getNormalColumns()) {
                 getDiagramContents().getDictionary().add(normalColumn);
             }
         }
+
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void removeContent(DiagramWalker element) {
-        if (element instanceof ERVirtualTable) {
-            // メインビューのノードは残して仮想テーブルだけ削除
-            currentVirtualDiagram.remove((ERVirtualTable) element);
-        } else if (element instanceof WalkerGroup && currentVirtualDiagram != null) {
-            currentVirtualDiagram.remove((WalkerGroup) element);
-        } else if (element instanceof WalkerNote && currentVirtualDiagram != null) {
-            currentVirtualDiagram.remove((WalkerNote) element);
+        if (getCurrentVirtualDiagram() != null) {
+            getCurrentVirtualDiagram().removeContent(element);
         } else {
-            this.diagramContents.getDiagramWalkers().remove(element);
+            diagramContents.getDiagramWalkers().remove(element);
             if (element instanceof ERTable) {
-                // メインビューのテーブルを削除したときは、ビューのノードも削除（線が消えずに残ってしまう）
+                // メインビューのテーブルを削除したときは、仮想ビューのノードも削除（線が消えずに残ってしまう）
                 for (final ERVirtualDiagram model : getDiagramContents().getVirtualDiagramSet()) {
                     final ERVirtualTable vtable = model.findVirtualTable((TableView) element);
-                    model.remove(vtable);
+                    model.removeContent(vtable);
                 }
             }
         }
+
         if (element instanceof TableView) {
-            this.diagramContents.getDictionary().remove((TableView) element);
+            diagramContents.getDictionary().remove((TableView) element);
         }
-        for (final Category category : this.diagramContents.getSettings().getCategorySetting().getAllCategories()) {
+
+        for (final Category category : diagramContents.getSettings().getCategorySetting().getAllCategories()) {
             category.getContents().remove(element);
         }
+
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void replaceContents(DiagramContents newDiagramContents) {
         this.diagramContents = newDiagramContents;
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     // ===================================================================================
@@ -176,7 +175,7 @@ public class ERDiagram extends ViewableModel {
     }
 
     public void changeTable(TableView tableView) {
-        this.firePropertyChange(PROPERTY_CHANGE_TABLE, null, tableView);
+        firePropertyChange(PROPERTY_CHANGE_TABLE, null, tableView);
     }
 
     /**
@@ -209,98 +208,68 @@ public class ERDiagram extends ViewableModel {
     //                                                                   =================
     public void setDatabase(String str) {
         final String oldDatabase = getDatabase();
-        this.getDiagramContents().getSettings().setDatabase(str);
+        getDiagramContents().getSettings().setDatabase(str);
         if (str != null && !str.equals(oldDatabase)) {
-            this.firePropertyChange(PROPERTY_CHANGE_DATABASE, oldDatabase, getDatabase());
-            this.changeAll();
+            firePropertyChange(PROPERTY_CHANGE_DATABASE, oldDatabase, getDatabase());
+            changeAll();
         }
     }
 
     public String getDatabase() {
-        return this.getDiagramContents().getSettings().getDatabase();
+        return getDiagramContents().getSettings().getDatabase();
     }
 
     public void restoreDatabase(String str) {
-        this.getDiagramContents().getSettings().setDatabase(str);
+        getDiagramContents().getSettings().setDatabase(str);
     }
 
     // ===================================================================================
     //                                                                   Category Handling
     //                                                                   =================
     public void setCurrentCategoryPageName() {
-        this.editor.setCurrentCategoryPageName();
+        editor.setCurrentCategoryPageName();
     }
 
     public void addCategory(Category category) {
-        category.setColor(this.defaultColor[0], this.defaultColor[1], this.defaultColor[2]);
-        this.getDiagramContents().getSettings().getCategorySetting().addCategoryAsSelected(category);
-        this.editor.initVirtualPages();
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        category.setColor(defaultColor[0], defaultColor[1], defaultColor[2]);
+        getDiagramContents().getSettings().getCategorySetting().addCategoryAsSelected(category);
+        editor.initVirtualPages();
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void removeCategory(Category category) {
-        this.getDiagramContents().getSettings().getCategorySetting().removeCategory(category);
-        this.editor.initVirtualPages();
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        getDiagramContents().getSettings().getCategorySetting().removeCategory(category);
+        editor.initVirtualPages();
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void restoreCategories() {
-        this.editor.initVirtualPages();
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        editor.initVirtualPages();
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     // ===================================================================================
     //                                                                    Various Handling
     //                                                                    ================
     public void change() {
-        this.firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
+        firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
     }
 
     public void changeAll() {
-        this.firePropertyChange(PROPERTY_CHANGE_ALL, null, null);
+        firePropertyChange(PROPERTY_CHANGE_ALL, null, null);
     }
 
     public void changeAll(List<DiagramWalker> nodeElementList) {
-        this.firePropertyChange(PROPERTY_CHANGE_ALL, null, nodeElementList);
+        firePropertyChange(PROPERTY_CHANGE_ALL, null, nodeElementList);
     }
 
     public void setSettings(DiagramSettings settings) {
-        this.getDiagramContents().setSettings(settings);
-        this.editor.initVirtualPages();
+        getDiagramContents().setSettings(settings);
+        editor.initVirtualPages();
 
-        this.firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
-        this.firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
+        firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
-
-    //	/**
-    //	 * 全体ビューもしくは通常ビューで更新された内容を、全てのビューに展開します。
-    //	 * @param event 発生したイベント
-    //	 * @param nodeElement 更新したモデル
-    //	 */
-    //	public void refreshAllModel(PropertyChangeEvent event, NodeElement nodeElement) {
-    //		if (nodeElement instanceof ERVirtualTable) {
-    //			ERTable table = ((ERVirtualTable)nodeElement).getRawTable();
-    //			table.getDiagram().doChangeTable(table);
-    //			for (ERModel model : getDiagramContents().getModelSet()) {
-    //				ERVirtualTable vtable = model.findVirtualTable(table);
-    //				if (vtable != null) {
-    //					vtable.doChangeTable();
-    ////					vtable.firePropertyChange(event.getPropertyName(), event.getOldValue(), event.getNewValue());
-    //				}
-    //			}
-    //		} else if (nodeElement instanceof ERTable) {
-    //			ERTable table = (ERTable)nodeElement;
-    //			table.getDiagram().doChangeTable(table);
-    //			for (ERModel model : getDiagramContents().getModelSet()) {
-    //				ERVirtualTable vtable = model.findVirtualTable(table);
-    //				if (vtable != null) {
-    //					vtable.doChangeTable();
-    ////					vtable.firePropertyChange(event.getPropertyName(), event.getOldValue(), event.getNewValue());
-    //				}
-    //			}
-    //		}
-    //
-    //	}
 
     // ===================================================================================
     //                                                                      Basic Override
@@ -354,6 +323,11 @@ public class ERDiagram extends ViewableModel {
         this.tooltip = tooltip;
     }
 
+    /*
+     * TODO なるべく使わない方向で。直接触らないでERDiagramを介する。
+     * クライアントクラスは、getDiagram().getCurrentVirtualDiagram().目的の操作()ではなく、
+     * getDiagram().目的の操作()を実行する。
+     */
     public ERVirtualDiagram getCurrentVirtualDiagram() {
         return currentVirtualDiagram;
     }
@@ -411,7 +385,7 @@ public class ERDiagram extends ViewableModel {
         if (str == null) {
             return str;
         }
-        final DiagramSettings settings = this.getDiagramContents().getSettings();
+        final DiagramSettings settings = getDiagramContents().getSettings();
         if (settings.isCapital()) {
             return str.toUpperCase();
         }

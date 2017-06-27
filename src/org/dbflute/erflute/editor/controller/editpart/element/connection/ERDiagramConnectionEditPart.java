@@ -60,29 +60,24 @@ public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEdit
 
     @Override
     protected void refreshVisuals() {
-        if (getModel().isDeleted()) {
-            figure.setVisible(false);
-            return;
-        }
-
         if (getDiagram() != null) {
             final ERVirtualDiagram vdiagram = getDiagram().getCurrentVirtualDiagram();
             final EditPart sourceEditPart = getSource();
             final EditPart targetEditPart = getTarget();
             if (vdiagram != null) {
+                // 仮想ダイアグラム上にソースとターゲットがない接続線は、非表示にする。
                 if (sourceEditPart != null && vdiagram.contains(sourceEditPart.getModel())
                         && targetEditPart != null && vdiagram.contains(targetEditPart.getModel())) {
-                    figure.setVisible(true);
-                    return;
+                    getFigure().setVisible(true);
                 } else {
-                    figure.setVisible(false);
-                    return;
+                    getFigure().setVisible(false);
                 }
+                return;
             }
 
-            figure.setVisible(true);
+            getFigure().setVisible(true);
         } else {
-            figure.setVisible(false);
+            getFigure().setVisible(false);
         }
     }
 

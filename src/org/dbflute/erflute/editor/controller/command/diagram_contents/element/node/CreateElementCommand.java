@@ -8,7 +8,6 @@ import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -68,23 +67,12 @@ public class CreateElementCommand extends AbstractCommand {
     //                                                                      ==============
     @Override
     protected void doExecute() {
-        final ERVirtualDiagram vdiagram = diagram.getCurrentVirtualDiagram();
         if (walker instanceof WalkerGroup) {
             final WalkerGroup group = (WalkerGroup) walker;
             group.setName("Your Group"); // as default
             group.setWalkers(enclosedWalkerList);
-            if (vdiagram != null) {
-                vdiagram.addWalkerGroup(group);
-            } else { // main diagram
-                diagram.addNewWalker(group);
-            }
-        } else { // e.g. table, note
-            if (vdiagram != null) {
-                vdiagram.addNewWalker(walker);
-            } else { // main diagram
-                diagram.addNewWalker(walker);
-            }
         }
+        diagram.addNewWalker(walker);
         ERModelUtil.refreshDiagram(diagram, walker);
     }
 

@@ -58,20 +58,20 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     //                                                                            Add Node
     //                                                                            ========
     public void addDiagramWalker(DiagramWalker walker) {
-        if (contains(walker)) {
+        if (contains(walker.toMaterialize())) {
             return;
         }
 
         if (walker instanceof ERTable) {
-            this.tableSet.add((ERTable) walker);
+            tableSet.add((ERTable) walker);
         } else if (walker instanceof ERView) {
-            this.viewSet.add((ERView) walker);
+            viewSet.add((ERView) walker);
         } else if (walker instanceof WalkerNote) {
-            this.walkerNoteSet.add((WalkerNote) walker);
+            walkerNoteSet.add((WalkerNote) walker);
         } else if (walker instanceof WalkerGroup) {
-            this.walkerGroupSet.add((WalkerGroup) walker);
+            walkerGroupSet.add((WalkerGroup) walker);
         } else if (walker instanceof InsertedImage) {
-            this.insertedImageSet.add((InsertedImage) walker);
+            insertedImageSet.add((InsertedImage) walker);
         } else {
             System.out.println("*Unsupported diagram walker: " + walker);
         }
@@ -89,15 +89,15 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
 
     public void remove(DiagramWalker element) {
         if (element instanceof ERTable) {
-            this.tableSet.remove((ERTable) element);
+            tableSet.remove((ERTable) element);
         } else if (element instanceof ERView) {
-            this.viewSet.remove((ERView) element);
+            viewSet.remove((ERView) element);
         } else if (element instanceof WalkerGroup) {
-            this.walkerGroupSet.remove((WalkerGroup) element);
+            walkerGroupSet.remove((WalkerGroup) element);
         } else if (element instanceof WalkerNote) {
-            this.walkerNoteSet.remove((WalkerNote) element);
+            walkerNoteSet.remove((WalkerNote) element);
         } else if (element instanceof InsertedImage) {
-            this.insertedImageSet.remove((InsertedImage) element);
+            insertedImageSet.remove((InsertedImage) element);
         } else {
             System.out.println("*Unsupported diagram walker: " + element);
         }
@@ -106,16 +106,16 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     }
 
     public boolean contains(DiagramWalker nodeElement) {
-        return this.walkerList.contains(nodeElement);
+        return walkerList.contains(nodeElement);
     }
 
     public void clear() {
-        this.tableSet.getList().clear();
-        this.viewSet.getList().clear();
-        this.walkerGroupSet.getList().clear();
-        this.walkerNoteSet.getList().clear();
-        this.insertedImageSet.getList().clear();
-        this.walkerList.clear();
+        tableSet.getList().clear();
+        viewSet.getList().clear();
+        walkerGroupSet.getList().clear();
+        walkerNoteSet.getList().clear();
+        insertedImageSet.getList().clear();
+        walkerList.clear();
     }
 
     public boolean isEmpty() {
@@ -128,8 +128,8 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
 
     public List<TableView> getTableViewList() {
         final List<TableView> nodeElementList = new ArrayList<>();
-        nodeElementList.addAll(this.tableSet.getList());
-        nodeElementList.addAll(this.viewSet.getList());
+        nodeElementList.addAll(tableSet.getList());
+        nodeElementList.addAll(viewSet.getList());
         return nodeElementList;
     }
 
@@ -165,7 +165,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
 
     @Override
     public Iterator<DiagramWalker> iterator() { // not sorted so cannot use for persistent
-        return this.getDiagramWalkerList().iterator();
+        return getDiagramWalkerList().iterator();
     }
 
     // ===================================================================================

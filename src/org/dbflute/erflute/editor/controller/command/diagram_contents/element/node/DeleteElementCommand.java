@@ -20,6 +20,8 @@ public class DeleteElementCommand extends AbstractCommand {
     @Override
     protected void doExecute() {
         diagram.removeContent(element);
+        // 以下コメントを外すと要素削除時、別要素の接続線が画面左上を指す不具合が発生する。
+        // ERModelUtil.refreshDiagram(diagram);
     }
 
     @Override
