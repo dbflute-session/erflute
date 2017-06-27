@@ -196,8 +196,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
         prepareERDiagramPopupMenu(viewer);
 
-        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(),
-                outlinePage.getViewer());
+        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(
+                diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(), outlinePage.getViewer());
         outlinePage.setContextMenu(outlineMenuMgr);
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
@@ -220,19 +220,19 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
         }
         if (type == IContentOutlinePage.class) {
-            return this.outlinePage;
+            return outlinePage;
         }
         if (type == IGotoMarker.class) {
-            return this.gotoMaker;
+            return gotoMaker;
         }
         if (type == IPropertySheetPage.class) {
-            return this.propertySheetPage;
+            return propertySheetPage;
         }
         return super.getAdapter(type);
     }
 
     public void changeCategory() {
-        this.outlinePage.setCategory(this.getEditDomain(), this.getGraphicalViewer(), this.getActionRegistry());
+        outlinePage.setCategory(getEditDomain(), getGraphicalViewer(), getActionRegistry());
     }
 
     @Override
@@ -244,7 +244,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     }
 
     public void addSelection() {
-        this.getSelectionSynchronizer().addViewer(this.outlinePage.getViewer());
+        getSelectionSynchronizer().addViewer(outlinePage.getViewer());
     }
 
     // TODO jflute ermaster: 何度も呼ばれている疑惑、増えていく増えていく
@@ -292,13 +292,13 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             }
             registry.registerAction(action);
         }
-        this.addKeyHandler(registry.getAction(SearchAction.ID));
-        this.addKeyHandler(registry.getAction(ERDiagramQuickOutlineAction.ID));
+        addKeyHandler(registry.getAction(SearchAction.ID));
+        addKeyHandler(registry.getAction(ERDiagramQuickOutlineAction.ID));
     }
 
     @SuppressWarnings("unchecked")
     protected void initViewerAction(GraphicalViewer viewer) {
-        final ScalableFreeformRootEditPart rootEditPart = new PagableFreeformRootEditPart(this.diagram);
+        final ScalableFreeformRootEditPart rootEditPart = new PagableFreeformRootEditPart(diagram);
         viewer.setRootEditPart(rootEditPart);
 
         final ZoomManager manager = rootEditPart.getZoomManager();
@@ -316,33 +316,33 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         final ZoomOutAction zoomOutAction = new ZoomOutAction(manager);
         final ZoomAdjustAction zoomAdjustAction = new ZoomAdjustAction(manager);
 
-        this.getActionRegistry().registerAction(zoomInAction);
-        this.getActionRegistry().registerAction(zoomOutAction);
-        this.getActionRegistry().registerAction(zoomAdjustAction);
+        getActionRegistry().registerAction(zoomInAction);
+        getActionRegistry().registerAction(zoomOutAction);
+        getActionRegistry().registerAction(zoomAdjustAction);
 
-        this.addKeyHandler(zoomInAction);
-        this.addKeyHandler(zoomOutAction);
+        addKeyHandler(zoomInAction);
+        addKeyHandler(zoomOutAction);
 
         final IFigure gridLayer = rootEditPart.getLayer(LayerConstants.GRID_LAYER);
         gridLayer.setForegroundColor(DesignResources.GRID_COLOR);
 
         IAction action = new ToggleGridAction(viewer);
-        this.getActionRegistry().registerAction(action);
+        getActionRegistry().registerAction(action);
 
-        action = new ChangeBackgroundColorAction(this, this.diagram);
-        this.getActionRegistry().registerAction(action);
-        this.getSelectionActions().add(action.getId());
+        action = new ChangeBackgroundColorAction(this, diagram);
+        getActionRegistry().registerAction(action);
+        getSelectionActions().add(action.getId());
 
         action = new ToggleMainColumnAction(this);
-        this.getActionRegistry().registerAction(action);
+        getActionRegistry().registerAction(action);
 
         action = new LockEditAction(this);
-        this.getActionRegistry().registerAction(action);
+        getActionRegistry().registerAction(action);
 
         action = new ExportToDBAction(this);
-        this.getActionRegistry().registerAction(action);
+        getActionRegistry().registerAction(action);
 
-        this.actionBarContributor = new ERDiagramActionBarContributor(this.zoomComboContributionItem);
+        this.actionBarContributor = new ERDiagramActionBarContributor(zoomComboContributionItem);
     }
 
     protected void initDragAndDrop(GraphicalViewer viewer) {
@@ -355,7 +355,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     }
 
     private void addKeyHandler(IAction action) {
-        final IHandlerService service = (IHandlerService) this.getSite().getService(IHandlerService.class);
+        final IHandlerService service = (IHandlerService) getSite().getService(IHandlerService.class);
         service.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
     }
 
@@ -366,8 +366,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         if (editorPart instanceof ERFluteMultiPageEditor) {
             final ERFluteMultiPageEditor multiPageEditorPart = (ERFluteMultiPageEditor) editorPart;
 
-            if (this.equals(multiPageEditorPart.getActiveEditor())) {
-                updateActions(this.getSelectionActions());
+            if (equals(multiPageEditorPart.getActiveEditor())) {
+                updateActions(getSelectionActions());
             }
         } else {
             super.selectionChanged(part, selection);
@@ -375,12 +375,12 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     }
 
     public Point getLocation() {
-        final FigureCanvas canvas = (FigureCanvas) this.getGraphicalViewer().getControl();
+        final FigureCanvas canvas = (FigureCanvas) getGraphicalViewer().getControl();
         return canvas.getViewport().getViewLocation();
     }
 
     public void setLocation(int x, int y) {
-        final FigureCanvas canvas = (FigureCanvas) this.getGraphicalViewer().getControl();
+        final FigureCanvas canvas = (FigureCanvas) getGraphicalViewer().getControl();
         canvas.scrollTo(x, y);
     }
 
@@ -389,15 +389,15 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     }
 
     public void setMarkedObject(IMarker marker, Object markedObject) {
-        this.markedObjectMap.put(marker, markedObject);
+        markedObjectMap.put(marker, markedObject);
     }
 
     public void clearMarkedObject() {
-        this.markedObjectMap.clear();
+        markedObjectMap.clear();
     }
 
     public String getProjectFilePath(String extention) {
-        final IFile file = ((IFileEditorInput) this.getEditorInput()).getFile();
+        final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
         final String filePath = file.getLocation().toOSString();
         return filePath.substring(0, filePath.lastIndexOf(".")) + extention;
     }
@@ -446,7 +446,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     @Override
     public boolean isDirty() {
-        return this.isDirty || super.isDirty();
+        return isDirty || super.isDirty();
     }
 
     public void setDirty(boolean isDirty) {
