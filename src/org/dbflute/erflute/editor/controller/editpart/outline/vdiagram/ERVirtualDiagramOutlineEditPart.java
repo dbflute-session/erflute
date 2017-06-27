@@ -66,7 +66,7 @@ public class ERVirtualDiagramOutlineEditPart extends AbstractOutlineEditPart imp
         final ERDiagram diagram = this.getDiagram();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             final OpenERModelCommand command = new OpenERModelCommand(diagram, model);
-            // TODO 仮想ダイアグラムを開くだけで、編集中になる問題を修正するために"this.execute(command);"から下記コードに書き換えた。
+            // TODO ymd 仮想ダイアグラムを開くだけで、編集中になる問題を修正するために"this.execute(command);"から下記コードに書き換えた。
             // コマンドスタックに積んで実行すると、doExecuteで何もしなくてもファイル変更とみなされるらしい。
             // そもそも、オブジェクトの状態を変更しない(undoを実装できない)手続きは、コマンドで実装しない方が良いかもしれない。
             command.execute();

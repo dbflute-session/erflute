@@ -1,7 +1,7 @@
 package org.dbflute.erflute.editor.model.diagram_contents.element.node;
 
 /**
- * TODO 非常に大きな変更につながるため、レビューした方が良いと思う。
+ * TODO ymd 非常に大きな変更につながるため、レビューした方が良いと思う。
  * このインターフェースを実装するクラスは、サブクラスが何か(実体か、仮想か)について知っている必要がある。
  * これは設計ミスではないか？代替策があれば、それに変える。
  * @author ymd

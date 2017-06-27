@@ -386,7 +386,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         newCreatedRelationship = createRelationship();
         newCreatedRelationship.setForeignKeyName(foreignKeyNameText.getText().trim());
         if (isCreateNewColumn()) {
-            // TODO コマンド外の操作でカラムを追加しているため、undoしてもカラムが削除されない。
+            // TODO ymd コマンド外の操作でカラムを追加しているため、undoしてもカラムが削除されない。コマンド化する。
             for (final NormalColumn referredColumn : selectedReferredColumnList) {
                 final NormalColumn newColumn = new NormalColumn(referredColumn, resultReferenceForPK);
                 adjustNewForeignKeyColumn(newColumn);

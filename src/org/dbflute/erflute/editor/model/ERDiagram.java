@@ -25,7 +25,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * @author modified by jflute (originated in ermaster)
  *
- * TODO 現状2つの債務を持っている。
+ * TODO ymd 現状2つの債務を持っている。
  * 1.メインダイアグラムのモデル
  * 2.メインダイアグラムと仮想ダイアグラムのコントローラ
  *
@@ -324,7 +324,7 @@ public class ERDiagram extends ViewableModel {
     }
 
     /*
-     * TODO なるべく使わない方向で。直接触らないでERDiagramを介する。
+     * TODO ymd なるべく使わない方向で。直接触らないでERDiagramを介する。
      * クライアントクラスは、getDiagram().getCurrentVirtualDiagram().目的の操作()ではなく、
      * getDiagram().目的の操作()を実行する。
      */
