@@ -91,6 +91,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         if (diagram.getCurrentVirtualDiagram() == null) {
             final MainDiagramEditor diagramEditor = (MainDiagramEditor) getActiveEditor();
             diagramEditor.getGraphicalViewer().setContents(diagram);
+            diagramEditor.addSelection();
         }
     }
 
@@ -331,10 +332,6 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
     @Override
     protected void pageChange(int newPageIndex) {
         super.pageChange(newPageIndex);
-        for (int i = 0; i < getPageCount(); i++) {
-            final MainDiagramEditor editor = (MainDiagramEditor) getEditor(i);
-            editor.removeSelection();
-        }
         final MainDiagramEditor selectedEditor = (MainDiagramEditor) getActiveEditor();
         selectedEditor.changeCategory();
         if (selectedEditor instanceof VirtualDiagramEditor) { // sub editor
