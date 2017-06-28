@@ -57,25 +57,29 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     // ===================================================================================
     //                                                                            Add Node
     //                                                                            ========
-    public void addDiagramWalker(DiagramWalker walker) {
+    public void add(DiagramWalker walker) {
         if (contains(walker.toMaterialize())) {
             return;
         }
 
         if (walker instanceof ERTable) {
             tableSet.add((ERTable) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof ERView) {
             viewSet.add((ERView) walker);
-        } else if (walker instanceof WalkerNote) {
-            walkerNoteSet.add((WalkerNote) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof WalkerGroup) {
             walkerGroupSet.add((WalkerGroup) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        } else if (walker instanceof WalkerNote) {
+            walkerNoteSet.add((WalkerNote) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof InsertedImage) {
             insertedImageSet.add((InsertedImage) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else {
             System.out.println("*Unsupported diagram walker: " + walker);
         }
-
         if (walker instanceof WalkerGroup) {
             // エディタ上で、テーブルグループをテーブルの背面に配置するため。
             // テーブルの後にテーブルグループを追加すると、テーブルグループの後ろにテーブルが隠れてしまう。
@@ -83,26 +87,28 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         } else {
             walkerList.add(walker);
         }
-
-        firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void remove(DiagramWalker element) {
         if (element instanceof ERTable) {
             tableSet.remove((ERTable) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof ERView) {
             viewSet.remove((ERView) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof WalkerGroup) {
             walkerGroupSet.remove((WalkerGroup) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof WalkerNote) {
             walkerNoteSet.remove((WalkerNote) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof InsertedImage) {
             insertedImageSet.remove((InsertedImage) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else {
             System.out.println("*Unsupported diagram walker: " + element);
         }
         walkerList.remove(element);
-        firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public boolean contains(DiagramWalker nodeElement) {

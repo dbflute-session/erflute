@@ -112,7 +112,7 @@ public class ERDiagram extends ViewableModel {
 
         // 仮想ダイアグラムへのノート追加でない場合
         if (!(getCurrentVirtualDiagram() != null && walker instanceof WalkerNote)) {
-            diagramContents.getDiagramWalkers().addDiagramWalker(walker);
+            diagramContents.getDiagramWalkers().add(walker);
         }
 
         if (editor != null) {
@@ -131,26 +131,26 @@ public class ERDiagram extends ViewableModel {
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
-    public void removeContent(DiagramWalker element) {
+    public void removeWalker(DiagramWalker walker) {
         if (getCurrentVirtualDiagram() != null) {
-            getCurrentVirtualDiagram().removeContent(element);
-        } else {
-            diagramContents.getDiagramWalkers().remove(element);
-            if (element instanceof ERTable) {
-                // メインビューのテーブルを削除したときは、仮想ビューのノードも削除（線が消えずに残ってしまう）
-                for (final ERVirtualDiagram model : getDiagramContents().getVirtualDiagramSet()) {
-                    final ERVirtualTable vtable = model.findVirtualTable((TableView) element);
-                    model.removeContent(vtable);
-                }
+            getCurrentVirtualDiagram().removeWalker(walker);
+        }
+
+        diagramContents.getDiagramWalkers().remove(walker);
+        if (walker instanceof ERTable) {
+            // メインビューのテーブルを削除したときは、仮想ビューのノードも削除（線が消えずに残ってしまう）
+            for (final ERVirtualDiagram vdiagram : getDiagramContents().getVirtualDiagramSet()) {
+                final ERVirtualTable vtable = vdiagram.findVirtualTable((TableView) walker);
+                vdiagram.removeWalker(vtable);
             }
         }
 
-        if (element instanceof TableView) {
-            diagramContents.getDictionary().remove((TableView) element);
+        if (walker instanceof TableView) {
+            diagramContents.getDictionary().remove((TableView) walker);
         }
 
         for (final Category category : diagramContents.getSettings().getCategorySetting().getAllCategories()) {
-            category.getContents().remove(element);
+            category.getContents().remove(walker);
         }
 
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
@@ -159,6 +159,14 @@ public class ERDiagram extends ViewableModel {
     public void replaceContents(DiagramContents newDiagramContents) {
         this.diagramContents = newDiagramContents;
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+    }
+
+    public boolean virtualDiagramContains(DiagramWalker walker) {
+        if (getCurrentVirtualDiagram() == null) {
+            return false;
+        }
+
+        return getCurrentCategory().contains(walker);
     }
 
     // ===================================================================================

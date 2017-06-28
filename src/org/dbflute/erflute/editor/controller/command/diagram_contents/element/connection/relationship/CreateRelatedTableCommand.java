@@ -12,19 +12,12 @@ import org.eclipse.gef.EditPart;
 public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand {
 
     private Relationship relation1;
-
     private Relationship relation2;
-
-    private ERTable relatedTable;
-
+    private final ERTable relatedTable;
     private ERDiagram diagram;
-
     private int sourceX;
-
     private int sourceY;
-
     private int targetX;
-
     private int targetY;
 
     public CreateRelatedTableCommand() {
@@ -49,10 +42,10 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
         if (target != null) {
             if (target instanceof TableViewEditPart) {
-                TableViewEditPart tableEditPart = (TableViewEditPart) target;
+                final TableViewEditPart tableEditPart = (TableViewEditPart) target;
 
-                Point point = tableEditPart.getFigure().getBounds().getCenter();
-                this.setTargetPoint(point.x, point.y);
+                final Point point = tableEditPart.getFigure().getBounds().getCenter();
+                setTargetPoint(point.x, point.y);
             }
         }
     }
@@ -61,53 +54,53 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
     protected void doExecute() {
         ERDiagramEditPart.setUpdateable(false);
 
-        this.init();
+        init();
 
-        this.diagram.addNewWalker(this.relatedTable);
+        diagram.addNewWalker(relatedTable);
 
-        this.relation1.setSourceWalker((ERTable) this.source.getModel());
-        this.relation1.setTargetTableView(this.relatedTable);
+        relation1.setSourceWalker((ERTable) source.getModel());
+        relation1.setTargetTableView(relatedTable);
 
-        this.relation2.setSourceWalker((ERTable) this.target.getModel());
-        this.relation2.setTargetTableView(this.relatedTable);
+        relation2.setSourceWalker((ERTable) target.getModel());
+        relation2.setTargetTableView(relatedTable);
 
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.getDiagramContents().getDiagramWalkers().getTableSet().setDirty();
+        diagram.getDiagramContents().getDiagramWalkers().getTableSet().setDirty();
     }
 
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
 
-        this.diagram.removeContent(this.relatedTable);
+        diagram.removeWalker(relatedTable);
 
-        this.relation1.setSourceWalker(null);
-        this.relation1.setTargetTableView(null);
+        relation1.setSourceWalker(null);
+        relation1.setTargetTableView(null);
 
-        this.relation2.setSourceWalker(null);
-        this.relation2.setTargetTableView(null);
+        relation2.setSourceWalker(null);
+        relation2.setTargetTableView(null);
 
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.getDiagramContents().getDiagramWalkers().getTableSet().setDirty();
+        diagram.getDiagramContents().getDiagramWalkers().getTableSet().setDirty();
     }
 
     private void init() {
-        ERTable sourceTable = (ERTable) this.getSourceModel();
+        final ERTable sourceTable = (ERTable) getSourceModel();
 
         this.diagram = sourceTable.getDiagram();
 
         this.relation1 = sourceTable.createRelation();
 
-        ERTable targetTable = (ERTable) this.getTargetModel();
+        final ERTable targetTable = (ERTable) this.getTargetModel();
         this.relation2 = targetTable.createRelation();
 
-        this.relatedTable.setLocation(new Location((this.sourceX + this.targetX - ERTable.DEFAULT_WIDTH) / 2,
-                (this.sourceY + this.targetY - ERTable.DEFAULT_HEIGHT) / 2, ERTable.DEFAULT_WIDTH, ERTable.DEFAULT_HEIGHT));
+        relatedTable.setLocation(new Location((sourceX + targetX - ERTable.DEFAULT_WIDTH) / 2,
+                (sourceY + targetY - ERTable.DEFAULT_HEIGHT) / 2, ERTable.DEFAULT_WIDTH, ERTable.DEFAULT_HEIGHT));
 
-        this.relatedTable.setLogicalName(ERTable.NEW_LOGICAL_NAME);
-        this.relatedTable.setPhysicalName(ERTable.NEW_PHYSICAL_NAME);
+        relatedTable.setLogicalName(ERTable.NEW_LOGICAL_NAME);
+        relatedTable.setPhysicalName(ERTable.NEW_PHYSICAL_NAME);
 
     }
 
@@ -117,7 +110,7 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
             return false;
         }
 
-        if (!(this.getSourceModel() instanceof ERTable) || !(this.getTargetModel() instanceof ERTable)) {
+        if (!(getSourceModel() instanceof ERTable) || !(getTargetModel() instanceof ERTable)) {
             return false;
         }
 

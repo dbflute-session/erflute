@@ -79,7 +79,7 @@ public class CreateElementCommand extends AbstractCommand {
     @Override
     protected void doUndo() {
         if (!(walker instanceof Category)) {
-            diagram.removeContent(walker);
+            diagram.removeWalker(walker);
         } else {
             final Category category = (Category) walker;
             category.getContents().clear();

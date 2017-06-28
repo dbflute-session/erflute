@@ -96,14 +96,14 @@ public class PlaceTableCommand extends AbstractCommand {
         if (orgTables != null) {
             final ERDiagram diagram = orgTables.get(0).getDiagram();
             for (final ERVirtualTable vtable : virtualTables) {
-                diagram.removeContent(vtable);
+                diagram.removeWalker(vtable);
             }
 
             final VirtualDiagramEditor editor = (VirtualDiagramEditor) diagram.getEditor().getActiveEditor();
             editor.setContents(diagram.getCurrentVirtualDiagram());
         } else {
             final ERDiagram diagram = orgTable.getDiagram();
-            diagram.removeContent(virtualTable);
+            diagram.removeWalker(virtualTable);
 
             final VirtualDiagramEditor editor = (VirtualDiagramEditor) diagram.getEditor().getActiveEditor();
             editor.setContents(diagram.getCurrentVirtualDiagram());

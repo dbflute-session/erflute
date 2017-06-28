@@ -62,26 +62,23 @@ public class ImportFromFileAction extends AbstractImportAction {
 
     public ImportFromFileAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.file"), editor);
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.TABLE));
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.TABLE));
     }
 
     protected DBObjectSet preImport() throws Exception {
-        String fileName = this.getLoadFilePath(this.getEditorPart());
+        final String fileName = getLoadFilePath(getEditorPart());
         if (fileName == null) {
             return null;
         }
 
-        Persistent persistent = Persistent.getInstance();
-
-        Path path = new Path(fileName);
-
+        final Persistent persistent = Persistent.getInstance();
+        final Path path = new Path(fileName);
         InputStream in = null;
-
         try {
-            IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
+            final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 
             if (file == null || !file.exists()) {
-                File realFile = path.toFile();
+                final File realFile = path.toFile();
                 if (realFile == null || !realFile.exists()) {
                     Activator.showErrorDialog("error.import.file");
                     return null;
@@ -98,31 +95,29 @@ public class ImportFromFileAction extends AbstractImportAction {
             }
 
             this.loadedDiagram = persistent.read(in);
-
         } finally {
             in.close();
         }
 
-        return this.getAllObjects(loadedDiagram);
+        return getAllObjects(loadedDiagram);
     }
 
     protected AbstractSelectImportedObjectDialog createSelectImportedObjectDialog(DBObjectSet dbObjectSet) {
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
 
-        return new SelectImportedObjectFromFileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, dbObjectSet);
+        return new SelectImportedObjectFromFileDialog(
+                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                diagram, dbObjectSet);
     }
 
     protected String getLoadFilePath(IEditorPart editorPart) {
-
-        IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
-
-        FileDialog fileDialog = new FileDialog(editorPart.getEditorSite().getShell(), SWT.OPEN);
-
-        IProject project = file.getProject();
+        final IFile file = ((IFileEditorInput) editorPart.getEditorInput()).getFile();
+        final FileDialog fileDialog = new FileDialog(editorPart.getEditorSite().getShell(), SWT.OPEN);
+        final IProject project = file.getProject();
 
         fileDialog.setFilterPath(project.getLocation().toString());
 
-        String[] filterExtensions = this.getFilterExtensions();
+        final String[] filterExtensions = getFilterExtensions();
         fileDialog.setFilterExtensions(filterExtensions);
 
         return fileDialog.open();
@@ -133,16 +128,16 @@ public class ImportFromFileAction extends AbstractImportAction {
     }
 
     private DBObjectSet getAllObjects(ERDiagram loadedDiagram) {
-        DBObjectSet dbObjects = new DBObjectSet();
+        final DBObjectSet dbObjects = new DBObjectSet();
 
-        for (ERTable table : loadedDiagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
-            DBObject dbObject = new DBObject(table.getTableViewProperties().getSchema(), table.getName(), DBObject.TYPE_TABLE);
+        for (final ERTable table : loadedDiagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
+            final DBObject dbObject = new DBObject(table.getTableViewProperties().getSchema(), table.getName(), DBObject.TYPE_TABLE);
             dbObject.setModel(table);
             dbObjects.add(dbObject);
         }
 
-        for (ERView view : loadedDiagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
-            DBObject dbObject = new DBObject(view.getTableViewProperties().getSchema(), view.getName(), DBObject.TYPE_VIEW);
+        for (final ERView view : loadedDiagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
+            final DBObject dbObject = new DBObject(view.getTableViewProperties().getSchema(), view.getName(), DBObject.TYPE_VIEW);
             dbObject.setModel(view);
             dbObjects.add(dbObject);
         }
@@ -155,26 +150,26 @@ public class ImportFromFileAction extends AbstractImportAction {
         //			dbObjects.add(dbObject);
         //		}
 
-        for (Sequence sequence : loadedDiagram.getDiagramContents().getSequenceSet()) {
-            DBObject dbObject = new DBObject(sequence.getSchema(), sequence.getName(), DBObject.TYPE_SEQUENCE);
+        for (final Sequence sequence : loadedDiagram.getDiagramContents().getSequenceSet()) {
+            final DBObject dbObject = new DBObject(sequence.getSchema(), sequence.getName(), DBObject.TYPE_SEQUENCE);
             dbObject.setModel(sequence);
             dbObjects.add(dbObject);
         }
 
-        for (Trigger trigger : loadedDiagram.getDiagramContents().getTriggerSet()) {
-            DBObject dbObject = new DBObject(trigger.getSchema(), trigger.getName(), DBObject.TYPE_TRIGGER);
+        for (final Trigger trigger : loadedDiagram.getDiagramContents().getTriggerSet()) {
+            final DBObject dbObject = new DBObject(trigger.getSchema(), trigger.getName(), DBObject.TYPE_TRIGGER);
             dbObject.setModel(trigger);
             dbObjects.add(dbObject);
         }
 
-        for (Tablespace tablespace : loadedDiagram.getDiagramContents().getTablespaceSet()) {
-            DBObject dbObject = new DBObject(null, tablespace.getName(), DBObject.TYPE_TABLESPACE);
+        for (final Tablespace tablespace : loadedDiagram.getDiagramContents().getTablespaceSet()) {
+            final DBObject dbObject = new DBObject(null, tablespace.getName(), DBObject.TYPE_TABLESPACE);
             dbObject.setModel(tablespace);
             dbObjects.add(dbObject);
         }
 
-        for (ColumnGroup columnGroup : loadedDiagram.getDiagramContents().getColumnGroupSet()) {
-            DBObject dbObject = new DBObject(null, columnGroup.getName(), DBObject.TYPE_GROUP);
+        for (final ColumnGroup columnGroup : loadedDiagram.getDiagramContents().getColumnGroupSet()) {
+            final DBObject dbObject = new DBObject(null, columnGroup.getName(), DBObject.TYPE_GROUP);
             dbObject.setModel(columnGroup);
             dbObjects.add(dbObject);
         }
@@ -183,18 +178,15 @@ public class ImportFromFileAction extends AbstractImportAction {
     }
 
     protected void loadData(List<DBObject> selectedObjectList, boolean useCommentAsLogicalName, boolean mergeWord, boolean mergeGroup) {
-
-        Set<AbstractModel> selectedSets = new HashSet<AbstractModel>();
-        for (DBObject dbObject : selectedObjectList) {
+        final Set<AbstractModel> selectedSets = new HashSet<>();
+        for (final DBObject dbObject : selectedObjectList) {
             selectedSets.add(dbObject.getModel());
         }
 
-        DiagramContents contents = loadedDiagram.getDiagramContents();
-
-        ColumnGroupSet columnGroupSet = contents.getColumnGroupSet();
-
-        for (Iterator<ColumnGroup> iter = columnGroupSet.iterator(); iter.hasNext();) {
-            ColumnGroup columnGroup = iter.next();
+        final DiagramContents contents = loadedDiagram.getDiagramContents();
+        final ColumnGroupSet columnGroupSet = contents.getColumnGroupSet();
+        for (final Iterator<ColumnGroup> iter = columnGroupSet.iterator(); iter.hasNext();) {
+            final ColumnGroup columnGroup = iter.next();
 
             if (!selectedSets.contains(columnGroup)) {
                 iter.remove();
@@ -203,10 +195,9 @@ public class ImportFromFileAction extends AbstractImportAction {
 
         this.importedColumnGroups = columnGroupSet.getGroupList();
 
-        SequenceSet sequenceSet = contents.getSequenceSet();
-
-        for (Iterator<Sequence> iter = sequenceSet.iterator(); iter.hasNext();) {
-            Sequence sequence = iter.next();
+        final SequenceSet sequenceSet = contents.getSequenceSet();
+        for (final Iterator<Sequence> iter = sequenceSet.iterator(); iter.hasNext();) {
+            final Sequence sequence = iter.next();
 
             if (!selectedSets.contains(sequence)) {
                 iter.remove();
@@ -215,10 +206,9 @@ public class ImportFromFileAction extends AbstractImportAction {
 
         this.importedSequences = sequenceSet.getSequenceList();
 
-        TriggerSet triggerSet = contents.getTriggerSet();
-
-        for (Iterator<Trigger> iter = triggerSet.iterator(); iter.hasNext();) {
-            Trigger trigger = iter.next();
+        final TriggerSet triggerSet = contents.getTriggerSet();
+        for (final Iterator<Trigger> iter = triggerSet.iterator(); iter.hasNext();) {
+            final Trigger trigger = iter.next();
 
             if (!selectedSets.contains(trigger)) {
                 iter.remove();
@@ -227,10 +217,9 @@ public class ImportFromFileAction extends AbstractImportAction {
 
         this.importedTriggers = triggerSet.getTriggerList();
 
-        TablespaceSet tablespaceSet = contents.getTablespaceSet();
-
-        for (Iterator<Tablespace> iter = tablespaceSet.iterator(); iter.hasNext();) {
-            Tablespace tablespace = iter.next();
+        final TablespaceSet tablespaceSet = contents.getTablespaceSet();
+        for (final Iterator<Tablespace> iter = tablespaceSet.iterator(); iter.hasNext();) {
+            final Tablespace tablespace = iter.next();
 
             if (!selectedSets.contains(tablespace)) {
                 iter.remove();
@@ -239,37 +228,33 @@ public class ImportFromFileAction extends AbstractImportAction {
 
         this.importedTablespaces = tablespaceSet.getTablespaceList();
 
-        DiagramWalkerSet nodeSet = contents.getDiagramWalkers();
-        List<DiagramWalker> nodeElementList = nodeSet.getDiagramWalkerList();
-
-        for (Iterator<DiagramWalker> iter = nodeElementList.iterator(); iter.hasNext();) {
-            DiagramWalker nodeElement = iter.next();
+        final DiagramWalkerSet nodeSet = contents.getDiagramWalkers();
+        final List<DiagramWalker> nodeElementList = nodeSet.getDiagramWalkerList();
+        for (final Iterator<DiagramWalker> iter = nodeElementList.iterator(); iter.hasNext();) {
+            final DiagramWalker nodeElement = iter.next();
 
             if (!selectedSets.contains(nodeElement)) {
                 iter.remove();
             }
         }
 
-        DiagramWalkerSet selectedNodeSet = new DiagramWalkerSet();
-
-        Map<UniqueWord, Word> dictionary = new HashMap<UniqueWord, Word>();
-
+        final DiagramWalkerSet selectedNodeSet = new DiagramWalkerSet();
+        final Map<UniqueWord, Word> dictionary = new HashMap<>();
         if (mergeWord) {
-            for (Word word : this.getDiagram().getDiagramContents().getDictionary().getWordList()) {
+            for (final Word word : getDiagram().getDiagramContents().getDictionary().getWordList()) {
                 dictionary.put(new UniqueWord(word), word);
             }
         }
 
-        for (DiagramWalker nodeElement : nodeElementList) {
+        for (final DiagramWalker nodeElement : nodeElementList) {
             if (mergeWord) {
                 if (nodeElement instanceof TableView) {
-                    TableView tableView = (TableView) nodeElement;
-
-                    for (NormalColumn normalColumn : tableView.getNormalColumns()) {
-                        Word word = normalColumn.getWord();
+                    final TableView tableView = (TableView) nodeElement;
+                    for (final NormalColumn normalColumn : tableView.getNormalColumns()) {
+                        final Word word = normalColumn.getWord();
                         if (word != null) {
-                            UniqueWord uniqueWord = new UniqueWord(word);
-                            Word replaceWord = dictionary.get(uniqueWord);
+                            final UniqueWord uniqueWord = new UniqueWord(word);
+                            final Word replaceWord = dictionary.get(uniqueWord);
 
                             if (replaceWord != null) {
                                 normalColumn.setWord(replaceWord);
@@ -279,18 +264,17 @@ public class ImportFromFileAction extends AbstractImportAction {
                 }
             }
 
-            selectedNodeSet.addDiagramWalker(nodeElement);
+            selectedNodeSet.add(nodeElement);
         }
 
-        for (DiagramWalker nodeElement : selectedNodeSet) {
+        for (final DiagramWalker nodeElement : selectedNodeSet) {
             if (nodeElement instanceof TableView) {
-                TableView tableView = (TableView) nodeElement;
-
-                for (Iterator<ERColumn> iter = tableView.getColumns().iterator(); iter.hasNext();) {
-                    ERColumn column = iter.next();
+                final TableView tableView = (TableView) nodeElement;
+                for (final Iterator<ERColumn> iter = tableView.getColumns().iterator(); iter.hasNext();) {
+                    final ERColumn column = iter.next();
 
                     if (column instanceof ColumnGroup) {
-                        if (!this.importedColumnGroups.contains(column)) {
+                        if (!importedColumnGroups.contains(column)) {
                             iter.remove();
                         }
                     }
@@ -299,23 +283,21 @@ public class ImportFromFileAction extends AbstractImportAction {
         }
 
         if (mergeGroup) {
-            Map<String, ColumnGroup> groupMap = new HashMap<String, ColumnGroup>();
+            final Map<String, ColumnGroup> groupMap = new HashMap<>();
 
-            for (ColumnGroup columnGroup : this.getDiagram().getDiagramContents().getColumnGroupSet()) {
+            for (final ColumnGroup columnGroup : getDiagram().getDiagramContents().getColumnGroupSet()) {
                 groupMap.put(columnGroup.getGroupName(), columnGroup);
             }
 
-            for (Iterator<ColumnGroup> iter = this.importedColumnGroups.iterator(); iter.hasNext();) {
-                ColumnGroup columnGroup = iter.next();
-
-                ColumnGroup replaceColumnGroup = groupMap.get(columnGroup.getGroupName());
-
+            for (final Iterator<ColumnGroup> iter = importedColumnGroups.iterator(); iter.hasNext();) {
+                final ColumnGroup columnGroup = iter.next();
+                final ColumnGroup replaceColumnGroup = groupMap.get(columnGroup.getGroupName());
                 if (replaceColumnGroup != null) {
                     iter.remove();
 
-                    for (DiagramWalker nodeElement : selectedNodeSet) {
+                    for (final DiagramWalker nodeElement : selectedNodeSet) {
                         if (nodeElement instanceof TableView) {
-                            TableView tableView = (TableView) nodeElement;
+                            final TableView tableView = (TableView) nodeElement;
                             tableView.replaceColumnGroup(columnGroup, replaceColumnGroup);
                         }
                     }
@@ -323,28 +305,25 @@ public class ImportFromFileAction extends AbstractImportAction {
             }
         }
 
-        CopyManager copyManager = new CopyManager();
-        DiagramWalkerSet copyList = copyManager.copyNodeElementList(selectedNodeSet);
+        final CopyManager copyManager = new CopyManager();
+        final DiagramWalkerSet copyList = copyManager.copyNodeElementList(selectedNodeSet);
 
         this.importedNodeElements = copyList.getDiagramWalkerList();
     }
 
     @Override
     public void execute(Event event) throws Exception {
-        DBObjectSet dbObjectSet = this.preImport();
+        final DBObjectSet dbObjectSet = preImport();
 
         if (dbObjectSet != null) {
-            AbstractSelectImportedObjectDialog importDialog = this.createSelectImportedObjectDialog(dbObjectSet);
-
-            int result = importDialog.open();
-
+            final AbstractSelectImportedObjectDialog importDialog = createSelectImportedObjectDialog(dbObjectSet);
+            final int result = importDialog.open();
             if (result == IDialogConstants.OK_ID) {
-                this.loadData(importDialog.getSelectedDbObjects(), importDialog.isUseCommentAsLogicalName(), importDialog.isMergeWord(),
-                        importDialog.isMergeGroup());
-                this.showData();
-
+                loadData(importDialog.getSelectedDbObjects(), importDialog.isUseCommentAsLogicalName(),
+                        importDialog.isMergeWord(), importDialog.isMergeGroup());
+                showData();
             } else if (result == IDialogConstants.BACK_ID) {
-                this.execute(event);
+                execute(event);
             }
         }
     }

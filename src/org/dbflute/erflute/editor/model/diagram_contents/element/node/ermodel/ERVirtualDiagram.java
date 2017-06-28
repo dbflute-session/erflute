@@ -86,12 +86,13 @@ public class ERVirtualDiagram extends DiagramWalker {
     }
 
     public ERVirtualTable findVirtualTable(TableView table) {
+        ERVirtualTable ret = null;
         for (final ERVirtualTable vtable : tables) {
-            if (vtable.getRawTable().getPhysicalName().equals(table.getPhysicalName())) {
-                return vtable;
+            if (vtable.getRawTable().equals(table)) {
+                ret = vtable;
             }
         }
-        return null;
+        return ret;
     }
 
     public void deleteRelationship(Relationship relation) {
@@ -121,40 +122,49 @@ public class ERVirtualDiagram extends DiagramWalker {
     }
 
     public void addWalkerPlainly(DiagramWalker walker) {
+        if (walker == null) {
+            return;
+        }
+
         if (walker instanceof WalkerNote) {
             final WalkerNote note = (WalkerNote) walker;
             notes.add(note);
             note.setVirtualDiagram(this);
+            firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
         } else if (walker instanceof WalkerGroup) {
             final WalkerGroup group = (WalkerGroup) walker;
             groups.add(group);
             group.setVirtualDiagram(this);
+            firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
         } else if (walker instanceof ERTable) {
             ERVirtualTable virtualTable;
             if (walker instanceof ERVirtualTable) {
                 virtualTable = (ERVirtualTable) walker;
-                walker = virtualTable.getRawTable();
             } else {
                 virtualTable = new ERVirtualTable(this, (ERTable) walker);
                 virtualTable.setLocation(new Location(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
                 walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight())); // メインダイアグラム上では左上に配置
             }
             tables.add(virtualTable);
+            firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
         }
-
-        firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
     }
 
-    public void removeContent(DiagramWalker walker) {
-        if (walker instanceof WalkerNote) {
-            notes.remove(walker);
-        } else if (walker instanceof WalkerGroup) {
-            groups.remove(walker);
-        } else if (walker instanceof ERVirtualTable) {
-            tables.remove(walker);
+    public void removeWalker(DiagramWalker walker) {
+        if (walker == null) {
+            return;
         }
 
-        firePropertyChange(REMOVE_VCONTENT, null, null);
+        if (walker instanceof WalkerNote) {
+            notes.remove(walker);
+            firePropertyChange(REMOVE_VCONTENT, null, null);
+        } else if (walker instanceof WalkerGroup) {
+            groups.remove(walker);
+            firePropertyChange(REMOVE_VCONTENT, null, null);
+        } else if (walker instanceof ERVirtualTable) {
+            tables.remove(walker);
+            firePropertyChange(REMOVE_VCONTENT, null, null);
+        }
     }
 
     @Override
