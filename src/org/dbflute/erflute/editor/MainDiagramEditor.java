@@ -82,6 +82,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.MouseWheelHandler;
@@ -418,6 +419,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 final ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
                 if (((ERTable) vtableEditPart.getModel()).equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
+                    vtableEditPart.setSelected(EditPart.SELECTED); // Quick Outlineで検索したテーブルを選択する
                     return;
                 }
             }
