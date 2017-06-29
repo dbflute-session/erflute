@@ -96,8 +96,8 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                 || obj instanceof ModelPropertiesEditPart;
     }
 
-    private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram, final DiagramWalkerEditPart editPart,
-            final DiagramWalker nodeElement) {
+    private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram,
+            final DiagramWalkerEditPart editPart, final DiagramWalker nodeElement) {
         final Rectangle bounds = editPart.getFigure().getBounds();
         final int width = nodeElement.getWidth();
         final int height = nodeElement.getHeight();
@@ -121,8 +121,8 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         if (viewer.getContents() instanceof ERDiagramEditPart) {
             final ERDiagramEditPart editPart = (ERDiagramEditPart) viewer.getContents();
             final ERDiagram diagram = (ERDiagram) editPart.getModel();
-            diagram.mousePoint = new Point(e.x, e.y);
-            editPart.getFigure().translateToRelative(diagram.mousePoint);
+            diagram.setMousePoint(new Point(e.x, e.y));
+            editPart.getFigure().translateToRelative(diagram.getMousePoint());
         }
 
         if (viewer.getContents() instanceof ERVirtualDiagramEditPart) {

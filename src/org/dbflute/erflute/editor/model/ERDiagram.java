@@ -62,7 +62,7 @@ public class ERDiagram extends ViewableModel {
     private int y;
     private DBSettings dbSettings;
     private PageSettings pageSetting;
-    public Point mousePoint = new Point();
+    private Point mousePoint = new Point();
     private String defaultModelName;
 
     // ===================================================================================
@@ -418,5 +418,13 @@ public class ERDiagram extends ViewableModel {
 
     public String getDefaultModelName() {
         return defaultModelName;
+    }
+
+    public Point getMousePoint() {
+        return mousePoint;
+    }
+
+    public void setMousePoint(Point mousePoint) {
+        this.mousePoint = mousePoint;
     }
 }

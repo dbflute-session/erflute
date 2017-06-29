@@ -88,8 +88,9 @@ public class PasteAction extends SelectionAction {
             final ERDiagram diagram = (ERDiagram) model;
 
             final Command command =
-                    new PasteCommand(editor, pasteList, diagram.mousePoint.x - x + (numberOfCopy - 1) * 20, diagram.mousePoint.y - y
-                            + (numberOfCopy - 1) * 20);
+                    new PasteCommand(editor, pasteList,
+                            diagram.getMousePoint().x - x + (numberOfCopy - 1) * 20,
+                            diagram.getMousePoint().y - y + (numberOfCopy - 1) * 20);
 
             return command;
         }
@@ -99,7 +100,8 @@ public class PasteAction extends SelectionAction {
 
             // diagram.mousePointはメインダイアグラムのマウス座標を参照するため、使えない。
             final Command command =
-                    new PasteCommand(editor, pasteList, virtualDiagram.getMousePoint().x - x + (numberOfCopy - 1) * 20,
+                    new PasteCommand(editor, pasteList,
+                            virtualDiagram.getMousePoint().x - x + (numberOfCopy - 1) * 20,
                             virtualDiagram.getMousePoint().y - y + (numberOfCopy - 1) * 20);
 
             return command;
