@@ -118,6 +118,7 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
 
     @Override
     public void mouseDown(MouseEvent e, EditPartViewer viewer) {
+        // マウスポインタがクリックされた位置を記録する。コピーしたオブジェクトの貼り付け位置として使う、等。
         if (viewer.getContents() instanceof ERDiagramEditPart) {
             final ERDiagramEditPart editPart = (ERDiagramEditPart) viewer.getContents();
             final ERDiagram diagram = (ERDiagram) editPart.getModel();
