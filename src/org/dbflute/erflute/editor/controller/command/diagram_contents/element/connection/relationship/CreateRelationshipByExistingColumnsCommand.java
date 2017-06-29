@@ -128,7 +128,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         }
         tellChangeToVirtualDiagram();
         targetTable.setDirty();
-        ERModelUtil.refreshDiagram(relationship.getWalkerSource().getDiagram(), sourceTable);
+        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
     }
 
     private ERTable prepareSourceTable() {
@@ -172,11 +172,11 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     protected void doUndo() {
         final ERTable sourceTable = (ERTable) source.getModel();
         final ERTable targetTable = (ERTable) target.getModel();
-        this.relationship.setSourceWalker(null);
-        this.relationship.setTargetWithoutForeignKey(null);
+        relationship.setSourceWalker(null);
+        relationship.setTargetWithoutForeignKey(null);
         for (int i = 0; i < selectedForeignKeyColumnList.size(); i++) {
             final NormalColumn foreignKeyColumn = selectedForeignKeyColumnList.get(i);
-            foreignKeyColumn.removeReference(this.relationship);
+            foreignKeyColumn.removeReference(relationship);
             foreignKeyColumn.setWord(wordList.get(i));
             sourceTable.getDiagram().getDiagramContents().getDictionary().add(foreignKeyColumn);
         }

@@ -54,22 +54,22 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     }
 
     public void addIndex(ERIndex index) {
-        this.indexes.add(index);
+        indexes.add(index);
     }
 
     @Override
     public ERTable copyData() {
         final ERTable to = new ERTable();
 
-        to.setConstraint(this.getConstraint());
-        to.setPrimaryKeyName(this.getPrimaryKeyName());
-        to.setOption(this.getOption());
+        to.setConstraint(getConstraint());
+        to.setPrimaryKeyName(getPrimaryKeyName());
+        to.setOption(getOption());
 
         super.copyTableViewData(to);
 
         final List<ERIndex> indexes = new ArrayList<>();
 
-        for (final ERIndex fromIndex : this.getIndexes()) {
+        for (final ERIndex fromIndex : getIndexes()) {
             indexes.add(new CopyIndex(to, fromIndex, to.getColumns()));
         }
 
@@ -77,13 +77,13 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
         final List<CompoundUniqueKey> complexUniqueKeyList = new ArrayList<>();
 
-        for (final CompoundUniqueKey complexUniqueKey : this.getCompoundUniqueKeyList()) {
+        for (final CompoundUniqueKey complexUniqueKey : getCompoundUniqueKeyList()) {
             complexUniqueKeyList.add(new CopyCompoundUniqueKey(complexUniqueKey, to.getColumns()));
         }
 
         to.compoundUniqueKeyList = complexUniqueKeyList;
 
-        to.tableViewProperties = this.getTableViewProperties().clone();
+        to.tableViewProperties = getTableViewProperties().clone();
 
         return to;
     }
@@ -92,15 +92,15 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     public void restructureData(TableView to) {
         final ERTable table = (ERTable) to;
 
-        table.setConstraint(this.getConstraint());
-        table.setPrimaryKeyName(this.getPrimaryKeyName());
-        table.setOption(this.getOption());
+        table.setConstraint(getConstraint());
+        table.setPrimaryKeyName(getPrimaryKeyName());
+        table.setOption(getOption());
 
         super.restructureData(to);
 
         final List<ERIndex> indexes = new ArrayList<>();
 
-        for (final ERIndex fromIndex : this.getIndexes()) {
+        for (final ERIndex fromIndex : getIndexes()) {
             final CopyIndex copyIndex = (CopyIndex) fromIndex;
             final ERIndex restructuredIndex = copyIndex.getRestructuredIndex(table);
             indexes.add(restructuredIndex);
@@ -109,22 +109,22 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
         final List<CompoundUniqueKey> complexUniqueKeyList = new ArrayList<>();
 
-        for (final CompoundUniqueKey complexUniqueKey : this.getCompoundUniqueKeyList()) {
+        for (final CompoundUniqueKey complexUniqueKey : getCompoundUniqueKeyList()) {
             final CopyCompoundUniqueKey copyComplexUniqueKey = (CopyCompoundUniqueKey) complexUniqueKey;
-            if (!copyComplexUniqueKey.isRemoved(this.getNormalColumns())) {
+            if (!copyComplexUniqueKey.isRemoved(getNormalColumns())) {
                 final CompoundUniqueKey restructuredComplexUniqueKey = copyComplexUniqueKey.restructure();
                 complexUniqueKeyList.add(restructuredComplexUniqueKey);
             }
         }
         table.compoundUniqueKeyList = complexUniqueKeyList;
 
-        table.tableViewProperties = this.tableViewProperties.clone();
+        table.tableViewProperties = tableViewProperties.clone();
     }
 
     public int getPrimaryKeySize() {
         int count = 0;
 
-        for (final ERColumn column : this.columns) {
+        for (final ERColumn column : columns) {
             if (column instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) column;
 
@@ -140,7 +140,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     public List<NormalColumn> getPrimaryKeys() {
         final List<NormalColumn> primaryKeys = new ArrayList<>();
 
-        for (final ERColumn column : this.columns) {
+        for (final ERColumn column : columns) {
             if (column instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) column;
 
@@ -154,15 +154,15 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     }
 
     public boolean isReferable() {
-        if (this.getPrimaryKeySize() > 0) {
+        if (getPrimaryKeySize() > 0) {
             return true;
         }
 
-        if (this.compoundUniqueKeyList.size() > 0) {
+        if (compoundUniqueKeyList.size() > 0) {
             return true;
         }
 
-        for (final ERColumn column : this.columns) {
+        for (final ERColumn column : columns) {
             if (column instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) column;
 
@@ -176,11 +176,11 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     }
 
     public ERIndex getIndex(int index) {
-        return this.indexes.get(index);
+        return indexes.get(index);
     }
 
     public void removeIndex(int index) {
-        this.indexes.remove(index);
+        indexes.remove(index);
     }
 
     public List<ERIndex> getIndexes() {
@@ -190,9 +190,9 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     public void setIndexes(List<ERIndex> indexes) {
         this.indexes = indexes;
 
-        if (this.getDiagram() != null) {
-            this.firePropertyChange(IndexSet.PROPERTY_CHANGE_INDEXES, null, null);
-            this.getDiagram().getDiagramContents().getIndexSet().update();
+        if (getDiagram() != null) {
+            firePropertyChange(IndexSet.PROPERTY_CHANGE_INDEXES, null, null);
+            getDiagram().getDiagramContents().getIndexSet().update();
         }
     }
 
@@ -234,6 +234,11 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
         return new Relationship(referenceForPK, referencedComplexUniqueKey, referencedColumn);
     }
 
+    @Override
+    public ERTable toMaterialize() {
+        return this;
+    }
+
     // ===================================================================================
     //                                                                        TableView ID
     //                                                                        ============
@@ -248,7 +253,7 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     @Override
     public ERTable clone() {
         final ERTable clone = (ERTable) super.clone();
-        final TableProperties cloneTableProperties = (TableProperties) this.getTableViewProperties().clone();
+        final TableProperties cloneTableProperties = (TableProperties) getTableViewProperties().clone();
         clone.tableViewProperties = cloneTableProperties;
         return clone;
     }
@@ -287,14 +292,14 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     @Override
     public TableViewProperties getTableViewProperties() {
         this.tableViewProperties =
-                DBManagerFactory.getDBManager(this.getDiagram()).createTableProperties((TableProperties) this.tableViewProperties);
-        return this.tableViewProperties;
+                DBManagerFactory.getDBManager(getDiagram()).createTableProperties((TableProperties) tableViewProperties);
+        return tableViewProperties;
     }
 
     public TableViewProperties getTableViewProperties(String database) {
         this.tableViewProperties =
-                DBManagerFactory.getDBManager(database).createTableProperties((TableProperties) this.tableViewProperties);
-        return this.tableViewProperties;
+                DBManagerFactory.getDBManager(database).createTableProperties((TableProperties) tableViewProperties);
+        return tableViewProperties;
     }
 
     public void setTableViewProperties(TableProperties tableProperties) {

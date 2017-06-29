@@ -1,6 +1,7 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
+import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -27,7 +28,7 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         boolean anotherSelfRelation = false;
 
-        final ERTable sourceTable = (ERTable) this.source.getModel();
+        final ERTable sourceTable = ((ERTable) source.getModel()).toMaterialize();
 
         for (final Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
             if (otherRelation.getWalkerSource() == otherRelation.getWalkerTarget()) {
@@ -40,7 +41,6 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         if (anotherSelfRelation) {
             rate = 50;
-
         } else {
             rate = 100;
         }
@@ -56,29 +56,27 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         relation.addBendpoint(0, bendpoint0);
 
-        relation.setSourceWalker((ERTable) sourceTable);
+        relation.setSourceWalker(sourceTable);
 
         ERDiagramEditPart.setUpdateable(true);
 
-        relation.setTargetTableView((ERTable) this.target.getModel());
+        relation.setTargetTableView(((ERTable) target.getModel()).toMaterialize());
 
         sourceTable.setDirty();
+        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
     }
 
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
 
-        relation.setSourceWalker(null);
+        relation.delete(true, null);
 
         ERDiagramEditPart.setUpdateable(true);
 
-        relation.setTargetTableView(null);
-
-        this.relation.removeBendpoint(0);
-
-        final ERTable targetTable = (ERTable) this.target.getModel();
+        final ERTable targetTable = ((ERTable) target.getModel()).toMaterialize();
         targetTable.setDirty();
+        ERModelUtil.refreshDiagram(targetTable.getDiagram(), targetTable);
     }
 
     @Override
