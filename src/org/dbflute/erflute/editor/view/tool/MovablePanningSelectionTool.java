@@ -47,6 +47,7 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         int dy = 0;
         if (event.keyCode == SWT.SHIFT) {
             shift = true;
+            return false;
         }
         if (event.keyCode == SWT.ARROW_DOWN) {
             dy = 1;
