@@ -419,7 +419,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 final ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
                 if (((ERTable) vtableEditPart.getModel()).equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
-                    vtableEditPart.setSelected(EditPart.SELECTED); // Quick Outlineで検索したテーブルを選択する
+                    vtableEditPart.setSelected(EditPart.SELECTED_PRIMARY); // Quick Outlineで検索したテーブルを選択する
                     return;
                 }
             }
