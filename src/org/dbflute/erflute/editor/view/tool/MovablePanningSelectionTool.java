@@ -56,8 +56,11 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
             dx = 1;
         } else if (event.keyCode == SWT.ARROW_UP) {
             dy = -1;
+        } else if (event.keyCode == SWT.CTRL) {
+            return false;
         }
-        final Object model = this.getCurrentViewer().getContents().getModel();
+
+        final Object model = getCurrentViewer().getContents().getModel();
         AbstractGraphicalEditPart targetEditPart = null;
         ERDiagram diagram = null;
         if (model instanceof ERVirtualDiagram) {
@@ -87,7 +90,9 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                 getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
             }
         }
+
         openDetailByKeyCode(event, targetEditPart);
+
         return super.handleKeyDown(event);
     }
 
