@@ -21,7 +21,7 @@ public class VirtualDiagramAddAction extends AbstractBaseAction {
     public static final String ID = VirtualDiagramAddAction.class.getName();
 
     public VirtualDiagramAddAction(MainDiagramEditor editor) {
-        super(ID, "New VirtualDiagram", editor);
+        super(ID, "New Virtual Diagram", editor);
     }
 
     @Override
