@@ -339,6 +339,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             diagram.setCurrentVirtualDiagram(editor.getVirtualDiagram(), editor.getVirtualDiagram().getName());
             ERModelUtil.refreshDiagram(diagram);
         } else { // main editor
+            selectedEditor.clearSelection();
             diagram.setCurrentVirtualDiagram(null, null);
             diagram.changeAll();
         }

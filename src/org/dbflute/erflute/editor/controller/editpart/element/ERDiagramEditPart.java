@@ -12,6 +12,7 @@ import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.db.DBManagerFactory;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.ERDiagramLayoutEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ViewableModel;
@@ -62,7 +63,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 
     @Override
     protected List<Object> getModelChildren() {
-        final List<Object> modelChildren = new ArrayList<Object>();
+        final List<Object> modelChildren = new ArrayList<>();
         final ERDiagram diagram = (ERDiagram) getModel();
 
         // #willanalyze selected category handling? by jflute
@@ -89,12 +90,12 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
             refresh();
             refreshRelations();
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL)) {
-            this.refresh();
-            this.refreshRelations();
+            refresh();
+            refreshRelations();
             final List<DiagramWalker> nodeElementList = (List<DiagramWalker>) event.getNewValue();
             if (nodeElementList != null) {
-                this.getViewer().deselectAll();
-                final SelectionManager selectionManager = this.getViewer().getSelectionManager();
+                getViewer().deselectAll();
+                final SelectionManager selectionManager = getViewer().getSelectionManager();
                 final Map<DiagramWalker, EditPart> modelToEditPart = getModelToEditPart();
                 for (final DiagramWalker walker : nodeElementList) {
                     selectionManager.appendSelection(modelToEditPart.get(walker));
@@ -108,16 +109,16 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
             }
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_TABLE)) {
             final TableView newTable = (TableView) event.getNewValue();
-            this.internalRefreshTable(newTable);
+            internalRefreshTable(newTable);
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
-            this.refreshVisuals();
+            refreshVisuals();
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_DATABASE)) {
-            this.changeDatabase(event);
+            changeDatabase(event);
         } else if (event.getPropertyName().equals(ERDiagramPropertySource.PROPERTY_INIT_DATABASE)) {
-            final ERDiagram diagram = (ERDiagram) this.getModel();
+            final ERDiagram diagram = (ERDiagram) getModel();
             diagram.restoreDatabase(DBManagerFactory.getAllDBList().get(0));
         } else if (event.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
-            this.changeSettings();
+            changeSettings();
         }
     }
 
@@ -134,7 +135,7 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
     }
 
     public void refreshRelations() {
-        for (final Object child : this.getChildren()) {
+        for (final Object child : getChildren()) {
             if (child instanceof DiagramWalkerEditPart) {
                 final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;
                 part.refreshConnections();
@@ -144,13 +145,13 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
 
     @Override
     public void refreshVisuals() {
-        final ERDiagram element = (ERDiagram) this.getModel();
+        final ERDiagram element = (ERDiagram) getModel();
         final int[] color = element.getColor();
         if (color != null) {
             final Color bgColor = DesignResources.getColor(color);
-            this.getViewer().getControl().setBackground(bgColor);
+            getViewer().getControl().setBackground(bgColor);
         }
-        for (final Object child : this.getChildren()) {
+        for (final Object child : getChildren()) {
             if (child instanceof DiagramWalkerEditPart) {
                 final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;
                 part.refreshVisuals();
@@ -177,13 +178,13 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
         if (messageBox.open() == SWT.OK) {
             event.setPropagationId("consumed");
         } else {
-            final ERDiagram diagram = (ERDiagram) this.getModel();
+            final ERDiagram diagram = (ERDiagram) getModel();
             diagram.restoreDatabase(String.valueOf(event.getOldValue()));
         }
     }
 
     private Map<DiagramWalker, EditPart> getModelToEditPart() {
-        final Map<DiagramWalker, EditPart> modelToEditPart = new HashMap<DiagramWalker, EditPart>();
+        final Map<DiagramWalker, EditPart> modelToEditPart = new HashMap<>();
         @SuppressWarnings("unchecked")
         final List<Object> children = getChildren();
         for (int i = 0; i < children.size(); i++) {
@@ -191,6 +192,20 @@ public class ERDiagramEditPart extends AbstractModelEditPart {
             modelToEditPart.put((DiagramWalker) editPart.getModel(), editPart);
         }
         return modelToEditPart;
+    }
+
+    /*
+     * 「メインダイアグラム開く→アウトライン上でテーブル選択→仮想ダイアグラム開く→アウトライン上で別テーブル選択→メインダイアグラム開く」
+     * で、メインダイアグラムのテーブル選択状態がバグる問題を解決するために作成した。
+     */
+    public void clearSelection() {
+        final List<?> diagramTableParts = getChildren();
+        for (final Object part : diagramTableParts) {
+            if (part instanceof ERTableEditPart) {
+                final ERTableEditPart tableEditPart = (ERTableEditPart) part;
+                tableEditPart.setSelected(EditPart.SELECTED_NONE);
+            }
+        }
     }
 
     // ===================================================================================

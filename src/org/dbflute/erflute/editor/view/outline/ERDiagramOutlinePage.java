@@ -254,6 +254,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 command.execute(); // コマンドスタックには積まないで実行する。ファイル編集中にしないため。
 
                 // TODO ymd アウトラインツリー上の仮想ダイアグラムを選択するためにのみある。
+                // この処理があることで、クイックアウトライン検索→テーブル選択がバグるのでコメントにした。不要なことを確信したら、削除する。
                 //                final ERDiagramOutlineEditPart contents =
                 //                        (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
                 //                if (contents != null) {

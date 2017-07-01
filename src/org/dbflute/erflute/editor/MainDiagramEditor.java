@@ -260,6 +260,17 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         outlinePage.setCategory(getEditDomain(), getGraphicalViewer(), getActionRegistry());
     }
 
+    public void clearSelection() {
+        if (!(getGraphicalViewer().getContents() instanceof ERDiagramEditPart)) {
+            return;
+        }
+
+        final ERDiagramEditPart erDiagramEditPart = (ERDiagramEditPart) getGraphicalViewer().getContents();
+        if (erDiagramEditPart != null) {
+            erDiagramEditPart.clearSelection();
+        }
+    }
+
     @Override
     public void setFocus() {
         if (getGraphicalViewer().getContents() == null) {
@@ -386,11 +397,12 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+        unselectEditPartByQuickOutline();
+
         final IEditorPart editorPart = getSite().getPage().getActiveEditor();
         if (editorPart instanceof ERFluteMultiPageEditor) {
             final ERFluteMultiPageEditor multiPageEditorPart = (ERFluteMultiPageEditor) editorPart;
             if (equals(multiPageEditorPart.getActiveEditor())) {
-                unselectEditPartByQuickOutline();
                 updateActions(getSelectionActions());
             }
         } else {
