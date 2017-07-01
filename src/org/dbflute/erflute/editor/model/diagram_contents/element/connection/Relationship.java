@@ -85,18 +85,18 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
             int i = 0;
             if (isReferenceForPK()) {
                 for (final NormalColumn sourceColumn : ((ERTable) sourceTable).getPrimaryKeys()) {
-                    final NormalColumn foreignKeyColumn = createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
+                    final NormalColumn foreignKeyColumn = createForeignKeyColumn(sourceColumn, foreignKeyColumnList, i++);
                     target.addColumn(foreignKeyColumn);
                 }
             } else if (referredCompoundUniqueKey != null) {
                 for (final NormalColumn sourceColumn : referredCompoundUniqueKey.getColumnList()) {
-                    final NormalColumn foreignKeyColumn = createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
+                    final NormalColumn foreignKeyColumn = createForeignKeyColumn(sourceColumn, foreignKeyColumnList, i++);
                     target.addColumn(foreignKeyColumn);
                 }
             } else {
                 for (final NormalColumn sourceColumn : sourceTable.getNormalColumns()) {
                     if (sourceColumn == referredSimpleUniqueColumn) {
-                        final NormalColumn foreignKeyColumn = createForeiKeyColumn(sourceColumn, foreignKeyColumnList, i++);
+                        final NormalColumn foreignKeyColumn = createForeignKeyColumn(sourceColumn, foreignKeyColumnList, i++);
                         target.addColumn(foreignKeyColumn);
                         break;
                     }
@@ -105,7 +105,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
         }
     }
 
-    private NormalColumn createForeiKeyColumn(NormalColumn referencedColumn, List<NormalColumn> foreignKeyColumnList, int index) {
+    private NormalColumn createForeignKeyColumn(NormalColumn referencedColumn, List<NormalColumn> foreignKeyColumnList, int index) {
         final NormalColumn foreignKeyColumn = new NormalColumn(referencedColumn, referencedColumn, this, false);
         if (foreignKeyColumnList != null) {
             final NormalColumn data = foreignKeyColumnList.get(index);
