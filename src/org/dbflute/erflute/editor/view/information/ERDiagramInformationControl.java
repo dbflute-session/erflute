@@ -16,6 +16,8 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
@@ -132,6 +134,15 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.keyCode == SWT.CR) {
+                    selectAndDispose();
+                }
+            }
+        });
+        outline.getViewer().getControl().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseUp(MouseEvent e) {
+                final int TABLE_SELECTION_BUTTON = 3;
+                if (e.button == TABLE_SELECTION_BUTTON) {
                     selectAndDispose();
                 }
             }

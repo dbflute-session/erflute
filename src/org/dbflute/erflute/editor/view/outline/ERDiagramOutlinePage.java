@@ -1,15 +1,11 @@
 package org.dbflute.erflute.editor.view.outline;
 
-import java.util.List;
-
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.ermodel.OpenERModelCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
 import org.dbflute.erflute.editor.controller.editpart.outline.table.TableOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramSetOutlineEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -42,9 +38,7 @@ import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Canvas;
@@ -259,20 +253,21 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 command.setTable(table);
                 command.execute(); // コマンドスタックには積まないで実行する。ファイル編集中にしないため。
 
-                final ERDiagramOutlineEditPart contents =
-                        (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
-                if (contents != null) {
-                    final ERVirtualDiagramSetOutlineEditPart virtualDiagramSetOutlineEditPart =
-                            (ERVirtualDiagramSetOutlineEditPart) contents.getChildren().get(0);
-                    @SuppressWarnings("unchecked")
-                    final List<ERVirtualDiagramOutlineEditPart> parts = virtualDiagramSetOutlineEditPart.getChildren();
-                    for (final ERVirtualDiagramOutlineEditPart part : parts) {
-                        if (part.getModel().equals(erModel)) {
-                            final ISelection selection = new StructuredSelection(part);
-                            diagram.getEditor().getOutlinePage().setSelection(selection);
-                        }
-                    }
-                }
+                // TODO ymd アウトラインツリー上の仮想ダイアグラムを選択するためにのみある。
+                //                final ERDiagramOutlineEditPart contents =
+                //                        (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
+                //                if (contents != null) {
+                //                    final ERVirtualDiagramSetOutlineEditPart virtualDiagramSetOutlineEditPart =
+                //                            (ERVirtualDiagramSetOutlineEditPart) contents.getChildren().get(0);
+                //                    @SuppressWarnings("unchecked")
+                //                    final List<ERVirtualDiagramOutlineEditPart> parts = virtualDiagramSetOutlineEditPart.getChildren();
+                //                    for (final ERVirtualDiagramOutlineEditPart part : parts) {
+                //                        if (part.getModel().equals(erModel)) {
+                //                            final ISelection selection = new StructuredSelection(part);
+                //                            diagram.getEditor().getOutlinePage().setSelection(selection);
+                //                        }
+                //                    }
+                //                }
             } else {
                 Activator.showMessageDialog(table.getPhysicalName());
             }

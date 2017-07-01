@@ -17,7 +17,6 @@ import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
 import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
 import org.dbflute.erflute.editor.view.outline.ERDiagramOutlinePage;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -106,7 +105,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
                 final ERVirtualTableEditPart vtableEditPart = (ERVirtualTableEditPart) tableEditPart;
                 if (((ERVirtualTable) vtableEditPart.getModel()).getRawTable().equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
-                    vtableEditPart.setSelected(EditPart.SELECTED_PRIMARY); // Quick Outlineで検索したテーブルを選択する
+                    selectEditPartFromQuickOutline(vtableEditPart);
                     return;
                 }
             }

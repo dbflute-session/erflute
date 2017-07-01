@@ -122,6 +122,30 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
  */
 public class MainDiagramEditor extends GraphicalEditorWithPalette { // created by ERFluteMultiPageEditor
 
+    /*
+     * TODO ymd イケてない
+     * アウトラインで選択したテーブルを取得する方法が分からなかったため、以下のようなダメ実装にした。
+     */
+    private static EditPart quickOutlineSelectionEditPart;
+
+    /*
+     * Quick Outlineで検索したテーブルを選択する。
+     */
+    protected static void selectEditPartFromQuickOutline(EditPart editPart) {
+        unselectEditPartByQuickOutline();
+        quickOutlineSelectionEditPart = editPart;
+        quickOutlineSelectionEditPart.setSelected(EditPart.SELECTED_PRIMARY);
+    }
+
+    /*
+     * Quick Outlineで検索したテーブルを未選択にする。
+     */
+    protected static void unselectEditPartByQuickOutline() {
+        if (quickOutlineSelectionEditPart != null) {
+            quickOutlineSelectionEditPart.setSelected(EditPart.SELECTED_NONE);
+        }
+    }
+
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
@@ -363,11 +387,10 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
         final IEditorPart editorPart = getSite().getPage().getActiveEditor();
-
         if (editorPart instanceof ERFluteMultiPageEditor) {
             final ERFluteMultiPageEditor multiPageEditorPart = (ERFluteMultiPageEditor) editorPart;
-
             if (equals(multiPageEditorPart.getActiveEditor())) {
+                unselectEditPartByQuickOutline();
                 updateActions(getSelectionActions());
             }
         } else {
@@ -419,7 +442,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 final ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
                 if (((ERTable) vtableEditPart.getModel()).equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
-                    vtableEditPart.setSelected(EditPart.SELECTED_PRIMARY); // Quick Outlineで検索したテーブルを選択する
+                    selectEditPartFromQuickOutline(vtableEditPart);
                     return;
                 }
             }
@@ -453,5 +476,9 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     public void setDirty(boolean isDirty) {
         this.isDirty = isDirty;
+    }
+
+    public void runERDiagramQuickOutlineAction() {
+        getActionRegistry().getAction(ERDiagramQuickOutlineAction.ID).runWithEvent(null);
     }
 }
