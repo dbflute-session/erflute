@@ -73,7 +73,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
     private MultiLineHeaderRenderer headerRenderer;
     private MultiLineHeaderRenderer selectedHeaderRenderer;
     private CellEditWorker cellEditWorker;
-    private final Map<Integer, PanelCellEditor> cellEditorMap = new HashMap<Integer, PanelCellEditor>();
+    private final Map<Integer, PanelCellEditor> cellEditorMap = new HashMap<>();
     private boolean clipbordOn = true;
     private HeaderClickListener headerClickListener;
     private int mouseOverColumn = -1;
@@ -143,15 +143,15 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                             addRowSelectionInterval(row, row);
                         }
                     }
-                    this.editingStopped(new ChangeEvent(this));
+                    editingStopped(new ChangeEvent(this));
 
                     // ポップアップメニューの表示
-                    this.pupupMenu.show(event.getComponent(), event.getX(), event.getY());
+                    pupupMenu.show(event.getComponent(), event.getX(), event.getY());
                 }
             }
         };
 
-        this.table.addKeyListener(new KeyAdapter() {
+        table.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent keyevent) {
                 if (clipbordOn) {
@@ -168,11 +168,11 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 }
             }
         });
-        this.table.setAutoCreateColumnsFromModel(true);
-        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoCreateColumnsFromModel(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.headerRenderer = new MultiLineHeaderRenderer(null, iconEnable);
         this.selectedHeaderRenderer = new MultiLineHeaderRenderer(UIManager.getColor("Table.selectionBackground"), iconEnable);
-        final JTableHeader tableHeader = this.table.getTableHeader();
+        final JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setReorderingAllowed(false);
         tableHeader.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -228,10 +228,10 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 }
             }
         });
-        this.table.setRowHeight(rowHeight);
-        this.table.setGridColor(new Color(230, 230, 230));
+        table.setRowHeight(rowHeight);
+        table.setGridColor(new Color(230, 230, 230));
         this.tableModel = new DefaultTableModel();
-        this.table.setModel(this.tableModel);
+        table.setModel(tableModel);
 
         if (rowHeaderWidth > 0) {
             final JList<?> rowHeader = new JList<Object>() {
@@ -280,35 +280,35 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 }
             });
             rowHeader.setFixedCellWidth(rowHeaderWidth);
-            rowHeader.setFixedCellHeight(this.table.getRowHeight());
-            rowHeader.setCellRenderer(new RowHeaderRenderer(this.table));
-            rowHeader.setBackground(this.table.getTableHeader().getBackground());
+            rowHeader.setFixedCellHeight(table.getRowHeight());
+            rowHeader.setCellRenderer(new RowHeaderRenderer(table));
+            rowHeader.setBackground(table.getTableHeader().getBackground());
             this.listModel = new DefaultListModel();
-            rowHeader.setModel(this.listModel);
-            this.setRowHeaderView(rowHeader);
+            rowHeader.setModel(listModel);
+            setRowHeaderView(rowHeader);
         }
 
-        this.setViewportView(this.table);
-        this.setPreferredSize(new Dimension(width, height - 10));
+        setViewportView(table);
+        setPreferredSize(new Dimension(width, height - 10));
     }
 
     public void addColumnHeader(String value, int width) {
-        final TableColumnModel columnModel = this.table.getColumnModel();
+        final TableColumnModel columnModel = table.getColumnModel();
         final int[] oldWidth = new int[columnModel.getColumnCount()];
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             final TableColumn column = columnModel.getColumn(i);
             oldWidth[i] = column.getPreferredWidth();
         }
-        this.tableModel.addColumn(value);
+        tableModel.addColumn(value);
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             final TableColumn column = columnModel.getColumn(i);
-            column.setHeaderRenderer(this.headerRenderer);
-            final PanelCellEditor cellEditor = this.cellEditorMap.get(i);
+            column.setHeaderRenderer(headerRenderer);
+            final PanelCellEditor cellEditor = cellEditorMap.get(i);
             if (cellEditor != null) {
                 column.setCellEditor(cellEditor);
                 column.setCellRenderer(cellEditor);
             } else {
-                column.setCellEditor(new CustomCellEditor(this.table));
+                column.setCellEditor(new CustomCellEditor(table));
             }
             if (i == columnModel.getColumnCount() - 1) {
                 column.setPreferredWidth(width);
@@ -404,7 +404,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                         }
                     }
                 });
-
             } catch (final InterruptedException e) {} catch (final InvocationTargetException e) {}
         }
     }
@@ -467,23 +466,23 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
     }
 
     public int getItemCount() {
-        return this.tableModel.getRowCount();
+        return tableModel.getRowCount();
     }
 
     public int getColumnCount() {
-        return this.tableModel.getColumnCount();
+        return tableModel.getColumnCount();
     }
 
     public Object getValueAt(int row, int column) {
-        return this.tableModel.getValueAt(row, column);
+        return tableModel.getValueAt(row, column);
     }
 
     public void setValueAt(Object value, int row, int column) {
-        this.tableModel.setValueAt(value, row, column);
+        tableModel.setValueAt(value, row, column);
     }
 
     public int[] getSelection() {
-        return this.table.getSelectedRows();
+        return table.getSelectedRows();
     }
 
     public void setCellEditWorker(CellEditWorker cellEditWorker) {
@@ -494,16 +493,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
      * カラムテーブルの選択されている部分をコピーします。
      */
     private void copyToClipboard() {
-
         // 選択されている行を取得
-        final int[] selectedRows = this.getSelection();
-
+        final int[] selectedRows = getSelection();
         if (selectedRows.length == 0) {
             return;
         }
 
         final StringBuilder builder = new StringBuilder();
-
         // 全てが選択されている場合はヘッダもコピー
         // if (selectedRows.length == this.editColumnTable.getItemCount()) {
         // for (TableColumn c : this.editColumnTable.getColumns()) {
@@ -514,11 +510,10 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         // builder.append("\r\n");
         // }
 
-        final int columnCount = this.getColumnCount();
-
+        final int columnCount = getColumnCount();
         for (final int selectedRow : selectedRows) {
             for (int column = 0; column < columnCount; column++) {
-                final Object value = this.getValueAt(selectedRow, column);
+                final Object value = getValueAt(selectedRow, column);
                 builder.append(Format.toString(value));
                 builder.append("\t");
             }
@@ -527,7 +522,6 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         }
 
         final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-
         clipboard.setContents(new StringSelection(builder.toString()), this);
     }
 
@@ -536,53 +530,46 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
      */
     private int pasteFromClipboard(boolean insert) {
         int count = 0;
-        if (this.getSelection().length == 0) {
+        if (getSelection().length == 0) {
             return 0;
         }
 
-        int row = this.getSelection()[0];
-
         // クリップボードから読み込み
         final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-
         final Transferable transferable = clipboard.getContents(this);
-
         if (transferable == null || !transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
             return count;
         }
-        String data;
         try {
-            data = (String) transferable.getTransferData(DataFlavor.stringFlavor);
-
+            final String data = (String) transferable.getTransferData(DataFlavor.stringFlavor);
             final Scanner scanner = new Scanner(data);
-            Scanner lineScanner = null;
+            int row = getSelection()[0];
             while (scanner.hasNextLine()) {
                 final String line = scanner.nextLine();
-                lineScanner = new Scanner(line);
+                final Scanner lineScanner = new Scanner(line);
                 lineScanner.useDelimiter("\t");
 
                 if (!insert) {
-                    if (row == this.getItemCount() - 1) {
-                        if (this.cellEditWorker == null) {
+                    if (row == getItemCount() - 1) {
+                        if (cellEditWorker == null) {
                             break;
                         }
-                        this.cellEditWorker.addNewRow();
+                        cellEditWorker.addNewRow();
                     }
 
                     int column = 0;
                     while (lineScanner.hasNext()) {
                         final String text = lineScanner.next();
-                        this.setValueAt(text, row, column++);
+                        setValueAt(text, row, column++);
                     }
                 } else {
-                    final List<String> texts = new ArrayList<String>();
-
+                    final List<String> texts = new ArrayList<>();
                     while (lineScanner.hasNext()) {
                         final String text = lineScanner.next();
                         texts.add(text);
                     }
 
-                    this.addRow(row, "", texts.toArray(new String[texts.size()]));
+                    addRow(row, "", texts.toArray(new String[texts.size()]));
                 }
 
                 row++;
@@ -603,21 +590,18 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
         private TablePopupMenu() {
             final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
-
             final Font font = new Font(fontData.getName(), Font.PLAIN, 12);
-
             if (clipbordOn) {
                 if (editable) {
                     cutMenu = new JMenuItem(DisplayMessages.getMessage("action.title.cut"));
                     cutMenu.setFont(font);
-                    this.add(cutMenu);
+                    add(cutMenu);
 
                     cutMenu.addActionListener(new ActionListener() {
 
                         /**
                          * 「切り取り」メニュー選択時処理
-                                             * @param even
-                         *            イベント
+                         * @param even イベント
                          */
                         @Override
                         public void actionPerformed(ActionEvent even) {
@@ -628,14 +612,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
                 final JMenuItem copyMenu = new JMenuItem(DisplayMessages.getMessage("action.title.copy"));
                 copyMenu.setFont(font);
-                this.add(copyMenu);
+                add(copyMenu);
 
                 copyMenu.addActionListener(new ActionListener() {
 
                     /**
                      * 「コピー」メニュー選択時処理
-                                     * @param even
-                     *            イベント
+                     * @param even イベント
                      */
                     @Override
                     public void actionPerformed(ActionEvent even) {
@@ -646,14 +629,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 if (editable) {
                     final JMenuItem pasteMenu = new JMenuItem(DisplayMessages.getMessage("action.title.paste"));
                     pasteMenu.setFont(font);
-                    this.add(pasteMenu);
+                    add(pasteMenu);
 
                     pasteMenu.addActionListener(new ActionListener() {
 
                         /**
                          * 「貼り付け」メニュー選択時処理
-                                             * @param even
-                         *            イベント
+                         * @param even イベント
                          */
                         @Override
                         public void actionPerformed(ActionEvent even) {
@@ -661,21 +643,20 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                         }
                     });
 
-                    this.addSeparator();
+                    addSeparator();
                 }
             }
 
             if (editable) {
                 final JMenuItem insertMenu = new JMenuItem(DisplayMessages.getMessage("action.title.insert"));
                 insertMenu.setFont(font);
-                this.add(insertMenu);
+                add(insertMenu);
 
                 insertMenu.addActionListener(new ActionListener() {
 
                     /**
                      * 「挿入」メニュー選択時処理
-                                     * @param even
-                     *            イベント
+                     * @param even イベント
                      */
                     @Override
                     public void actionPerformed(ActionEvent even) {
@@ -686,14 +667,12 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                 if (clipbordOn) {
                     final JMenuItem insertPasteMenu = new JMenuItem(DisplayMessages.getMessage("action.title.insert.and.paste"));
                     insertPasteMenu.setFont(font);
-                    this.add(insertPasteMenu);
-
+                    add(insertPasteMenu);
                     insertPasteMenu.addActionListener(new ActionListener() {
 
                         /**
                          * 「挿入 して貼り付け」メニュー選択時処理
-                                             * @param even
-                         *            イベント
+                         * @param even イベント
                          */
                         @Override
                         public void actionPerformed(ActionEvent even) {
@@ -702,16 +681,15 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
                     });
                 }
 
-                this.deleteMenu = new JMenuItem(DisplayMessages.getMessage("label.delete"));
+                deleteMenu = new JMenuItem(DisplayMessages.getMessage("label.delete"));
                 deleteMenu.setFont(font);
-                this.add(deleteMenu);
+                add(deleteMenu);
 
                 deleteMenu.addActionListener(new ActionListener() {
 
                     /**
                      * 「削除」メニュー選択時処理
-                                     * @param even
-                     *            イベント
+                     * @param even イベント
                      */
                     @Override
                     public void actionPerformed(ActionEvent even) {
@@ -725,14 +703,14 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         public void show(Component invoker, int x, int y) {
             final int[] selectedIndexes = getSelection();
             if (selectedIndexes.length == 0 || selectedIndexes[selectedIndexes.length - 1] == table.getRowCount() - 1) {
-                if (this.cutMenu != null) {
-                    this.cutMenu.setEnabled(false);
-                    this.deleteMenu.setEnabled(false);
+                if (cutMenu != null) {
+                    cutMenu.setEnabled(false);
+                    deleteMenu.setEnabled(false);
                 }
             } else {
-                if (this.cutMenu != null) {
-                    this.cutMenu.setEnabled(true);
-                    this.deleteMenu.setEnabled(true);
+                if (cutMenu != null) {
+                    cutMenu.setEnabled(true);
+                    deleteMenu.setEnabled(true);
                 }
             }
 
@@ -766,7 +744,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         private static final long serialVersionUID = 1L;
 
         public MultiLineHeaderRenderer(Color backgroundColor, boolean iconEnable) {
-            this.setCellRenderer(new IconListCellRenderer(iconEnable));
+            setCellRenderer(new IconListCellRenderer(iconEnable));
 
             setOpaque(true);
             setForeground(UIManager.getColor("TableHeader.foreground"));
@@ -781,12 +759,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         }
 
         @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setFont(table.getFont());
             final String str = (value == null) ? "" : value.toString();
             final BufferedReader br = new BufferedReader(new StringReader(str));
             String line;
-            final Vector<String> v = new Vector<String>();
+            final Vector<String> v = new Vector<>();
             try {
                 while ((line = br.readLine()) != null) {
                     v.addElement(line);
@@ -799,14 +778,12 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
         public static class IconListCellRenderer extends DefaultListCellRenderer {
             private static final long serialVersionUID = 1L;
-
             private static final ImageIcon ICON;
 
             static {
                 try {
                     final URL iconUrl = RowHeaderTable.class.getResource("/wrench.png");
                     ICON = new ImageIcon(iconUrl);
-
                 } catch (final Exception e) {
                     e.printStackTrace();
                     throw new ExceptionInInitializerError();
@@ -822,7 +799,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
                 final JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
-                if (this.iconEnable && index == 0) {
+                if (iconEnable && index == 0) {
                     label.setIcon(ICON);
                 } else if (index == 1) {
                     final Font font = label.getFont().deriveFont(10.0f);
@@ -843,11 +820,11 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
     }
 
     public void setCellEditor(int column, PanelCellEditor cellEditor) {
-        this.cellEditorMap.put(column, cellEditor);
+        cellEditorMap.put(column, cellEditor);
     }
 
     public PanelCellEditor getCellEditor(int column) {
-        return this.cellEditorMap.get(column);
+        return cellEditorMap.get(column);
     }
 
     public void setHeaderClickListener(HeaderClickListener headerClickListener) {

@@ -25,14 +25,10 @@ import org.eclipse.ui.dialogs.ContainerCheckedTreeViewer;
 public class SelectImportedSchemaDialog extends AbstractDialog {
 
     private ContainerCheckedTreeViewer viewer;
-
-    private List<String> schemaList;
-
-    private List<String> selectedSchemaList;
-
-    private List<String> resultSelectedSchemas;
-
-    private String importDB;
+    private final List<String> schemaList;
+    private final List<String> selectedSchemaList;
+    private final List<String> resultSelectedSchemas;
+    private final String importDB;
 
     public SelectImportedSchemaDialog(Shell parentShell, ERDiagram diagram, String importDB, List<String> schemaList,
             List<String> selectedSchemaList) {
@@ -40,50 +36,51 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
 
         this.schemaList = schemaList;
         this.selectedSchemaList = selectedSchemaList;
-        this.resultSelectedSchemas = new ArrayList<String>();
+        this.resultSelectedSchemas = new ArrayList<>();
         this.importDB = importDB;
     }
 
     @Override
     protected void initComponent(Composite composite) {
-        this.createObjectListComposite(composite);
+        createObjectListComposite(composite);
 
-        this.setListener();
+        setListener();
     }
 
     private void createObjectListComposite(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
         gridLayout.verticalSpacing = 20;
 
-        Composite composite = new Composite(parent, SWT.NONE);
+        final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(gridLayout);
         composite.setLayoutData(gridData);
 
-        this.createAllSchemaGroup(composite);
+        createAllSchemaGroup(composite);
     }
 
     private void createAllSchemaGroup(Composite composite) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.heightHint = 300;
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
         this.viewer = new ContainerCheckedTreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-        Tree tree = this.viewer.getTree();
+        final Tree tree = viewer.getTree();
         tree.setLayoutData(gridData);
 
-        this.viewer.setContentProvider(new TreeNodeContentProvider());
-        this.viewer.setLabelProvider(new ViewLabelProvider());
+        viewer.setContentProvider(new TreeNodeContentProvider());
+        viewer.setLabelProvider(new ViewLabelProvider());
     }
 
     private void setListener() {
-        this.viewer.addCheckStateListener(new ICheckStateListener() {
+        viewer.addCheckStateListener(new ICheckStateListener() {
 
+            @Override
             public void checkStateChanged(CheckStateChangedEvent event) {
                 validate();
             }
@@ -92,19 +89,19 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
 
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        this.createButton(parent, IDialogConstants.BACK_ID, IDialogConstants.BACK_LABEL, false);
-        this.createButton(parent, IDialogConstants.OK_ID, IDialogConstants.NEXT_LABEL, true);
-        this.createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+        createButton(parent, IDialogConstants.BACK_ID, IDialogConstants.BACK_LABEL, false);
+        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.NEXT_LABEL, true);
+        createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
     }
 
     @Override
     protected void performOK() throws InputException {
-        Object[] selectedNodes = this.viewer.getCheckedElements();
+        final Object[] selectedNodes = viewer.getCheckedElements();
 
-        this.resultSelectedSchemas.clear();
+        resultSelectedSchemas.clear();
 
         for (int i = 0; i < selectedNodes.length; i++) {
-            Object value = ((TreeNode) selectedNodes[i]).getValue();
+            final Object value = ((TreeNode) selectedNodes[i]).getValue();
             if (value instanceof String) {
                 resultSelectedSchemas.add((String) value);
             }
@@ -113,7 +110,7 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
 
     @Override
     protected String doValidate() {
-        if (this.viewer.getCheckedElements().length == 0) {
+        if (viewer.getCheckedElements().length == 0) {
             return "error.import.schema.empty";
         }
 
@@ -127,46 +124,43 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
 
     @Override
     protected void setupData() {
-        List<TreeNode> treeNodeList = this.createTreeNodeList();
+        final List<TreeNode> treeNodeList = createTreeNodeList();
 
-        TreeNode[] treeNodes = treeNodeList.toArray(new TreeNode[treeNodeList.size()]);
-        this.viewer.setInput(treeNodes);
+        final TreeNode[] treeNodes = treeNodeList.toArray(new TreeNode[treeNodeList.size()]);
+        viewer.setInput(treeNodes);
 
-        List<TreeNode> checkedList = new ArrayList<TreeNode>();
-
-        TreeNode[] schemaNodes = treeNodes[0].getChildren();
-
-        if (this.selectedSchemaList.isEmpty()) {
-            for (TreeNode schemaNode : schemaNodes) {
-                if (!DBManagerFactory.getDBManager(this.importDB).getSystemSchemaList()
+        final TreeNode[] schemaNodes = treeNodes[0].getChildren();
+        final List<TreeNode> checkedList = new ArrayList<>();
+        if (selectedSchemaList.isEmpty()) {
+            for (final TreeNode schemaNode : schemaNodes) {
+                if (!DBManagerFactory
+                        .getDBManager(importDB)
+                        .getSystemSchemaList()
                         .contains(String.valueOf(schemaNode.getValue()).toLowerCase())) {
                     checkedList.add(schemaNode);
                 }
             }
         } else {
-            for (TreeNode schemaNode : schemaNodes) {
-                if (this.selectedSchemaList.contains(schemaNode.getValue())) {
+            for (final TreeNode schemaNode : schemaNodes) {
+                if (selectedSchemaList.contains(schemaNode.getValue())) {
                     checkedList.add(schemaNode);
                 }
             }
         }
 
-        this.viewer.setCheckedElements(checkedList.toArray(new TreeNode[checkedList.size()]));
+        viewer.setCheckedElements(checkedList.toArray(new TreeNode[checkedList.size()]));
 
-        this.viewer.expandAll();
+        viewer.expandAll();
     }
 
     protected List<TreeNode> createTreeNodeList() {
-
-        List<TreeNode> treeNodeList = new ArrayList<TreeNode>();
-
-        TreeNode topNode = new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.schema")));
+        final List<TreeNode> treeNodeList = new ArrayList<>();
+        final TreeNode topNode = new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.schema")));
         treeNodeList.add(topNode);
 
-        List<TreeNode> schemaNodeList = new ArrayList<TreeNode>();
-
-        for (String schemaName : schemaList) {
-            TreeNode schemaNode = new TreeNode(schemaName);
+        final List<TreeNode> schemaNodeList = new ArrayList<>();
+        for (final String schemaName : schemaList) {
+            final TreeNode schemaNode = new TreeNode(schemaName);
             schemaNode.setParent(topNode);
             schemaNodeList.add(schemaNode);
         }
@@ -177,6 +171,6 @@ public class SelectImportedSchemaDialog extends AbstractDialog {
     }
 
     public List<String> getSelectedSchemas() {
-        return this.resultSelectedSchemas;
+        return resultSelectedSchemas;
     }
 }

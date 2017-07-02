@@ -42,8 +42,8 @@ public class InternalFileDialog extends TitleAreaDialog implements Listener {
         topLevel.setLayout(new GridLayout());
         topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
         topLevel.setFont(parent.getFont());
-        resourceGroup =
-                new ResourceAndContainerGroup(topLevel, this, "File name:", IDEWorkbenchMessages.WizardNewFileCreationPage_file, false, 250);
+        resourceGroup = new ResourceAndContainerGroup(topLevel, this, "File name:",
+                IDEWorkbenchMessages.WizardNewFileCreationPage_file, false, 250);
         resourceGroup.setResourceExtension(fileExtension);
         resourceGroup.setContainerFullPath(new Path(initialFolder).removeLastSegments(1));
         if (new Path(initialFolder).lastSegment() != null) {

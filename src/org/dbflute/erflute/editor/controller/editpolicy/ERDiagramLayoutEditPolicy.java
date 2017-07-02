@@ -92,15 +92,15 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
         //			return new CreateElementCommand(diagram, element, point.x, point.y,
         //					size, enclosedElementList);
         //		}
-        final AbstractModelEditPart editPart = (AbstractModelEditPart) this.getHost();
+        final AbstractModelEditPart editPart = (AbstractModelEditPart) getHost();
         final Point point = request.getLocation();
         editPart.getFigure().translateToRelative(point);
         final DiagramWalker walker = (DiagramWalker) request.getNewObject(); // e.g. table, note, group
         final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
         Dimension size = request.getSize();
-        final List<DiagramWalker> enclosedElementList = new ArrayList<DiagramWalker>();
+        final List<DiagramWalker> enclosedElementList = new ArrayList<>();
         if (size != null) {
-            final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
+            final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) getHost().getRoot()).getZoomManager();
             final double zoom = zoomManager.getZoom();
             size = new Dimension((int) (size.width / zoom), (int) (size.height / zoom));
             for (final Object child : editPart.getChildren()) {
@@ -128,7 +128,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
         try {
             final Rectangle rectangle = (Rectangle) constraint;
             @SuppressWarnings("unchecked")
-            final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+            final List<Object> selectedEditParts = getHost().getViewer().getSelectedEditParts();
             final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
             final DiagramWalker walker = (DiagramWalker) editPart.getModel();
             final Rectangle currentRectangle = editPart.getFigure().getBounds();
@@ -159,7 +159,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                     }
                 }
             }
-            final List<Command> bendpointMoveCommandList = new ArrayList<Command>();
+            final List<Command> bendpointMoveCommandList = new ArrayList<>();
             final int oldX = walker.getX();
             final int oldY = walker.getY();
             final int diffX = rectangle.x - oldX;
@@ -182,7 +182,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
             }
             final CompoundCommand compoundCommand = new CompoundCommand();
             if (!nothingToDo) {
-                final Command changeConstraintCommand = this.createChangeConstraintCommand(editPart, rectangle);
+                final Command changeConstraintCommand = createChangeConstraintCommand(editPart, rectangle);
                 if (bendpointMoveCommandList.isEmpty()) {
                     return changeConstraintCommand;
                 }
@@ -253,9 +253,9 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     private List<Category> getOtherSelectedCategories(Category category) {
-        final List<Category> otherCategories = new ArrayList<Category>();
+        final List<Category> otherCategories = new ArrayList<>();
         @SuppressWarnings("unchecked")
-        final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+        final List<Object> selectedEditParts = getHost().getViewer().getSelectedEditParts();
         for (final Object object : selectedEditParts) {
             if (object instanceof CategoryEditPart) {
                 final CategoryEditPart categoryEditPart = (CategoryEditPart) object;
@@ -270,9 +270,9 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     private List<WalkerGroup> getOtherSelectedGroups(WalkerGroup group) {
-        final List<WalkerGroup> otherCategories = new ArrayList<WalkerGroup>();
+        final List<WalkerGroup> otherCategories = new ArrayList<>();
         @SuppressWarnings("unchecked")
-        final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+        final List<Object> selectedEditParts = getHost().getViewer().getSelectedEditParts();
         for (final Object object : selectedEditParts) {
             if (object instanceof WalkerGroupEditPart) {
                 final WalkerGroupEditPart categoryEditPart = (WalkerGroupEditPart) object;
@@ -288,7 +288,7 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
 
     private boolean isSelected(Category category) {
         @SuppressWarnings("unchecked")
-        final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+        final List<Object> selectedEditParts = getHost().getViewer().getSelectedEditParts();
         for (final Object object : selectedEditParts) {
             if (object instanceof DiagramWalkerEditPart) {
                 final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) object;
@@ -306,12 +306,13 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
     @Override
     protected void showSizeOnDropFeedback(CreateRequest request) {
         final Point p = new Point(request.getLocation().getCopy());
-        final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
+        final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) getHost().getRoot()).getZoomManager();
         final double zoom = zoomManager.getZoom();
         final IFigure feedback = getSizeOnDropFeedback(request);
         final Dimension size = request.getSize().getCopy();
         feedback.translateToRelative(size);
-        feedback.setBounds(new Rectangle((int) (p.x * zoom), (int) (p.y * zoom), size.width, size.height).expand(getCreationFeedbackOffset(request)));
+        feedback.setBounds(new Rectangle((int) (p.x * zoom), (int) (p.y * zoom), size.width, size.height)
+                .expand(getCreationFeedbackOffset(request)));
     }
 
     // ===================================================================================

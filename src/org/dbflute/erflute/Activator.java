@@ -1,4 +1,4 @@
-package org.dbflute.erflute; 
+package org.dbflute.erflute;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

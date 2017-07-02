@@ -30,12 +30,13 @@ import org.eclipse.ui.IEditorPart;
 
 public class CompositeFactory {
 
-    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title, int minimum, int maximum) {
+    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title, int minimum,
+            int maximum) {
         return createSpinnerWithScale(dialog, composite, title, "%", minimum, maximum);
     }
 
-    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title, String unit,
-            int minimum, int maximum) {
+    public static SpinnerWithScale createSpinnerWithScale(
+            AbstractDialog dialog, Composite composite, String title, String unit, int minimum, int maximum) {
         if (title != null) {
             final Label label = new Label(composite, SWT.RIGHT);
             label.setText(DisplayMessages.getMessage(title));
