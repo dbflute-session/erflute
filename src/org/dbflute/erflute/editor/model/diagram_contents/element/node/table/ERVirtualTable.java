@@ -81,7 +81,7 @@ public class ERVirtualTable extends ERTable {
         final List<WalkerConnection> connectionList = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final WalkerConnection connection : rawTable.getIncomings()) {
-            final DiagramWalker walker = connection.getWalkerSource();
+            final DiagramWalker walker = connection.getSourceWalker();
             if (walker instanceof WalkerNote) {
                 final WalkerNote note = (WalkerNote) walker;
                 if (note.getVirtualDiagram() != null && note.getVirtualDiagram().equals(vdiagram)) {
@@ -104,7 +104,7 @@ public class ERVirtualTable extends ERTable {
         final List<WalkerConnection> connectionList = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final WalkerConnection connection : rawTable.getOutgoings()) {
-            final DiagramWalker walker = connection.getWalkerTarget();
+            final DiagramWalker walker = connection.getTargetWalker();
             if (walker instanceof WalkerNote) {
                 if (((WalkerNote) walker).getVirtualDiagram().equals(vdiagram)) {
                     connectionList.add(connection);
@@ -181,7 +181,7 @@ public class ERVirtualTable extends ERTable {
         final List<Relationship> relationships = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final Relationship relationship : rawTable.getIncomingRelationshipList()) {
-            final DiagramWalker walker = relationship.getWalkerSource();
+            final DiagramWalker walker = relationship.getSourceWalker();
             for (final ERVirtualTable vtable : vtables) {
                 if (vtable.getRawTable().equals(walker)) {
                     relationships.add(relationship);
@@ -197,7 +197,7 @@ public class ERVirtualTable extends ERTable {
         final List<Relationship> relationships = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final Relationship relationship : rawTable.getOutgoingRelationshipList()) {
-            final DiagramWalker walker = relationship.getWalkerSource();
+            final DiagramWalker walker = relationship.getSourceWalker();
             for (final ERVirtualTable vtable : vtables) {
                 if (vtable.getRawTable().equals(walker)) {
                     relationships.add(relationship);

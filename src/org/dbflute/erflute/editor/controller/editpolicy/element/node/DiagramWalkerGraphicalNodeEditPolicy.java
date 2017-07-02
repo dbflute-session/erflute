@@ -121,11 +121,11 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
             return null;
         }
         final Relationship relation = (Relationship) connection;
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             return null;
         }
         final DiagramWalker newSource = ((DiagramWalker) reconnectrequest.getTarget().getModel()).toMaterialize();
-        if (!relation.getWalkerSource().equals(newSource)) {
+        if (!relation.getSourceWalker().equals(newSource)) {
             return null;
         }
         final DiagramWalkerEditPart sourceEditPart = (DiagramWalkerEditPart) reconnectrequest.getConnectionEditPart().getSource();
@@ -153,11 +153,11 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
             return null;
         }
         final Relationship relation = (Relationship) connection;
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             return null;
         }
         final DiagramWalker newTarget = ((DiagramWalker) reconnectrequest.getTarget().getModel()).toMaterialize();
-        if (!relation.getWalkerTarget().equals(newTarget)) {
+        if (!relation.getTargetWalker().equals(newTarget)) {
             return null;
         }
         final DiagramWalkerEditPart targetEditPart = (DiagramWalkerEditPart) reconnectrequest.getConnectionEditPart().getTarget();

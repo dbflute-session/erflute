@@ -29,7 +29,7 @@ public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
             // ?
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
             refreshVisuals();
-        } else if (event.getPropertyName().equals(ERVirtualDiagram.REMOVE_VCONTENT)) {
+        } else if (event.getPropertyName().equals(ERVirtualDiagram.REMOVE_VWALKER)) {
             refreshRelations();
             refreshChildren();
             refresh();

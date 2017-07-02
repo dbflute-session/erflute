@@ -64,11 +64,11 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
     //                                                                           TableView
     //                                                                           =========
     public TableView getSourceTableView() {
-        return (TableView) getWalkerSource();
+        return (TableView) getSourceWalker();
     }
 
     public TableView getTargetTableView() {
-        return (TableView) getWalkerTarget();
+        return (TableView) getTargetWalker();
     }
 
     public void setTargetTableView(TableView target) {
@@ -81,7 +81,7 @@ public class Relationship extends WalkerConnection implements Comparable<Relatio
         }
         super.setTargetWalker(target);
         if (target != null) {
-            final TableView sourceTable = (TableView) getWalkerSource();
+            final TableView sourceTable = (TableView) getSourceWalker();
             int i = 0;
             if (isReferenceForPK()) {
                 for (final NormalColumn sourceColumn : ((ERTable) sourceTable).getPrimaryKeys()) {

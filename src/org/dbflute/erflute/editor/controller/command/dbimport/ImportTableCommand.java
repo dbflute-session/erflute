@@ -86,8 +86,8 @@ public class ImportTableCommand extends AbstractCommand {
 
             for (final DiagramWalker walker : walkerList) {
                 for (final WalkerConnection outgoing : walker.getOutgoings()) {
-                    final Node sourceNode = nodeElementNodeMap.get(outgoing.getWalkerSource());
-                    final Node targetNode = nodeElementNodeMap.get(outgoing.getWalkerTarget());
+                    final Node sourceNode = nodeElementNodeMap.get(outgoing.getSourceWalker());
+                    final Node targetNode = nodeElementNodeMap.get(outgoing.getTargetWalker());
                     if (sourceNode != targetNode) {
                         final Edge edge = new Edge(sourceNode, targetNode);
                         graph.edges.add(edge);
@@ -170,7 +170,7 @@ public class ImportTableCommand extends AbstractCommand {
             if (otherRelation == relation) {
                 continue;
             }
-            if (otherRelation.getWalkerSource() == otherRelation.getWalkerTarget()) {
+            if (otherRelation.getSourceWalker() == otherRelation.getTargetWalker()) {
                 anotherSelfRelation = true;
                 break;
             }

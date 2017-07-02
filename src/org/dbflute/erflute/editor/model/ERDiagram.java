@@ -340,11 +340,13 @@ public class ERDiagram extends ViewableModel {
         return currentVirtualDiagram;
     }
 
-    public void setCurrentVirtualDiagram(ERVirtualDiagram vdiagram, String defaultModelName) {
+    public void setCurrentVirtualDiagram(ERVirtualDiagram vdiagram) {
         this.currentVirtualDiagram = vdiagram;
-        this.defaultModelName = defaultModelName;
         if (vdiagram != null) {
+            this.defaultModelName = vdiagram.getName();
             vdiagram.changeAll();
+        } else {
+            this.defaultModelName = null;
         }
     }
 
@@ -426,5 +428,9 @@ public class ERDiagram extends ViewableModel {
 
     public void setMousePoint(Point mousePoint) {
         this.mousePoint = mousePoint;
+    }
+
+    public boolean isVirtual() {
+        return getCurrentVirtualDiagram() != null;
     }
 }

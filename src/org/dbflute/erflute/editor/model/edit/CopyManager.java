@@ -145,7 +145,7 @@ public class CopyManager {
             Map<WalkerConnection, WalkerConnection> connectionElementMap, Map<DiagramWalker, DiagramWalker> nodeElementMap) {
         final List<WalkerConnection> cloneIncomings = new ArrayList<>();
         for (final WalkerConnection incoming : from.getIncomings()) {
-            final DiagramWalker oldSource = incoming.getWalkerSource();
+            final DiagramWalker oldSource = incoming.getSourceWalker();
             final DiagramWalker newSource = nodeElementMap.get(oldSource);
             if (newSource != null) {
                 final WalkerConnection cloneIncoming = incoming.clone();

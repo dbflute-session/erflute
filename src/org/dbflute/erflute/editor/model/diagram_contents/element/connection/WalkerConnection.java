@@ -24,16 +24,12 @@ public abstract class WalkerConnection extends AbstractModel {
 
     public void delete() {
         sourceWalker.removeOutgoing(this);
-        targetWalker.removeIncoming(this);
+        ownerWalker.removeIncoming(this);
     }
 
-    public void connect() {
-        if (sourceWalker != null) {
-            sourceWalker.addOutgoing(this);
-        }
-        if (targetWalker != null) {
-            targetWalker.addIncoming(this);
-        }
+    public void connect(DiagramWalker sourceWalker, DiagramWalker targetWalker) {
+        setSourceWalker(sourceWalker);
+        setTargetWalker(targetWalker);
     }
 
     public void addBendpoint(int index, Bendpoint point) {
@@ -92,7 +88,7 @@ public abstract class WalkerConnection extends AbstractModel {
         this.ownerWalker = ownerWalker;
     }
 
-    public DiagramWalker getWalkerSource() {
+    public DiagramWalker getSourceWalker() {
         return sourceWalker;
     }
 
@@ -104,10 +100,10 @@ public abstract class WalkerConnection extends AbstractModel {
         if (sourceWalker != null) {
             sourceWalker.addOutgoing(this);
         }
-        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, sourceWalker);
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, null);
     }
 
-    public DiagramWalker getWalkerTarget() {
+    public DiagramWalker getTargetWalker() {
         return targetWalker;
     }
 
@@ -119,10 +115,15 @@ public abstract class WalkerConnection extends AbstractModel {
         if (targetWalker != null) {
             targetWalker.addIncoming(this);
         }
-        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, targetWalker);
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, null);
     }
 
     public List<Bendpoint> getBendpoints() {
         return bendPoints;
+    }
+
+    public boolean isDeleted() {
+        return sourceWalker == null || targetWalker == null
+                || !sourceWalker.haveConnection(this) || !targetWalker.haveConnection(this);
     }
 }

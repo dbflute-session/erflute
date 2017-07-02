@@ -29,6 +29,9 @@ public class WalkerNoteEditPart extends DiagramWalkerEditPart implements IResiza
     public void doPropertyChange(PropertyChangeEvent event) {
         if (event.getPropertyName().equals(WalkerNote.PROPERTY_CHANGE_WALKER_NOTE)) {
             refreshVisuals();
+        } else if (event.getPropertyName().equals(WalkerNote.PROPERTY_CHANGE_OUTGOING)) {
+            // ノート接続線削除を描画するため
+            refreshConnections();
         }
         super.doPropertyChange(event);
     }

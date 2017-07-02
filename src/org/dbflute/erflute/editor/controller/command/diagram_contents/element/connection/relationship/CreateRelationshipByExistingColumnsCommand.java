@@ -159,8 +159,8 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     }
 
     private void tellChangeToVirtualDiagram() {
-        if (relationship.getWalkerSource() instanceof ERTable || relationship.getWalkerTarget() instanceof ERTable) {
-            final ERVirtualDiagramSet vdiagramSet = relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+        if (relationship.getSourceWalker() instanceof ERTable || relationship.getTargetWalker() instanceof ERTable) {
+            final ERVirtualDiagramSet vdiagramSet = relationship.getSourceWalker().getDiagram().getDiagramContents().getVirtualDiagramSet();
             vdiagramSet.createRelationship(relationship);
         }
     }

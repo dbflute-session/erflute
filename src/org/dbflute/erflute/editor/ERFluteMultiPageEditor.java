@@ -120,7 +120,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         if (modelName != null) {
             try {
                 final ERVirtualDiagram vdiagram = diagram.getDiagramContents().getVirtualDiagramSet().getVdiagramByName(modelName);
-                diagram.setCurrentVirtualDiagram(vdiagram, vdiagram.getName());
+                diagram.setCurrentVirtualDiagram(vdiagram);
                 final VirtualDiagramEditor modelEditor =
                         new VirtualDiagramEditor(diagram, vdiagram, editPartFactory, zoomComboContributionItem, outlinePage);
                 final int pageNo = addPage(modelEditor, getEditorInput()); // as view
@@ -336,11 +336,11 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         selectedEditor.changeCategory();
         if (selectedEditor instanceof VirtualDiagramEditor) { // sub editor
             final VirtualDiagramEditor editor = (VirtualDiagramEditor) selectedEditor;
-            diagram.setCurrentVirtualDiagram(editor.getVirtualDiagram(), editor.getVirtualDiagram().getName());
+            diagram.setCurrentVirtualDiagram(editor.getVirtualDiagram());
             ERModelUtil.refreshDiagram(diagram);
         } else { // main editor
             selectedEditor.clearSelection();
-            diagram.setCurrentVirtualDiagram(null, null);
+            diagram.setCurrentVirtualDiagram(null);
             diagram.changeAll();
         }
     }
@@ -415,7 +415,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             final VirtualDiagramEditor diagramEditor = (VirtualDiagramEditor) getEditor(1);
             setPageText(1, Format.null2blank(model.getName()));
             diagramEditor.setContents(model);
-            model.getDiagram().setCurrentVirtualDiagram(model, model.getName());
+            model.getDiagram().setCurrentVirtualDiagram(model);
             setActiveEditor(diagramEditor);
         }
     }

@@ -1,9 +1,11 @@
 package org.dbflute.erflute.editor.model.diagram_contents.element.node;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.ObjectModel;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
@@ -34,7 +36,7 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
     public List<DiagramWalker> getReferringElementList() {
         final List<DiagramWalker> referringElementList = new ArrayList<>();
         for (final WalkerConnection connectionElement : getOutgoings()) {
-            final DiagramWalker targetElement = connectionElement.getWalkerTarget();
+            final DiagramWalker targetElement = connectionElement.getTargetWalker();
             referringElementList.add(targetElement);
         }
         return referringElementList;
@@ -43,7 +45,7 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
     public List<DiagramWalker> getReferedElementList() {
         final List<DiagramWalker> referedElementList = new ArrayList<>();
         for (final WalkerConnection connectionElement : getIncomings()) {
-            final DiagramWalker sourceElement = connectionElement.getWalkerSource();
+            final DiagramWalker sourceElement = connectionElement.getSourceWalker();
             referedElementList.add(sourceElement);
         }
         return referedElementList;
@@ -134,6 +136,10 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
         firePropertyChange(PROPERTY_CHANGE_INCOMING, null, null);
     }
 
+    private boolean containsIncoming(WalkerConnection relation) {
+        return getIncomings().stream().anyMatch(i -> i.equals(relation));
+    }
+
     public List<WalkerConnection> getOutgoings() { // source
         return outgoings;
     }
@@ -151,5 +157,29 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
     public void removeOutgoing(WalkerConnection relation) {
         outgoings.remove(relation);
         firePropertyChange(PROPERTY_CHANGE_OUTGOING, null, null);
+    }
+
+    private boolean containsOutgoing(WalkerConnection relation) {
+        return getOutgoings().stream().anyMatch(o -> o.equals(relation));
+    }
+
+    public boolean haveConnection(WalkerConnection relation) {
+        return containsIncoming(relation) || containsOutgoing(relation);
+    }
+
+    public void refreshInVirtualDiagram(DiagramWalker... others) {
+        if (inVirtualDiagram()) {
+            refresh(others);
+        }
+    }
+
+    private boolean inVirtualDiagram() {
+        return getDiagram().isVirtual();
+    }
+
+    private void refresh(DiagramWalker... others) {
+        final List<DiagramWalker> walkers = new ArrayList<>(Arrays.asList(others));
+        walkers.add(this);
+        ERModelUtil.refreshDiagram(getDiagram(), walkers);
     }
 }

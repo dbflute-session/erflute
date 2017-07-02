@@ -1,6 +1,7 @@
 package org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class ERVirtualDiagram extends DiagramWalker {
 
     private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_VTABLES = "vtables";
-    public static final String REMOVE_VCONTENT = "remove_vcontent";
+    public static final String REMOVE_VWALKER = "remove_vwalker";
 
     private int[] defaultColor;
     private String name;
@@ -44,6 +45,10 @@ public class ERVirtualDiagram extends DiagramWalker {
     @Override
     public String getObjectType() {
         return "virtual_diagram";
+    }
+
+    public boolean contains(Object... models) {
+        return Arrays.stream(models).allMatch(m -> contains(m));
     }
 
     public boolean contains(Object model) {
@@ -157,13 +162,13 @@ public class ERVirtualDiagram extends DiagramWalker {
 
         if (walker instanceof WalkerNote) {
             notes.remove(walker);
-            firePropertyChange(REMOVE_VCONTENT, null, null);
+            firePropertyChange(REMOVE_VWALKER, null, null);
         } else if (walker instanceof WalkerGroup) {
             groups.remove(walker);
-            firePropertyChange(REMOVE_VCONTENT, null, null);
+            firePropertyChange(REMOVE_VWALKER, null, null);
         } else if (walker instanceof ERVirtualTable) {
             tables.remove(walker);
-            firePropertyChange(REMOVE_VCONTENT, null, null);
+            firePropertyChange(REMOVE_VWALKER, null, null);
         }
     }
 

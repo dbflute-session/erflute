@@ -30,7 +30,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
         final Relationship relation = (Relationship) getHost().getModel();
         final RelationEditPart editPart = (RelationEditPart) getHost();
 
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             if (bendpointrequest.getIndex() != 1) {
                 return;
             }
@@ -88,7 +88,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
     protected void showCreateBendpointFeedback(BendpointRequest bendpointrequest) {
         final Relationship relation = (Relationship) getHost().getModel();
 
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             return;
         }
         super.showCreateBendpointFeedback(bendpointrequest);
@@ -105,7 +105,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
         final Relationship relation = (Relationship) getHost().getModel();
         final RelationEditPart editPart = (RelationEditPart) getHost();
 
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             if (bendpointrequest.getIndex() != 1) {
                 return null;
 
@@ -160,7 +160,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
     @Override
     protected List createSelectionHandles() {
         final Relationship relation = (Relationship) getHost().getModel();
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             showSelectedLine();
 
             if (getHost().getRoot().getContents() instanceof ERDiagramEditPart) {

@@ -79,7 +79,7 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                 }
 
                 for (final WalkerConnection connection : walker.getOutgoings()) {
-                    final DiagramWalker target = connection.getWalkerTarget();
+                    final DiagramWalker target = connection.getTargetWalker();
                     if (!targets.contains(target)) {
                         if (connection instanceof Relationship) {
                             command.add(new DeleteRelationshipCommand((Relationship) connection, true));

@@ -31,7 +31,7 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
         final ERTable sourceTable = ((ERTable) source.getModel()).toMaterialize();
 
         for (final Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
-            if (otherRelation.getWalkerSource() == otherRelation.getWalkerTarget()) {
+            if (otherRelation.getSourceWalker() == otherRelation.getTargetWalker()) {
                 anotherSelfRelation = true;
                 break;
             }
