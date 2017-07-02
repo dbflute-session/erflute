@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.editor.model.settings.JDBCDriverSetting;
 import org.dbflute.erflute.preference.PreferenceInitializer;
 import org.dbflute.erflute.preference.jdbc.JDBCPathDialog;
@@ -54,6 +55,11 @@ public abstract class DBManagerBase implements DBManager {
                 return clazz;
             } catch (final ClassNotFoundException e) {
                 path = PreferenceInitializer.getJDBCDriverPath(this.getId(), driverClassName);
+                if (Check.isEmpty(path)) {
+                    throw new IllegalStateException(
+                            String.format("JDBC Driver Class \"%s\" is not found.\rIs \"Preferences> ERFlute> JDBC Driver\" set correctly?",
+                                    driverClassName));
+                }
                 final ClassLoader loader = this.getClassLoader(path);
                 @SuppressWarnings("unchecked")
                 final Class<Driver> clazz = (Class<Driver>) loader.loadClass(driverClassName);

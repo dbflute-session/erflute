@@ -20,4 +20,8 @@ public abstract class ERColumn extends AbstractModel {
     public ColumnHolder getColumnHolder() {
         return this.columnHolder;
     }
+
+    public boolean same(ERColumn erColumn) {
+        return this.columnHolder.same(erColumn.columnHolder) && getName().equals(erColumn.getName());
+    }
 }

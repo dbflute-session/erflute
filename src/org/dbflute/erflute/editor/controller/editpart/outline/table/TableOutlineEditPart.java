@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class TableOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
-    private boolean quickMode;
+    private final boolean quickMode;
 
     public TableOutlineEditPart(boolean quickMode) {
         this.quickMode = quickMode;
@@ -38,15 +38,12 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
     @Override
     protected List getModelChildren() {
-        List<AbstractModel> children = new ArrayList<AbstractModel>();
-
-        ERTable table = (ERTable) this.getModel();
-
-        Category category = this.getCurrentCategory();
-
+        final ERTable table = (ERTable) getModel();
+        final Category category = getCurrentCategory();
+        final List<AbstractModel> children = new ArrayList<>();
         if (!quickMode) {
-            for (Relationship relation : table.getIncomingRelationshipList()) {
-                if (category == null || category.contains(relation.getWalkerSource())) {
+            for (final Relationship relation : table.getIncomingRelationshipList()) {
+                if (category == null || category.contains(relation.getSourceWalker())) {
                     children.add(relation);
                 }
             }
@@ -60,46 +57,35 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_PHYSICAL_NAME)) {
             refreshName();
-
         } else if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_LOGICAL_NAME)) {
             refreshName();
-
         } else if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_COLUMNS)) {
             refresh();
-
         } else if (evt.getPropertyName().equals(IndexSet.PROPERTY_CHANGE_INDEXES)) {
             refresh();
-
         }
     }
 
     protected void refreshName() {
-        ERTable model = (ERTable) this.getModel();
-
-        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
-
+        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
+        final ERTable model = (ERTable) getModel();
         String name = null;
-
-        int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
-
         if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             if (model.getPhysicalName() != null) {
                 name = model.getPhysicalName();
-
             } else {
                 name = "";
             }
         } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             if (model.getLogicalName() != null) {
                 name = model.getLogicalName();
-
             } else {
                 name = "";
             }
         } else {
             if (model.getLogicalName() != null) {
                 name = model.getLogicalName();
-
             } else {
                 name = "";
             }
@@ -112,42 +98,41 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
             }
         }
 
-        this.setWidgetText(diagram.filter(name));
-        this.setWidgetImage(Activator.getImage(ImageKey.TABLE));
+        setWidgetText(diagram.filter(name));
+        setWidgetImage(Activator.getImage(ImageKey.TABLE));
     }
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.refreshName();
+        refreshName();
 
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
         // this.installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
     }
 
     @Override
     public void performRequest(Request request) {
-        ERTable table = (ERTable) this.getModel();
-        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
-
+        final ERTable table = (ERTable) getModel();
+        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            ERTable copyTable = table.copyData();
+            final ERTable copyTable = table.copyData();
 
-            TableDialog dialog =
-                    new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyTable, diagram
+            final TableDialog dialog =
+                    new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), getViewer(), copyTable, diagram
                             .getDiagramContents().getColumnGroupSet());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram, table, copyTable);
+                final CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram, table, copyTable);
 
-                this.execute(command.unwrap());
+                execute(command.unwrap());
             }
         }
 
@@ -159,6 +144,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         return new SelectEditPartTracker(this);
     }
 
+    @Override
     public boolean isDeleteable() {
         return true;
     }

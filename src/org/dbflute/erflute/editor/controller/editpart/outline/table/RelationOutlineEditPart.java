@@ -9,8 +9,8 @@ import org.dbflute.erflute.editor.controller.command.diagram_contents.element.co
 import org.dbflute.erflute.editor.controller.editpart.outline.AbstractOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.connection.RelationEditPolicy;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.settings.DiagramSettings;
@@ -25,28 +25,24 @@ import org.eclipse.ui.PlatformUI;
 
 public class RelationOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(ERTable.PROPERTY_CHANGE_PHYSICAL_NAME)) {
             refreshVisuals();
-
         } else if (evt.getPropertyName().equals(WalkerConnection.PROPERTY_CHANGE_CONNECTION_ATTRIBUTE)) {
             refreshVisuals();
-
         }
     }
 
     @Override
     protected void refreshOutlineVisuals() {
-        Relationship model = (Relationship) this.getModel();
-
-        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
-
-        int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
+        final Relationship model = (Relationship) getModel();
+        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
 
         boolean first = true;
-        StringBuilder sb = new StringBuilder();
-
-        for (NormalColumn foreignKeyColumn : model.getForeignKeyColumns()) {
+        final StringBuilder sb = new StringBuilder();
+        for (final NormalColumn foreignKeyColumn : model.getForeignKeyColumns()) {
             if (first) {
                 first = false;
             } else {
@@ -55,10 +51,8 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
 
             if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
                 sb.append(Format.null2blank(foreignKeyColumn.getPhysicalName()));
-
             } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
                 sb.append(Format.null2blank(foreignKeyColumn.getLogicalName()));
-
             } else {
                 sb.append(Format.null2blank(foreignKeyColumn.getLogicalName()));
                 sb.append("/");
@@ -66,27 +60,24 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
             }
         }
 
-        this.setWidgetText(sb.toString());
-        this.setWidgetImage(Activator.getImage(ImageKey.FOREIGN_KEY));
+        setWidgetText(sb.toString());
+        setWidgetImage(Activator.getImage(ImageKey.FOREIGN_KEY));
     }
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.CONNECTION_ROLE, new RelationEditPolicy());
+        installEditPolicy(EditPolicy.CONNECTION_ROLE, new RelationEditPolicy());
     }
 
     @Override
     public void performRequest(Request request) {
-        Relationship relation = (Relationship) this.getModel();
-
+        final Relationship relation = (Relationship) getModel();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            Relationship copy = relation.copy();
-
-            RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
-
+            final Relationship copy = relation.copy();
+            final RelationshipDialog dialog = new RelationshipDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copy);
             if (dialog.open() == IDialogConstants.OK_ID) {
-                ChangeRelationshipPropertyCommand command = new ChangeRelationshipPropertyCommand(relation, copy);
-                this.execute(command);
+                final ChangeRelationshipPropertyCommand command = new ChangeRelationshipPropertyCommand(relation, copy);
+                execute(command);
             }
         }
 

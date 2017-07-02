@@ -38,7 +38,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     //                                                                         Constructor
     //                                                                         ===========
     public CreateRelationshipByExistingColumnsCommand() {
-        this.wordList = new ArrayList<Word>();
+        this.wordList = new ArrayList<>();
     }
 
     // ===================================================================================
@@ -55,12 +55,11 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             Activator.showErrorDialog("error.no.candidate.of.foreign.key.exist");
             return false;
         }
-        final Map<NormalColumn, List<NormalColumn>> existingRootReferredToFkColumnsMap = new HashMap<NormalColumn, List<NormalColumn>>();
-        final Map<Relationship, Set<NormalColumn>> existingRelationshipToFkColumnsMap = new HashMap<Relationship, Set<NormalColumn>>();
+        final Map<NormalColumn, List<NormalColumn>> existingRootReferredToFkColumnsMap = new HashMap<>();
+        final Map<Relationship, Set<NormalColumn>> existingRelationshipToFkColumnsMap = new HashMap<>();
         prepareExistingForeignColumnsMapping(targetTable, existingRootReferredToFkColumnsMap, existingRelationshipToFkColumnsMap);
-        final RelationshipByExistingColumnsDialog dialog =
-                createDialog(sourceTable, targetTable, candidateForeignKeyColumns, existingRootReferredToFkColumnsMap,
-                        existingRelationshipToFkColumnsMap);
+        final RelationshipByExistingColumnsDialog dialog = createDialog(sourceTable, targetTable, candidateForeignKeyColumns,
+                existingRootReferredToFkColumnsMap, existingRelationshipToFkColumnsMap);
         if (dialog.open() == IDialogConstants.OK_ID) {
             selectedReferredColumnList = dialog.getSelectedReferencedColumnList();
             selectedForeignKeyColumnList = dialog.getSelectedForeignKeyColumnList();
@@ -72,7 +71,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     }
 
     private List<NormalColumn> prepareCandidateForeignKeyColumns(final TableView targetTable) {
-        final List<NormalColumn> candidateForeignKeyColumns = new ArrayList<NormalColumn>();
+        final List<NormalColumn> candidateForeignKeyColumns = new ArrayList<>();
         for (final NormalColumn column : targetTable.getNormalColumns()) {
             if (!column.isForeignKey()) {
                 candidateForeignKeyColumns.add(column);
@@ -89,14 +88,14 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             if (firstRootReferredColumn != null) {
                 List<NormalColumn> foreignKeyColumnList = existingRootReferredToFkColumnsMap.get(firstRootReferredColumn);
                 if (foreignKeyColumnList == null) {
-                    foreignKeyColumnList = new ArrayList<NormalColumn>();
+                    foreignKeyColumnList = new ArrayList<>();
                     existingRootReferredToFkColumnsMap.put(firstRootReferredColumn, foreignKeyColumnList);
                 }
                 foreignKeyColumnList.add(normalColumn);
                 for (final Relationship relationship : normalColumn.getRelationshipList()) {
                     Set<NormalColumn> foreignKeyColumnSet = existingRelationshipToFkColumnsMap.get(relationship);
                     if (foreignKeyColumnSet == null) {
-                        foreignKeyColumnSet = new HashSet<NormalColumn>();
+                        foreignKeyColumnSet = new HashSet<>();
                         existingRelationshipToFkColumnsMap.put(relationship, foreignKeyColumnSet);
                     }
                     foreignKeyColumnSet.add(normalColumn);
@@ -129,7 +128,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         }
         tellChangeToVirtualDiagram();
         targetTable.setDirty();
-        ERModelUtil.refreshDiagram(relationship.getWalkerSource().getDiagram(), sourceTable);
+        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
     }
 
     private ERTable prepareSourceTable() {
@@ -160,8 +159,8 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     }
 
     private void tellChangeToVirtualDiagram() {
-        if (relationship.getWalkerSource() instanceof ERTable || relationship.getWalkerTarget() instanceof ERTable) {
-            final ERVirtualDiagramSet vdiagramSet = relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+        if (relationship.getSourceWalker() instanceof ERTable || relationship.getTargetWalker() instanceof ERTable) {
+            final ERVirtualDiagramSet vdiagramSet = relationship.getSourceWalker().getDiagram().getDiagramContents().getVirtualDiagramSet();
             vdiagramSet.createRelationship(relationship);
         }
     }
@@ -173,14 +172,15 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     protected void doUndo() {
         final ERTable sourceTable = (ERTable) source.getModel();
         final ERTable targetTable = (ERTable) target.getModel();
-        this.relationship.setSourceWalker(null);
-        this.relationship.setTargetWithoutForeignKey(null);
+        relationship.setSourceWalker(null);
+        relationship.setTargetWithoutForeignKey(null);
         for (int i = 0; i < selectedForeignKeyColumnList.size(); i++) {
             final NormalColumn foreignKeyColumn = selectedForeignKeyColumnList.get(i);
-            foreignKeyColumn.removeReference(this.relationship);
+            foreignKeyColumn.removeReference(relationship);
             foreignKeyColumn.setWord(wordList.get(i));
             sourceTable.getDiagram().getDiagramContents().getDictionary().add(foreignKeyColumn);
         }
         targetTable.setDirty();
+        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
     }
 }

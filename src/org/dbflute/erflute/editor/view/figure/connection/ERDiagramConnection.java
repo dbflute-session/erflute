@@ -14,11 +14,9 @@ import org.eclipse.swt.widgets.Display;
 public class ERDiagramConnection extends PolylineConnection {
 
     private static final double DELTA = 0.01;
-
     private static final int TOLERANCE = 2;
 
     private boolean selected;
-
     private boolean bezier;
 
     public ERDiagramConnection(boolean bezier) {
@@ -40,11 +38,11 @@ public class ERDiagramConnection extends PolylineConnection {
         g.setForegroundColor(ColorConstants.black);
         g.setLineWidth(1);
 
-        if (this.selected) {
-            if (this.bezier) {
+        if (selected) {
+            if (bezier) {
                 g.setForegroundColor(ColorConstants.gray);
 
-                PointList points = getPoints();
+                final PointList points = getPoints();
                 g.drawPolyline(points);
             }
 
@@ -52,19 +50,19 @@ public class ERDiagramConnection extends PolylineConnection {
             g.setLineWidth(7);
         }
 
-        PointList points = getBezierPoints();
+        final PointList points = getBezierPoints();
 
         int width = g.getLineWidth();
 
         Color color = g.getForegroundColor();
 
-        int lineRed = color.getRed();
-        int lineGreen = color.getGreen();
-        int lineBlue = color.getBlue();
+        final int lineRed = color.getRed();
+        final int lineGreen = color.getGreen();
+        final int lineBlue = color.getBlue();
 
-        int deltaRed = (255 - lineRed) * 2 / width;
-        int deltaGreen = (255 - lineGreen) * 2 / width;
-        int deltaBlue = (255 - lineBlue) * 2 / width;
+        final int deltaRed = (255 - lineRed) * 2 / width;
+        final int deltaGreen = (255 - lineGreen) * 2 / width;
+        final int deltaBlue = (255 - lineBlue) * 2 / width;
 
         int red = 255;
         int green = 255;
@@ -96,12 +94,12 @@ public class ERDiagramConnection extends PolylineConnection {
     }
 
     public PointList getBezierPoints() {
-        PointList controlPoints = this.getPoints();
+        final PointList controlPoints = getPoints();
 
-        if (this.bezier && controlPoints.size() >= 3) {
+        if (bezier && controlPoints.size() >= 3) {
             int index = 0;
 
-            PointList pointList = new PointList();
+            final PointList pointList = new PointList();
 
             Point p0 = controlPoints.getPoint(index++);
             Point p1 = controlPoints.getPoint(index++);
@@ -117,7 +115,7 @@ public class ERDiagramConnection extends PolylineConnection {
                 }
 
                 for (double t = 0.0; t <= 1.0; t = t + DELTA) {
-                    Point point = new Point();
+                    final Point point = new Point();
 
                     point.x = (int) (p0.x * (1 - t) * (1 - t) + 2 * p1.x * t * (1 - t) + p2.x * t * t);
 
@@ -145,6 +143,6 @@ public class ERDiagramConnection extends PolylineConnection {
 
     @Override
     protected boolean shapeContainsPoint(int x, int y) {
-        return Geometry.polylineContainsPoint(this.getBezierPoints(), x, y, TOLERANCE);
+        return Geometry.polylineContainsPoint(getBezierPoints(), x, y, TOLERANCE);
     }
 }

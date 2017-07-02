@@ -1,6 +1,7 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
+import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -8,7 +9,7 @@ import org.eclipse.gef.EditPart;
 
 public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCommand {
 
-    private Relationship relation;
+    private final Relationship relation;
 
     public CreateSelfRelationshipCommand(Relationship relation) {
         super();
@@ -19,7 +20,6 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
     public void setSource(EditPart source) {
         this.source = source;
         this.target = source;
-
     }
 
     @Override
@@ -28,10 +28,10 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         boolean anotherSelfRelation = false;
 
-        ERTable sourceTable = (ERTable) this.source.getModel();
+        final ERTable sourceTable = ((ERTable) source.getModel()).toMaterialize();
 
-        for (Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
-            if (otherRelation.getWalkerSource() == otherRelation.getWalkerTarget()) {
+        for (final Relationship otherRelation : sourceTable.getOutgoingRelationshipList()) {
+            if (otherRelation.getSourceWalker() == otherRelation.getTargetWalker()) {
                 anotherSelfRelation = true;
                 break;
             }
@@ -41,45 +41,42 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         if (anotherSelfRelation) {
             rate = 50;
-
         } else {
             rate = 100;
         }
 
-        Bendpoint bendpoint0 = new Bendpoint(rate, rate);
+        final Bendpoint bendpoint0 = new Bendpoint(rate, rate);
         bendpoint0.setRelative(true);
 
-        int xp = 100 - (rate / 2);
-        int yp = 100 - (rate / 2);
+        final int xp = 100 - (rate / 2);
+        final int yp = 100 - (rate / 2);
 
         relation.setSourceLocationp(100, yp);
         relation.setTargetLocationp(xp, 100);
 
         relation.addBendpoint(0, bendpoint0);
 
-        relation.setSourceWalker((ERTable) sourceTable);
+        relation.setSourceWalker(sourceTable);
 
         ERDiagramEditPart.setUpdateable(true);
 
-        relation.setTargetTableView((ERTable) this.target.getModel());
+        relation.setTargetTableView(((ERTable) target.getModel()).toMaterialize());
 
         sourceTable.setDirty();
+        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
     }
 
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
 
-        relation.setSourceWalker(null);
+        relation.delete(true, null);
 
         ERDiagramEditPart.setUpdateable(true);
 
-        relation.setTargetTableView(null);
-
-        this.relation.removeBendpoint(0);
-
-        ERTable targetTable = (ERTable) this.target.getModel();
+        final ERTable targetTable = ((ERTable) target.getModel()).toMaterialize();
         targetTable.setDirty();
+        ERModelUtil.refreshDiagram(targetTable.getDiagram(), targetTable);
     }
 
     @Override

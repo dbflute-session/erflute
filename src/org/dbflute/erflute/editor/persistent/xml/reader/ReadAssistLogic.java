@@ -76,10 +76,17 @@ public class ReadAssistLogic {
     //                                                                            Location
     //                                                                            ========
     public void loadLocation(DiagramWalker nodeElement, Element element) {
+        loadLocation(nodeElement, element, -1, -1);
+    }
+
+    // コミット：5b7e3a9763b39a20c78f1371c78b1fd2db46a846により、仮想ダイアグラム上でのテーブルサイズ変更をrawTableに反映するようにした。
+    // ファイルからのロード時、この変更によりelementにwidth、heightが設定されていないと、rawTableのwidth、heightが-1に設定されてしまう。
+    // このバグを回避するために、以下オーバーロードを追加した。
+    public void loadLocation(DiagramWalker nodeElement, Element element, int defaultWidth, int defaultHeight) {
         final int x = getIntValue(element, "x");
         final int y = getIntValue(element, "y");
-        final int width = getIntValue(element, "width", -1);
-        final int height = getIntValue(element, "height", -1);
+        final int width = getIntValue(element, "width", defaultWidth);
+        final int height = getIntValue(element, "height", defaultHeight);
         nodeElement.setLocation(new Location(x, y, width, height));
     }
 

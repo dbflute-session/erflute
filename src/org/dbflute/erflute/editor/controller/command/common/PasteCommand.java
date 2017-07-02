@@ -13,7 +13,6 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
@@ -38,31 +37,32 @@ public class PasteCommand extends AbstractCommand {
         if (model instanceof ERVirtualDiagram) {
             this.diagram = ((ERVirtualDiagram) model).getDiagram();
         }
-
         this.walkers = walkers;
-
         this.columnGroups = new ColumnGroupSet();
 
-        // 貼り付け対象に対して処理を繰り返します
+        // 貼り付け対象に対して処理を繰り返します。
         for (final DiagramWalker walker : walkers) {
             walker.setLocation(new Location(walker.getX() + x, walker.getY() + y, walker.getWidth(), walker.getHeight()));
 
+            // TODO ymd 接続線はエラーの原因になり、コピーできても便利でない(と思う)ので、貼り付け対象にしない。
+            // 本当に必要ないか議論する。
+            walker.setIncoming(new ArrayList<WalkerConnection>());
+            walker.setOutgoing(new ArrayList<WalkerConnection>());
+
             // 貼り付け対象がテーブルの場合
             if (walker instanceof ERTable) {
-                final ERTable table = (ERTable) walker;
-                if (table instanceof ERVirtualTable) {
-                    final ERTable rawTable = ((ERVirtualTable) table).getRawTable();
-                    rawTable.setIncoming(new ArrayList<WalkerConnection>());
-                    rawTable.setOutgoing(new ArrayList<WalkerConnection>());
-                    for (final ERColumn column : rawTable.getColumns()) {
-                        if (column instanceof NormalColumn) {
-                            ((NormalColumn) column).clearRelations();
+                final ERTable table = (ERTable) walker.toMaterialize();
+
+                // 列に対して処理を繰り返します。
+                for (final ERColumn column : table.getColumns()) {
+                    if (column instanceof NormalColumn) {
+                        final NormalColumn normalColumn = ((NormalColumn) column);
+                        // 上記TODOにより、外部キーも貼り付け対象から除外する。
+                        if (normalColumn.isForeignKey()) {
+                            (new ArrayList<>(normalColumn.getRelationshipList()))
+                                    .stream().forEach(r -> normalColumn.removeReference(r));
                         }
                     }
-                }
-
-                // 列に対して処理を繰り返します
-                for (final ERColumn column : table.getColumns()) {
 
                     // 列がグループ列の場合
                     if (column instanceof ColumnGroup) {
@@ -87,19 +87,15 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新をとめます。
         ERDiagramEditPart.setUpdateable(false);
 
-        final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
+        final ColumnGroupSet columnGroupSet = diagram.getDiagramContents().getColumnGroupSet();
 
         // 図にノードを追加します。
-        for (final DiagramWalker walker : this.walkers) {
-            if (this.diagram.getCurrentVirtualDiagram() != null && !(walker instanceof ERTable)) {
-                this.diagram.getCurrentVirtualDiagram().addNewWalker(walker);
-            } else {
-                this.diagram.addWalkerPlainly(walker);
-            }
+        for (final DiagramWalker walker : walkers) {
+            diagram.addWalkerPlainly(walker.toMaterialize());
         }
 
         // グループ列を追加します。
-        for (final ColumnGroup columnGroup : this.columnGroups) {
+        for (final ColumnGroup columnGroup : columnGroups) {
             columnGroupSet.add(columnGroup);
         }
 
@@ -109,7 +105,7 @@ public class PasteCommand extends AbstractCommand {
         ERModelUtil.refreshDiagram(diagram);
 
         // 貼り付けられたテーブルを選択状態にします。
-        this.setFocus();
+        setFocus();
     }
 
     /**
@@ -120,15 +116,15 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新をとめます。
         ERDiagramEditPart.setUpdateable(false);
 
-        final ColumnGroupSet columnGroupSet = this.diagram.getDiagramContents().getColumnGroupSet();
+        final ColumnGroupSet columnGroupSet = diagram.getDiagramContents().getColumnGroupSet();
 
         // 図からノードを削除します。
-        for (final DiagramWalker walker : this.walkers) {
-            this.diagram.removeContent(walker);
+        for (final DiagramWalker walker : walkers) {
+            diagram.removeWalker(walker.toMaterialize());
         }
 
         // グループ列を削除します。
-        for (final ColumnGroup columnGroup : this.columnGroups) {
+        for (final ColumnGroup columnGroup : columnGroups) {
             columnGroupSet.remove(columnGroup);
         }
 
@@ -143,11 +139,11 @@ public class PasteCommand extends AbstractCommand {
      */
     private void setFocus() {
         // 貼り付けられたテーブルを選択状態にします。
-        for (final DiagramWalker walker : this.walkers) {
+        for (final DiagramWalker walker : walkers) {
             final EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(walker);
 
             if (editPart != null) {
-                this.viewer.getSelectionManager().appendSelection(editPart);
+                viewer.getSelectionManager().appendSelection(editPart);
             }
         }
     }

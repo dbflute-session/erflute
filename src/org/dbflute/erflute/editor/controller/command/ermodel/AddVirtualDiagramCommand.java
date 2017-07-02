@@ -21,7 +21,7 @@ public class AddVirtualDiagramCommand extends AbstractCommand {
     protected void doExecute() {
         final ERVirtualDiagram vdiagram = new ERVirtualDiagram(diagram);
         vdiagram.setName(name);
-        diagram.setCurrentVirtualDiagram(vdiagram, name);
+        diagram.setCurrentVirtualDiagram(vdiagram);
         diagram.addVirtualDiagram(vdiagram);
     }
 

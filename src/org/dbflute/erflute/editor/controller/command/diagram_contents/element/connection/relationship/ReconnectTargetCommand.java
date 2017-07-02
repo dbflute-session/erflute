@@ -5,19 +5,14 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Rela
 
 public class ReconnectTargetCommand extends AbstractCommand {
 
-    private Relationship relation;
-
-    int xp;
-
-    int yp;
-
-    int oldXp;
-
-    int oldYp;
+    private final Relationship relation;
+    private final int xp;
+    private final int yp;
+    private int oldXp;
+    private int oldYp;
 
     public ReconnectTargetCommand(Relationship relation, int xp, int yp) {
         this.relation = relation;
-
         this.xp = xp;
         this.yp = yp;
     }
@@ -26,14 +21,13 @@ public class ReconnectTargetCommand extends AbstractCommand {
     protected void doExecute() {
         this.oldXp = relation.getTargetXp();
         this.oldYp = relation.getTargetYp();
-
-        relation.setTargetLocationp(this.xp, this.yp);
+        relation.setTargetLocationp(xp, yp);
         relation.setParentMove();
     }
 
     @Override
     protected void doUndo() {
-        relation.setTargetLocationp(this.oldXp, this.oldYp);
+        relation.setTargetLocationp(oldXp, oldYp);
         relation.setParentMove();
     }
 }

@@ -57,21 +57,29 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     // ===================================================================================
     //                                                                            Add Node
     //                                                                            ========
-    public void addDiagramWalker(DiagramWalker walker) {
+    public void add(DiagramWalker walker) {
+        if (contains(walker.toMaterialize())) {
+            return;
+        }
+
         if (walker instanceof ERTable) {
-            this.tableSet.add((ERTable) walker);
+            tableSet.add((ERTable) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof ERView) {
-            this.viewSet.add((ERView) walker);
-        } else if (walker instanceof WalkerNote) {
-            this.walkerNoteSet.add((WalkerNote) walker);
+            viewSet.add((ERView) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof WalkerGroup) {
-            this.walkerGroupSet.add((WalkerGroup) walker);
+            walkerGroupSet.add((WalkerGroup) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        } else if (walker instanceof WalkerNote) {
+            walkerNoteSet.add((WalkerNote) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof InsertedImage) {
-            this.insertedImageSet.add((InsertedImage) walker);
+            insertedImageSet.add((InsertedImage) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else {
             System.out.println("*Unsupported diagram walker: " + walker);
         }
-
         if (walker instanceof WalkerGroup) {
             // エディタ上で、テーブルグループをテーブルの背面に配置するため。
             // テーブルの後にテーブルグループを追加すると、テーブルグループの後ろにテーブルが隠れてしまう。
@@ -79,39 +87,41 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         } else {
             walkerList.add(walker);
         }
-
-        firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void remove(DiagramWalker element) {
         if (element instanceof ERTable) {
-            this.tableSet.remove((ERTable) element);
+            tableSet.remove((ERTable) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof ERView) {
-            this.viewSet.remove((ERView) element);
+            viewSet.remove((ERView) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof WalkerGroup) {
-            this.walkerGroupSet.remove((WalkerGroup) element);
+            walkerGroupSet.remove((WalkerGroup) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof WalkerNote) {
-            this.walkerNoteSet.remove((WalkerNote) element);
+            walkerNoteSet.remove((WalkerNote) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof InsertedImage) {
-            this.insertedImageSet.remove((InsertedImage) element);
+            insertedImageSet.remove((InsertedImage) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else {
             System.out.println("*Unsupported diagram walker: " + element);
         }
         walkerList.remove(element);
-        firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public boolean contains(DiagramWalker nodeElement) {
-        return this.walkerList.contains(nodeElement);
+        return walkerList.contains(nodeElement);
     }
 
     public void clear() {
-        this.tableSet.getList().clear();
-        this.viewSet.getList().clear();
-        this.walkerGroupSet.getList().clear();
-        this.walkerNoteSet.getList().clear();
-        this.insertedImageSet.getList().clear();
-        this.walkerList.clear();
+        tableSet.getList().clear();
+        viewSet.getList().clear();
+        walkerGroupSet.getList().clear();
+        walkerNoteSet.getList().clear();
+        insertedImageSet.getList().clear();
+        walkerList.clear();
     }
 
     public boolean isEmpty() {
@@ -124,8 +134,8 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
 
     public List<TableView> getTableViewList() {
         final List<TableView> nodeElementList = new ArrayList<>();
-        nodeElementList.addAll(this.tableSet.getList());
-        nodeElementList.addAll(this.viewSet.getList());
+        nodeElementList.addAll(tableSet.getList());
+        nodeElementList.addAll(viewSet.getList());
         return nodeElementList;
     }
 
@@ -161,7 +171,7 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
 
     @Override
     public Iterator<DiagramWalker> iterator() { // not sorted so cannot use for persistent
-        return this.getDiagramWalkerList().iterator();
+        return getDiagramWalkerList().iterator();
     }
 
     // ===================================================================================

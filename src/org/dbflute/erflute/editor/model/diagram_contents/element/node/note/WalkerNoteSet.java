@@ -16,36 +16,39 @@ public class WalkerNoteSet extends AbstractModel implements ObjectListModel, Ite
     private List<WalkerNote> noteList;
 
     public WalkerNoteSet() {
-        this.noteList = new ArrayList<WalkerNote>();
+        this.noteList = new ArrayList<>();
     }
 
     public void add(WalkerNote note) {
-        this.noteList.add(note);
-        this.firePropertyChange(PROPERTY_CHANGE_WALKER_NOTE_SET, null, null);
+        noteList.add(note);
+        firePropertyChange(PROPERTY_CHANGE_WALKER_NOTE_SET, null, null);
     }
 
     public int remove(WalkerNote note) {
-        final int index = this.noteList.indexOf(note);
-        this.noteList.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_WALKER_NOTE_SET, null, null);
+        final int index = noteList.indexOf(note);
+        if (0 < index) {
+            noteList.remove(note);
+        }
+
+        firePropertyChange(PROPERTY_CHANGE_WALKER_NOTE_SET, null, null);
 
         return index;
     }
 
     public List<WalkerNote> getList() {
-        return this.noteList;
+        return noteList;
     }
 
     @Override
     public Iterator<WalkerNote> iterator() {
-        return this.noteList.iterator();
+        return noteList.iterator();
     }
 
     @Override
     public WalkerNoteSet clone() {
         final WalkerNoteSet noteSet = (WalkerNoteSet) super.clone();
-        final List<WalkerNote> newNoteList = new ArrayList<WalkerNote>();
-        for (final WalkerNote note : this.noteList) {
+        final List<WalkerNote> newNoteList = new ArrayList<>();
+        for (final WalkerNote note : noteList) {
             final WalkerNote newNote = (WalkerNote) note.clone();
             newNoteList.add(newNote);
         }

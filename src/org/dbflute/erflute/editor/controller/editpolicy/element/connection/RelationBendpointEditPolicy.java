@@ -27,25 +27,25 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
 
     @Override
     protected void showMoveBendpointFeedback(BendpointRequest bendpointrequest) {
-        Relationship relation = (Relationship) getHost().getModel();
-        RelationEditPart editPart = (RelationEditPart) this.getHost();
+        final Relationship relation = (Relationship) getHost().getModel();
+        final RelationEditPart editPart = (RelationEditPart) getHost();
 
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             if (bendpointrequest.getIndex() != 1) {
                 return;
             }
-            Point point = bendpointrequest.getLocation();
-            this.getConnection().translateToRelative(point);
-            Bendpoint rate = this.getRate(point);
+            final Point point = bendpointrequest.getLocation();
+            getConnection().translateToRelative(point);
+            final Bendpoint rate = getRate(point);
             rate.setRelative(true);
 
-            float rateX = (100f - (rate.getX() / 2)) / 100;
-            float rateY = (100f - (rate.getY() / 2)) / 100;
+            final float rateX = (100f - (rate.getX() / 2)) / 100;
+            final float rateY = (100f - (rate.getY() / 2)) / 100;
 
-            ERTableEditPart tableEditPart = (ERTableEditPart) editPart.getSource();
-            Rectangle bounds = tableEditPart.getFigure().getBounds();
+            final ERTableEditPart tableEditPart = (ERTableEditPart) editPart.getSource();
+            final Rectangle bounds = tableEditPart.getFigure().getBounds();
 
-            Rectangle rect = new Rectangle();
+            final Rectangle rect = new Rectangle();
             rect.x = (int) (bounds.x + (bounds.width * rateX));
             rect.y = (int) (bounds.y + (bounds.height * rateY));
             rect.width = (int) (bounds.width * rate.getX() / 100);
@@ -55,18 +55,18 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
 
             relation.setTargetLocationp((int) (100 * rateX), 100);
 
-            LayerManager manager = (LayerManager) tableEditPart.getRoot();
-            IFigure layer = manager.getLayer(LayerConstants.PRIMARY_LAYER);
-            this.getFeedbackLayer().setBounds(layer.getBounds());
+            final LayerManager manager = (LayerManager) tableEditPart.getRoot();
+            final IFigure layer = manager.getLayer(LayerConstants.PRIMARY_LAYER);
+            getFeedbackLayer().setBounds(layer.getBounds());
 
-            List children = this.getFeedbackLayer().getChildren();
+            final List children = getFeedbackLayer().getChildren();
             children.clear();
-            this.getFeedbackLayer().repaint();
+            getFeedbackLayer().repaint();
 
-            ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-            double zoom = zoomManager.getZoom();
+            final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) getHost().getRoot()).getZoomManager();
+            final double zoom = zoomManager.getZoom();
 
-            Polyline feedbackFigure = new Polyline();
+            final Polyline feedbackFigure = new Polyline();
             feedbackFigure.addPoint(new Point((int) (rect.x * zoom), (int) (rect.y * zoom)));
             feedbackFigure.addPoint(new Point((int) (rect.x * zoom), (int) ((rect.y + rect.height) * zoom)));
             feedbackFigure.addPoint(new Point((int) ((rect.x + rect.width) * zoom), (int) ((rect.y + rect.height) * zoom)));
@@ -77,7 +77,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
 
             feedbackFigure.translateToRelative(feedbackFigure.getLocation());
 
-            this.addFeedback(feedbackFigure);
+            addFeedback(feedbackFigure);
 
         } else {
             super.showMoveBendpointFeedback(bendpointrequest);
@@ -86,9 +86,9 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
 
     @Override
     protected void showCreateBendpointFeedback(BendpointRequest bendpointrequest) {
-        Relationship relation = (Relationship) getHost().getModel();
+        final Relationship relation = (Relationship) getHost().getModel();
 
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             return;
         }
         super.showCreateBendpointFeedback(bendpointrequest);
@@ -96,46 +96,47 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
 
     @Override
     protected void eraseConnectionFeedback(BendpointRequest request) {
-        this.getFeedbackLayer().getChildren().clear();
+        getFeedbackLayer().getChildren().clear();
         super.eraseConnectionFeedback(request);
     }
 
     @Override
     protected Command getMoveBendpointCommand(BendpointRequest bendpointrequest) {
-        Relationship relation = (Relationship) getHost().getModel();
-        RelationEditPart editPart = (RelationEditPart) this.getHost();
+        final Relationship relation = (Relationship) getHost().getModel();
+        final RelationEditPart editPart = (RelationEditPart) getHost();
 
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             if (bendpointrequest.getIndex() != 1) {
                 return null;
 
             } else {
-                Point point = bendpointrequest.getLocation();
-                Bendpoint rate = this.getRate(point);
+                final Point point = bendpointrequest.getLocation();
+                final Bendpoint rate = getRate(point);
 
-                MoveRelationBendpointCommand command =
+                final MoveRelationBendpointCommand command =
                         new MoveRelationBendpointCommand(editPart, rate.getX(), rate.getY(), bendpointrequest.getIndex());
 
                 return command;
             }
         }
 
-        Point point = bendpointrequest.getLocation();
-        this.getConnection().translateToRelative(point);
+        final Point point = bendpointrequest.getLocation();
+        getConnection().translateToRelative(point);
 
-        MoveRelationBendpointCommand command = new MoveRelationBendpointCommand(editPart, point.x, point.y, bendpointrequest.getIndex());
+        final MoveRelationBendpointCommand command =
+                new MoveRelationBendpointCommand(editPart, point.x, point.y, bendpointrequest.getIndex());
 
         return command;
     }
 
     private Bendpoint getRate(Point point) {
-        RelationEditPart editPart = (RelationEditPart) this.getHost();
+        final RelationEditPart editPart = (RelationEditPart) getHost();
 
-        ERTableEditPart tableEditPart = (ERTableEditPart) editPart.getSource();
-        Rectangle rectangle = tableEditPart.getFigure().getBounds();
+        final ERTableEditPart tableEditPart = (ERTableEditPart) editPart.getSource();
+        final Rectangle rectangle = tableEditPart.getFigure().getBounds();
 
-        int xRate = (point.x - rectangle.x - rectangle.width) * 200 / rectangle.width;
-        int yRate = (point.y - rectangle.y - rectangle.height) * 200 / rectangle.height;
+        final int xRate = (point.x - rectangle.x - rectangle.width) * 200 / rectangle.width;
+        final int yRate = (point.y - rectangle.y - rectangle.height) * 200 / rectangle.height;
 
         return new Bendpoint(xRate, yRate);
     }
@@ -144,7 +145,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
     protected void showSelection() {
         super.showSelection();
 
-        RelationEditPart editPart = (RelationEditPart) this.getHost();
+        final RelationEditPart editPart = (RelationEditPart) getHost();
         editPart.refresh();
     }
 
@@ -152,26 +153,24 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
     protected void hideSelection() {
         super.hideSelection();
 
-        RelationEditPart editPart = (RelationEditPart) this.getHost();
+        final RelationEditPart editPart = (RelationEditPart) getHost();
         editPart.refresh();
     }
 
     @Override
     protected List createSelectionHandles() {
-        Relationship relation = (Relationship) getHost().getModel();
+        final Relationship relation = (Relationship) getHost().getModel();
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
+            showSelectedLine();
 
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
-            List<BendpointMoveHandle> list = new ArrayList<BendpointMoveHandle>();
+            if (getHost().getRoot().getContents() instanceof ERDiagramEditPart) {
+                // TODO ymd ここを通るケースを確認できず。消すかもしれない。
+                final ERDiagramEditPart diagramEditPart = (ERDiagramEditPart) getHost().getRoot().getContents();
+                diagramEditPart.refreshVisuals();
+            }
 
-            ConnectionEditPart connEP = (ConnectionEditPart) getHost();
-
-            list.add(new BendpointMoveHandle(connEP, 1, 2));
-
-            this.showSelectedLine();
-
-            ERDiagramEditPart diagramEditPart = (ERDiagramEditPart) this.getHost().getRoot().getContents();
-            diagramEditPart.refreshVisuals();
-
+            final List<BendpointMoveHandle> list = new ArrayList<>();
+            list.add(new BendpointMoveHandle((ConnectionEditPart) getHost(), 1, 2));
             return list;
         }
 

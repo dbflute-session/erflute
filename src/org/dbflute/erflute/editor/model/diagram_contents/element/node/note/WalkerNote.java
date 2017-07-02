@@ -37,8 +37,8 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     @Override
     public List<DiagramWalker> getReferringElementList() {
         final List<DiagramWalker> referringElementList = super.getReferringElementList();
-        for (final WalkerConnection connectionElement : this.getIncomings()) {
-            final DiagramWalker sourceElement = connectionElement.getWalkerSource();
+        for (final WalkerConnection connectionElement : getIncomings()) {
+            final DiagramWalker sourceElement = connectionElement.getSourceWalker();
             referringElementList.add(sourceElement);
         }
         return referringElementList;
@@ -100,7 +100,7 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
     //                                                                      ==============
     @Override
     public int compareTo(WalkerNote other) {
-        return Format.null2blank(this.noteText).compareTo(Format.null2blank(other.noteText));
+        return Format.null2blank(noteText).compareTo(Format.null2blank(other.noteText));
     }
 
     @Override
@@ -118,7 +118,7 @@ public class WalkerNote extends DiagramWalker implements Comparable<WalkerNote> 
 
     public void setNoteText(String noteText) {
         this.noteText = noteText;
-        this.firePropertyChange(PROPERTY_CHANGE_WALKER_NOTE, null, null);
+        firePropertyChange(PROPERTY_CHANGE_WALKER_NOTE, null, null);
     }
 
     public ERVirtualDiagram getVirtualDiagram() {

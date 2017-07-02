@@ -29,11 +29,11 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
             List<WalkerGroup> otherCategories, boolean move) {
         super(diagram, null, x, y, width, height, walkerGroup);
         this.walkerGroup = walkerGroup;
-        this.walkerList = new ArrayList<DiagramWalker>(walkerGroup.getDiagramWalkerList());
+        this.walkerList = new ArrayList<>(walkerGroup.getDiagramWalkerList());
         this.move = move;
 
-        if (!this.move) {
-            for (final DiagramWalker walker : this.walkerList) {
+        if (!move) {
+            for (final DiagramWalker walker : walkerList) {
                 final int walkerX = walker.getX();
                 final int walkerY = walker.getY();
                 int walkerWidth = walker.getWidth();
@@ -53,12 +53,12 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
                     height = walkerY - y + walkerHeight;
                 }
             }
-            this.setNewRectangle(x, y, width, height);
+            setNewRectangle(x, y, width, height);
         } else {
-            this.walkerOldLocationMap = new HashMap<DiagramWalker, Rectangle>();
+            this.walkerOldLocationMap = new HashMap<>();
             this.diffX = x - walkerGroup.getX();
             this.diffY = y - walkerGroup.getY();
-            for (final Iterator<DiagramWalker> iter = this.walkerList.iterator(); iter.hasNext();) {
+            for (final Iterator<DiagramWalker> iter = walkerList.iterator(); iter.hasNext();) {
                 final DiagramWalker walker = iter.next();
                 for (final WalkerGroup otherCategory : otherCategories) {
                     if (otherCategory.contains(walker)) {
@@ -67,8 +67,8 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
                     }
                 }
             }
-            for (final DiagramWalker walker : this.walkerList) {
-                this.walkerOldLocationMap.put(walker, new Rectangle(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
+            for (final DiagramWalker walker : walkerList) {
+                walkerOldLocationMap.put(walker, new Rectangle(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
             }
         }
     }
@@ -76,7 +76,7 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
     @Override
     protected void doExecute() {
         if (move) {
-            bendpointListMap = new HashMap<WalkerConnection, List<Bendpoint>>();
+            bendpointListMap = new HashMap<>();
             for (final DiagramWalker walker : walkerList) {
                 final Location location = new Location(walker.getX() + diffX, walker.getY() + diffY, walker.getWidth(), walker.getHeight());
                 walker.setLocation(location);
@@ -88,28 +88,28 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
 
     @Override
     protected void doUndo() {
-        if (this.move) {
-            for (final DiagramWalker nodeElement : this.walkerList) {
-                final Rectangle rectangle = this.walkerOldLocationMap.get(nodeElement);
+        if (move) {
+            for (final DiagramWalker nodeElement : walkerList) {
+                final Rectangle rectangle = walkerOldLocationMap.get(nodeElement);
                 nodeElement.setLocation(new Location(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
             }
-            this.restoreBendpoints();
+            restoreBendpoints();
         }
         super.doUndo();
     }
 
     private void moveBendpoints(DiagramWalker source) {
         for (final WalkerConnection connectionElement : source.getOutgoings()) {
-            final DiagramWalker target = connectionElement.getWalkerTarget();
-            if (this.walkerGroup.contains(target)) {
+            final DiagramWalker target = connectionElement.getTargetWalker();
+            if (walkerGroup.contains(target)) {
                 final List<Bendpoint> bendpointList = connectionElement.getBendpoints();
-                final List<Bendpoint> oldBendpointList = new ArrayList<Bendpoint>();
+                final List<Bendpoint> oldBendpointList = new ArrayList<>();
                 for (int index = 0; index < bendpointList.size(); index++) {
                     final Bendpoint oldBendPoint = bendpointList.get(index);
                     if (oldBendPoint.isRelative()) {
                         break;
                     }
-                    final Bendpoint newBendpoint = new Bendpoint(oldBendPoint.getX() + this.diffX, oldBendPoint.getY() + this.diffY);
+                    final Bendpoint newBendpoint = new Bendpoint(oldBendPoint.getX() + diffX, oldBendPoint.getY() + diffY);
                     connectionElement.replaceBendpoint(index, newBendpoint);
                     oldBendpointList.add(oldBendPoint);
                 }
@@ -119,8 +119,8 @@ public class MoveWalkerGroupCommand extends MoveElementCommand {
     }
 
     private void restoreBendpoints() {
-        for (final WalkerConnection connectionElement : this.bendpointListMap.keySet()) {
-            final List<Bendpoint> oldBendpointList = this.bendpointListMap.get(connectionElement);
+        for (final WalkerConnection connectionElement : bendpointListMap.keySet()) {
+            final List<Bendpoint> oldBendpointList = bendpointListMap.get(connectionElement);
             for (int index = 0; index < oldBendpointList.size(); index++) {
                 connectionElement.replaceBendpoint(index, oldBendpointList.get(index));
             }

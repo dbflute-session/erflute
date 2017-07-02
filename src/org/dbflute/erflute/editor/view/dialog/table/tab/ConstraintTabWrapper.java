@@ -25,53 +25,51 @@ public class ConstraintTabWrapper extends ValidatableTabWrapper {
         this.copyData = copyData;
         this.tableDialog = tableDialog;
 
-        this.init();
+        init();
     }
 
     @Override
     public void validatePage() throws InputException {
         String text = constraintText.getText().trim();
-        this.copyData.setConstraint(text);
+        copyData.setConstraint(text);
 
         text = primaryKeyNameText.getText().trim();
-        if (!Check.isAlphabet(text)) {
+        if (copyData.getDiagramSettings().isValidatePhysicalName() && !Check.isAlphabet(text)) {
             throw new InputException("error.primary.key.name.not.alphabet");
         }
-        this.copyData.setPrimaryKeyName(text);
+        copyData.setPrimaryKeyName(text);
 
         text = optionText.getText().trim();
-        this.copyData.setOption(text);
+        copyData.setOption(text);
     }
 
     @Override
     public void initComposite() {
         final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 1;
-        this.setLayout(gridLayout);
+        setLayout(gridLayout);
 
         CompositeFactory.createLabel(this, "label.table.constraint", 1);
 
         this.constraintText = CompositeFactory.createTextArea(tableDialog, this, null, -1, 100, 1, false);
-
-        this.constraintText.setText(Format.null2blank(copyData.getConstraint()));
+        constraintText.setText(Format.null2blank(copyData.getConstraint()));
 
         CompositeFactory.filler(this, 1);
 
         this.primaryKeyNameText = CompositeFactory.createText(tableDialog, this, "label.primary.key.name", 1, false);
-        this.primaryKeyNameText.setText(Format.null2blank(copyData.getPrimaryKeyName()));
+        primaryKeyNameText.setText(Format.null2blank(copyData.getPrimaryKeyName()));
 
         CompositeFactory.filler(this, 1);
 
         CompositeFactory.createLabel(this, "label.option", 1);
 
         this.optionText = CompositeFactory.createTextArea(tableDialog, this, null, -1, 100, 1, false);
-
-        this.optionText.setText(Format.null2blank(copyData.getOption()));
+        optionText.setText(Format.null2blank(copyData.getOption()));
     }
 
     @Override
     public void setInitFocus() {
-        this.constraintText.setFocus();
+        constraintText.setFocus();
     }
 
     @Override

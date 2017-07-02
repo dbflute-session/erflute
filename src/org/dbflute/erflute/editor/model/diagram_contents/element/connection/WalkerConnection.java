@@ -20,20 +20,16 @@ public abstract class WalkerConnection extends AbstractModel {
     protected DiagramWalker ownerWalker; // e.g. ERTable, WalkerNote
     protected DiagramWalker sourceWalker; // e.g. MEMBER_STATUS, note
     protected DiagramWalker targetWalker; // e.g. MEMBER, noted table
-    private List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
+    private List<Bendpoint> bendPoints = new ArrayList<>();
 
     public void delete() {
         sourceWalker.removeOutgoing(this);
-        targetWalker.removeIncoming(this);
+        ownerWalker.removeIncoming(this);
     }
 
-    public void connect() {
-        if (sourceWalker != null) {
-            sourceWalker.addOutgoing(this);
-        }
-        if (targetWalker != null) {
-            targetWalker.addIncoming(this);
-        }
+    public void connect(DiagramWalker sourceWalker, DiagramWalker targetWalker) {
+        setSourceWalker(sourceWalker);
+        setTargetWalker(targetWalker);
     }
 
     public void addBendpoint(int index, Bendpoint point) {
@@ -73,7 +69,7 @@ public abstract class WalkerConnection extends AbstractModel {
     @Override
     public WalkerConnection clone() {
         final WalkerConnection clone = (WalkerConnection) super.clone();
-        final List<Bendpoint> cloneBendPoints = new ArrayList<Bendpoint>();
+        final List<Bendpoint> cloneBendPoints = new ArrayList<>();
         for (final Bendpoint bendPoint : bendPoints) {
             cloneBendPoints.add((Bendpoint) bendPoint.clone());
         }
@@ -92,37 +88,42 @@ public abstract class WalkerConnection extends AbstractModel {
         this.ownerWalker = ownerWalker;
     }
 
-    public DiagramWalker getWalkerSource() {
+    public DiagramWalker getSourceWalker() {
         return sourceWalker;
     }
 
     public void setSourceWalker(DiagramWalker sourceWalker) {
-        if (this.sourceWalker != null) {
-            this.sourceWalker.removeOutgoing(this);
+        if (sourceWalker != null) {
+            sourceWalker.removeOutgoing(this);
         }
         this.sourceWalker = sourceWalker;
-        if (this.sourceWalker != null) {
-            this.sourceWalker.addOutgoing(this);
+        if (sourceWalker != null) {
+            sourceWalker.addOutgoing(this);
         }
-        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, sourceWalker);
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, null);
     }
 
-    public DiagramWalker getWalkerTarget() {
+    public DiagramWalker getTargetWalker() {
         return targetWalker;
     }
 
     public void setTargetWalker(DiagramWalker targetWalker) {
-        if (this.targetWalker != null) {
-            this.targetWalker.removeIncoming(this);
+        if (targetWalker != null) {
+            targetWalker.removeIncoming(this);
         }
         this.targetWalker = targetWalker;
-        if (this.targetWalker != null) {
-            this.targetWalker.addIncoming(this);
+        if (targetWalker != null) {
+            targetWalker.addIncoming(this);
         }
-        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, sourceWalker);
+        firePropertyChange(PROPERTY_CHANGE_CONNECTION, null, null);
     }
 
     public List<Bendpoint> getBendpoints() {
         return bendPoints;
+    }
+
+    public boolean isDeleted() {
+        return sourceWalker == null || targetWalker == null
+                || !sourceWalker.haveConnection(this) || !targetWalker.haveConnection(this);
     }
 }

@@ -2,6 +2,8 @@ package org.dbflute.erflute.editor.model;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.List;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.VirtualDiagramEditor;
@@ -34,6 +36,26 @@ public class ERModelUtil {
         return (ERDiagram) model;
     }
 
+    public static boolean refreshDiagram(ERDiagram diagram, DiagramWalker... elements) {
+        return refreshDiagram(diagram, Arrays.asList(elements));
+    }
+
+    public static boolean refreshDiagram(ERDiagram diagram, List<DiagramWalker> elements) {
+        if (refreshDiagram(diagram)) {
+            elements.stream().forEach(element -> {
+                if (element instanceof ERTable) {
+                    final IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
+                    if (activeEditor instanceof VirtualDiagramEditor) {
+                        final VirtualDiagramEditor editor = (VirtualDiagramEditor) activeEditor;
+                        editor.reveal((ERTable) element);
+                    }
+                }
+            });
+            return true;
+        }
+        return false;
+    }
+
     public static boolean refreshDiagram(ERDiagram diagram) {
         if (diagram == null) {
             return false;
@@ -48,20 +70,6 @@ public class ERModelUtil {
             diagram.changeAll();
             return true;
         }
-    }
-
-    public static boolean refreshDiagram(ERDiagram diagram, DiagramWalker element) {
-        if (refreshDiagram(diagram)) {
-            if (element instanceof ERTable) {
-                final IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
-                if (activeEditor instanceof VirtualDiagramEditor) {
-                    final VirtualDiagramEditor editor = (VirtualDiagramEditor) activeEditor;
-                    editor.reveal((ERTable) element);
-                }
-            }
-            return true;
-        }
-        return false;
     }
 
     public static void openDirectory(IResource resource) {
