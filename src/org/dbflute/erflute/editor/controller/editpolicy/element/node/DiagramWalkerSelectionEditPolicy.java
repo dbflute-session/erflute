@@ -18,10 +18,10 @@ import org.eclipse.gef.handles.ResizeHandle;
 
 public class DiagramWalkerSelectionEditPolicy extends ResizableEditPolicy {
 
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     protected List<Object> createSelectionHandles() {
-        final List<Object> selectedEditParts = this.getHost().getViewer().getSelectedEditParts();
+        final List<Object> selectedEditParts = getHost().getViewer().getSelectedEditParts();
         if (selectedEditParts.size() == 1) {
             final ViewableModel currentElement = (ViewableModel) getHost().getModel();
             if (!(currentElement instanceof Category) && !(currentElement instanceof ModelProperties)) {
@@ -38,7 +38,7 @@ public class DiagramWalkerSelectionEditPolicy extends ResizableEditPolicy {
             }
         }
 
-        final List<Object> list = new ArrayList<Object>();
+        final List<Object> list = new ArrayList<>();
         final int directions = getResizeDirections();
         if (directions == 0) {
             // #willanalyze what is this? by jflute

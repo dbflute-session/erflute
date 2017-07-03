@@ -18,7 +18,7 @@ import org.eclipse.ui.IEditorPart;
 
 public abstract class AbstractBaseSelectionAction extends SelectionAction {
 
-    private MainDiagramEditor editor;
+    private final MainDiagramEditor editor;
 
     public AbstractBaseSelectionAction(String id, String text, MainDiagramEditor editor) {
         this(id, text, SWT.NONE, editor);
@@ -26,58 +26,58 @@ public abstract class AbstractBaseSelectionAction extends SelectionAction {
 
     public AbstractBaseSelectionAction(String id, String text, int style, MainDiagramEditor editor) {
         super(editor, style);
-        this.setId(id);
-        this.setText(text);
+        setId(id);
+        setText(text);
 
         this.editor = editor;
     }
 
     protected ERDiagram getDiagram() {
-        EditPart editPart = this.editor.getGraphicalViewer().getContents();
-        ERDiagram diagram = ERModelUtil.getDiagram(editPart);
+        final EditPart editPart = editor.getGraphicalViewer().getContents();
+        final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
 
         return diagram;
     }
 
     protected GraphicalViewer getGraphicalViewer() {
-        return this.editor.getGraphicalViewer();
+        return editor.getGraphicalViewer();
     }
 
     @Override
     public final void runWithEvent(Event event) {
         try {
             execute(event);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }
 
     @Override
     protected void execute(Command command) {
-        this.editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
+        editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 
     protected IEditorPart getEditorPart() {
-        return this.editor;
+        return editor;
     }
 
     protected void execute(Event event) {
-        GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = getGraphicalViewer();
 
-        List<Command> commandList = new ArrayList<Command>();
+        final List<Command> commandList = new ArrayList<>();
 
-        for (Object object : viewer.getSelectedEditParts()) {
-            List<Command> subCommandList = this.getCommand((EditPart) object, event);
+        for (final Object object : viewer.getSelectedEditParts()) {
+            final List<Command> subCommandList = getCommand((EditPart) object, event);
             commandList.addAll(subCommandList);
         }
 
         if (!commandList.isEmpty()) {
-            CompoundCommand compoundCommand = new CompoundCommand();
-            for (Command command : commandList) {
+            final CompoundCommand compoundCommand = new CompoundCommand();
+            for (final Command command : commandList) {
                 compoundCommand.add(command);
             }
 
-            this.execute(compoundCommand);
+            execute(compoundCommand);
         }
     }
 
@@ -85,7 +85,7 @@ public abstract class AbstractBaseSelectionAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = getGraphicalViewer();
 
         if (viewer.getSelectedEditParts().isEmpty()) {
             return false;

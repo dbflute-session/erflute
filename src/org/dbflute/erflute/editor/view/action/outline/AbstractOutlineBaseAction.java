@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Event;
 
 public abstract class AbstractOutlineBaseAction extends Action {
 
-    private TreeViewer treeViewer;
+    private final TreeViewer treeViewer;
 
     public AbstractOutlineBaseAction(String id, String text, TreeViewer treeViewer) {
         this(id, text, SWT.NONE, treeViewer);
@@ -19,7 +19,7 @@ public abstract class AbstractOutlineBaseAction extends Action {
 
     public AbstractOutlineBaseAction(String id, String text, int style, TreeViewer treeViewer) {
         super(text, style);
-        this.setId(id);
+        setId(id);
 
         this.treeViewer = treeViewer;
     }
@@ -28,18 +28,18 @@ public abstract class AbstractOutlineBaseAction extends Action {
     public final void runWithEvent(Event event) {
         try {
             execute(event);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }
 
     protected void execute(Command command) {
-        this.treeViewer.getEditDomain().getCommandStack().execute(command);
+        treeViewer.getEditDomain().getCommandStack().execute(command);
     }
 
     protected ERDiagram getDiagram() {
-        EditPart editPart = treeViewer.getContents();
-        ERDiagram diagram = (ERDiagram) editPart.getModel();
+        final EditPart editPart = treeViewer.getContents();
+        final ERDiagram diagram = (ERDiagram) editPart.getModel();
 
         return diagram;
     }

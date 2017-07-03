@@ -388,6 +388,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object getAdapter(@SuppressWarnings("rawtypes") Class type) {
         if (type == ERDiagram.class) {
             return diagram;

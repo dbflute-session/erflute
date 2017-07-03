@@ -59,7 +59,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
             final IFigure layer = manager.getLayer(LayerConstants.PRIMARY_LAYER);
             getFeedbackLayer().setBounds(layer.getBounds());
 
-            final List children = getFeedbackLayer().getChildren();
+            final List<?> children = getFeedbackLayer().getChildren();
             children.clear();
             getFeedbackLayer().repaint();
 
@@ -158,7 +158,7 @@ public class RelationBendpointEditPolicy extends ERDiagramBendpointEditPolicy {
     }
 
     @Override
-    protected List createSelectionHandles() {
+    protected List<?> createSelectionHandles() {
         final Relationship relation = (Relationship) getHost().getModel();
         if (relation.getSourceWalker() == relation.getTargetWalker()) {
             showSelectedLine();

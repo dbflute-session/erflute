@@ -27,7 +27,7 @@ public class PlaceTableCommand extends AbstractCommand {
         this.orgTable = orgTable;
     }
 
-    public PlaceTableCommand(List orgTables) {
+    public PlaceTableCommand(List<ERTable> orgTables) {
         this.orgTables = orgTables;
     }
 

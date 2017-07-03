@@ -24,19 +24,14 @@ public class CreateIndexAction extends AbstractOutlineBaseAction {
 
     @Override
     public void execute(Event event) {
-
-        ERDiagram diagram = this.getDiagram();
-
-        List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
-        EditPart editPart = (EditPart) selectedEditParts.get(0);
-        ERTable table = (ERTable) editPart.getModel();
-
-        IndexDialog dialog = new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, table);
-
+        final ERDiagram diagram = getDiagram();
+        final List<?> selectedEditParts = getTreeViewer().getSelectedEditParts();
+        final EditPart editPart = (EditPart) selectedEditParts.get(0);
+        final ERTable table = (ERTable) editPart.getModel();
+        final IndexDialog dialog = new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, table);
         if (dialog.open() == IDialogConstants.OK_ID) {
-            CreateIndexCommand command = new CreateIndexCommand(diagram, dialog.getResultIndex());
-
-            this.execute(command);
+            final CreateIndexCommand command = new CreateIndexCommand(diagram, dialog.getResultIndex());
+            execute(command);
         }
     }
 }

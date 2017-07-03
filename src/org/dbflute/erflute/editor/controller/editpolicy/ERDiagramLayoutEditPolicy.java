@@ -107,8 +107,8 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 if (child instanceof DiagramWalkerEditPart) {
                     final DiagramWalkerEditPart nodeElementEditPart = (DiagramWalkerEditPart) child;
                     final Rectangle bounds = nodeElementEditPart.getFigure().getBounds();
-                    if (bounds.x > point.x && bounds.x + bounds.width < point.x + size.width && bounds.y > point.y
-                            && bounds.y + bounds.height < point.y + size.height) {
+                    if (bounds.x > point.x && bounds.x + bounds.width < point.x + size.width
+                            && bounds.y > point.y && bounds.y + bounds.height < point.y + size.height) {
                         enclosedElementList.add((DiagramWalker) nodeElementEditPart.getModel());
                     }
                 }
@@ -333,7 +333,8 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 return new PlaceTableCommand(ertable);
             }
             if (feature instanceof List) {
-                final List<?> list = (List<?>) feature;
+                @SuppressWarnings("unchecked")
+                final List<ERTable> list = (List<ERTable>) feature;
                 return new PlaceTableCommand(list);
             }
         }

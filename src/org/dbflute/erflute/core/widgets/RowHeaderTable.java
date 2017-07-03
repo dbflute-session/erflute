@@ -41,6 +41,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
@@ -67,7 +68,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
 
     private static final long serialVersionUID = 1L;
 
-    private DefaultListModel listModel;
+    private DefaultListModel<String> listModel;
     private DefaultTableModel tableModel;
     private JTable table;
     private MultiLineHeaderRenderer headerRenderer;
@@ -80,6 +81,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
     private boolean editable;
     private final Color MODIFIED_COLOR = new Color(0xc7, 0xff, 0xb7);
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public RowHeaderTable(int width, int height, final int rowHeaderWidth, int rowHeight, boolean iconEnable, final boolean editable) {
         this.editable = editable;
         this.table = new JTable() {
@@ -283,8 +285,8 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
             rowHeader.setFixedCellHeight(table.getRowHeight());
             rowHeader.setCellRenderer(new RowHeaderRenderer(table));
             rowHeader.setBackground(table.getTableHeader().getBackground());
-            this.listModel = new DefaultListModel();
-            rowHeader.setModel(listModel);
+            this.listModel = new DefaultListModel<>();
+            rowHeader.setModel((ListModel) listModel);
             setRowHeaderView(rowHeader);
         }
 
@@ -718,7 +720,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         }
     }
 
-    private static class RowHeaderRenderer extends JLabel implements ListCellRenderer {
+    private static class RowHeaderRenderer extends JLabel implements ListCellRenderer<Object> {
 
         private static final long serialVersionUID = 1L;
 
@@ -733,13 +735,14 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         }
 
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list,
+                Object value, int index, boolean isSelected, boolean cellHasFocus) {
             setText((value == null) ? "" : value.toString());
             return this;
         }
     }
 
-    private static class MultiLineHeaderRenderer extends JList implements TableCellRenderer {
+    private static class MultiLineHeaderRenderer extends JList<Object> implements TableCellRenderer {
 
         private static final long serialVersionUID = 1L;
 
@@ -797,7 +800,7 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
             }
 
             @Override
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
                 final JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
                 if (iconEnable && index == 0) {
                     label.setIcon(ICON);

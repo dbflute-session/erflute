@@ -14,6 +14,7 @@ import org.eclipse.gef.EditPart;
 
 public class TriggerSetOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(TriggerSet.PROPERTY_CHANGE_TRIGGER_SET)) {
             refresh();
@@ -21,11 +22,9 @@ public class TriggerSetOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     @Override
-    protected List getModelChildren() {
-        TriggerSet triggerSet = (TriggerSet) this.getModel();
-
-        List<Trigger> triggerList = triggerSet.getTriggerList();
-
+    protected List<Trigger> getModelChildren() {
+        final TriggerSet triggerSet = (TriggerSet) getModel();
+        final List<Trigger> triggerList = triggerSet.getTriggerList();
         Collections.sort(triggerList);
 
         return triggerList;
@@ -33,16 +32,16 @@ public class TriggerSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(DisplayMessages.getMessage("label.trigger") + " (" + this.getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText(DisplayMessages.getMessage("label.trigger") + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
 
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }

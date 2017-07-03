@@ -16,13 +16,12 @@ public class DropShadowRectangle extends RoundedRectangle {
         Rectangle f = Rectangle.SINGLETON.setBounds(getBounds());
         final Insets shadowInset = new Insets(0, 0, SHADOW_INSET, SHADOW_INSET);
         f = shrink(f, shadowInset);
-        this.drawShadow(f, graphics);
+        drawShadow(f, graphics);
         graphics.fillRoundRectangle(f, corner.width, corner.height);
     }
 
     private Rectangle shrink(Rectangle bounds, Insets insets) {
         final Rectangle shrinked = bounds.getCopy();
-
         shrinked.x += insets.left;
         shrinked.y += insets.top;
         shrinked.width -= insets.getWidth();
@@ -52,12 +51,11 @@ public class DropShadowRectangle extends RoundedRectangle {
         for (int i = 0; i < SHADOW_INSET - 1; i++) {
             rgb -= delta;
             final Color color = DesignResources.getColor(new int[] { rgb, rgb, rgb });
-            this.drawShadowLayer(rectangle, graphics, SHADOW_INSET - 1 - i, color);
+            drawShadowLayer(rectangle, graphics, SHADOW_INSET - 1 - i, color);
         }
     }
 
     private void drawShadowLayer(Rectangle rectangle, Graphics graphics, int offset, Color color) {
-
         // Save the state of the graphics object
         graphics.pushState();
         graphics.setLineWidth(0);

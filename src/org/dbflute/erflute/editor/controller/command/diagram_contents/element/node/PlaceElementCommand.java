@@ -19,14 +19,10 @@ public class PlaceElementCommand extends AbstractCommand {
     private final DiagramWalker element;
     private final List<DiagramWalker> enclosedElementList;
 
-    /** Model or Diagram */
-    private final AbstractModelEditPart editPart;
-
-    public PlaceElementCommand(ERDiagram diagram, AbstractModelEditPart editPart, DiagramWalker element, int x, int y, Dimension size,
-            List<DiagramWalker> enclosedElementList) {
+    public PlaceElementCommand(ERDiagram diagram, AbstractModelEditPart editPart, DiagramWalker element,
+            int x, int y, Dimension size, List<DiagramWalker> enclosedElementList) {
         this.diagram = diagram;
         this.element = element;
-        this.editPart = editPart;
 
         if (element instanceof Category && size != null) {
             element.setLocation(new Location(x, y, size.width, size.height));
@@ -38,7 +34,6 @@ public class PlaceElementCommand extends AbstractCommand {
             final ERTable table = (ERTable) element;
             table.setLogicalName(ERTable.NEW_LOGICAL_NAME);
             table.setPhysicalName(ERTable.NEW_PHYSICAL_NAME);
-
         } else if (element instanceof ERView) {
             final ERView view = (ERView) element;
             view.setLogicalName(ERView.NEW_LOGICAL_NAME);

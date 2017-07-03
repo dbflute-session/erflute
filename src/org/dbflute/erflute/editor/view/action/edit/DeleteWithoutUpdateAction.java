@@ -15,41 +15,41 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class DeleteWithoutUpdateAction extends DeleteAction {
 
-    private MainDiagramEditor part;
+    private final MainDiagramEditor part;
 
     public DeleteWithoutUpdateAction(MainDiagramEditor part) {
         super((IWorkbenchPart) part);
         this.part = part;
-        this.setText(DisplayMessages.getMessage("action.title.delete"));
-        this.setToolTipText(DisplayMessages.getMessage("action.title.delete"));
+        setText(DisplayMessages.getMessage("action.title.delete"));
+        setToolTipText(DisplayMessages.getMessage("action.title.delete"));
 
-        this.setActionDefinitionId("org.eclipse.ui.edit.delete");
+        setActionDefinitionId("org.eclipse.ui.edit.delete");
     }
 
     @Override
-    public Command createDeleteCommand(List objects) {
-        Command command = super.createDeleteCommand(objects);
+    public Command createDeleteCommand(@SuppressWarnings("rawtypes") List objects) {
+        final Command command = super.createDeleteCommand(objects);
 
         if (command == null) {
             return null;
         }
 
         if (command instanceof CompoundCommand) {
-            CompoundCommand compoundCommand = (CompoundCommand) command;
+            final CompoundCommand compoundCommand = (CompoundCommand) command;
             if (compoundCommand.getCommands().isEmpty()) {
                 return null;
             }
         }
 
-        EditPart editPart = part.getGraphicalViewer().getContents();
-        ERDiagram diagram = ERModelUtil.getDiagram(editPart);
+        final EditPart editPart = part.getGraphicalViewer().getContents();
+        final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
 
         return new WithoutUpdateCommandWrapper(command, diagram);
     }
 
     @Override
     protected boolean calculateEnabled() {
-        Command cmd = createDeleteCommand(getSelectedObjects());
+        final Command cmd = createDeleteCommand(getSelectedObjects());
         if (cmd == null) {
             return false;
         }

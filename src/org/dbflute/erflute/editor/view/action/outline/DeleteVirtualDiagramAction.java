@@ -22,14 +22,14 @@ public class DeleteVirtualDiagramAction extends AbstractOutlineBaseAction {
 
     @Override
     public void execute(Event event) throws Exception {
-        final ERDiagram diagram = this.getDiagram();
-        final List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
-
+        final ERDiagram diagram = getDiagram();
+        final List<?> selectedEditParts = getTreeViewer().getSelectedEditParts();
         final EditPart editPart = (EditPart) selectedEditParts.get(0);
         final Object model = editPart.getModel();
         if (model instanceof ERVirtualDiagram) {
-            final DeleteVirtualDiagramCommand command = new DeleteVirtualDiagramCommand(diagram, ((ERVirtualDiagram) model).getName());
-            this.execute(command);
+            final DeleteVirtualDiagramCommand command =
+                    new DeleteVirtualDiagramCommand(diagram, ((ERVirtualDiagram) model).getName());
+            execute(command);
         }
     }
 }
