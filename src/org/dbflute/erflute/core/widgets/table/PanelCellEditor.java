@@ -17,42 +17,41 @@ public abstract class PanelCellEditor extends AbstractCellEditor implements Tabl
 
     private static final long serialVersionUID = 1L;
 
-    private JPanel editPanel;
+    private final JPanel editPanel;
 
     public PanelCellEditor() {
         this.editPanel = new JPanel();
         this.editPanel.setLayout(null);
     }
 
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         return editPanel;
     }
 
+    @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         return editPanel;
     }
 
+    @Override
     public Object getCellEditorValue() {
         return editPanel;
     }
 
     protected static Font getAwtFont() {
-        FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
-
-        Font font = new Font(fontData.getName(), Font.PLAIN, 12);
-
+        final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
+        final Font font = new Font(fontData.getName(), Font.PLAIN, 12);
         return font;
     }
 
     protected void addComponent(Component component, int x, int y, int w, int h) {
-        addComponent(this.editPanel, component, x, y, w, h);
+        addComponent(editPanel, component, x, y, w, h);
     }
 
     protected static void addComponent(Container parent, Component component, int x, int y, int w, int h) {
         component.setFont(getAwtFont());
-
         component.setBounds(x, y, w, h);
-
         parent.add(component);
     }
 }

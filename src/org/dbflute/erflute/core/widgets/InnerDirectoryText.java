@@ -30,12 +30,12 @@ public class InnerDirectoryText {
         this.text = new Text(parent, style);
 
         this.openBrowseButton = new Button(parent, SWT.NONE);
-        this.openBrowseButton.setText(JFaceResources.getString("openBrowse"));
+        openBrowseButton.setText(JFaceResources.getString("openBrowse"));
 
-        this.openBrowseButton.addSelectionListener(new SelectionAdapter() {
+        openBrowseButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String saveFilePath = Activator.showDirectoryDialogInternal(text.getText());
+                final String saveFilePath = Activator.showDirectoryDialogInternal(text.getText());
                 text.setText(saveFilePath);
             }
         });
@@ -45,7 +45,7 @@ public class InnerDirectoryText {
     //                                                                            Accessor
     //                                                                            ========
     public void setLayoutData(Object layoutData) {
-        this.text.setLayoutData(layoutData);
+        text.setLayoutData(layoutData);
     }
 
     public void setText(String text) {
@@ -54,17 +54,17 @@ public class InnerDirectoryText {
     }
 
     public boolean isBlank() {
-        if (this.text.getText().trim().length() == 0) {
+        if (text.getText().trim().length() == 0) {
             return true;
         }
         return false;
     }
 
     public String getFilePath() {
-        return this.text.getText().trim();
+        return text.getText().trim();
     }
 
     public void addModifyListener(ModifyListener listener) {
-        this.text.addModifyListener(listener);
+        text.addModifyListener(listener);
     }
 }
