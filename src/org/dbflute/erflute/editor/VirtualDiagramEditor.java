@@ -105,7 +105,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
                 final ERVirtualTableEditPart vtableEditPart = (ERVirtualTableEditPart) tableEditPart;
                 if (((ERVirtualTable) vtableEditPart.getModel()).getRawTable().equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
-                    selectEditPartFromQuickOutline(vtableEditPart);
+                    selectEditPart(vtableEditPart);
                     return;
                 }
             }
