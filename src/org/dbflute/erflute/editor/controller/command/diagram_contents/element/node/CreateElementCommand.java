@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
@@ -73,7 +72,6 @@ public class CreateElementCommand extends AbstractCommand {
             group.setWalkers(enclosedWalkerList);
         }
         diagram.addNewWalker(walker);
-        ERModelUtil.refreshDiagram(diagram, walker);
     }
 
     @Override
