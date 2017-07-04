@@ -38,16 +38,12 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
                     if (e.getKeyCode() == ';') {
                         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                         component.setText(format.format(new Date()));
-
                     } else if (e.getKeyCode() == 'v' || e.getKeyCode() == 'V') {
                         component.paste();
-
                     } else if (e.getKeyCode() == 'c' || e.getKeyCode() == 'C') {
                         component.copy();
-
                     } else if (e.getKeyCode() == 'x' || e.getKeyCode() == 'X') {
                         component.cut();
-
                     }
                 }
 
