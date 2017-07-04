@@ -9,8 +9,7 @@ public class Debug {
     private static Logger logger = Logger.getLogger(Debug.class.getName());
 
     public static String getStackTrace(Exception e) {
-        StringWriter writer = new StringWriter();
-
+        final StringWriter writer = new StringWriter();
         e.printStackTrace(new PrintWriter(writer));
 
         return writer.toString();
@@ -21,8 +20,8 @@ public class Debug {
     }
 
     public static void memoryLog(String message) {
-        long total = Runtime.getRuntime().totalMemory();
-        long free = Runtime.getRuntime().freeMemory();
+        final long total = Runtime.getRuntime().totalMemory();
+        final long free = Runtime.getRuntime().freeMemory();
 
         if (message != null) {
             logger.info(message);

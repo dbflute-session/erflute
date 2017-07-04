@@ -17,7 +17,7 @@ public class ERFluteMultiPageEditorActionBarContributor extends MultiPageEditorA
     public void setActivePage(IEditorPart activeEditor) {
         final MainDiagramEditor editor = (MainDiagramEditor) activeEditor;
         final ERDiagramActionBarContributor actionBarContributor = editor.getActionBarContributor();
-        final IActionBars actionBars = this.getActionBars();
+        final IActionBars actionBars = getActionBars();
         actionBars.clearGlobalActionHandlers();
         actionBars.getToolBarManager().removeAll();
         actionBarContributor.init(actionBars, editor.getEditorSite().getPage());

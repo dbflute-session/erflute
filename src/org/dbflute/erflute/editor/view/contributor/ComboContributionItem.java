@@ -25,27 +25,24 @@ import org.eclipse.ui.IWorkbenchPage;
 public abstract class ComboContributionItem extends ContributionItem {
 
     private Combo combo;
-
     private ToolItem toolitem;
-
-    private IWorkbenchPage workbenchPage;
+    private final IWorkbenchPage workbenchPage;
 
     public ComboContributionItem(String id, IWorkbenchPage workbenchPage) {
         super(id);
-
         this.workbenchPage = workbenchPage;
     }
 
     @Override
     public final void fill(Composite parent) {
-        this.createControl(parent);
+        createControl(parent);
     }
 
     @Override
     public void fill(ToolBar parent, int index) {
         this.toolitem = new ToolItem(parent, SWT.SEPARATOR, index);
-        Control control = this.createControl(parent);
-        this.toolitem.setControl(control);
+        final Control control = createControl(parent);
+        toolitem.setControl(control);
     }
 
     protected Control createControl(Composite parent) {
@@ -55,23 +52,18 @@ public abstract class ComboContributionItem extends ContributionItem {
         // Font font = new Font(Display.getCurrent(), fontData.getName(), 7,
         // SWT.NORMAL);
         // this.combo.setFont(font);
-        this.setData(this.combo);
+        setData(combo);
 
-        this.combo.addSelectionListener(new SelectionListener() {
+        combo.addSelectionListener(new SelectionListener() {
+            @Override
             public void widgetSelected(SelectionEvent e) {
-                List selectedEditParts = ((IStructuredSelection) workbenchPage.getSelection()).toList();
-
-                CompoundCommand compoundCommand = new CompoundCommand();
-
-                for (Object editPart : selectedEditParts) {
-
-                    Object model = ((EditPart) editPart).getModel();
-
+                final List<?> selectedEditParts = ((IStructuredSelection) workbenchPage.getSelection()).toList();
+                final CompoundCommand compoundCommand = new CompoundCommand();
+                for (final Object editPart : selectedEditParts) {
+                    final Object model = ((EditPart) editPart).getModel();
                     if (model instanceof ViewableModel) {
-                        ViewableModel viewableModel = (ViewableModel) model;
-
-                        Command command = createCommand(viewableModel);
-
+                        final ViewableModel viewableModel = (ViewableModel) model;
+                        final Command command = createCommand(viewableModel);
                         if (command != null) {
                             compoundCommand.add(command);
                         }
@@ -83,20 +75,23 @@ public abstract class ComboContributionItem extends ContributionItem {
                 }
             }
 
+            @Override
             public void widgetDefaultSelected(SelectionEvent e) {
-
             }
         });
 
-        this.combo.addFocusListener(new FocusListener() {
+        combo.addFocusListener(new FocusListener() {
+            @Override
             public void focusGained(FocusEvent e) {
             }
 
+            @Override
             public void focusLost(FocusEvent e) {
             }
         });
 
-        this.toolitem.setWidth(this.computeWidth(this.combo));
+        toolitem.setWidth(computeWidth(combo));
+
         return combo;
     }
 
@@ -109,18 +104,18 @@ public abstract class ComboContributionItem extends ContributionItem {
     abstract protected void setData(Combo combo);
 
     private void executeCommand(Command command) {
-        ERFluteMultiPageEditor multiPageEditor = (ERFluteMultiPageEditor) this.workbenchPage.getActiveEditor();
-        MainDiagramEditor editor = (MainDiagramEditor) multiPageEditor.getActiveEditor();
+        final ERFluteMultiPageEditor multiPageEditor = (ERFluteMultiPageEditor) workbenchPage.getActiveEditor();
+        final MainDiagramEditor editor = (MainDiagramEditor) multiPageEditor.getActiveEditor();
         editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 
     public void setText(String text) {
-        if (this.combo != null && !this.combo.isDisposed() && text != null) {
-            this.combo.setText(text);
+        if (combo != null && !combo.isDisposed() && text != null) {
+            combo.setText(text);
         }
     }
 
     public String getText() {
-        return this.combo.getText();
+        return combo.getText();
     }
 }

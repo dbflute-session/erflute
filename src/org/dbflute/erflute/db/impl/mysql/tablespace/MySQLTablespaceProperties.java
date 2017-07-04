@@ -12,13 +12,9 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
     private static final long serialVersionUID = 1L;
 
     private String dataFile;
-
     private String logFileGroup;
-
     private String extentSize;
-
     private String initialSize;
-
     private String engine;
 
     public String getDataFile() {
@@ -78,11 +74,11 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
     public LinkedHashMap<String, String> getPropertiesMap() {
         final LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
-        map.put("label.tablespace.data.file", this.getDataFile());
-        map.put("label.tablespace.log.file.group", this.getLogFileGroup());
-        map.put("label.tablespace.extent.size", this.getExtentSize());
-        map.put("label.tablespace.initial.size", this.getInitialSize());
-        map.put("label.storage.engine", this.getEngine());
+        map.put("label.tablespace.data.file", getDataFile());
+        map.put("label.tablespace.log.file.group", getLogFileGroup());
+        map.put("label.tablespace.extent.size", getExtentSize());
+        map.put("label.tablespace.initial.size", getInitialSize());
+        map.put("label.storage.engine", getEngine());
 
         return map;
     }
@@ -91,13 +87,13 @@ public class MySQLTablespaceProperties implements TablespaceProperties {
     public List<String> validate() {
         final List<String> errorMessage = new ArrayList<>();
 
-        if (Check.isEmptyTrim(this.getDataFile())) {
+        if (Check.isEmptyTrim(getDataFile())) {
             errorMessage.add("error.tablespace.data.file.empty");
         }
-        if (Check.isEmptyTrim(this.getLogFileGroup())) {
+        if (Check.isEmptyTrim(getLogFileGroup())) {
             errorMessage.add("error.tablespace.log.file.group.empty");
         }
-        if (Check.isEmptyTrim(this.getEngine())) {
+        if (Check.isEmptyTrim(getEngine())) {
             errorMessage.add("error.tablespace.storage.engine.empty");
         }
 

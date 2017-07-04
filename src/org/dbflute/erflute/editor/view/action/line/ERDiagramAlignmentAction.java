@@ -24,6 +24,9 @@ import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramAlignmentAction extends SelectionAction {
 
     /**
@@ -55,9 +58,9 @@ public class ERDiagramAlignmentAction extends SelectionAction {
      * Indicates that the top edges should be aligned.
      */
     public static final String ID_ALIGN_TOP = GEFActionConstants.ALIGN_TOP;
-    private int alignment;
+    private final int alignment;
 
-    private List operationSet;
+    private List<?> operationSet;
 
     private static final AlignmentAction ALIGNMENT_ACTION_LEFT = new AlignmentAction((IWorkbenchPart) null, PositionConstants.LEFT);
 
@@ -82,10 +85,8 @@ public class ERDiagramAlignmentAction extends SelectionAction {
      * <LI>GEFActionConstants.ALIGN_BOTTOM
      * <LI>GEFActionConstants.ALIGN_MIDDLE
      * </UL>
-     * @param part
-     *            the workbench part used to obtain context
-     * @param align
-     *            the aligment ID.
+     * @param part the workbench part used to obtain context
+     * @param align the aligment ID.
      */
     public ERDiagramAlignmentAction(IWorkbenchPart part, int align) {
         super(part);
@@ -94,18 +95,16 @@ public class ERDiagramAlignmentAction extends SelectionAction {
     }
 
     /**
-     * Returns the alignment rectangle to which all selected parts should be
-     * aligned.
-     * @param request
-     *            the alignment Request
+     * Returns the alignment rectangle to which all selected parts should be aligned.
+     * @param request the alignment Request
      * @return the alignment rectangle
      */
     protected Rectangle calculateAlignmentRectangle(Request request) {
-        List editparts = getOperationSet(request);
+        final List<?> editparts = getOperationSet(request);
         if (editparts == null || editparts.isEmpty())
             return null;
-        GraphicalEditPart part = (GraphicalEditPart) editparts.get(editparts.size() - 1);
-        Rectangle rect = new PrecisionRectangle(part.getFigure().getBounds());
+        final GraphicalEditPart part = (GraphicalEditPart) editparts.get(editparts.size() - 1);
+        final Rectangle rect = new PrecisionRectangle(part.getFigure().getBounds());
         part.getFigure().translateToAbsolute(rect);
         return rect;
     }
@@ -116,32 +115,29 @@ public class ERDiagramAlignmentAction extends SelectionAction {
     @Override
     protected boolean calculateEnabled() {
         operationSet = null;
-        Command cmd = createAlignmentCommand();
+        final Command cmd = createAlignmentCommand();
         if (cmd == null)
             return false;
         return cmd.canExecute();
     }
 
     private Command createAlignmentCommand() {
-        AlignmentRequest request = new AlignmentRequest(RequestConstants.REQ_ALIGN);
+        final AlignmentRequest request = new AlignmentRequest(RequestConstants.REQ_ALIGN);
         request.setAlignmentRectangle(calculateAlignmentRectangle(request));
         request.setAlignment(alignment);
-        List editparts = getOperationSet(request);
+        final List<?> editparts = getOperationSet(request);
         if (editparts.size() < 2)
             return null;
 
-        CompoundCommand command = new CompoundCommand();
+        final CompoundCommand command = new CompoundCommand();
         command.setDebugLabel(getText());
         for (int i = 0; i < editparts.size(); i++) {
-            EditPart editpart = (EditPart) editparts.get(i);
+            final EditPart editpart = (EditPart) editparts.get(i);
             command.add(editpart.getCommand(request));
         }
         return command;
     }
 
-    /**
-     * @see org.eclipse.gef.Disposable#dispose()
-     */
     @Override
     public void dispose() {
         operationSet = Collections.EMPTY_LIST;
@@ -150,33 +146,35 @@ public class ERDiagramAlignmentAction extends SelectionAction {
 
     /**
      * Returns the list of editparts which will participate in alignment.
-     * @param request
-     *            the alignment request
+     * @param request the alignment request
      * @return the list of parts which will be aligned
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     protected List getOperationSet(Request request) {
         if (operationSet != null)
             return operationSet;
-        List editparts = new ArrayList(getSelectedObjects());
-        for (Iterator iter = editparts.iterator(); iter.hasNext();) {
+        List<?> editparts = new ArrayList<Object>(getSelectedObjects());
+        for (final Iterator<?> iter = editparts.iterator(); iter.hasNext();) {
             if (iter.next() instanceof NormalColumnEditPart) {
                 iter.remove();
             }
         }
 
-        if (editparts.isEmpty() || !(editparts.get(0) instanceof GraphicalEditPart))
+        if (editparts.isEmpty() || !(editparts.get(0) instanceof GraphicalEditPart)) {
             return Collections.EMPTY_LIST;
-        Object primary = editparts.get(editparts.size() - 1);
+        }
+        final Object primary = editparts.get(editparts.size() - 1);
         editparts = ToolUtilities.getSelectionWithoutDependants(editparts);
         ToolUtilities.filterEditPartsUnderstanding(editparts, request);
-        if (editparts.size() < 2 || !editparts.contains(primary))
+        if (editparts.size() < 2 || !editparts.contains(primary)) {
             return Collections.EMPTY_LIST;
-        EditPart parent = ((EditPart) editparts.get(0)).getParent();
+        }
+        final EditPart parent = ((EditPart) editparts.get(0)).getParent();
         for (int i = 1; i < editparts.size(); i++) {
-            EditPart part = (EditPart) editparts.get(i);
-            if (part.getParent() != parent)
+            final EditPart part = (EditPart) editparts.get(i);
+            if (part.getParent() != parent) {
                 return Collections.EMPTY_LIST;
+            }
         }
         return editparts;
     }

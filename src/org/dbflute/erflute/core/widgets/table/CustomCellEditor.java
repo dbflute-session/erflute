@@ -36,18 +36,14 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
             public void keyPressed(KeyEvent e) {
                 if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0) {
                     if (e.getKeyCode() == ';') {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                         component.setText(format.format(new Date()));
-
                     } else if (e.getKeyCode() == 'v' || e.getKeyCode() == 'V') {
                         component.paste();
-
                     } else if (e.getKeyCode() == 'c' || e.getKeyCode() == 'C') {
                         component.copy();
-
                     } else if (e.getKeyCode() == 'x' || e.getKeyCode() == 'X') {
                         component.cut();
-
                     }
                 }
 
@@ -78,17 +74,17 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
         private static final long serialVersionUID = 1L;
 
         private TextFieldPopupMenu() {
-            FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
+            final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
 
-            Font font = new Font(fontData.getName(), Font.PLAIN, 12);
+            final Font font = new Font(fontData.getName(), Font.PLAIN, 12);
 
-            JMenuItem cutMenuItem = this.add(new CutAction());
+            final JMenuItem cutMenuItem = add(new CutAction());
             cutMenuItem.setFont(font);
 
-            JMenuItem copyMenuItem = this.add(new CopyAction());
+            final JMenuItem copyMenuItem = add(new CopyAction());
             copyMenuItem.setFont(font);
 
-            JMenuItem pasteMenuItem = this.add(new PasteAction());
+            final JMenuItem pasteMenuItem = add(new PasteAction());
             pasteMenuItem.setFont(font);
         }
     }
@@ -101,8 +97,9 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
             super(DisplayMessages.getMessage("action.title.cut"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
+            final JTextComponent target = getTextComponent(e);
             if (target != null) {
                 target.cut();
             }
@@ -117,8 +114,9 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
             super(DisplayMessages.getMessage("action.title.copy"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
+            final JTextComponent target = getTextComponent(e);
             if (target != null) {
                 target.copy();
             }
@@ -133,8 +131,9 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
             super(DisplayMessages.getMessage("action.title.paste"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
+            final JTextComponent target = getTextComponent(e);
             if (target != null) {
                 target.paste();
             }

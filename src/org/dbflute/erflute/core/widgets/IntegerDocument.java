@@ -7,7 +7,6 @@ import javax.swing.text.PlainDocument;
 public class IntegerDocument extends PlainDocument {
 
     private static final long serialVersionUID = 1L;
-
     private int currentValue = 0;
 
     public IntegerDocument() {
@@ -24,12 +23,12 @@ public class IntegerDocument extends PlainDocument {
             return;
         } else {
             String newValue;
-            int length = getLength();
+            final int length = getLength();
             if (length == 0) {
                 newValue = str;
             } else {
-                String currentContent = getText(0, length);
-                StringBuilder currentBuffer = new StringBuilder(currentContent);
+                final String currentContent = getText(0, length);
+                final StringBuilder currentBuffer = new StringBuilder(currentContent);
                 currentBuffer.insert(offset, str);
                 newValue = currentBuffer.toString();
             }
@@ -40,11 +39,11 @@ public class IntegerDocument extends PlainDocument {
 
     @Override
     public void remove(int offset, int length) throws BadLocationException {
-        int currentLength = getLength();
-        String currentContent = getText(0, currentLength);
-        String before = currentContent.substring(0, offset);
-        String after = currentContent.substring(length + offset, currentLength);
-        String newValue = before + after;
+        final int currentLength = getLength();
+        final String currentContent = getText(0, currentLength);
+        final String before = currentContent.substring(0, offset);
+        final String after = currentContent.substring(length + offset, currentLength);
+        final String newValue = before + after;
         currentValue = checkInput(newValue, offset);
         super.remove(offset, length);
     }
@@ -52,9 +51,9 @@ public class IntegerDocument extends PlainDocument {
     private int checkInput(String proposedValue, int offset) throws BadLocationException {
         if (proposedValue.length() > 0) {
             try {
-                int newValue = Integer.parseInt(proposedValue);
+                final int newValue = Integer.parseInt(proposedValue);
                 return newValue;
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 throw new BadLocationException(proposedValue, offset);
             }
         } else {

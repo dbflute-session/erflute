@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.n
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
 /**
@@ -20,9 +19,9 @@ public class DeleteElementCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        diagram.removeContent(element);
-        ERModelUtil.refreshDiagram(element.getDiagram());
-
+        diagram.removeWalker(element);
+        // 以下コメントを外すと要素削除時、別要素の接続線が画面左上を指す不具合が発生する。
+        // ERModelUtil.refreshDiagram(diagram);
     }
 
     @Override

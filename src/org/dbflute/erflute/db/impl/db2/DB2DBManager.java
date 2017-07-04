@@ -95,7 +95,6 @@ public class DB2DBManager extends DBManagerBase {
 
     @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
-
         if (!(tablespaceProperties instanceof DB2TablespaceProperties)) {
             return new DB2TablespaceProperties();
         }
@@ -111,7 +110,6 @@ public class DB2DBManager extends DBManagerBase {
     @Override
     public List<String> getSystemSchemaList() {
         final List<String> list = new ArrayList<>();
-
         list.add("nullid");
         list.add("sqlj");
         list.add("syscat");

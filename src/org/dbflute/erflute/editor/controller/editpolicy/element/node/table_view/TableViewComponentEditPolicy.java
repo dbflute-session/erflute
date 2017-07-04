@@ -30,20 +30,16 @@ public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPoli
     public EditPart getTargetEditPart(Request request) {
         if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP.equals(request.getType())
                 || ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN_GROUP.equals(request.getType())) {
-            DirectEditRequest editRequest = (DirectEditRequest) request;
-
-            TableView tableView = (TableView) this.getHost().getModel();
-            ColumnGroup columnGroup = (ColumnGroup) ((Map) editRequest.getDirectEditFeature()).get("group");
-
+            final DirectEditRequest editRequest = (DirectEditRequest) request;
+            final TableView tableView = (TableView) getHost().getModel();
+            final ColumnGroup columnGroup = (ColumnGroup) ((Map<?, ?>) editRequest.getDirectEditFeature()).get("group");
             if (!tableView.getColumns().contains(columnGroup)) {
                 return getHost();
             }
         } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD.equals(request.getType())) {
             return getHost();
-
         } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN.equals(request.getType())) {
             return getHost();
-
         }
 
         return super.getTargetEditPart(request);
@@ -53,35 +49,27 @@ public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPoli
     public Command getCommand(Request request) {
         try {
             if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP.equals(request.getType())) {
-                DirectEditRequest editRequest = (DirectEditRequest) request;
-
-                TableView tableView = (TableView) this.getHost().getModel();
-                ColumnGroup columnGroup = (ColumnGroup) ((Map) editRequest.getDirectEditFeature()).get("group");
-
+                final TableView tableView = (TableView) getHost().getModel();
+                final DirectEditRequest editRequest = (DirectEditRequest) request;
+                final ColumnGroup columnGroup = (ColumnGroup) ((Map<?, ?>) editRequest.getDirectEditFeature()).get("group");
                 if (!tableView.getColumns().contains(columnGroup)) {
-                    return new AddColumnGroupCommand(tableView, columnGroup, this.getColumnIndex(editRequest));
+                    return new AddColumnGroupCommand(tableView, columnGroup, getColumnIndex(editRequest));
                 }
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD.equals(request.getType())) {
-                DirectEditRequest editRequest = (DirectEditRequest) request;
-
-                TableView table = (TableView) this.getHost().getModel();
-                Word word = (Word) editRequest.getDirectEditFeature();
-
-                return new AddWordCommand(table, word, this.getColumnIndex(editRequest));
-
+                final TableView table = (TableView) getHost().getModel();
+                final DirectEditRequest editRequest = (DirectEditRequest) request;
+                final Word word = (Word) editRequest.getDirectEditFeature();
+                return new AddWordCommand(table, word, getColumnIndex(editRequest));
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN.equals(request.getType())) {
-                DirectEditRequest editRequest = (DirectEditRequest) request;
-
-                return ColumnSelectionHandlesEditPolicy.createMoveColumnCommand(editRequest, this.getHost().getViewer(), (TableView) this
-                        .getHost().getModel(), this.getColumnIndex(editRequest));
-
+                final DirectEditRequest editRequest = (DirectEditRequest) request;
+                return ColumnSelectionHandlesEditPolicy.createMoveColumnCommand(
+                        editRequest, getHost().getViewer(), (TableView) getHost().getModel(), getColumnIndex(editRequest));
             } else if (ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN_GROUP.equals(request.getType())) {
-                DirectEditRequest editRequest = (DirectEditRequest) request;
-
-                return ColumnSelectionHandlesEditPolicy.createMoveColumnGroupCommand(editRequest, (TableView) this.getHost().getModel(),
-                        this.getColumnIndex(editRequest));
+                final DirectEditRequest editRequest = (DirectEditRequest) request;
+                return ColumnSelectionHandlesEditPolicy.createMoveColumnGroupCommand(
+                        editRequest, (TableView) getHost().getModel(), getColumnIndex(editRequest));
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
 
@@ -89,18 +77,15 @@ public class TableViewComponentEditPolicy extends DiagramWalkerComponentEditPoli
     }
 
     private int getColumnIndex(DirectEditRequest editRequest) {
-        ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-        double zoom = zoomManager.getZoom();
+        final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) getHost().getRoot()).getZoomManager();
+        final double zoom = zoomManager.getZoom();
 
-        IFigure figure = ((TableViewEditPart) this.getHost()).getFigure();
-
-        int center = (int) (figure.getBounds().y + (figure.getBounds().height / 2) * zoom);
+        final IFigure figure = ((TableViewEditPart) getHost()).getFigure();
+        final int center = (int) (figure.getBounds().y + (figure.getBounds().height / 2) * zoom);
 
         int index = 0;
-
         if (editRequest.getLocation().y >= center) {
-            TableView newTableView = (TableView) this.getHost().getModel();
-
+            final TableView newTableView = (TableView) getHost().getModel();
             index = newTableView.getColumns().size();
         }
 

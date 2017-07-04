@@ -26,48 +26,50 @@ public class TableViewGraphicalNodeEditPolicy extends DiagramWalkerGraphicalNode
 
     @Override
     public void showTargetFeedback(Request request) {
-        ERDiagram diagram = ERModelUtil.getDiagram(this.getHost().getRoot().getContents());
+        final ERDiagram diagram = ERModelUtil.getDiagram(getHost().getRoot().getContents());
 
         if (diagram.isTooltip()) {
-            ZoomManager zoomManager = ((ScalableFreeformRootEditPart) this.getHost().getRoot()).getZoomManager();
-            double zoom = zoomManager.getZoom();
+            final ZoomManager zoomManager = ((ScalableFreeformRootEditPart) getHost().getRoot()).getZoomManager();
+            final double zoom = zoomManager.getZoom();
 
-            TableView tableView = (TableView) this.getHost().getModel();
-            Rectangle tableBounds = this.getHostFigure().getBounds();
+            final TableView tableView = (TableView) getHost().getModel();
+            final Rectangle tableBounds = getHostFigure().getBounds();
 
-            String name = TableViewEditPart.getTableViewName(tableView, diagram);
+            final String name = TableViewEditPart.getTableViewName(tableView, diagram);
 
-            Label label = new Label();
+            final Label label = new Label();
             label.setText(name);
             label.setBorder(new SimpleRaisedBorder());
             label.setBackgroundColor(ColorConstants.orange);
             label.setOpaque(true);
 
-            Dimension dim = FigureUtilities.getTextExtents(name, Display.getCurrent().getSystemFont());
+            final Dimension dim = FigureUtilities.getTextExtents(name, Display.getCurrent().getSystemFont());
 
-            label.setBounds(new Rectangle((int) (zoom * (tableBounds.x + 33)), (int) (zoom * (tableBounds.y + 5)), (int) (dim.width * 1.5),
-                    20));
+            label.setBounds(new Rectangle(
+                    (int) (zoom * (tableBounds.x + 33)),
+                    (int) (zoom * (tableBounds.y + 5)),
+                    (int) (dim.width * 1.5), 20));
 
-            this.addFeedback(label);
+            addFeedback(label);
         }
         super.showTargetFeedback(request);
     }
 
     @Override
     public void eraseTargetFeedback(Request request) {
-        LayerManager manager = (LayerManager) this.getHost().getRoot();
-        IFigure layer = manager.getLayer(LayerConstants.PRIMARY_LAYER);
-        this.getFeedbackLayer().setBounds(layer.getBounds());
+        final LayerManager manager = (LayerManager) getHost().getRoot();
+        final IFigure layer = manager.getLayer(LayerConstants.PRIMARY_LAYER);
+        getFeedbackLayer().setBounds(layer.getBounds());
 
-        List list = this.getFeedbackLayer().getChildren();
+        final List<?> list = getFeedbackLayer().getChildren();
 
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Object obj = iter.next();
+        for (final Iterator<?> iter = list.iterator(); iter.hasNext();) {
+            final Object obj = iter.next();
             if (obj instanceof Label) {
                 iter.remove();
             }
         }
-        this.getFeedbackLayer().repaint();
+        getFeedbackLayer().repaint();
 
         super.eraseTargetFeedback(request);
     }

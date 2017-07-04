@@ -14,6 +14,7 @@ import org.eclipse.gef.EditPart;
 
 public class DictionaryOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(Dictionary.PROPERTY_CHANGE_DICTIONARY)) {
             refresh();
@@ -21,8 +22,8 @@ public class DictionaryOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     @Override
-    protected List getModelChildren() {
-        return new ArrayList<Word>();
+    protected List<Word> getModelChildren() {
+        return new ArrayList<>();
         //		Dictionary dictionary = (Dictionary) this.getModel();
         //		List<Word> list = dictionary.getWordList();
         //
@@ -40,16 +41,16 @@ public class DictionaryOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(DisplayMessages.getMessage("label.dictionary") + " (" + this.getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText(DisplayMessages.getMessage("label.dictionary") + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
 
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }

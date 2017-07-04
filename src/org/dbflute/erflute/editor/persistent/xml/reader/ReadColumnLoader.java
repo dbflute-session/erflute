@@ -44,7 +44,7 @@ public class ReadColumnLoader {
     //                                                                              Column
     //                                                                              ======
     public List<ERColumn> loadColumns(Element parent, LoadContext context, String database, ColumnIdBuilder builder) {
-        final List<ERColumn> columns = new ArrayList<ERColumn>();
+        final List<ERColumn> columns = new ArrayList<>();
         final Element element = getElement(parent, "columns");
         final NodeList groupList = element.getChildNodes();
         for (int i = 0; i < groupList.getLength(); i++) {

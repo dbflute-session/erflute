@@ -32,8 +32,8 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
         relationship.setSourceWalker(sourceTable);
         ERDiagramEditPart.setUpdateable(true);
         relationship.setTargetTableView(targetTable, foreignKeyColumnList);
-        if (relationship.getWalkerSource() instanceof ERTable || relationship.getWalkerTarget() instanceof ERTable) {
-            final ERVirtualDiagramSet vdiagramSet = relationship.getWalkerSource().getDiagram().getDiagramContents().getVirtualDiagramSet();
+        if (relationship.getSourceWalker() instanceof ERTable || relationship.getTargetWalker() instanceof ERTable) {
+            final ERVirtualDiagramSet vdiagramSet = relationship.getSourceWalker().getDiagram().getDiagramContents().getVirtualDiagramSet();
             vdiagramSet.createRelationship(relationship);
         }
         final String foreignKeyName = provideDefaultForeignKeyName(sourceTable, targetTable);

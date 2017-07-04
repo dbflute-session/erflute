@@ -54,7 +54,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     //                                                                         Constructor
     //                                                                         ===========
     public TableView() {
-        this.columns = new ArrayList<ERColumn>();
+        this.columns = new ArrayList<>();
     }
 
     // ===================================================================================
@@ -77,7 +77,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     //                                                                              Column
     //                                                                              ======
     public List<NormalColumn> getNormalColumns() {
-        final List<NormalColumn> normalColumns = new ArrayList<NormalColumn>();
+        final List<NormalColumn> normalColumns = new ArrayList<>();
         for (final ERColumn column : columns) {
             if (column instanceof NormalColumn) {
                 normalColumns.add((NormalColumn) column);
@@ -87,7 +87,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public List<NormalColumn> getExpandedColumns() {
-        final List<NormalColumn> expandedColumns = new ArrayList<NormalColumn>();
+        final List<NormalColumn> expandedColumns = new ArrayList<>();
         for (final ERColumn column : this.getColumns()) {
             if (column instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) column;
@@ -105,19 +105,19 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public void addColumn(ERColumn column) {
-        this.columns.add(column);
+        this.getColumns().add(column);
         column.setColumnHolder(this);
         this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
     public void addColumn(int index, ERColumn column) {
-        this.columns.add(index, column);
+        this.getColumns().add(index, column);
         column.setColumnHolder(this);
         this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
     public void removeColumn(ERColumn column) {
-        this.columns.remove(column);
+        this.getColumns().remove(column);
         this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
@@ -139,7 +139,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
         to.setPhysicalName(getPhysicalName());
         to.setLogicalName(getLogicalName());
         to.setDescription(getDescription());
-        final List<ERColumn> columns = new ArrayList<ERColumn>();
+        final List<ERColumn> columns = new ArrayList<>();
         for (final ERColumn fromColumn : getColumns()) {
             if (fromColumn instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) fromColumn;
@@ -174,9 +174,13 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
         for (final NormalColumn toColumn : to.getNormalColumns()) {
             dictionary.remove(toColumn);
         }
-        final List<ERColumn> columns = new ArrayList<ERColumn>();
-        final List<NormalColumn> newPrimaryKeyColumns = new ArrayList<NormalColumn>();
+        final List<ERColumn> columns = new ArrayList<>();
+        final List<NormalColumn> newPrimaryKeyColumns = new ArrayList<>();
         for (final ERColumn fromColumn : getColumns()) {
+            if (columns.stream().anyMatch(c -> c.same(fromColumn))) {
+                // 同一テーブル同一カラムだった場合、無視する。
+                continue;
+            }
             if (fromColumn instanceof NormalColumn) {
                 final CopyColumn copyColumn = (CopyColumn) fromColumn;
                 CopyWord copyWord = copyColumn.getWord();
@@ -257,7 +261,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public List<Relationship> getIncomingRelationshipList() {
-        final List<Relationship> relations = new ArrayList<Relationship>();
+        final List<Relationship> relations = new ArrayList<>();
         for (final WalkerConnection connection : getIncomings()) {
             if (connection instanceof Relationship) {
                 relations.add((Relationship) connection);
@@ -267,7 +271,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public List<Relationship> getOutgoingRelationshipList() {
-        final List<Relationship> relations = new ArrayList<Relationship>();
+        final List<Relationship> relations = new ArrayList<>();
         for (final WalkerConnection connection : getOutgoings()) {
             if (connection instanceof Relationship) {
                 relations.add((Relationship) connection);
@@ -454,5 +458,14 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
 
     public TableViewProperties getTableViewProperties() {
         return tableViewProperties;
+    }
+
+    public void changeTableViewProperty(final TableView sourceTableView) {
+        // メインビューを更新
+        sourceTableView.restructureData(this);
+        this.getDiagram().changeTable(sourceTableView);
+
+        // サブビューも更新
+        this.getDiagram().doChangeTable(sourceTableView);
     }
 }

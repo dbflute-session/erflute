@@ -21,17 +21,17 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
 
     @Override
     protected Command getCreateBendpointCommand(BendpointRequest bendpointrequest) {
-        AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) this.getHost();
-        WalkerConnection connection = (WalkerConnection) connectionEditPart.getModel();
+        final AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) getHost();
+        final WalkerConnection connection = (WalkerConnection) connectionEditPart.getModel();
 
-        if (connection.getWalkerSource() == connection.getWalkerTarget()) {
+        if (connection.getSourceWalker() == connection.getTargetWalker()) {
             return null;
         }
 
-        Point point = bendpointrequest.getLocation();
-        this.getConnection().translateToRelative(point);
+        final Point point = bendpointrequest.getLocation();
+        getConnection().translateToRelative(point);
 
-        CreateBendpointCommand createBendpointCommand =
+        final CreateBendpointCommand createBendpointCommand =
                 new CreateBendpointCommand(connection, point.x, point.y, bendpointrequest.getIndex());
 
         return createBendpointCommand;
@@ -39,43 +39,43 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
 
     @Override
     protected Command getDeleteBendpointCommand(BendpointRequest bendpointrequest) {
-        WalkerConnection connection = (WalkerConnection) getHost().getModel();
+        final WalkerConnection connection = (WalkerConnection) getHost().getModel();
 
-        if (connection.getWalkerSource() == connection.getWalkerTarget()) {
+        if (connection.getSourceWalker() == connection.getTargetWalker()) {
             return null;
         }
 
-        DeleteBendpointCommand command = new DeleteBendpointCommand(connection, bendpointrequest.getIndex());
+        final DeleteBendpointCommand command = new DeleteBendpointCommand(connection, bendpointrequest.getIndex());
 
         return command;
     }
 
     @Override
     protected Command getMoveBendpointCommand(BendpointRequest bendpointrequest) {
-        ConnectionEditPart editPart = (ConnectionEditPart) this.getHost();
+        final ConnectionEditPart editPart = (ConnectionEditPart) getHost();
 
-        Point point = bendpointrequest.getLocation();
-        this.getConnection().translateToRelative(point);
+        final Point point = bendpointrequest.getLocation();
+        getConnection().translateToRelative(point);
 
-        MoveBendpointCommand command = new MoveBendpointCommand(editPart, point.x, point.y, bendpointrequest.getIndex());
+        final MoveBendpointCommand command = new MoveBendpointCommand(editPart, point.x, point.y, bendpointrequest.getIndex());
 
         return command;
     }
 
     @Override
-    protected List createSelectionHandles() {
-        this.showSelectedLine();
+    protected List<?> createSelectionHandles() {
+        showSelectedLine();
         return super.createSelectionHandles();
     }
 
     @Override
     protected void showSelection() {
-        EditPart contents = this.getHost().getRoot().getContents();
+        final EditPart contents = getHost().getRoot().getContents();
         if (contents instanceof ERVirtualDiagramEditPart) {
-            ERVirtualDiagramEditPart part = (ERVirtualDiagramEditPart) contents;
+            final ERVirtualDiagramEditPart part = (ERVirtualDiagramEditPart) contents;
             part.refreshVisuals();
         } else {
-            ERDiagramEditPart diagramEditPart = (ERDiagramEditPart) contents;
+            final ERDiagramEditPart diagramEditPart = (ERDiagramEditPart) contents;
             diagramEditPart.refreshVisuals();
         }
 
@@ -83,13 +83,13 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
     }
 
     protected void showSelectedLine() {
-        ERDiagramConnection connection = (ERDiagramConnection) this.getHostFigure();
+        final ERDiagramConnection connection = (ERDiagramConnection) getHostFigure();
         connection.setSelected(true);
     }
 
     @Override
     protected void removeSelectionHandles() {
-        ERDiagramConnection connection = (ERDiagramConnection) this.getHostFigure();
+        final ERDiagramConnection connection = (ERDiagramConnection) getHostFigure();
         connection.setSelected(false);
 
         super.removeSelectionHandles();

@@ -24,61 +24,61 @@ public class NewDiagramWizardPage1 extends WizardNewFileCreationPage {
 
     public NewDiagramWizardPage1(IStructuredSelection selection) {
         super(DisplayMessages.getMessage("wizard.new.diagram.title"), selection);
-        this.setTitle(DisplayMessages.getMessage("wizard.new.diagram.title"));
+        setTitle(DisplayMessages.getMessage("wizard.new.diagram.title"));
     }
 
     @Override
     public void createControl(Composite parent) {
         super.createControl(parent);
-        this.setFileName("newfile");
+        setFileName("newfile");
     }
 
     @Override
     protected boolean validatePage() {
         boolean valid = super.validatePage();
         if (valid) {
-            final String fileName = this.getFileName();
+            final String fileName = getFileName();
             if (fileName.indexOf(".") != -1 && !fileName.endsWith(EXTENSION)) {
-                this.setErrorMessage(DisplayMessages.getMessage("error.erm.extension"));
+                setErrorMessage(DisplayMessages.getMessage("error.erm.extension"));
                 valid = false;
             }
         }
         if (valid) {
-            String fileName = this.getFileName();
+            String fileName = getFileName();
             if (fileName.indexOf(".") == -1) {
                 fileName = fileName + EXTENSION;
             }
             final IWorkspace workspace = ResourcesPlugin.getWorkspace();
             final IWorkspaceRoot root = workspace.getRoot();
-            final IPath containerPath = this.getContainerFullPath();
+            final IPath containerPath = getContainerFullPath();
             final IPath newFilePath = containerPath.append(fileName);
             if (root.getFile(newFilePath).exists()) {
-                this.setErrorMessage("'" + fileName + "' " + DisplayMessages.getMessage("error.file.already.exists"));
+                setErrorMessage("'" + fileName + "' " + DisplayMessages.getMessage("error.file.already.exists"));
                 valid = false;
             }
         }
         if (valid) {
-            this.setMessage(DisplayMessages.getMessage("wizard.new.diagram.message"));
+            setMessage(DisplayMessages.getMessage("wizard.new.diagram.message"));
         }
         return valid;
     }
 
     public void createERDiagram(String database) {
         this.diagram = new ERDiagram(database);
-        this.diagram.init();
+        diagram.init();
     }
 
     @Override
     protected InputStream getInitialContents() {
         final Persistent persistent = Persistent.getInstance();
-        return persistent.write(this.diagram);
+        return persistent.write(diagram);
     }
 
     @Override
     public IFile createNewFile() {
-        final String fileName = this.getFileName();
+        final String fileName = getFileName();
         if (fileName.indexOf(".") == -1) {
-            this.setFileName(fileName + EXTENSION);
+            setFileName(fileName + EXTENSION);
         }
         return super.createNewFile();
     }

@@ -8,9 +8,10 @@ public abstract class AbstractCommand extends Command {
     @Override
     final public void execute() {
         try {
+            Activator.debug(this, "doExecute", "Before");
             doExecute();
-
-        } catch (Exception e) {
+            Activator.debug(this, "doExecute", "After");
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }
@@ -19,7 +20,7 @@ public abstract class AbstractCommand extends Command {
     final public void undo() {
         try {
             doUndo();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }

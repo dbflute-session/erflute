@@ -54,7 +54,7 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
 
     @Override
     protected List<Object> getModelChildren() {
-        final List<Object> modelChildren = new ArrayList<Object>();
+        final List<Object> modelChildren = new ArrayList<>();
         final TableView tableView = (TableView) getModel();
         final ERDiagram diagram = getDiagram();
         if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {
@@ -84,7 +84,7 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
     }
 
     protected List<WalkerConnection> filterConnections(final List<WalkerConnection> connections) {
-        final List<WalkerConnection> filteredList = new ArrayList<WalkerConnection>();
+        final List<WalkerConnection> filteredList = new ArrayList<>();
         for (final WalkerConnection connection : connections) { // #for_erflute
             if (!isVirtualDiagram() && connection.isVirtualDiagramOnly()) { // e.g. note
                 continue;
@@ -105,32 +105,32 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         } else if (event.getPropertyName().equals(TableView.PROPERTY_CHANGE_LOGICAL_NAME)) {
             refreshVisuals();
         } else if (event.getPropertyName().equals(TableView.PROPERTY_CHANGE_COLUMNS)) {
-            this.refreshChildren();
+            refreshChildren();
             refreshVisuals();
         }
         super.doPropertyChange(event);
-        this.refreshConnections();
+        refreshConnections();
     }
 
     @Override
     public void refresh() {
         super.refresh();
-        this.refreshConnections();
+        refreshConnections();
     }
 
     @Override
     public void refreshVisuals() {
         try {
-            final TableFigure tableFigure = (TableFigure) this.getFigure();
-            final TableView tableView = (TableView) this.getModel();
+            final TableFigure tableFigure = (TableFigure) getFigure();
+            final TableView tableView = (TableView) getModel();
             tableFigure.create(tableView.getColor());
-            final ERDiagram diagram = this.getDiagram();
+            final ERDiagram diagram = getDiagram();
             tableFigure.setName(getTableViewName(tableView, diagram));
-            final List childrens = this.getChildren();
+            final List<?> childrens = getChildren();
             if (childrens == null || childrens.isEmpty()) {
                 refreshChildren();
             }
-            for (final Object child : this.getChildren()) {
+            for (final Object child : getChildren()) {
                 if (child instanceof ColumnEditPart) {
                     final ColumnEditPart part = (ColumnEditPart) child;
                     part.refreshTableColumns();
@@ -146,7 +146,7 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
             }
             super.refreshVisuals();
             if (ERDiagramEditPart.isUpdateable()) {
-                this.getFigure().getUpdateManager().performValidation();
+                getFigure().getUpdateManager().performValidation();
             }
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
@@ -161,14 +161,15 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
                 if (diagram.getDiagramContents().getSettings().isNotationExpandGroup()) {
                     final ColumnGroup columnGroup = (ColumnGroup) removedColumn;
                     for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-                        if (notationLevel == DiagramSettings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
+                        if (notationLevel == DiagramSettings.NOTATION_LEVLE_KEY && !normalColumn.isPrimaryKey()
+                                && !normalColumn.isForeignKey()
                                 && !normalColumn.isReferedStrictly()) {
                             continue;
                         }
                         final NormalColumnFigure columnFigure = new NormalColumnFigure();
                         tableFigure.getColumns().add(columnFigure);
-                        NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, false, false, false,
-                                false, isRemoved);
+                        NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure,
+                                columnFigure, normalColumn, false, false, false, false, isRemoved);
                     }
                 } else {
                     if ((notationLevel == DiagramSettings.NOTATION_LEVLE_KEY)) {
@@ -186,50 +187,44 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
                 }
                 final NormalColumnFigure columnFigure = new NormalColumnFigure();
                 tableFigure.getColumns().add(columnFigure);
-                NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, false, false, false, false,
-                        isRemoved);
+                NormalColumnEditPart.addColumnFigure(diagram, table, tableFigure,
+                        columnFigure, normalColumn, false, false, false, false, isRemoved);
             }
         }
     }
 
     @Override
     public void changeSettings(DiagramSettings settings) {
-        final TableFigure figure = (TableFigure) this.getFigure();
+        final TableFigure figure = (TableFigure) getFigure();
         figure.setSettings(settings);
         super.changeSettings(settings);
     }
 
     @Override
     protected void disposeFont() {
-        if (this.titleFont != null) {
-            this.titleFont.dispose();
+        if (titleFont != null) {
+            titleFont.dispose();
         }
         super.disposeFont();
     }
 
     protected Font changeFont(TableFigure tableFigure) {
         final Font font = super.changeFont(tableFigure);
-
         final FontData fonData = font.getFontData()[0];
-
         this.titleFont = new Font(Display.getCurrent(), fonData.getName(), fonData.getHeight(), SWT.BOLD);
 
-        tableFigure.setFont(font, this.titleFont);
+        tableFigure.setFont(font, titleFont);
 
         return font;
     }
 
     public static String getTableViewName(TableView tableView, ERDiagram diagram) {
-        String name = null;
-
         final int viewMode = diagram.getDiagramContents().getSettings().getViewMode();
-
+        String name = null;
         if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             name = diagram.filter(tableView.getPhysicalName());
-
         } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             name = diagram.filter(tableView.getLogicalName());
-
         } else {
             name = diagram.filter(tableView.getLogicalName()) + " / " + diagram.filter(tableView.getPhysicalName());
         }
@@ -244,14 +239,11 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         }
 
         final Relationship relation = (Relationship) editPart.getModel();
-
-        final Rectangle bounds = this.getFigure().getBounds();
-
-        final XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
-
+        final Rectangle bounds = getFigure().getBounds();
+        final XYChopboxAnchor anchor = new XYChopboxAnchor(getFigure());
         if (relation.getSourceXp() != -1 && relation.getSourceYp() != -1) {
-            anchor.setLocation(new Point(bounds.x + (bounds.width * relation.getSourceXp() / 100), bounds.y
-                    + (bounds.height * relation.getSourceYp() / 100)));
+            anchor.setLocation(new Point(bounds.x + (bounds.width * relation.getSourceXp() / 100),
+                    bounds.y + (bounds.height * relation.getSourceYp() / 100)));
         }
 
         return anchor;
@@ -261,53 +253,45 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
     public ConnectionAnchor getSourceConnectionAnchor(Request request) {
         if (request instanceof ReconnectRequest) {
             final ReconnectRequest reconnectRequest = (ReconnectRequest) request;
-
             final ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();
-
             if (!(connectionEditPart instanceof RelationEditPart)) {
                 return super.getSourceConnectionAnchor(request);
             }
 
             final Relationship relation = (Relationship) connectionEditPart.getModel();
-            if (relation.getWalkerSource() == relation.getWalkerTarget()) {
-                return new XYChopboxAnchor(this.getFigure());
+            if (relation.getSourceWalker() == relation.getTargetWalker()) {
+                return new XYChopboxAnchor(getFigure());
             }
 
             final EditPart editPart = reconnectRequest.getTarget();
-
-            if (editPart == null || !editPart.getModel().equals(relation.getWalkerSource())) {
-                return new XYChopboxAnchor(this.getFigure());
+            if (editPart == null || !editPart.getModel().equals(relation.getSourceWalker())) {
+                return new XYChopboxAnchor(getFigure());
             }
 
             final Point location = new Point(reconnectRequest.getLocation());
-            this.getFigure().translateToRelative(location);
+            getFigure().translateToRelative(location);
+
             final IFigure sourceFigure = ((TableViewEditPart) connectionEditPart.getSource()).getFigure();
-
-            final XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
-
             final Rectangle bounds = sourceFigure.getBounds();
-
             final Rectangle centerRectangle =
                     new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
 
+            final XYChopboxAnchor anchor = new XYChopboxAnchor(getFigure());
             if (!centerRectangle.contains(location)) {
                 final Point point = getIntersectionPoint(location, sourceFigure);
                 anchor.setLocation(point);
             }
 
             return anchor;
-
         } else if (request instanceof CreateConnectionRequest) {
             final CreateConnectionRequest connectionRequest = (CreateConnectionRequest) request;
-
             final Command command = connectionRequest.getStartCommand();
-
             if (command instanceof CreateCommentConnectionCommand) {
                 return super.getTargetConnectionAnchor(request);
             }
         }
 
-        return new XYChopboxAnchor(this.getFigure());
+        return new XYChopboxAnchor(getFigure());
     }
 
     @Override
@@ -317,14 +301,11 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         }
 
         final Relationship relation = (Relationship) editPart.getModel();
-
-        final XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
-
-        final Rectangle bounds = this.getFigure().getBounds();
-
+        final XYChopboxAnchor anchor = new XYChopboxAnchor(getFigure());
+        final Rectangle bounds = getFigure().getBounds();
         if (relation.getTargetXp() != -1 && relation.getTargetYp() != -1) {
-            anchor.setLocation(new Point(bounds.x + (bounds.width * relation.getTargetXp() / 100), bounds.y
-                    + (bounds.height * relation.getTargetYp() / 100)));
+            anchor.setLocation(new Point(bounds.x + (bounds.width * relation.getTargetXp() / 100),
+                    bounds.y + (bounds.height * relation.getTargetYp() / 100)));
         }
 
         return anchor;
@@ -334,61 +315,52 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
         if (request instanceof ReconnectRequest) {
             final ReconnectRequest reconnectRequest = (ReconnectRequest) request;
-
             final ConnectionEditPart connectionEditPart = reconnectRequest.getConnectionEditPart();
-
             if (!(connectionEditPart instanceof RelationEditPart)) {
                 return super.getTargetConnectionAnchor(request);
             }
 
             final Relationship relation = (Relationship) connectionEditPart.getModel();
-            if (relation.getWalkerSource() == relation.getWalkerTarget()) {
-                return new XYChopboxAnchor(this.getFigure());
+            if (relation.getSourceWalker() == relation.getTargetWalker()) {
+                return new XYChopboxAnchor(getFigure());
             }
 
             final EditPart editPart = reconnectRequest.getTarget();
-
-            if (editPart == null || !editPart.getModel().equals(relation.getWalkerTarget())) {
-                return new XYChopboxAnchor(this.getFigure());
+            if (editPart == null || !editPart.getModel().equals(relation.getTargetWalker())) {
+                return new XYChopboxAnchor(getFigure());
             }
 
             final Point location = new Point(reconnectRequest.getLocation());
-            this.getFigure().translateToRelative(location);
+            getFigure().translateToRelative(location);
+
             final IFigure targetFigure = ((TableViewEditPart) connectionEditPart.getTarget()).getFigure();
-
-            final XYChopboxAnchor anchor = new XYChopboxAnchor(this.getFigure());
-
             final Rectangle bounds = targetFigure.getBounds();
-
             final Rectangle centerRectangle =
                     new Rectangle(bounds.x + (bounds.width / 4), bounds.y + (bounds.height / 4), bounds.width / 2, bounds.height / 2);
-
+            final XYChopboxAnchor anchor = new XYChopboxAnchor(getFigure());
             if (!centerRectangle.contains(location)) {
                 final Point point = getIntersectionPoint(location, targetFigure);
                 anchor.setLocation(point);
             }
 
             return anchor;
-
         } else if (request instanceof CreateConnectionRequest) {
             final CreateConnectionRequest connectionRequest = (CreateConnectionRequest) request;
-
             final Command command = connectionRequest.getStartCommand();
-
             if (command instanceof CreateCommentConnectionCommand) {
                 return super.getTargetConnectionAnchor(request);
             }
         }
 
-        return new XYChopboxAnchor(this.getFigure());
+        return new XYChopboxAnchor(getFigure());
     }
 
     public static Point getIntersectionPoint(Point s, IFigure figure) {
-
         final Rectangle r = figure.getBounds();
 
         final int x1 = s.x - r.x;
         final int x2 = r.x + r.width - s.x;
+
         final int y1 = s.y - r.y;
         final int y2 = r.y + r.height - s.y;
 
@@ -397,7 +369,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
         if (x1 < x2) {
             x = r.x;
             dx = x1;
-
         } else {
             x = r.x + r.width;
             dx = x2;
@@ -405,11 +376,9 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
 
         int y = 0;
         int dy = 0;
-
         if (y1 < y2) {
             y = r.y;
             dy = y1;
-
         } else {
             y = r.y + r.height;
             dy = y2;
@@ -427,13 +396,12 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
     @Override
     public IFigure getContentPane() {
         final TableFigure figure = (TableFigure) super.getContentPane();
-
         return figure.getColumns();
     }
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new TableViewComponentEditPolicy());
-        this.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TableViewGraphicalNodeEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new TableViewComponentEditPolicy());
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new TableViewGraphicalNodeEditPolicy());
     }
 }

@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(SequenceSet.PROPERTY_CHANGE_SEQUENCE_SET)) {
             refresh();
@@ -25,10 +26,10 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     @Override
-    protected List getModelChildren() {
-        SequenceSet sequenceSet = (SequenceSet) this.getModel();
+    protected List<Sequence> getModelChildren() {
+        final SequenceSet sequenceSet = (SequenceSet) getModel();
 
-        List<Sequence> sequenceList = sequenceSet.getSequenceList();
+        final List<Sequence> sequenceList = sequenceSet.getSequenceList();
 
         Collections.sort(sequenceList);
 
@@ -37,7 +38,7 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        if (!DBManagerFactory.getDBManager(this.getDiagram()).isSupported(DBManager.SUPPORT_SEQUENCE)) {
+        if (!DBManagerFactory.getDBManager(getDiagram()).isSupported(DBManager.SUPPORT_SEQUENCE)) {
             ((TreeItem) getWidget()).setForeground(ColorConstants.lightGray);
 
         } else {
@@ -45,16 +46,16 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
 
         }
 
-        this.setWidgetText(DisplayMessages.getMessage("label.sequence") + " (" + this.getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText(DisplayMessages.getMessage("label.sequence") + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
 
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }

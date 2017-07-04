@@ -1,16 +1,21 @@
 package org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -20,6 +25,7 @@ public class ERVirtualDiagram extends DiagramWalker {
 
     private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_VTABLES = "vtables";
+    public static final String REMOVE_VWALKER = "remove_vwalker";
 
     private int[] defaultColor;
     private String name;
@@ -27,17 +33,37 @@ public class ERVirtualDiagram extends DiagramWalker {
     private List<ERVirtualTable> tables;
     private List<WalkerNote> notes;
     private List<WalkerGroup> groups;
+    private Point mousePoint = new Point();
 
     public ERVirtualDiagram(ERDiagram diagram) {
         setDiagram(diagram);
-        tables = new ArrayList<ERVirtualTable>();
-        notes = new ArrayList<WalkerNote>();
-        groups = new ArrayList<WalkerGroup>();
+        tables = new ArrayList<>();
+        notes = new ArrayList<>();
+        groups = new ArrayList<>();
     }
 
     @Override
     public String getObjectType() {
         return "virtual_diagram";
+    }
+
+    public boolean contains(Object... models) {
+        return Arrays.stream(models).allMatch(m -> contains(m));
+    }
+
+    public boolean contains(Object model) {
+        final List<DiagramWalker> walkers = new ArrayList<>(tables);
+        walkers.addAll(notes);
+        walkers.addAll(groups);
+        return walkers.stream().anyMatch(w -> w.toMaterialize().equals(convertToMaterializedIfCan(model)));
+    }
+
+    private static Object convertToMaterializedIfCan(Object model) {
+        if (model instanceof DiagramWalker) {
+            return ((DiagramWalker) model).toMaterialize();
+        } else {
+            return model;
+        }
     }
 
     public boolean containsTable(ERTable table) {
@@ -49,17 +75,8 @@ public class ERVirtualDiagram extends DiagramWalker {
         return false;
     }
 
-    public void remove(ERVirtualTable element) {
-        tables.remove(element);
-        firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-    }
-
     public void changeAll() {
         firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-    }
-
-    public void addTable(ERVirtualTable virtualTable) {
-        tables.add(virtualTable);
     }
 
     public int[] getDefaultColor() {
@@ -74,12 +91,13 @@ public class ERVirtualDiagram extends DiagramWalker {
     }
 
     public ERVirtualTable findVirtualTable(TableView table) {
+        ERVirtualTable ret = null;
         for (final ERVirtualTable vtable : tables) {
-            if (vtable.getRawTable().getPhysicalName().equals(table.getPhysicalName())) {
-                return vtable;
+            if (vtable.getRawTable().equals(table)) {
+                ret = vtable;
             }
         }
-        return null;
+        return ret;
     }
 
     public void deleteRelationship(Relationship relation) {
@@ -108,56 +126,50 @@ public class ERVirtualDiagram extends DiagramWalker {
         return false;
     }
 
-    public void addNewWalker(DiagramWalker element) {
-        if (element instanceof WalkerNote) {
-            ((WalkerNote) element).setVirtualDiagram(this);
-        } else if (element instanceof WalkerGroup) {
-            ((WalkerGroup) element).setVirtualDiagram(this);
-        } else {
-            getDiagram().addWalkerPlainly(element);
+    public void addWalkerPlainly(DiagramWalker walker) {
+        if (walker == null) {
+            return;
         }
-        int[] color = defaultColor;
 
-        if (element instanceof WalkerNote) {
-            element.setColor(DesignResources.NOTE_DEFAULT_COLOR);
-        } else {
-            if (color == null) {
-                color = getDiagram().getDefaultColor();
+        if (walker instanceof WalkerNote) {
+            final WalkerNote note = (WalkerNote) walker;
+            notes.add(note);
+            note.setVirtualDiagram(this);
+            firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+        } else if (walker instanceof WalkerGroup) {
+            final WalkerGroup group = (WalkerGroup) walker;
+            groups.add(group);
+            group.setVirtualDiagram(this);
+            firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+        } else if (walker instanceof ERTable) {
+            ERVirtualTable virtualTable;
+            if (walker instanceof ERVirtualTable) {
+                virtualTable = (ERVirtualTable) walker;
+            } else {
+                virtualTable = new ERVirtualTable(this, (ERTable) walker);
+                virtualTable.setLocation(new Location(walker.getX(), walker.getY(), walker.getWidth(), walker.getHeight()));
+                walker.setLocation(new Location(0, 0, walker.getWidth(), walker.getHeight())); // メインダイアグラム上では左上に配置
             }
-            element.setColor(color[0], color[1], color[2]);
-        }
-        if (getFontName() != null) {
-            element.setFontName(getFontName());
-        } else {
-            element.setFontName(getDiagram().getFontName());
-        }
-        if (getFontSize() != 0) {
-            element.setFontSize(this.getFontSize());
-        } else {
-            element.setFontSize(getDiagram().getFontSize());
-        }
-        if (element instanceof WalkerNote) {
-            notes.add((WalkerNote) element);
-            firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-        } else if (element instanceof WalkerGroup) {
-            groups.add(((WalkerGroup) element));
+            tables.add(virtualTable);
             firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
         }
     }
 
-    public void addWalkerGroup(WalkerGroup group) {
-        groups.add(group);
-        firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-    }
+    public void removeWalker(DiagramWalker walker) {
+        if (walker == null) {
+            return;
+        }
 
-    public void remove(WalkerGroup element) {
-        groups.remove(element);
-        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
-    }
-
-    public void remove(WalkerNote element) {
-        notes.remove(element);
-        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+        if (walker instanceof WalkerNote) {
+            notes.remove(walker);
+            firePropertyChange(REMOVE_VWALKER, null, null);
+        } else if (walker instanceof WalkerGroup) {
+            groups.remove(walker);
+            firePropertyChange(REMOVE_VWALKER, null, null);
+        } else if (walker instanceof ERVirtualTable) {
+            tables.remove(walker);
+            firePropertyChange(REMOVE_VWALKER, null, null);
+        }
     }
 
     @Override
@@ -226,6 +238,20 @@ public class ERVirtualDiagram extends DiagramWalker {
 
     public void setWalkerGroups(List<WalkerGroup> groups) {
         this.groups = groups;
-        this.firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+        firePropertyChange(PROPERTY_CHANGE_VTABLES, null, null);
+    }
+
+    public Set<ERVirtualTable> getVirtualTableSet() {
+        final TreeSet<ERVirtualTable> set = new TreeSet<>(Comparator.comparing(o -> o.getRawTable()));
+        set.addAll(getVirtualTables());
+        return set;
+    }
+
+    public Point getMousePoint() {
+        return mousePoint;
+    }
+
+    public void setMousePoint(Point mousePoint) {
+        this.mousePoint = mousePoint;
     }
 }

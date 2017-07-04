@@ -24,21 +24,21 @@ public class PostgresAdvancedComposite extends AdvancedComposite {
         gridData.horizontalSpan = 2;
 
         this.withoutOIDs = new Button(this, SWT.CHECK);
-        this.withoutOIDs.setText(DisplayMessages.getMessage("label.without.oids"));
-        this.withoutOIDs.setLayoutData(gridData);
+        withoutOIDs.setText(DisplayMessages.getMessage("label.without.oids"));
+        withoutOIDs.setLayoutData(gridData);
     }
 
     @Override
     protected void setData() {
         super.setData();
 
-        this.withoutOIDs.setSelection(((PostgresTableProperties) this.tableProperties).isWithoutOIDs());
+        withoutOIDs.setSelection(((PostgresTableProperties) tableProperties).isWithoutOIDs());
     }
 
     @Override
     public void validate() throws InputException {
         super.validate();
 
-        ((PostgresTableProperties) this.tableProperties).setWithoutOIDs(this.withoutOIDs.getSelection());
+        ((PostgresTableProperties) tableProperties).setWithoutOIDs(withoutOIDs.getSelection());
     }
 }

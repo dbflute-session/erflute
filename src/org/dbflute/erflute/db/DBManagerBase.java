@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.editor.model.settings.JDBCDriverSetting;
 import org.dbflute.erflute.preference.PreferenceInitializer;
 import org.dbflute.erflute.preference.jdbc.JDBCPathDialog;
@@ -31,13 +32,13 @@ public abstract class DBManagerBase implements DBManager {
 
     public DBManagerBase() {
         DBManagerFactory.addDB(this);
-        this.reservedWords = this.getReservedWords();
+        this.reservedWords = getReservedWords();
     }
 
     @Override
     public String getURL(String serverName, String dbName, int port) {
         String temp = serverName.replaceAll("\\\\", "\\\\\\\\");
-        String url = this.getURL().replaceAll("<SERVER NAME>", temp);
+        String url = getURL().replaceAll("<SERVER NAME>", temp);
         url = url.replaceAll("<PORT>", String.valueOf(port));
         temp = dbName.replaceAll("\\\\", "\\\\\\\\");
         url = url.replaceAll("<DB NAME>", temp);
@@ -53,25 +54,31 @@ public abstract class DBManagerBase implements DBManager {
                 final Class<Driver> clazz = (Class<Driver>) Class.forName(driverClassName);
                 return clazz;
             } catch (final ClassNotFoundException e) {
-                path = PreferenceInitializer.getJDBCDriverPath(this.getId(), driverClassName);
-                final ClassLoader loader = this.getClassLoader(path);
+                path = PreferenceInitializer.getJDBCDriverPath(getId(), driverClassName);
+                if (Check.isEmpty(path)) {
+                    throw new IllegalStateException(
+                            String.format("JDBC Driver Class \"%s\" is not found.\rIs \"Preferences> ERFlute> JDBC Driver\" set correctly?",
+                                    driverClassName));
+                }
+                final ClassLoader loader = getClassLoader(path);
                 @SuppressWarnings("unchecked")
                 final Class<Driver> clazz = (Class<Driver>) loader.loadClass(driverClassName);
                 return clazz;
             }
         } catch (final MalformedURLException | ClassNotFoundException e) {
-            final JDBCPathDialog dialog = new JDBCPathDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getId(),
-                    driverClassName, path, new ArrayList<JDBCDriverSetting>(), false);
+            final JDBCPathDialog dialog = new JDBCPathDialog(
+                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                    getId(), driverClassName, path, new ArrayList<JDBCDriverSetting>(), false);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 final JDBCDriverSetting newDriverSetting =
-                        new JDBCDriverSetting(this.getId(), dialog.getDriverClassName(), dialog.getPath());
+                        new JDBCDriverSetting(getId(), dialog.getDriverClassName(), dialog.getPath());
                 final List<JDBCDriverSetting> driverSettingList = PreferenceInitializer.getJDBCDriverSettingList();
                 if (driverSettingList.contains(newDriverSetting)) {
                     driverSettingList.remove(newDriverSetting);
                 }
                 driverSettingList.add(newDriverSetting);
                 PreferenceInitializer.saveJDBCDriverSettingList(driverSettingList);
-                return this.getDriverClass(dialog.getDriverClassName());
+                return getDriverClass(dialog.getDriverClassName());
             }
         }
         return null;
@@ -84,7 +91,7 @@ public abstract class DBManagerBase implements DBManager {
         for (int i = 0; i < urls.length; i++) {
             urls[i] = new URL("file", "", tokenizer.nextToken());
         }
-        return new URLClassLoader(urls, this.getClass().getClassLoader());
+        return new URLClassLoader(urls, getClass().getClassLoader());
     }
 
     protected abstract String getURL();
@@ -94,7 +101,7 @@ public abstract class DBManagerBase implements DBManager {
 
     protected Set<String> getReservedWords() {
         final Set<String> reservedWords = new HashSet<>();
-        final ResourceBundle bundle = ResourceBundle.getBundle(this.getClass().getPackage().getName() + ".reserved_word");
+        final ResourceBundle bundle = ResourceBundle.getBundle(getClass().getPackage().getName() + ".reserved_word");
         final Enumeration<String> keys = bundle.getKeys();
         while (keys.hasMoreElements()) {
             reservedWords.add(keys.nextElement().toUpperCase());
@@ -109,7 +116,7 @@ public abstract class DBManagerBase implements DBManager {
 
     @Override
     public boolean isSupported(int supportItem) {
-        final int[] supportItems = this.getSupportItems();
+        final int[] supportItems = getSupportItems();
 
         for (int i = 0; i < supportItems.length; i++) {
             if (supportItems[i] == supportItem) {

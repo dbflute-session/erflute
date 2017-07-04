@@ -58,12 +58,12 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
         final ImageFigure image = new ImageFigure();
         image.setBorder(new MarginBorder(new Insets(0, 0, 0, 0)));
-        image.setImage(Activator.getImage(this.getTableFigure().getImageKey()));
+        image.setImage(Activator.getImage(getTableFigure().getImageKey()));
         title.add(image);
 
         this.nameLabel = new Label();
-        this.nameLabel.setBorder(new MarginBorder(new Insets(0, 0, 0, 20)));
-        title.add(this.nameLabel);
+        nameLabel.setBorder(new MarginBorder(new Insets(0, 0, 0, 20)));
+        title.add(nameLabel);
 
         final Figure separater = new Figure();
         separater.setSize(-1, 1);
@@ -75,7 +75,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
     @Override
     public void createColumnArea(IFigure columns) {
-        this.initColumnArea(columns);
+        initColumnArea(columns);
 
         columns.setBorder(new MarginBorder(new Insets(1, 0, 1, 0)));
         columns.setBackgroundColor(ColorConstants.white);
@@ -86,7 +86,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         centerFigure.setBorder(new MarginBorder(new Insets(0, 2, 0, 2)));
 
         centerFigure.add(columns, BorderLayout.CENTER);
-        this.getTableFigure().add(centerFigure, BorderLayout.CENTER);
+        getTableFigure().add(centerFigure, BorderLayout.CENTER);
     }
 
     @Override
@@ -106,19 +106,19 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         footer2.setSize(-1, 6);
         footer.add(footer2, BorderLayout.BOTTOM);
 
-        this.getTableFigure().add(footer, BorderLayout.BOTTOM);
+        getTableFigure().add(footer, BorderLayout.BOTTOM);
     }
 
     @Override
     public void setName(String name) {
-        this.nameLabel.setForegroundColor(this.getTextColor());
+        nameLabel.setForegroundColor(getTextColor());
         nameLabel.setFont(getTableFigure().getLargeFont());
-        this.nameLabel.setText(name);
+        nameLabel.setText(name);
     }
 
     @Override
     public void setFont(Font font, Font titleFont) {
-        this.nameLabel.setFont(titleFont);
+        nameLabel.setFont(titleFont);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
         columnFigure.setBorder(new MarginBorder(new Insets(1, 0, 1, 0)));
 
-        final Label label = this.createColumnLabel();
+        final Label label = createColumnLabel();
         label.setForegroundColor(ColorConstants.black);
 
         final StringBuilder text = new StringBuilder();
@@ -197,9 +197,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         label.setBorder(new MarginBorder(new Insets(0, 2, 0, 3)));
         label.setText(text.toString());
 
-        this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
-
-        final Figure figure = new Figure();
+        setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
 
         columnFigure.add(label);
     }
@@ -228,9 +226,9 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         text.append(name);
         text.append(" (GROUP)");
 
-        this.setColumnFigureColor(columnFigure, false, false, isAdded, isUpdated, isRemoved);
+        setColumnFigureColor(columnFigure, false, false, isAdded, isUpdated, isRemoved);
 
-        final Label label = this.createColumnLabel();
+        final Label label = createColumnLabel();
 
         label.setForegroundColor(ColorConstants.black);
         label.setLabelAlignment(PositionConstants.RIGHT);
@@ -256,7 +254,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
         final StringBuilder text = new StringBuilder();
         text.append(name);
-        final Label label = this.createColumnLabel();
+        final Label label = createColumnLabel();
         label.setBorder(new MarginBorder(new Insets(1, 0, 0, 4)));
         label.setForegroundColor(ColorConstants.black);
         label.setText(text.toString());

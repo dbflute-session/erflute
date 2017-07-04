@@ -40,7 +40,7 @@ public class IndexEditPart extends AbstractModelEditPart {
     public EditPart getTargetEditPart(Request request) {
         final EditPart editPart = super.getTargetEditPart(request);
 
-        if (!this.getDiagram().isDisableSelectColumn()) {
+        if (!getDiagram().isDisableSelectColumn()) {
             return editPart;
         }
 
@@ -59,13 +59,13 @@ public class IndexEditPart extends AbstractModelEditPart {
     }
 
     public void refreshTableColumns() {
-        final ERDiagram diagram = this.getDiagram();
-        final IndexFigure indexFigure = (IndexFigure) this.getFigure();
-        final ERIndex index = (ERIndex) this.getModel();
+        final ERDiagram diagram = getDiagram();
+        final IndexFigure indexFigure = (IndexFigure) getFigure();
+        final ERIndex index = (ERIndex) getModel();
         final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
-        final TableViewEditPart parent = (TableViewEditPart) this.getParent();
-        final List figures = parent.getContentPane().getChildren();
+        final TableViewEditPart parent = (TableViewEditPart) getParent();
+        final List<?> figures = parent.getContentPane().getChildren();
         boolean isFirst = false;
         if (!(figures.get(figures.size() - 1) instanceof IndexFigure)) {
             if (notationLevel != DiagramSettings.NOTATION_LEVLE_TITLE) {
@@ -147,8 +147,8 @@ public class IndexEditPart extends AbstractModelEditPart {
         //			displayType = true;
         //		}
 
-        tableFigure.addIndex(indexFigure, diagram.getDiagramContents().getSettings().getViewMode(), diagram.filter(index.getName()),
-                diagram.filter(index.getName()), isFirst);
+        tableFigure.addIndex(indexFigure, diagram.getDiagramContents().getSettings().getViewMode(),
+                diagram.filter(index.getName()), diagram.filter(index.getName()), isFirst);
     }
 
     //	private List<NormalColumn> getSelectedReferencedColulmnList() {

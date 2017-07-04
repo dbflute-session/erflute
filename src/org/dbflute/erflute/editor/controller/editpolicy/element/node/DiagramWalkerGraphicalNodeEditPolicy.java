@@ -59,7 +59,7 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
         final EditPart editPart = request.getTargetEditPart();
         final Object object = request.getNewObject();
         if (editPart instanceof ERTableEditPart) {
-            final Command command = this.getRelationCreateCommand(request, object);
+            final Command command = getRelationCreateCommand(request, object);
             if (command != null) {
                 return command;
             }
@@ -121,11 +121,11 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
             return null;
         }
         final Relationship relation = (Relationship) connection;
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             return null;
         }
-        final DiagramWalker newSource = (DiagramWalker) reconnectrequest.getTarget().getModel();
-        if (!relation.getWalkerSource().equals(newSource)) {
+        final DiagramWalker newSource = ((DiagramWalker) reconnectrequest.getTarget().getModel()).toMaterialize();
+        if (!relation.getSourceWalker().equals(newSource)) {
             return null;
         }
         final DiagramWalkerEditPart sourceEditPart = (DiagramWalkerEditPart) reconnectrequest.getConnectionEditPart().getSource();
@@ -153,11 +153,11 @@ public class DiagramWalkerGraphicalNodeEditPolicy extends GraphicalNodeEditPolic
             return null;
         }
         final Relationship relation = (Relationship) connection;
-        if (relation.getWalkerSource() == relation.getWalkerTarget()) {
+        if (relation.getSourceWalker() == relation.getTargetWalker()) {
             return null;
         }
-        final DiagramWalker newTarget = (DiagramWalker) reconnectrequest.getTarget().getModel();
-        if (!relation.getWalkerTarget().equals(newTarget)) {
+        final DiagramWalker newTarget = ((DiagramWalker) reconnectrequest.getTarget().getModel()).toMaterialize();
+        if (!relation.getTargetWalker().equals(newTarget)) {
             return null;
         }
         final DiagramWalkerEditPart targetEditPart = (DiagramWalkerEditPart) reconnectrequest.getConnectionEditPart().getTarget();

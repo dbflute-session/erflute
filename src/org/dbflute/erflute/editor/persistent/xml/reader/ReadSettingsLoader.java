@@ -37,7 +37,7 @@ public class ReadSettingsLoader {
     //                                                                          ==========
     private static final Map<String, String> defaultModelPropertyMigrationMap; // #for_erflute
     static {
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<>();
         map.put("\u4f5c\u6210\u8005", "author");
         map.put("\u4f1a\u793e\u540d", "company name");
         map.put("\u30e2\u30c7\u30eb\u540d", "model name");
@@ -223,7 +223,7 @@ public class ReadSettingsLoader {
 
         final Element categoriesElement = getElement(settingsElement, "categories");
         final NodeList nodeList = categoriesElement.getChildNodes();
-        final List<Category> selectedCategories = new ArrayList<Category>();
+        final List<Category> selectedCategories = new ArrayList<>();
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
                 continue;
@@ -234,7 +234,7 @@ public class ReadSettingsLoader {
             category.setName(this.getStringValue(categoryElement, "name"));
             final boolean isSelected = this.getBooleanValue(categoryElement, "selected");
             final String[] keys = this.getTagValues(categoryElement, "node_element");
-            final List<DiagramWalker> walkerList = new ArrayList<DiagramWalker>();
+            final List<DiagramWalker> walkerList = new ArrayList<>();
             for (final String key : keys) {
                 final DiagramWalker walker = context.walkerMap.get(key);
                 if (walker != null) {
@@ -279,7 +279,7 @@ public class ReadSettingsLoader {
         if (element == null) {
             element = getElement(settingsElement, "environment_settings"); // #for_erflute rename
         }
-        final List<Environment> environmentList = new ArrayList<Environment>();
+        final List<Environment> environmentList = new ArrayList<>();
         final String defaultExpression = "Default";
         if (element != null) {
             final NodeList nodeList = element.getChildNodes();

@@ -88,15 +88,15 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         super(parentShell, 2);
         this.source = source;
         this.target = target;
-        this.selectedReferredColumnList = new ArrayList<NormalColumn>();
+        this.selectedReferredColumnList = new ArrayList<>();
         this.candidateForeignKeyColumns = candidateForeignKeyColumns;
         this.existingRootReferredToFkColumnsMap = existingRootReferredToFkColumnsMap;
         this.existingRelationshipToFkColumnsMap = existingRelationshipToFkColumnsMap;
 
-        this.mapperEditorList = new ArrayList<TableEditor>();
-        this.mapperEditorToReferredColumnsMap = new HashMap<TableEditor, List<NormalColumn>>();
+        this.mapperEditorList = new ArrayList<>();
+        this.mapperEditorToReferredColumnsMap = new HashMap<>();
 
-        this.selectedForeignKeyColumnList = new ArrayList<NormalColumn>();
+        this.selectedForeignKeyColumnList = new ArrayList<>();
     }
 
     // ===================================================================================
@@ -243,7 +243,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
             } else {
                 final NormalColumn referencedColumn =
                         referredColumnState.candidateColumns.get(referredColumnIndex - referredColumnState.columnStartIndex);
-                selectedReferredColumnList = new ArrayList<NormalColumn>();
+                selectedReferredColumnList = new ArrayList<>();
                 selectedReferredColumnList.add(referencedColumn);
             }
             for (final NormalColumn referredColumn : selectedReferredColumnList) {
@@ -318,7 +318,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
             return null;
         } else {
             // #hope check type difference by jflute
-            final Set<NormalColumn> selectedColumns = new HashSet<NormalColumn>();
+            final Set<NormalColumn> selectedColumns = new HashSet<>();
             for (final TableEditor tableEditor : mapperEditorList) {
                 final Combo foreignKeySelector = (Combo) tableEditor.getEditor();
                 final int selectionIndex = foreignKeySelector.getSelectionIndex();
@@ -386,8 +386,9 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         newCreatedRelationship = createRelationship();
         newCreatedRelationship.setForeignKeyName(foreignKeyNameText.getText().trim());
         if (isCreateNewColumn()) {
+            // TODO ymd コマンド外の操作でカラムを追加しているため、undoしてもカラムが削除されない。コマンド化する。
             for (final NormalColumn referredColumn : selectedReferredColumnList) {
-                final NormalColumn newColumn = newForeignKeyColumn(referredColumn, newCreatedRelationship, resultReferenceForPK);
+                final NormalColumn newColumn = new NormalColumn(referredColumn, newCreatedRelationship, resultReferenceForPK);
                 adjustNewForeignKeyColumn(newColumn);
                 selectedForeignKeyColumnList.add(newColumn);
                 target.addColumn(newColumn);
@@ -401,10 +402,6 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
 
     private Relationship createRelationship() {
         return new Relationship(resultReferenceForPK, resultReferredComplexUniqueKey, resultReferredSimpleUniqueColumn);
-    }
-
-    private NormalColumn newForeignKeyColumn(NormalColumn referredColumn, Relationship relationship, boolean referenceForPK) {
-        return new NormalColumn(referredColumn, referredColumn, relationship, referenceForPK);
     }
 
     private void adjustNewForeignKeyColumn(NormalColumn newColumn) {

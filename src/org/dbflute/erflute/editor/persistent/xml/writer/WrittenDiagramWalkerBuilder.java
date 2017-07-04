@@ -162,8 +162,8 @@ public class WrittenDiagramWalkerBuilder {
         final StringBuilder xml = new StringBuilder();
         // #for_erflute unneeded ID for connection
         //xml.append("<id>").append(context.connectionMap.get(connection)).append("</id>\n");
-        final String sourceId = context.walkerMap.get(connection.getWalkerSource());
-        final String targetId = context.walkerMap.get(connection.getWalkerTarget());
+        final String sourceId = context.walkerMap.get(connection.getSourceWalker());
+        final String targetId = context.walkerMap.get(connection.getTargetWalker());
         xml.append("<source>").append(sourceId != null ? sourceId : "$$owner$$").append("</source>\n"); // e.g. MEMBER_STATUS
         xml.append("<target>").append(targetId).append("</target>\n"); // e.g. MEMBER
         for (final Bendpoint bendpoint : connection.getBendpoints()) {

@@ -31,7 +31,7 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     //                                                                         Constructor
     //                                                                         ===========
     public TableSet() {
-        this.tableList = new ArrayList<ERTable>();
+        this.tableList = new ArrayList<>();
     }
 
     // ===================================================================================
@@ -44,13 +44,17 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
 
     public int remove(ERTable table) {
         final int index = tableList.indexOf(table);
-        tableList.remove(index);
+        if (0 < index) {
+            tableList.remove(index);
+        }
+
         firePropertyChange(PROPERTY_CHANGE_TABLE_SET, null, null);
+
         return index;
     }
 
     public void setDirty() {
-        this.firePropertyChange(PROPERTY_CHANGE_TABLE_SET, null, null);
+        firePropertyChange(PROPERTY_CHANGE_TABLE_SET, null, null);
     }
 
     public List<ERTable> getList() {
@@ -59,7 +63,7 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     }
 
     public List<String> getAutoSequenceNames(String database) {
-        final List<String> autoSequenceNames = new ArrayList<String>();
+        final List<String> autoSequenceNames = new ArrayList<>();
         for (final ERTable table : tableList) {
             final String prefix = table.getNameWithSchema(database) + "_";
             for (final NormalColumn column : table.getNormalColumns()) {
@@ -83,13 +87,13 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
     @Override
     public Iterator<ERTable> iterator() {
         Collections.sort(tableList);
-        return this.tableList.iterator();
+        return tableList.iterator();
     }
 
     @Override
     public TableSet clone() {
         final TableSet tableSet = (TableSet) super.clone();
-        final List<ERTable> newTableList = new ArrayList<ERTable>();
+        final List<ERTable> newTableList = new ArrayList<>();
         for (final ERTable table : tableList) {
             final ERTable newTable = table.clone();
             newTableList.add(newTable);

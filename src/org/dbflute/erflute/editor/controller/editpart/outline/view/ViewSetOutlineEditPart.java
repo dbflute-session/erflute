@@ -16,6 +16,7 @@ import org.eclipse.gef.EditPart;
 
 public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(ViewSet.PROPERTY_CHANGE_VIEW_SET)) {
             refresh();
@@ -23,17 +24,13 @@ public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     @Override
-    protected List getModelChildren() {
-        ViewSet viewSet = (ViewSet) this.getModel();
-
-        List<ERView> list = viewSet.getList();
-
-        if (this.getDiagram().getDiagramContents().getSettings().getViewOrderBy() == DiagramSettings.VIEW_MODE_LOGICAL) {
+    protected List<ERView> getModelChildren() {
+        final ViewSet viewSet = (ViewSet) getModel();
+        final List<ERView> list = viewSet.getList();
+        if (getDiagram().getDiagramContents().getSettings().getViewOrderBy() == DiagramSettings.VIEW_MODE_LOGICAL) {
             Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
-
         } else {
             Collections.sort(list, TableView.PHYSICAL_NAME_COMPARATOR);
-
         }
 
         return list;
@@ -41,16 +38,16 @@ public class ViewSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(DisplayMessages.getMessage("label.view") + " (" + this.getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText(DisplayMessages.getMessage("label.view") + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
 
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }

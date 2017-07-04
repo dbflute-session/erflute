@@ -11,6 +11,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.MatchHeightAction;
 import org.eclipse.ui.IWorkbenchPart;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class ERDiagramMatchHeightAction extends MatchHeightAction {
 
     public ERDiagramMatchHeightAction(IWorkbenchPart part) {
@@ -19,23 +22,20 @@ public class ERDiagramMatchHeightAction extends MatchHeightAction {
         this.setDisabledImageDescriptor(null);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected List getSelectedObjects() {
-        List objects = new ArrayList(super.getSelectedObjects());
+        final List<?> objects = new ArrayList<Object>(super.getSelectedObjects());
         boolean first = true;
-
-        for (Iterator iter = objects.iterator(); iter.hasNext();) {
-            Object object = iter.next();
+        for (final Iterator<?> iter = objects.iterator(); iter.hasNext();) {
+            final Object object = iter.next();
 
             if (!(object instanceof EditPart)) {
                 iter.remove();
-
             } else {
-                EditPart editPart = (EditPart) object;
+                final EditPart editPart = (EditPart) object;
                 if (editPart instanceof NormalColumnEditPart) {
                     iter.remove();
-
                 } else {
                     if (first) {
                         editPart.setSelected(2);
@@ -44,7 +44,6 @@ public class ERDiagramMatchHeightAction extends MatchHeightAction {
                 }
             }
         }
-
         return objects;
     }
 }

@@ -11,8 +11,7 @@ import org.eclipse.swt.widgets.TabFolder;
 
 public class AdvancedTabWrapper extends ValidatableTabWrapper {
 
-    private ERTable table;
-
+    private final ERTable table;
     private AdvancedComposite composite;
 
     public AdvancedTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable table) {
@@ -20,24 +19,24 @@ public class AdvancedTabWrapper extends ValidatableTabWrapper {
 
         this.table = table;
 
-        this.init();
+        init();
     }
 
     @Override
     public void validatePage() throws InputException {
-        this.composite.validate();
+        composite.validate();
     }
 
     @Override
     public void initComposite() {
-        this.setLayout(new GridLayout());
-        this.composite = EclipseDBManagerFactory.getEclipseDBManager(this.table.getDiagram()).createAdvancedComposite(this);
-        this.composite.initialize(this.dialog, (TableProperties) this.table.getTableViewProperties(), this.table.getDiagram(), this.table);
+        setLayout(new GridLayout());
+        this.composite = EclipseDBManagerFactory.getEclipseDBManager(table.getDiagram()).createAdvancedComposite(this);
+        composite.initialize(dialog, (TableProperties) table.getTableViewProperties(), table.getDiagram(), table);
     }
 
     @Override
     public void setInitFocus() {
-        this.composite.setInitFocus();
+        composite.setInitFocus();
     }
 
     @Override

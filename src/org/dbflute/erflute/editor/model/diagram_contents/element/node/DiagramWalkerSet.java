@@ -15,6 +15,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.image.Inse
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNoteSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
@@ -50,59 +51,77 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         this.walkerGroupSet = new WalkerGroupSet();
         this.walkerNoteSet = new WalkerNoteSet();
         this.insertedImageSet = new InsertedImageSet();
-        this.walkerList = new ArrayList<DiagramWalker>();
+        this.walkerList = new ArrayList<>();
     }
 
     // ===================================================================================
     //                                                                            Add Node
     //                                                                            ========
-    public void addDiagramWalker(DiagramWalker walker) {
+    public void add(DiagramWalker walker) {
+        if (contains(walker.toMaterialize())) {
+            return;
+        }
+
         if (walker instanceof ERTable) {
-            this.tableSet.add((ERTable) walker);
+            tableSet.add((ERTable) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof ERView) {
-            this.viewSet.add((ERView) walker);
-        } else if (walker instanceof WalkerNote) {
-            this.walkerNoteSet.add((WalkerNote) walker);
+            viewSet.add((ERView) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof WalkerGroup) {
-            this.walkerGroupSet.add((WalkerGroup) walker);
+            walkerGroupSet.add((WalkerGroup) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        } else if (walker instanceof WalkerNote) {
+            walkerNoteSet.add((WalkerNote) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (walker instanceof InsertedImage) {
-            this.insertedImageSet.add((InsertedImage) walker);
+            insertedImageSet.add((InsertedImage) walker);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else {
             System.out.println("*Unsupported diagram walker: " + walker);
         }
-        walkerList.add(walker);
-        firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
+        if (walker instanceof WalkerGroup) {
+            // エディタ上で、テーブルグループをテーブルの背面に配置するため。
+            // テーブルの後にテーブルグループを追加すると、テーブルグループの後ろにテーブルが隠れてしまう。
+            walkerList.add(0, walker);
+        } else {
+            walkerList.add(walker);
+        }
     }
 
     public void remove(DiagramWalker element) {
         if (element instanceof ERTable) {
-            this.tableSet.remove((ERTable) element);
+            tableSet.remove((ERTable) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof ERView) {
-            this.viewSet.remove((ERView) element);
+            viewSet.remove((ERView) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof WalkerGroup) {
-            this.walkerGroupSet.remove((WalkerGroup) element);
+            walkerGroupSet.remove((WalkerGroup) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof WalkerNote) {
-            this.walkerNoteSet.remove((WalkerNote) element);
+            walkerNoteSet.remove((WalkerNote) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else if (element instanceof InsertedImage) {
-            this.insertedImageSet.remove((InsertedImage) element);
+            insertedImageSet.remove((InsertedImage) element);
+            firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
         } else {
             System.out.println("*Unsupported diagram walker: " + element);
         }
         walkerList.remove(element);
-        firePropertyChange(PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public boolean contains(DiagramWalker nodeElement) {
-        return this.walkerList.contains(nodeElement);
+        return walkerList.contains(nodeElement);
     }
 
     public void clear() {
-        this.tableSet.getList().clear();
-        this.viewSet.getList().clear();
-        this.walkerGroupSet.getList().clear();
-        this.walkerNoteSet.getList().clear();
-        this.insertedImageSet.getList().clear();
-        this.walkerList.clear();
+        tableSet.getList().clear();
+        viewSet.getList().clear();
+        walkerGroupSet.getList().clear();
+        walkerNoteSet.getList().clear();
+        insertedImageSet.getList().clear();
+        walkerList.clear();
     }
 
     public boolean isEmpty() {
@@ -114,17 +133,19 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     }
 
     public List<TableView> getTableViewList() {
-        final List<TableView> nodeElementList = new ArrayList<TableView>();
-        nodeElementList.addAll(this.tableSet.getList());
-        nodeElementList.addAll(this.viewSet.getList());
+        final List<TableView> nodeElementList = new ArrayList<>();
+        nodeElementList.addAll(tableSet.getList());
+        nodeElementList.addAll(viewSet.getList());
         return nodeElementList;
     }
 
     public Set<DiagramWalker> getPersistentSet() { // #for_erflute
         final List<DiagramWalker> elementList = getDiagramWalkerList();
-        final TreeSet<DiagramWalker> treeSet = new TreeSet<DiagramWalker>(new Comparator<DiagramWalker>() {
+        final TreeSet<DiagramWalker> treeSet = new TreeSet<>(new Comparator<DiagramWalker>() {
             @Override
-            public int compare(DiagramWalker o1, DiagramWalker o2) {
+            public int compare(DiagramWalker p1, DiagramWalker p2) {
+                final DiagramWalker o1 = getDiagramWalkerForComparison(p1);
+                final DiagramWalker o2 = getDiagramWalkerForComparison(p2);
                 if (o1.getPersistentOrder() != o2.getPersistentOrder()) {
                     return o1.getPersistentOrder() - o2.getPersistentOrder();
                 } else {
@@ -140,9 +161,17 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         return treeSet;
     }
 
+    /**
+     * diagramWalkerがERVirtualTableの場合、同じERTableを参照していても、Comparatorが異なるオブジェクトとして認識してしまう。
+     * その結果、同一IDのテーブルがXMLに出力されるため、比較用DiagramWalkerとしてERVirtualTableが参照しているERTableを返す。
+     */
+    private DiagramWalker getDiagramWalkerForComparison(DiagramWalker diagramWalker) {
+        return diagramWalker instanceof ERVirtualTable ? ((ERVirtualTable) diagramWalker).getRawTable() : diagramWalker;
+    }
+
     @Override
     public Iterator<DiagramWalker> iterator() { // not sorted so cannot use for persistent
-        return this.getDiagramWalkerList().iterator();
+        return getDiagramWalkerList().iterator();
     }
 
     // ===================================================================================

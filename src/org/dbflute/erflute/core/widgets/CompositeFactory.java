@@ -30,37 +30,33 @@ import org.eclipse.ui.IEditorPart;
 
 public class CompositeFactory {
 
-    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title, int minimum, int maximum) {
+    public static SpinnerWithScale createSpinnerWithScale(
+            AbstractDialog dialog, Composite composite, String title, int minimum, int maximum) {
         return createSpinnerWithScale(dialog, composite, title, "%", minimum, maximum);
     }
 
-    public static SpinnerWithScale createSpinnerWithScale(AbstractDialog dialog, Composite composite, String title, String unit,
-            int minimum, int maximum) {
+    public static SpinnerWithScale createSpinnerWithScale(
+            AbstractDialog dialog, Composite composite, String title, String unit, int minimum, int maximum) {
         if (title != null) {
             final Label label = new Label(composite, SWT.RIGHT);
             label.setText(DisplayMessages.getMessage(title));
         }
 
         final GridData scaleGridData = new GridData();
-
         final Scale scale = new Scale(composite, SWT.NONE);
         scale.setLayoutData(scaleGridData);
 
         int diff = 0;
-
         if (minimum < 0) {
             scale.setMinimum(0);
             scale.setMaximum(-minimum + maximum);
             diff = minimum;
-
         } else {
             scale.setMinimum(minimum);
             scale.setMaximum(maximum);
-
         }
 
         scale.setPageIncrement((maximum - minimum) / 10);
-
         final GridData spinnerGridData = new GridData();
 
         final Spinner spinner = new Spinner(composite, SWT.RIGHT | SWT.BORDER);
@@ -91,7 +87,6 @@ public class CompositeFactory {
 
         if (width > 0) {
             gridData.widthHint = width;
-
         } else {
             gridData.horizontalAlignment = GridData.FILL;
             gridData.grabExcessHorizontalSpace = true;
@@ -127,8 +122,8 @@ public class CompositeFactory {
     // ===================================================================================
     //                                                                 File Encoding Combo
     //                                                                 ===================
-    public static Combo createFileEncodingCombo(IEditorPart editorPart, AbstractDialog dialog, Composite composite, String title, int span,
-            String selectedCharset) {
+    public static Combo createFileEncodingCombo(
+            IEditorPart editorPart, AbstractDialog dialog, Composite composite, String title, int span, String selectedCharset) {
         final Combo fileEncodingCombo = createReadOnlyCombo(dialog, composite, title, span, -1);
         for (final Charset charset : Charset.availableCharsets().values()) {
             fileEncodingCombo.add(charset.displayName());
@@ -297,8 +292,8 @@ public class CompositeFactory {
     // ===================================================================================
     //                                                                           Text Area
     //                                                                           =========
-    public static Text createTextArea(AbstractDialog dialog, Composite composite, String title, int width, int height, int span,
-            boolean selectAll, boolean imeOn) {
+    public static Text createTextArea(
+            AbstractDialog dialog, Composite composite, String title, int width, int height, int span, boolean selectAll, boolean imeOn) {
         if (title != null) {
             final Label label = new Label(composite, SWT.NONE);
             label.setText(DisplayMessages.getMessage(title));
@@ -315,8 +310,8 @@ public class CompositeFactory {
         return text;
     }
 
-    public static Text createTextArea(AbstractDialog dialog, Composite composite, String title, int width, int height, int span,
-            boolean imeOn) {
+    public static Text createTextArea(
+            AbstractDialog dialog, Composite composite, String title, int width, int height, int span, boolean imeOn) {
         return createTextArea(dialog, composite, title, width, height, span, true, imeOn);
     }
 
@@ -329,10 +324,8 @@ public class CompositeFactory {
 
     public static Button createButton(Composite composite, String text, int span) {
         final GridData gridData = new GridData();
-
         if (span != -1) {
             gridData.horizontalSpan = span;
-
         } else {
             gridData.widthHint = DesignResources.BUTTON_WIDTH;
         }
@@ -404,7 +397,6 @@ public class CompositeFactory {
         checkBox.pack();
 
         final TableEditor editor = new TableEditor(table);
-
         editor.minimumWidth = checkBox.getSize().x;
         editor.horizontalAlignment = SWT.CENTER;
         editor.setEditor(checkBox, tableItem, column);

@@ -51,9 +51,12 @@ public class WrittenVirtualDiagramBuilder {
             xml.append("\t\t<vdiagram_name>").append(vdiagram.getName()).append("</vdiagram_name>\n"); // #for_erflute
             xml.append(tab(tab(assistLogic.buildColor(vdiagram.getColor()))));
             xml.append("\t\t<vtables>\n");
-            for (final ERVirtualTable table : vdiagram.getVirtualTables()) {
-                xml.append("\t\t\t<vtable>\n");
+            for (final ERVirtualTable table : vdiagram.getVirtualTableSet()) {
                 final String tableId = context.walkerMap.get(table.getRawTable());
+                if (tableId == null) {
+                    continue;
+                }
+                xml.append("\t\t\t<vtable>\n");
                 xml.append("\t\t\t\t<table_id>").append(tableId).append("</table_id>\n"); // #for_erflute
                 xml.append("\t\t\t\t<x>").append(table.getX()).append("</x>\n");
                 xml.append("\t\t\t\t<y>").append(table.getY()).append("</y>\n");

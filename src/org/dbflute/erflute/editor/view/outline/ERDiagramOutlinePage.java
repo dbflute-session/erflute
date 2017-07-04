@@ -1,15 +1,11 @@
 package org.dbflute.erflute.editor.view.outline;
 
-import java.util.List;
-
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.ermodel.OpenERModelCommand;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPart;
 import org.dbflute.erflute.editor.controller.editpart.outline.ERDiagramOutlineEditPartFactory;
 import org.dbflute.erflute.editor.controller.editpart.outline.table.TableOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramOutlineEditPart;
-import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtualDiagramSetOutlineEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -42,9 +38,7 @@ import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Canvas;
@@ -73,28 +67,28 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 
     public ERDiagramOutlinePage(ERDiagram diagram) {
         super(new TreeViewer());
-        this.viewer = (TreeViewer) this.getViewer();
+        this.viewer = (TreeViewer) getViewer();
         this.diagram = diagram;
         this.outlineActionRegistory = new ActionRegistry();
-        this.registerAction(this.viewer, outlineActionRegistory);
+        registerAction(viewer, outlineActionRegistory);
     }
 
     @Override
     public void createControl(Composite parent) {
         this.sash = new SashForm(parent, SWT.VERTICAL);
-        this.viewer.createControl(this.sash);
+        this.viewer.createControl(sash);
         editPartFactory = new ERDiagramOutlineEditPartFactory();
         editPartFactory.setQuickMode(quickMode);
-        this.viewer.setEditPartFactory(editPartFactory);
-        this.viewer.setContents(this.diagram);
+        viewer.setEditPartFactory(editPartFactory);
+        viewer.setContents(diagram);
         if (!quickMode) {
-            final Canvas canvas = new Canvas(this.sash, SWT.BORDER);
+            final Canvas canvas = new Canvas(sash, SWT.BORDER);
             this.lws = new LightweightSystem(canvas);
         }
-        this.resetView(this.registry);
+        resetView(registry);
         final AbstractTransferDragSourceListener dragSourceListener =
-                new ERDiagramTransferDragSourceListener(this.viewer, TemplateTransfer.getInstance());
-        this.viewer.addDragSourceListener(dragSourceListener);
+                new ERDiagramTransferDragSourceListener(viewer, TemplateTransfer.getInstance());
+        viewer.addDragSourceListener(dragSourceListener);
     }
 
     @Override
@@ -106,30 +100,33 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         if (quickMode) {
             return;
         }
-        final ScalableFreeformRootEditPart editPart = (ScalableFreeformRootEditPart) this.graphicalViewer.getRootEditPart();
-        if (this.thumbnail != null) {
-            this.thumbnail.deactivate();
+        final ScalableFreeformRootEditPart editPart = (ScalableFreeformRootEditPart) graphicalViewer.getRootEditPart();
+        if (thumbnail != null) {
+            thumbnail.deactivate();
         }
         this.thumbnail = new ScrollableThumbnail((Viewport) editPart.getFigure());
-        this.thumbnail.setSource(editPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
-        this.lws.setContents(this.thumbnail);
+        thumbnail.setSource(editPart.getLayer(LayerConstants.PRINTABLE_LAYERS));
+        lws.setContents(thumbnail);
     }
 
     private void initDropTarget() {
         final AbstractTransferDropTargetListener dropTargetListener =
-                new ERDiagramOutlineTransferDropTargetListener(this.graphicalViewer, TemplateTransfer.getInstance());
-        this.graphicalViewer.addDropTargetListener(dropTargetListener);
+                new ERDiagramOutlineTransferDropTargetListener(graphicalViewer, TemplateTransfer.getInstance());
+        graphicalViewer.addDropTargetListener(dropTargetListener);
     }
 
-    public void setCategory(EditDomain editDomain, GraphicalViewer graphicalViewer, MenuManager outlineMenuMgr, ActionRegistry registry) {
-        this.graphicalViewer = graphicalViewer;
-        this.viewer.setContextMenu(outlineMenuMgr);
+    public void setContextMenu(MenuManager outlineMenuMgr) {
+        viewer.setContextMenu(outlineMenuMgr);
+    }
 
-        this.viewer.setEditDomain(editDomain);
+    public void setCategory(EditDomain editDomain, GraphicalViewer graphicalViewer, ActionRegistry registry) {
+        this.graphicalViewer = graphicalViewer;
+
+        viewer.setEditDomain(editDomain);
         this.registry = registry;
 
-        if (this.getSite() != null) {
-            this.resetView(registry);
+        if (getSite() != null) {
+            resetView(registry);
         }
     }
 
@@ -137,7 +134,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         if (getSite() == null) {
             return;
         }
-        final IActionBars bars = this.getSite().getActionBars();
+        final IActionBars bars = getSite().getActionBars();
 
         String id = ActionFactory.UNDO.getId();
         bars.setGlobalActionHandler(id, registry.getAction(id));
@@ -152,19 +149,18 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
     }
 
     private void resetView(ActionRegistry registry) {
-        this.showThumbnail();
-        this.initDropTarget();
-        this.resetAction(registry);
+        showThumbnail();
+        initDropTarget();
+        resetAction(registry);
     }
 
     private void registerAction(TreeViewer treeViewer, ActionRegistry actionRegistry) {
-        final IAction[] actions =
-                { new CreateIndexAction(treeViewer), new CreateSequenceAction(treeViewer), new CreateTriggerAction(treeViewer),
-                        new CreateTablespaceAction(treeViewer), new ChangeOutlineViewToPhysicalAction(treeViewer),
-                        new ChangeOutlineViewToLogicalAction(treeViewer), new ChangeOutlineViewToBothAction(treeViewer),
-                        new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
-                        new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer),
-                        new DeleteVirtualDiagramAction(treeViewer), };
+        final IAction[] actions = { new CreateIndexAction(treeViewer), new CreateSequenceAction(treeViewer),
+                new CreateTriggerAction(treeViewer), new CreateTablespaceAction(treeViewer),
+                new ChangeOutlineViewToPhysicalAction(treeViewer), new ChangeOutlineViewToLogicalAction(treeViewer),
+                new ChangeOutlineViewToBothAction(treeViewer), new ChangeOutlineViewOrderByPhysicalNameAction(treeViewer),
+                new ChangeOutlineViewOrderByLogicalNameAction(treeViewer), new ChangeNameAction(treeViewer),
+                new DeleteVirtualDiagramAction(treeViewer), };
         for (final IAction action : actions) {
             actionRegistry.registerAction(action);
         }
@@ -255,22 +251,24 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
             if (erModel != null) {
                 final OpenERModelCommand command = new OpenERModelCommand(diagram, erModel);
                 command.setTable(table);
-                this.getViewer().getEditDomain().getCommandStack().execute(command);
+                command.execute(); // コマンドスタックには積まないで実行する。ファイル編集中にしないため。
 
-                final ERDiagramOutlineEditPart contents =
-                        (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
-                if (contents != null) {
-                    final ERVirtualDiagramSetOutlineEditPart virtualDiagramSetOutlineEditPart =
-                            (ERVirtualDiagramSetOutlineEditPart) contents.getChildren().get(0);
-                    @SuppressWarnings("unchecked")
-                    final List<ERVirtualDiagramOutlineEditPart> parts = virtualDiagramSetOutlineEditPart.getChildren();
-                    for (final ERVirtualDiagramOutlineEditPart part : parts) {
-                        if (part.getModel().equals(erModel)) {
-                            final ISelection selection = new StructuredSelection(part);
-                            diagram.getEditor().getOutlinePage().setSelection(selection);
-                        }
-                    }
-                }
+                // TODO ymd アウトラインツリー上の仮想ダイアグラムを選択するためにのみある。
+                // この処理があることで、クイックアウトライン検索→テーブル選択がバグるのでコメントにした。不要なことを確信したら、削除する。
+                //                final ERDiagramOutlineEditPart contents =
+                //                        (ERDiagramOutlineEditPart) diagram.getEditor().getOutlinePage().getViewer().getContents();
+                //                if (contents != null) {
+                //                    final ERVirtualDiagramSetOutlineEditPart virtualDiagramSetOutlineEditPart =
+                //                            (ERVirtualDiagramSetOutlineEditPart) contents.getChildren().get(0);
+                //                    @SuppressWarnings("unchecked")
+                //                    final List<ERVirtualDiagramOutlineEditPart> parts = virtualDiagramSetOutlineEditPart.getChildren();
+                //                    for (final ERVirtualDiagramOutlineEditPart part : parts) {
+                //                        if (part.getModel().equals(erModel)) {
+                //                            final ISelection selection = new StructuredSelection(part);
+                //                            diagram.getEditor().getOutlinePage().setSelection(selection);
+                //                        }
+                //                    }
+                //                }
             } else {
                 Activator.showMessageDialog(table.getPhysicalName());
             }

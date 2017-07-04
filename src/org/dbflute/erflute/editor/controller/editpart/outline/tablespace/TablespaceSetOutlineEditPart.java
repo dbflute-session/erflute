@@ -14,6 +14,7 @@ import org.eclipse.gef.EditPart;
 
 public class TablespaceSetOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(TablespaceSet.PROPERTY_CHANGE_TABLESPACE_SET)) {
             refresh();
@@ -21,10 +22,10 @@ public class TablespaceSetOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     @Override
-    protected List getModelChildren() {
-        TablespaceSet tablespaceSet = (TablespaceSet) this.getModel();
+    protected List<Tablespace> getModelChildren() {
+        final TablespaceSet tablespaceSet = (TablespaceSet) getModel();
 
-        List<Tablespace> tablespaceList = tablespaceSet.getTablespaceList();
+        final List<Tablespace> tablespaceList = tablespaceSet.getTablespaceList();
         Collections.sort(tablespaceList);
 
         return tablespaceList;
@@ -32,16 +33,16 @@ public class TablespaceSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(DisplayMessages.getMessage("label.tablespace") + " (" + this.getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText(DisplayMessages.getMessage("label.tablespace") + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
 
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }

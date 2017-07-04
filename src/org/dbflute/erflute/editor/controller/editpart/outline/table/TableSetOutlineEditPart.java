@@ -19,6 +19,7 @@ import org.eclipse.gef.EditPart;
 
 public class TableSetOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(TableSet.PROPERTY_CHANGE_TABLE_SET)) {
             refresh();
@@ -28,14 +29,14 @@ public class TableSetOutlineEditPart extends AbstractOutlineEditPart {
     public static List<EditPart> tableEditParts;
 
     @Override
-    protected List getModelChildren() {
-        TableSet tableSet = (TableSet) this.getModel();
+    protected List<ERTable> getModelChildren() {
+        final TableSet tableSet = (TableSet) getModel();
 
-        List<ERTable> list = new ArrayList<ERTable>();
+        final List<ERTable> list = new ArrayList<>();
 
-        Category category = this.getCurrentCategory();
-        String filterText = getFilterText();
-        for (ERTable table : tableSet) {
+        final Category category = getCurrentCategory();
+        final String filterText = getFilterText();
+        for (final ERTable table : tableSet) {
             if (category == null || category.contains(table)) {
                 if (filterText != null) {
                     if (table.getPhysicalName().toLowerCase().indexOf(filterText.toLowerCase()) < 0) {
@@ -46,7 +47,7 @@ public class TableSetOutlineEditPart extends AbstractOutlineEditPart {
             }
         }
 
-        if (this.getDiagram().getDiagramContents().getSettings().getViewOrderBy() == DiagramSettings.VIEW_MODE_LOGICAL) {
+        if (getDiagram().getDiagramContents().getSettings().getViewOrderBy() == DiagramSettings.VIEW_MODE_LOGICAL) {
             Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
         } else {
             Collections.sort(list, TableView.PHYSICAL_NAME_COMPARATOR);
@@ -54,9 +55,9 @@ public class TableSetOutlineEditPart extends AbstractOutlineEditPart {
 
         if (filterText != null) {
 
-            Iterator<ERTable> iterator = list.iterator();
+            final Iterator<ERTable> iterator = list.iterator();
             while (iterator.hasNext()) {
-                ERTable table = iterator.next();
+                final ERTable table = iterator.next();
                 if (table.getPhysicalName().equalsIgnoreCase(filterText)) {
                     iterator.remove();
                     list.add(0, table);
@@ -70,17 +71,17 @@ public class TableSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(DisplayMessages.getMessage("label.table") + " (" + this.getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText(DisplayMessages.getMessage("label.table") + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
 
-        tableEditParts = new ArrayList<EditPart>();
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        tableEditParts = new ArrayList<>();
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             tableEditParts.add(part);
             part.refresh();
         }

@@ -12,25 +12,11 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
     // (REGULAR/LARGI/SYSTEM TEMPORARY/USER TEMPORARY)
     private String type;
-
     private String pageSize;
-
     private String managedBy;
-
     private String container;
-
-    // private String containerDirectoryPath;
-    //
-    // private String containerFilePath;
-    //
-    // private String containerPageNum;
-    //
-    // private String containerDevicePath;
-
     private String extentSize;
-
     private String prefetchSize;
-
     private String bufferPoolName;
 
     public String getType() {
@@ -93,17 +79,17 @@ public class DB2TablespaceProperties implements TablespaceProperties {
     public TablespaceProperties clone() {
         final DB2TablespaceProperties properties = new DB2TablespaceProperties();
 
-        properties.bufferPoolName = this.bufferPoolName;
-        properties.container = this.container;
+        properties.bufferPoolName = bufferPoolName;
+        properties.container = container;
         // properties.containerDevicePath = this.containerDevicePath;
         // properties.containerDirectoryPath = this.containerDirectoryPath;
         // properties.containerFilePath = this.containerFilePath;
         // properties.containerPageNum = this.containerPageNum;
-        properties.extentSize = this.extentSize;
-        properties.managedBy = this.managedBy;
-        properties.pageSize = this.pageSize;
-        properties.prefetchSize = this.prefetchSize;
-        properties.type = this.type;
+        properties.extentSize = extentSize;
+        properties.managedBy = managedBy;
+        properties.pageSize = pageSize;
+        properties.prefetchSize = prefetchSize;
+        properties.type = type;
 
         return properties;
     }
@@ -112,13 +98,13 @@ public class DB2TablespaceProperties implements TablespaceProperties {
     public LinkedHashMap<String, String> getPropertiesMap() {
         final LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
-        map.put("label.tablespace.type", this.getType());
-        map.put("label.tablespace.page.size", this.getPageSize());
-        map.put("label.tablespace.managed.by", this.getManagedBy());
-        map.put("label.tablespace.container", this.getContainer());
-        map.put("label.tablespace.extent.size", this.getExtentSize());
-        map.put("label.tablespace.prefetch.size", this.getPrefetchSize());
-        map.put("label.tablespace.buffer.pool.name", this.getBufferPoolName());
+        map.put("label.tablespace.type", getType());
+        map.put("label.tablespace.page.size", getPageSize());
+        map.put("label.tablespace.managed.by", getManagedBy());
+        map.put("label.tablespace.container", getContainer());
+        map.put("label.tablespace.extent.size", getExtentSize());
+        map.put("label.tablespace.prefetch.size", getPrefetchSize());
+        map.put("label.tablespace.buffer.pool.name", getBufferPoolName());
 
         return map;
     }

@@ -66,6 +66,7 @@ public class WalkerGroupManageAction extends AbstractBaseAction {
     }
 
     private ChangeMainWalkerGroupCommand createChangeMainWalkerGroupCommand(ERDiagram diagram, ERDiagram newVDiagram) {
-        return new ChangeMainWalkerGroupCommand(diagram, newVDiagram.getDiagramContents().getDiagramWalkers().getWalkerGroupSet().getList());
+        return new ChangeMainWalkerGroupCommand(diagram,
+                newVDiagram.getDiagramContents().getDiagramWalkers().getWalkerGroupSet().getList());
     }
 }

@@ -14,16 +14,14 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class TableLayout extends AbstractHintLayout {
 
     private int colnum;
-
     private final int separatorWidth;
-
     private final List<IFigure> separators;
 
     public TableLayout(int colnum) {
         super();
 
         this.colnum = colnum;
-        if (this.colnum <= 0) {
+        if (colnum <= 0) {
             this.colnum = 1;
         }
 
@@ -38,11 +36,11 @@ public class TableLayout extends AbstractHintLayout {
     @Override
     public void layout(IFigure parent) {
 
-        final List children = this.clearSeparator(parent);
+        final List<IFigure> children = clearSeparator(parent);
 
-        final List<List<IFigure>> table = this.getTable(children);
-        final int[] columnWidth = this.getColumnWidth(table);
-        final int[] rowHeight = this.getRowHeight(table);
+        final List<List<IFigure>> table = getTable(children);
+        final int[] columnWidth = getColumnWidth(table);
+        final int[] rowHeight = getRowHeight(table);
 
         final Rectangle rect = parent.getBounds();
 
@@ -62,7 +60,7 @@ public class TableLayout extends AbstractHintLayout {
 
                 if (j != tableRow.size() - 1) {
                     final Rectangle separetorRect = new Rectangle(x, y, separatorWidth, rowHeight[i]);
-                    this.addVerticalSeparator(parent, separetorRect);
+                    addVerticalSeparator(parent, separetorRect);
 
                     x += separatorWidth;
                 }
@@ -74,14 +72,14 @@ public class TableLayout extends AbstractHintLayout {
             if (i != table.size() - 1) {
                 final Rectangle separetorRect = new Rectangle(x, y, rect.width, separatorWidth);
 
-                this.addHorizontalSeparator(parent, separetorRect);
+                addHorizontalSeparator(parent, separetorRect);
 
                 y += separatorWidth;
             }
         }
     }
 
-    private List<List<IFigure>> getTable(List children) {
+    private List<List<IFigure>> getTable(List<IFigure> children) {
         final int numChildren = children.size();
 
         final List<List<IFigure>> table = new ArrayList<>();
@@ -94,14 +92,14 @@ public class TableLayout extends AbstractHintLayout {
                 table.add(row);
             }
 
-            row.add((IFigure) children.get(i));
+            row.add(children.get(i));
         }
 
         return table;
     }
 
     private int[] getColumnWidth(List<List<IFigure>> table) {
-        final int[] columnWidth = new int[this.colnum];
+        final int[] columnWidth = new int[colnum];
 
         for (int i = 0; i < colnum; i++) {
             for (final List<IFigure> tableRow : table) {
@@ -139,10 +137,11 @@ public class TableLayout extends AbstractHintLayout {
     private List<IFigure> getChildren(IFigure parent) {
         final List<IFigure> children = new ArrayList<>();
 
-        for (final Iterator iter = parent.getChildren().iterator(); iter.hasNext();) {
-            final IFigure child = (IFigure) iter.next();
+        for (@SuppressWarnings("unchecked")
+        final Iterator<Polyline> iter = parent.getChildren().iterator(); iter.hasNext();) {
+            final IFigure child = iter.next();
 
-            if (!this.separators.contains(child)) {
+            if (!separators.contains(child)) {
                 children.add(child);
             }
         }
@@ -150,33 +149,34 @@ public class TableLayout extends AbstractHintLayout {
         return children;
     }
 
-    private List clearSeparator(IFigure parent) {
-        for (final Iterator iter = parent.getChildren().iterator(); iter.hasNext();) {
-            final IFigure child = (IFigure) iter.next();
+    @SuppressWarnings("unchecked")
+    private List<IFigure> clearSeparator(IFigure parent) {
+        for (final Iterator<Polyline> iter = parent.getChildren().iterator(); iter.hasNext();) {
+            final IFigure child = iter.next();
 
-            if (this.separators.contains(child)) {
+            if (separators.contains(child)) {
                 iter.remove();
             }
         }
 
-        this.separators.clear();
+        separators.clear();
 
         return parent.getChildren();
     }
 
     @Override
     protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
-        final List children = this.getChildren(container);
+        final List<IFigure> children = getChildren(container);
 
-        final List<List<IFigure>> table = this.getTable(children);
-        final int[] columnWidth = this.getColumnWidth(table);
-        final int[] rowHeight = this.getRowHeight(table);
+        final List<List<IFigure>> table = getTable(children);
+        final int[] columnWidth = getColumnWidth(table);
+        final int[] rowHeight = getRowHeight(table);
 
         int width = 0;
         for (int i = 0; i < columnWidth.length; i++) {
             width += columnWidth[i];
             if (i != columnWidth.length - 1) {
-                width += this.separatorWidth;
+                width += separatorWidth;
             }
         }
         width++;
@@ -186,7 +186,7 @@ public class TableLayout extends AbstractHintLayout {
         for (int i = 0; i < rowHeight.length; i++) {
             height += rowHeight[i];
             if (i != rowHeight.length - 1) {
-                height += this.separatorWidth;
+                height += separatorWidth;
             }
         }
         height++;
@@ -205,7 +205,7 @@ public class TableLayout extends AbstractHintLayout {
         figure.getChildren().add(separator);
         separator.setParent(figure);
 
-        this.separators.add(separator);
+        separators.add(separator);
     }
 
     @SuppressWarnings("unchecked")
@@ -217,6 +217,6 @@ public class TableLayout extends AbstractHintLayout {
         figure.getChildren().add(separator);
         separator.setParent(figure);
 
-        this.separators.add(separator);
+        separators.add(separator);
     }
 }

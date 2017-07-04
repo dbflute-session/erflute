@@ -7,11 +7,8 @@ public class MySQLTableProperties extends TableProperties {
     private static final long serialVersionUID = 1L;
 
     private String storageEngine;
-
     private String characterSet;
-
     private String collation;
-
     private Integer primaryKeyLengthOfText;
 
     public String getStorageEngine() {

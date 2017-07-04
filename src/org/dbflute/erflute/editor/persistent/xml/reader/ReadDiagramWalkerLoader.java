@@ -131,7 +131,7 @@ public class ReadDiagramWalkerLoader {
 
     private String buildRelationshipId(TableView targetTable, Element element, LoadContext context, Relationship relationship) {
         final NodeList columnsNodeList = element.getElementsByTagName("fk_columns");
-        final List<String> physicalColumnNameList = new ArrayList<String>();
+        final List<String> physicalColumnNameList = new ArrayList<>();
         for (int i = 0; i < columnsNodeList.getLength(); i++) {
             final Element columnsElement = (Element) columnsNodeList.item(i);
             final NodeList columnNodeList = columnsElement.getElementsByTagName("fk_column");

@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.Text;
 public class PostgresTablespaceDialog extends TablespaceDialog {
 
     private Text location;
-
     private Text owner;
 
     @Override
@@ -27,8 +26,8 @@ public class PostgresTablespaceDialog extends TablespaceDialog {
     protected TablespaceProperties setTablespaceProperties() {
         final PostgresTablespaceProperties properties = new PostgresTablespaceProperties();
 
-        properties.setLocation(this.location.getText().trim());
-        properties.setOwner(this.owner.getText().trim());
+        properties.setLocation(location.getText().trim());
+        properties.setOwner(owner.getText().trim());
 
         return properties;
     }
@@ -38,8 +37,8 @@ public class PostgresTablespaceDialog extends TablespaceDialog {
         if (tablespaceProperties instanceof PostgresTablespaceProperties) {
             final PostgresTablespaceProperties properties = (PostgresTablespaceProperties) tablespaceProperties;
 
-            this.location.setText(Format.toString(properties.getLocation()));
-            this.owner.setText(Format.toString(properties.getOwner()));
+            location.setText(Format.toString(properties.getLocation()));
+            owner.setText(Format.toString(properties.getOwner()));
         }
     }
 
@@ -50,7 +49,7 @@ public class PostgresTablespaceDialog extends TablespaceDialog {
             return errorMessage;
         }
 
-        final String text = this.location.getText().trim();
+        final String text = location.getText().trim();
         if (text.equals("")) {
             return "error.tablespace.location.empty";
         }

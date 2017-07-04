@@ -23,12 +23,12 @@ public class GroupColumnEditPart extends ColumnEditPart {
 
     @Override
     public void refreshTableColumns() {
-        final ERDiagram diagram = this.getDiagram();
-        final GroupColumnFigure columnFigure = (GroupColumnFigure) this.getFigure();
-        final TableViewEditPart parent = (TableViewEditPart) this.getParent();
+        final ERDiagram diagram = getDiagram();
+        final GroupColumnFigure columnFigure = (GroupColumnFigure) getFigure();
+        final TableViewEditPart parent = (TableViewEditPart) getParent();
         parent.getContentPane().add(figure);
         final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
-        final ERColumn column = (ERColumn) this.getModel();
+        final ERColumn column = (ERColumn) getModel();
         if (notationLevel != DiagramSettings.NOTATION_LEVLE_TITLE) {
             final TableFigure tableFigure = (TableFigure) parent.getFigure();
             final boolean isAdded = false;
@@ -59,10 +59,10 @@ public class GroupColumnEditPart extends ColumnEditPart {
 
     @Override
     public void setSelected(int value) {
-        final GroupColumnFigure figure = (GroupColumnFigure) this.getFigure();
+        final GroupColumnFigure figure = (GroupColumnFigure) getFigure();
 
-        if (value != 0 && this.getParent() != null && this.getParent().getParent() != null) {
-            final List selectedEditParts = this.getViewer().getSelectedEditParts();
+        if (value != 0 && getParent() != null && getParent().getParent() != null) {
+            final List<?> selectedEditParts = getViewer().getSelectedEditParts();
 
             if (selectedEditParts != null && selectedEditParts.size() == 1) {
                 figure.setBackgroundColor(ColorConstants.titleBackground);

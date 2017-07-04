@@ -29,15 +29,16 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
     @Override
     protected Command createDeleteCommand(GroupRequest request) {
         try {
-            if (this.getHost() instanceof DeleteableEditPart) {
-                final DeleteableEditPart editPart = (DeleteableEditPart) this.getHost();
+            if (getHost() instanceof DeleteableEditPart) {
+                final DeleteableEditPart editPart = (DeleteableEditPart) getHost();
                 if (!editPart.isDeleteable()) {
                     return null;
                 }
             } else {
                 return null;
             }
-            final Set<DiagramWalker> targets = new HashSet<DiagramWalker>();
+
+            final Set<DiagramWalker> targets = new HashSet<>();
             for (final Object object : request.getEditParts()) {
                 final EditPart editPart = (EditPart) object;
                 final Object model = editPart.getModel();
@@ -46,8 +47,8 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                 }
             }
 
-            final ERDiagram diagram = ERModelUtil.getDiagram(this.getHost().getRoot().getContents());
-            DiagramWalker walker = (DiagramWalker) this.getHost().getModel();
+            final ERDiagram diagram = ERModelUtil.getDiagram(getHost().getRoot().getContents());
+            DiagramWalker walker = (DiagramWalker) getHost().getModel();
 
             if (walker instanceof Category) {
                 return new DeleteCategoryCommand(diagram, (Category) walker);
@@ -58,14 +59,16 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                 virtualTable = (ERVirtualTable) walker;
                 walker = ((ERVirtualTable) walker).getRawTable();
             }
+
             if (!diagram.getDiagramContents().getDiagramWalkers().contains(walker) && !(walker instanceof Category)
                     && !(walker instanceof WalkerNote) && !(walker instanceof WalkerGroup)) {
                 return null;
             }
 
             final CompoundCommand command = new CompoundCommand();
-
             if (virtualTable == null) {
+                command.add(new DeleteElementCommand(diagram, walker));
+
                 for (final WalkerConnection connection : walker.getIncomings()) {
                     if (connection instanceof Relationship) {
                         command.add(new DeleteRelationshipCommand((Relationship) connection, true));
@@ -76,9 +79,7 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                 }
 
                 for (final WalkerConnection connection : walker.getOutgoings()) {
-
-                    final DiagramWalker target = connection.getWalkerTarget();
-
+                    final DiagramWalker target = connection.getTargetWalker();
                     if (!targets.contains(target)) {
                         if (connection instanceof Relationship) {
                             command.add(new DeleteRelationshipCommand((Relationship) connection, true));
@@ -87,15 +88,14 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                         }
                     }
                 }
-
-                command.add(new DeleteElementCommand(diagram, walker));
             } else {
                 command.add(new DeleteElementCommand(diagram, virtualTable));
             }
+
             return command.unwrap();
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
+            return null;
         }
-        return null;
     }
 }

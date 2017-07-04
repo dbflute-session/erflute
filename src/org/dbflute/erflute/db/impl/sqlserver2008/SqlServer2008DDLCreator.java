@@ -13,15 +13,15 @@ public class SqlServer2008DDLCreator extends SqlServerDDLCreator {
 
     @Override
     public String doBuildDropIndex(ERIndex index, ERTable table) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP INDEX ");
-        ddl.append(this.getIfExistsOption());
+        ddl.append(getIfExistsOption());
         ddl.append(filter(index.getName()));
         ddl.append(" ON ");
-        ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
+        ddl.append(filter(table.getNameWithSchema(getDiagram().getDatabase())));
 
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
 

@@ -30,7 +30,6 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 public class CopyManager {
 
     private static DiagramWalkerSet copyList = new DiagramWalkerSet();
-
     private static int numberOfCopy;
 
     private Map<DiagramWalker, DiagramWalker> walkerMap;
@@ -77,7 +76,7 @@ public class CopyManager {
                 continue;
             }
             final DiagramWalker cloneNodeElement = walker.clone();
-            copyList.addDiagramWalker(cloneNodeElement);
+            copyList.add(cloneNodeElement);
             walkerMap.put(walker, cloneNodeElement);
             if (walker instanceof ERTable) {
                 copyColumnAndIndex((ERTable) walker, (ERTable) cloneNodeElement, columnMap, complexUniqueKeyMap);
@@ -118,7 +117,6 @@ public class CopyManager {
                                     }
 
                                     NormalColumn targetReferencedColumn = null;
-
                                     for (final NormalColumn referencedColumn : oldColumn.getReferencedColumnList()) {
                                         if (referencedColumn.getColumnHolder() == oldRelation.getSourceTableView()) {
                                             targetReferencedColumn = referencedColumn;
@@ -129,7 +127,6 @@ public class CopyManager {
 
                                     newColumn.removeReference(oldRelation);
                                     newColumn.addReference(newReferencedColumn, newRelation);
-
                                 } else {
                                     // 複製先の列を外部キーではなく、通常の列に作り直します
                                     newColumn.removeReference(oldRelation);
@@ -144,11 +141,11 @@ public class CopyManager {
         return copyList;
     }
 
-    private static void replaceIncoming(DiagramWalker from, DiagramWalker to, Map<WalkerConnection, WalkerConnection> connectionElementMap,
-            Map<DiagramWalker, DiagramWalker> nodeElementMap) {
+    private static void replaceIncoming(DiagramWalker from, DiagramWalker to,
+            Map<WalkerConnection, WalkerConnection> connectionElementMap, Map<DiagramWalker, DiagramWalker> nodeElementMap) {
         final List<WalkerConnection> cloneIncomings = new ArrayList<>();
         for (final WalkerConnection incoming : from.getIncomings()) {
-            final DiagramWalker oldSource = incoming.getWalkerSource();
+            final DiagramWalker oldSource = incoming.getSourceWalker();
             final DiagramWalker newSource = nodeElementMap.get(oldSource);
             if (newSource != null) {
                 final WalkerConnection cloneIncoming = incoming.clone();
@@ -162,8 +159,8 @@ public class CopyManager {
         to.setIncoming(cloneIncomings);
     }
 
-    private static void copyColumnAndIndex(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap,
-            Map<CompoundUniqueKey, CompoundUniqueKey> complexUniqueKeyMap) {
+    private static void copyColumnAndIndex(ERTable from, ERTable to,
+            Map<ERColumn, ERColumn> columnMap, Map<CompoundUniqueKey, CompoundUniqueKey> complexUniqueKeyMap) {
         copyColumn(from, to, columnMap);
         copyIndex(from, to, columnMap);
         copyComplexUniqueKey(from, to, columnMap, complexUniqueKeyMap);
@@ -188,8 +185,8 @@ public class CopyManager {
         to.setColumns(cloneColumns);
     }
 
-    private static void copyComplexUniqueKey(ERTable from, ERTable to, Map<ERColumn, ERColumn> columnMap,
-            Map<CompoundUniqueKey, CompoundUniqueKey> complexUniqueKeyMap) {
+    private static void copyComplexUniqueKey(ERTable from, ERTable to,
+            Map<ERColumn, ERColumn> columnMap, Map<CompoundUniqueKey, CompoundUniqueKey> complexUniqueKeyMap) {
         final List<CompoundUniqueKey> cloneComplexUniqueKeyList = new ArrayList<>();
 
         // 元のテーブルの複合一意キーに対して、処理を繰り返します。
@@ -247,20 +244,20 @@ public class CopyManager {
     public DiagramContents copy(DiagramContents originalDiagramContents) {
         final DiagramContents copyDiagramContents = new DiagramContents();
 
-        copyDiagramContents.setDiagramWalkers(this.copyNodeElementList(originalDiagramContents.getDiagramWalkers()));
-        final Map<DiagramWalker, DiagramWalker> nodeElementMap = this.getNodeElementMap();
+        copyDiagramContents.setDiagramWalkers(copyNodeElementList(originalDiagramContents.getDiagramWalkers()));
+        final Map<DiagramWalker, DiagramWalker> nodeElementMap = getNodeElementMap();
 
         final DiagramSettings settings = (DiagramSettings) originalDiagramContents.getSettings().clone();
-        this.setSettings(nodeElementMap, settings);
+        setSettings(nodeElementMap, settings);
         copyDiagramContents.setSettings(settings);
 
-        this.setColumnGroup(copyDiagramContents, originalDiagramContents);
+        setColumnGroup(copyDiagramContents, originalDiagramContents);
 
         copyDiagramContents.setSequenceSet(originalDiagramContents.getSequenceSet().clone());
         copyDiagramContents.setTriggerSet(originalDiagramContents.getTriggerSet().clone());
 
-        this.setWord(copyDiagramContents, originalDiagramContents);
-        this.setTablespace(copyDiagramContents, originalDiagramContents);
+        setWord(copyDiagramContents, originalDiagramContents);
+        setTablespace(copyDiagramContents, originalDiagramContents);
 
         return copyDiagramContents;
     }
@@ -277,7 +274,6 @@ public class CopyManager {
     }
 
     private void setColumnGroup(DiagramContents copyDiagramContents, DiagramContents originalDiagramContents) {
-
         final Map<ColumnGroup, ColumnGroup> columnGroupMap = new HashMap<>();
 
         for (final ColumnGroup columnGroup : originalDiagramContents.getColumnGroupSet()) {
@@ -293,7 +289,6 @@ public class CopyManager {
             for (final ERColumn column : tableView.getColumns()) {
                 if (column instanceof ColumnGroup) {
                     newColumns.add(columnGroupMap.get(column));
-
                 } else {
                     newColumns.add(column);
                 }
@@ -304,7 +299,6 @@ public class CopyManager {
     }
 
     private void setWord(DiagramContents copyDiagramContents, DiagramContents originalDiagramContents) {
-
         final Map<Word, Word> wordMap = new HashMap<>();
         final Dictionary copyDictionary = copyDiagramContents.getDictionary();
 
@@ -339,7 +333,6 @@ public class CopyManager {
     }
 
     private void setTablespace(DiagramContents copyDiagramContents, DiagramContents originalDiagramContents) {
-
         final Map<Tablespace, Tablespace> tablespaceMap = new HashMap<>();
         final TablespaceSet copyTablespaceSet = copyDiagramContents.getTablespaceSet();
 

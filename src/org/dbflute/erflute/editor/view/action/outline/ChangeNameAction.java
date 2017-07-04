@@ -2,6 +2,7 @@ package org.dbflute.erflute.editor.view.action.outline;
 
 import java.util.List;
 
+import org.dbflute.erflute.editor.controller.command.ermodel.ChangeVirtualDiagramNameCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.view.dialog.vdiagram.InputVirtualDiagramNameValidator;
@@ -26,25 +27,18 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
 
     @Override
     public void execute(Event event) {
-
-        final ERDiagram diagram = this.getDiagram();
-
-        final List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
+        final ERDiagram diagram = getDiagram();
+        final List<?> selectedEditParts = getTreeViewer().getSelectedEditParts();
         final EditPart editPart = (EditPart) selectedEditParts.get(0);
         final Object model = editPart.getModel();
         if (model instanceof ERVirtualDiagram) {
             final ERVirtualDiagram vdiagram = (ERVirtualDiagram) model;
             final InputVirtualDiagramNameValidator validator = new InputVirtualDiagramNameValidator(diagram, vdiagram.getName());
-            final InputDialog dialog =
-                    new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename", "Input new name",
-                            vdiagram.getName(), validator);
+            final InputDialog dialog = new InputDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Rename",
+                    "Input new name", vdiagram.getName(), validator);
             if (dialog.open() == IDialogConstants.OK_ID) {
-                vdiagram.setName(dialog.getValue());
-                diagram.getDiagramContents().getVirtualDiagramSet().changeVdiagram(vdiagram);
-                vdiagram.getDiagram().getEditor().setDirty(true);
-                //				ermodel.changeAll();
-                //				AddERModelCommand command = new AddERModelCommand(diagram, dialog.getValue());
-                //				this.execute(command);
+                final ChangeVirtualDiagramNameCommand command = new ChangeVirtualDiagramNameCommand(vdiagram, dialog.getValue());
+                execute(command);
             }
         }
     }

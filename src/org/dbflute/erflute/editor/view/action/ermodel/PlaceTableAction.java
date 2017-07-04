@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
@@ -27,10 +26,9 @@ public class PlaceTableAction extends AbstractBaseAction {
 
     @Override
     public void execute(Event event) throws Exception {
-        final ERDiagram diagram = this.getDiagram();
-        final ERVirtualDiagram model = oneEditor.getVirtualDiagram();
+        final ERDiagram diagram = getDiagram();
 
-        final List<ERTable> input = new ArrayList<ERTable>();
+        final List<ERTable> input = new ArrayList<>();
         input.addAll(diagram.getDiagramContents().getDiagramWalkers().getTableSet().getList());
 
         final NodeSelectionDialog dialog =
@@ -45,14 +43,10 @@ public class PlaceTableAction extends AbstractBaseAction {
             final Object[] results = dialog.getResult();
             for (final Object result : results) {
                 final ERTable curTable = (ERTable) result;
-                final ERVirtualTable virtualTable = new ERVirtualTable(model, curTable);
+                final ERVirtualTable virtualTable = new ERVirtualTable(oneEditor.getVirtualDiagram(), curTable);
                 virtualTable.setPoint(point.x, point.y);
-                model.addTable(virtualTable);
-                //				oneEditor.setContents(model);
-                //				oneEditor.refreshContents();
-                //				model.changeAll();
+                getDiagram().addWalkerPlainly(virtualTable);
             }
         }
-
     }
 }

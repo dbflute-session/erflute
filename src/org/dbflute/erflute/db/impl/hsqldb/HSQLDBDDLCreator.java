@@ -19,10 +19,10 @@ public class HSQLDBDDLCreator extends DDLCreator {
 
     @Override
     public String doBuildCreateSequence(Sequence sequence) {
-        StringBuilder ddl = new StringBuilder();
+        final StringBuilder ddl = new StringBuilder();
 
-        String description = sequence.getDescription();
-        if (this.semicolon && !Check.isEmpty(description) && this.ddlTarget.inlineTableComment) {
+        final String description = sequence.getDescription();
+        if (semicolon && !Check.isEmpty(description) && ddlTarget.inlineTableComment) {
             ddl.append("-- ");
             ddl.append(description.replaceAll("\n", "\n-- "));
             ddl.append("\r\n");
@@ -30,10 +30,10 @@ public class HSQLDBDDLCreator extends DDLCreator {
 
         ddl.append("CREATE ");
         ddl.append("SEQUENCE ");
-        ddl.append(filter(this.getNameWithSchema(sequence.getSchema(), sequence.getName())));
+        ddl.append(filter(getNameWithSchema(sequence.getSchema(), sequence.getName())));
         if (!Check.isEmpty(sequence.getDataType())) {
             ddl.append(" AS ");
-            String dataType = sequence.getDataType();
+            final String dataType = sequence.getDataType();
             ddl.append(dataType);
         }
         if (sequence.getIncrement() != null) {
@@ -55,11 +55,10 @@ public class HSQLDBDDLCreator extends DDLCreator {
         if (sequence.isCycle()) {
             ddl.append(" CYCLE");
         }
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
 
         return ddl.toString();
-
     }
 }

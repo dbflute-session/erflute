@@ -22,7 +22,7 @@ public class NewDiagramWizardPage2 extends WizardPage {
 
     public NewDiagramWizardPage2(IStructuredSelection selection) {
         super(DisplayMessages.getMessage("wizard.new.diagram.title"));
-        this.setTitle(DisplayMessages.getMessage("wizard.new.diagram.title"));
+        setTitle(DisplayMessages.getMessage("wizard.new.diagram.title"));
     }
 
     @Override
@@ -39,37 +39,37 @@ public class NewDiagramWizardPage2 extends WizardPage {
         this.databaseCombo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
         final GridData dbData = new GridData(GridData.FILL_HORIZONTAL);
         dbData.widthHint = 200;
-        this.databaseCombo.setLayoutData(dbData);
-        this.databaseCombo.setVisibleItemCount(10);
+        databaseCombo.setLayoutData(dbData);
+        databaseCombo.setVisibleItemCount(10);
         for (final String db : DBManagerFactory.getAllDBList()) {
-            this.databaseCombo.add(db);
+            databaseCombo.add(db);
         }
-        this.databaseCombo.addModifyListener(new ModifyListener() {
+        databaseCombo.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
                 validatePage();
             }
         });
-        this.databaseCombo.setFocus();
-        this.validatePage();
-        this.setControl(composite);
+        databaseCombo.setFocus();
+        validatePage();
+        setControl(composite);
     }
 
     protected boolean validatePage() {
         boolean valid = true;
-        if (this.databaseCombo.getText().length() == 0) {
+        if (databaseCombo.getText().length() == 0) {
             setMessage(DisplayMessages.getMessage("select.database.message"));
             valid = false;
-            this.setPageComplete(false);
+            setPageComplete(false);
         }
         if (valid) {
-            this.setPageComplete(true);
+            setPageComplete(true);
             setMessage(DisplayMessages.getMessage("wizard.new.diagram.message"));
         }
         return valid;
     }
 
     public String getDatabase() {
-        return this.databaseCombo.getText();
+        return databaseCombo.getText();
     }
 }

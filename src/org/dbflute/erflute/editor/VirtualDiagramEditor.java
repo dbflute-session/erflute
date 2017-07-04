@@ -12,23 +12,16 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
-import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
 import org.dbflute.erflute.editor.view.ERVirtualDiagramPopupMenuManager;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
 import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
 import org.dbflute.erflute.editor.view.outline.ERDiagramOutlinePage;
-import org.dbflute.erflute.editor.view.outline.ERDiagramOutlinePopupMenuManager;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.MouseWheelHandler;
-import org.eclipse.gef.MouseWheelZoomHandler;
-import org.eclipse.gef.SnapToGeometry;
-import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.swt.SWT;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -70,7 +63,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
         super.createActions();
         final ActionRegistry registry = getActionRegistry();
         final List<IAction> actionList =
-                new ArrayList<IAction>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new WalkerGroupManageAction(this), }));
+                new ArrayList<>(Arrays.asList(new IAction[] { new PlaceTableAction(this), new WalkerGroupManageAction(this), }));
         for (final IAction action : actionList) {
             registry.registerAction(action);
         }
@@ -80,26 +73,11 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     //                                                                     GraphicalViewer
     //                                                                     ===============
     @Override
-    protected void initializeGraphicalViewer() {
-        final GraphicalViewer viewer = this.getGraphicalViewer();
-        viewer.setEditPartFactory(editPartFactory);
-
-        this.initViewerAction(viewer);
-        this.initDragAndDrop(viewer);
-
-        viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.MOD1), MouseWheelZoomHandler.SINGLETON);
-        viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, true);
-        viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE, true);
-        viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, true);
-
-        final MenuManager menuMgr = new ERVirtualDiagramPopupMenuManager(this.getActionRegistry(), this.vdiagram);
-        this.extensionLoader.addERDiagramPopupMenu(menuMgr, this.getActionRegistry());
+    protected void prepareERDiagramPopupMenu(final GraphicalViewer viewer) {
+        final MenuManager menuMgr = new ERVirtualDiagramPopupMenuManager(getActionRegistry(), vdiagram);
+        extensionLoader.addERDiagramPopupMenu(menuMgr, getActionRegistry());
         viewer.setContextMenu(menuMgr);
         viewer.setContents(vdiagram);
-        this.outlineMenuMgr =
-                new ERDiagramOutlinePopupMenuManager(this.diagram, this.getActionRegistry(), this.outlinePage.getOutlineActionRegistory(),
-                        this.outlinePage.getViewer());
-        this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
     // ===================================================================================
@@ -127,6 +105,7 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
                 final ERVirtualTableEditPart vtableEditPart = (ERVirtualTableEditPart) tableEditPart;
                 if (((ERVirtualTable) vtableEditPart.getModel()).getRawTable().equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
+                    selectEditPart(vtableEditPart);
                     return;
                 }
             }

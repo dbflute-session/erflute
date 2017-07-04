@@ -32,35 +32,23 @@ import org.eclipse.draw2d.graph.Node;
 public class ImportTableCommand extends AbstractCommand {
 
     private final ERDiagram diagram;
-
     private final SequenceSet sequenceSet;
-
     private final TriggerSet triggerSet;
-
     private final TablespaceSet tablespaceSet;
-
     private final ColumnGroupSet columnGroupSet;
-
     private final List<DiagramWalker> walkerList;
-
     private final List<Sequence> sequences;
-
     private final List<Trigger> triggers;
-
     private final List<Tablespace> tablespaces;
-
     private final List<ColumnGroup> columnGroups;
 
     private DirectedGraph graph = new DirectedGraph();
 
     private static final int AUTO_GRAPH_LIMIT = 100;
-
     private static final int ORIGINAL_X = 20;
     private static final int ORIGINAL_Y = 20;
-
     private static final int DISTANCE_X = 300;
     private static final int DISTANCE_Y = 300;
-
     private static final int SIZE_X = 6;
 
     public ImportTableCommand(ERDiagram diagram, List<DiagramWalker> walkerList, List<Sequence> sequences, List<Trigger> triggers,
@@ -72,43 +60,42 @@ public class ImportTableCommand extends AbstractCommand {
         this.tablespaces = tablespaces;
         this.columnGroups = columnGroups;
 
-        final DiagramContents diagramContents = this.diagram.getDiagramContents();
-
+        final DiagramContents diagramContents = diagram.getDiagramContents();
         this.sequenceSet = diagramContents.getSequenceSet();
         this.triggerSet = diagramContents.getTriggerSet();
         this.tablespaceSet = diagramContents.getTablespaceSet();
         this.columnGroupSet = diagramContents.getColumnGroupSet();
 
-        this.decideLocation();
+        decideLocation();
     }
 
     @SuppressWarnings("unchecked")
     private void decideLocation() {
         this.graph = new DirectedGraph();
 
-        if (this.walkerList.size() < AUTO_GRAPH_LIMIT) {
+        if (walkerList.size() < AUTO_GRAPH_LIMIT) {
             final Map<DiagramWalker, Node> nodeElementNodeMap = new HashMap<>();
-            final int fontSize = this.diagram.getFontSize();
+            final int fontSize = diagram.getFontSize();
             final Insets insets = new Insets(5 * fontSize, 10 * fontSize, 35 * fontSize, 20 * fontSize);
-            for (final DiagramWalker walker : this.walkerList) {
+            for (final DiagramWalker walker : walkerList) {
                 final Node node = new Node();
                 node.setPadding(insets);
-                this.graph.nodes.add(node);
+                graph.nodes.add(node);
                 nodeElementNodeMap.put(walker, node);
             }
 
-            for (final DiagramWalker walker : this.walkerList) {
+            for (final DiagramWalker walker : walkerList) {
                 for (final WalkerConnection outgoing : walker.getOutgoings()) {
-                    final Node sourceNode = nodeElementNodeMap.get(outgoing.getWalkerSource());
-                    final Node targetNode = nodeElementNodeMap.get(outgoing.getWalkerTarget());
+                    final Node sourceNode = nodeElementNodeMap.get(outgoing.getSourceWalker());
+                    final Node targetNode = nodeElementNodeMap.get(outgoing.getTargetWalker());
                     if (sourceNode != targetNode) {
                         final Edge edge = new Edge(sourceNode, targetNode);
-                        this.graph.edges.add(edge);
+                        graph.edges.add(edge);
                     }
                 }
             }
             final DirectedGraphLayout layout = new DirectedGraphLayout();
-            layout.visit(this.graph);
+            layout.visit(graph);
             for (final DiagramWalker walker : nodeElementNodeMap.keySet()) {
                 final Node node = nodeElementNodeMap.get(walker);
                 if (walker.getWidth() == 0) {
@@ -119,7 +106,7 @@ public class ImportTableCommand extends AbstractCommand {
             int x = ORIGINAL_X;
             int y = ORIGINAL_Y;
 
-            for (final DiagramWalker nodeElement : this.walkerList) {
+            for (final DiagramWalker nodeElement : walkerList) {
                 if (nodeElement.getWidth() == 0) {
                     nodeElement.setLocation(new Location(x, y, -1, -1));
 
@@ -135,22 +122,22 @@ public class ImportTableCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        if (this.columnGroups != null) {
+        if (columnGroups != null) {
             for (final ColumnGroup columnGroup : columnGroups) {
-                this.columnGroupSet.add(columnGroup);
+                columnGroupSet.add(columnGroup);
             }
         }
 
         ERDiagramEditPart.setUpdateable(false);
 
-        for (final DiagramWalker walker : this.walkerList) {
-            this.diagram.addNewWalker(walker);
+        for (final DiagramWalker walker : walkerList) {
+            diagram.addNewWalker(walker);
             if (walker instanceof TableView) {
                 for (final NormalColumn normalColumn : ((TableView) walker).getNormalColumns()) {
                     if (normalColumn.isForeignKey()) {
                         for (final Relationship relation : normalColumn.getRelationshipList()) {
                             if (relation.getSourceTableView() == walker) {
-                                this.setSelfRelation(relation);
+                                setSelfRelation(relation);
                             }
                         }
                     }
@@ -159,20 +146,20 @@ public class ImportTableCommand extends AbstractCommand {
         }
 
         for (final Sequence sequence : sequences) {
-            this.sequenceSet.addSequence(sequence);
+            sequenceSet.addSequence(sequence);
         }
 
         for (final Trigger trigger : triggers) {
-            this.triggerSet.addTrigger(trigger);
+            triggerSet.addTrigger(trigger);
         }
 
         for (final Tablespace tablespace : tablespaces) {
-            this.tablespaceSet.addTablespace(tablespace);
+            tablespaceSet.addTablespace(tablespace);
         }
 
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.changeAll(this.walkerList);
+        diagram.changeAll(walkerList);
     }
 
     private void setSelfRelation(Relationship relation) {
@@ -183,7 +170,7 @@ public class ImportTableCommand extends AbstractCommand {
             if (otherRelation == relation) {
                 continue;
             }
-            if (otherRelation.getWalkerSource() == otherRelation.getWalkerTarget()) {
+            if (otherRelation.getSourceWalker() == otherRelation.getTargetWalker()) {
                 anotherSelfRelation = true;
                 break;
             }
@@ -213,29 +200,29 @@ public class ImportTableCommand extends AbstractCommand {
     @Override
     protected void doUndo() {
         ERDiagramEditPart.setUpdateable(false);
-        for (final DiagramWalker walker : this.walkerList) {
-            this.diagram.removeContent(walker);
+        for (final DiagramWalker walker : walkerList) {
+            diagram.removeWalker(walker);
             if (walker instanceof TableView) {
                 for (final NormalColumn normalColumn : ((TableView) walker).getNormalColumns()) {
-                    this.diagram.getDiagramContents().getDictionary().remove(normalColumn);
+                    diagram.getDiagramContents().getDictionary().remove(normalColumn);
                 }
             }
         }
         for (final Sequence sequence : sequences) {
-            this.sequenceSet.remove(sequence);
+            sequenceSet.remove(sequence);
         }
         for (final Trigger trigger : triggers) {
-            this.triggerSet.remove(trigger);
+            triggerSet.remove(trigger);
         }
         for (final Tablespace tablespace : tablespaces) {
-            this.tablespaceSet.remove(tablespace);
+            tablespaceSet.remove(tablespace);
         }
-        if (this.columnGroups != null) {
+        if (columnGroups != null) {
             for (final ColumnGroup columnGroup : columnGroups) {
-                this.columnGroupSet.remove(columnGroup);
+                columnGroupSet.remove(columnGroup);
             }
         }
         ERDiagramEditPart.setUpdateable(true);
-        this.diagram.changeAll();
+        diagram.changeAll();
     }
 }

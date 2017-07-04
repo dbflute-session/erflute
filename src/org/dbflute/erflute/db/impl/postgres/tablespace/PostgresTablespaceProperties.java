@@ -10,9 +10,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 public class PostgresTablespaceProperties implements TablespaceProperties {
 
     private static final long serialVersionUID = 1L;
-
     private String location;
-
     private String owner;
 
     public String getLocation() {
@@ -45,8 +43,8 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
     public LinkedHashMap<String, String> getPropertiesMap() {
         final LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
-        map.put("label.tablespace.location", this.getLocation());
-        map.put("label.tablespace.owner", this.getOwner());
+        map.put("label.tablespace.location", getLocation());
+        map.put("label.tablespace.owner", getOwner());
 
         return map;
     }
@@ -55,7 +53,7 @@ public class PostgresTablespaceProperties implements TablespaceProperties {
     public List<String> validate() {
         final List<String> errorMessage = new ArrayList<>();
 
-        if (Check.isEmptyTrim(this.getLocation())) {
+        if (Check.isEmptyTrim(getLocation())) {
             errorMessage.add("error.tablespace.location.empty");
         }
 

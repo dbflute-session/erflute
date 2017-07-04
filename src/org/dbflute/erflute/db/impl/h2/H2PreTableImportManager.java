@@ -18,15 +18,14 @@ public class H2PreTableImportManager extends PreImportFromDBManager {
         ResultSet resultSet = null;
         PreparedStatement stmt = null;
 
-        if (this.schemaList.isEmpty()) {
-            this.schemaList.add(null);
+        if (schemaList.isEmpty()) {
+            schemaList.add(null);
         }
 
-        for (final String schemaPattern : this.schemaList) {
+        for (final String schemaPattern : schemaList) {
             try {
                 if (schemaPattern == null) {
                     stmt = con.prepareStatement("SELECT SEQUENCE_SCHEMA, SEQUENCE_NAME FROM INFORMATION_SCHEMA.SEQUENCES");
-
                 } else {
                     stmt = con.prepareStatement(
                             "SELECT SEQUENCE_SCHEMA, SEQUENCE_NAME FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA = ?");

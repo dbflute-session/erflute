@@ -28,8 +28,8 @@ public class FileText {
         this.text = new Text(parent, style);
         this.filterExtensions = filterExtensions;
         this.openBrowseButton = new Button(parent, SWT.NONE);
-        this.openBrowseButton.setText(JFaceResources.getString("openBrowse"));
-        this.openBrowseButton.addSelectionListener(new SelectionAdapter() {
+        openBrowseButton.setText(JFaceResources.getString("openBrowse"));
+        openBrowseButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final String saveFilePath = Activator.showSaveDialogInternal(text.getText(), FileText.this.filterExtensions);
@@ -39,7 +39,7 @@ public class FileText {
     }
 
     public void setLayoutData(Object layoutData) {
-        this.text.setLayoutData(layoutData);
+        text.setLayoutData(layoutData);
     }
 
     public void setText(String text) {
@@ -48,18 +48,18 @@ public class FileText {
     }
 
     public boolean isBlank() {
-        if (this.text.getText().trim().length() == 0) {
+        if (text.getText().trim().length() == 0) {
             return true;
         }
         return false;
     }
 
     public String getFilePath() {
-        return this.text.getText().trim();
+        return text.getText().trim();
     }
 
     public void addModifyListener(ModifyListener listener) {
-        this.text.addModifyListener(listener);
+        text.addModifyListener(listener);
     }
 
     public void setFilterExtension(String filterExtension) {

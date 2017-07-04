@@ -61,7 +61,6 @@ public class StandardSQLDBManager extends DBManagerBase {
     @Override
     public List<String> getIndexTypeList(ERTable table) {
         final List<String> list = new ArrayList<>();
-
         list.add("BTREE");
 
         return list;

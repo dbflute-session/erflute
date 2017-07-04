@@ -27,7 +27,7 @@ public class ERVirtualTable extends ERTable {
     //                                                                           Attribute
     //                                                                           =========
     private final ERVirtualDiagram vdiagram;
-    private final ERTable rawTable;
+    private ERTable rawTable;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -63,7 +63,7 @@ public class ERVirtualTable extends ERTable {
     }
 
     public void setPoint(int x, int y) {
-        this.setLocation(new Location(x, y, getWidth(), getHeight()));
+        super.setLocation(new Location(x, y, getWidth(), getHeight()));
     }
 
     @Override
@@ -78,12 +78,13 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<WalkerConnection> getIncomings() {
-        final List<WalkerConnection> connectionList = new ArrayList<WalkerConnection>();
+        final List<WalkerConnection> connectionList = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final WalkerConnection connection : rawTable.getIncomings()) {
-            final DiagramWalker walker = connection.getWalkerSource();
+            final DiagramWalker walker = connection.getSourceWalker();
             if (walker instanceof WalkerNote) {
-                if (((WalkerNote) walker).getVirtualDiagram().equals(vdiagram)) {
+                final WalkerNote note = (WalkerNote) walker;
+                if (note.getVirtualDiagram() != null && note.getVirtualDiagram().equals(vdiagram)) {
                     connectionList.add(connection);
                 }
             } else {
@@ -100,10 +101,10 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<WalkerConnection> getOutgoings() {
-        final List<WalkerConnection> connectionList = new ArrayList<WalkerConnection>();
+        final List<WalkerConnection> connectionList = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final WalkerConnection connection : rawTable.getOutgoings()) {
-            final DiagramWalker walker = connection.getWalkerTarget();
+            final DiagramWalker walker = connection.getTargetWalker();
             if (walker instanceof WalkerNote) {
                 if (((WalkerNote) walker).getVirtualDiagram().equals(vdiagram)) {
                     connectionList.add(connection);
@@ -177,10 +178,10 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relationship> getIncomingRelationshipList() {
-        final List<Relationship> relationships = new ArrayList<Relationship>();
+        final List<Relationship> relationships = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final Relationship relationship : rawTable.getIncomingRelationshipList()) {
-            final DiagramWalker walker = relationship.getWalkerSource();
+            final DiagramWalker walker = relationship.getSourceWalker();
             for (final ERVirtualTable vtable : vtables) {
                 if (vtable.getRawTable().equals(walker)) {
                     relationships.add(relationship);
@@ -193,10 +194,10 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public List<Relationship> getOutgoingRelationshipList() {
-        final List<Relationship> relationships = new ArrayList<Relationship>();
+        final List<Relationship> relationships = new ArrayList<>();
         final List<ERVirtualTable> vtables = vdiagram.getVirtualTables();
         for (final Relationship relationship : rawTable.getOutgoingRelationshipList()) {
-            final DiagramWalker walker = relationship.getWalkerSource();
+            final DiagramWalker walker = relationship.getSourceWalker();
             for (final ERVirtualTable vtable : vtables) {
                 if (vtable.getRawTable().equals(walker)) {
                     relationships.add(relationship);
@@ -262,6 +263,23 @@ public class ERVirtualTable extends ERTable {
         return rawTable.getNameWithSchema(database);
     }
 
+    @Override
+    public void setColumns(List<ERColumn> columns) {
+        rawTable.setColumns(columns);
+    }
+
+    @Override
+    public void setLocation(Location location) {
+        rawTable.setWidth(location.width);
+        rawTable.setHeight(location.height);
+        super.setLocation(location);
+    }
+
+    @Override
+    public ERTable toMaterialize() {
+        return this.rawTable;
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
@@ -276,5 +294,27 @@ public class ERVirtualTable extends ERTable {
 
     public ERTable getRawTable() {
         return rawTable;
+    }
+
+    @Override
+    public void changeTableViewProperty(final TableView sourceTableView) {
+        // メインビューを更新（枠の再生成）
+        sourceTableView.restructureData(getRawTable());
+
+        // サブビューも更新
+        changeTable();
+
+        // テーブルの更新（線も含めた再生成）
+        getDiagram().changeTable(sourceTableView);
+    }
+
+    // ===================================================================================
+    //                                                                      Basic Override
+    //                                                                      ==============
+    @Override
+    public ERVirtualTable clone() {
+        final ERVirtualTable clone = (ERVirtualTable) super.clone();
+        clone.rawTable = rawTable.clone();
+        return clone;
     }
 }

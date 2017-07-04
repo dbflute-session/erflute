@@ -115,7 +115,7 @@ public class ErmXmlReader {
             root = document.getFirstChild();
         }
         load((Element) root);
-        return this.diagram;
+        return diagram;
     }
 
     // ===================================================================================
@@ -183,13 +183,13 @@ public class ErmXmlReader {
             final String walkerName = walkerNode.getNodeName();
             if ("table".equals(walkerName)) {
                 final ERTable table = tableLoader.loadTable((Element) walkerNode, context, diagram, database);
-                contents.addDiagramWalker(table);
+                contents.add(table);
             } else if ("view".equals(walkerName)) {
                 final ERView view = viewLoader.loadView((Element) walkerNode, context, diagram, database);
-                contents.addDiagramWalker(view);
+                contents.add(view);
             } else if ("walker_note".equals(walkerName) || "note".equals(walkerName)) { // #for_erflute
                 final WalkerNote note = walkerNoteLoader.loadNote((Element) walkerNode, context);
-                contents.addDiagramWalker(note);
+                contents.add(note);
             } else if ("walker_group".equals(walkerName) || "group".equals(walkerName)) { // #for_erflute
                 final WalkerGroup group = walkerGroupLoader.loadGroup((Element) walkerNode, context, new WalkerGroupedTableViewProvider() {
                     @Override
@@ -197,10 +197,10 @@ public class ErmXmlReader {
                         return diagram.getDiagramContents().getDiagramWalkers().getTableViewList();
                     }
                 });
-                contents.addDiagramWalker(group);
+                contents.add(group);
             } else if ("inserted_image".equals(walkerName) || "image".equals(walkerName)) { // #for_erflute
                 final InsertedImage insertedImage = insertedImageLoader.loadInsertedImage((Element) walkerNode, context);
-                contents.addDiagramWalker(insertedImage);
+                contents.add(insertedImage);
             } else {
                 throw new IllegalStateException("*Unsupported contents: " + walkerNode);
             }

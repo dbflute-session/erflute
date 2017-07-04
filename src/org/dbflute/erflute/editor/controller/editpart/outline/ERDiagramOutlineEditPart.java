@@ -24,8 +24,8 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected List<AbstractModel> getModelChildren() {
-        final List<AbstractModel> modelChildren = new ArrayList<AbstractModel>();
-        final ERDiagram diagram = (ERDiagram) this.getModel();
+        final List<AbstractModel> modelChildren = new ArrayList<>();
+        final ERDiagram diagram = (ERDiagram) getModel();
         final DiagramContents diagramContents = diagram.getDiagramContents();
         if (quickMode) {
             modelChildren.add(diagramContents.getDiagramWalkers().getTableSet());
@@ -48,7 +48,8 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL) || evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
+        if (evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_ALL)
+                || evt.getPropertyName().equals(ERDiagram.PROPERTY_CHANGE_SETTINGS)) {
             refresh();
         }
         // what is this? by jflute
@@ -82,7 +83,7 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        for (final Object child : this.getChildren()) {
+        for (final Object child : getChildren()) {
             final EditPart part = (EditPart) child;
             part.refresh();
         }

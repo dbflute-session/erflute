@@ -42,7 +42,7 @@ public class ExportToImageAction extends AbstractExportAction {
 
     public ExportToImageAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.image"), editor);
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_IMAGE));
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_IMAGE));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ExportToImageAction extends AbstractExportAction {
         // return;
         // }
         // }
-        this.save(this.getEditorPart(), this.getGraphicalViewer());
+        save(getEditorPart(), getGraphicalViewer());
     }
 
     @Override
@@ -239,7 +239,7 @@ public class ExportToImageAction extends AbstractExportAction {
 
             for (final DiagramWalker sourceElement : visibleElements.keySet()) {
                 for (final WalkerConnection connection : sourceElement.getOutgoings()) {
-                    if (visibleElements.containsKey(connection.getWalkerTarget())) {
+                    if (visibleElements.containsKey(connection.getTargetWalker())) {
                         for (final Bendpoint bendpoint : connection.getBendpoints()) {
                             int x = bendpoint.getX();
                             int y = bendpoint.getY();

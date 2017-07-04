@@ -19,8 +19,8 @@ public abstract class ValidatableTabWrapper extends Composite {
         super(parent, style);
         this.dialog = dialog;
         this.tabItem = new TabItem(parent, style);
-        this.tabItem.setText(DisplayMessages.getMessage(title));
-        this.tabItem.setControl(this);
+        tabItem.setText(DisplayMessages.getMessage(title));
+        tabItem.setControl(this);
     }
 
     protected final void init() {

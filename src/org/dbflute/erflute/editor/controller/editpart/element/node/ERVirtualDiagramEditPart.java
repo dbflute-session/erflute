@@ -29,6 +29,10 @@ public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
             // ?
         } else if (event.getPropertyName().equals(ViewableModel.PROPERTY_CHANGE_COLOR)) {
             refreshVisuals();
+        } else if (event.getPropertyName().equals(ERVirtualDiagram.REMOVE_VWALKER)) {
+            refreshRelations();
+            refreshChildren();
+            refresh();
         }
     }
 
@@ -39,7 +43,7 @@ public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
 
     @Override
     protected List<Object> getModelChildren() {
-        final List<Object> modelChildren = new ArrayList<Object>();
+        final List<Object> modelChildren = new ArrayList<>();
         final ERVirtualDiagram vdiagram = (ERVirtualDiagram) getModel();
         modelChildren.addAll(vdiagram.getWalkerGroups());
         modelChildren.addAll(vdiagram.getVirtualTables());
@@ -56,7 +60,7 @@ public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.LAYOUT_ROLE, new ERDiagramLayoutEditPolicy());
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new ERDiagramLayoutEditPolicy());
     }
 
     @Override
@@ -65,9 +69,9 @@ public class ERVirtualDiagramEditPart extends DiagramWalkerEditPart {
         final int[] color = element.getColor();
         if (color != null) {
             final Color bgColor = DesignResources.getColor(color);
-            this.getViewer().getControl().setBackground(bgColor);
+            getViewer().getControl().setBackground(bgColor);
         }
-        for (final Object child : this.getChildren()) {
+        for (final Object child : getChildren()) {
             if (child instanceof DiagramWalkerEditPart) {
                 final DiagramWalkerEditPart part = (DiagramWalkerEditPart) child;
                 part.refreshVisuals();
