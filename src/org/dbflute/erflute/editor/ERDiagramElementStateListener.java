@@ -98,7 +98,6 @@ public class ERDiagramElementStateListener implements IElementStateListener {
                                 @Override
                                 public void run() {
                                     documentProvider.getDocument(editorPart.getEditorInput()).set(previousContent);
-
                                 }
                             };
                             execute(r2, doValidationAsync);
