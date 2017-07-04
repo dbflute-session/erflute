@@ -29,7 +29,7 @@ public class PostgresDDLCreator extends DDLCreator {
     @Override
     public String buildTableOptionPart(ERTable table) {
         final PostgresTableProperties commonTableProperties =
-                (PostgresTableProperties) this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
+                (PostgresTableProperties) getDiagram().getDiagramContents().getSettings().getTableViewProperties();
 
         final PostgresTableProperties tableProperties = (PostgresTableProperties) table.getTableViewProperties();
 
@@ -53,17 +53,17 @@ public class PostgresDDLCreator extends DDLCreator {
     public List<String> doBuildCreateComment(ERTable table) {
         final List<String> ddlList = new ArrayList<>();
 
-        final String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
+        final String tableComment = filterComment(table.getLogicalName(), table.getDescription(), false);
 
         if (!Check.isEmpty(tableComment)) {
             final StringBuilder ddl = new StringBuilder();
 
             ddl.append("COMMENT ON TABLE ");
-            ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
+            ddl.append(filter(table.getNameWithSchema(getDiagram().getDatabase())));
             ddl.append(" IS '");
             ddl.append(tableComment.replaceAll("'", "''"));
             ddl.append("'");
-            if (this.semicolon) {
+            if (semicolon) {
                 ddl.append(";");
             }
 
@@ -74,19 +74,19 @@ public class PostgresDDLCreator extends DDLCreator {
             if (column instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) column;
 
-                final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                final String comment = filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                 if (!Check.isEmpty(comment)) {
                     final StringBuilder ddl = new StringBuilder();
 
                     ddl.append("COMMENT ON COLUMN ");
-                    ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
+                    ddl.append(filter(table.getNameWithSchema(getDiagram().getDatabase())));
                     ddl.append(".");
                     ddl.append(filter(normalColumn.getPhysicalName()));
                     ddl.append(" IS '");
                     ddl.append(comment.replaceAll("'", "''"));
                     ddl.append("'");
-                    if (this.semicolon) {
+                    if (semicolon) {
                         ddl.append(";");
                     }
 
@@ -96,19 +96,19 @@ public class PostgresDDLCreator extends DDLCreator {
                 final ColumnGroup columnGroup = (ColumnGroup) column;
 
                 for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-                    final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                    final String comment = filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                     if (!Check.isEmpty(comment)) {
                         final StringBuilder ddl = new StringBuilder();
 
                         ddl.append("COMMENT ON COLUMN ");
-                        ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
+                        ddl.append(filter(table.getNameWithSchema(getDiagram().getDatabase())));
                         ddl.append(".");
                         ddl.append(filter(normalColumn.getPhysicalName()));
                         ddl.append(" IS '");
                         ddl.append(comment.replaceAll("'", "''"));
                         ddl.append("'");
-                        if (this.semicolon) {
+                        if (semicolon) {
                             ddl.append(";");
                         }
 
@@ -124,7 +124,7 @@ public class PostgresDDLCreator extends DDLCreator {
     @Override
     protected String doBuildCreateTablespace(Tablespace tablespace) {
         final PostgresTablespaceProperties tablespaceProperties =
-                (PostgresTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
+                (PostgresTablespaceProperties) tablespace.getProperties(environment, getDiagram());
 
         final StringBuilder ddl = new StringBuilder();
 
@@ -142,7 +142,7 @@ public class PostgresDDLCreator extends DDLCreator {
         ddl.append(tablespaceProperties.getLocation());
         ddl.append("'\r\n");
 
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
 
@@ -156,9 +156,8 @@ public class PostgresDDLCreator extends DDLCreator {
 
         if (sequence.getIncrement() != null || sequence.getMinValue() != null || sequence.getMaxValue() != null
                 || sequence.getStart() != null || sequence.getCache() != null || sequence.isCycle()) {
-
             ddl.append("ALTER SEQUENCE ");
-            ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase()) + "_" + column.getPhysicalName() + "_SEQ"));
+            ddl.append(filter(table.getNameWithSchema(getDiagram().getDatabase()) + "_" + column.getPhysicalName() + "_SEQ"));
 
             if (sequence.getIncrement() != null) {
                 ddl.append(" INCREMENT ");
@@ -183,7 +182,7 @@ public class PostgresDDLCreator extends DDLCreator {
             if (sequence.isCycle()) {
                 ddl.append(" CYCLE");
             }
-            if (this.semicolon) {
+            if (semicolon) {
                 ddl.append(";");
             }
         }
@@ -222,7 +221,7 @@ public class PostgresDDLCreator extends DDLCreator {
         final StringBuilder ddl = new StringBuilder();
 
         ddl.append("DROP TRIGGER ");
-        ddl.append(this.getIfExistsOption());
+        ddl.append(getIfExistsOption());
         ddl.append(filter(trigger.getName()));
         ddl.append(" ON ");
 
@@ -231,7 +230,7 @@ public class PostgresDDLCreator extends DDLCreator {
             ddl.append(matcher.group(1));
         }
 
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
 

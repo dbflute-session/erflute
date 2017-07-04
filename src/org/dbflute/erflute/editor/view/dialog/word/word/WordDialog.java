@@ -27,8 +27,8 @@ public class WordDialog extends AbstractWordDialog {
 
     @Override
     protected void setWordData() {
-        this.setData(this.targetWord.getPhysicalName(), this.targetWord.getLogicalName(), this.targetWord.getType(),
-                this.targetWord.getTypeData(), this.targetWord.getDescription());
+        setData(targetWord.getPhysicalName(), targetWord.getLogicalName(),
+                targetWord.getType(), targetWord.getTypeData(), targetWord.getDescription());
     }
 
     // ===================================================================================
@@ -62,35 +62,35 @@ public class WordDialog extends AbstractWordDialog {
         }
         boolean array = false;
         Integer arrayDimension = null;
-        if (this.arrayDimensionText != null) {
+        if (arrayDimensionText != null) {
             text = arrayDimensionText.getText();
             if (!text.equals("")) {
                 final int len = Integer.parseInt(text);
                 arrayDimension = new Integer(len);
             }
-            array = this.arrayCheck.getSelection();
+            array = arrayCheck.getSelection();
         }
         boolean unsigned = false;
-        if (this.unsignedCheck != null) {
-            unsigned = this.unsignedCheck.getSelection();
+        if (unsignedCheck != null) {
+            unsigned = unsignedCheck.getSelection();
         }
         text = physicalNameText.getText();
-        final String database = this.diagram.getDatabase();
+        final String database = diagram.getDatabase();
         final SqlType selectedType = SqlType.valueOf(database, typeCombo.getText());
         String args = null;
-        if (this.argsText != null) {
-            args = this.argsText.getText();
+        if (argsText != null) {
+            args = argsText.getText();
         }
         // TODO jflute xxxxxxxxxxx (2016/10/28)
         final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, false);
-        this.returnWord =
-                new Word(physicalNameText.getText(), logicalNameText.getText(), selectedType, typeData, descriptionText.getText(), database);
+        returnWord = new Word(physicalNameText.getText(), logicalNameText.getText(),
+                selectedType, typeData, descriptionText.getText(), database);
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     public Word getWord() {
-        return this.returnWord;
+        return returnWord;
     }
 }

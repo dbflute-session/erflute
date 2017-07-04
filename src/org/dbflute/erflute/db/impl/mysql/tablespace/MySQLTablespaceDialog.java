@@ -12,13 +12,9 @@ import org.eclipse.swt.widgets.Text;
 public class MySQLTablespaceDialog extends TablespaceDialog {
 
     private Text dataFile;
-
     private Text logFileGroup;
-
     private Text extentSize;
-
     private Text initialSize;
-
     private Combo engine;
 
     @Override
@@ -43,11 +39,11 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
     protected TablespaceProperties setTablespaceProperties() {
         final MySQLTablespaceProperties properties = new MySQLTablespaceProperties();
 
-        properties.setDataFile(this.dataFile.getText().trim());
-        properties.setLogFileGroup(this.logFileGroup.getText().trim());
-        properties.setExtentSize(this.extentSize.getText().trim());
-        properties.setInitialSize(this.initialSize.getText().trim());
-        properties.setEngine(this.engine.getText().trim());
+        properties.setDataFile(dataFile.getText().trim());
+        properties.setLogFileGroup(logFileGroup.getText().trim());
+        properties.setExtentSize(extentSize.getText().trim());
+        properties.setInitialSize(initialSize.getText().trim());
+        properties.setEngine(engine.getText().trim());
 
         return properties;
     }
@@ -57,11 +53,11 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
         if (tablespaceProperties instanceof MySQLTablespaceProperties) {
             final MySQLTablespaceProperties properties = (MySQLTablespaceProperties) tablespaceProperties;
 
-            this.dataFile.setText(Format.toString(properties.getDataFile()));
-            this.logFileGroup.setText(Format.toString(properties.getLogFileGroup()));
-            this.extentSize.setText(Format.toString(properties.getExtentSize()));
-            this.initialSize.setText(Format.toString(properties.getInitialSize()));
-            this.engine.setText(Format.toString(properties.getEngine()));
+            dataFile.setText(Format.toString(properties.getDataFile()));
+            logFileGroup.setText(Format.toString(properties.getLogFileGroup()));
+            extentSize.setText(Format.toString(properties.getExtentSize()));
+            initialSize.setText(Format.toString(properties.getInitialSize()));
+            engine.setText(Format.toString(properties.getEngine()));
         }
     }
 
@@ -72,22 +68,22 @@ public class MySQLTablespaceDialog extends TablespaceDialog {
             return errorMessage;
         }
 
-        String text = this.dataFile.getText().trim();
+        String text = dataFile.getText().trim();
         if (text.equals("")) {
             return "error.tablespace.data.file.empty";
         }
 
-        text = this.logFileGroup.getText().trim();
+        text = logFileGroup.getText().trim();
         if (text.equals("")) {
             return "error.tablespace.log.file.group.empty";
         }
 
-        text = this.initialSize.getText().trim();
+        text = initialSize.getText().trim();
         if (text.equals("")) {
             return "error.tablespace.initial.size.empty";
         }
 
-        text = this.engine.getText().trim();
+        text = engine.getText().trim();
         if (text.equals("")) {
             return "error.tablespace.storage.engine.empty";
         }

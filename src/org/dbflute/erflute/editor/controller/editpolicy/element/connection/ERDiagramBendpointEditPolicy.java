@@ -63,7 +63,7 @@ public class ERDiagramBendpointEditPolicy extends BendpointEditPolicy {
     }
 
     @Override
-    protected List createSelectionHandles() {
+    protected List<?> createSelectionHandles() {
         showSelectedLine();
         return super.createSelectionHandles();
     }

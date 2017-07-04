@@ -18,14 +18,12 @@ public class DB2DDLCreator extends DDLCreator {
     @Override
     protected String buildColumnPart(NormalColumn normalColumn) {
         final StringBuilder ddl = new StringBuilder();
-
         ddl.append(super.buildColumnPart(normalColumn));
 
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" GENERATED ALWAYS AS IDENTITY ");
 
             final Sequence sequence = normalColumn.getAutoIncrementSetting();
-
             if (sequence.getIncrement() != null || sequence.getStart() != null) {
                 ddl.append("(START WITH ");
                 if (sequence.getStart() != null) {
@@ -50,7 +48,7 @@ public class DB2DDLCreator extends DDLCreator {
     @Override
     protected String doBuildCreateTablespace(Tablespace tablespace) {
         final DB2TablespaceProperties tablespaceProperties =
-                (DB2TablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
+                (DB2TablespaceProperties) tablespace.getProperties(environment, getDiagram());
 
         final StringBuilder ddl = new StringBuilder();
 
@@ -94,7 +92,7 @@ public class DB2DDLCreator extends DDLCreator {
             ddl.append("\r\n");
         }
 
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
 
@@ -106,7 +104,7 @@ public class DB2DDLCreator extends DDLCreator {
         final StringBuilder ddl = new StringBuilder();
 
         final String description = sequence.getDescription();
-        if (this.semicolon && !Check.isEmpty(description) && this.ddlTarget.inlineTableComment) {
+        if (semicolon && !Check.isEmpty(description) && ddlTarget.inlineTableComment) {
             ddl.append("-- ");
             ddl.append(description.replaceAll("\n", "\n-- "));
             ddl.append("\r\n");
@@ -114,7 +112,7 @@ public class DB2DDLCreator extends DDLCreator {
 
         ddl.append("CREATE ");
         ddl.append("SEQUENCE ");
-        ddl.append(filter(this.getNameWithSchema(sequence.getSchema(), sequence.getName())));
+        ddl.append(filter(getNameWithSchema(sequence.getSchema(), sequence.getName())));
         if (!Check.isEmpty(sequence.getDataType())) {
             ddl.append(" AS ");
             String dataType = sequence.getDataType();
@@ -147,7 +145,7 @@ public class DB2DDLCreator extends DDLCreator {
         if (sequence.isOrder()) {
             ddl.append(" ORDER");
         }
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
 

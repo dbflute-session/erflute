@@ -73,6 +73,11 @@ public class NormalColumn extends ERColumn {
         this.autoIncrementSetting = new Sequence();
     }
 
+    public NormalColumn(NormalColumn referredColumn, Relationship relationship, boolean referenceForPK) {
+        this(referredColumn, referredColumn, relationship, referenceForPK);
+        this.word = (Word) referredColumn.getWord().clone();
+    }
+
     protected void init(boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement, String defaultValue,
             String constraint, String uniqueKeyName, String characterSet, String collation) {
         this.notNull = notNull;

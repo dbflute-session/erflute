@@ -62,7 +62,6 @@ public class PostgresDBManager extends DBManagerBase {
     @Override
     public List<String> getIndexTypeList(ERTable table) {
         final List<String> list = new ArrayList<>();
-
         list.add("BTREE");
 
         return list;
@@ -111,7 +110,6 @@ public class PostgresDBManager extends DBManagerBase {
     @Override
     public List<String> getSystemSchemaList() {
         final List<String> list = new ArrayList<>();
-
         list.add("information_schema");
         list.add("pg_catalog");
         list.add("pg_toast_temp_1");

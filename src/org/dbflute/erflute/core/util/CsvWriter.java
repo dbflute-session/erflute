@@ -13,13 +13,9 @@ import java.util.Date;
 public class CsvWriter {
 
     private static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
-
     private static final String DELIMITER = ",";
-
     private final PrintWriter writer;
-
     private DateFormat dateFormat;
-
     private String delimiter;
 
     /**
@@ -69,13 +65,13 @@ public class CsvWriter {
             }
         }
 
-        writer.print(this.delimiter);
+        writer.print(delimiter);
 
         writer.print("\"");
         writer.print(escape(value));
         writer.print("\"");
 
-        this.setDelimiter();
+        setDelimiter();
     }
 
     /**
@@ -98,13 +94,13 @@ public class CsvWriter {
     public void crln() {
         writer.print("\r\n");
 
-        this.resetDelimiter();
+        resetDelimiter();
     }
 
     /**
      * 出力先を閉じます
      */
     public void close() {
-        this.writer.close();
+        writer.close();
     }
 }

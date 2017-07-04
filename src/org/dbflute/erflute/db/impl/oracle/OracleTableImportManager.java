@@ -25,11 +25,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class OracleTableImportManager extends ImportFromDBManagerBase {
 
     private static Logger logger = Logger.getLogger(OracleTableImportManager.class.getName());
-
     private static final Pattern INTERVAL_YEAR_TO_MONTH_PATTERN = Pattern.compile("interval year\\((.)\\) to month");
-
     private static final Pattern INTERVAL_DAY_TO_SECCOND_PATTERN = Pattern.compile("interval day\\((.)\\) to second\\((.)\\)");
-
     private static final Pattern TIMESTAMP_PATTERN = Pattern.compile("timestamp\\((.)\\).*");
 
     @Override
@@ -45,7 +42,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
         }
         final String sql = "SELECT OWNER, TABLE_NAME, COLUMN_NAME, COMMENTS FROM SYS.ALL_COL_COMMENTS WHERE COMMENTS IS NOT NULL"
                 + schemaList.stream().map(schema -> "?").collect(Collectors.joining(", ", " AND OWNER IN (", ")"));
-        try (PreparedStatement stmt = this.con.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
             IntStream.range(0, schemaList.size()).forEach(index -> {
                 try {
                     stmt.setString(index + 1, schemaList.get(index));
@@ -60,9 +57,9 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
                     final String columnName = rs.getString("COLUMN_NAME");
                     final String comments = rs.getString("COMMENTS");
 
-                    tableName = this.dbSetting.getTableNameWithSchema(tableName, schema);
+                    tableName = dbSetting.getTableNameWithSchema(tableName, schema);
 
-                    final Map<String, ColumnData> cash = this.columnDataCash.get(tableName);
+                    final Map<String, ColumnData> cash = columnDataCash.get(tableName);
                     if (cash != null) {
                         final ColumnData columnData = cash.get(columnName);
                         if (columnData != null) {
@@ -77,16 +74,16 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
     @Override
     protected void cashTableComment(IProgressMonitor monitor) throws SQLException, InterruptedException {
         final String sql = "SELECT OWNER, TABLE_NAME, COMMENTS FROM SYS.ALL_TAB_COMMENTS WHERE COMMENTS IS NOT NULL";
-        try (PreparedStatement stmt = this.con.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = con.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 String tableName = rs.getString("TABLE_NAME");
 
                 final String schema = rs.getString("OWNER");
                 final String comments = rs.getString("COMMENTS");
 
-                tableName = this.dbSetting.getTableNameWithSchema(tableName, schema);
+                tableName = dbSetting.getTableNameWithSchema(tableName, schema);
 
-                this.tableCommentMap.put(tableName, comments);
+                tableCommentMap.put(tableName, comments);
             }
         }
     }
@@ -95,10 +92,8 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
     protected String getViewDefinitionSQL(String schema) {
         if (schema != null) {
             return "SELECT TEXT FROM ALL_VIEWS WHERE OWNER = ? AND VIEW_NAME = ?";
-
         } else {
             return "SELECT TEXT FROM ALL_VIEWS WHERE VIEW_NAME = ?";
-
         }
     }
 
@@ -107,11 +102,11 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
         PreparedStatement stmt = null;
         try {
             if (schema != null) {
-                stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_OWNER = ? AND SEQUENCE_NAME = ?");
+                stmt = con.prepareStatement("SELECT * FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_OWNER = ? AND SEQUENCE_NAME = ?");
                 stmt.setString(1, schema);
                 stmt.setString(2, sequenceName);
             } else {
-                stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_NAME = ?");
+                stmt = con.prepareStatement("SELECT * FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_NAME = ?");
                 stmt.setString(1, sequenceName);
             }
 
@@ -142,7 +137,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
             }
             return null;
         } finally {
-            this.close(stmt);
+            close(stmt);
         }
     }
 
@@ -151,11 +146,11 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
         PreparedStatement stmt = null;
         try {
             if (schema != null) {
-                stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_TRIGGERS WHERE OWNER = ? AND TRIGGER_NAME = ?");
+                stmt = con.prepareStatement("SELECT * FROM SYS.ALL_TRIGGERS WHERE OWNER = ? AND TRIGGER_NAME = ?");
                 stmt.setString(1, schema);
                 stmt.setString(2, name);
             } else {
-                stmt = this.con.prepareStatement("SELECT * FROM SYS.ALL_TRIGGERS WHERE TRIGGER_NAME = ?");
+                stmt = con.prepareStatement("SELECT * FROM SYS.ALL_TRIGGERS WHERE TRIGGER_NAME = ?");
                 stmt.setString(1, name);
             }
 
@@ -173,7 +168,7 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
             }
             return null;
         } finally {
-            this.close(stmt);
+            close(stmt);
         }
     }
 
@@ -273,7 +268,6 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
             }
         } else if (type.equals("anydata")) {
             columnData.size = 0;
-
         } else {
             final Matcher yearToMonthMatcber = INTERVAL_YEAR_TO_MONTH_PATTERN.matcher(columnData.type);
             final Matcher dayToSecondMatcber = INTERVAL_DAY_TO_SECCOND_PATTERN.matcher(columnData.type);

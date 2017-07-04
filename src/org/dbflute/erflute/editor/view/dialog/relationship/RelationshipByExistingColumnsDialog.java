@@ -388,7 +388,7 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
         if (isCreateNewColumn()) {
             // TODO ymd コマンド外の操作でカラムを追加しているため、undoしてもカラムが削除されない。コマンド化する。
             for (final NormalColumn referredColumn : selectedReferredColumnList) {
-                final NormalColumn newColumn = createForeignKeyColumn(referredColumn, newCreatedRelationship, resultReferenceForPK);
+                final NormalColumn newColumn = new NormalColumn(referredColumn, newCreatedRelationship, resultReferenceForPK);
                 adjustNewForeignKeyColumn(newColumn);
                 selectedForeignKeyColumnList.add(newColumn);
                 target.addColumn(newColumn);
@@ -402,10 +402,6 @@ public class RelationshipByExistingColumnsDialog extends AbstractDialog {
 
     private Relationship createRelationship() {
         return new Relationship(resultReferenceForPK, resultReferredComplexUniqueKey, resultReferredSimpleUniqueColumn);
-    }
-
-    private NormalColumn createForeignKeyColumn(NormalColumn referredColumn, Relationship relationship, boolean referenceForPK) {
-        return new NormalColumn(referredColumn, referredColumn, relationship, referenceForPK);
     }
 
     private void adjustNewForeignKeyColumn(NormalColumn newColumn) {

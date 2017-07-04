@@ -50,7 +50,7 @@ public abstract class AbstractDialog extends Dialog {
     //                                                                         ===========
     @Override
     protected Control createDialogArea(Composite parent) {
-        this.getShell().setText(DisplayMessages.getMessage(getTitle()));
+        getShell().setText(DisplayMessages.getMessage(getTitle()));
         final Composite composite = (Composite) super.createDialogArea(parent);
         try {
             final GridLayout layout = new GridLayout();
@@ -101,8 +101,8 @@ public abstract class AbstractDialog extends Dialog {
     @Override
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.CLOSE_ID || buttonId == IDialogConstants.CANCEL_ID || buttonId == IDialogConstants.BACK_ID) {
-            this.setReturnCode(buttonId);
-            this.close();
+            setReturnCode(buttonId);
+            close();
         } else if (buttonId == IDialogConstants.OK_ID) {
             try {
                 if (!validate()) {
@@ -112,7 +112,7 @@ public abstract class AbstractDialog extends Dialog {
                 setReturnCode(buttonId);
                 close();
             } catch (final InputException e) {
-                this.setMessage(DisplayMessages.getMessage(e.getMessage()));
+                setMessage(DisplayMessages.getMessage(e.getMessage()));
                 return;
             } catch (final Exception e) {
                 Activator.showExceptionDialog(e);
@@ -126,7 +126,7 @@ public abstract class AbstractDialog extends Dialog {
     //                                                                          Validation
     //                                                                          ==========
     public final boolean validate() {
-        if (!this.initialized) {
+        if (!initialized) {
             return true;
         }
         final Button okButton = getButton(IDialogConstants.OK_ID);
@@ -135,10 +135,10 @@ public abstract class AbstractDialog extends Dialog {
         }
         final String errorMessage = doValidate();
         if (errorMessage != null) {
-            this.setMessage(DisplayMessages.getMessage(errorMessage));
+            setMessage(DisplayMessages.getMessage(errorMessage));
             return false;
         }
-        if (okButton != null && this.enabledOkButton) {
+        if (okButton != null && enabledOkButton) {
             okButton.setEnabled(true);
         }
         setMessage(null);
@@ -156,11 +156,11 @@ public abstract class AbstractDialog extends Dialog {
     //                                                                        Assist Logic
     //                                                                        ============
     protected Button createCheckbox(Composite composite, String title) {
-        return CompositeFactory.createCheckbox(this, composite, title, this.getNumColumns());
+        return CompositeFactory.createCheckbox(this, composite, title, getNumColumns());
     }
 
     protected int getNumColumns() {
-        return this.numColumns;
+        return numColumns;
     }
 
     protected int getErrorLine() {
@@ -168,13 +168,13 @@ public abstract class AbstractDialog extends Dialog {
     }
 
     protected void createErrorComposite(Composite parent) {
-        this.errorMessageText = new CLabel(parent, SWT.NONE);
-        this.errorMessageText.setText("");
+        errorMessageText = new CLabel(parent, SWT.NONE);
+        errorMessageText.setText("");
         final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
-        gridData.heightHint = 30 * this.getErrorLine();
-        gridData.horizontalSpan = this.numColumns;
-        this.errorMessageText.setLayoutData(gridData);
+        gridData.heightHint = 30 * getErrorLine();
+        gridData.horizontalSpan = numColumns;
+        errorMessageText.setLayoutData(gridData);
     }
 
     protected Integer getIntegerValue(Text text) {
@@ -190,14 +190,14 @@ public abstract class AbstractDialog extends Dialog {
     }
 
     protected void setMessage(String errorMessage) {
-        if (this.errorMessageText != null) {
+        if (errorMessageText != null) {
             if (errorMessage == null) {
-                this.errorMessageText.setImage(null);
-                this.errorMessageText.setText("");
+                errorMessageText.setImage(null);
+                errorMessageText.setText("");
             } else {
                 final Image errorIcon = Activator.getImage(ImageKey.ERROR);
-                this.errorMessageText.setImage(errorIcon);
-                this.errorMessageText.setText(errorMessage);
+                errorMessageText.setImage(errorIcon);
+                errorMessageText.setText(errorMessage);
             }
         }
     }
@@ -218,11 +218,11 @@ public abstract class AbstractDialog extends Dialog {
 
     protected void enabledButton(boolean enabled) {
         this.enabledOkButton = enabled;
-        final Button button1 = this.getButton(IDialogConstants.OK_ID);
+        final Button button1 = getButton(IDialogConstants.OK_ID);
         if (button1 != null) {
             button1.setEnabled(enabled);
         }
-        final Button button2 = this.getButton(IDialogConstants.CANCEL_ID);
+        final Button button2 = getButton(IDialogConstants.CANCEL_ID);
         if (button2 != null) {
             button2.setEnabled(enabled);
         }

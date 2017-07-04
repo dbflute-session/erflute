@@ -87,9 +87,9 @@ public class SqlType implements Serializable {
         @Override
         public boolean equals(Object obj) {
             final TypeKey other = (TypeKey) obj;
-            if (this.alias == null) {
+            if (alias == null) {
                 if (other.alias == null) {
-                    if (this.size == other.size) {
+                    if (size == other.size) {
                         return true;
                     }
                     return false;
@@ -97,7 +97,7 @@ public class SqlType implements Serializable {
                     return false;
                 }
             } else {
-                if (this.alias.equals(other.alias) && this.size == other.size) {
+                if (alias.equals(other.alias) && size == other.size) {
                     return true;
                 }
             }
@@ -106,10 +106,10 @@ public class SqlType implements Serializable {
 
         @Override
         public int hashCode() {
-            if (this.alias == null) {
-                return this.size;
+            if (alias == null) {
+                return size;
             }
-            return (this.alias.hashCode() * 10) + this.size;
+            return (alias.hashCode() * 10) + size;
         }
 
         @Override
@@ -214,8 +214,8 @@ public class SqlType implements Serializable {
     //                                                                            ========
     public void addToSqlTypeMap(String typeKeyId, String database) {
         int size = 0;
-        if (!this.isUnsupported(database)) {
-            if (this.isNeedLength(database)) {
+        if (!isUnsupported(database)) {
+            if (isNeedLength(database)) {
                 size = 1;
             }
             final TypeKey typeKey = new TypeKey(typeKeyId, size);
@@ -225,7 +225,7 @@ public class SqlType implements Serializable {
     }
 
     public boolean isNeedLength(String database) {
-        final String alias = this.getAlias(database);
+        final String alias = getAlias(database);
         if (alias == null) {
             return false;
         }
@@ -237,7 +237,7 @@ public class SqlType implements Serializable {
     }
 
     public boolean isNeedDecimal(String database) {
-        final String alias = this.getAlias(database);
+        final String alias = getAlias(database);
         if (alias == null) {
             return false;
         }
@@ -256,7 +256,7 @@ public class SqlType implements Serializable {
         if (!OracleDBManager.ID.equals(database)) {
             return false;
         }
-        if (this.name.startsWith(SQL_TYPE_ID_CHAR) || this.name.startsWith(SQL_TYPE_ID_VARCHAR)) {
+        if (name.startsWith(SQL_TYPE_ID_CHAR) || name.startsWith(SQL_TYPE_ID_VARCHAR)) {
             return true;
         }
         return false;
@@ -283,34 +283,34 @@ public class SqlType implements Serializable {
             return false;
         }
         final SqlType type = (SqlType) obj;
-        return this.name.equals(type.name);
+        return name.equals(type.name);
     }
 
     @Override
     public String toString() {
-        return this.getId();
+        return getId();
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     public String getId() {
-        return this.name;
+        return name;
     }
 
     public boolean doesNeedArgs() {
-        return this.needArgs;
+        return needArgs;
     }
 
     public boolean isFullTextIndexable() {
-        return this.fullTextIndexable;
+        return fullTextIndexable;
     }
 
     public boolean isTimestamp() {
-        return this.javaClass == Date.class;
+        return javaClass == Date.class;
     }
 
     public boolean isNumber() {
-        return Number.class.isAssignableFrom(this.javaClass);
+        return Number.class.isAssignableFrom(javaClass);
     }
 }

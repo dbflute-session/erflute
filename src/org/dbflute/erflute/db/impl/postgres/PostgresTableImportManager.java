@@ -10,17 +10,15 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
 
     @Override
     protected String getTableNameWithSchema(String schema, String tableName) {
-        return this.dbSetting.getTableNameWithSchema("\"" + tableName + "\"", schema);
+        return dbSetting.getTableNameWithSchema("\"" + tableName + "\"", schema);
     }
 
     @Override
     protected String getViewDefinitionSQL(String schema) {
         if (schema != null) {
             return "SELECT definition FROM pg_views WHERE schemaname = ? and viewname = ? ";
-
         } else {
             return "SELECT definition FROM pg_views WHERE viewname = ? ";
-
         }
     }
 
@@ -37,7 +35,6 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
             }
 
             columnData.decimalDegits = 0;
-
         } else if (type.equals("numeric")) {
             if (columnData.size == 131089 && columnData.decimalDegits == 0) {
                 columnData.size = 0;
@@ -49,16 +46,13 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
 
     @Override
     protected void cashOtherColumnData(String tableName, String schema, ColumnData columnData) throws SQLException {
-
         if (columnData.type.equals("interval")) {
-            final String restrictType = this.getRestrictType(tableName, schema, columnData);
+            final String restrictType = getRestrictType(tableName, schema, columnData);
 
             if (restrictType != null && restrictType.indexOf("(") != -1) {
                 columnData.size = columnData.decimalDegits;
-
             } else {
                 columnData.size = 0;
-
             }
 
             columnData.type = restrictType;
@@ -88,61 +82,42 @@ public class PostgresTableImportManager extends ImportFromDBManagerBase {
 
                 if (atttypmod == 196607) {
                     type = "interval month";
-
                 } else if (atttypmod == 327679) {
                     type = "interval year";
-
                 } else if (atttypmod == 458751) {
                     type = "interval year to month";
-
                 } else if (atttypmod == 589823) {
                     type = "interval day";
-
                 } else if (atttypmod == 67174399) {
                     type = "interval hour";
-
                 } else if (atttypmod == 67698687) {
                     type = "interval day to hour";
-
                 } else if (atttypmod == 134283263) {
                     type = "interval minute";
-
                 } else if (atttypmod == 201916415) {
                     type = "interval day to minute";
-
                 } else if (atttypmod == 201392127) {
                     type = "interval hour to minute";
-
                 } else if (atttypmod == 268500991) {
                     type = "interval second";
-
                 } else if (atttypmod >= 268435457 && atttypmod <= 268435462) {
                     type = "interval second(p)";
-
                 } else if (atttypmod == 402718719) {
                     type = "interval minute to second";
-
                 } else if (atttypmod >= 402653185 && atttypmod <= 402653190) {
                     type = "interval minute to second(p)";
-
                 } else if (atttypmod == 469827583) {
                     type = "interval hour to second";
-
                 } else if (atttypmod >= 469762049 && atttypmod <= 469762054) {
                     type = "interval hour to second(p)";
-
                 } else if (atttypmod == 470351871) {
                     type = "interval day to second";
-
                 } else if (atttypmod >= 470286337 && atttypmod <= 470286342) {
                     type = "interval day to second(p)";
-
                 } else if (atttypmod >= 2147418113 && atttypmod <= 2147418118) {
                     type = "interval(p)";
-
                 } else {
                     type = "interval";
-
                 }
             }
         } finally {

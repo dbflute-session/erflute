@@ -52,25 +52,25 @@ public class ColumnDialog extends AbstractRealColumnDialog {
         // first uniqueKeyNameText, second constraintText (in super's)
         this.uniqueKeyNameText = CompositeFactory.createText(this, composite, "label.unique.key.name", false);
         super.initializeDetailTab(composite);
-        final DBManager manager = DBManagerFactory.getDBManager(this.diagram);
-        if (MySQLDBManager.ID.equals(this.diagram.getDatabase())) {
+        final DBManager manager = DBManagerFactory.getDBManager(diagram);
+        if (MySQLDBManager.ID.equals(diagram.getDatabase())) {
             this.characterSetCombo = CompositeFactory.createCombo(this, composite, "label.character.set", 1);
             this.collationCombo = CompositeFactory.createCombo(this, composite, "label.collation", 1);
         }
         if (manager.isSupported(DBManager.SUPPORT_AUTO_INCREMENT_SETTING)) {
             CompositeFactory.filler(composite, 2);
             this.autoIncrementSettingButton = new Button(composite, SWT.NONE);
-            this.autoIncrementSettingButton.setText(DisplayMessages.getMessage("label.auto.increment.setting"));
-            this.autoIncrementSettingButton.setEnabled(false);
+            autoIncrementSettingButton.setText(DisplayMessages.getMessage("label.auto.increment.setting"));
+            autoIncrementSettingButton.setEnabled(false);
             final GridData gridData = new GridData();
             gridData.horizontalSpan = 2;
-            this.autoIncrementSettingButton.setLayoutData(gridData);
+            autoIncrementSettingButton.setLayoutData(gridData);
         }
     }
 
     @Override
     protected int getCheckBoxCompositeNumColumns() {
-        final DBManager manager = DBManagerFactory.getDBManager(this.diagram);
+        final DBManager manager = DBManagerFactory.getDBManager(diagram);
         if (manager.isSupported(DBManager.SUPPORT_AUTO_INCREMENT)) {
             return 4;
         }
@@ -97,7 +97,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
     }
 
     protected int getStyle(int style) {
-        if (this.foreignKey) {
+        if (foreignKey) {
             style |= SWT.READ_ONLY;
         }
         return style;
@@ -106,31 +106,31 @@ public class ColumnDialog extends AbstractRealColumnDialog {
     @Override
     protected void initializeComposite(Composite composite) {
         super.initializeComposite(composite);
-        if (this.foreignKey) {
+        if (foreignKey) {
             // #for_erflute not use word linkage
             //this.wordCombo.setEnabled(false);
-            this.typeCombo.setEnabled(false);
-            this.defaultText.setEnabled(false);
-            this.lengthText.setEnabled(false);
-            this.decimalText.setEnabled(false);
+            typeCombo.setEnabled(false);
+            defaultText.setEnabled(false);
+            lengthText.setEnabled(false);
+            decimalText.setEnabled(false);
         }
     }
 
     @Override
     protected void setWordData() {
         super.setWordData();
-        this.primaryKeyCheck.setSelection(this.targetColumn.isPrimaryKey());
-        if (this.autoIncrementCheck != null) {
-            this.autoIncrementCheck.setSelection(this.targetColumn.isAutoIncrement());
+        primaryKeyCheck.setSelection(targetColumn.isPrimaryKey());
+        if (autoIncrementCheck != null) {
+            autoIncrementCheck.setSelection(targetColumn.isAutoIncrement());
         }
-        if (this.primaryKeyCheck.getSelection()) {
-            this.notNullCheck.setSelection(true);
-            this.notNullCheck.setEnabled(false);
+        if (primaryKeyCheck.getSelection()) {
+            notNullCheck.setSelection(true);
+            notNullCheck.setEnabled(false);
         } else {
-            this.notNullCheck.setEnabled(true);
+            notNullCheck.setEnabled(true);
         }
-        final NormalColumn autoIncrementColumn = this.table.getAutoIncrementColumn();
-        if (this.primaryKeyCheck.getSelection()) {
+        final NormalColumn autoIncrementColumn = table.getAutoIncrementColumn();
+        if (primaryKeyCheck.getSelection()) {
             if (autoIncrementColumn == null || autoIncrementColumn == targetColumn) {
                 enableAutoIncrement(true);
             } else {
@@ -139,20 +139,20 @@ public class ColumnDialog extends AbstractRealColumnDialog {
         } else {
             enableAutoIncrement(false);
         }
-        this.defaultText.setText(Format.null2blank(this.targetColumn.getDefaultValue()));
-        this.setEnabledBySqlType();
-        this.uniqueKeyNameText.setText(Format.null2blank(this.targetColumn.getUniqueKeyName()));
-        if (this.characterSetCombo != null) {
-            this.characterSetCombo.add("");
+        defaultText.setText(Format.null2blank(targetColumn.getDefaultValue()));
+        setEnabledBySqlType();
+        uniqueKeyNameText.setText(Format.null2blank(targetColumn.getUniqueKeyName()));
+        if (characterSetCombo != null) {
+            characterSetCombo.add("");
             for (final String characterSet : MySQLDBManager.getCharacterSetList()) {
-                this.characterSetCombo.add(characterSet);
+                characterSetCombo.add(characterSet);
             }
-            this.characterSetCombo.setText(Format.null2blank(this.targetColumn.getCharacterSet()));
-            this.collationCombo.add("");
-            for (final String collation : MySQLDBManager.getCollationList(this.targetColumn.getCharacterSet())) {
-                this.collationCombo.add(collation);
+            characterSetCombo.setText(Format.null2blank(targetColumn.getCharacterSet()));
+            collationCombo.add("");
+            for (final String collation : MySQLDBManager.getCollationList(targetColumn.getCharacterSet())) {
+                collationCombo.add(collation);
             }
-            this.collationCombo.setText(Format.null2blank(this.targetColumn.getCollation()));
+            collationCombo.setText(Format.null2blank(targetColumn.getCollation()));
         }
     }
 
@@ -162,13 +162,13 @@ public class ColumnDialog extends AbstractRealColumnDialog {
     }
 
     private void enableAutoIncrement(boolean enabled) {
-        if (this.autoIncrementCheck != null) {
+        if (autoIncrementCheck != null) {
             if (!enabled) {
-                this.autoIncrementCheck.setSelection(false);
+                autoIncrementCheck.setSelection(false);
             }
-            this.autoIncrementCheck.setEnabled(enabled);
+            autoIncrementCheck.setEnabled(enabled);
             if (autoIncrementSettingButton != null) {
-                this.autoIncrementSettingButton.setEnabled(enabled && this.autoIncrementCheck.getSelection());
+                autoIncrementSettingButton.setEnabled(enabled && autoIncrementCheck.getSelection());
             }
         }
     }
@@ -178,11 +178,12 @@ public class ColumnDialog extends AbstractRealColumnDialog {
         super.setEnabledBySqlType();
         final SqlType selectedType = SqlType.valueOf(diagram.getDatabase(), typeCombo.getText());
         if (selectedType != null) {
-            if (PostgresDBManager.ID.equals(this.diagram.getDatabase())) {
-                if (SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(selectedType.getId()) || SqlType.SQL_TYPE_ID_SERIAL.equals(selectedType.getId())) {
-                    this.autoIncrementSettingButton.setEnabled(true);
+            if (PostgresDBManager.ID.equals(diagram.getDatabase())) {
+                if (SqlType.SQL_TYPE_ID_BIG_SERIAL.equals(selectedType.getId())
+                        || SqlType.SQL_TYPE_ID_SERIAL.equals(selectedType.getId())) {
+                    autoIncrementSettingButton.setEnabled(true);
                 } else {
-                    this.autoIncrementSettingButton.setEnabled(false);
+                    autoIncrementSettingButton.setEnabled(false);
                 }
             }
         }
@@ -191,8 +192,8 @@ public class ColumnDialog extends AbstractRealColumnDialog {
     @Override
     protected void addListener() {
         super.addListener();
-        if (this.autoIncrementSettingButton != null) {
-            this.autoIncrementSettingButton.addSelectionListener(new SelectionAdapter() {
+        if (autoIncrementSettingButton != null) {
+            autoIncrementSettingButton.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
                     final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -204,8 +205,8 @@ public class ColumnDialog extends AbstractRealColumnDialog {
                 }
             });
         }
-        final NormalColumn autoIncrementColumn = this.table.getAutoIncrementColumn();
-        this.primaryKeyCheck.addSelectionListener(new SelectionAdapter() {
+        final NormalColumn autoIncrementColumn = table.getAutoIncrementColumn();
+        primaryKeyCheck.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (primaryKeyCheck.getSelection()) {
@@ -222,22 +223,22 @@ public class ColumnDialog extends AbstractRealColumnDialog {
                 }
             }
         });
-        this.uniqueKeyCheck.addSelectionListener(new SelectionAdapter() {
+        uniqueKeyCheck.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 uniqueKeyNameText.setEnabled(uniqueKeyCheck.getSelection());
             }
         });
-        if (autoIncrementSettingButton != null && this.autoIncrementCheck != null) {
-            this.autoIncrementCheck.addSelectionListener(new SelectionAdapter() {
+        if (autoIncrementSettingButton != null && autoIncrementCheck != null) {
+            autoIncrementCheck.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
                     autoIncrementSettingButton.setEnabled(autoIncrementCheck.getSelection());
                 }
             });
         }
-        if (this.characterSetCombo != null) {
-            this.characterSetCombo.addSelectionListener(new SelectionAdapter() {
+        if (characterSetCombo != null) {
+            characterSetCombo.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
                     final String selectedCollation = collationCombo.getText();
@@ -257,9 +258,9 @@ public class ColumnDialog extends AbstractRealColumnDialog {
     public void setTargetColumn(CopyColumn targetColumn, boolean foreignKey, boolean isRefered) {
         super.setTargetColumn(targetColumn, foreignKey, isRefered);
         if (targetColumn != null) {
-            this.autoIncrementSetting = targetColumn.getAutoIncrementSetting();
+            autoIncrementSetting = targetColumn.getAutoIncrementSetting();
         } else {
-            this.autoIncrementSetting = new Sequence();
+            autoIncrementSetting = new Sequence();
         }
     }
 
@@ -273,7 +274,7 @@ public class ColumnDialog extends AbstractRealColumnDialog {
             return superResult;
         }
         if (autoIncrementCheck != null && autoIncrementCheck.getSelection()) {
-            final SqlType selectedType = SqlType.valueOf(this.diagram.getDatabase(), this.typeCombo.getText());
+            final SqlType selectedType = SqlType.valueOf(diagram.getDatabase(), typeCombo.getText());
             if (selectedType == null || !selectedType.isNumber()) {
                 return "error.no.auto.increment.column";
             }
@@ -310,15 +311,15 @@ public class ColumnDialog extends AbstractRealColumnDialog {
     @Override
     protected void performOK() {
         super.performOK();
-        this.returnColumn.setPrimaryKey(primaryKeyCheck.getSelection());
-        if (this.autoIncrementCheck != null) {
-            this.returnColumn.setAutoIncrement(this.autoIncrementCheck.getSelection());
+        returnColumn.setPrimaryKey(primaryKeyCheck.getSelection());
+        if (autoIncrementCheck != null) {
+            returnColumn.setAutoIncrement(autoIncrementCheck.getSelection());
         }
-        this.returnColumn.setAutoIncrementSetting(this.autoIncrementSetting);
-        this.returnColumn.setUniqueKeyName(this.uniqueKeyNameText.getText());
-        if (this.characterSetCombo != null) {
-            this.returnColumn.setCharacterSet(this.characterSetCombo.getText());
-            this.returnColumn.setCollation(this.collationCombo.getText());
+        returnColumn.setAutoIncrementSetting(autoIncrementSetting);
+        returnColumn.setUniqueKeyName(uniqueKeyNameText.getText());
+        if (characterSetCombo != null) {
+            returnColumn.setCharacterSet(characterSetCombo.getText());
+            returnColumn.setCollation(collationCombo.getText());
         }
     }
 }

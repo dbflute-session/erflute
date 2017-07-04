@@ -126,7 +126,7 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
             tableFigure.create(tableView.getColor());
             final ERDiagram diagram = getDiagram();
             tableFigure.setName(getTableViewName(tableView, diagram));
-            final List childrens = getChildren();
+            final List<?> childrens = getChildren();
             if (childrens == null || childrens.isEmpty()) {
                 refreshChildren();
             }
@@ -195,15 +195,15 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
 
     @Override
     public void changeSettings(DiagramSettings settings) {
-        final TableFigure figure = (TableFigure) this.getFigure();
+        final TableFigure figure = (TableFigure) getFigure();
         figure.setSettings(settings);
         super.changeSettings(settings);
     }
 
     @Override
     protected void disposeFont() {
-        if (this.titleFont != null) {
-            this.titleFont.dispose();
+        if (titleFont != null) {
+            titleFont.dispose();
         }
         super.disposeFont();
     }

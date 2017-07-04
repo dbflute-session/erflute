@@ -32,7 +32,6 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
 
     public ERDiagramTransferDragSourceListener(EditPartViewer dragSourceViewer, Transfer xfer) {
         super(dragSourceViewer, xfer);
-
         this.dragSourceViewer = dragSourceViewer;
     }
 
@@ -65,7 +64,7 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
     }
 
     private Object getTargetModel(DragSourceEvent event) {
-        final List editParts = dragSourceViewer.getSelectedEditParts();
+        final List<?> editParts = dragSourceViewer.getSelectedEditParts();
         if (editParts.isEmpty()) {
             return null;
         }

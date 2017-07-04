@@ -16,15 +16,10 @@ import org.eclipse.swt.widgets.Text;
 public abstract class AdvancedComposite extends Composite {
 
     private Combo tableSpaceCombo;
-
     private Text schemaText;
-
     protected TableProperties tableProperties;
-
     protected ERDiagram diagram;
-
     protected AbstractDialog dialog;
-
     protected ERTable table;
 
     public AdvancedComposite(Composite parent) {
@@ -37,65 +32,68 @@ public abstract class AdvancedComposite extends Composite {
         this.diagram = diagram;
         this.table = table;
 
-        this.initComposite();
-        this.addListener();
-        this.setData();
+        initComposite();
+        addListener();
+        setData();
     }
 
     protected void initComposite() {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
 
-        this.setLayout(gridLayout);
+        setLayout(gridLayout);
 
         this.tableSpaceCombo = CompositeFactory.createReadOnlyCombo(null, this, "label.tablespace");
         this.schemaText = CompositeFactory.createText(null, this, "label.schema", 1, 120, false);
 
-        this.initTablespaceCombo();
+        initTablespaceCombo();
     }
 
     protected void addListener() {
     }
 
     private void initTablespaceCombo() {
-        this.tableSpaceCombo.add("");
+        tableSpaceCombo.add("");
 
-        for (Tablespace tablespace : this.diagram.getDiagramContents().getTablespaceSet()) {
-            this.tableSpaceCombo.add(tablespace.getName());
+        for (final Tablespace tablespace : diagram.getDiagramContents().getTablespaceSet()) {
+            tableSpaceCombo.add(tablespace.getName());
         }
     }
 
     protected void setData() {
-        Tablespace tablespace = this.tableProperties.getTableSpace();
+        final Tablespace tablespace = tableProperties.getTableSpace();
 
         if (tablespace != null) {
-            int index = this.diagram.getDiagramContents().getTablespaceSet().getTablespaceList().indexOf(tablespace);
-            this.tableSpaceCombo.select(index + 1);
+            final int index = diagram.getDiagramContents().getTablespaceSet().getTablespaceList().indexOf(tablespace);
+            tableSpaceCombo.select(index + 1);
         }
 
-        if (this.tableProperties.getSchema() != null && this.schemaText != null) {
-            this.schemaText.setText(this.tableProperties.getSchema());
+        if (tableProperties.getSchema() != null && schemaText != null) {
+            schemaText.setText(tableProperties.getSchema());
         }
     }
 
     public void validate() throws InputException {
-        if (this.tableSpaceCombo != null) {
-            int tablespaceIndex = this.tableSpaceCombo.getSelectionIndex();
+        if (tableSpaceCombo != null) {
+            final int tablespaceIndex = tableSpaceCombo.getSelectionIndex();
             if (tablespaceIndex > 0) {
-                Tablespace tablespace = this.diagram.getDiagramContents().getTablespaceSet().getTablespaceList().get(tablespaceIndex - 1);
-                this.tableProperties.setTableSpace(tablespace);
-
+                final Tablespace tablespace = diagram
+                        .getDiagramContents()
+                        .getTablespaceSet()
+                        .getTablespaceList()
+                        .get(tablespaceIndex - 1);
+                tableProperties.setTableSpace(tablespace);
             } else {
-                this.tableProperties.setTableSpace(null);
+                tableProperties.setTableSpace(null);
             }
         }
 
-        if (this.schemaText != null) {
-            this.tableProperties.setSchema(this.schemaText.getText());
+        if (schemaText != null) {
+            tableProperties.setSchema(schemaText.getText());
         }
     }
 
     public void setInitFocus() {
-        this.tableSpaceCombo.setFocus();
+        tableSpaceCombo.setFocus();
     }
 }

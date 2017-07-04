@@ -37,7 +37,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
     }
 
     @Override
-    protected List getModelChildren() {
+    protected List<AbstractModel> getModelChildren() {
         final ERTable table = (ERTable) getModel();
         final Category category = getCurrentCategory();
         final List<AbstractModel> children = new ArrayList<>();

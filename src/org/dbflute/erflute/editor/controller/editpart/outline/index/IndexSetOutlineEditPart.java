@@ -18,6 +18,7 @@ import org.eclipse.gef.EditPart;
 
 public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(IndexSet.PROPERTY_CHANGE_INDEXES)) {
             refresh();
@@ -25,13 +26,13 @@ public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     @Override
-    protected List getModelChildren() {
-        List<ERIndex> children = new ArrayList<ERIndex>();
+    protected List<ERIndex> getModelChildren() {
+        final List<ERIndex> children = new ArrayList<>();
 
-        ERDiagram diagram = this.getDiagram();
-        Category category = this.getCurrentCategory();
+        final ERDiagram diagram = getDiagram();
+        final Category category = getCurrentCategory();
 
-        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
+        for (final ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
             if (category == null || category.contains(table)) {
                 children.addAll(table.getIndexes());
             }
@@ -44,16 +45,16 @@ public class IndexSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText(DisplayMessages.getMessage("label.index") + " (" + this.getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText(DisplayMessages.getMessage("label.index") + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
 
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }

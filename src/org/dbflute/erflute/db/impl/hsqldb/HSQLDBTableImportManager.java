@@ -23,21 +23,18 @@ public class HSQLDBTableImportManager extends ImportFromDBManagerBase {
         if (type.startsWith("decimal")) {
             if (columnData.size == 128 && columnData.decimalDegits == 0) {
                 columnData.size = 0;
-
             } else if (columnData.size == 646456993 && columnData.decimalDegits == 0) {
                 columnData.size = 0;
             }
         } else if (type.startsWith("numeric")) {
             if (columnData.size == 128 && columnData.decimalDegits == 0) {
                 columnData.size = 0;
-
             } else if (columnData.size == 646456993 && columnData.decimalDegits == 0) {
                 columnData.size = 0;
             }
         } else if (type.startsWith("float")) {
             if (columnData.size == 17) {
                 columnData.size = 0;
-
             } else if (columnData.size == 646456993 && columnData.decimalDegits == 0) {
                 columnData.size = 0;
             }
@@ -61,7 +58,6 @@ public class HSQLDBTableImportManager extends ImportFromDBManagerBase {
             }
         } else if (type.startsWith("timestamp")) {
             columnData.size = columnData.size - 20;
-
             if (columnData.size == 6) {
                 columnData.size = 0;
             }
@@ -115,10 +111,8 @@ public class HSQLDBTableImportManager extends ImportFromDBManagerBase {
 
                 if (maxValue != null) {
                     sequence.setMaxValue(new BigDecimal(maxValue));
-
                 } else {
                     sequence.setMaxValue(null);
-
                 }
 
                 sequence.setStart(rs.getLong("START_WITH"));
@@ -133,10 +127,9 @@ public class HSQLDBTableImportManager extends ImportFromDBManagerBase {
             }
 
             return null;
-
         } finally {
-            this.close(rs);
-            this.close(stmt);
+            close(rs);
+            close(stmt);
         }
     }
 }

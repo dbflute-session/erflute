@@ -153,7 +153,7 @@ public class ListenerAppender {
         button.addSelectionListener(new SelectionListener() {
             @Override
             public void widgetDefaultSelected(SelectionEvent e) {
-                this.widgetSelected(e);
+                widgetSelected(e);
             }
 
             @Override
@@ -235,8 +235,8 @@ public class ListenerAppender {
         });
     }
 
-    private static void createEditor(final Table table, final TableItem tableItem, final TableEditor tableEditor, final Point xy,
-            final EditableTable editableTable) {
+    private static void createEditor(final Table table, final TableItem tableItem,
+            final TableEditor tableEditor, final Point xy, final EditableTable editableTable) {
         final Control control = editableTable.getControl(xy);
         if (control == null) {
             return;

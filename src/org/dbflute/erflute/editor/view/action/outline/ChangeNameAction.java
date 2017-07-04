@@ -27,8 +27,8 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
 
     @Override
     public void execute(Event event) {
-        final ERDiagram diagram = this.getDiagram();
-        final List selectedEditParts = this.getTreeViewer().getSelectedEditParts();
+        final ERDiagram diagram = getDiagram();
+        final List<?> selectedEditParts = getTreeViewer().getSelectedEditParts();
         final EditPart editPart = (EditPart) selectedEditParts.get(0);
         final Object model = editPart.getModel();
         if (model instanceof ERVirtualDiagram) {
@@ -38,7 +38,7 @@ public class ChangeNameAction extends AbstractOutlineBaseAction {
                     "Input new name", vdiagram.getName(), validator);
             if (dialog.open() == IDialogConstants.OK_ID) {
                 final ChangeVirtualDiagramNameCommand command = new ChangeVirtualDiagramNameCommand(vdiagram, dialog.getValue());
-                this.execute(command);
+                execute(command);
             }
         }
     }

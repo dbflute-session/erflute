@@ -54,7 +54,7 @@ public class SQLiteDDLCreator extends DDLCreator {
 
             ddl.append(")\r\n");
             ddl.append("\tREFERENCES ");
-            ddl.append(filter(relation.getSourceTableView().getNameWithSchema(this.getDiagram().getDatabase())));
+            ddl.append(filter(relation.getSourceTableView().getNameWithSchema(getDiagram().getDatabase())));
             ddl.append(" (");
 
             first = true;
@@ -77,11 +77,11 @@ public class SQLiteDDLCreator extends DDLCreator {
 
     @Override
     protected Iterable<ERTable> getTablesForCreateDDL() {
-        final LinkedHashSet<ERTable> results = new LinkedHashSet<ERTable>();
+        final LinkedHashSet<ERTable> results = new LinkedHashSet<>();
 
-        for (final ERTable table : this.getDiagram().getDiagramContents().getDiagramWalkers().getTableSet()) {
+        for (final ERTable table : getDiagram().getDiagramContents().getDiagramWalkers().getTableSet()) {
             if (!results.contains(table)) {
-                this.getReferedTables(results, table);
+                getReferedTables(results, table);
                 results.add(table);
             }
         }
@@ -95,7 +95,7 @@ public class SQLiteDDLCreator extends DDLCreator {
                 if (walker != table) {
                     final ERTable referedTable = (ERTable) walker;
                     if (!referedTables.contains(referedTable)) {
-                        this.getReferedTables(referedTables, referedTable);
+                        getReferedTables(referedTables, referedTable);
                         referedTables.add(referedTable);
                     }
                 }

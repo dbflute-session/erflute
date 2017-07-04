@@ -5,5 +5,4 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 public class H2TableProperties extends TableProperties {
 
     private static final long serialVersionUID = 2802345970023438938L;
-
 }

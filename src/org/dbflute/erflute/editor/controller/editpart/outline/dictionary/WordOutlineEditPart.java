@@ -29,6 +29,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class WordOutlineEditPart extends AbstractOutlineEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(Dictionary.PROPERTY_CHANGE_DICTIONARY)) {
             refreshVisuals();
@@ -36,25 +37,24 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
     }
 
     @Override
-    protected List getModelChildren() {
-        List<ColumnHolder> wordHolderList = new ArrayList<ColumnHolder>();
+    protected List<ColumnHolder> getModelChildren() {
+        final List<ColumnHolder> wordHolderList = new ArrayList<>();
 
-        List<ERTable> wordHolderList1 = new ArrayList<ERTable>();
-        List<ERView> wordHolderList2 = new ArrayList<ERView>();
-        List<ColumnGroup> wordHolderList3 = new ArrayList<ColumnGroup>();
+        final List<ERTable> wordHolderList1 = new ArrayList<>();
+        final List<ERView> wordHolderList2 = new ArrayList<>();
+        final List<ColumnGroup> wordHolderList3 = new ArrayList<>();
 
-        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
-        Word word = (Word) this.getModel();
+        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final Word word = (Word) getModel();
 
-        List<NormalColumn> normalColumns = diagram.getDiagramContents().getDictionary().getColumnList(word);
+        final List<NormalColumn> normalColumns = diagram.getDiagramContents().getDictionary().getColumnList(word);
+        final Category category = getCurrentCategory();
 
-        Category category = this.getCurrentCategory();
-
-        for (NormalColumn normalColumn : normalColumns) {
-            ColumnHolder columnHolder = normalColumn.getColumnHolder();
+        for (final NormalColumn normalColumn : normalColumns) {
+            final ColumnHolder columnHolder = normalColumn.getColumnHolder();
 
             if (columnHolder instanceof ERTable) {
-                ERTable table = (ERTable) columnHolder;
+                final ERTable table = (ERTable) columnHolder;
                 if (wordHolderList1.contains(table)) {
                     continue;
                 }
@@ -64,9 +64,8 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
                 }
 
                 wordHolderList1.add(table);
-
             } else if (columnHolder instanceof ERView) {
-                ERView view = (ERView) columnHolder;
+                final ERView view = (ERView) columnHolder;
                 if (wordHolderList2.contains(view)) {
                     continue;
                 }
@@ -76,7 +75,6 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
                 }
 
                 wordHolderList2.add(view);
-
             } else if (columnHolder instanceof ColumnGroup) {
                 if (wordHolderList3.contains(columnHolder)) {
                     continue;
@@ -98,32 +96,26 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        Word word = (Word) this.getModel();
-
-        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
-
-        int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
+        final Word word = (Word) getModel();
+        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
 
         String name = null;
-
         if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             if (word.getPhysicalName() != null) {
                 name = word.getPhysicalName();
-
             } else {
                 name = "";
             }
         } else if (viewMode == DiagramSettings.VIEW_MODE_LOGICAL) {
             if (word.getLogicalName() != null) {
                 name = word.getLogicalName();
-
             } else {
                 name = "";
             }
         } else {
             if (word.getLogicalName() != null) {
                 name = word.getLogicalName();
-
             } else {
                 name = "";
             }
@@ -132,26 +124,25 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
 
             if (word.getPhysicalName() != null) {
                 name += word.getPhysicalName();
-
             }
         }
 
-        this.setWidgetText(diagram.filter(name));
+        setWidgetText(diagram.filter(name));
 
-        this.setWidgetImage(Activator.getImage(ImageKey.WORD));
+        setWidgetImage(Activator.getImage(ImageKey.WORD));
     }
 
     @Override
     public void performRequest(Request request) {
-        Word word = (Word) this.getModel();
-        ERDiagram diagram = this.getDiagram();
+        final Word word = (Word) getModel();
+        final ERDiagram diagram = getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            WordDialog dialog = new WordDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), word, false, diagram);
+            final WordDialog dialog = new WordDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), word, false, diagram);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                EditWordCommand command = new EditWordCommand(word, dialog.getWord(), diagram);
-                this.execute(command);
+                final EditWordCommand command = new EditWordCommand(word, dialog.getWord(), diagram);
+                execute(command);
             }
         }
 

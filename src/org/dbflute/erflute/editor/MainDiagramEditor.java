@@ -123,26 +123,21 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 public class MainDiagramEditor extends GraphicalEditorWithPalette { // created by ERFluteMultiPageEditor
 
     /*
-     * TODO ymd イケてない
-     * アウトラインで選択したテーブルを取得する方法が分からなかったため、以下のようなダメ実装にした。
+     * TODO ymd 技術的負債
+     * revealメソッドで選択したテーブルのEditPartを格納する。
+     * インスタンス(this)から、最後にQuick Outlineで検索したテーブルを取得する方法が分からなかったため、このような実装になった。
      */
-    private static EditPart quickOutlineSelectionEditPart;
+    private static EditPart selectionEditPart;
 
-    /*
-     * Quick Outlineで検索したテーブルを選択する。
-     */
-    protected static void selectEditPartFromQuickOutline(EditPart editPart) {
-        unselectEditPartByQuickOutline();
-        quickOutlineSelectionEditPart = editPart;
-        quickOutlineSelectionEditPart.setSelected(EditPart.SELECTED_PRIMARY);
+    protected static void selectEditPart(EditPart editPart) {
+        unselectEditPart();
+        selectionEditPart = editPart;
+        selectionEditPart.setSelected(EditPart.SELECTED_PRIMARY);
     }
 
-    /*
-     * Quick Outlineで検索したテーブルを未選択にする。
-     */
-    protected static void unselectEditPartByQuickOutline() {
-        if (quickOutlineSelectionEditPart != null) {
-            quickOutlineSelectionEditPart.setSelected(EditPart.SELECTED_NONE);
+    protected static void unselectEditPart() {
+        if (selectionEditPart != null) {
+            selectionEditPart.setSelected(EditPart.SELECTED_NONE);
         }
     }
 
@@ -397,7 +392,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-        unselectEditPartByQuickOutline();
+        unselectEditPart();
 
         final IEditorPart editorPart = getSite().getPage().getActiveEditor();
         if (editorPart instanceof ERFluteMultiPageEditor) {
@@ -454,7 +449,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 final ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
                 if (((ERTable) vtableEditPart.getModel()).equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
-                    selectEditPartFromQuickOutline(vtableEditPart);
+                    selectEditPart(vtableEditPart);
                     return;
                 }
             }

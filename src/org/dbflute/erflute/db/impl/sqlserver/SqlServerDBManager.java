@@ -62,7 +62,6 @@ public class SqlServerDBManager extends DBManagerBase {
     @Override
     public List<String> getIndexTypeList(ERTable table) {
         final List<String> list = new ArrayList<>();
-
         list.add("BTREE");
 
         return list;
@@ -96,7 +95,6 @@ public class SqlServerDBManager extends DBManagerBase {
 
     @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
-
         if (!(tablespaceProperties instanceof SqlServerTablespaceProperties)) {
             return new SqlServerTablespaceProperties();
         }
@@ -112,7 +110,6 @@ public class SqlServerDBManager extends DBManagerBase {
     @Override
     public List<String> getSystemSchemaList() {
         final List<String> list = new ArrayList<>();
-
         list.add("db_accessadmin");
         list.add("db_backupoperator");
         list.add("db_datareader");

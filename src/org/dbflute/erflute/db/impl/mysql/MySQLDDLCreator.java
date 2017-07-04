@@ -38,7 +38,7 @@ public class MySQLDDLCreator extends DDLCreator {
         }
         final StringBuilder ddl = new StringBuilder();
         ddl.append("SET SESSION FOREIGN_KEY_CHECKS=0");
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
         ddl.append("\r\n");
@@ -50,11 +50,11 @@ public class MySQLDDLCreator extends DDLCreator {
     public String doBuildDropIndex(ERIndex index, ERTable table) {
         final StringBuilder ddl = new StringBuilder();
         ddl.append("DROP INDEX ");
-        ddl.append(this.getIfExistsOption());
+        ddl.append(getIfExistsOption());
         ddl.append(filter(index.getName()));
         ddl.append(" ON ");
-        ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
-        if (this.semicolon) {
+        ddl.append(filter(table.getNameWithSchema(getDiagram().getDatabase())));
+        if (semicolon) {
             ddl.append(";");
         }
         return ddl.toString();
@@ -66,7 +66,7 @@ public class MySQLDDLCreator extends DDLCreator {
     @Override
     protected String doBuildCreateTablespace(Tablespace tablespace) {
         final MySQLTablespaceProperties tablespaceProperties =
-                (MySQLTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
+                (MySQLTablespaceProperties) tablespace.getProperties(environment, getDiagram());
         final StringBuilder ddl = new StringBuilder();
         ddl.append("CREATE TABLESPACE ");
         ddl.append(filter(tablespace.getName()));
@@ -88,7 +88,7 @@ public class MySQLDDLCreator extends DDLCreator {
         ddl.append(" ENGINE ");
         ddl.append(tablespaceProperties.getEngine());
         ddl.append("\r\n");
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
         return ddl.toString();
@@ -101,7 +101,7 @@ public class MySQLDDLCreator extends DDLCreator {
     protected String buildColumnPart(NormalColumn normalColumn) {
         final StringBuilder ddl = new StringBuilder();
         final String description = normalColumn.getDescription();
-        if (this.semicolon && !Check.isEmpty(description) && this.ddlTarget.inlineColumnComment) {
+        if (semicolon && !Check.isEmpty(description) && ddlTarget.inlineColumnComment) {
             ddl.append("\t-- ");
             ddl.append(description.replaceAll("\n", "\n\t-- "));
             ddl.append("\r\n");
@@ -109,7 +109,7 @@ public class MySQLDDLCreator extends DDLCreator {
         ddl.append("\t");
         ddl.append(filter(normalColumn.getPhysicalName()));
         ddl.append(" ");
-        ddl.append(filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), this.getDiagram().getDatabase())));
+        ddl.append(filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), getDiagram().getDatabase())));
         if (!Check.isEmpty(normalColumn.getCharacterSet())) {
             ddl.append(" CHARACTER SET ");
             ddl.append(normalColumn.getCharacterSet());
@@ -121,10 +121,10 @@ public class MySQLDDLCreator extends DDLCreator {
         if (!Check.isEmpty(normalColumn.getDefaultValue())) {
             String defaultValue = normalColumn.getDefaultValue();
             if (DisplayMessages.getMessage("label.current.date.time").equals(defaultValue)) {
-                defaultValue = this.getDBManager().getCurrentTimeValue()[0];
+                defaultValue = getDBManager().getCurrentTimeValue()[0];
             }
             ddl.append(" DEFAULT ");
-            if (this.doesNeedQuoteDefaultValue(normalColumn)) {
+            if (doesNeedQuoteDefaultValue(normalColumn)) {
                 ddl.append("'");
                 ddl.append(Format.escapeSQL(defaultValue));
                 ddl.append("'");
@@ -156,8 +156,8 @@ public class MySQLDDLCreator extends DDLCreator {
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" AUTO_INCREMENT");
         }
-        if (this.ddlTarget.createComment) {
-            final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+        if (ddlTarget.createComment) {
+            final String comment = filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
             if (!Check.isEmpty(comment)) {
                 ddl.append(" COMMENT '");
                 ddl.append(comment.replaceAll("'", "''"));
@@ -181,12 +181,12 @@ public class MySQLDDLCreator extends DDLCreator {
     @Override
     protected String getPrimaryKeyLength(ERTable table, NormalColumn primaryKey) {
         final SqlType type = primaryKey.getType();
-        if (type != null && type.isFullTextIndexable() && !type.isNeedLength(this.getDiagram().getDatabase())) {
+        if (type != null && type.isFullTextIndexable() && !type.isNeedLength(getDiagram().getDatabase())) {
             Integer length = null;
             MySQLTableProperties tableProperties = (MySQLTableProperties) table.getTableViewProperties();
             length = tableProperties.getPrimaryKeyLengthOfText();
             if (length == null) {
-                tableProperties = (MySQLTableProperties) this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
+                tableProperties = (MySQLTableProperties) getDiagram().getDiagramContents().getSettings().getTableViewProperties();
                 length = tableProperties.getPrimaryKeyLengthOfText();
             }
             return "(" + length + ")";
@@ -197,7 +197,7 @@ public class MySQLDDLCreator extends DDLCreator {
     @Override
     public String buildTableOptionPart(ERTable table) {
         final MySQLTableProperties commonTableProperties =
-                (MySQLTableProperties) this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
+                (MySQLTableProperties) getDiagram().getDiagramContents().getSettings().getTableViewProperties();
         final MySQLTableProperties tableProperties = (MySQLTableProperties) table.getTableViewProperties();
         String engine = tableProperties.getStorageEngine();
         if (Check.isEmpty(engine)) {
@@ -216,8 +216,8 @@ public class MySQLDDLCreator extends DDLCreator {
             postDDL.append(" ENGINE = ");
             postDDL.append(engine);
         }
-        if (this.ddlTarget.createComment) {
-            final String comment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
+        if (ddlTarget.createComment) {
+            final String comment = filterComment(table.getLogicalName(), table.getDescription(), false);
             if (!Check.isEmpty(comment)) {
                 postDDL.append(" COMMENT = '");
                 postDDL.append(comment.replaceAll("'", "''"));
@@ -243,7 +243,7 @@ public class MySQLDDLCreator extends DDLCreator {
     public String doBuildCreateIndex(ERIndex index, ERTable table) {
         final StringBuilder ddl = new StringBuilder();
         final String description = index.getDescription();
-        if (this.semicolon && !Check.isEmpty(description) && this.ddlTarget.inlineTableComment) {
+        if (semicolon && !Check.isEmpty(description) && ddlTarget.inlineTableComment) {
             ddl.append("-- ");
             ddl.append(description.replaceAll("\n", "\n-- "));
             ddl.append("\r\n");
@@ -259,7 +259,7 @@ public class MySQLDDLCreator extends DDLCreator {
             ddl.append(index.getType().trim());
         }
         ddl.append(" ON ");
-        ddl.append(filter(table.getNameWithSchema(this.getDiagram().getDatabase())));
+        ddl.append(filter(table.getNameWithSchema(getDiagram().getDatabase())));
         ddl.append(" (");
         boolean first = true;
         int i = 0;
@@ -269,7 +269,7 @@ public class MySQLDDLCreator extends DDLCreator {
                 ddl.append(", ");
             }
             ddl.append(filter(column.getPhysicalName()));
-            if (this.getDBManager().isSupported(DBManager.SUPPORT_DESC_INDEX)) {
+            if (getDBManager().isSupported(DBManager.SUPPORT_DESC_INDEX)) {
                 if (descs.size() > i) {
                     final Boolean desc = descs.get(i);
                     if (Boolean.TRUE.equals(desc)) {
@@ -283,7 +283,7 @@ public class MySQLDDLCreator extends DDLCreator {
             i++;
         }
         ddl.append(")");
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
         return ddl.toString();
@@ -295,12 +295,12 @@ public class MySQLDDLCreator extends DDLCreator {
     @Override
     protected String filterComment(String logicalName, String description, boolean column) {
         String comment = null;
-        if (this.ddlTarget.commentValueLogicalNameDescription) {
+        if (ddlTarget.commentValueLogicalNameDescription) {
             comment = Format.null2blank(logicalName);
             if (!Check.isEmpty(description)) {
                 comment = comment + " : " + Format.null2blank(description);
             }
-        } else if (this.ddlTarget.commentValueLogicalName) {
+        } else if (ddlTarget.commentValueLogicalName) {
             comment = Format.null2blank(logicalName);
         } else {
             comment = Format.null2blank(description);

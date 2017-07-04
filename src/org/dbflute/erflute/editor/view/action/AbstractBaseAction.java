@@ -31,12 +31,12 @@ public abstract class AbstractBaseAction extends Action {
 
     public AbstractBaseAction(String id, String text, int style, MainDiagramEditor editor) {
         super(text, style);
-        this.setId(id);
+        setId(id);
         this.editor = editor;
     }
 
     protected void refreshProject() {
-        final IFile iFile = ((IFileEditorInput) this.getEditorPart().getEditorInput()).getFile();
+        final IFile iFile = ((IFileEditorInput) getEditorPart().getEditorInput()).getFile();
         final IProject project = iFile.getProject();
         try {
             project.refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -46,7 +46,7 @@ public abstract class AbstractBaseAction extends Action {
     }
 
     protected ERDiagram getDiagram() {
-        final EditPart editPart = this.editor.getGraphicalViewer().getContents();
+        final EditPart editPart = editor.getGraphicalViewer().getContents();
         final Object model = editPart.getModel();
         if (model instanceof ERDiagram) {
             return (ERDiagram) model;
@@ -56,7 +56,7 @@ public abstract class AbstractBaseAction extends Action {
     }
 
     protected GraphicalViewer getGraphicalViewer() {
-        return this.editor.getGraphicalViewer();
+        return editor.getGraphicalViewer();
     }
 
     @Override
@@ -66,10 +66,10 @@ public abstract class AbstractBaseAction extends Action {
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         } finally {
-            final DiagramSettings newSettings = this.getChangedSettings();
-            if (newSettings != null && !this.getDiagram().getDiagramContents().getSettings().equals(newSettings)) {
-                final ChangeSettingsCommand command = new ChangeSettingsCommand(this.getDiagram(), newSettings);
-                this.execute(command);
+            final DiagramSettings newSettings = getChangedSettings();
+            if (newSettings != null && !getDiagram().getDiagramContents().getSettings().equals(newSettings)) {
+                final ChangeSettingsCommand command = new ChangeSettingsCommand(getDiagram(), newSettings);
+                execute(command);
             }
         }
     }
@@ -77,7 +77,7 @@ public abstract class AbstractBaseAction extends Action {
     abstract public void execute(Event event) throws Exception;
 
     protected void execute(Command command) {
-        this.editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
+        editor.getGraphicalViewer().getEditDomain().getCommandStack().execute(command);
     }
 
     protected DiagramSettings getChangedSettings() {
@@ -85,6 +85,6 @@ public abstract class AbstractBaseAction extends Action {
     }
 
     protected MainDiagramEditor getEditorPart() {
-        return this.editor;
+        return editor;
     }
 }

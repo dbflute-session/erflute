@@ -18,16 +18,15 @@ import org.eclipse.swt.widgets.Text;
 public class DirectoryText {
 
     private final Text text;
-
     private final Button openBrowseButton;
 
     public DirectoryText(Composite parent, int style) {
         this.text = new Text(parent, style);
 
-        this.openBrowseButton = new Button(parent, SWT.NONE);
-        this.openBrowseButton.setText(JFaceResources.getString("openBrowse"));
+        openBrowseButton = new Button(parent, SWT.NONE);
+        openBrowseButton.setText(JFaceResources.getString("openBrowse"));
 
-        this.openBrowseButton.addSelectionListener(new SelectionAdapter() {
+        openBrowseButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -38,7 +37,7 @@ public class DirectoryText {
     }
 
     public void setLayoutData(Object layoutData) {
-        this.text.setLayoutData(layoutData);
+        text.setLayoutData(layoutData);
     }
 
     public void setText(String text) {
@@ -47,7 +46,7 @@ public class DirectoryText {
     }
 
     public boolean isBlank() {
-        if (this.text.getText().trim().length() == 0) {
+        if (text.getText().trim().length() == 0) {
             return true;
         }
 
@@ -55,10 +54,10 @@ public class DirectoryText {
     }
 
     public String getFilePath() {
-        return this.text.getText().trim();
+        return text.getText().trim();
     }
 
     public void addModifyListener(ModifyListener listener) {
-        this.text.addModifyListener(listener);
+        text.addModifyListener(listener);
     }
 }

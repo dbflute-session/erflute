@@ -1,10 +1,12 @@
 package org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship;
 
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname.DefaultForeignKeyNameProvider;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.eclipse.gef.EditPart;
 
 public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCommand {
@@ -60,10 +62,17 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         ERDiagramEditPart.setUpdateable(true);
 
-        relation.setTargetTableView(((ERTable) target.getModel()).toMaterialize());
+        final ERTable targetTable = ((ERTable) target.getModel()).toMaterialize();
+        relation.setTargetTableView(targetTable);
+
+        relation.setForeignKeyName(provideDefaultForeignKeyName(sourceTable, targetTable));
 
         sourceTable.setDirty();
         ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
+    }
+
+    private String provideDefaultForeignKeyName(ERTable sourceTable, TableView targetTable) {
+        return new DefaultForeignKeyNameProvider().provide(sourceTable, targetTable);
     }
 
     @Override

@@ -22,9 +22,7 @@ public class H2TableImportManager extends ImportFromDBManagerBase {
         final ColumnData columnData = super.createColumnData(columnSet);
         final String type = columnData.type.toLowerCase();
 
-        if ("bigint".equals(type)) {
-
-        } else if (type.startsWith("timestamp")) {
+        if (type.startsWith("timestamp")) {
             columnData.size = columnData.decimalDegits;
         }
 
@@ -94,10 +92,9 @@ public class H2TableImportManager extends ImportFromDBManagerBase {
             }
 
             return null;
-
         } finally {
-            this.close(rs);
-            this.close(stmt);
+            close(rs);
+            close(stmt);
         }
     }
 }
