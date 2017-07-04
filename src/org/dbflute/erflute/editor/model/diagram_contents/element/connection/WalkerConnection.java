@@ -23,8 +23,12 @@ public abstract class WalkerConnection extends AbstractModel {
     private List<Bendpoint> bendPoints = new ArrayList<>();
 
     public void delete() {
-        sourceWalker.removeOutgoing(this);
-        ownerWalker.removeIncoming(this);
+        if (sourceWalker != null) {
+            sourceWalker.removeOutgoing(this);
+        }
+        if (targetWalker != null) {
+            targetWalker.removeIncoming(this);
+        }
     }
 
     public void connect(DiagramWalker sourceWalker, DiagramWalker targetWalker) {
