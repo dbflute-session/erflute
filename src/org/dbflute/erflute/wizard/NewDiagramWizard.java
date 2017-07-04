@@ -24,13 +24,13 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
     @Override
     public boolean performFinish() {
         try {
-            final String database = this.page2.getDatabase();
-            this.page1.createERDiagram(database);
-            final IFile file = this.page1.createNewFile();
+            final String database = page2.getDatabase();
+            page1.createERDiagram(database);
+            final IFile file = page1.createNewFile();
             if (file == null) {
                 return false;
             }
-            final IWorkbenchPage page = this.workbench.getActiveWorkbenchWindow().getActivePage();
+            final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
             IDE.openEditor(page, file, true);
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
@@ -46,10 +46,10 @@ public class NewDiagramWizard extends Wizard implements INewWizard {
 
     @Override
     public void addPages() {
-        this.page1 = new NewDiagramWizardPage1(this.selection);
-        this.addPage(this.page1);
+        this.page1 = new NewDiagramWizardPage1(selection);
+        addPage(page1);
 
-        this.page2 = new NewDiagramWizardPage2(this.selection);
-        this.addPage(this.page2);
+        this.page2 = new NewDiagramWizardPage2(selection);
+        addPage(page2);
     }
 }

@@ -66,26 +66,26 @@ public class JDBCPathDialog extends AbstractDialog {
         label.setLayoutData(gridData);
         label.setText(DisplayMessages.getMessage("label.jdbc.driver.message"));
 
-        if (this.database != null) {
-            final DBManager dbManager = DBManagerFactory.getDBManager(this.database);
-            if (dbManager.getDriverClassName().equals(this.driverClassName) && !dbManager.getDriverClassName().equals("")) {
-                this.editable = false;
+        if (database != null) {
+            final DBManager dbManager = DBManagerFactory.getDBManager(database);
+            if (dbManager.getDriverClassName().equals(driverClassName) && !dbManager.getDriverClassName().equals("")) {
+                editable = false;
             }
         }
 
-        if (this.editable) {
+        if (editable) {
             this.databaseCombo = CompositeFactory.createReadOnlyCombo(this, composite, "label.database", 2, -1);
-            this.databaseCombo.setVisibleItemCount(10);
+            databaseCombo.setVisibleItemCount(10);
         } else {
             CompositeFactory.createLabel(composite, "label.database");
-            CompositeFactory.createLabel(composite, this.database, 2);
+            CompositeFactory.createLabel(composite, database, 2);
         }
 
         this.driverClassNameText = CompositeFactory.createText(this, composite, "label.driver.class.name", 2, -1, SWT.BORDER, false);
-        this.driverClassNameText.setEditable(editable);
+        driverClassNameText.setEditable(editable);
         this.fileFieldEditor = new MultiFileFieldEditor("", DisplayMessages.getMessage("label.path"), composite);
-        this.fileFieldEditor.setMultiple(true);
-        this.fileFieldEditor.setFocus();
+        fileFieldEditor.setMultiple(true);
+        fileFieldEditor.setFocus();
     }
 
     @Override
@@ -95,15 +95,15 @@ public class JDBCPathDialog extends AbstractDialog {
 
     @Override
     protected String doValidate() {
-        String selectedDatabase = this.database;
-        if (this.databaseCombo != null) {
-            selectedDatabase = this.databaseCombo.getText();
+        String selectedDatabase = database;
+        if (databaseCombo != null) {
+            selectedDatabase = databaseCombo.getText();
             if (Check.isEmpty(selectedDatabase)) {
                 return "error.database.name.is.empty";
             }
         }
 
-        final String text = this.driverClassNameText.getText();
+        final String text = driverClassNameText.getText();
         if (Check.isEmpty(text)) {
             return "error.driver.class.name.is.empty";
         } else {
@@ -118,30 +118,30 @@ public class JDBCPathDialog extends AbstractDialog {
     @Override
     protected void performOK() throws InputException {
         this.path = fileFieldEditor.getStringValue();
-        this.driverClassName = this.driverClassNameText.getText();
-        if (this.databaseCombo != null) {
-            this.database = this.databaseCombo.getText();
+        this.driverClassName = driverClassNameText.getText();
+        if (databaseCombo != null) {
+            this.database = databaseCombo.getText();
         }
     }
 
     @Override
     protected void setupData() {
-        this.fileFieldEditor.setStringValue(this.path);
-        this.driverClassNameText.setText(Format.null2blank(this.driverClassName));
-        if (this.databaseCombo != null) {
+        fileFieldEditor.setStringValue(path);
+        driverClassNameText.setText(Format.null2blank(driverClassName));
+        if (databaseCombo != null) {
             for (final String db : DBManagerFactory.getAllDBList()) {
-                this.databaseCombo.add(db);
+                databaseCombo.add(db);
             }
-            this.databaseCombo.setText(Format.null2blank(this.database));
+            databaseCombo.setText(Format.null2blank(database));
         }
     }
 
     public String getPath() {
-        return this.path;
+        return path;
     }
 
     public String getDriverClassName() {
-        return this.driverClassName;
+        return driverClassName;
     }
 
     public String getDatabase() {

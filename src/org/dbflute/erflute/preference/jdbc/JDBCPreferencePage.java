@@ -53,9 +53,9 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
 
         composite.setLayout(gridLayout);
 
-        this.initTable(composite);
-        this.createButton(composite);
-        this.addListener();
+        initTable(composite);
+        createButton(composite);
+        addListener();
 
         return composite;
     }
@@ -69,9 +69,9 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
         gridData.heightHint = 200;
         gridData.horizontalSpan = 3;
 
-        this.table.setLayoutData(gridData);
-        this.table.setLinesVisible(true);
-        this.table.setHeaderVisible(true);
+        table.setLayoutData(gridData);
+        table.setLinesVisible(true);
+        table.setHeaderVisible(true);
 
         final TableColumn nameColumn = new TableColumn(table, SWT.NONE);
         nameColumn.setText(DisplayMessages.getMessage("label.database"));
@@ -85,7 +85,7 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
         pathColumn.setText(DisplayMessages.getMessage("label.path"));
         pathColumn.setWidth(200);
 
-        this.setData();
+        setData();
     }
 
     private void createButton(Composite parent) {
@@ -93,23 +93,23 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
         buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.addButton = new Button(parent, SWT.NONE);
-        this.addButton.setLayoutData(buttonGridData);
-        this.addButton.setText(DisplayMessages.getMessage("label.button.add"));
+        addButton.setLayoutData(buttonGridData);
+        addButton.setText(DisplayMessages.getMessage("label.button.add"));
 
         this.editButton = new Button(parent, SWT.NONE);
-        this.editButton.setLayoutData(buttonGridData);
-        this.editButton.setText(DisplayMessages.getMessage("label.button.edit"));
+        editButton.setLayoutData(buttonGridData);
+        editButton.setText(DisplayMessages.getMessage("label.button.edit"));
 
         this.deleteButton = new Button(parent, SWT.NONE);
-        this.deleteButton.setLayoutData(buttonGridData);
-        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
-        this.deleteButton.setEnabled(false);
+        deleteButton.setLayoutData(buttonGridData);
+        deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
+        deleteButton.setEnabled(false);
     }
 
     private void setData() {
-        this.table.removeAll();
+        table.removeAll();
         for (final JDBCDriverSetting setting : PreferenceInitializer.getJDBCDriverSettingList()) {
-            final TableItem tableItem = new TableItem(this.table, SWT.NONE);
+            final TableItem tableItem = new TableItem(table, SWT.NONE);
             tableItem.setBackground(ColorConstants.white);
             tableItem.setText(0, Format.null2blank(setting.getDb()));
             tableItem.setText(1, Format.null2blank(setting.getClassName()));
@@ -127,8 +127,8 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
     @Override
     public boolean performOk() {
         PreferenceInitializer.clearJDBCDriverInfo();
-        for (int i = 0; i < this.table.getItemCount(); i++) {
-            final TableItem tableItem = this.table.getItem(i);
+        for (int i = 0; i < table.getItemCount(); i++) {
+            final TableItem tableItem = table.getItem(i);
             final String db = tableItem.getText(0);
             final String driverClassName = tableItem.getText(1);
             final String path = tableItem.getText(2);
@@ -138,7 +138,7 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
     }
 
     private void addListener() {
-        this.table.addSelectionListener(new SelectionAdapter() {
+        table.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent selectionevent) {
                 final int index = table.getSelectionIndex();
@@ -158,14 +158,14 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
             }
         });
 
-        this.table.addMouseListener(new MouseAdapter() {
+        table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseDoubleClick(MouseEvent e) {
                 edit();
             }
         });
 
-        this.addButton.addSelectionListener(new SelectionAdapter() {
+        addButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final List<JDBCDriverSetting> otherDriverSettingList = getOtherDriverSettingList(-1);
@@ -180,14 +180,14 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
             }
         });
 
-        this.editButton.addSelectionListener(new SelectionAdapter() {
+        editButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 edit();
             }
         });
 
-        this.deleteButton.addSelectionListener(new SelectionAdapter() {
+        deleteButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 try {
@@ -210,10 +210,10 @@ public class JDBCPreferencePage extends org.eclipse.jface.preference.PreferenceP
     }
 
     private List<JDBCDriverSetting> getOtherDriverSettingList(int index) {
-        final List<JDBCDriverSetting> list = new ArrayList<JDBCDriverSetting>();
-        for (int i = 0; i < this.table.getItemCount(); i++) {
+        final List<JDBCDriverSetting> list = new ArrayList<>();
+        for (int i = 0; i < table.getItemCount(); i++) {
             if (i != index) {
-                final TableItem tableItem = this.table.getItem(i);
+                final TableItem tableItem = table.getItem(i);
                 final String db = tableItem.getText(0);
                 final String driverClassName = tableItem.getText(1);
                 final String path = tableItem.getText(2);
