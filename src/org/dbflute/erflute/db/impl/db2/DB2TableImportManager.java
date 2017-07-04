@@ -69,11 +69,9 @@ public class DB2TableImportManager extends ImportFromDBManagerBase {
 
                 final int dataTypeId = rs.getInt("DATATYPEID");
                 String dataType = null;
-
                 if (dataTypeId == 16) {
                     dataType = "DECIMAL(p)";
                     sequence.setDecimalSize(rs.getInt("PRECISION"));
-
                 } else if (dataTypeId == 24) {
                     dataType = "INTEGER";
                     if (maxValue.intValue() == Integer.MAX_VALUE) {
@@ -91,10 +89,9 @@ public class DB2TableImportManager extends ImportFromDBManagerBase {
                     }
                 } else {
                     dataType = "";
-
                 }
-                sequence.setDataType(dataType);
 
+                sequence.setDataType(dataType);
                 sequence.setMaxValue(maxValue);
                 sequence.setStart(rs.getLong("START"));
                 sequence.setCache(rs.getInt("CACHE"));
@@ -117,10 +114,9 @@ public class DB2TableImportManager extends ImportFromDBManagerBase {
             }
 
             return null;
-
         } finally {
-            this.close(rs);
-            this.close(stmt);
+            close(rs);
+            close(stmt);
         }
     }
 }

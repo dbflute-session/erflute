@@ -35,7 +35,6 @@ public class SqlServerDDLCreator extends DDLCreator {
                 ddl.append("(");
                 if (sequence.getStart() != null) {
                     ddl.append(sequence.getStart());
-
                 } else {
                     ddl.append("1");
                 }
@@ -55,7 +54,7 @@ public class SqlServerDDLCreator extends DDLCreator {
     @Override
     protected String doBuildCreateTablespace(Tablespace tablespace) {
         final SqlServerTablespaceProperties tablespaceProperties =
-                (SqlServerTablespaceProperties) tablespace.getProperties(this.environment, this.getDiagram());
+                (SqlServerTablespaceProperties) tablespace.getProperties(environment, getDiagram());
 
         final StringBuilder ddl = new StringBuilder();
 
@@ -99,7 +98,7 @@ public class SqlServerDDLCreator extends DDLCreator {
             ddl.append("\r\n");
         }
 
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
 
@@ -110,7 +109,7 @@ public class SqlServerDDLCreator extends DDLCreator {
     protected List<String> doBuildCreateComment(ERTable table) {
         final List<String> ddlList = new ArrayList<>();
 
-        final String tableComment = this.filterComment(table.getLogicalName(), table.getDescription(), false);
+        final String tableComment = filterComment(table.getLogicalName(), table.getDescription(), false);
 
         if (!Check.isEmpty(tableComment)) {
             final StringBuilder ddl = new StringBuilder();
@@ -122,7 +121,7 @@ public class SqlServerDDLCreator extends DDLCreator {
             ddl.append("', @level1type=N'table', @level1name=N'");
             ddl.append(filter(table.getPhysicalName()));
             ddl.append("'");
-            if (this.semicolon) {
+            if (semicolon) {
                 ddl.append(";");
             }
 
@@ -133,7 +132,7 @@ public class SqlServerDDLCreator extends DDLCreator {
             if (column instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) column;
 
-                final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                final String comment = filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                 if (!Check.isEmpty(comment)) {
                     final StringBuilder ddl = new StringBuilder();
@@ -147,7 +146,7 @@ public class SqlServerDDLCreator extends DDLCreator {
                     ddl.append("', @level2type=N'column' , @level2name=N'");
                     ddl.append(filter(normalColumn.getPhysicalName()));
                     ddl.append("'");
-                    if (this.semicolon) {
+                    if (semicolon) {
                         ddl.append(";");
                     }
 
@@ -157,7 +156,7 @@ public class SqlServerDDLCreator extends DDLCreator {
                 final ColumnGroup columnGroup = (ColumnGroup) column;
 
                 for (final NormalColumn normalColumn : columnGroup.getColumns()) {
-                    final String comment = this.filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
+                    final String comment = filterComment(normalColumn.getLogicalName(), normalColumn.getDescription(), true);
 
                     if (!Check.isEmpty(comment)) {
                         final StringBuilder ddl = new StringBuilder();
@@ -171,7 +170,7 @@ public class SqlServerDDLCreator extends DDLCreator {
                         ddl.append("', @level2type=N'column' , @level2name=N'");
                         ddl.append(filter(normalColumn.getPhysicalName()));
                         ddl.append("'");
-                        if (this.semicolon) {
+                        if (semicolon) {
                             ddl.append(";");
                         }
 

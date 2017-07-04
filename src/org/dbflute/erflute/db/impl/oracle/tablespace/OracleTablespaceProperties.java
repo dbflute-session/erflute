@@ -12,33 +12,19 @@ public class OracleTablespaceProperties implements TablespaceProperties {
     private static final long serialVersionUID = 1L;
 
     private String dataFile;
-
     private String fileSize;
-
     private boolean autoExtend;
-
     private String autoExtendSize;
-
     private String autoExtendMaxSize;
-
     private String minimumExtentSize;
-
     private String initial;
-
     private String next;
-
     private String minExtents;
-
     private String maxExtents;
-
     private String pctIncrease;
-
     private boolean logging;
-
     private boolean offline;
-
     private boolean temporary;
-
     private boolean autoSegmentSpaceManagement;
 
     public String getDataFile() {
@@ -165,21 +151,21 @@ public class OracleTablespaceProperties implements TablespaceProperties {
     public TablespaceProperties clone() {
         final OracleTablespaceProperties properties = new OracleTablespaceProperties();
 
-        properties.autoExtend = this.autoExtend;
-        properties.autoExtendMaxSize = this.autoExtendMaxSize;
-        properties.autoExtendSize = this.autoExtendSize;
-        properties.autoSegmentSpaceManagement = this.autoSegmentSpaceManagement;
-        properties.dataFile = this.dataFile;
-        properties.fileSize = this.fileSize;
-        properties.initial = this.initial;
-        properties.logging = this.logging;
-        properties.maxExtents = this.maxExtents;
-        properties.minExtents = this.minExtents;
-        properties.minimumExtentSize = this.minimumExtentSize;
-        properties.next = this.next;
-        properties.offline = this.offline;
-        properties.pctIncrease = this.pctIncrease;
-        properties.temporary = this.temporary;
+        properties.autoExtend = autoExtend;
+        properties.autoExtendMaxSize = autoExtendMaxSize;
+        properties.autoExtendSize = autoExtendSize;
+        properties.autoSegmentSpaceManagement = autoSegmentSpaceManagement;
+        properties.dataFile = dataFile;
+        properties.fileSize = fileSize;
+        properties.initial = initial;
+        properties.logging = logging;
+        properties.maxExtents = maxExtents;
+        properties.minExtents = minExtents;
+        properties.minimumExtentSize = minimumExtentSize;
+        properties.next = next;
+        properties.offline = offline;
+        properties.pctIncrease = pctIncrease;
+        properties.temporary = temporary;
 
         return properties;
     }
@@ -188,20 +174,20 @@ public class OracleTablespaceProperties implements TablespaceProperties {
     public LinkedHashMap<String, String> getPropertiesMap() {
         final LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
-        map.put("label.tablespace.data.file", this.getDataFile());
-        map.put("label.size", this.getFileSize());
-        map.put("label.tablespace.auto.extend", String.valueOf(this.isAutoExtend()));
-        map.put("label.size", this.getAutoExtendSize());
-        map.put("label.max.size", this.getAutoExtendMaxSize());
-        map.put("label.tablespace.minimum.extent.size", this.getMinimumExtentSize());
-        map.put("label.tablespace.initial", this.getInitial());
-        map.put("label.tablespace.next", this.getNext());
-        map.put("label.tablespace.min.extents", this.getMinExtents());
-        map.put("label.tablespace.pct.increase", this.getPctIncrease());
-        map.put("label.tablespace.logging", String.valueOf(this.isLogging()));
-        map.put("label.tablespace.offline", String.valueOf(this.isOffline()));
-        map.put("label.tablespace.temporary", String.valueOf(this.isTemporary()));
-        map.put("label.tablespace.auto.segment.space.management", String.valueOf(this.isAutoSegmentSpaceManagement()));
+        map.put("label.tablespace.data.file", getDataFile());
+        map.put("label.size", getFileSize());
+        map.put("label.tablespace.auto.extend", String.valueOf(isAutoExtend()));
+        map.put("label.size", getAutoExtendSize());
+        map.put("label.max.size", getAutoExtendMaxSize());
+        map.put("label.tablespace.minimum.extent.size", getMinimumExtentSize());
+        map.put("label.tablespace.initial", getInitial());
+        map.put("label.tablespace.next", getNext());
+        map.put("label.tablespace.min.extents", getMinExtents());
+        map.put("label.tablespace.pct.increase", getPctIncrease());
+        map.put("label.tablespace.logging", String.valueOf(isLogging()));
+        map.put("label.tablespace.offline", String.valueOf(isOffline()));
+        map.put("label.tablespace.temporary", String.valueOf(isTemporary()));
+        map.put("label.tablespace.auto.segment.space.management", String.valueOf(isAutoSegmentSpaceManagement()));
 
         return map;
     }
@@ -210,7 +196,7 @@ public class OracleTablespaceProperties implements TablespaceProperties {
     public List<String> validate() {
         final List<String> errorMessage = new ArrayList<>();
 
-        if (this.isAutoExtend() && Check.isEmptyTrim(this.getAutoExtendSize())) {
+        if (isAutoExtend() && Check.isEmptyTrim(getAutoExtendSize())) {
             errorMessage.add("error.tablespace.auto.extend.size.empty");
         }
 

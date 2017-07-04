@@ -62,7 +62,6 @@ public class OracleDBManager extends DBManagerBase {
     @Override
     public List<String> getIndexTypeList(ERTable table) {
         final List<String> list = new ArrayList<>();
-
         list.add("BTREE");
 
         return list;
@@ -95,7 +94,6 @@ public class OracleDBManager extends DBManagerBase {
 
     @Override
     public TablespaceProperties checkTablespaceProperties(TablespaceProperties tablespaceProperties) {
-
         if (!(tablespaceProperties instanceof OracleTablespaceProperties)) {
             return new OracleTablespaceProperties();
         }

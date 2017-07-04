@@ -22,7 +22,7 @@ public class H2DDLCreator extends DDLCreator {
         final StringBuilder ddl = new StringBuilder();
 
         final String description = sequence.getDescription();
-        if (this.semicolon && !Check.isEmpty(description) && this.ddlTarget.inlineTableComment) {
+        if (semicolon && !Check.isEmpty(description) && ddlTarget.inlineTableComment) {
             ddl.append("-- ");
             ddl.append(description.replaceAll("\n", "\n-- "));
             ddl.append("\r\n");
@@ -30,7 +30,7 @@ public class H2DDLCreator extends DDLCreator {
 
         ddl.append("CREATE ");
         ddl.append("SEQUENCE IF NOT EXISTS ");
-        ddl.append(filter(this.getNameWithSchema(sequence.getSchema(), sequence.getName())));
+        ddl.append(filter(getNameWithSchema(sequence.getSchema(), sequence.getName())));
         if (sequence.getStart() != null) {
             ddl.append(" START WITH ");
             ddl.append(sequence.getStart());
@@ -43,7 +43,7 @@ public class H2DDLCreator extends DDLCreator {
             ddl.append(" CACHE ");
             ddl.append(sequence.getCache());
         }
-        if (this.semicolon) {
+        if (semicolon) {
             ddl.append(";");
         }
 

@@ -19,35 +19,20 @@ import org.eclipse.swt.widgets.Text;
 public class OracleTablespaceDialog extends TablespaceDialog {
 
     private Text dataFile;
-
     private Text fileSize;
-
     private Button autoExtend;
-
     private Text autoExtendSize;
-
     private Text autoExtendMaxSize;
-
     private Text minimumExtentSize;
-
     private Text initial;
-
     private Text next;
-
     private Text minExtents;
-
     private Text maxExtents;
-
     private Text pctIncrease;
-
     private Button logging;
-
     private Button offline;
-
     private Button temporary;
-
     private Button autoSegmentSpaceManagement;
-
     private Button calculatorButton;
 
     public OracleTablespaceDialog() {
@@ -61,7 +46,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         this.dataFile = CompositeFactory.createText(this, composite, "label.tablespace.data.file", 1, 200, false);
         this.fileSize = CompositeFactory.createText(this, composite, "label.size", 1, NUM_TEXT_WIDTH, false);
         this.calculatorButton = new Button(composite, SWT.NONE);
-        this.calculatorButton.setText(DisplayMessages.getMessage("label.calculate"));
+        calculatorButton.setText(DisplayMessages.getMessage("label.calculate"));
 
         CompositeFactory.filler(composite, 1);
 
@@ -78,7 +63,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         autoExtendGroup.setText(DisplayMessages.getMessage("label.tablespace.auto.extend"));
 
         final GridData autoExtendGroupGridData = new GridData();
-        autoExtendGroupGridData.horizontalSpan = this.getNumColumns();
+        autoExtendGroupGridData.horizontalSpan = getNumColumns();
         autoExtendGroupGridData.horizontalAlignment = GridData.FILL;
         autoExtendGroupGridData.grabExcessHorizontalSpace = true;
         autoExtendGroup.setLayoutData(autoExtendGroupGridData);
@@ -104,7 +89,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         defaultStorageGroup.setLayout(layout);
         defaultStorageGroup.setText("Default Storage");
         final GridData defaultStorageGroupGridData = new GridData();
-        defaultStorageGroupGridData.horizontalSpan = this.getNumColumns();
+        defaultStorageGroupGridData.horizontalSpan = getNumColumns();
         defaultStorageGroupGridData.horizontalAlignment = GridData.FILL;
         defaultStorageGroupGridData.grabExcessHorizontalSpace = true;
         defaultStorageGroup.setLayoutData(defaultStorageGroupGridData);
@@ -121,31 +106,31 @@ public class OracleTablespaceDialog extends TablespaceDialog {
                 CompositeFactory.createText(this, defaultStorageGroup, "label.tablespace.pct.increase", 1, NUM_TEXT_WIDTH, false);
         CompositeFactory.createExampleLabel(defaultStorageGroup, "ex) 0");
 
-        this.logging = this.createCheckbox(composite, "label.tablespace.logging");
-        this.offline = this.createCheckbox(composite, "label.tablespace.offline");
-        this.temporary = this.createCheckbox(composite, "label.tablespace.temporary");
-        this.autoSegmentSpaceManagement = this.createCheckbox(composite, "label.tablespace.auto.segment.space.management");
+        this.logging = createCheckbox(composite, "label.tablespace.logging");
+        this.offline = createCheckbox(composite, "label.tablespace.offline");
+        this.temporary = createCheckbox(composite, "label.tablespace.temporary");
+        this.autoSegmentSpaceManagement = createCheckbox(composite, "label.tablespace.auto.segment.space.management");
     }
 
     @Override
     protected TablespaceProperties setTablespaceProperties() {
         final OracleTablespaceProperties properties = new OracleTablespaceProperties();
 
-        properties.setAutoExtend(this.autoExtend.getSelection());
-        properties.setAutoExtendMaxSize(this.autoExtendMaxSize.getText().trim());
-        properties.setAutoExtendSize(this.autoExtendSize.getText().trim());
-        properties.setAutoSegmentSpaceManagement(this.autoSegmentSpaceManagement.getSelection());
-        properties.setDataFile(this.dataFile.getText().trim());
-        properties.setFileSize(this.fileSize.getText().trim());
-        properties.setInitial(this.initial.getText().trim());
-        properties.setLogging(this.logging.getSelection());
-        properties.setMaxExtents(this.maxExtents.getText().trim());
-        properties.setMinExtents(this.minExtents.getText().trim());
-        properties.setMinimumExtentSize(this.minimumExtentSize.getText().trim());
-        properties.setNext(this.next.getText().trim());
-        properties.setOffline(this.offline.getSelection());
-        properties.setPctIncrease(this.pctIncrease.getText().trim());
-        properties.setTemporary(this.temporary.getSelection());
+        properties.setAutoExtend(autoExtend.getSelection());
+        properties.setAutoExtendMaxSize(autoExtendMaxSize.getText().trim());
+        properties.setAutoExtendSize(autoExtendSize.getText().trim());
+        properties.setAutoSegmentSpaceManagement(autoSegmentSpaceManagement.getSelection());
+        properties.setDataFile(dataFile.getText().trim());
+        properties.setFileSize(fileSize.getText().trim());
+        properties.setInitial(initial.getText().trim());
+        properties.setLogging(logging.getSelection());
+        properties.setMaxExtents(maxExtents.getText().trim());
+        properties.setMinExtents(minExtents.getText().trim());
+        properties.setMinimumExtentSize(minimumExtentSize.getText().trim());
+        properties.setNext(next.getText().trim());
+        properties.setOffline(offline.getSelection());
+        properties.setPctIncrease(pctIncrease.getText().trim());
+        properties.setTemporary(temporary.getSelection());
 
         return properties;
     }
@@ -155,24 +140,24 @@ public class OracleTablespaceDialog extends TablespaceDialog {
         if (tablespaceProperties instanceof OracleTablespaceProperties) {
             final OracleTablespaceProperties properties = (OracleTablespaceProperties) tablespaceProperties;
 
-            this.autoExtend.setSelection(properties.isAutoExtend());
-            this.autoExtendMaxSize.setText(Format.toString(properties.getAutoExtendMaxSize()));
-            this.autoExtendSize.setText(Format.toString(properties.getAutoExtendSize()));
-            this.autoSegmentSpaceManagement.setSelection(properties.isAutoSegmentSpaceManagement());
-            this.dataFile.setText(Format.toString(properties.getDataFile()));
-            this.fileSize.setText(Format.toString(properties.getFileSize()));
-            this.initial.setText(Format.toString(properties.getInitial()));
-            this.logging.setSelection(properties.isLogging());
-            this.maxExtents.setText(Format.toString(properties.getMaxExtents()));
-            this.minExtents.setText(Format.toString(properties.getMinExtents()));
-            this.minimumExtentSize.setText(Format.toString(properties.getMinimumExtentSize()));
-            this.next.setText(Format.toString(properties.getNext()));
-            this.offline.setSelection(properties.isOffline());
-            this.pctIncrease.setText(Format.toString(properties.getPctIncrease()));
-            this.temporary.setSelection(properties.isTemporary());
+            autoExtend.setSelection(properties.isAutoExtend());
+            autoExtendMaxSize.setText(Format.toString(properties.getAutoExtendMaxSize()));
+            autoExtendSize.setText(Format.toString(properties.getAutoExtendSize()));
+            autoSegmentSpaceManagement.setSelection(properties.isAutoSegmentSpaceManagement());
+            dataFile.setText(Format.toString(properties.getDataFile()));
+            fileSize.setText(Format.toString(properties.getFileSize()));
+            initial.setText(Format.toString(properties.getInitial()));
+            logging.setSelection(properties.isLogging());
+            maxExtents.setText(Format.toString(properties.getMaxExtents()));
+            minExtents.setText(Format.toString(properties.getMinExtents()));
+            minimumExtentSize.setText(Format.toString(properties.getMinimumExtentSize()));
+            next.setText(Format.toString(properties.getNext()));
+            offline.setSelection(properties.isOffline());
+            pctIncrease.setText(Format.toString(properties.getPctIncrease()));
+            temporary.setSelection(properties.isTemporary());
         }
 
-        this.setAutoExtendEnabled();
+        setAutoExtendEnabled();
     }
 
     @Override
@@ -182,8 +167,8 @@ public class OracleTablespaceDialog extends TablespaceDialog {
             return errorMessage;
         }
 
-        if (this.autoExtend.getSelection()) {
-            final String text = this.autoExtendSize.getText().trim();
+        if (autoExtend.getSelection()) {
+            final String text = autoExtendSize.getText().trim();
             if (text.equals("")) {
                 return "error.tablespace.auto.extend.size.empty";
             }
@@ -196,7 +181,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
     protected void addListener() {
         super.addListener();
 
-        this.autoExtend.addSelectionListener(new SelectionAdapter() {
+        autoExtend.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -204,7 +189,7 @@ public class OracleTablespaceDialog extends TablespaceDialog {
             }
         });
 
-        this.calculatorButton.addSelectionListener(new SelectionAdapter() {
+        calculatorButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {

@@ -21,5 +21,4 @@ public class H2EclipseDBManager extends EclipseDBManagerBase {
     public TablespaceDialog createTablespaceDialog() {
         return null;
     }
-
 }

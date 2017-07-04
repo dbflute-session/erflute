@@ -27,7 +27,6 @@ public class MySQLTableImportManager extends ImportFromDBManagerBase {
 
     @Override
     protected List<ERIndex> getIndexes(ERTable table, DatabaseMetaData metaData, List<PrimaryKeyData> primaryKeys) throws SQLException {
-
         final List<ERIndex> indexes = super.getIndexes(table, metaData, primaryKeys);
 
         for (final Iterator<ERIndex> iter = indexes.iterator(); iter.hasNext();) {
@@ -48,12 +47,12 @@ public class MySQLTableImportManager extends ImportFromDBManagerBase {
 
     @Override
     protected void cashOtherColumnData(String tableName, String schema, ColumnData columnData) throws SQLException {
-        final String tableNameWithSchema = this.dbSetting.getTableNameWithSchema(tableName, schema);
+        final String tableNameWithSchema = dbSetting.getTableNameWithSchema(tableName, schema);
 
         final SqlType sqlType = SqlType.valueOfId(columnData.type);
 
         if (sqlType != null && sqlType.doesNeedArgs()) {
-            final String restrictType = this.getRestrictType(tableNameWithSchema, columnData);
+            final String restrictType = getRestrictType(tableNameWithSchema, columnData);
 
             final Pattern p = Pattern.compile(columnData.type.toLowerCase() + "\\((.*)\\)");
             final Matcher m = p.matcher(restrictType);
@@ -62,7 +61,7 @@ public class MySQLTableImportManager extends ImportFromDBManagerBase {
                 columnData.enumData = m.group(1);
             }
         } else if (columnData.type.equals("year")) {
-            final String restrictType = this.getRestrictType(tableNameWithSchema, columnData);
+            final String restrictType = getRestrictType(tableNameWithSchema, columnData);
             columnData.type = restrictType;
         }
     }

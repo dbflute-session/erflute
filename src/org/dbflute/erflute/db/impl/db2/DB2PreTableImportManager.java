@@ -13,20 +13,19 @@ public class DB2PreTableImportManager extends PreImportFromDBManager {
 
     @Override
     protected List<DBObject> importSequences() throws SQLException {
-        List<DBObject> list = new ArrayList<DBObject>();
+        final List<DBObject> list = new ArrayList<>();
 
         ResultSet resultSet = null;
         PreparedStatement stmt = null;
 
-        if (this.schemaList.isEmpty()) {
-            this.schemaList.add(null);
+        if (schemaList.isEmpty()) {
+            schemaList.add(null);
         }
 
-        for (String schemaPattern : this.schemaList) {
+        for (final String schemaPattern : schemaList) {
             try {
                 if (schemaPattern == null) {
                     stmt = con.prepareStatement("SELECT SEQSCHEMA, SEQNAME FROM SYSCAT.SEQUENCES");
-
                 } else {
                     stmt = con.prepareStatement("SELECT SEQSCHEMA, SEQNAME FROM SYSCAT.SEQUENCES WHERE SEQSCHEMA = ?");
                     stmt.setString(1, schemaPattern);
@@ -35,10 +34,10 @@ public class DB2PreTableImportManager extends PreImportFromDBManager {
                 resultSet = stmt.executeQuery();
 
                 while (resultSet.next()) {
-                    String schema = resultSet.getString("SEQSCHEMA");
-                    String name = resultSet.getString("SEQNAME");
+                    final String schema = resultSet.getString("SEQSCHEMA");
+                    final String name = resultSet.getString("SEQNAME");
 
-                    DBObject dbObject = new DBObject(schema, name, DBObject.TYPE_SEQUENCE);
+                    final DBObject dbObject = new DBObject(schema, name, DBObject.TYPE_SEQUENCE);
                     list.add(dbObject);
                 }
             } finally {
@@ -54,6 +53,5 @@ public class DB2PreTableImportManager extends PreImportFromDBManager {
         }
 
         return list;
-
     }
 }

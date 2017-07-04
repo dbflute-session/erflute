@@ -11,25 +11,11 @@ public class DB2TablespaceDialog extends TablespaceDialog {
 
     // (REGULAR/LARGI/SYSTEM TEMPORARY/USER TEMPORARY)
     private Text type;
-
     private Text pageSize;
-
     private Text managedBy;
-
     private Text container;
-
-    // private Text containerDirectoryPath;
-    //
-    // private Text containerFilePath;
-    //
-    // private Text containerPageNum;
-    //
-    // private Text containerDevicePath;
-
     private Text extentSize;
-
     private Text prefetchSize;
-
     private Text bufferPoolName;
 
     @Override
@@ -55,12 +41,12 @@ public class DB2TablespaceDialog extends TablespaceDialog {
 
     @Override
     protected TablespaceProperties setTablespaceProperties() {
-        DB2TablespaceProperties tablespaceProperties = new DB2TablespaceProperties();
+        final DB2TablespaceProperties tablespaceProperties = new DB2TablespaceProperties();
 
-        tablespaceProperties.setType(this.type.getText().trim());
-        tablespaceProperties.setPageSize(this.pageSize.getText().trim());
-        tablespaceProperties.setManagedBy(this.managedBy.getText().trim());
-        tablespaceProperties.setContainer(this.container.getText().trim());
+        tablespaceProperties.setType(type.getText().trim());
+        tablespaceProperties.setPageSize(pageSize.getText().trim());
+        tablespaceProperties.setManagedBy(managedBy.getText().trim());
+        tablespaceProperties.setContainer(container.getText().trim());
         // tablespaceProperties.setContainerDirectoryPath(this.containerDirectoryPath.getText()
         // .trim());
         // tablespaceProperties.setContainerFilePath(this.containerFilePath.getText().trim());
@@ -68,9 +54,9 @@ public class DB2TablespaceDialog extends TablespaceDialog {
         // tablespaceProperties
         // .setContainerDevicePath(this.containerDevicePath.getText()
         // .trim());
-        tablespaceProperties.setExtentSize(this.extentSize.getText().trim());
-        tablespaceProperties.setPrefetchSize(this.prefetchSize.getText().trim());
-        tablespaceProperties.setBufferPoolName(this.bufferPoolName.getText().trim());
+        tablespaceProperties.setExtentSize(extentSize.getText().trim());
+        tablespaceProperties.setPrefetchSize(prefetchSize.getText().trim());
+        tablespaceProperties.setBufferPoolName(bufferPoolName.getText().trim());
 
         return tablespaceProperties;
     }
@@ -78,12 +64,12 @@ public class DB2TablespaceDialog extends TablespaceDialog {
     @Override
     protected void setData(TablespaceProperties tablespaceProperties) {
         if (tablespaceProperties instanceof DB2TablespaceProperties) {
-            DB2TablespaceProperties properties = (DB2TablespaceProperties) tablespaceProperties;
+            final DB2TablespaceProperties properties = (DB2TablespaceProperties) tablespaceProperties;
 
-            this.type.setText(Format.toString(properties.getType()));
-            this.pageSize.setText(Format.toString(properties.getPageSize()));
-            this.managedBy.setText(Format.toString(properties.getManagedBy()));
-            this.container.setText(Format.toString(properties.getContainer()));
+            type.setText(Format.toString(properties.getType()));
+            pageSize.setText(Format.toString(properties.getPageSize()));
+            managedBy.setText(Format.toString(properties.getManagedBy()));
+            container.setText(Format.toString(properties.getContainer()));
             // this.containerDirectoryPath.setText(Format.toString(properties
             // .getContainerDirectoryPath()));
             // this.containerFilePath.setText(Format.toString(properties
@@ -92,9 +78,9 @@ public class DB2TablespaceDialog extends TablespaceDialog {
             // .getContainerPageNum()));
             // this.containerDevicePath.setText(Format.toString(properties
             // .getContainerDevicePath()));
-            this.extentSize.setText(Format.toString(properties.getExtentSize()));
-            this.prefetchSize.setText(Format.toString(properties.getPrefetchSize()));
-            this.bufferPoolName.setText(Format.toString(properties.getBufferPoolName()));
+            extentSize.setText(Format.toString(properties.getExtentSize()));
+            prefetchSize.setText(Format.toString(properties.getPrefetchSize()));
+            bufferPoolName.setText(Format.toString(properties.getBufferPoolName()));
         }
     }
 }
