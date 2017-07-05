@@ -20,14 +20,14 @@ public class ChangeTitleFontSizeCommand extends AbstractCommand {
 
     public ChangeTitleFontSizeCommand(ERDiagram diagram, boolean isCapital) {
         this.diagram = diagram;
-        this.settings = this.diagram.getDiagramContents().getSettings();
+        this.settings = diagram.getDiagramContents().getSettings();
         this.newCapital = isCapital;
-        this.oldCapital = this.settings.isCapital();
+        this.oldCapital = settings.isCapital();
     }
 
     @Override
     protected void doExecute() {
-        this.settings.setTitleFontEm(this.newCapital ? new BigDecimal("1.5") : new BigDecimal("1"));
+        settings.setTitleFontEm(newCapital ? new BigDecimal("1.5") : new BigDecimal("1"));
 
         if (!ERModelUtil.refreshDiagram(diagram)) {
             Activator.showMessageDialog("テーブルタイトルのフォントサイズを変更しました。\nリアルタイムで変更が反映されないので、ermファイルを保存してもう一度開き直してください。");
@@ -36,7 +36,7 @@ public class ChangeTitleFontSizeCommand extends AbstractCommand {
 
     @Override
     protected void doUndo() {
-        this.settings.setTitleFontEm(this.oldCapital ? new BigDecimal("1.5") : new BigDecimal("1"));
-        this.diagram.changeAll();
+        settings.setTitleFontEm(oldCapital ? new BigDecimal("1.5") : new BigDecimal("1"));
+        diagram.changeAll();
     }
 }

@@ -111,14 +111,14 @@ public class ERDiagramElementStateListener implements IElementStateListener {
 
     private void execute(Runnable runnable, boolean postAsync) {
         if (postAsync || Display.getCurrent() == null) {
-            this.editorPart.getSite().getShell().getDisplay().asyncExec(runnable);
+            editorPart.getSite().getShell().getDisplay().asyncExec(runnable);
         } else {
             runnable.run();
         }
     }
 
     public void close(final boolean save) {
-        final Display display = this.editorPart.getSite().getShell().getDisplay();
+        final Display display = editorPart.getSite().getShell().getDisplay();
         display.asyncExec(new Runnable() {
             @Override
             public void run() {
@@ -128,13 +128,13 @@ public class ERDiagramElementStateListener implements IElementStateListener {
     }
 
     protected void disposeDocumentProvider() {
-        if (this.documentProvider != null) {
+        if (documentProvider != null) {
             final IEditorInput input = editorPart.getEditorInput();
             if (input != null) {
-                this.documentProvider.disconnect(input);
+                documentProvider.disconnect(input);
             }
-            this.documentProvider.removeElementStateListener(this);
+            documentProvider.removeElementStateListener(this);
         }
-        this.documentProvider = null;
+        documentProvider = null;
     }
 }

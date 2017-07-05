@@ -23,7 +23,6 @@ import org.eclipse.gef.GraphicalViewer;
 public class PasteCommand extends AbstractCommand {
 
     private ERDiagram diagram;
-
     private final GraphicalViewer viewer;
     private final DiagramWalkerSet walkers;
     private final ColumnGroupSet columnGroups;

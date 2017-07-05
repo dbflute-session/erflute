@@ -6,13 +6,9 @@ import org.dbflute.erflute.editor.model.ViewableModel;
 public class ChangeFontCommand extends AbstractCommand {
 
     private final ViewableModel viewableModel;
-
     private final String oldFontName;
-
     private final String newFontName;
-
     private final int oldFontSize;
-
     private final int newFontSize;
 
     public ChangeFontCommand(ViewableModel viewableModel, String fontName, int fontSize) {
@@ -27,8 +23,8 @@ public class ChangeFontCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        this.viewableModel.setFontName(this.newFontName);
-        this.viewableModel.setFontSize(this.newFontSize);
+        viewableModel.setFontName(newFontName);
+        viewableModel.setFontSize(newFontSize);
 
         //		if (viewableModel instanceof ERVirtualTable) {
         //			ERTable table = ((ERVirtualTable)viewableModel).getRawTable();
@@ -44,7 +40,7 @@ public class ChangeFontCommand extends AbstractCommand {
 
     @Override
     protected void doUndo() {
-        this.viewableModel.setFontName(this.oldFontName);
-        this.viewableModel.setFontSize(this.oldFontSize);
+        viewableModel.setFontName(oldFontName);
+        viewableModel.setFontSize(oldFontSize);
     }
 }

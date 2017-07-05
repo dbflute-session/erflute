@@ -16,20 +16,20 @@ public class ChangeViewModeCommand extends AbstractCommand {
 
     public ChangeViewModeCommand(ERDiagram diagram, int viewMode) {
         this.diagram = diagram;
-        this.settings = this.diagram.getDiagramContents().getSettings();
+        this.settings = diagram.getDiagramContents().getSettings();
         this.newViewMode = viewMode;
-        this.oldViewMode = this.settings.getViewMode();
+        this.oldViewMode = settings.getViewMode();
     }
 
     @Override
     protected void doExecute() {
-        this.settings.setViewMode(this.newViewMode);
-        this.diagram.changeAll();
+        settings.setViewMode(newViewMode);
+        diagram.changeAll();
     }
 
     @Override
     protected void doUndo() {
-        this.settings.setViewMode(this.oldViewMode);
-        this.diagram.changeAll();
+        settings.setViewMode(oldViewMode);
+        diagram.changeAll();
     }
 }
