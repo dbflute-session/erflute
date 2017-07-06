@@ -9,6 +9,6 @@ import org.dbflute.erflute.editor.model.settings.DBSettings;
 
 public interface ImportFromDBManager {
 
-    void init(Connection con, DBSettings dbSetting, ERDiagram diagram, List<DBObject> dbObjectList, boolean useCommentAsLogicalNameButton,
-            boolean mergeWord) throws SQLException;
+    void init(Connection con, DBSettings dbSetting, ERDiagram diagram, List<DBObject> dbObjectList,
+            boolean useCommentAsLogicalNameButton, boolean mergeWord) throws SQLException;
 }

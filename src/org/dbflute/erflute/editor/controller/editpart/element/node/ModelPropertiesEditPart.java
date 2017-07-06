@@ -23,10 +23,10 @@ public class ModelPropertiesEditPart extends DiagramWalkerEditPart implements IR
 
     @Override
     protected IFigure createFigure() {
-        final ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
         final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         final ModelPropertiesFigure figure = new ModelPropertiesFigure();
-        this.changeFont(figure);
+        changeFont(figure);
         figure.setVisible(settings.getModelProperties().isDisplay());
         return figure;
     }
@@ -41,9 +41,9 @@ public class ModelPropertiesEditPart extends DiagramWalkerEditPart implements IR
 
     @Override
     public void refreshVisuals() {
-        final ERDiagram diagram = this.getDiagram();
-        final ModelProperties modelProperties = (ModelProperties) this.getModel();
-        final ModelPropertiesFigure figure = (ModelPropertiesFigure) this.getFigure();
+        final ERDiagram diagram = getDiagram();
+        final ModelProperties modelProperties = (ModelProperties) getModel();
+        final ModelPropertiesFigure figure = (ModelPropertiesFigure) getFigure();
         figure.setData(modelProperties.getProperties(), diagram.getDiagramContents().getSettings().getTableStyle(),
                 modelProperties.getColor());
         super.refreshVisuals();
@@ -51,26 +51,26 @@ public class ModelPropertiesEditPart extends DiagramWalkerEditPart implements IR
 
     @Override
     public void changeSettings(DiagramSettings settings) {
-        this.figure.setVisible(settings.getModelProperties().isDisplay());
+        figure.setVisible(settings.getModelProperties().isDisplay());
         super.changeSettings(settings);
     }
 
     @Override
     protected void setVisible() {
-        final ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
         final DiagramSettings settings = diagram.getDiagramContents().getSettings();
-        this.figure.setVisible(settings.getModelProperties().isDisplay());
+        figure.setVisible(settings.getModelProperties().isDisplay());
     }
 
     @Override
     public void performRequestOpen() {
-        final ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
         final ModelProperties copyModelProperties = diagram.getDiagramContents().getSettings().getModelProperties().clone();
         final ModelPropertiesDialog dialog =
                 new ModelPropertiesDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), copyModelProperties);
         if (dialog.open() == IDialogConstants.OK_ID) {
             final ChangeModelPropertiesCommand command = new ChangeModelPropertiesCommand(diagram, copyModelProperties);
-            this.executeCommand(command);
+            executeCommand(command);
         }
     }
 

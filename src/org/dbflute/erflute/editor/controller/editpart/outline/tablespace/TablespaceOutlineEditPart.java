@@ -21,24 +21,25 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 
 public class TablespaceOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
     @Override
     protected void refreshOutlineVisuals() {
-        Tablespace tablespace = (Tablespace) this.getModel();
+        final Tablespace tablespace = (Tablespace) getModel();
 
-        this.setWidgetText(this.getDiagram().filter(tablespace.getName()));
-        this.setWidgetImage(Activator.getImage(ImageKey.TABLESPACE));
+        setWidgetText(getDiagram().filter(tablespace.getName()));
+        setWidgetImage(Activator.getImage(ImageKey.TABLESPACE));
     }
 
     @Override
     public void performRequest(Request request) {
-        Tablespace tablespace = (Tablespace) this.getModel();
-        ERDiagram diagram = this.getDiagram();
+        final Tablespace tablespace = (Tablespace) getModel();
+        final ERDiagram diagram = getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            TablespaceDialog dialog = EclipseDBManagerFactory.getEclipseDBManager(diagram).createTablespaceDialog();
+            final TablespaceDialog dialog = EclipseDBManagerFactory.getEclipseDBManager(diagram).createTablespaceDialog();
 
             if (dialog == null) {
                 Activator.showMessageDialog("dialog.message.tablespace.not.supported");
@@ -46,8 +47,8 @@ public class TablespaceOutlineEditPart extends AbstractOutlineEditPart implement
                 dialog.init(tablespace, diagram);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
-                    EditTablespaceCommand command = new EditTablespaceCommand(diagram, tablespace, dialog.getResult());
-                    this.execute(command);
+                    final EditTablespaceCommand command = new EditTablespaceCommand(diagram, tablespace, dialog.getResult());
+                    execute(command);
                 }
             }
         }
@@ -57,7 +58,7 @@ public class TablespaceOutlineEditPart extends AbstractOutlineEditPart implement
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new TablespaceComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new TablespaceComponentEditPolicy());
     }
 
     @Override
@@ -65,6 +66,7 @@ public class TablespaceOutlineEditPart extends AbstractOutlineEditPart implement
         return new SelectEditPartTracker(this);
     }
 
+    @Override
     public boolean isDeleteable() {
         return true;
     }

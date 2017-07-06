@@ -69,7 +69,7 @@ public class ExportToImageManager {
 
                     bimg.setRGB(i + x, j + y, 0xFF << 24 | r << 16 | g << 8 | b << 0);
                 }
-                this.doPostTask();
+                doPostTask();
             }
         }
     }

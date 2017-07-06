@@ -7,7 +7,6 @@ import org.eclipse.gef.EditPart;
 public abstract class AbstractCreateConnectionCommand extends AbstractCommand {
 
     protected EditPart source;
-
     protected EditPart target;
 
     public AbstractCreateConnectionCommand() {
@@ -23,11 +22,11 @@ public abstract class AbstractCreateConnectionCommand extends AbstractCommand {
     }
 
     public DiagramWalker getSourceModel() {
-        return (DiagramWalker) this.source.getModel();
+        return (DiagramWalker) source.getModel();
     }
 
     public DiagramWalker getTargetModel() {
-        return (DiagramWalker) this.target.getModel();
+        return (DiagramWalker) target.getModel();
     }
 
     @Override
@@ -36,5 +35,4 @@ public abstract class AbstractCreateConnectionCommand extends AbstractCommand {
     }
 
     abstract public String validate();
-
 }

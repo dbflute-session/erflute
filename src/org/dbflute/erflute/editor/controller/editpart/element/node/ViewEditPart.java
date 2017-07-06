@@ -15,38 +15,33 @@ public class ViewEditPart extends TableViewEditPart {
 
     @Override
     protected IFigure createFigure() {
-        ERDiagram diagram = this.getDiagram();
-        DiagramSettings settings = diagram.getDiagramContents().getSettings();
+        final ERDiagram diagram = getDiagram();
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
+        final ViewFigure figure = new ViewFigure(settings);
 
-        ViewFigure figure = new ViewFigure(settings);
-
-        this.changeFont(figure);
+        changeFont(figure);
 
         return figure;
     }
 
     @Override
     public void performRequestOpen() {
-        ERView view = (ERView) this.getModel();
-        ERDiagram diagram = this.getDiagram();
-
-        ERView copyView = view.copyData();
-
-        ViewDialog dialog =
-                new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyView, diagram
-                        .getDiagramContents().getColumnGroupSet());
+        final ERView view = (ERView) getModel();
+        final ERDiagram diagram = getDiagram();
+        final ERView copyView = view.copyData();
+        final ViewDialog dialog = new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                getViewer(), copyView, diagram.getDiagramContents().getColumnGroupSet());
 
         if (dialog.open() == IDialogConstants.OK_ID) {
-            CompoundCommand command = createChangeViewPropertyCommand(diagram, view, copyView);
-
-            this.executeCommand(command.unwrap());
+            final CompoundCommand command = createChangeViewPropertyCommand(diagram, view, copyView);
+            executeCommand(command.unwrap());
         }
     }
 
     public static CompoundCommand createChangeViewPropertyCommand(ERDiagram diagram, ERView view, ERView copyView) {
-        CompoundCommand command = new CompoundCommand();
+        final CompoundCommand command = new CompoundCommand();
 
-        ChangeTableViewPropertyCommand changeViewPropertyCommand = new ChangeTableViewPropertyCommand(view, copyView);
+        final ChangeTableViewPropertyCommand changeViewPropertyCommand = new ChangeTableViewPropertyCommand(view, copyView);
         command.add(changeViewPropertyCommand);
 
         return command;

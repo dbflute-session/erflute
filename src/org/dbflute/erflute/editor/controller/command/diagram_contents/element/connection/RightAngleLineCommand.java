@@ -13,19 +13,14 @@ import org.eclipse.gef.ConnectionEditPart;
 public class RightAngleLineCommand extends AbstractCommand {
 
     private static final int SPACE = 20;
-    private int sourceX;
 
-    private int sourceY;
-
-    private int targetX;
-
-    private int targetY;
-
-    private WalkerConnection connection;
-
-    private List<Bendpoint> oldBendpointList;
-
-    private List<Bendpoint> newBendpointList;
+    private final int sourceX;
+    private final int sourceY;
+    private final int targetX;
+    private final int targetY;
+    private final WalkerConnection connection;
+    private final List<Bendpoint> oldBendpointList;
+    private final List<Bendpoint> newBendpointList;
 
     public RightAngleLineCommand(int sourceX, int sourceY, int targetX, int targetY, ConnectionEditPart connectionEditPart) {
         this.sourceX = sourceX;
@@ -33,24 +28,22 @@ public class RightAngleLineCommand extends AbstractCommand {
         this.targetX = targetX;
         this.targetY = targetY;
         this.connection = (WalkerConnection) connectionEditPart.getModel();
-
-        this.oldBendpointList = this.connection.getBendpoints();
-
-        this.newBendpointList = new ArrayList<Bendpoint>();
+        this.oldBendpointList = connection.getBendpoints();
+        this.newBendpointList = new ArrayList<>();
 
         if (oldBendpointList.size() > 0) {
             if (!oldBendpointList.get(0).isRelative()) {
                 int prev2X = -1;
                 int prev2Y = -1;
 
-                int prevX = this.sourceX;
-                int prevY = this.sourceY;
+                int prevX = sourceX;
+                int prevY = sourceY;
 
                 int x = -1;
                 int y = -1;
 
                 for (int i = 0; i < oldBendpointList.size(); i++) {
-                    Bendpoint bendpoint = oldBendpointList.get(i);
+                    final Bendpoint bendpoint = oldBendpointList.get(i);
 
                     if (Math.abs(prevX - bendpoint.getX()) <= Math.abs(prevY - bendpoint.getY())) {
                         x = prevX;
@@ -76,10 +69,10 @@ public class RightAngleLineCommand extends AbstractCommand {
                         }
                     }
 
-                    Bendpoint newBendpoint = new Bendpoint(x, y);
+                    final Bendpoint newBendpoint = new Bendpoint(x, y);
 
                     if ((x == prevX && prevX == prev2X) || (y == prevY && prevY == prev2Y)) {
-                        this.newBendpointList.remove(this.newBendpointList.size() - 1);
+                        this.newBendpointList.remove(newBendpointList.size() - 1);
                     } else {
                         prev2X = prevX;
                         prev2Y = prevY;
@@ -87,56 +80,52 @@ public class RightAngleLineCommand extends AbstractCommand {
 
                     prevX = x;
                     prevY = y;
-                    this.newBendpointList.add(newBendpoint);
+                    newBendpointList.add(newBendpoint);
                 }
             }
         } else {
-            if (this.sourceX != this.targetX && this.sourceY != this.targetY) {
-                DiagramWalkerEditPart sourceEditPart = (DiagramWalkerEditPart) connectionEditPart.getSource();
-                Rectangle sourceRectangle = sourceEditPart.getFigure().getBounds();
+            if (sourceX != targetX && sourceY != targetY) {
+                final DiagramWalkerEditPart sourceEditPart = (DiagramWalkerEditPart) connectionEditPart.getSource();
+                final Rectangle sourceRectangle = sourceEditPart.getFigure().getBounds();
 
-                DiagramWalkerEditPart targetEditPart = (DiagramWalkerEditPart) connectionEditPart.getTarget();
-                Rectangle targetRectangle = targetEditPart.getFigure().getBounds();
+                final DiagramWalkerEditPart targetEditPart = (DiagramWalkerEditPart) connectionEditPart.getTarget();
+                final Rectangle targetRectangle = targetEditPart.getFigure().getBounds();
 
                 if (sourceRectangle.y - SPACE < targetY && sourceRectangle.y + sourceRectangle.height + SPACE > targetRectangle.y) {
                     int x = 0;
-
-                    if (this.sourceX < this.targetX) {
+                    if (sourceX < targetX) {
                         x = (sourceRectangle.x + sourceRectangle.width + targetRectangle.x) / 2;
-
                     } else {
                         x = (targetRectangle.x + targetRectangle.width + sourceRectangle.x) / 2;
                     }
 
-                    Bendpoint newBendpoint1 = new Bendpoint(x, sourceY);
-                    this.newBendpointList.add(newBendpoint1);
+                    final Bendpoint newBendpoint1 = new Bendpoint(x, sourceY);
+                    newBendpointList.add(newBendpoint1);
 
-                    Bendpoint newBendpoint2 = new Bendpoint(x, targetY);
-                    this.newBendpointList.add(newBendpoint2);
+                    final Bendpoint newBendpoint2 = new Bendpoint(x, targetY);
+                    newBendpointList.add(newBendpoint2);
 
                     //				} else if (targetRectangle.x - SPACE < sourceX
                     //						&& targetRectangle.x + targetRectangle.width + SPACE > sourceX) {
-
                 } else {
                     int y = 0;
 
-                    if (this.sourceY < this.targetY) {
+                    if (sourceY < targetY) {
                         y = (sourceRectangle.y + sourceRectangle.height + targetRectangle.y) / 2;
 
                     } else {
                         y = (targetRectangle.y + targetRectangle.height + sourceRectangle.y) / 2;
                     }
 
-                    Bendpoint newBendpoint1 = new Bendpoint(this.sourceX, y);
-                    this.newBendpointList.add(newBendpoint1);
+                    final Bendpoint newBendpoint1 = new Bendpoint(sourceX, y);
+                    newBendpointList.add(newBendpoint1);
 
-                    Bendpoint newBendpoint2 = new Bendpoint(this.targetX, y);
-                    this.newBendpointList.add(newBendpoint2);
+                    final Bendpoint newBendpoint2 = new Bendpoint(targetX, y);
+                    newBendpointList.add(newBendpoint2);
 
                     //				} else {
                     //					Bendpoint newBendpoint = new Bendpoint(sourceX, targetY);
                     //					this.newBendpointList.add(newBendpoint);
-
                 }
             }
         }
@@ -144,11 +133,11 @@ public class RightAngleLineCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        this.connection.setBendpoints(this.newBendpointList);
+        connection.setBendpoints(newBendpointList);
     }
 
     @Override
     protected void doUndo() {
-        this.connection.setBendpoints(this.oldBendpointList);
+        connection.setBendpoints(oldBendpointList);
     }
 }

@@ -41,20 +41,20 @@ public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart im
     }
 
     protected Category getCurrentCategory() {
-        return this.getDiagram().getCurrentCategory();
+        return getDiagram().getCurrentCategory();
     }
 
     protected void executeCommand(Command command) {
-        this.getViewer().getEditDomain().getCommandStack().execute(command);
+        getViewer().getEditDomain().getCommandStack().execute(command);
     }
 
     @Override
     public final void propertyChange(PropertyChangeEvent event) {
         try {
             if (DEBUG) {
-                logger.log(Level.INFO, this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
+                logger.log(Level.INFO, getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
             }
-            this.doPropertyChange(event);
+            doPropertyChange(event);
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }

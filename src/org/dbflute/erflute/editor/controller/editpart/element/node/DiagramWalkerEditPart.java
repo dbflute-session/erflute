@@ -80,7 +80,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new DiagramWalkerGraphicalNodeEditPolicy());
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new DiagramWalkerGraphicalNodeEditPolicy());
     }
 
     protected void setVisible() {
@@ -117,9 +117,9 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
                             .intValue();
             largeFont = new Font(Display.getCurrent(), fontName, largeFontSize, SWT.NORMAL);
         }
-        figure.setFont(this.font);
+        figure.setFont(font);
         if (figure instanceof TableFigure) {
-            ((TableFigure) figure).setLargeFont(this.largeFont);
+            ((TableFigure) figure).setLargeFont(largeFont);
         }
         return font;
     }
@@ -143,7 +143,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
         final DiagramWalker element = (DiagramWalker) getModel();
         final Point point = new Point(element.getX(), element.getY());
         final Dimension dimension = new Dimension(element.getWidth(), element.getHeight());
-        final Dimension minimumSize = this.figure.getMinimumSize();
+        final Dimension minimumSize = figure.getMinimumSize();
         if (dimension.width != -1 && dimension.width < minimumSize.width) {
             dimension.width = minimumSize.width;
         }
@@ -205,7 +205,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     //                                                                     Change Settings
     //                                                                     ===============
     public void changeSettings(DiagramSettings settings) {
-        this.refresh();
+        refresh();
         for (final Object object : getSourceConnections()) {
             final ERDiagramConnectionEditPart editPart = (ERDiagramConnectionEditPart) object;
             final ERDiagramConnection connection = (ERDiagramConnection) editPart.getFigure();
@@ -225,7 +225,7 @@ public abstract class DiagramWalkerEditPart extends AbstractModelEditPart implem
     @Override
     public void setSelected(int value) {
         if (value != 0 && getViewer() != null) {
-            for (final Object editPartObject : this.getViewer().getSelectedEditParts()) {
+            for (final Object editPartObject : getViewer().getSelectedEditParts()) {
                 if (editPartObject instanceof ColumnEditPart) {
                     ((ColumnEditPart) editPartObject).setSelected(0);
                 }

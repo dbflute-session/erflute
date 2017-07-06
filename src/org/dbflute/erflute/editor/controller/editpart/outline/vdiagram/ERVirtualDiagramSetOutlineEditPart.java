@@ -19,8 +19,8 @@ public class ERVirtualDiagramSetOutlineEditPart extends AbstractOutlineEditPart 
 
     @Override
     protected List<ERVirtualDiagram> getModelChildren() {
-        final ERVirtualDiagramSet modelSet = (ERVirtualDiagramSet) this.getModel();
-        final List<ERVirtualDiagram> list = new ArrayList<ERVirtualDiagram>();
+        final ERVirtualDiagramSet modelSet = (ERVirtualDiagramSet) getModel();
+        final List<ERVirtualDiagram> list = new ArrayList<>();
         for (final ERVirtualDiagram table : modelSet) {
             list.add(table);
         }
@@ -30,7 +30,7 @@ public class ERVirtualDiagramSetOutlineEditPart extends AbstractOutlineEditPart 
                 return o1.getName().compareTo(o2.getName());
             }
         });
-        //		if (this.getDiagram().getDiagramContents().getSettings()
+        //		if (getDiagram().getDiagramContents().getSettings()
         //				.getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
         //			Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
         //
@@ -50,7 +50,7 @@ public class ERVirtualDiagramSetOutlineEditPart extends AbstractOutlineEditPart 
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText("Virtual Diagram" + " (" + getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText("Virtual Diagram" + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 }

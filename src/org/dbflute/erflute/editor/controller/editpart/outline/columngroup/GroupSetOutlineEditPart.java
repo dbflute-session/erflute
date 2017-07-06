@@ -25,7 +25,7 @@ public class GroupSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected List<ColumnGroup> getModelChildren() {
-        final ColumnGroupSet columnGroupSet = (ColumnGroupSet) this.getModel();
+        final ColumnGroupSet columnGroupSet = (ColumnGroupSet) getModel();
         final List<ColumnGroup> columnGroupList = columnGroupSet.getGroupList();
         Collections.sort(columnGroupList);
         return columnGroupList;
@@ -33,14 +33,14 @@ public class GroupSetOutlineEditPart extends AbstractOutlineEditPart {
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.setWidgetText("Column Group" + " (" + getModelChildren().size() + ")");
-        this.setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
+        setWidgetText("Column Group" + " (" + getModelChildren().size() + ")");
+        setWidgetImage(Activator.getImage(ImageKey.DICTIONARY));
     }
 
     @Override
     protected void refreshChildren() {
         super.refreshChildren();
-        for (final Object child : this.getChildren()) {
+        for (final Object child : getChildren()) {
             final EditPart part = (EditPart) child;
             part.refresh();
         }

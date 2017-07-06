@@ -11,20 +11,16 @@ import org.dbflute.erflute.core.util.Format;
 public class DBObjectSet implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private Map<String, List<DBObject>> schemaDbObjectListMap;
-
-    private List<DBObject> tablespaceList;
-
-    private List<DBObject> noteList;
-
-    private List<DBObject> groupList;
+    private final Map<String, List<DBObject>> schemaDbObjectListMap;
+    private final List<DBObject> tablespaceList;
+    private final List<DBObject> noteList;
+    private final List<DBObject> groupList;
 
     public DBObjectSet() {
-        this.schemaDbObjectListMap = new TreeMap<String, List<DBObject>>();
-        this.tablespaceList = new ArrayList<DBObject>();
-        this.noteList = new ArrayList<DBObject>();
-        this.groupList = new ArrayList<DBObject>();
+        this.schemaDbObjectListMap = new TreeMap<>();
+        this.tablespaceList = new ArrayList<>();
+        this.noteList = new ArrayList<>();
+        this.groupList = new ArrayList<>();
     }
 
     public Map<String, List<DBObject>> getSchemaDbObjectListMap() {
@@ -44,27 +40,24 @@ public class DBObjectSet implements Serializable {
     }
 
     public void addAll(List<DBObject> dbObjectList) {
-        for (DBObject dbObject : dbObjectList) {
-            this.add(dbObject);
+        for (final DBObject dbObject : dbObjectList) {
+            add(dbObject);
         }
     }
 
     public void add(DBObject dbObject) {
         if (DBObject.TYPE_TABLESPACE.equals(dbObject.getType())) {
-            this.tablespaceList.add(dbObject);
-
+            tablespaceList.add(dbObject);
         } else if (DBObject.TYPE_NOTE.equals(dbObject.getType())) {
-            this.noteList.add(dbObject);
-
+            noteList.add(dbObject);
         } else if (DBObject.TYPE_GROUP.equals(dbObject.getType())) {
-            this.groupList.add(dbObject);
-
+            groupList.add(dbObject);
         } else {
-            String schema = Format.null2blank(dbObject.getSchema());
-            List<DBObject> dbObjectList = this.schemaDbObjectListMap.get(schema);
+            final String schema = Format.null2blank(dbObject.getSchema());
+            List<DBObject> dbObjectList = schemaDbObjectListMap.get(schema);
             if (dbObjectList == null) {
-                dbObjectList = new ArrayList<DBObject>();
-                this.schemaDbObjectListMap.put(schema, dbObjectList);
+                dbObjectList = new ArrayList<>();
+                schemaDbObjectListMap.put(schema, dbObjectList);
             }
 
             dbObjectList.add(dbObject);

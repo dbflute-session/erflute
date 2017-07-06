@@ -12,11 +12,11 @@ public class FullTextIndexRule extends TableRule {
 
     @Override
     public boolean validate(ERTable table) {
-        for (ERIndex index : table.getIndexes()) {
+        for (final ERIndex index : table.getIndexes()) {
             if (index.isFullText()) {
-                for (NormalColumn indexColumn : index.getColumns()) {
+                for (final NormalColumn indexColumn : index.getColumns()) {
                     if (!indexColumn.isFullTextIndexable()) {
-                        ValidateResult validateResult = new ValidateResult();
+                        final ValidateResult validateResult = new ValidateResult();
                         validateResult.setMessage(DisplayMessages.getMessage("error.validate.fulltext.index1")
                                 + table.getPhysicalName() + DisplayMessages.getMessage("error.validate.fulltext.index2")
                                 + index.getName() + DisplayMessages.getMessage("error.validate.fulltext.index3")
@@ -25,7 +25,7 @@ public class FullTextIndexRule extends TableRule {
                         validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                         validateResult.setObject(index);
 
-                        this.addError(validateResult);
+                        addError(validateResult);
                     }
                 }
             }

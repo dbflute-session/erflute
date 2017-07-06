@@ -17,67 +17,67 @@ public class NormalColumnComponentEditPolicy extends ComponentEditPolicy {
     protected Command createDeleteCommand(GroupRequest request) {
         try {
             if (request.getEditParts().size() == 1) {
-                if (this.getHost().getModel() instanceof NormalColumn) {
-                    NormalColumn normalColumn = (NormalColumn) this.getHost().getModel();
+                if (getHost().getModel() instanceof NormalColumn) {
+                    final NormalColumn normalColumn = (NormalColumn) getHost().getModel();
 
                     if (normalColumn.getColumnHolder() instanceof TableView) {
                         if (!normalColumn.isForeignKey() && !normalColumn.isReferedStrictly()) {
 
-                            TableView table = (TableView) normalColumn.getColumnHolder();
+                            final TableView table = (TableView) normalColumn.getColumnHolder();
 
-                            TableView newCopyTable = table.copyData();
-                            for (NormalColumn copyColumn : newCopyTable.getNormalColumns()) {
-                                CopyColumn targetColumn = (CopyColumn) copyColumn;
+                            final TableView newCopyTable = table.copyData();
+                            for (final NormalColumn copyColumn : newCopyTable.getNormalColumns()) {
+                                final CopyColumn targetColumn = (CopyColumn) copyColumn;
                                 if (targetColumn.getOriginalColumn() == normalColumn) {
                                     newCopyTable.removeColumn(targetColumn);
                                     break;
                                 }
                             }
 
-                            ChangeTableViewPropertyCommand command = new ChangeTableViewPropertyCommand(table, newCopyTable);
+                            final ChangeTableViewPropertyCommand command = new ChangeTableViewPropertyCommand(table, newCopyTable);
 
                             return command;
                         }
                     } else if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
-                        ColumnGroup columnGroup = (ColumnGroup) normalColumn.getColumnHolder();
+                        final ColumnGroup columnGroup = (ColumnGroup) normalColumn.getColumnHolder();
 
                         // ColumnGroup の ColumnHolder からはテーブルは取得できないので注意
-                        TableView table = (TableView) this.getHost().getParent().getModel();
+                        final TableView table = (TableView) getHost().getParent().getModel();
 
-                        TableView newCopyTable = table.copyData();
+                        final TableView newCopyTable = table.copyData();
 
-                        for (ERColumn copyColumn : newCopyTable.getColumns()) {
+                        for (final ERColumn copyColumn : newCopyTable.getColumns()) {
                             if (copyColumn == columnGroup) {
                                 newCopyTable.removeColumn(copyColumn);
                                 break;
                             }
                         }
 
-                        ChangeTableViewPropertyCommand command = new ChangeTableViewPropertyCommand(table, newCopyTable);
+                        final ChangeTableViewPropertyCommand command = new ChangeTableViewPropertyCommand(table, newCopyTable);
 
                         return command;
                     }
-                } else if (this.getHost().getModel() instanceof ColumnGroup) {
-                    ColumnGroup columnGroup = (ColumnGroup) this.getHost().getModel();
+                } else if (getHost().getModel() instanceof ColumnGroup) {
+                    final ColumnGroup columnGroup = (ColumnGroup) getHost().getModel();
 
                     // ColumnGroup の ColumnHolder からはテーブルは取得できないので注意
-                    TableView table = (TableView) this.getHost().getParent().getModel();
+                    final TableView table = (TableView) getHost().getParent().getModel();
 
-                    TableView newCopyTable = table.copyData();
+                    final TableView newCopyTable = table.copyData();
 
-                    for (ERColumn copyColumn : newCopyTable.getColumns()) {
+                    for (final ERColumn copyColumn : newCopyTable.getColumns()) {
                         if (copyColumn == columnGroup) {
                             newCopyTable.removeColumn(copyColumn);
                             break;
                         }
                     }
 
-                    ChangeTableViewPropertyCommand command = new ChangeTableViewPropertyCommand(table, newCopyTable);
+                    final ChangeTableViewPropertyCommand command = new ChangeTableViewPropertyCommand(table, newCopyTable);
 
                     return command;
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
 

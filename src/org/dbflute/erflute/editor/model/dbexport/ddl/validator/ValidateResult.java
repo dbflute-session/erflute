@@ -3,11 +3,8 @@ package org.dbflute.erflute.editor.model.dbexport.ddl.validator;
 public class ValidateResult {
 
     private String message;
-
     private String location;
-
     private int severity;
-
     private Object object;
 
     public Object getObject() {

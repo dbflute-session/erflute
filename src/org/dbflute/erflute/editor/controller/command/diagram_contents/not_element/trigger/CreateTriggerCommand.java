@@ -7,9 +7,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.trigger.Tri
 
 public class CreateTriggerCommand extends AbstractCommand {
 
-    private TriggerSet triggerSet;
-
-    private Trigger trigger;
+    private final TriggerSet triggerSet;
+    private final Trigger trigger;
 
     public CreateTriggerCommand(ERDiagram diagram, Trigger trigger) {
         this.triggerSet = diagram.getDiagramContents().getTriggerSet();
@@ -18,11 +17,11 @@ public class CreateTriggerCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        this.triggerSet.addTrigger(this.trigger);
+        triggerSet.addTrigger(trigger);
     }
 
     @Override
     protected void doUndo() {
-        this.triggerSet.remove(this.trigger);
+        triggerSet.remove(trigger);
     }
 }

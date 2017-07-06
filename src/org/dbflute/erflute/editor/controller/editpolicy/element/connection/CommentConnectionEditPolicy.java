@@ -10,7 +10,7 @@ public class CommentConnectionEditPolicy extends ConnectionEditPolicy {
 
     @Override
     protected Command getDeleteCommand(GroupRequest grouprequest) {
-        WalkerConnection connection = (WalkerConnection) this.getHost().getModel();
+        final WalkerConnection connection = (WalkerConnection) getHost().getModel();
 
         return new DeleteConnectionCommand(connection);
     }

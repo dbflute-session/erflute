@@ -10,27 +10,24 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.inde
 
 public class DeleteIndexCommand extends AbstractCommand {
 
-    private ERTable table;
-
-    private List<ERIndex> oldIndexList;
-
-    private List<ERIndex> newIndexList;
+    private final ERTable table;
+    private final List<ERIndex> oldIndexList;
+    private final List<ERIndex> newIndexList;
 
     public DeleteIndexCommand(ERDiagram diagram, ERIndex index) {
         this.table = index.getTable();
-
         this.oldIndexList = index.getTable().getIndexes();
-        this.newIndexList = new ArrayList<ERIndex>(oldIndexList);
-        this.newIndexList.remove(index);
+        this.newIndexList = new ArrayList<>(oldIndexList);
+        newIndexList.remove(index);
     }
 
     @Override
     protected void doExecute() {
-        this.table.setIndexes(this.newIndexList);
+        table.setIndexes(newIndexList);
     }
 
     @Override
     protected void doUndo() {
-        this.table.setIndexes(this.oldIndexList);
+        table.setIndexes(oldIndexList);
     }
 }

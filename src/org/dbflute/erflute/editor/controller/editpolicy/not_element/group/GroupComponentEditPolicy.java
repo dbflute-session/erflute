@@ -14,11 +14,9 @@ public class GroupComponentEditPolicy extends NotElementComponentEditPolicy {
 
     @Override
     protected Command createDeleteCommand(ERDiagram diagram, Object model) {
-        ColumnGroup deleteColumnGroup = (ColumnGroup) model;
-
-        List<CopyColumnGroup> newColumnGroups = new ArrayList<CopyColumnGroup>();
-
-        for (ColumnGroup columnGroup : diagram.getDiagramContents().getColumnGroupSet()) {
+        final ColumnGroup deleteColumnGroup = (ColumnGroup) model;
+        final List<CopyColumnGroup> newColumnGroups = new ArrayList<>();
+        for (final ColumnGroup columnGroup : diagram.getDiagramContents().getColumnGroupSet()) {
             if (columnGroup != deleteColumnGroup) {
                 newColumnGroups.add(new CopyColumnGroup(columnGroup));
             }

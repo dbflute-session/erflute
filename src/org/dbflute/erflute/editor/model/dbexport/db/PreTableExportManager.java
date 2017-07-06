@@ -41,34 +41,34 @@ public abstract class PreTableExportManager {
         this.diagram = diagram;
         this.environment = environment;
         this.metaData = con.getMetaData();
-        this.ifExistsOption = DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, false).getIfExistsOption();
-        this.prepareNewNames();
+        this.ifExistsOption = DBManagerFactory.getDBManager(diagram).getDDLCreator(diagram, false).getIfExistsOption();
+        prepareNewNames();
     }
 
     protected void prepareNewNames() {
-        this.newTableNames = new HashSet<String>();
-        for (final ERTable table : this.diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
-            this.newTableNames.add(this.dbSetting.getTableNameWithSchema(table.getPhysicalName(), table.getTableViewProperties()
-                    .getSchema()));
+        this.newTableNames = new HashSet<>();
+        for (final ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
+            newTableNames.add(dbSetting.getTableNameWithSchema(
+                    table.getPhysicalName(), table.getTableViewProperties().getSchema()));
         }
-        this.newViewNames = new HashSet<String>();
-        for (final ERView view : this.diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
-            this.newViewNames.add(this.dbSetting.getTableNameWithSchema(view.getPhysicalName(), view.getTableViewProperties().getSchema()));
+        this.newViewNames = new HashSet<>();
+        for (final ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
+            newViewNames.add(dbSetting.getTableNameWithSchema(view.getPhysicalName(), view.getTableViewProperties().getSchema()));
         }
-        this.newSequenceNames = new HashSet<String>();
-        for (final Sequence sequence : this.diagram.getDiagramContents().getSequenceSet()) {
-            this.newSequenceNames.add(this.dbSetting.getTableNameWithSchema(sequence.getName(), sequence.getSchema()));
+        this.newSequenceNames = new HashSet<>();
+        for (final Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
+            newSequenceNames.add(dbSetting.getTableNameWithSchema(sequence.getName(), sequence.getSchema()));
         }
     }
 
     public void run() {
         try {
             final StringBuilder sb = new StringBuilder();
-            sb.append(this.dropViews());
-            sb.append(this.dropForeignKeys());
-            sb.append(this.dropTables());
-            sb.append(this.dropSequences());
-            sb.append(this.executeDDL());
+            sb.append(dropViews());
+            sb.append(dropForeignKeys());
+            sb.append(dropTables());
+            sb.append(dropSequences());
+            sb.append(executeDDL());
             this.ddl = sb.toString();
         } catch (final Exception e) {
             this.exception = e;
@@ -83,9 +83,9 @@ public abstract class PreTableExportManager {
             while (sequenceSet.next()) {
                 String name = sequenceSet.getString("TABLE_NAME");
                 final String schema = sequenceSet.getString("TABLE_SCHEM");
-                name = this.dbSetting.getTableNameWithSchema(name, schema);
-                if (this.newSequenceNames == null || this.newSequenceNames.contains(name)) {
-                    ddl.append(this.dropSequence(name));
+                name = dbSetting.getTableNameWithSchema(name, schema);
+                if (newSequenceNames == null || newSequenceNames.contains(name)) {
+                    ddl.append(dropSequence(name));
                     ddl.append("\r\n");
                 }
             }
@@ -98,7 +98,7 @@ public abstract class PreTableExportManager {
     }
 
     private String dropSequence(String sequenceName) throws SQLException {
-        final String sql = "DROP SEQUENCE " + this.ifExistsOption + sequenceName + ";";
+        final String sql = "DROP SEQUENCE " + ifExistsOption + sequenceName + ";";
         return sql;
     }
 
@@ -110,9 +110,9 @@ public abstract class PreTableExportManager {
             while (viewSet.next()) {
                 String name = viewSet.getString("TABLE_NAME");
                 final String schema = viewSet.getString("TABLE_SCHEM");
-                name = this.dbSetting.getTableNameWithSchema(name, schema);
-                if (this.newViewNames == null || this.newViewNames.contains(name)) {
-                    ddl.append(this.dropView(name));
+                name = dbSetting.getTableNameWithSchema(name, schema);
+                if (newViewNames == null || newViewNames.contains(name)) {
+                    ddl.append(dropView(name));
                     ddl.append("\r\n");
                 }
             }
@@ -125,7 +125,7 @@ public abstract class PreTableExportManager {
     }
 
     private String dropView(String viewName) throws SQLException {
-        final String sql = "DROP VIEW " + this.ifExistsOption + viewName + ";";
+        final String sql = "DROP VIEW " + ifExistsOption + viewName + ";";
         return sql;
     }
 
@@ -134,7 +134,7 @@ public abstract class PreTableExportManager {
         ResultSet foreignKeySet = null;
         try {
             foreignKeySet = metaData.getImportedKeys(null, null, null);
-            final Set<String> fkNameSet = new HashSet<String>();
+            final Set<String> fkNameSet = new HashSet<>();
             while (foreignKeySet.next()) {
                 final String constraintName = foreignKeySet.getString("FK_NAME");
                 if (fkNameSet.contains(constraintName)) {
@@ -143,9 +143,9 @@ public abstract class PreTableExportManager {
                 fkNameSet.add(constraintName);
                 String tableName = foreignKeySet.getString("FKTABLE_NAME");
                 final String schema = foreignKeySet.getString("FKTABLE_SCHEM");
-                tableName = this.dbSetting.getTableNameWithSchema(tableName, schema);
-                if (this.newTableNames == null || this.newTableNames.contains(tableName)) {
-                    ddl.append(this.dropForeignKey(tableName, constraintName));
+                tableName = dbSetting.getTableNameWithSchema(tableName, schema);
+                if (newTableNames == null || newTableNames.contains(tableName)) {
+                    ddl.append(dropForeignKey(tableName, constraintName));
                     ddl.append("\r\n");
                 }
             }
@@ -170,14 +170,14 @@ public abstract class PreTableExportManager {
             while (tableSet.next()) {
                 String tableName = tableSet.getString("TABLE_NAME");
                 final String schema = tableSet.getString("TABLE_SCHEM");
-                tableName = this.dbSetting.getTableNameWithSchema(tableName, schema);
-                if (this.newTableNames == null || this.newTableNames.contains(tableName)) {
+                tableName = dbSetting.getTableNameWithSchema(tableName, schema);
+                if (newTableNames == null || newTableNames.contains(tableName)) {
                     try {
-                        this.checkTableExist(con, tableName);
+                        checkTableExist(con, tableName);
                     } catch (final SQLException e) {
                         continue;
                     }
-                    ddl.append(this.dropTable(tableName));
+                    ddl.append(dropTable(tableName));
                     ddl.append("\r\n");
                 }
             }
@@ -190,14 +190,14 @@ public abstract class PreTableExportManager {
     }
 
     private String dropTable(String tableName) throws SQLException {
-        final String sql = "DROP TABLE " + this.ifExistsOption + tableName + ";";
+        final String sql = "DROP TABLE " + ifExistsOption + tableName + ";";
         return sql;
     }
 
     private String executeDDL() throws SQLException {
-        final DDLCreator ddlCreator = DBManagerFactory.getDBManager(this.diagram).getDDLCreator(this.diagram, true);
-        ddlCreator.init(this.environment, new DDLTarget());
-        return ddlCreator.prepareCreateDDL(this.diagram);
+        final DDLCreator ddlCreator = DBManagerFactory.getDBManager(diagram).getDDLCreator(diagram, true);
+        ddlCreator.init(environment, new DDLTarget());
+        return ddlCreator.prepareCreateDDL(diagram);
     }
 
     protected void checkTableExist(Connection con, String tableNameWithSchema) throws SQLException {

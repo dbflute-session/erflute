@@ -6,45 +6,39 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 
 public class ChangeRelationshipPropertyCommand extends AbstractCommand {
 
-    private Relationship oldCopyRelation;
-
-    private Relationship newCopyRelation;
-
-    private Relationship relation;
-
-    private TableView oldTargetTable;
+    private final Relationship oldCopyRelation;
+    private final Relationship newCopyRelation;
+    private final Relationship relation;
+    private final TableView oldTargetTable;
 
     public ChangeRelationshipPropertyCommand(Relationship relation, Relationship newCopyRelation) {
         this.relation = relation;
         this.oldCopyRelation = relation.copy();
         this.newCopyRelation = newCopyRelation;
-
         this.oldTargetTable = relation.getTargetTableView().copyData();
     }
 
     @Override
     protected void doExecute() {
-        this.newCopyRelation.restructureRelationData(this.relation);
+        newCopyRelation.restructureRelationData(relation);
 
-        if (this.newCopyRelation.isReferenceForPK()) {
-            this.relation.setForeignKeyColumnForPK();
-
-        } else if (this.newCopyRelation.getReferredCompoundUniqueKey() != null) {
-            this.relation.setForeignKeyForComplexUniqueKey(this.newCopyRelation.getReferredCompoundUniqueKey());
-
+        if (newCopyRelation.isReferenceForPK()) {
+            relation.setForeignKeyColumnForPK();
+        } else if (newCopyRelation.getReferredCompoundUniqueKey() != null) {
+            relation.setForeignKeyForComplexUniqueKey(newCopyRelation.getReferredCompoundUniqueKey());
         } else {
-            this.relation.setForeignKeyColumn(this.newCopyRelation.getReferredSimpleUniqueColumn());
+            relation.setForeignKeyColumn(newCopyRelation.getReferredSimpleUniqueColumn());
         }
     }
 
     @Override
     protected void doUndo() {
-        this.oldCopyRelation.restructureRelationData(this.relation);
+        oldCopyRelation.restructureRelationData(relation);
 
-        this.relation.setReferenceForPK(this.oldCopyRelation.isReferenceForPK());
-        this.relation.setReferredCompoundUniqueKey(this.oldCopyRelation.getReferredCompoundUniqueKey());
-        this.relation.setReferredSimpleUniqueColumn(this.oldCopyRelation.getReferredSimpleUniqueColumn());
+        relation.setReferenceForPK(oldCopyRelation.isReferenceForPK());
+        relation.setReferredCompoundUniqueKey(oldCopyRelation.getReferredCompoundUniqueKey());
+        relation.setReferredSimpleUniqueColumn(oldCopyRelation.getReferredSimpleUniqueColumn());
 
-        this.oldTargetTable.restructureData(this.relation.getTargetTableView());
+        oldTargetTable.restructureData(relation.getTargetTableView());
     }
 }

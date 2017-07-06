@@ -24,35 +24,36 @@ import org.eclipse.ui.PlatformUI;
 
 public class ViewOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.refreshName();
+        refreshName();
 
-        for (Object child : this.getChildren()) {
-            EditPart part = (EditPart) child;
+        for (final Object child : getChildren()) {
+            final EditPart part = (EditPart) child;
             part.refresh();
         }
     }
 
     @Override
     public void performRequest(Request request) {
-        ERView view = (ERView) this.getModel();
-        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
+        final ERView view = (ERView) getModel();
+        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            ERView copyView = view.copyData();
+            final ERView copyView = view.copyData();
 
-            ViewDialog dialog =
-                    new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getViewer(), copyView, diagram
+            final ViewDialog dialog =
+                    new ViewDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), getViewer(), copyView, diagram
                             .getDiagramContents().getColumnGroupSet());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                CompoundCommand command = ViewEditPart.createChangeViewPropertyCommand(diagram, view, copyView);
+                final CompoundCommand command = ViewEditPart.createChangeViewPropertyCommand(diagram, view, copyView);
 
-                this.execute(command.unwrap());
+                execute(command.unwrap());
             }
         }
 
@@ -61,7 +62,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
     }
 
     @Override
@@ -69,18 +70,19 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
         return new SelectEditPartTracker(this);
     }
 
+    @Override
     public boolean isDeleteable() {
         return true;
     }
 
     protected void refreshName() {
-        ERView model = (ERView) this.getModel();
+        final ERView model = (ERView) getModel();
 
-        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
+        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
 
         String name = null;
 
-        int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
+        final int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
 
         if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             if (model.getPhysicalName() != null) {
@@ -112,7 +114,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
             }
         }
 
-        this.setWidgetText(diagram.filter(name));
-        this.setWidgetImage(Activator.getImage(ImageKey.VIEW));
+        setWidgetText(diagram.filter(name));
+        setWidgetImage(Activator.getImage(ImageKey.VIEW));
     }
 }

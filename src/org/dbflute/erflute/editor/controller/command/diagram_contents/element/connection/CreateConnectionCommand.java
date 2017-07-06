@@ -15,9 +15,8 @@ public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
 
     @Override
     protected void doExecute() {
-
-        DiagramWalker sourceTable = (DiagramWalker) this.source.getModel();
-        DiagramWalker targetTable = (DiagramWalker) this.target.getModel();
+        DiagramWalker sourceTable = (DiagramWalker) source.getModel();
+        DiagramWalker targetTable = (DiagramWalker) target.getModel();
 
         // Table同士のリレーションは、Table <=> Table で繋ぐ
         if (sourceTable instanceof ERVirtualTable) {

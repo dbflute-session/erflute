@@ -8,22 +8,24 @@ import org.dbflute.erflute.editor.model.dbexport.ddl.validator.Validator;
 
 public abstract class BaseRule implements Rule {
 
-    private List<ValidateResult> errorList;
+    private final List<ValidateResult> errorList;
 
     public BaseRule() {
-        this.errorList = new ArrayList<ValidateResult>();
+        this.errorList = new ArrayList<>();
         Validator.addRule(this);
     }
 
     protected void addError(ValidateResult errorMessage) {
-        this.errorList.add(errorMessage);
+        errorList.add(errorMessage);
     }
 
+    @Override
     public List<ValidateResult> getErrorList() {
-        return this.errorList;
+        return errorList;
     }
 
+    @Override
     public void clear() {
-        this.errorList.clear();
+        errorList.clear();
     }
 }

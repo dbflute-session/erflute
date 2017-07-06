@@ -17,17 +17,17 @@ public class DuplicatedColumnNameRule extends TableRule {
 
     @Override
     public boolean validate(ERTable table) {
-        Set<String> columnNameSet = new HashSet<String>();
+        final Set<String> columnNameSet = new HashSet<>();
 
-        for (ERColumn column : table.getColumns()) {
+        for (final ERColumn column : table.getColumns()) {
             if (column instanceof ColumnGroup) {
-                ColumnGroup columnGroup = (ColumnGroup) column;
+                final ColumnGroup columnGroup = (ColumnGroup) column;
 
-                for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                    String columnName = Format.null2blank(normalColumn.getPhysicalName()).toLowerCase();
+                for (final NormalColumn normalColumn : columnGroup.getColumns()) {
+                    final String columnName = Format.null2blank(normalColumn.getPhysicalName()).toLowerCase();
 
                     if (columnNameSet.contains(columnName)) {
-                        ValidateResult result = new ValidateResult();
+                        final ValidateResult result = new ValidateResult();
                         result.setMessage(DisplayMessages.getMessage("error.validate.duplicated.column.name1")
                                 + table.getPhysicalName() + DisplayMessages.getMessage("error.validate.duplicated.column.name2")
                                 + columnName);
@@ -35,25 +35,25 @@ public class DuplicatedColumnNameRule extends TableRule {
                         result.setSeverity(IMarker.SEVERITY_WARNING);
                         result.setObject(table);
 
-                        this.addError(result);
+                        addError(result);
                     }
 
                     columnNameSet.add(columnName);
                 }
             } else if (column instanceof NormalColumn) {
-                NormalColumn normalColumn = (NormalColumn) column;
+                final NormalColumn normalColumn = (NormalColumn) column;
 
-                String columnName = normalColumn.getPhysicalName();
+                final String columnName = normalColumn.getPhysicalName();
 
                 if (columnNameSet.contains(columnName)) {
-                    ValidateResult result = new ValidateResult();
+                    final ValidateResult result = new ValidateResult();
                     result.setMessage(DisplayMessages.getMessage("error.validate.duplicated.column.name1") + table.getPhysicalName()
                             + DisplayMessages.getMessage("error.validate.duplicated.column.name2") + columnName);
                     result.setLocation(table.getLogicalName());
                     result.setSeverity(IMarker.SEVERITY_WARNING);
                     result.setObject(table);
 
-                    this.addError(result);
+                    addError(result);
                 }
 
                 columnNameSet.add(columnName);
