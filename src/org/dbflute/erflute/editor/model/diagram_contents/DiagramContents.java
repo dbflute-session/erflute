@@ -63,7 +63,7 @@ public class DiagramContents {
     }
 
     public Dictionary getDictionary() {
-        return this.dictionary;
+        return dictionary;
     }
 
     public void setDictionary(Dictionary dictionary) {
@@ -79,7 +79,7 @@ public class DiagramContents {
     }
 
     public DiagramWalkerSet getDiagramWalkers() {
-        return this.walkerSet;
+        return walkerSet;
     }
 
     public void setDiagramWalkers(DiagramWalkerSet walkers) {
@@ -103,7 +103,7 @@ public class DiagramContents {
     }
 
     public ColumnGroupSet getColumnGroupSet() {
-        return this.columnGroupSet;
+        return columnGroupSet;
     }
 
     public void setColumnGroupSet(ColumnGroupSet columnGroupSet) {

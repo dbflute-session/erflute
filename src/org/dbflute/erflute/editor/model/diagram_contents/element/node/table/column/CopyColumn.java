@@ -7,7 +7,7 @@ public class CopyColumn extends NormalColumn {
 
     private static final long serialVersionUID = 1L;
 
-    private NormalColumn originalColumn;
+    private final NormalColumn originalColumn;
 
     public CopyColumn(NormalColumn originalColumn) {
         super(originalColumn);
@@ -20,26 +20,26 @@ public class CopyColumn extends NormalColumn {
     }
 
     public NormalColumn getRestructuredColumn() {
-        CopyWord copyWord = this.getWord();
+        final CopyWord copyWord = getWord();
         if (copyWord != null) {
-            if (!(this.originalColumn instanceof CopyColumn)) {
-                this.originalColumn.setWord(copyWord.getOriginal());
+            if (!(originalColumn instanceof CopyColumn)) {
+                originalColumn.setWord(copyWord.getOriginal());
             }
         }
 
-        copyData(this, this.originalColumn);
+        copyData(this, originalColumn);
 
-        return this.originalColumn;
+        return originalColumn;
     }
 
     @Override
     public boolean isForeignKey() {
-        return this.originalColumn.isForeignKey();
+        return originalColumn.isForeignKey();
     }
 
     @Override
     public boolean isRefered() {
-        return this.originalColumn.isRefered();
+        return originalColumn.isRefered();
     }
 
     public NormalColumn getOriginalColumn() {
@@ -47,8 +47,8 @@ public class CopyColumn extends NormalColumn {
     }
 
     public Word getOriginalWord() {
-        if (this.getWord() != null) {
-            return this.getWord().getOriginal();
+        if (getWord() != null) {
+            return getWord().getOriginal();
         }
 
         return null;
@@ -56,10 +56,10 @@ public class CopyColumn extends NormalColumn {
 
     @Override
     public boolean equals(Object obj) {
-        NormalColumn originalColumn = this.getOriginalColumn();
+        final NormalColumn originalColumn = getOriginalColumn();
 
         if (obj instanceof CopyColumn) {
-            CopyColumn copy = (CopyColumn) obj;
+            final CopyColumn copy = (CopyColumn) obj;
             obj = copy.getOriginalColumn();
         }
 

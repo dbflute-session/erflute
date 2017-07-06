@@ -9,7 +9,6 @@ public abstract class TableViewProperties implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
     private String schema;
-
     private Tablespace tableSpace;
 
     public String getSchema() {
@@ -31,11 +30,9 @@ public abstract class TableViewProperties implements Serializable, Cloneable {
     @Override
     public TableViewProperties clone() {
         TableViewProperties clone = null;
-
         try {
             clone = (TableViewProperties) super.clone();
-
-        } catch (CloneNotSupportedException e) {}
+        } catch (final CloneNotSupportedException e) {}
 
         return clone;
     }

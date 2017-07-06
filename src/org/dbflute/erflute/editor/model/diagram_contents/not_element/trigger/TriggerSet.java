@@ -12,32 +12,31 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
 public class TriggerSet extends AbstractModel implements ObjectListModel, Iterable<Trigger> {
 
     private static final long serialVersionUID = 1L;
-
     public static final String PROPERTY_CHANGE_TRIGGER_SET = "TriggerSet";
 
     private List<Trigger> triggerList;
 
     public TriggerSet() {
-        this.triggerList = new ArrayList<Trigger>();
+        this.triggerList = new ArrayList<>();
     }
 
     public void addTrigger(Trigger trigger) {
-        this.triggerList.add(trigger);
-        Collections.sort(this.triggerList);
+        triggerList.add(trigger);
+        Collections.sort(triggerList);
 
-        this.firePropertyChange(PROPERTY_CHANGE_TRIGGER_SET, null, null);
+        firePropertyChange(PROPERTY_CHANGE_TRIGGER_SET, null, null);
     }
 
     public int remove(Trigger trigger) {
-        int index = this.triggerList.indexOf(trigger);
-        this.triggerList.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_TRIGGER_SET, null, null);
+        final int index = triggerList.indexOf(trigger);
+        triggerList.remove(index);
+        firePropertyChange(PROPERTY_CHANGE_TRIGGER_SET, null, null);
 
         return index;
     }
 
     public boolean contains(String name) {
-        for (Trigger trigger : triggerList) {
+        for (final Trigger trigger : triggerList) {
             if (name.equalsIgnoreCase(trigger.getName())) {
                 return true;
             }
@@ -47,7 +46,7 @@ public class TriggerSet extends AbstractModel implements ObjectListModel, Iterab
     }
 
     public Trigger get(String name) {
-        for (Trigger trigger : triggerList) {
+        for (final Trigger trigger : triggerList) {
             if (name.equalsIgnoreCase(trigger.getName())) {
                 return trigger;
             }
@@ -57,20 +56,21 @@ public class TriggerSet extends AbstractModel implements ObjectListModel, Iterab
     }
 
     public List<Trigger> getTriggerList() {
-        return this.triggerList;
+        return triggerList;
     }
 
+    @Override
     public Iterator<Trigger> iterator() {
-        return this.triggerList.iterator();
+        return triggerList.iterator();
     }
 
     @Override
     public TriggerSet clone() {
-        TriggerSet triggerSet = (TriggerSet) super.clone();
-        List<Trigger> newTriggerList = new ArrayList<Trigger>();
+        final TriggerSet triggerSet = (TriggerSet) super.clone();
+        final List<Trigger> newTriggerList = new ArrayList<>();
 
-        for (Trigger trigger : triggerList) {
-            Trigger newTrigger = (Trigger) trigger.clone();
+        for (final Trigger trigger : triggerList) {
+            final Trigger newTrigger = (Trigger) trigger.clone();
             newTriggerList.add(newTrigger);
         }
 
@@ -79,14 +79,17 @@ public class TriggerSet extends AbstractModel implements ObjectListModel, Iterab
         return triggerSet;
     }
 
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getName() {
         return DisplayMessages.getMessage("label.object.type.trigger_list");
     }
 
+    @Override
     public String getObjectType() {
         return "list";
     }

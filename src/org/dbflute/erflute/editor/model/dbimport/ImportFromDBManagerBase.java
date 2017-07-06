@@ -71,7 +71,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     private boolean mergeWord;
 
     protected static class ColumnData {
-
         public String columnName;
         public String type;
         public int size;
@@ -89,7 +88,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     private static class ForeignKeyData {
-
         private String name;
         private String sourceTableName;
         private String sourceSchemaName;
@@ -124,7 +122,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         this.useCommentAsLogicalName = useCommentAsLogicalName;
         this.mergeWord = mergeWord;
         this.metaData = con.getMetaData();
-        if (mergeWord) {
+        if (this.mergeWord) {
             for (final Word word : diagram.getDiagramContents().getDictionary().getWordList()) {
                 dictionary.put(new UniqueWord(word), word);
             }
@@ -169,8 +167,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             while (columnSet.next()) {
                 tableName = columnSet.getString("TABLE_NAME");
                 final String schema = columnSet.getString("TABLE_SCHEM");
-                final String tableNameWithSchema = dbSetting.getTableNameWithSchema(tableName, schema);
 
+                final String tableNameWithSchema = dbSetting.getTableNameWithSchema(tableName, schema);
                 monitor.subTask("reading : " + tableNameWithSchema);
 
                 Map<String, ColumnData> cash = columnDataCash.get(tableNameWithSchema);
@@ -180,6 +178,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 }
 
                 final ColumnData columnData = createColumnData(columnSet);
+
                 cashOtherColumnData(tableName, schema, columnData);
 
                 cash.put(columnData.columnName, columnData);
@@ -230,7 +229,9 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             if (DBObject.TYPE_SEQUENCE.equals(dbObject.getType())) {
                 final String schema = dbObject.getSchema();
                 final String name = dbObject.getName();
+
                 final Sequence sequence = importSequence(schema, name);
+
                 if (sequence != null) {
                     list.add(sequence);
                 }
@@ -286,7 +287,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     }
 
     protected Trigger importTrigger(String schema, String triggerName) throws SQLException {
-        //
         return null;
     }
 
@@ -416,7 +416,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         final List<ERIndex> indexes = new ArrayList<>();
         final Map<String, ERIndex> indexMap = new HashMap<>();
 
-        try (ResultSet indexSet = metaData.getIndexInfo(null, table.getTableViewProperties(dbSetting.getDbsystem()).getSchema(),
+        try (ResultSet indexSet = metaData.getIndexInfo(null,
+                table.getTableViewProperties(dbSetting.getDbsystem()).getSchema(),
                 table.getPhysicalName(), false, true)) {
             while (indexSet.next()) {
                 final String name = indexSet.getString("INDEX_NAME");
@@ -506,7 +507,8 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     private List<PrimaryKeyData> getPrimaryKeys(ERTable table, DatabaseMetaData metaData) throws SQLException {
         final List<PrimaryKeyData> primaryKeys = new ArrayList<>();
 
-        try (ResultSet primaryKeySet = metaData.getPrimaryKeys(null, table.getTableViewProperties(dbSetting.getDbsystem()).getSchema(),
+        try (ResultSet primaryKeySet = metaData.getPrimaryKeys(null,
+                table.getTableViewProperties(dbSetting.getDbsystem()).getSchema(),
                 table.getPhysicalName())) {
             while (primaryKeySet.next()) {
                 final PrimaryKeyData data = new PrimaryKeyData();
@@ -563,7 +565,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             final Integer length = new Integer(size);
 
             final SqlType sqlType = SqlType.valueOf(dbSetting.getDbsystem(), type, size);
-
             if (sqlType == null || LOG_SQL_TYPE) {
                 logger.info(columnName + ": " + type + ", " + size + ", " + columnData.decimalDegits);
             }
@@ -587,7 +588,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             final String constraint = Format.null2blank(columnData.constraint);
 
             boolean primaryKey = false;
-
             for (final PrimaryKeyData primaryKeyData : primaryKeys) {
                 if (columnName.equals(primaryKeyData.columnName)) {
                     primaryKey = true;
@@ -616,7 +616,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             // TODO jflute xxxxxxxxxxxxxx (2016/10/28)
             final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, false);
 
-            Word word = new Word(columnName, logicalName, sqlType, typeData, description, diagram.getDatabase());
+            Word word = new Word(columnName, logicalName, sqlType, typeData, description, this.diagram.getDatabase());
             final UniqueWord uniqueWord = new UniqueWord(word);
 
             if (dictionary.get(uniqueWord) != null) {
@@ -703,9 +703,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                 }
 
                 final String key = dbSetting.getTableNameWithSchema(foreignKeyData.targetTableName, foreignKeyData.targetSchemaName);
-
                 List<ForeignKeyData> foreignKeyDataList = tableForeignKeyDataMap.get(key);
-
                 if (foreignKeyDataList == null) {
                     foreignKeyDataList = new ArrayList<>();
                     tableForeignKeyDataMap.put(key, foreignKeyDataList);
@@ -721,13 +719,17 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     private void setForeignKeysUsingCash(ERTable target) throws SQLException {
         String tableName = target.getPhysicalName();
         final String schema = target.getTableViewProperties(dbSetting.getDbsystem()).getSchema();
+
         tableName = dbSetting.getTableNameWithSchema(tableName, schema);
+
         final List<ForeignKeyData> foreignKeyList = tableForeignKeyDataMap.get(tableName);
+
         if (foreignKeyList == null) {
             return;
         }
 
         final Map<String, List<ForeignKeyData>> sameNameForeignKeyDataMap = collectSameNameForeignKeyData(foreignKeyList);
+
         for (final Map.Entry<String, List<ForeignKeyData>> entry : sameNameForeignKeyDataMap.entrySet()) {
             createRelation(target, entry.getValue());
         }
@@ -921,7 +923,9 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             if (DBObject.TYPE_VIEW.equals(dbObject.getType())) {
                 final String schema = dbObject.getSchema();
                 final String name = dbObject.getName();
+
                 final ERView view = importView(schema, name);
+
                 if (view != null) {
                     list.add(view);
                 }
@@ -976,25 +980,22 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
 
         String columnsPart = null;
         String fromPart = null;
-
         if (fromIndex != -1) {
             columnsPart = sql.substring(selectIndex + "SELECT ".length(), fromIndex);
             fromPart = sql.substring(fromIndex + " FROM ".length());
+
         } else {
             columnsPart = sql.substring(selectIndex + "SELECT ".length());
             fromPart = "";
         }
 
         final int whereIndex = fromPart.toUpperCase().indexOf(" WHERE ");
-
         if (whereIndex != -1) {
             fromPart = fromPart.substring(0, whereIndex);
         }
 
         final Map<String, String> aliasTableMap = new HashMap<>();
-
         final StringTokenizer fromTokenizer = new StringTokenizer(fromPart, ",");
-
         while (fromTokenizer.hasMoreTokens()) {
             String tableName = fromTokenizer.nextToken().trim();
 
@@ -1020,9 +1021,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         }
 
         final StringTokenizer columnTokenizer = new StringTokenizer(columnsPart, ",");
-
         String previousColumn = null;
-
         while (columnTokenizer.hasMoreTokens()) {
             String columnName = columnTokenizer.nextToken();
 
@@ -1040,13 +1039,10 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             columnName = columnName.replaceAll("\"", "");
 
             String columnAlias = null;
-
             final Matcher matcher = AS_PATTERN.matcher(columnName);
-
             if (matcher.matches()) {
                 columnAlias = matcher.toMatchResult().group(2).trim();
                 columnName = matcher.toMatchResult().group(1).trim();
-
             } else {
                 final int asIndex = columnName.indexOf(" ");
                 if (asIndex != -1) {
@@ -1056,9 +1052,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             }
 
             int dotIndex = columnName.indexOf(".");
-
             String tableName = null;
-
             if (dotIndex != -1) {
                 String aliasTableName = columnName.substring(0, dotIndex);
                 columnName = columnName.substring(dotIndex + 1);
@@ -1095,7 +1089,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                             for (final NormalColumn column : table.getExpandedColumns()) {
                                 if (column.getPhysicalName() != null && columnName.equals(column.getPhysicalName().toLowerCase())) {
                                     targetColumn = column;
-
                                     break;
                                 }
                             }
@@ -1153,9 +1146,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
         for (final DBObject dbObject : dbObjectList) {
             if (DBObject.TYPE_TABLESPACE.equals(dbObject.getType())) {
                 final String name = dbObject.getName();
-
                 final Tablespace tablespace = importTablespace(name);
-
                 if (tablespace != null) {
                     list.add(tablespace);
                 }

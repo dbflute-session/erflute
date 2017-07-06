@@ -277,7 +277,7 @@ public class ERVirtualTable extends ERTable {
 
     @Override
     public ERTable toMaterialize() {
-        return this.rawTable;
+        return rawTable;
     }
 
     // ===================================================================================

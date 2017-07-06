@@ -19,7 +19,7 @@ public class AddWordCommand extends AbstractCommand {
         this.word = word;
         this.index = index;
         this.dictionary = tableView.getDiagram().getDiagramContents().getDictionary();
-        this.column = new NormalColumn(word, true, false, false, false, null, null, null, null, null);
+        this.column = new NormalColumn(this.word, true, false, false, false, null, null, null, null, null);
     }
 
     @Override

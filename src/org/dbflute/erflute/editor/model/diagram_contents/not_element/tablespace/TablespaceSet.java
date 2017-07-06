@@ -10,32 +10,31 @@ import org.dbflute.erflute.editor.model.AbstractModel;
 public class TablespaceSet extends AbstractModel implements Iterable<Tablespace> {
 
     private static final long serialVersionUID = 1L;
-
     public static final String PROPERTY_CHANGE_TABLESPACE_SET = "TablespaceSet";
 
     private List<Tablespace> tablespaceList;
 
     public TablespaceSet() {
-        this.tablespaceList = new ArrayList<Tablespace>();
+        this.tablespaceList = new ArrayList<>();
     }
 
     public void addTablespace(Tablespace tablespace) {
-        this.tablespaceList.add(tablespace);
-        Collections.sort(this.tablespaceList);
+        tablespaceList.add(tablespace);
+        Collections.sort(tablespaceList);
 
-        this.firePropertyChange(PROPERTY_CHANGE_TABLESPACE_SET, null, null);
+        firePropertyChange(PROPERTY_CHANGE_TABLESPACE_SET, null, null);
     }
 
     public int remove(Tablespace tablespace) {
-        int index = this.tablespaceList.indexOf(tablespace);
-        this.tablespaceList.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_TABLESPACE_SET, null, null);
+        final int index = tablespaceList.indexOf(tablespace);
+        tablespaceList.remove(index);
+        firePropertyChange(PROPERTY_CHANGE_TABLESPACE_SET, null, null);
 
         return index;
     }
 
     public boolean contains(String name) {
-        for (Tablespace tablespace : tablespaceList) {
+        for (final Tablespace tablespace : tablespaceList) {
             if (name.equalsIgnoreCase(tablespace.getName())) {
                 return true;
             }
@@ -45,20 +44,21 @@ public class TablespaceSet extends AbstractModel implements Iterable<Tablespace>
     }
 
     public List<Tablespace> getTablespaceList() {
-        return this.tablespaceList;
+        return tablespaceList;
     }
 
+    @Override
     public Iterator<Tablespace> iterator() {
-        return this.tablespaceList.iterator();
+        return tablespaceList.iterator();
     }
 
     @Override
     public TablespaceSet clone() {
-        TablespaceSet tablespaceSet = (TablespaceSet) super.clone();
-        List<Tablespace> newTablespaceList = new ArrayList<Tablespace>();
+        final TablespaceSet tablespaceSet = (TablespaceSet) super.clone();
+        final List<Tablespace> newTablespaceList = new ArrayList<>();
 
-        for (Tablespace tablespace : tablespaceList) {
-            Tablespace newTablespace = (Tablespace) tablespace.clone();
+        for (final Tablespace tablespace : tablespaceList) {
+            final Tablespace newTablespace = (Tablespace) tablespace.clone();
             newTablespaceList.add(newTablespace);
         }
 

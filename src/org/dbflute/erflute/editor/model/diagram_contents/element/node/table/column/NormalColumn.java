@@ -44,8 +44,8 @@ public class NormalColumn extends ERColumn {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public NormalColumn(Word word, boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement, String defaultValue,
-            String constraint, String uniqueKeyName, String characterSet, String collation) {
+    public NormalColumn(Word word, boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement,
+            String defaultValue, String constraint, String uniqueKeyName, String characterSet, String collation) {
         this.word = word;
         init(notNull, primaryKey, uniqueKey, autoIncrement, defaultValue, constraint, uniqueKeyName, characterSet, collation);
         this.autoIncrementSetting = new Sequence();
@@ -78,8 +78,8 @@ public class NormalColumn extends ERColumn {
         this.word = (Word) referredColumn.getWord().clone();
     }
 
-    protected void init(boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement, String defaultValue,
-            String constraint, String uniqueKeyName, String characterSet, String collation) {
+    protected void init(boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement,
+            String defaultValue, String constraint, String uniqueKeyName, String characterSet, String collation) {
         this.notNull = notNull;
         this.primaryKey = primaryKey;
         this.uniqueKey = uniqueKey;

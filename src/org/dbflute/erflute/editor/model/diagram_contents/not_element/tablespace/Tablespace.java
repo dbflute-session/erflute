@@ -14,19 +14,18 @@ public class Tablespace extends AbstractModel implements ObjectModel, Comparable
     private static final long serialVersionUID = 1L;
 
     private String name;
-
     private Map<Environment, TablespaceProperties> propertiesMap = new HashMap<>();
 
     @Override
     public int compareTo(Tablespace other) {
-        return this.name.toUpperCase().compareTo(other.name.toUpperCase());
+        return name.toUpperCase().compareTo(other.name.toUpperCase());
     }
 
     public void copyTo(Tablespace to) {
         to.name = name;
 
         to.propertiesMap = new HashMap<>();
-        for (final Map.Entry<Environment, TablespaceProperties> entry : this.propertiesMap.entrySet()) {
+        for (final Map.Entry<Environment, TablespaceProperties> entry : propertiesMap.entrySet()) {
             to.propertiesMap.put(entry.getKey(), entry.getValue().clone());
         }
     }
@@ -41,11 +40,11 @@ public class Tablespace extends AbstractModel implements ObjectModel, Comparable
     }
 
     public TablespaceProperties getProperties(Environment environment, ERDiagram diagram) {
-        return DBManagerFactory.getDBManager(diagram).checkTablespaceProperties(this.propertiesMap.get(environment));
+        return DBManagerFactory.getDBManager(diagram).checkTablespaceProperties(propertiesMap.get(environment));
     }
 
     public void putProperties(Environment environment, TablespaceProperties tablespaceProperties) {
-        this.propertiesMap.put(environment, tablespaceProperties);
+        propertiesMap.put(environment, tablespaceProperties);
     }
 
     public Map<Environment, TablespaceProperties> getPropertiesMap() {
@@ -55,8 +54,7 @@ public class Tablespace extends AbstractModel implements ObjectModel, Comparable
     @Override
     public Tablespace clone() {
         final Tablespace clone = (Tablespace) super.clone();
-
-        this.copyTo(clone);
+        copyTo(clone);
 
         return clone;
     }
