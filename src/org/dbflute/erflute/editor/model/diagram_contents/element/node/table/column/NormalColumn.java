@@ -286,6 +286,10 @@ public class NormalColumn extends ERColumn {
     }
 
     public Word getWord() {
+        if (word == null) {
+            return getFirstRootReferredColumn().word;
+        }
+
         return word;
     }
 

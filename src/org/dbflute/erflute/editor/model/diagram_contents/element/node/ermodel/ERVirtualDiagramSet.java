@@ -21,7 +21,7 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
     private final List<ERVirtualDiagram> vdiagrams;
 
     public ERVirtualDiagramSet() {
-        vdiagrams = new ArrayList<>();
+        this.vdiagrams = new ArrayList<>();
     }
 
     @Override

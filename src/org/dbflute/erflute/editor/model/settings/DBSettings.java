@@ -15,30 +15,22 @@ public class DBSettings implements Serializable, Comparable<DBSettings> {
 
     private static final long serialVersionUID = 1L;
 
-    private String dbsystem;
-
-    private String server;
-
-    private int port;
-
-    private String database;
-
-    private String user;
-
+    private final String dbsystem;
+    private final String server;
+    private final int port;
+    private final String database;
+    private final String user;
     private transient String password;
-
-    private boolean useDefaultDriver;
-
-    private String url;
-
-    private String driverClassName;
+    private final boolean useDefaultDriver;
+    private final String url;
+    private final String driverClassName;
 
     public String getDbsystem() {
         return dbsystem;
     }
 
-    public DBSettings(String dbsystem, String server, int port, String database, String user, String password, boolean useDefaultDriver,
-            String url, String driverClassName) {
+    public DBSettings(String dbsystem, String server, int port, String database,
+            String user, String password, boolean useDefaultDriver, String url, String driverClassName) {
         this.dbsystem = dbsystem;
         this.server = server;
         this.port = port;
@@ -82,55 +74,56 @@ public class DBSettings implements Serializable, Comparable<DBSettings> {
         return driverClassName;
     }
 
+    @Override
     public int compareTo(DBSettings other) {
-        int compareTo = this.getDbsystem().compareTo(other.getDbsystem());
+        int compareTo = getDbsystem().compareTo(other.getDbsystem());
         if (compareTo != 0) {
             return compareTo;
         }
 
-        compareTo = this.getServer().compareTo(other.getServer());
+        compareTo = getServer().compareTo(other.getServer());
         if (compareTo != 0) {
             return compareTo;
         }
 
-        if (this.getPort() != other.getPort()) {
-            return this.getPort() - other.getPort();
+        if (getPort() != other.getPort()) {
+            return getPort() - other.getPort();
         }
 
-        compareTo = this.getDatabase().compareTo(other.getDatabase());
+        compareTo = getDatabase().compareTo(other.getDatabase());
         if (compareTo != 0) {
             return compareTo;
         }
 
-        compareTo = this.getUser().compareTo(other.getUser());
+        compareTo = getUser().compareTo(other.getUser());
         if (compareTo != 0) {
             return compareTo;
         }
 
-        compareTo = this.getServer().compareTo(other.getServer());
+        compareTo = getServer().compareTo(other.getServer());
         if (compareTo != 0) {
             return compareTo;
         }
 
-        compareTo = this.getPassword().compareTo(other.getPassword());
+        compareTo = getPassword().compareTo(other.getPassword());
         if (compareTo != 0) {
             return compareTo;
         }
 
-        if (this.isUseDefaultDriver() != other.isUseDefaultDriver()) {
-            if (this.isUseDefaultDriver()) {
+        if (isUseDefaultDriver() != other.isUseDefaultDriver()) {
+            if (isUseDefaultDriver()) {
                 return -1;
             } else {
                 return 1;
             }
         }
 
-        compareTo = this.getUrl().compareTo(other.getUrl());
+        compareTo = getUrl().compareTo(other.getUrl());
         if (compareTo != 0) {
             return compareTo;
         }
 
-        compareTo = this.getDriverClassName().compareTo(other.getDriverClassName());
+        compareTo = getDriverClassName().compareTo(other.getDriverClassName());
         if (compareTo != 0) {
             return compareTo;
         }
@@ -143,7 +136,7 @@ public class DBSettings implements Serializable, Comparable<DBSettings> {
             return Format.null2blank(tableName);
         }
 
-        DBManager dbManager = DBManagerFactory.getDBManager(this.dbsystem);
+        final DBManager dbManager = DBManagerFactory.getDBManager(dbsystem);
 
         if (!dbManager.isSupported(DBManager.SUPPORT_SCHEMA)) {
             return Format.null2blank(tableName);
@@ -153,23 +146,23 @@ public class DBSettings implements Serializable, Comparable<DBSettings> {
     }
 
     public Connection connect() throws InputException, InstantiationException, IllegalAccessException, SQLException {
-        DBManager manager = DBManagerFactory.getDBManager(this.getDbsystem());
-        Class<Driver> driverClass = manager.getDriverClass(this.getDriverClassName());
+        final DBManager manager = DBManagerFactory.getDBManager(getDbsystem());
+        final Class<Driver> driverClass = manager.getDriverClass(getDriverClassName());
 
         if (driverClass == null) {
             throw new InputException("error.jdbc.driver.not.found");
         }
 
-        Driver driver = driverClass.newInstance();
+        final Driver driver = driverClass.newInstance();
 
-        Properties info = new Properties();
-        if (this.getUser() != null) {
-            info.put("user", this.getUser());
+        final Properties info = new Properties();
+        if (getUser() != null) {
+            info.put("user", getUser());
         }
-        if (this.getPassword() != null) {
-            info.put("password", this.getPassword());
+        if (getPassword() != null) {
+            info.put("password", getPassword());
         }
 
-        return driver.connect(this.getUrl(), info);
+        return driver.connect(getUrl(), info);
     }
 }

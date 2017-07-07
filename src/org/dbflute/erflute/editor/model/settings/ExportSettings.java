@@ -84,7 +84,7 @@ public class ExportSettings implements Serializable, Cloneable {
     public ExportSettings clone() {
         try {
             final ExportSettings setting = (ExportSettings) super.clone();
-            setting.setDdlTarget(this.ddlTarget.clone());
+            setting.setDdlTarget(ddlTarget.clone());
             return setting;
         } catch (final CloneNotSupportedException e) {
             return null;

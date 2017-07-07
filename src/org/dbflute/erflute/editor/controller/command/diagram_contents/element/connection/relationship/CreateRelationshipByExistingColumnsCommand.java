@@ -181,6 +181,6 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
             sourceTable.getDiagram().getDiagramContents().getDictionary().add(foreignKeyColumn);
         }
         targetTable.setDirty();
-        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
+        //ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
     }
 }

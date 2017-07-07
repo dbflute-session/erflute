@@ -95,8 +95,8 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
             clone.categorySetting = (CategorySettings) categorySetting.clone();
             clone.environmentSettings = (EnvironmentSettings) environmentSettings.clone();
             clone.exportSettings = exportSettings.clone();
-            if (this.database != null) {
-                clone.tableProperties = (TableProperties) this.getTableViewProperties().clone();
+            if (database != null) {
+                clone.tableProperties = (TableProperties) getTableViewProperties().clone();
             }
         } catch (final CloneNotSupportedException e) {}
         return clone;
@@ -160,7 +160,7 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
 
     @Override
     public TableViewProperties getTableViewProperties() {
-        this.tableProperties = DBManagerFactory.getDBManager(database).createTableProperties(this.tableProperties);
+        this.tableProperties = DBManagerFactory.getDBManager(database).createTableProperties(tableProperties);
         return tableProperties;
     }
 

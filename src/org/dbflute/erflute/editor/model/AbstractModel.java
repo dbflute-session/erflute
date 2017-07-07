@@ -15,23 +15,23 @@ public abstract class AbstractModel implements Serializable, Cloneable {
     }
 
     protected void firePropertyChange(String name, Object oldValue, Object newValue) {
-        this.support.firePropertyChange(name, oldValue, newValue);
+        support.firePropertyChange(name, oldValue, newValue);
     }
 
     protected void firePropertyChange(String name, int oldValue, int newValue) {
-        this.support.firePropertyChange(name, oldValue, newValue);
+        support.firePropertyChange(name, oldValue, newValue);
     }
 
     protected void firePropertyChange(String name, boolean oldValue, boolean newValue) {
-        this.support.firePropertyChange(name, oldValue, newValue);
+        support.firePropertyChange(name, oldValue, newValue);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.support.addPropertyChangeListener(listener);
+        support.addPropertyChangeListener(listener);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.support.removePropertyChangeListener(listener);
+        support.removePropertyChangeListener(listener);
     }
 
     @Override
