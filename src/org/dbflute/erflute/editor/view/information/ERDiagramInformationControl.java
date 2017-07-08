@@ -50,8 +50,11 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
         final Point loc = composite.toDisplay(0, 0);
         final Point size = composite.getSize();
 
-        final int x = (size.x - width) / 2 + loc.x;
-        final int y = (size.y - height) / 2 + loc.y;
+        final int overX = diagram.getMousePoint().x + width - size.x;
+        final int overY = diagram.getMousePoint().y + width - size.y;
+
+        final int x = diagram.getMousePoint().x + loc.x - (0 < overX ? overX : 0);
+        final int y = diagram.getMousePoint().y + loc.y - (0 < overY ? overY : 0);
 
         setSize(width, height);
         setLocation(new Point(x, y));
