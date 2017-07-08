@@ -24,9 +24,9 @@ public class ExportToDBDialog extends AbstractDialog {
 
     private Text textArea;
 
-    private DBSettings dbSetting;
+    private final DBSettings dbSetting;
 
-    private String ddl;
+    private final String ddl;
 
     public ExportToDBDialog(Shell parentShell, ERDiagram diagram, DBSettings dbSetting, String ddl) {
         super(parentShell);
@@ -42,12 +42,12 @@ public class ExportToDBDialog extends AbstractDialog {
 
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        this.createButton(parent, IDialogConstants.OK_ID, DisplayMessages.getMessage("label.button.execute"), true);
+        createButton(parent, IDialogConstants.OK_ID, DisplayMessages.getMessage("label.button.execute"), true);
     }
 
     @Override
     protected String doValidate() {
-        if ("".equals(this.textArea.getText().trim())) {
+        if ("".equals(textArea.getText().trim())) {
             return "";
         }
 
@@ -61,9 +61,9 @@ public class ExportToDBDialog extends AbstractDialog {
 
     @Override
     protected void performOK() throws InputException {
-        String executeDDL = this.textArea.getSelectionText();
+        String executeDDL = textArea.getSelectionText();
         if (Check.isEmpty(executeDDL)) {
-            executeDDL = this.textArea.getText();
+            executeDDL = textArea.getText();
         }
 
         if (!Activator.showConfirmDialog("dialog.message.export.db.confirm")) {
@@ -73,31 +73,29 @@ public class ExportToDBDialog extends AbstractDialog {
         Connection con = null;
 
         try {
-            con = this.dbSetting.connect();
+            con = dbSetting.connect();
 
-            ProgressMonitorDialog dialog = new ProgressMonitorDialog(this.getShell());
+            final ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
 
-            ExportToDBManager exportToDBManager = new ExportToDBManager();
+            final ExportToDBManager exportToDBManager = new ExportToDBManager();
             exportToDBManager.init(con, executeDDL);
 
             try {
                 dialog.run(true, true, exportToDBManager);
 
-                Exception e = exportToDBManager.getException();
+                final Exception e = exportToDBManager.getException();
                 if (e != null) {
                     Activator.showMessageDialog(e.getMessage());
                     throw new InputException(null);
-
                 } else {
                     Activator.showMessageDialog("dialog.message.export.db.finish");
                 }
-            } catch (InvocationTargetException e) {} catch (InterruptedException e) {}
-        } catch (InputException e) {
+            } catch (final InvocationTargetException e) {} catch (final InterruptedException e) {}
+        } catch (final InputException e) {
             throw e;
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.error(e);
-            Throwable cause = e.getCause();
+            final Throwable cause = e.getCause();
 
             if (cause instanceof UnknownHostException) {
                 throw new InputException("error.server.not.found");
@@ -105,12 +103,11 @@ public class ExportToDBDialog extends AbstractDialog {
 
             Activator.showMessageDialog(e.getMessage());
             throw new InputException("error.database.not.found");
-
         } finally {
             if (con != null) {
                 try {
                     con.close();
-                } catch (SQLException e) {
+                } catch (final SQLException e) {
                     Activator.showExceptionDialog(e);
                 }
             }
@@ -119,6 +116,6 @@ public class ExportToDBDialog extends AbstractDialog {
 
     @Override
     protected void setupData() {
-        this.textArea.setText(this.ddl);
+        textArea.setText(ddl);
     }
 }

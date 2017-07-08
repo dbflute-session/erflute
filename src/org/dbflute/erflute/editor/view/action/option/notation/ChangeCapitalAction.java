@@ -14,15 +14,13 @@ public class ChangeCapitalAction extends AbstractBaseAction {
 
     public ChangeCapitalAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("action.title.display.capital"));
+        setText(DisplayMessages.getMessage("action.title.display.capital"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeCapitalCommand command = new ChangeCapitalCommand(diagram, this.isChecked());
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeCapitalCommand command = new ChangeCapitalCommand(diagram, isChecked());
+        execute(command);
     }
 }

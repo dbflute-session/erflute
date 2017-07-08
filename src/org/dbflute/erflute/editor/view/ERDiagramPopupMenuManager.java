@@ -88,38 +88,38 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         //final IAction changeFreeLayoutAction = getAction(ChangeFreeLayoutAction.ID);
         //final IAction changeShowReferredTablesAction = getAction(ChangeShowReferredTablesAction.ID);
 
-        final IAction undoAction = this.getAction(ActionFactory.UNDO);
+        final IAction undoAction = getAction(ActionFactory.UNDO);
         undoAction.setActionDefinitionId("org.eclipse.ui.edit.undo");
 
-        final IAction redoAction = this.getAction(ActionFactory.REDO);
+        final IAction redoAction = getAction(ActionFactory.REDO);
         redoAction.setActionDefinitionId("org.eclipse.ui.edit.redo");
 
-        this.add(undoAction);
-        this.add(redoAction);
+        add(undoAction);
+        add(redoAction);
 
-        final IAction copyAction = this.getAction(ActionFactory.COPY);
+        final IAction copyAction = getAction(ActionFactory.COPY);
         copyAction.setActionDefinitionId("org.eclipse.ui.edit.copy");
-        this.add(copyAction);
+        add(copyAction);
 
-        final IAction pasteAction = this.getAction(ActionFactory.PASTE);
+        final IAction pasteAction = getAction(ActionFactory.PASTE);
         pasteAction.setActionDefinitionId("org.eclipse.ui.edit.paste");
-        this.add(pasteAction);
+        add(pasteAction);
 
-        this.add(getAction(ActionFactory.DELETE));
-        this.add(getAction(ActionFactory.SELECT_ALL));
+        add(getAction(ActionFactory.DELETE));
+        add(getAction(ActionFactory.SELECT_ALL));
 
-        this.add(new Separator());
+        add(new Separator());
 
-        this.add(getAction(ResizeModelAction.ID));
-        this.add(getAction(RightAngleLineAction.ID));
-        this.add(getAction(DefaultLineAction.ID));
+        add(getAction(ResizeModelAction.ID));
+        add(getAction(RightAngleLineAction.ID));
+        add(getAction(DefaultLineAction.ID));
 
-        this.add(new Separator());
+        add(new Separator());
 
-        this.add(getAction(SearchAction.ID));
-        this.add(getAction(ERDiagramQuickOutlineAction.ID));
+        add(getAction(SearchAction.ID));
+        add(getAction(ERDiagramQuickOutlineAction.ID));
 
-        this.add(new Separator());
+        add(new Separator());
 
         final MenuManager displayMenu = new MenuManager(DisplayMessages.getMessage("label.display"));
 
@@ -266,16 +266,16 @@ public class ERDiagramPopupMenuManager extends MenuManager {
     private MenuManager prepareImportMenu(final ISharedImages sharedImages) {
         final String message = "Import";
         final MenuManager importMenu = new MenuManager(message, sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"), "Import");
-        importMenu.add(this.getAction(ImportFromDBAction.ID));
-        importMenu.add(this.getAction(ImportFromFileAction.ID));
+        importMenu.add(getAction(ImportFromDBAction.ID));
+        importMenu.add(getAction(ImportFromFileAction.ID));
         return importMenu;
     }
 
     private MenuManager prepareExportMenu(final ISharedImages sharedImages) {
         final String message = "Export";
         final MenuManager exportMenu = new MenuManager(message, sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"), "Export");
-        exportMenu.add(this.getAction(ExportToDDLAction.ID));
-        exportMenu.add(this.getAction(ExportToImageAction.ID));
+        exportMenu.add(getAction(ExportToDDLAction.ID));
+        exportMenu.add(getAction(ExportToImageAction.ID));
         exportMenu.add(new GroupMarker("export"));
         return exportMenu;
     }

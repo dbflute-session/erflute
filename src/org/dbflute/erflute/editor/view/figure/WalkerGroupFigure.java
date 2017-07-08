@@ -11,15 +11,15 @@ public class WalkerGroupFigure extends RectangleFigure {
     private final Label label;
 
     public WalkerGroupFigure(String name) {
-        this.setOpaque(true);
+        setOpaque(true);
 
         final ToolbarLayout layout = new ToolbarLayout();
-        this.setLayoutManager(layout);
+        setLayoutManager(layout);
 
         this.label = new Label();
-        this.label.setText(name);
-        this.label.setBorder(new MarginBorder(7));
-        this.add(this.label);
+        label.setText(name);
+        label.setBorder(new MarginBorder(7));
+        add(label);
     }
 
     @Override

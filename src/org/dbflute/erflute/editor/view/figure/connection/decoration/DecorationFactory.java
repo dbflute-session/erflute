@@ -13,20 +13,17 @@ import org.eclipse.draw2d.RotatableDecoration;
 public class DecorationFactory {
 
     public static Decoration getDecoration(String notation, String parentCardinality, String childCardinality) {
-
         final Decoration decoration = new Decoration();
 
         if ("0..1".equals(parentCardinality)) {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 decoration.sourceDecoration = new IDEF1XZeroOneSourceDecoration();
-
             } else {
                 decoration.sourceDecoration = new IEZeroOneDecoration();
             }
         } else {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 decoration.sourceDecoration = new IDEF1XOneDecoration();
-
             } else {
                 decoration.sourceDecoration = new IEOneDecoration();
             }
@@ -36,14 +33,12 @@ public class DecorationFactory {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 // 添字 なし
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
-
             } else {
                 decoration.targetDecoration = new IEOptionalTargetDecoration();
             }
         } else if ("1".equals(childCardinality)) {
             if (DiagramSettings.NOTATION_IDEF1X.equals(notation)) {
                 decoration.targetDecoration = new IDEF1XOneDecoration();
-
             } else {
                 decoration.targetDecoration = new IEOneDecoration();
             }
@@ -52,7 +47,6 @@ public class DecorationFactory {
                 // 添字 Z
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
                 decoration.targetLabel = "Z";
-
             } else {
                 decoration.targetDecoration = new IEZeroOneDecoration();
             }
@@ -61,7 +55,6 @@ public class DecorationFactory {
                 // 添字 P
                 decoration.targetDecoration = new IDEF1XTargetDecoration();
                 decoration.targetLabel = "P";
-
             } else {
                 decoration.targetDecoration = new IETargetDecoration();
             }
@@ -71,10 +64,9 @@ public class DecorationFactory {
     }
 
     public static class Decoration {
+
         private RotatableDecoration sourceDecoration;
-
         private RotatableDecoration targetDecoration;
-
         private String targetLabel;
 
         public RotatableDecoration getSourceDecoration() {

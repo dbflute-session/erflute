@@ -5,7 +5,6 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 public class ChangeDesignToFunnyAction extends AbstractChangeDesignAction {
 
     public static final String ID = ChangeDesignToFunnyAction.class.getName();
-
     public static final String TYPE = "funny";
 
     public ChangeDesignToFunnyAction(MainDiagramEditor editor) {

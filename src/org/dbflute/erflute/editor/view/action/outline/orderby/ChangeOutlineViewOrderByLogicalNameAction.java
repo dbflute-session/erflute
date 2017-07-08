@@ -15,15 +15,13 @@ public class ChangeOutlineViewOrderByLogicalNameAction extends AbstractOutlineBa
 
     public ChangeOutlineViewOrderByLogicalNameAction(TreeViewer treeViewer) {
         super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
-        this.setText(DisplayMessages.getMessage("label.logical.name"));
+        setText(DisplayMessages.getMessage("label.logical.name"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(diagram, DiagramSettings.VIEW_MODE_LOGICAL);
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(diagram, DiagramSettings.VIEW_MODE_LOGICAL);
+        execute(command);
     }
 }

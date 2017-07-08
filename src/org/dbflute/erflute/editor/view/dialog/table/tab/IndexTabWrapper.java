@@ -46,9 +46,9 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
     public IndexTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable copyData) {
         super(dialog, parent, style, "label.index");
         this.copyData = copyData;
-        this.checkButtonList = new ArrayList<Button>();
-        this.editorList = new ArrayList<TableEditor>();
-        this.init();
+        this.checkButtonList = new ArrayList<>();
+        this.editorList = new ArrayList<>();
+        init();
     }
 
     @Override
@@ -58,9 +58,9 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
 
     @Override
     public void initComposite() {
-        this.setLayout(new GridLayout());
+        setLayout(new GridLayout());
         final Composite content = new Composite(this, SWT.BORDER);
-        this.createBody(content);
+        createBody(content);
     }
 
     private void createBody(Composite content) {
@@ -69,9 +69,9 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
         contentGridData.grabExcessHorizontalSpace = true;
         content.setLayoutData(contentGridData);
         content.setLayout(new GridLayout(3, false));
-        this.initTable(content);
-        this.initTableButton(content);
-        this.setTableData();
+        initTable(content);
+        initTableButton(content);
+        setTableData();
     }
 
     private void initTable(Composite parent) {
@@ -83,12 +83,12 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
 
         this.indexTable = new Table(parent, SWT.BORDER | SWT.HIDE_SELECTION);
 
-        this.indexTable.setHeaderVisible(true);
-        this.indexTable.setLayoutData(gridData);
-        this.indexTable.setLinesVisible(true);
+        indexTable.setHeaderVisible(true);
+        indexTable.setLayoutData(gridData);
+        indexTable.setLinesVisible(true);
 
-        CompositeFactory.createTableColumn(this.indexTable, "label.column.name", ERTableComposite.NAME_WIDTH, SWT.NONE);
-        final TableColumn separatorColumn = CompositeFactory.createTableColumn(this.indexTable, "", 3, SWT.NONE);
+        CompositeFactory.createTableColumn(indexTable, "label.column.name", ERTableComposite.NAME_WIDTH, SWT.NONE);
+        final TableColumn separatorColumn = CompositeFactory.createTableColumn(indexTable, "", 3, SWT.NONE);
         separatorColumn.setResizable(false);
     }
 
@@ -97,21 +97,22 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
         gridData.widthHint = BUTTON_WIDTH;
 
         this.addButton = new Button(parent, SWT.NONE);
-        this.addButton.setText(DisplayMessages.getMessage("label.button.add"));
-        this.addButton.setLayoutData(gridData);
+        addButton.setText(DisplayMessages.getMessage("label.button.add"));
+        addButton.setLayoutData(gridData);
 
         this.editButton = new Button(parent, SWT.NONE);
-        this.editButton.setText(DisplayMessages.getMessage("label.button.edit"));
-        this.editButton.setLayoutData(gridData);
+        editButton.setText(DisplayMessages.getMessage("label.button.edit"));
+        editButton.setLayoutData(gridData);
 
         this.deleteButton = new Button(parent, SWT.NONE);
-        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
-        this.deleteButton.setLayoutData(gridData);
+        deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
+        deleteButton.setLayoutData(gridData);
     }
 
     @Override
     protected void addListener() {
-        this.addButton.addSelectionListener(new SelectionAdapter() {
+        addButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent event) {
                 final IndexDialog dialog = new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, copyData);
@@ -120,7 +121,8 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
                 }
             }
         });
-        this.editButton.addSelectionListener(new SelectionAdapter() {
+        editButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent event) {
                 final ERIndex targetIndex = getTargetIndex();
@@ -134,8 +136,7 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
                 }
             }
         });
-
-        this.deleteButton.addSelectionListener(new SelectionAdapter() {
+        deleteButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -145,18 +146,19 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
     }
 
     private void setTableData() {
-        final List<ERIndex> indexes = this.copyData.getIndexes();
+        final List<ERIndex> indexes = copyData.getIndexes();
 
-        final TableItem radioTableItem = new TableItem(this.indexTable, SWT.NONE);
+        final TableItem radioTableItem = new TableItem(indexTable, SWT.NONE);
 
         for (int i = 0; i < indexes.size(); i++) {
-            final TableColumn tableColumn = new TableColumn(this.indexTable, SWT.CENTER);
+            final TableColumn tableColumn = new TableColumn(indexTable, SWT.CENTER);
             tableColumn.setWidth(60);
             tableColumn.setResizable(false);
             tableColumn.setText("Index" + (i + 1));
-            final TableEditor editor = new TableEditor(this.indexTable);
-            final Button radioButton = new Button(this.indexTable, SWT.RADIO);
+            final TableEditor editor = new TableEditor(indexTable);
+            final Button radioButton = new Button(indexTable, SWT.RADIO);
             radioButton.addSelectionListener(new SelectionAdapter() {
+
                 @Override
                 public void widgetSelected(SelectionEvent event) {
                     setButtonEnabled(true);
@@ -166,12 +168,12 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
             editor.minimumWidth = radioButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(radioButton, radioTableItem, i + 2);
-            this.checkButtonList.add(radioButton);
-            this.editorList.add(editor);
+            checkButtonList.add(radioButton);
+            editorList.add(editor);
         }
 
-        for (final NormalColumn normalColumn : this.copyData.getExpandedColumns()) {
-            final TableItem tableItem = new TableItem(this.indexTable, SWT.NONE);
+        for (final NormalColumn normalColumn : copyData.getExpandedColumns()) {
+            final TableItem tableItem = new TableItem(indexTable, SWT.NONE);
             tableItem.setText(0, Format.null2blank(normalColumn.getName()));
 
             for (int i = 0; i < indexes.size(); i++) {
@@ -194,8 +196,8 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
 
     public void addIndexData(ERIndex index, boolean add) {
         int selectedIndex = -1;
-        for (int i = 0; i < this.checkButtonList.size(); i++) {
-            final Button checkButton = this.checkButtonList.get(i);
+        for (int i = 0; i < checkButtonList.size(); i++) {
+            final Button checkButton = checkButtonList.get(i);
             if (checkButton.getSelection()) {
                 selectedIndex = i;
                 break;
@@ -204,18 +206,18 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
         ERIndex copyIndex = null;
         if (add || selectedIndex == -1) {
             copyIndex = new CopyIndex(copyData, index, null);
-            this.copyData.addIndex(copyIndex);
+            copyData.addIndex(copyIndex);
         } else {
-            copyIndex = this.copyData.getIndex(selectedIndex);
+            copyIndex = copyData.getIndex(selectedIndex);
             CopyIndex.copyData(index, copyIndex);
         }
-        this.restruct();
+        restruct();
     }
 
     public void removeIndex() {
         int selectedIndex = -1;
-        for (int i = 0; i < this.checkButtonList.size(); i++) {
-            final Button checkButton = this.checkButtonList.get(i);
+        for (int i = 0; i < checkButtonList.size(); i++) {
+            final Button checkButton = checkButtonList.get(i);
             if (checkButton.getSelection()) {
                 selectedIndex = i;
                 break;
@@ -224,30 +226,30 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
         if (selectedIndex == -1) {
             return;
         }
-        this.copyData.removeIndex(selectedIndex);
-        this.restruct();
+        copyData.removeIndex(selectedIndex);
+        restruct();
     }
 
     public void restruct() {
-        this.clearButtonAndEditor();
-        while (this.indexTable.getColumnCount() > 2) {
-            final TableColumn tableColumn = this.indexTable.getColumn(2);
+        clearButtonAndEditor();
+        while (indexTable.getColumnCount() > 2) {
+            final TableColumn tableColumn = indexTable.getColumn(2);
             tableColumn.dispose();
         }
-        this.indexTable.removeAll();
-        this.resutuctIndexData();
-        this.setTableData();
+        indexTable.removeAll();
+        resutuctIndexData();
+        setTableData();
     }
 
     private void resutuctIndexData() {
-        for (final ERIndex index : this.copyData.getIndexes()) {
+        for (final ERIndex index : copyData.getIndexes()) {
             final List<NormalColumn> indexColumns = index.getColumns();
             final Iterator<NormalColumn> columnIterator = indexColumns.iterator();
             final Iterator<Boolean> descIterator = index.getDescs().iterator();
             while (columnIterator.hasNext()) {
                 final NormalColumn indexColumn = columnIterator.next();
                 descIterator.next();
-                if (!this.copyData.getExpandedColumns().contains(indexColumn)) {
+                if (!copyData.getExpandedColumns().contains(indexColumn)) {
                     columnIterator.remove();
                     descIterator.remove();
                 }
@@ -256,20 +258,20 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
     }
 
     private void clearButtonAndEditor() {
-        for (final Button checkButton : this.checkButtonList) {
+        for (final Button checkButton : checkButtonList) {
             checkButton.dispose();
         }
-        this.checkButtonList.clear();
-        for (final TableEditor editor : this.editorList) {
+        checkButtonList.clear();
+        for (final TableEditor editor : editorList) {
             editor.dispose();
         }
-        this.editorList.clear();
+        editorList.clear();
     }
 
     public ERIndex getTargetIndex() {
         int selectedIndex = -1;
-        for (int i = 0; i < this.checkButtonList.size(); i++) {
-            final Button checkButton = this.checkButtonList.get(i);
+        for (int i = 0; i < checkButtonList.size(); i++) {
+            final Button checkButton = checkButtonList.get(i);
             if (checkButton.getSelection()) {
                 selectedIndex = i;
                 break;
@@ -278,12 +280,12 @@ public class IndexTabWrapper extends ValidatableTabWrapper {
         if (selectedIndex == -1) {
             return null;
         }
-        return this.copyData.getIndex(selectedIndex);
+        return copyData.getIndex(selectedIndex);
     }
 
     private void setButtonEnabled(boolean enabled) {
-        this.editButton.setEnabled(enabled);
-        this.deleteButton.setEnabled(enabled);
+        editButton.setEnabled(enabled);
+        deleteButton.setEnabled(enabled);
     }
 
     @Override

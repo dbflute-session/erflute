@@ -4,7 +4,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class ErrorDialog extends AbstractErrorDialog {
 
-    private String message;
+    private final String message;
 
     public ErrorDialog(Shell parentShell, String message) {
         super(parentShell);
@@ -14,7 +14,7 @@ public class ErrorDialog extends AbstractErrorDialog {
 
     @Override
     protected String getData() {
-        return this.message;
+        return message;
     }
 
     @Override

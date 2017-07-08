@@ -7,22 +7,23 @@ import org.eclipse.ui.ide.IGotoMarker;
 
 public class ERDiagramGotoMarker implements IGotoMarker {
 
-    private MainDiagramEditor editor;
+    private final MainDiagramEditor editor;
 
     public ERDiagramGotoMarker(MainDiagramEditor editor) {
         this.editor = editor;
     }
 
+    @Override
     public void gotoMarker(IMarker marker) {
-        focus(this.editor.getMarkedObject(marker));
+        focus(editor.getMarkedObject(marker));
     }
 
     private void focus(Object object) {
-        EditPart editPart = (EditPart) this.editor.getGraphicalViewer().getEditPartRegistry().get(object);
+        final EditPart editPart = (EditPart) editor.getGraphicalViewer().getEditPartRegistry().get(object);
 
         if (editPart != null) {
-            this.editor.getGraphicalViewer().select(editPart);
-            this.editor.getGraphicalViewer().reveal(editPart);
+            editor.getGraphicalViewer().select(editPart);
+            editor.getGraphicalViewer().reveal(editPart);
         }
     }
 }

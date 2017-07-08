@@ -6,8 +6,8 @@ import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.settings.ExportSettings;
 import org.dbflute.erflute.editor.model.settings.DiagramSettings;
+import org.dbflute.erflute.editor.model.settings.ExportSettings;
 import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ExportToDDLDialog;
 import org.eclipse.swt.widgets.Event;
@@ -23,14 +23,14 @@ public class ExportToDDLAction extends AbstractBaseAction {
 
     public ExportToDDLAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.ddl"), editor);
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_DDL));
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_DDL));
     }
 
     @Override
     public void execute(Event event) {
         final ERDiagram diagram = getDiagram();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        final ExportToDDLDialog dialog = new ExportToDDLDialog(shell, diagram, this.getEditorPart(), getGraphicalViewer());
+        final ExportToDDLDialog dialog = new ExportToDDLDialog(shell, diagram, getEditorPart(), getGraphicalViewer());
         dialog.open();
         refreshProject();
         final ExportSettings exportSetting = dialog.getExportSetting();

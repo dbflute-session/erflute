@@ -16,22 +16,14 @@ import org.eclipse.swt.widgets.Text;
 public class AutoIncrementSettingDialog extends AbstractDialog {
 
     private Text incrementText;
-
     private Text minValueText;
-
     private Text maxValueText;
-
     private Text startText;
-
     private Text cacheText;
-
     private Button cycleCheckBox;
-
-    private Sequence sequence;
-
+    private final Sequence sequence;
     private Sequence result;
-
-    private String database;
+    private final String database;
 
     public AutoIncrementSettingDialog(Shell parentShell, Sequence sequence, String database) {
         super(parentShell, 2);
@@ -44,14 +36,14 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
     protected void initComponent(Composite composite) {
         this.incrementText = CompositeFactory.createNumText(this, composite, "Increment");
 
-        if (PostgresDBManager.ID.equals(this.database)) {
+        if (PostgresDBManager.ID.equals(database)) {
             this.minValueText = CompositeFactory.createNumText(this, composite, "MinValue");
             this.maxValueText = CompositeFactory.createNumText(this, composite, "MaxValue");
         }
 
         this.startText = CompositeFactory.createNumText(this, composite, "Start");
 
-        if (PostgresDBManager.ID.equals(this.database)) {
+        if (PostgresDBManager.ID.equals(database)) {
             this.cacheText = CompositeFactory.createNumText(this, composite, "Cache");
             this.cycleCheckBox = CompositeFactory.createCheckbox(this, composite, "Cycle", 2);
         }
@@ -65,7 +57,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
             try {
                 Integer.parseInt(text);
 
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 return "error.sequence.increment.degit";
             }
         }
@@ -77,7 +69,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
                 try {
                     Long.parseLong(text);
 
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     return "error.sequence.minValue.degit";
                 }
             }
@@ -90,7 +82,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
                 try {
                     new BigDecimal(text);
 
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     return "error.sequence.maxValue.degit";
                 }
             }
@@ -102,7 +94,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
             try {
                 Long.parseLong(text);
 
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 return "error.sequence.start.degit";
             }
         }
@@ -114,7 +106,7 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
                 try {
                     Integer.parseInt(text);
 
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException e) {
                     return "error.sequence.cache.degit";
                 }
             }
@@ -169,33 +161,33 @@ public class AutoIncrementSettingDialog extends AbstractDialog {
             }
         }
 
-        this.result.setIncrement(increment);
-        this.result.setMinValue(minValue);
-        this.result.setMaxValue(maxValue);
-        this.result.setStart(start);
-        this.result.setCache(cache);
+        result.setIncrement(increment);
+        result.setMinValue(minValue);
+        result.setMaxValue(maxValue);
+        result.setStart(start);
+        result.setCache(cache);
 
         if (cycleCheckBox != null) {
-            this.result.setCycle(this.cycleCheckBox.getSelection());
+            result.setCycle(cycleCheckBox.getSelection());
         }
     }
 
     @Override
     protected void setupData() {
-        if (this.sequence != null) {
-            this.incrementText.setText(Format.toString(this.sequence.getIncrement()));
+        if (sequence != null) {
+            incrementText.setText(Format.toString(sequence.getIncrement()));
             if (minValueText != null) {
-                this.minValueText.setText(Format.toString(this.sequence.getMinValue()));
+                minValueText.setText(Format.toString(sequence.getMinValue()));
             }
             if (maxValueText != null) {
-                this.maxValueText.setText(Format.toString(this.sequence.getMaxValue()));
+                maxValueText.setText(Format.toString(sequence.getMaxValue()));
             }
-            this.startText.setText(Format.toString(this.sequence.getStart()));
+            startText.setText(Format.toString(sequence.getStart()));
             if (maxValueText != null) {
-                this.cacheText.setText(Format.toString(this.sequence.getCache()));
+                cacheText.setText(Format.toString(sequence.getCache()));
             }
             if (cycleCheckBox != null) {
-                this.cycleCheckBox.setSelection(this.sequence.isCycle());
+                cycleCheckBox.setSelection(sequence.isCycle());
             }
         }
     }

@@ -11,25 +11,26 @@ public class ViewLabelProvider extends LabelProvider implements ITableLabelProvi
 
     @Override
     public String getText(Object element) {
-        TreeNode treeNode = (TreeNode) element;
+        final TreeNode treeNode = (TreeNode) element;
 
-        Object value = treeNode.getValue();
+        final Object value = treeNode.getValue();
         if (value instanceof DBObject) {
-            DBObject dbObject = (DBObject) value;
+            final DBObject dbObject = (DBObject) value;
             return dbObject.getName();
-
         } else if (value instanceof StringObjectModel) {
-            StringObjectModel object = (StringObjectModel) value;
+            final StringObjectModel object = (StringObjectModel) value;
             return object.getName();
         }
 
         return value.toString();
     }
 
+    @Override
     public Image getColumnImage(Object element, int columnIndex) {
         return null;
     }
 
+    @Override
     public String getColumnText(Object element, int columnIndex) {
         return "xxx";
     }

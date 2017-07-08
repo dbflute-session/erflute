@@ -60,7 +60,7 @@ public class ERTableComposite extends Composite {
     private List<ERColumn> columnList;
     private final AbstractColumnDialog columnDialog;
     private final AbstractDialog parentDialog;
-    private final Map<ERColumn, TableEditor[]> columnNotNullCheckMap = new HashMap<ERColumn, TableEditor[]>();
+    private final Map<ERColumn, TableEditor[]> columnNotNullCheckMap = new HashMap<>();
     private final boolean buttonDisplay;
     private final boolean checkboxEnabled;
     private final int height;
@@ -96,38 +96,38 @@ public class ERTableComposite extends Composite {
 
         final GridData gridData = new GridData();
         gridData.horizontalSpan = horizontalSpan;
-        this.setLayoutData(gridData);
+        setLayoutData(gridData);
 
-        this.createComposite();
-        this.initComposite();
+        createComposite();
+        initComposite();
     }
 
     private void createComposite() {
         final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
 
-        this.setLayout(gridLayout);
+        setLayout(gridLayout);
 
-        this.createTable();
+        createTable();
 
-        if (this.buttonDisplay) {
-            this.createButton();
-            this.setButtonEnabled(false);
+        if (buttonDisplay) {
+            createButton();
+            setButtonEnabled(false);
         }
     }
 
     //	private TableItem[] currentItems = null;
 
     private void createTable() {
-        this.table = CompositeFactory.createTable(this, this.height, 3);
-        CompositeFactory.createTableColumn(this.table, "PK", KEY_WIDTH, SWT.CENTER);
-        CompositeFactory.createTableColumn(this.table, "FK", KEY_WIDTH, SWT.CENTER);
-        CompositeFactory.createTableColumn(this.table, "label.physical.name", NAME_WIDTH, SWT.NONE);
-        CompositeFactory.createTableColumn(this.table, "label.logical.name", NAME_WIDTH, SWT.NONE);
-        CompositeFactory.createTableColumn(this.table, "label.column.type", TYPE_WIDTH, SWT.NONE);
-        CompositeFactory.createTableColumn(this.table, "label.not.null", NOT_NULL_WIDTH, SWT.NONE);
-        CompositeFactory.createTableColumn(this.table, "label.unique.key", UNIQUE_KEY_WIDTH, SWT.NONE);
-        this.table.addSelectionListener(new SelectionAdapter() {
+        this.table = CompositeFactory.createTable(this, height, 3);
+        CompositeFactory.createTableColumn(table, "PK", KEY_WIDTH, SWT.CENTER);
+        CompositeFactory.createTableColumn(table, "FK", KEY_WIDTH, SWT.CENTER);
+        CompositeFactory.createTableColumn(table, "label.physical.name", NAME_WIDTH, SWT.NONE);
+        CompositeFactory.createTableColumn(table, "label.logical.name", NAME_WIDTH, SWT.NONE);
+        CompositeFactory.createTableColumn(table, "label.column.type", TYPE_WIDTH, SWT.NONE);
+        CompositeFactory.createTableColumn(table, "label.not.null", NOT_NULL_WIDTH, SWT.NONE);
+        CompositeFactory.createTableColumn(table, "label.unique.key", UNIQUE_KEY_WIDTH, SWT.NONE);
+        table.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = table.getSelectionIndex();
@@ -150,8 +150,8 @@ public class ERTableComposite extends Composite {
                 }
             }
         });
-        if (this.buttonDisplay) {
-            this.table.addMouseListener(new MouseAdapter() {
+        if (buttonDisplay) {
+            table.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseDoubleClick(MouseEvent e) {
                     final ERColumn targetColumn = getTargetColumn();
@@ -180,8 +180,7 @@ public class ERTableComposite extends Composite {
         buttonComposite.setLayout(gridLayout);
 
         this.columnAddButton = CompositeFactory.createButton(buttonComposite, "label.button.add");
-
-        this.columnAddButton.addSelectionListener(new SelectionAdapter() {
+        columnAddButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -190,8 +189,7 @@ public class ERTableComposite extends Composite {
         });
 
         this.columnEditButton = CompositeFactory.createButton(buttonComposite, "label.button.edit");
-
-        this.columnEditButton.addSelectionListener(new SelectionAdapter() {
+        columnEditButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -206,8 +204,7 @@ public class ERTableComposite extends Composite {
         });
 
         this.columnDeleteButton = CompositeFactory.createButton(buttonComposite, "label.button.delete");
-
-        this.columnDeleteButton.addSelectionListener(new SelectionAdapter() {
+        columnDeleteButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -226,8 +223,7 @@ public class ERTableComposite extends Composite {
         CompositeFactory.filler(buttonComposite, 1, 30);
 
         this.upButton = CompositeFactory.createButton(buttonComposite, "label.up.arrow");
-
-        this.upButton.addSelectionListener(new SelectionAdapter() {
+        upButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -236,7 +232,7 @@ public class ERTableComposite extends Composite {
         });
 
         this.downButton = CompositeFactory.createButton(buttonComposite, "label.down.arrow");
-        this.downButton.addSelectionListener(new SelectionAdapter() {
+        downButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -248,16 +244,16 @@ public class ERTableComposite extends Composite {
     }
 
     private void initComposite() {
-        if (this.columnList != null) {
-            for (final ERColumn column : this.columnList) {
-                final TableItem tableItem = new TableItem(this.table, SWT.NONE);
-                this.column2TableItem(column, tableItem);
+        if (columnList != null) {
+            for (final ERColumn column : columnList) {
+                final TableItem tableItem = new TableItem(table, SWT.NONE);
+                column2TableItem(column, tableItem);
             }
         }
     }
 
     private void disposeCheckBox(ERColumn column) {
-        final TableEditor[] oldEditors = this.columnNotNullCheckMap.get(column);
+        final TableEditor[] oldEditors = columnNotNullCheckMap.get(column);
 
         if (oldEditors != null) {
             for (final TableEditor oldEditor : oldEditors) {
@@ -267,12 +263,12 @@ public class ERTableComposite extends Composite {
                 }
             }
 
-            this.columnNotNullCheckMap.remove(column);
+            columnNotNullCheckMap.remove(column);
         }
     }
 
     private void column2TableItem(ERColumn column, TableItem tableItem) {
-        this.disposeCheckBox(column);
+        disposeCheckBox(column);
 
         if (column instanceof NormalColumn) {
             tableItem.setBackground(ColorConstants.white);
@@ -296,10 +292,9 @@ public class ERTableComposite extends Composite {
 
             final SqlType sqlType = normalColumn.getType();
 
-            tableItem.setText(4, Format.formatType(sqlType, normalColumn.getTypeData(), this.diagram.getDatabase()));
+            tableItem.setText(4, Format.formatType(sqlType, normalColumn.getTypeData(), diagram.getDatabase()));
 
-            this.setTableEditor(normalColumn, tableItem);
-
+            setTableEditor(normalColumn, tableItem);
         } else {
             tableItem.setBackground(ColorConstants.white);
             tableItem.setImage(0, Activator.getImage(ImageKey.GROUP));
@@ -312,21 +307,21 @@ public class ERTableComposite extends Composite {
 
     private void setTableEditor(final NormalColumn normalColumn, TableItem tableItem) {
 
-        final Button notNullCheckButton = new Button(this.table, SWT.CHECK);
+        final Button notNullCheckButton = new Button(table, SWT.CHECK);
         notNullCheckButton.pack();
 
-        final Button uniqueCheckButton = new Button(this.table, SWT.CHECK);
+        final Button uniqueCheckButton = new Button(table, SWT.CHECK);
         uniqueCheckButton.pack();
 
         final TableEditor[] editors = new TableEditor[2];
 
-        editors[0] = new TableEditor(this.table);
+        editors[0] = new TableEditor(table);
 
         editors[0].minimumWidth = notNullCheckButton.getSize().x;
         editors[0].horizontalAlignment = SWT.CENTER;
         editors[0].setEditor(notNullCheckButton, tableItem, 5);
 
-        editors[1] = new TableEditor(this.table);
+        editors[1] = new TableEditor(table);
 
         editors[1].minimumWidth = uniqueCheckButton.getSize().x;
         editors[1].horizontalAlignment = SWT.CENTER;
@@ -347,15 +342,15 @@ public class ERTableComposite extends Composite {
             notNullCheckButton.setEnabled(false);
         }
 
-        if (this.ertable != null) {
+        if (ertable != null) {
             if (normalColumn.isRefered()) {
                 uniqueCheckButton.setEnabled(false);
             }
         }
 
-        this.columnNotNullCheckMap.put(normalColumn, editors);
+        columnNotNullCheckMap.put(normalColumn, editors);
 
-        if (this.checkboxEnabled) {
+        if (checkboxEnabled) {
             notNullCheckButton.addSelectionListener(new SelectionAdapter() {
 
                 @Override
@@ -373,7 +368,6 @@ public class ERTableComposite extends Composite {
                     super.widgetSelected(e);
                 }
             });
-
         } else {
             notNullCheckButton.setEnabled(false);
             uniqueCheckButton.setEnabled(false);
@@ -381,81 +375,76 @@ public class ERTableComposite extends Composite {
     }
 
     private void addTableData(NormalColumn column, boolean add) {
-        final int index = this.table.getSelectionIndex();
+        final int index = table.getSelectionIndex();
         TableItem tableItem = null;
         CopyColumn copyColumn = null;
         if (add) {
             tableItem = new TableItem(table, SWT.NONE);
             copyColumn = new CopyColumn(column);
-            this.columnList.add(copyColumn);
+            columnList.add(copyColumn);
 
         } else {
-            tableItem = this.table.getItem(index);
+            tableItem = table.getItem(index);
 
-            copyColumn = (CopyColumn) this.columnList.get(index);
+            copyColumn = (CopyColumn) columnList.get(index);
             CopyColumn.copyData(column, copyColumn);
         }
 
-        this.column2TableItem(copyColumn, tableItem);
+        column2TableItem(copyColumn, tableItem);
 
-        this.parentDialog.validate();
+        parentDialog.validate();
     }
 
     public void addTableData(ColumnGroup column) {
         TableItem tableItem = null;
         tableItem = new TableItem(table, SWT.NONE);
 
-        this.columnList.add(column);
-        this.column2TableItem(column, tableItem);
+        columnList.add(column);
+        column2TableItem(column, tableItem);
 
-        this.parentDialog.validate();
+        parentDialog.validate();
     }
 
     private void removeColumn() {
-        final int index = this.table.getSelectionIndex();
+        final int index = table.getSelectionIndex();
 
         if (index != -1) {
-            final ERColumn column = this.columnList.get(index);
+            final ERColumn column = columnList.get(index);
 
             if (column instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) column;
 
                 if (normalColumn.isForeignKey()) {
-                    this.setMessage(DisplayMessages.getMessage("error.foreign.key.not.deleteable"));
-
+                    setMessage(DisplayMessages.getMessage("error.foreign.key.not.deleteable"));
                 } else {
-                    if (this.ertable != null && normalColumn.isRefered()) {
-                        this.setMessage(DisplayMessages.getMessage("error.reference.key.not.deleteable"));
-
+                    if (ertable != null && normalColumn.isRefered()) {
+                        setMessage(DisplayMessages.getMessage("error.reference.key.not.deleteable"));
                     } else {
                         removeColumn(index);
                     }
                 }
             } else {
-                this.removeColumn(index);
+                removeColumn(index);
             }
         }
 
-        this.parentDialog.validate();
+        parentDialog.validate();
     }
 
     public void removeColumn(int index) {
-        ERColumn column = this.columnList.get(index);
+        ERColumn column = columnList.get(index);
+        table.remove(index);
+        columnList.remove(index);
+        disposeCheckBox(column);
 
-        this.table.remove(index);
+        for (int i = index; i < table.getItemCount(); i++) {
+            final TableItem tableItem = table.getItem(i);
+            column = columnList.get(i);
 
-        this.columnList.remove(index);
-
-        this.disposeCheckBox(column);
-
-        for (int i = index; i < this.table.getItemCount(); i++) {
-            final TableItem tableItem = this.table.getItem(i);
-            column = this.columnList.get(i);
-
-            this.disposeCheckBox(column);
+            disposeCheckBox(column);
 
             if (column instanceof NormalColumn) {
-                this.setTableEditor((NormalColumn) column, tableItem);
+                setTableEditor((NormalColumn) column, tableItem);
             }
         }
     }
@@ -463,10 +452,10 @@ public class ERTableComposite extends Composite {
     private CopyColumn getTargetColumn() {
         CopyColumn column = null;
 
-        final int index = this.table.getSelectionIndex();
+        final int index = table.getSelectionIndex();
 
         if (index != -1) {
-            column = (CopyColumn) this.columnList.get(index);
+            column = (CopyColumn) columnList.get(index);
         }
 
         return column;
@@ -481,42 +470,42 @@ public class ERTableComposite extends Composite {
     }
 
     private void upColumn() {
-        final int index = this.table.getSelectionIndex();
+        final int index = table.getSelectionIndex();
 
         if (index != -1 && index != 0) {
-            this.changeColumn(index - 1, index);
-            this.table.setSelection(index - 1);
+            changeColumn(index - 1, index);
+            table.setSelection(index - 1);
         }
     }
 
     private void downColumn() {
-        final int index = this.table.getSelectionIndex();
+        final int index = table.getSelectionIndex();
 
         if (index != -1 && index != table.getItemCount() - 1) {
-            this.changeColumn(index, index + 1);
+            changeColumn(index, index + 1);
             table.setSelection(index + 1);
         }
     }
 
     private void changeColumn(int index1, int index2) {
-        final ERColumn column1 = this.columnList.remove(index1);
+        final ERColumn column1 = columnList.remove(index1);
         ERColumn column2 = null;
 
         if (index1 < index2) {
-            column2 = this.columnList.remove(index2 - 1);
-            this.columnList.add(index1, column2);
-            this.columnList.add(index2, column1);
+            column2 = columnList.remove(index2 - 1);
+            columnList.add(index1, column2);
+            columnList.add(index2, column1);
 
         } else if (index1 > index2) {
-            column2 = this.columnList.remove(index2);
-            this.columnList.add(index1 - 1, column2);
-            this.columnList.add(index2, column1);
+            column2 = columnList.remove(index2);
+            columnList.add(index1 - 1, column2);
+            columnList.add(index2, column1);
         }
 
-        final TableItem[] tableItems = this.table.getItems();
+        final TableItem[] tableItems = table.getItems();
 
-        this.column2TableItem(column1, tableItems[index2]);
-        this.column2TableItem(column2, tableItems[index1]);
+        column2TableItem(column1, tableItems[index2]);
+        column2TableItem(column2, tableItems[index1]);
     }
 
     private void addOrEditColumn(CopyColumn targetColumn, boolean add) {
@@ -524,13 +513,13 @@ public class ERTableComposite extends Composite {
         boolean isRefered = false;
         if (targetColumn != null) {
             foreignKey = targetColumn.isForeignKey();
-            if (this.ertable != null) {
+            if (ertable != null) {
                 isRefered = targetColumn.isRefered();
             }
         }
-        this.columnDialog.setTargetColumn(targetColumn, foreignKey, isRefered);
-        if (this.columnDialog.open() == IDialogConstants.OK_ID) {
-            final NormalColumn column = this.columnDialog.getColumn();
+        columnDialog.setTargetColumn(targetColumn, foreignKey, isRefered);
+        if (columnDialog.open() == IDialogConstants.OK_ID) {
+            final NormalColumn column = columnDialog.getColumn();
             addTableData(column, add);
         }
     }
@@ -540,10 +529,10 @@ public class ERTableComposite extends Composite {
     }
 
     public void setColumnList(List<ERColumn> columnList) {
-        this.table.removeAll();
-        if (this.columnList != null) {
-            for (final ERColumn column : this.columnList) {
-                this.disposeCheckBox(column);
+        table.removeAll();
+        if (columnList != null) {
+            for (final ERColumn column : columnList) {
+                disposeCheckBox(column);
             }
         }
         this.columnList = columnList;
@@ -554,31 +543,30 @@ public class ERTableComposite extends Composite {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
-        if (this.buttonDisplay) {
-            this.columnAddButton.setEnabled(enabled);
-            this.columnEditButton.setEnabled(false);
-            this.columnDeleteButton.setEnabled(false);
-            this.upButton.setEnabled(false);
-            this.downButton.setEnabled(false);
+        if (buttonDisplay) {
+            columnAddButton.setEnabled(enabled);
+            columnEditButton.setEnabled(false);
+            columnDeleteButton.setEnabled(false);
+            upButton.setEnabled(false);
+            downButton.setEnabled(false);
         }
     }
 
     private void setButtonEnabled(boolean enabled) {
-        if (this.buttonDisplay) {
-            this.columnEditButton.setEnabled(enabled);
-            this.columnDeleteButton.setEnabled(enabled);
-            this.upButton.setEnabled(enabled);
-            this.downButton.setEnabled(enabled);
+        if (buttonDisplay) {
+            columnEditButton.setEnabled(enabled);
+            columnDeleteButton.setEnabled(enabled);
+            upButton.setEnabled(enabled);
+            downButton.setEnabled(enabled);
         }
     }
 
     private void selectTable(int index) {
-        this.table.select(index);
-
+        table.select(index);
         if (index >= 0) {
-            this.setButtonEnabled(true);
+            setButtonEnabled(true);
         } else {
-            this.setButtonEnabled(false);
+            setButtonEnabled(false);
         }
     }
 }

@@ -76,14 +76,14 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
     @Override
     public void createControl(Composite parent) {
         this.sash = new SashForm(parent, SWT.VERTICAL);
-        this.viewer.createControl(sash);
+        viewer.createControl(sash);
         editPartFactory = new ERDiagramOutlineEditPartFactory();
         editPartFactory.setQuickMode(quickMode);
         viewer.setEditPartFactory(editPartFactory);
         viewer.setContents(diagram);
         if (!quickMode) {
             final Canvas canvas = new Canvas(sash, SWT.BORDER);
-            this.lws = new LightweightSystem(canvas);
+            lws = new LightweightSystem(canvas);
         }
         resetView(registry);
         final AbstractTransferDragSourceListener dragSourceListener =

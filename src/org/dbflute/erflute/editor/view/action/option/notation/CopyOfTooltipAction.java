@@ -13,13 +13,12 @@ public class CopyOfTooltipAction extends AbstractBaseAction {
 
     public CopyOfTooltipAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("action.title.display.tooltip"));
+        setText(DisplayMessages.getMessage("action.title.display.tooltip"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        diagram.setTooltip(this.isChecked());
+        final ERDiagram diagram = getDiagram();
+        diagram.setTooltip(isChecked());
     }
 }

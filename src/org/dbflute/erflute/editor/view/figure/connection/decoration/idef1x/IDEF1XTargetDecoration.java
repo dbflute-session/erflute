@@ -8,7 +8,7 @@ public class IDEF1XTargetDecoration extends ERDecoration {
     public IDEF1XTargetDecoration() {
         super();
 
-        PointList pointList = new PointList();
+        final PointList pointList = new PointList();
 
         pointList.addPoint(-15, 2);
         pointList.addPoint(-15, -2);
@@ -37,7 +37,7 @@ public class IDEF1XTargetDecoration extends ERDecoration {
         pointList.addPoint(-15, 2);
         pointList.addPoint(-15, -2);
 
-        this.setTemplate(pointList);
-        this.setScale(1, 1);
+        setTemplate(pointList);
+        setScale(1, 1);
     }
 }

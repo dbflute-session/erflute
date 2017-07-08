@@ -14,15 +14,14 @@ public class ChangeFreeLayoutAction extends AbstractBaseAction {
 
     public ChangeFreeLayoutAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("action.title.category.free.layout"));
+        setText(DisplayMessages.getMessage("action.title.category.free.layout"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
+        final ChangeFreeLayoutCommand command = new ChangeFreeLayoutCommand(diagram, isChecked());
 
-        ChangeFreeLayoutCommand command = new ChangeFreeLayoutCommand(diagram, this.isChecked());
-
-        this.execute(command);
+        execute(command);
     }
 }

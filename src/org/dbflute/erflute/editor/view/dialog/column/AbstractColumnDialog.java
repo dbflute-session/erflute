@@ -41,10 +41,10 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
         this.targetColumn = targetColumn;
         this.foreignKey = foreignKey;
         this.isRefered = isRefered;
-        if (this.targetColumn == null) {
-            this.setAdd(true);
+        if (targetColumn == null) {
+            setAdd(true);
         } else {
-            this.setAdd(false);
+            setAdd(false);
         }
     }
 
@@ -103,8 +103,8 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
 
     @Override
     protected void setWordData() {
-        setData(this.targetColumn.getPhysicalName(), this.targetColumn.getLogicalName(), this.targetColumn.getType(),
-                this.targetColumn.getTypeData(), this.targetColumn.getDescription());
+        setData(targetColumn.getPhysicalName(), targetColumn.getLogicalName(), targetColumn.getType(),
+                targetColumn.getTypeData(), targetColumn.getDescription());
         // #for_erflute not use word linkage
         //setWordValue();
     }
@@ -171,17 +171,17 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
         }
         boolean array = false;
         Integer arrayDimension = null;
-        if (this.arrayDimensionText != null) {
+        if (arrayDimensionText != null) {
             text = arrayDimensionText.getText();
             if (!text.equals("")) {
                 final int len = Integer.parseInt(text);
                 arrayDimension = Integer.valueOf(len);
             }
-            array = this.arrayCheck.getSelection();
+            array = arrayCheck.getSelection();
         }
         boolean unsigned = false;
-        if (this.unsignedCheck != null) {
-            unsigned = this.unsignedCheck.getSelection();
+        if (unsignedCheck != null) {
+            unsigned = unsignedCheck.getSelection();
         }
         final String physicalName = physicalNameText.getText();
         final String logicalName = logicalNameText.getText();
@@ -194,7 +194,7 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
         if (charSemanticsRadio != null) {
             charSemantics = charSemanticsRadio.getSelection();
         }
-        final String database = this.diagram.getDatabase();
+        final String database = diagram.getDatabase();
         final SqlType selectedType = SqlType.valueOf(database, typeCombo.getText());
         final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, charSemantics);
 
@@ -222,6 +222,6 @@ public abstract class AbstractColumnDialog extends AbstractWordDialog {
     //                                                                            Accessor
     //                                                                            ========
     public NormalColumn getColumn() {
-        return this.returnColumn;
+        return returnColumn;
     }
 }

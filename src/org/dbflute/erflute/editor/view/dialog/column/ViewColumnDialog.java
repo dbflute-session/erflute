@@ -16,7 +16,7 @@ public class ViewColumnDialog extends AbstractColumnDialog {
     }
 
     protected int getStyle(int style) {
-        if (this.foreignKey) {
+        if (foreignKey) {
             style |= SWT.READ_ONLY;
         }
         return style;
@@ -30,12 +30,12 @@ public class ViewColumnDialog extends AbstractColumnDialog {
     @Override
     protected void initializeComposite(Composite parent) {
         super.initializeComposite(parent);
-        if (this.foreignKey) {
+        if (foreignKey) {
             // #for_erflute not use word linkage
             //this.wordCombo.setEnabled(false);
-            this.typeCombo.setEnabled(false);
-            this.lengthText.setEnabled(false);
-            this.decimalText.setEnabled(false);
+            typeCombo.setEnabled(false);
+            lengthText.setEnabled(false);
+            decimalText.setEnabled(false);
         }
     }
 
@@ -45,6 +45,6 @@ public class ViewColumnDialog extends AbstractColumnDialog {
     @Override
     protected void performOK() {
         super.performOK();
-        this.returnColumn = new NormalColumn(this.returnWord, false, false, false, false, null, null, null, null, null);
+        this.returnColumn = new NormalColumn(returnWord, false, false, false, false, null, null, null, null, null);
     }
 }

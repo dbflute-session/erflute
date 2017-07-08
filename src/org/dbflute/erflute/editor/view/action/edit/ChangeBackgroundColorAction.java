@@ -47,34 +47,35 @@ import org.eclipse.ui.actions.LabelRetargetAction;
 public class ChangeBackgroundColorAction extends SelectionAction {
 
     public static final String ID = ChangeBackgroundColorAction.class.getName();
+
     private RGB rgb;
     private Image image;
 
     public ChangeBackgroundColorAction(IWorkbenchPart part, ERDiagram diagram) {
         super(part, Action.AS_DROP_DOWN_MENU);
-        this.setId(ID);
-        this.setText(DisplayMessages.getMessage("action.title.change.background.color"));
-        this.setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
+        setId(ID);
+        setText(DisplayMessages.getMessage("action.title.change.background.color"));
+        setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
         final int[] defaultColor = diagram.getDefaultColor();
         this.rgb = new RGB(defaultColor[0], defaultColor[1], defaultColor[2]);
-        this.setColorToImage();
+        setColorToImage();
     }
 
     private void setColorToImage() {
         final ImageData imageData = Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR).getImageData();
         final int blackPixel = imageData.palette.getPixel(new RGB(0, 0, 0));
         imageData.transparentPixel = imageData.palette.getPixel(new RGB(255, 255, 255));
-        imageData.palette.colors[blackPixel] = this.rgb;
+        imageData.palette.colors[blackPixel] = rgb;
 
-        if (this.image != null) {
+        if (image != null) {
             // this.image.dispose();
         }
-        this.image = new Image(Display.getCurrent(), imageData);
+        image = new Image(Display.getCurrent(), imageData);
 
         final ImageDescriptor descriptor = ImageDescriptor.createFromImage(image);
-        this.setImageDescriptor(descriptor);
-        if (this.getSelection() instanceof StructuredSelection) {
-            for (final Object element : ((StructuredSelection) this.getSelection()).toList()) {
+        setImageDescriptor(descriptor);
+        if (getSelection() instanceof StructuredSelection) {
+            for (final Object element : ((StructuredSelection) getSelection()).toList()) {
                 if (element instanceof TableViewEditPart) {
                     ((TableViewEditPart) element).refresh();
                     ((TableViewEditPart) element).refreshVisuals();
@@ -85,7 +86,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
     private void setRGB(RGB rgb) {
         this.rgb = rgb;
-        final EditPart editPart = ((MainDiagramEditor) this.getWorkbenchPart()).getGraphicalViewer().getContents();
+        final EditPart editPart = ((MainDiagramEditor) getWorkbenchPart()).getGraphicalViewer().getContents();
         if (editPart.getModel() instanceof ERVirtualDiagram) {
             final ERVirtualDiagram model = (ERVirtualDiagram) editPart.getModel();
             model.setDefaultColor(DesignResources.getColor(rgb));
@@ -93,13 +94,13 @@ public class ChangeBackgroundColorAction extends SelectionAction {
             final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
             diagram.setDefaultColor(DesignResources.getColor(rgb));
         }
-        this.setColorToImage();
+        setColorToImage();
     }
 
     @Override
     public void runWithEvent(Event event) {
-        final Command command = this.createCommand(this.getSelectedObjects(), rgb);
-        this.getCommandStack().execute(command);
+        final Command command = createCommand(getSelectedObjects(), rgb);
+        getCommandStack().execute(command);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -116,7 +117,7 @@ public class ChangeBackgroundColorAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        final List<?> objects = this.getSelectedObjects();
+        final List<?> objects = getSelectedObjects();
         if (objects.isEmpty()) {
             return false;
         }
@@ -145,9 +146,9 @@ public class ChangeBackgroundColorAction extends SelectionAction {
         public ChangeBackgroundColorRetargetAction() {
             super(ID, DisplayMessages.getMessage("action.title.change.background.color"), Action.AS_DROP_DOWN_MENU);
 
-            this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR));
-            this.setDisabledImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR_DISABLED));
-            this.setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
+            setImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR));
+            setDisabledImageDescriptor(Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR_DISABLED));
+            setToolTipText(DisplayMessages.getMessage("action.title.change.background.color"));
 
             setMenuCreator(new IMenuCreator() { // for sub menu
                 @Override

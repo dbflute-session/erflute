@@ -26,34 +26,21 @@ import org.eclipse.swt.widgets.Text;
 public class SequenceDialog extends AbstractDialog {
 
     private static final int TEXT_SIZE = 200;
+
     private Text nameText;
-
     private Text schemaText;
-
     private Text incrementText;
-
     private Text minValueText;
-
     private Text maxValueText;
-
     private Text startText;
-
     private Text cacheText;
-
     private Button cycleCheckBox;
-
     private Button orderCheckBox;
-
     private Text descriptionText;
-
     private Combo dataTypeCombo;
-
     private Text decimalSizeText;
-
     private final Sequence sequence;
-
     private Sequence result;
-
     private final ERDiagram diagram;
 
     public SequenceDialog(Shell parentShell, Sequence sequence, ERDiagram diagram) {
@@ -70,23 +57,22 @@ public class SequenceDialog extends AbstractDialog {
 
         if (DB2DBManager.ID.equals(diagram.getDatabase()) || HSQLDBDBManager.ID.equals(diagram.getDatabase())) {
             this.dataTypeCombo = CompositeFactory.createReadOnlyCombo(this, composite, "Data Type", 1, TEXT_SIZE);
-            this.dataTypeCombo.add("BIGINT");
-            this.dataTypeCombo.add("INTEGER");
+            dataTypeCombo.add("BIGINT");
+            dataTypeCombo.add("INTEGER");
 
             if (DB2DBManager.ID.equals(diagram.getDatabase())) {
-                this.dataTypeCombo.add("SMALLINT");
-                this.dataTypeCombo.add("DECIMAL(p)");
+                dataTypeCombo.add("SMALLINT");
+                dataTypeCombo.add("DECIMAL(p)");
 
                 this.decimalSizeText = CompositeFactory.createNumText(this, composite, "Size", 30);
-                this.decimalSizeText.setEnabled(false);
-
+                decimalSizeText.setEnabled(false);
             } else {
                 CompositeFactory.filler(composite, 2);
-
             }
 
             CompositeFactory.filler(composite, 1);
         }
+
         this.incrementText = CompositeFactory.createNumText(this, composite, "Increment", TEXT_SIZE);
         CompositeFactory.filler(composite, 3);
 
@@ -101,9 +87,7 @@ public class SequenceDialog extends AbstractDialog {
 
         if (!H2DBManager.ID.equals(diagram.getDatabase())) {
             this.startText = CompositeFactory.createNumText(this, composite, "Start", 4, TEXT_SIZE);
-
             this.minValueText = CompositeFactory.createNumText(this, composite, "MinValue", 4, TEXT_SIZE);
-
             this.maxValueText = CompositeFactory.createNumText(this, composite, "MaxValue", 4, TEXT_SIZE);
         }
 
@@ -126,7 +110,7 @@ public class SequenceDialog extends AbstractDialog {
 
     @Override
     protected String doValidate() {
-        if (!DBManagerFactory.getDBManager(this.diagram).isSupported(DBManager.SUPPORT_SEQUENCE)) {
+        if (!DBManagerFactory.getDBManager(diagram).isSupported(DBManager.SUPPORT_SEQUENCE)) {
             return "error.sequence.not.supported";
         }
 
@@ -136,7 +120,7 @@ public class SequenceDialog extends AbstractDialog {
         }
 
         if (!Check.isAlphabet(text)) {
-            if (this.diagram.getDiagramContents().getSettings().isValidatePhysicalName()) {
+            if (diagram.getDiagramContents().getSettings().isValidatePhysicalName()) {
                 return "error.sequence.name.not.alphabet";
             }
         }
@@ -148,36 +132,30 @@ public class SequenceDialog extends AbstractDialog {
         }
 
         text = incrementText.getText();
-
         if (!text.equals("")) {
             try {
                 Integer.parseInt(text);
-
             } catch (final NumberFormatException e) {
                 return "error.sequence.increment.degit";
             }
         }
 
-        if (this.minValueText != null) {
+        if (minValueText != null) {
             text = minValueText.getText();
-
             if (!text.equals("")) {
                 try {
                     Long.parseLong(text);
-
                 } catch (final NumberFormatException e) {
                     return "error.sequence.minValue.degit";
                 }
             }
         }
 
-        if (this.maxValueText != null) {
+        if (maxValueText != null) {
             text = maxValueText.getText();
-
             if (!text.equals("")) {
                 try {
                     new BigDecimal(text);
-
                 } catch (final NumberFormatException e) {
                     return "error.sequence.maxValue.degit";
                 }
@@ -185,19 +163,16 @@ public class SequenceDialog extends AbstractDialog {
         }
 
         text = startText.getText();
-
         if (!text.equals("")) {
             try {
                 Long.parseLong(text);
-
             } catch (final NumberFormatException e) {
                 return "error.sequence.start.degit";
             }
         }
 
-        if (this.cacheText != null) {
+        if (cacheText != null) {
             text = cacheText.getText();
-
             if (!text.equals("")) {
                 try {
                     final int cache = Integer.parseInt(text);
@@ -216,11 +191,9 @@ public class SequenceDialog extends AbstractDialog {
             }
         }
 
-        if (this.decimalSizeText != null) {
-            text = this.decimalSizeText.getText();
-
+        if (decimalSizeText != null) {
+            text = decimalSizeText.getText();
             if (!text.equals("")) {
-
                 try {
                     final int size = Integer.parseInt(text);
                     if (size < 0) {
@@ -243,9 +216,8 @@ public class SequenceDialog extends AbstractDialog {
     @Override
     protected void performOK() throws InputException {
         this.result = new Sequence();
-
-        this.result.setName(this.nameText.getText().trim());
-        this.result.setSchema(this.schemaText.getText().trim());
+        this.result.setName(nameText.getText().trim());
+        this.result.setSchema(schemaText.getText().trim());
 
         Integer increment = null;
         Long minValue = null;
@@ -258,14 +230,14 @@ public class SequenceDialog extends AbstractDialog {
             increment = Integer.valueOf(text);
         }
 
-        if (this.minValueText != null) {
+        if (minValueText != null) {
             text = minValueText.getText();
             if (!text.equals("")) {
                 minValue = Long.valueOf(text);
             }
         }
 
-        if (this.maxValueText != null) {
+        if (maxValueText != null) {
             text = maxValueText.getText();
             if (!text.equals("")) {
                 maxValue = new BigDecimal(text);
@@ -277,70 +249,70 @@ public class SequenceDialog extends AbstractDialog {
             start = Long.valueOf(text);
         }
 
-        if (this.cacheText != null) {
+        if (cacheText != null) {
             text = cacheText.getText();
             if (!text.equals("")) {
                 cache = Integer.valueOf(text);
             }
         }
 
-        this.result.setIncrement(increment);
-        this.result.setMinValue(minValue);
-        this.result.setMaxValue(maxValue);
-        this.result.setStart(start);
-        this.result.setCache(cache);
+        result.setIncrement(increment);
+        result.setMinValue(minValue);
+        result.setMaxValue(maxValue);
+        result.setStart(start);
+        result.setCache(cache);
 
-        if (this.cycleCheckBox != null) {
-            this.result.setCycle(this.cycleCheckBox.getSelection());
+        if (cycleCheckBox != null) {
+            result.setCycle(cycleCheckBox.getSelection());
         }
 
-        if (this.orderCheckBox != null) {
-            this.result.setOrder(this.orderCheckBox.getSelection());
+        if (orderCheckBox != null) {
+            result.setOrder(orderCheckBox.getSelection());
         }
 
-        this.result.setDescription(this.descriptionText.getText().trim());
+        result.setDescription(descriptionText.getText().trim());
 
-        if (this.dataTypeCombo != null) {
-            this.result.setDataType(this.dataTypeCombo.getText());
+        if (dataTypeCombo != null) {
+            result.setDataType(dataTypeCombo.getText());
             int decimalSize = 0;
             try {
-                decimalSize = Integer.parseInt(this.decimalSizeText.getText().trim());
+                decimalSize = Integer.parseInt(decimalSizeText.getText().trim());
             } catch (final NumberFormatException e) {}
-            this.result.setDecimalSize(decimalSize);
+            result.setDecimalSize(decimalSize);
         }
     }
 
     @Override
     protected void setupData() {
-        if (this.sequence != null) {
-            this.nameText.setText(Format.toString(this.sequence.getName()));
-            this.schemaText.setText(Format.toString(this.sequence.getSchema()));
-            this.incrementText.setText(Format.toString(this.sequence.getIncrement()));
-            if (this.minValueText != null) {
-                this.minValueText.setText(Format.toString(this.sequence.getMinValue()));
+        if (sequence != null) {
+            nameText.setText(Format.toString(sequence.getName()));
+            schemaText.setText(Format.toString(sequence.getSchema()));
+            incrementText.setText(Format.toString(sequence.getIncrement()));
+            if (minValueText != null) {
+                minValueText.setText(Format.toString(sequence.getMinValue()));
             }
-            if (this.maxValueText != null) {
-                this.maxValueText.setText(Format.toString(this.sequence.getMaxValue()));
+            if (maxValueText != null) {
+                maxValueText.setText(Format.toString(sequence.getMaxValue()));
             }
-            this.startText.setText(Format.toString(this.sequence.getStart()));
-            if (this.cacheText != null) {
-                this.cacheText.setText(Format.toString(this.sequence.getCache()));
+            startText.setText(Format.toString(sequence.getStart()));
+            if (cacheText != null) {
+                cacheText.setText(Format.toString(sequence.getCache()));
             }
-            if (this.cycleCheckBox != null) {
-                this.cycleCheckBox.setSelection(this.sequence.isCycle());
+            if (cycleCheckBox != null) {
+                cycleCheckBox.setSelection(sequence.isCycle());
             }
-            if (this.orderCheckBox != null) {
-                this.orderCheckBox.setSelection(this.sequence.isOrder());
+            if (orderCheckBox != null) {
+                orderCheckBox.setSelection(sequence.isOrder());
             }
 
-            this.descriptionText.setText(Format.toString(this.sequence.getDescription()));
+            descriptionText.setText(Format.toString(sequence.getDescription()));
 
-            if (this.dataTypeCombo != null) {
-                final String dataType = Format.toString(this.sequence.getDataType());
-                this.dataTypeCombo.setText(dataType);
-                if (dataType.equals("DECIMAL(p)") && this.decimalSizeText != null) {
-                    this.decimalSizeText.setEnabled(true);
-                    this.decimalSizeText.setText(Format.toString(this.sequence.getDecimalSize()));
+            if (dataTypeCombo != null) {
+                final String dataType = Format.toString(sequence.getDataType());
+                dataTypeCombo.setText(dataType);
+                if (dataType.equals("DECIMAL(p)") && decimalSizeText != null) {
+                    decimalSizeText.setEnabled(true);
+                    decimalSizeText.setText(Format.toString(sequence.getDecimalSize()));
                 }
             }
         }
@@ -354,8 +326,8 @@ public class SequenceDialog extends AbstractDialog {
     protected void addListener() {
         super.addListener();
 
-        if (this.dataTypeCombo != null && this.decimalSizeText != null) {
-            this.dataTypeCombo.addSelectionListener(new SelectionAdapter() {
+        if (dataTypeCombo != null && decimalSizeText != null) {
+            dataTypeCombo.addSelectionListener(new SelectionAdapter() {
 
                 @Override
                 public void widgetSelected(SelectionEvent e) {

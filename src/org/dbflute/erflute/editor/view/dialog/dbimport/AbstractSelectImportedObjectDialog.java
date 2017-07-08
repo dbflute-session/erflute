@@ -30,21 +30,13 @@ import org.eclipse.ui.dialogs.ContainerCheckedTreeViewer;
 public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog {
 
     private ContainerCheckedTreeViewer viewer;
-
     protected Button useCommentAsLogicalNameButton;
-
     private Button mergeWordButton;
-
     private Button mergeGroupButton;
-
     protected DBObjectSet dbObjectSet;
-
     protected boolean resultUseCommentAsLogicalName;
-
     private boolean resultMergeWord;
-
     private boolean resultMergeGroup;
-
     private List<DBObject> resultSelectedDbObjects;
 
     public AbstractSelectImportedObjectDialog(Shell parentShell, ERDiagram diagram, DBObjectSet dbObjectSet) {
@@ -55,69 +47,70 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
 
     @Override
     protected void initComponent(Composite composite) {
-        this.createObjectListComposite(composite);
+        createObjectListComposite(composite);
 
-        this.setListener();
+        setListener();
     }
 
     private void createObjectListComposite(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
         gridLayout.verticalSpacing = 20;
 
-        Composite composite = new Composite(parent, SWT.NONE);
+        final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(gridLayout);
         composite.setLayoutData(gridData);
 
-        this.createAllObjectGroup(composite);
+        createAllObjectGroup(composite);
 
-        GridData groupGridData = new GridData();
+        final GridData groupGridData = new GridData();
         groupGridData.horizontalAlignment = GridData.FILL;
         groupGridData.grabExcessHorizontalSpace = true;
         groupGridData.horizontalSpan = 3;
 
-        GridLayout groupLayout = new GridLayout();
+        final GridLayout groupLayout = new GridLayout();
         groupLayout.marginWidth = 15;
         groupLayout.marginHeight = 15;
 
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setText(DisplayMessages.getMessage("label.option"));
         group.setLayoutData(groupGridData);
         group.setLayout(groupLayout);
 
-        this.initializeOptionGroup(group);
+        initializeOptionGroup(group);
     }
 
     protected void initializeOptionGroup(Group group) {
         this.mergeWordButton = CompositeFactory.createCheckbox(this, group, "label.merge.word");
-        this.mergeWordButton.setSelection(true);
+        mergeWordButton.setSelection(true);
 
         this.mergeGroupButton = CompositeFactory.createCheckbox(this, group, "label.merge.group");
-        this.mergeGroupButton.setSelection(true);
+        mergeGroupButton.setSelection(true);
 
     }
 
     private void createAllObjectGroup(Composite composite) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.heightHint = 300;
         gridData.horizontalAlignment = GridData.FILL;
         gridData.grabExcessHorizontalSpace = true;
 
         this.viewer = new ContainerCheckedTreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-        Tree tree = this.viewer.getTree();
+        final Tree tree = viewer.getTree();
         tree.setLayoutData(gridData);
 
-        this.viewer.setContentProvider(new TreeNodeContentProvider());
-        this.viewer.setLabelProvider(new ViewLabelProvider());
+        viewer.setContentProvider(new TreeNodeContentProvider());
+        viewer.setLabelProvider(new ViewLabelProvider());
     }
 
     private void setListener() {
-        this.viewer.addCheckStateListener(new ICheckStateListener() {
+        viewer.addCheckStateListener(new ICheckStateListener() {
 
+            @Override
             public void checkStateChanged(CheckStateChangedEvent event) {
                 validate();
             }
@@ -126,32 +119,32 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
 
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        this.createButton(parent, IDialogConstants.BACK_ID, IDialogConstants.BACK_LABEL, false);
-        this.createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-        this.createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+        createButton(parent, IDialogConstants.BACK_ID, IDialogConstants.BACK_LABEL, false);
+        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+        createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
     }
 
     @Override
     protected void performOK() throws InputException {
-        Object[] selectedNodes = this.viewer.getCheckedElements();
+        final Object[] selectedNodes = viewer.getCheckedElements();
 
-        this.resultSelectedDbObjects = new ArrayList<DBObject>();
+        this.resultSelectedDbObjects = new ArrayList<>();
 
         for (int i = 0; i < selectedNodes.length; i++) {
-            Object value = ((TreeNode) selectedNodes[i]).getValue();
+            final Object value = ((TreeNode) selectedNodes[i]).getValue();
 
             if (value instanceof DBObject) {
                 resultSelectedDbObjects.add((DBObject) value);
             }
         }
 
-        this.resultMergeWord = this.mergeWordButton.getSelection();
-        this.resultMergeGroup = this.mergeGroupButton.getSelection();
+        this.resultMergeWord = mergeWordButton.getSelection();
+        this.resultMergeGroup = mergeGroupButton.getSelection();
     }
 
     @Override
     protected String doValidate() {
-        if (this.viewer.getCheckedElements().length == 0) {
+        if (viewer.getCheckedElements().length == 0) {
             return "error.import.object.empty";
         }
 
@@ -165,44 +158,44 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
 
     @Override
     protected void setupData() {
-        List<TreeNode> treeNodeList = createTreeNodeList();
+        final List<TreeNode> treeNodeList = createTreeNodeList();
 
-        TreeNode[] treeNodes = treeNodeList.toArray(new TreeNode[treeNodeList.size()]);
-        this.viewer.setInput(treeNodes);
-        this.viewer.setCheckedElements(treeNodes);
-        this.viewer.expandAll();
+        final TreeNode[] treeNodes = treeNodeList.toArray(new TreeNode[treeNodeList.size()]);
+        viewer.setInput(treeNodes);
+        viewer.setCheckedElements(treeNodes);
+        viewer.expandAll();
     }
 
     protected List<TreeNode> createTreeNodeList() {
-        List<TreeNode> treeNodeList = new ArrayList<TreeNode>();
+        final List<TreeNode> treeNodeList = new ArrayList<>();
 
         TreeNode topNode = new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.schema")));
         treeNodeList.add(topNode);
 
-        List<TreeNode> schemaNodeList = new ArrayList<TreeNode>();
+        final List<TreeNode> schemaNodeList = new ArrayList<>();
 
-        for (Map.Entry<String, List<DBObject>> entry : dbObjectSet.getSchemaDbObjectListMap().entrySet()) {
+        for (final Map.Entry<String, List<DBObject>> entry : dbObjectSet.getSchemaDbObjectListMap().entrySet()) {
             String schemaName = entry.getKey();
             if ("".equals(schemaName)) {
                 schemaName = DisplayMessages.getMessage("label.none");
             }
-            TreeNode schemaNode = new TreeNode(new StringObjectModel(schemaName));
+            final TreeNode schemaNode = new TreeNode(new StringObjectModel(schemaName));
             schemaNode.setParent(topNode);
             schemaNodeList.add(schemaNode);
 
-            List<DBObject> dbObjectList = entry.getValue();
+            final List<DBObject> dbObjectList = entry.getValue();
 
-            TreeNode[] objectTypeNodes = new TreeNode[DBObject.ALL_TYPES.length];
+            final TreeNode[] objectTypeNodes = new TreeNode[DBObject.ALL_TYPES.length];
 
             for (int i = 0; i < DBObject.ALL_TYPES.length; i++) {
                 objectTypeNodes[i] =
                         new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.object.type." + DBObject.ALL_TYPES[i])));
 
-                List<TreeNode> objectNodeList = new ArrayList<TreeNode>();
+                final List<TreeNode> objectNodeList = new ArrayList<>();
 
-                for (DBObject dbObject : dbObjectList) {
+                for (final DBObject dbObject : dbObjectList) {
                     if (DBObject.ALL_TYPES[i].equals(dbObject.getType())) {
-                        TreeNode objectNode = new TreeNode(dbObject);
+                        final TreeNode objectNode = new TreeNode(dbObject);
                         objectNode.setParent(objectTypeNodes[i]);
 
                         objectNodeList.add(objectNode);
@@ -217,18 +210,18 @@ public abstract class AbstractSelectImportedObjectDialog extends AbstractDialog 
 
         topNode.setChildren(schemaNodeList.toArray(new TreeNode[schemaNodeList.size()]));
 
-        topNode = createTopNode(DBObject.TYPE_TABLESPACE, this.dbObjectSet.getTablespaceList());
+        topNode = createTopNode(DBObject.TYPE_TABLESPACE, dbObjectSet.getTablespaceList());
         treeNodeList.add(topNode);
 
         return treeNodeList;
     }
 
     protected TreeNode createTopNode(String objectType, List<DBObject> dbObjectList) {
-        TreeNode treeNode = new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.object.type." + objectType)));
-        List<TreeNode> objectNodeList = new ArrayList<TreeNode>();
+        final TreeNode treeNode = new TreeNode(new StringObjectModel(DisplayMessages.getMessage("label.object.type." + objectType)));
+        final List<TreeNode> objectNodeList = new ArrayList<>();
 
-        for (DBObject dbObject : dbObjectList) {
-            TreeNode objectNode = new TreeNode(dbObject);
+        for (final DBObject dbObject : dbObjectList) {
+            final TreeNode objectNode = new TreeNode(dbObject);
             objectNode.setParent(treeNode);
 
             objectNodeList.add(objectNode);

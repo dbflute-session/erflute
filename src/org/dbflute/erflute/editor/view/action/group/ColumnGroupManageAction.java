@@ -26,7 +26,7 @@ public class ColumnGroupManageAction extends AbstractBaseAction {
 
     @Override
     public void execute(Event event) {
-        final ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
         final ColumnGroupSet groupSet = diagram.getDiagramContents().getColumnGroupSet();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final ColumnGroupManageDialog dialog = new ColumnGroupManageDialog(shell, groupSet, diagram, false, -1);

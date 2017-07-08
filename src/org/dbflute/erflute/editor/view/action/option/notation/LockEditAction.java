@@ -13,13 +13,12 @@ public class LockEditAction extends AbstractBaseAction {
 
     public LockEditAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("action.title.lock.edit"));
+        setText(DisplayMessages.getMessage("action.title.lock.edit"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        diagram.setDisableSelectColumn(this.isChecked());
+        final ERDiagram diagram = getDiagram();
+        diagram.setDisableSelectColumn(isChecked());
     }
 }

@@ -16,11 +16,11 @@ public class SelectImportedObjectFromFileDialog extends AbstractSelectImportedOb
 
     @Override
     protected List<TreeNode> createTreeNodeList() {
-        List<TreeNode> treeNodeList = super.createTreeNodeList();
+        final List<TreeNode> treeNodeList = super.createTreeNodeList();
 
-        TreeNode topNode = createTopNode(DBObject.TYPE_NOTE, this.dbObjectSet.getNoteList());
+        TreeNode topNode = createTopNode(DBObject.TYPE_NOTE, dbObjectSet.getNoteList());
         treeNodeList.add(topNode);
-        topNode = createTopNode(DBObject.TYPE_GROUP, this.dbObjectSet.getGroupList());
+        topNode = createTopNode(DBObject.TYPE_GROUP, dbObjectSet.getGroupList());
         treeNodeList.add(topNode);
 
         return treeNodeList;

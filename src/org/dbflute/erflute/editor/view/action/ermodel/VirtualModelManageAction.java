@@ -24,13 +24,13 @@ public class VirtualModelManageAction extends AbstractBaseAction {
 
     @Override
     public void execute(Event event) throws Exception {
-        final ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
         final DiagramSettings settings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final CategoryManageDialog dialog = new CategoryManageDialog(shell, settings, diagram);
         if (dialog.open() == IDialogConstants.OK_ID) {
             final ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);
-            this.execute(command);
+            execute(command);
         }
     }
 }

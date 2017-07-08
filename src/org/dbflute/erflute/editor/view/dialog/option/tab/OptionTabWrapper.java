@@ -34,20 +34,20 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
         this.settings = settings;
         this.dialog = dialog;
 
-        this.init();
+        init();
     }
 
     @Override
     public void initComposite() {
         final GridLayout layout = new GridLayout();
         layout.numColumns = 1;
-        this.setLayout(layout);
+        setLayout(layout);
 
-        this.autoImeChangeCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.auto.ime.change");
-        this.validatePhysicalNameCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.validate.physical.name");
-        this.useBezierCurveCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.use.bezier.curve");
-        this.suspendValidatorCheck = CompositeFactory.createCheckbox(this.dialog, this, "label.suspend.validator");
-        this.useViewObjectCheck = CompositeFactory.createCheckbox(this.dialog, this, "Use view object");
+        this.autoImeChangeCheck = CompositeFactory.createCheckbox(dialog, this, "label.auto.ime.change");
+        this.validatePhysicalNameCheck = CompositeFactory.createCheckbox(dialog, this, "label.validate.physical.name");
+        this.useBezierCurveCheck = CompositeFactory.createCheckbox(dialog, this, "label.use.bezier.curve");
+        this.suspendValidatorCheck = CompositeFactory.createCheckbox(dialog, this, "label.suspend.validator");
+        this.useViewObjectCheck = CompositeFactory.createCheckbox(dialog, this, "Use view object");
 
         final Composite innerComp = new Composite(this, SWT.NONE);
         final GridLayout innerLayout = new GridLayout();
@@ -65,17 +65,17 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
         this.outputFileText = new InnerDirectoryText(innerComp, SWT.BORDER);
         final GridData gridData = new GridData();
         gridData.widthHint = 200;
-        this.outputFileText.setLayoutData(gridData);
+        outputFileText.setLayoutData(gridData);
         //		outputFileText.setText("");
     }
 
     @Override
     public void setupData() {
-        this.autoImeChangeCheck.setSelection(this.settings.isAutoImeChange());
-        this.validatePhysicalNameCheck.setSelection(this.settings.isValidatePhysicalName());
-        this.useBezierCurveCheck.setSelection(this.settings.isUseBezierCurve());
-        this.suspendValidatorCheck.setSelection(this.settings.isSuspendValidator());
-        this.useViewObjectCheck.setSelection(this.settings.isUseViewObject());
+        autoImeChangeCheck.setSelection(settings.isAutoImeChange());
+        validatePhysicalNameCheck.setSelection(settings.isValidatePhysicalName());
+        useBezierCurveCheck.setSelection(settings.isUseBezierCurve());
+        suspendValidatorCheck.setSelection(settings.isSuspendValidator());
+        useViewObjectCheck.setSelection(settings.isUseViewObject());
         if (settings.getMasterDataBasePath() != null) {
             outputFileText.setText(settings.getMasterDataBasePath());
         }
@@ -93,7 +93,7 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
 
     @Override
     public void setInitFocus() {
-        this.autoImeChangeCheck.setFocus();
+        autoImeChangeCheck.setFocus();
     }
 
     @Override

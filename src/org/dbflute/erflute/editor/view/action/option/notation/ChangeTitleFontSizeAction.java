@@ -14,13 +14,13 @@ public class ChangeTitleFontSizeAction extends AbstractBaseAction {
 
     public ChangeTitleFontSizeAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("Display table title larger"));
+        setText(DisplayMessages.getMessage("Display table title larger"));
     }
 
     @Override
     public void execute(Event event) {
-        final ERDiagram diagram = this.getDiagram();
-        final ChangeTitleFontSizeCommand command = new ChangeTitleFontSizeCommand(diagram, this.isChecked());
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeTitleFontSizeCommand command = new ChangeTitleFontSizeCommand(diagram, isChecked());
+        execute(command);
     }
 }

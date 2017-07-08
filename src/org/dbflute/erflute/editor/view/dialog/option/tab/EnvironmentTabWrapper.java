@@ -5,8 +5,8 @@ import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.core.exception.InputException;
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.widgets.ValidatableTabWrapper;
-import org.dbflute.erflute.editor.model.settings.Environment;
 import org.dbflute.erflute.editor.model.settings.DiagramSettings;
+import org.dbflute.erflute.editor.model.settings.Environment;
 import org.dbflute.erflute.editor.view.dialog.option.OptionSettingDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -24,16 +24,11 @@ import org.eclipse.swt.widgets.Text;
 public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
     private List environmentList;
-
     private Text nameText;
-
     private Button addButton;
-
     private Button editButton;
-
     private Button deleteButton;
-
-    private DiagramSettings settings;
+    private final DiagramSettings settings;
 
     private static final int LIST_HEIGHT = 230;
 
@@ -42,75 +37,75 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
         this.settings = settings;
 
-        this.init();
+        init();
     }
 
     @Override
     public void initComposite() {
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 3;
-        this.setLayout(layout);
+        setLayout(layout);
 
-        this.createEnvironmentGroup(this);
+        createEnvironmentGroup(this);
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.widthHint = 200;
         gridData.horizontalSpan = 3;
 
         this.nameText = new Text(this, SWT.BORDER);
-        this.nameText.setLayoutData(gridData);
+        nameText.setLayoutData(gridData);
 
-        GridData buttonGridData = new GridData();
+        final GridData buttonGridData = new GridData();
         buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.addButton = new Button(this, SWT.NONE);
-        this.addButton.setLayoutData(buttonGridData);
-        this.addButton.setText(DisplayMessages.getMessage("label.button.add"));
+        addButton.setLayoutData(buttonGridData);
+        addButton.setText(DisplayMessages.getMessage("label.button.add"));
 
         this.editButton = new Button(this, SWT.NONE);
-        this.editButton.setLayoutData(buttonGridData);
-        this.editButton.setText(DisplayMessages.getMessage("label.button.edit"));
+        editButton.setLayoutData(buttonGridData);
+        editButton.setText(DisplayMessages.getMessage("label.button.edit"));
 
         this.deleteButton = new Button(this, SWT.NONE);
-        this.deleteButton.setLayoutData(buttonGridData);
-        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
+        deleteButton.setLayoutData(buttonGridData);
+        deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
 
-        this.buttonEnabled(false);
-        this.addButton.setEnabled(false);
+        buttonEnabled(false);
+        addButton.setEnabled(false);
     }
 
     private void createEnvironmentGroup(Composite parent) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.widthHint = 200;
         gridData.horizontalSpan = 3;
         gridData.heightHint = LIST_HEIGHT;
 
         this.environmentList = new List(parent, SWT.BORDER | SWT.V_SCROLL);
-        this.environmentList.setLayoutData(gridData);
+        environmentList.setLayoutData(gridData);
     }
 
     @Override
     protected void addListener() {
-        this.environmentList.addSelectionListener(new SelectionAdapter() {
+        environmentList.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int targetIndex = environmentList.getSelectionIndex();
+                final int targetIndex = environmentList.getSelectionIndex();
                 if (targetIndex == -1) {
                     return;
                 }
 
-                Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
+                final Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
                 nameText.setText(environment.getName());
                 buttonEnabled(true);
             }
         });
 
-        this.addButton.addSelectionListener(new SelectionAdapter() {
+        addButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String name = nameText.getText().trim();
+                final String name = nameText.getText().trim();
                 if (!Check.isEmpty(name)) {
                     settings.getEnvironmentSettings().getEnvironments().add(new Environment(name));
                     setupData();
@@ -119,18 +114,18 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
             }
         });
 
-        this.editButton.addSelectionListener(new SelectionAdapter() {
+        editButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int targetIndex = environmentList.getSelectionIndex();
+                final int targetIndex = environmentList.getSelectionIndex();
                 if (targetIndex == -1) {
                     return;
                 }
 
-                String name = nameText.getText().trim();
+                final String name = nameText.getText().trim();
                 if (!Check.isEmpty(name)) {
-                    Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
+                    final Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
                     environment.setName(name);
                     setupData();
                     environmentList.select(targetIndex);
@@ -138,11 +133,11 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
             }
         });
 
-        this.deleteButton.addSelectionListener(new SelectionAdapter() {
+        deleteButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int targetIndex = environmentList.getSelectionIndex();
+                final int targetIndex = environmentList.getSelectionIndex();
                 if (targetIndex == -1) {
                     return;
                 }
@@ -152,7 +147,7 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
                 if (settings.getEnvironmentSettings().getEnvironments().size() > targetIndex) {
                     environmentList.select(targetIndex);
-                    Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
+                    final Environment environment = settings.getEnvironmentSettings().getEnvironments().get(targetIndex);
                     nameText.setText(environment.getName());
 
                 } else {
@@ -162,9 +157,11 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
             }
         });
 
-        this.nameText.addModifyListener(new ModifyListener() {
+        nameText.addModifyListener(new ModifyListener() {
+
+            @Override
             public void modifyText(ModifyEvent e) {
-                String name = nameText.getText().trim();
+                final String name = nameText.getText().trim();
                 if (name.length() == 0) {
                     addButton.setEnabled(false);
                     editButton.setEnabled(false);
@@ -182,12 +179,12 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
     }
 
     private void buttonEnabled(boolean enabled) {
-        this.editButton.setEnabled(enabled);
+        editButton.setEnabled(enabled);
 
         if (environmentList.getItemCount() <= 1) {
             enabled = false;
         }
-        this.deleteButton.setEnabled(enabled);
+        deleteButton.setEnabled(enabled);
     }
 
     @Override
@@ -196,17 +193,17 @@ public class EnvironmentTabWrapper extends ValidatableTabWrapper {
 
     @Override
     public void setInitFocus() {
-        this.environmentList.setFocus();
+        environmentList.setFocus();
     }
 
     @Override
     protected void setupData() {
         super.setupData();
 
-        this.environmentList.removeAll();
+        environmentList.removeAll();
 
-        for (Environment environment : this.settings.getEnvironmentSettings().getEnvironments()) {
-            this.environmentList.add(environment.getName());
+        for (final Environment environment : settings.getEnvironmentSettings().getEnvironments()) {
+            environmentList.add(environment.getName());
         }
     }
 

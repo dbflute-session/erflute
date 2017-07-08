@@ -29,32 +29,32 @@ public class FrameStyleSupport extends AbstractStyleSupport {
     @Override
     public void init(TableFigure tableFigure) {
         this.border = new ImageFrameBorder();
-        this.border.setFont(tableFigure.getFont());
+        border.setFont(tableFigure.getFont());
 
-        tableFigure.setBorder(this.border);
+        tableFigure.setBorder(border);
     }
 
     @Override
     public void initTitleBar(Figure top) {
-        this.titleBarBorder = (TitleBarBorder) this.border.getInnerBorder();
-        this.titleBarBorder.setTextAlignment(PositionConstants.CENTER);
-        this.titleBarBorder.setPadding(new Insets(5, 20, 5, 20));
+        this.titleBarBorder = (TitleBarBorder) border.getInnerBorder();
+        titleBarBorder.setTextAlignment(PositionConstants.CENTER);
+        titleBarBorder.setPadding(new Insets(5, 20, 5, 20));
     }
 
     @Override
     public void setName(String name) {
-        this.titleBarBorder.setTextColor(this.getTextColor());
-        this.titleBarBorder.setLabel(name);
+        titleBarBorder.setTextColor(getTextColor());
+        titleBarBorder.setLabel(name);
     }
 
     @Override
     public void setFont(Font font, Font titleFont) {
-        this.titleBarBorder.setFont(titleFont);
+        titleBarBorder.setFont(titleFont);
     }
 
     @Override
     public void adjustBounds(Rectangle rect) {
-        final int width = this.border.getTitleBarWidth(this.getTableFigure());
+        final int width = border.getTitleBarWidth(getTableFigure());
 
         if (width > rect.width) {
             rect.width = width;
@@ -67,13 +67,12 @@ public class FrameStyleSupport extends AbstractStyleSupport {
             boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
 
-        final Label label = this.createColumnLabel();
-
-        label.setForegroundColor(this.getTextColor());
+        final Label label = createColumnLabel();
+        label.setForegroundColor(getTextColor());
 
         final StringBuilder text = new StringBuilder();
-        text.append(this.getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull, uniqueKey, displayDetail,
-                displayType));
+        text.append(getColumnText(table, normalColumn, viewMode, physicalName, logicalName,
+                type, isNotNull, uniqueKey, displayDetail, displayType));
 
         if (displayKey) {
             if (primaryKey && foreignKey) {
@@ -81,13 +80,11 @@ public class FrameStyleSupport extends AbstractStyleSupport {
 
                 text.append(" ");
                 text.append("(PFK)");
-
             } else if (primaryKey) {
                 label.setForegroundColor(ColorConstants.red);
 
                 text.append(" ");
                 text.append("(PK)");
-
             } else if (foreignKey) {
                 label.setForegroundColor(ColorConstants.darkGreen);
 
@@ -96,7 +93,7 @@ public class FrameStyleSupport extends AbstractStyleSupport {
             }
         }
 
-        this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
+        setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
 
         label.setText(text.toString());
 
@@ -106,6 +103,5 @@ public class FrameStyleSupport extends AbstractStyleSupport {
     @Override
     public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
         // TODO Auto-generated method stub
-
     }
 }

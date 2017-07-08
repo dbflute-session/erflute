@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Event;
 
 public class AbstractChangeDesignAction extends AbstractBaseAction {
 
-    private String type;
+    private final String type;
 
     public AbstractChangeDesignAction(String ID, String type, MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.change.design." + type), IAction.AS_RADIO_BUTTON, editor);
@@ -20,13 +20,12 @@ public class AbstractChangeDesignAction extends AbstractBaseAction {
 
     @Override
     public void execute(Event event) {
-        if (!this.isChecked()) {
+        if (!isChecked()) {
             return;
         }
-        ERDiagram diagram = this.getDiagram();
 
-        ChangeDesignCommand command = new ChangeDesignCommand(diagram, type);
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeDesignCommand command = new ChangeDesignCommand(diagram, type);
+        execute(command);
     }
 }

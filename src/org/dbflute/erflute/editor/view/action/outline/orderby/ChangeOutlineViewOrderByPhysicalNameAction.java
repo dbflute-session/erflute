@@ -15,15 +15,13 @@ public class ChangeOutlineViewOrderByPhysicalNameAction extends AbstractOutlineB
 
     public ChangeOutlineViewOrderByPhysicalNameAction(TreeViewer treeViewer) {
         super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
-        this.setText(DisplayMessages.getMessage("label.physical.name"));
+        setText(DisplayMessages.getMessage("label.physical.name"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(diagram, DiagramSettings.VIEW_MODE_PHYSICAL);
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeOutlineViewOrderByCommand command = new ChangeOutlineViewOrderByCommand(diagram, DiagramSettings.VIEW_MODE_PHYSICAL);
+        execute(command);
     }
 }

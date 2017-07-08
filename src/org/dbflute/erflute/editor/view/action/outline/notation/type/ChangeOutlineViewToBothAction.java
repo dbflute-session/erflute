@@ -15,15 +15,13 @@ public class ChangeOutlineViewToBothAction extends AbstractOutlineBaseAction {
 
     public ChangeOutlineViewToBothAction(TreeViewer treeViewer) {
         super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
-        this.setText(DisplayMessages.getMessage("action.title.change.mode.to.both"));
+        setText(DisplayMessages.getMessage("action.title.change.mode.to.both"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeOutlineViewModeCommand command = new ChangeOutlineViewModeCommand(diagram, DiagramSettings.VIEW_MODE_BOTH);
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeOutlineViewModeCommand command = new ChangeOutlineViewModeCommand(diagram, DiagramSettings.VIEW_MODE_BOTH);
+        execute(command);
     }
 }

@@ -21,20 +21,20 @@ public class FontNameContributionItem extends ComboContributionItem {
 
     @Override
     protected Command createCommand(ViewableModel viewableModel) {
-        return new ChangeFontCommand(viewableModel, this.getText(), viewableModel.getFontSize());
+        return new ChangeFontCommand(viewableModel, getText(), viewableModel.getFontSize());
     }
 
     @Override
     protected void setData(Combo combo) {
-        FontData[] fontDatas = Display.getCurrent().getFontList(null, true);
-        Set<String> nameSet = new LinkedHashSet<String>();
+        final FontData[] fontDatas = Display.getCurrent().getFontList(null, true);
+        final Set<String> nameSet = new LinkedHashSet<>();
         for (int i = 0; i < fontDatas.length; i++) {
             if (!fontDatas[i].getName().startsWith("@")) {
                 nameSet.add(fontDatas[i].getName());
             }
         }
 
-        for (String name : nameSet) {
+        for (final String name : nameSet) {
             combo.add(name);
         }
     }

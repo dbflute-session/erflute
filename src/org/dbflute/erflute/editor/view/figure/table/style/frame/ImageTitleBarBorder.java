@@ -50,6 +50,6 @@ public class ImageTitleBarBorder extends TitleBarBorder {
             this.width = getTextExtents(figure).width + getPadding().getWidth();
         }
 
-        return this.width;
+        return width;
     }
 }

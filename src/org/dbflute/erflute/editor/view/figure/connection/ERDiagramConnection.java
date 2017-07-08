@@ -109,7 +109,6 @@ public class ERDiagramConnection extends PolylineConnection {
             while (true) {
                 if (index != controlPoints.size()) {
                     p2 = new Point((p1.x + nextPoint.x) / 2, (p1.y + nextPoint.y) / 2);
-
                 } else {
                     p2 = nextPoint;
                 }

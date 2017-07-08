@@ -616,7 +616,6 @@ public class SearchDialog extends Dialog {
             tabFolder.setSelection(1);
 
             this.all = false;
-
             if (buttonId == SEARCH_ALL_ID) {
                 this.all = true;
             }

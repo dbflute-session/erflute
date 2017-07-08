@@ -41,7 +41,7 @@ public class ERVirtualDiagramSet extends AbstractModel implements Iterable<ERVir
     //	}
     //
     public void addVdiagams(List<ERVirtualDiagram> vdiagrams) {
-        vdiagrams.addAll(vdiagrams);
+        this.vdiagrams.addAll(vdiagrams);
         firePropertyChange(PROPERTY_CHANGE_MODEL_SET, null, null);
     }
 

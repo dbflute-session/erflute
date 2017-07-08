@@ -20,13 +20,11 @@ public class CreateSequenceAction extends AbstractOutlineBaseAction {
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        SequenceDialog dialog = new SequenceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, diagram);
-
+        final ERDiagram diagram = getDiagram();
+        final SequenceDialog dialog = new SequenceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null, diagram);
         if (dialog.open() == IDialogConstants.OK_ID) {
-            CreateSequenceCommand command = new CreateSequenceCommand(diagram, dialog.getResult());
-            this.execute(command);
+            final CreateSequenceCommand command = new CreateSequenceCommand(diagram, dialog.getResult());
+            execute(command);
         }
     }
 }

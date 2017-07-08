@@ -23,15 +23,17 @@ public class ZoomAdjustAction extends Action implements ZoomListener, Disposable
         setId(ID);
     }
 
+    @Override
     public void dispose() {
-        this.zoomManager.removeZoomListener(this);
+        zoomManager.removeZoomListener(this);
     }
 
     @Override
     public void run() {
-        this.zoomManager.setZoomAsText(ZoomManager.FIT_ALL);
+        zoomManager.setZoomAsText(ZoomManager.FIT_ALL);
     }
 
+    @Override
     public void zoomChanged(double zoom) {
         setEnabled(true);
     }

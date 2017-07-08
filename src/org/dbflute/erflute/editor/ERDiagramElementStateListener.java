@@ -46,6 +46,7 @@ public class ERDiagramElementStateListener implements IElementStateListener {
     public void elementDeleted(Object deletedElement) {
         if (deletedElement != null && deletedElement.equals(editorPart.getEditorInput())) {
             final Runnable r = new Runnable() {
+
                 @Override
                 public void run() {
                     close(false);
@@ -60,6 +61,7 @@ public class ERDiagramElementStateListener implements IElementStateListener {
         if (originalElement != null && originalElement.equals(editorPart.getEditorInput())) {
             final boolean doValidationAsync = Display.getCurrent() != null;
             final Runnable r = new Runnable() {
+
                 @Override
                 public void run() {
                     if (movedElement == null || movedElement instanceof IEditorInput) {
@@ -95,6 +97,7 @@ public class ERDiagramElementStateListener implements IElementStateListener {
 
                         if (wasDirty && changed != null) {
                             final Runnable r2 = new Runnable() {
+
                                 @Override
                                 public void run() {
                                     documentProvider.getDocument(editorPart.getEditorInput()).set(previousContent);
@@ -120,6 +123,7 @@ public class ERDiagramElementStateListener implements IElementStateListener {
     public void close(final boolean save) {
         final Display display = editorPart.getSite().getShell().getDisplay();
         display.asyncExec(new Runnable() {
+
             @Override
             public void run() {
                 editorPart.getSite().getPage().closeEditor(editorPart, save);
