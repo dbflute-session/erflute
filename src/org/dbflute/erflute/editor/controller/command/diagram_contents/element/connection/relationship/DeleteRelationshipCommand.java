@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.DeleteConnectionCommand;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -55,34 +54,8 @@ public class DeleteRelationshipCommand extends DeleteConnectionCommand {
         }
 
         if (removeForeignKey) {
-            ERModelUtil.refreshDiagram(relationship.getTargetTableView().getDiagram());
+            relationship.getSourceTableView().refreshInVirtualDiagram(relationship.getTargetTableView());
         }
-
-        //		source.removeOutgoing(this/*relation*/);
-        //		target.removeIncoming(this);
-        //
-        //		if (tableView instanceof ERVirtualTable) {
-        //			ERVirtualTable vtable = (ERVirtualTable) tableView;
-        //
-        //			// メインビューを更新（枠の再生成）
-        //			this.newCopyTableView.restructureData(vtable.getRawTable());
-        //			// TableView.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
-        //
-        //			// サブビューも更新
-        //			vtable.doChangeTable();
-        //
-        //			// テーブルの更新（線も含めた再生成）
-        //			this.tableView.getDiagram().changeTable(newCopyTableView);
-        //			// ERDiagram.firePropertyChange(PROPERTY_CHANGE_TABLE)
-        //
-        //		} else {
-        //			// メインビューを更新
-        //			this.newCopyTableView.restructureData(tableView);
-        //			this.tableView.getDiagram().changeTable(newCopyTableView);
-        //
-        //			// サブビューも更新
-        //			tableView.getDiagram().doChangeTable(newCopyTableView);
-        //		}
     }
 
     @Override

@@ -18,6 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.prop
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CopyCompoundUniqueKey;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Dictionary;
 import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 
 /**
@@ -332,5 +333,9 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
 
     public DiagramSettings getDiagramSettings() {
         return getDiagram().getDiagramContents().getSettings();
+    }
+
+    public Dictionary getDictionary() {
+        return getDiagram().getDiagramContents().getDictionary();
     }
 }

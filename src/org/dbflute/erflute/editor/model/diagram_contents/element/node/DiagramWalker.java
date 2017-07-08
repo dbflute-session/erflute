@@ -177,7 +177,7 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
         return getDiagram().isVirtual();
     }
 
-    private void refresh(DiagramWalker... others) {
+    public void refresh(DiagramWalker... others) {
         final List<DiagramWalker> walkers = new ArrayList<>(Arrays.asList(others));
         walkers.add(this);
         ERModelUtil.refreshDiagram(getDiagram(), walkers);
