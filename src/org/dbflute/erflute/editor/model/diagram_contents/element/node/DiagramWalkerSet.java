@@ -174,6 +174,14 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
         return getDiagramWalkerList().iterator();
     }
 
+    public DiagramWalker last() {
+        if (walkerList.size() <= 0) {
+            return null;
+        }
+
+        return walkerList.get(walkerList.size() - 1);
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============

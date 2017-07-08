@@ -6,7 +6,6 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
@@ -101,7 +100,7 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新を再開します。
         ERDiagramEditPart.setUpdateable(true);
 
-        ERModelUtil.refreshDiagram(diagram);
+        walkers.last().refresh();
 
         // 貼り付けられたテーブルを選択状態にします。
         setFocus();
@@ -130,7 +129,7 @@ public class PasteCommand extends AbstractCommand {
         // 描画更新を再開します。
         ERDiagramEditPart.setUpdateable(true);
 
-        ERModelUtil.refreshDiagram(diagram);
+        diagram.refresh();
     }
 
     /**

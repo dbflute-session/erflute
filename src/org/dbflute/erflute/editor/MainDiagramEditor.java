@@ -12,10 +12,10 @@ import org.dbflute.erflute.core.DesignResources;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.dbflute.erflute.editor.controller.editpart.element.PagableFreeformRootEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.extension.ExtensionLoader;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
 import org.dbflute.erflute.editor.view.ERDiagramPopupMenuManager;
 import org.dbflute.erflute.editor.view.action.category.ChangeFreeLayoutAction;
@@ -441,13 +441,16 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         return getActionRegistry();
     }
 
-    public void reveal(ERTable table) {
-        final ERDiagramEditPart editPart = (ERDiagramEditPart) getGraphicalViewer().getContents();
+    // ===================================================================================
+    //                                                                              Reveal
+    //                                                                              ======
+    public void reveal(DiagramWalker table) {
+        final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) getGraphicalViewer().getContents();
         final List<?> tableParts = editPart.getChildren();
         for (final Object tableEditPart : tableParts) {
-            if (tableEditPart instanceof ERTableEditPart) {
-                final ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
-                if (((ERTable) vtableEditPart.getModel()).equals(table)) {
+            if (tableEditPart instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart vtableEditPart = (DiagramWalkerEditPart) tableEditPart;
+                if (((DiagramWalker) vtableEditPart.getModel()).toMaterialize().equals(table)) {
                     getGraphicalViewer().reveal(vtableEditPart);
                     selectEditPart(vtableEditPart);
                     return;

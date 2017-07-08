@@ -433,4 +433,14 @@ public class ERDiagram extends ViewableModel {
     public boolean isVirtual() {
         return getCurrentVirtualDiagram() != null;
     }
+
+    public void refresh(DiagramWalker... others) {
+        ERModelUtil.refreshDiagram(this, others);
+    }
+
+    public void refreshVirtualDiagram(DiagramWalker... others) {
+        if (isVirtual()) {
+            refresh(others);
+        }
+    }
 }

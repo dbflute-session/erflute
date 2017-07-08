@@ -5,13 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualDiagramEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualTableEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.ERVirtualDiagramPopupMenuManager;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
 import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
@@ -91,30 +86,6 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
 
     public void refresh() {
         vdiagram.changeAll();
-    }
-
-    // ===================================================================================
-    //                                                                              Reveal
-    //                                                                              ======
-    @Override
-    public void reveal(ERTable table) {
-        final ERVirtualDiagramEditPart editPart = (ERVirtualDiagramEditPart) getGraphicalViewer().getContents();
-        final List<?> tableParts = editPart.getChildren();
-        for (final Object tableEditPart : tableParts) {
-            if (tableEditPart instanceof ERVirtualTableEditPart) {
-                final ERVirtualTableEditPart vtableEditPart = (ERVirtualTableEditPart) tableEditPart;
-                if (((ERVirtualTable) vtableEditPart.getModel()).getRawTable().equals(table)) {
-                    getGraphicalViewer().reveal(vtableEditPart);
-                    selectEditPart(vtableEditPart);
-                    return;
-                }
-            }
-            if (tableEditPart instanceof WalkerGroupEditPart) {
-                // do nothing
-                //VGroupEditPart groupEditPart = (VGroupEditPart) tableEditPart;
-                //List children = groupEditPart.getChildren();
-            }
-        }
     }
 
     // ===================================================================================

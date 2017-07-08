@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.ObjectModel;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
@@ -180,6 +179,6 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
     public void refresh(DiagramWalker... others) {
         final List<DiagramWalker> walkers = new ArrayList<>(Arrays.asList(others));
         walkers.add(this);
-        ERModelUtil.refreshDiagram(getDiagram(), walkers);
+        getDiagram().refresh(walkers.toArray(new DiagramWalker[walkers.size()]));
     }
 }
