@@ -67,7 +67,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
                 return;
             }
 
-            final ERTable table = (ERTable) parent.getModel(); // TODO
+            final ERTable table = (ERTable) parent.getModel();
 
             addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn,
                     isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, false);

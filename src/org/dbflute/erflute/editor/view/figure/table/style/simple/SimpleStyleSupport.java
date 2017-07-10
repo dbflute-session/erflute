@@ -101,6 +101,5 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
 
     @Override
     public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
-        // TODO Auto-generated method stub
     }
 }
