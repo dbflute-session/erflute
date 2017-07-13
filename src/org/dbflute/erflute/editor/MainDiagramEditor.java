@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DesignResources;
+import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.dbflute.erflute.editor.controller.editpart.element.PagableFreeformRootEditPart;
@@ -445,7 +446,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     //                                                                              Reveal
     //                                                                              ======
     public void reveal(DiagramWalker table) {
-        final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) getGraphicalViewer().getContents();
+        final AbstractModelEditPart editPart = (AbstractModelEditPart) getGraphicalViewer().getContents();
         final List<?> tableParts = editPart.getChildren();
         for (final Object tableEditPart : tableParts) {
             if (tableEditPart instanceof DiagramWalkerEditPart) {

@@ -31,7 +31,7 @@ import org.eclipse.swt.graphics.Color;
  *
  * この2つの債務を分離したい。ERDiagramにはコントローラの債務だけ残す。
  */
-public class ERDiagram extends ViewableModel {
+public class ERDiagram extends ViewableModel implements IERDiagram {
 
     // ===================================================================================
     //                                                                          Definition
@@ -387,6 +387,7 @@ public class ERDiagram extends ViewableModel {
         this.pageSetting = pageSetting;
     }
 
+    @Override
     public ERFluteMultiPageEditor getEditor() {
         return editor;
     }
@@ -422,12 +423,22 @@ public class ERDiagram extends ViewableModel {
         return defaultModelName;
     }
 
+    @Override
     public Point getMousePoint() {
-        return mousePoint;
+        if (isVirtual()) {
+            return currentVirtualDiagram.getMousePoint();
+        } else {
+            return mousePoint;
+        }
     }
 
+    @Override
     public void setMousePoint(Point mousePoint) {
-        this.mousePoint = mousePoint;
+        if (isVirtual()) {
+            currentVirtualDiagram.setMousePoint(mousePoint);
+        } else {
+            this.mousePoint = mousePoint;
+        }
     }
 
     public boolean isVirtual() {

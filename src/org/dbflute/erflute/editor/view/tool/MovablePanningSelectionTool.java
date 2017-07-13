@@ -5,15 +5,15 @@ import java.util.List;
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
-import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.ModelPropertiesEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.draw2d.geometry.Point;
@@ -126,31 +126,19 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
 
     @Override
     public void mouseDown(MouseEvent e, EditPartViewer viewer) {
-        ERFluteMultiPageEditor multiPageEditor = null;
-
-        // マウスポインタがクリックされた位置を記録する。コピーしたオブジェクトの貼り付け位置として使う、等。
-        if (viewer.getContents() instanceof ERDiagramEditPart) {
-            final ERDiagramEditPart editPart = (ERDiagramEditPart) viewer.getContents();
-            final ERDiagram diagram = (ERDiagram) editPart.getModel();
+        if (viewer.getContents() instanceof AbstractModelEditPart) {
+            // マウスポインタがクリックされた位置を記録する。コピーしたオブジェクトの貼り付け位置として使う、等。
+            final AbstractModelEditPart editPart = (AbstractModelEditPart) viewer.getContents();
+            final IERDiagram diagram = (IERDiagram) editPart.getModel();
             diagram.setMousePoint(new Point(e.x, e.y));
             editPart.getFigure().translateToRelative(diagram.getMousePoint());
 
-            multiPageEditor = diagram.getEditor();
-        }
-
-        if (viewer.getContents() instanceof ERVirtualDiagramEditPart) {
-            final ERVirtualDiagramEditPart editPart = (ERVirtualDiagramEditPart) viewer.getContents();
-            final ERVirtualDiagram diagram = (ERVirtualDiagram) editPart.getModel();
-            diagram.setMousePoint(new Point(e.x, e.y));
-            editPart.getFigure().translateToRelative(diagram.getMousePoint());
-
-            multiPageEditor = diagram.getDiagram().getEditor();
-        }
-
-        final int QUICK_OUTLINE_OPEN_BUTTON = 2;
-        if (e.button == QUICK_OUTLINE_OPEN_BUTTON && multiPageEditor != null) {
-            final MainDiagramEditor mainDiagramEditor = (MainDiagramEditor) multiPageEditor.getActiveEditor();
-            mainDiagramEditor.runERDiagramQuickOutlineAction();
+            final ERFluteMultiPageEditor multiPageEditor = diagram.getEditor();
+            final int QUICK_OUTLINE_OPEN_BUTTON = 2;
+            if (e.button == QUICK_OUTLINE_OPEN_BUTTON && multiPageEditor != null) {
+                final MainDiagramEditor mainDiagramEditor = (MainDiagramEditor) multiPageEditor.getActiveEditor();
+                mainDiagramEditor.runERDiagramQuickOutlineAction();
+            }
         }
 
         super.mouseDown(e, viewer);
