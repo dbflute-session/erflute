@@ -54,6 +54,8 @@ import org.eclipse.ui.actions.ActionFactory;
  */
 public class ERDiagramOutlinePage extends ContentOutlinePage {
 
+    private final int VIRTUAL_DIAGRAM_NODE_INDEX = 0;
+
     private SashForm sash;
     private final TreeViewer viewer;
     private final ERDiagram diagram;
@@ -89,6 +91,8 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         final AbstractTransferDragSourceListener dragSourceListener =
                 new ERDiagramTransferDragSourceListener(viewer, TemplateTransfer.getInstance());
         viewer.addDragSourceListener(dragSourceListener);
+
+        expandVirturalDiagramTree();
     }
 
     @Override
@@ -273,5 +277,17 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 Activator.showMessageDialog(table.getPhysicalName());
             }
         }
+    }
+
+    private void expandVirturalDiagramTree() {
+        if (getTree() == null) {
+            return;
+        }
+
+        getTree().getItems()[VIRTUAL_DIAGRAM_NODE_INDEX].setExpanded(true);
+    }
+
+    private Tree getTree() {
+        return (Tree) viewer.getControl();
     }
 }
