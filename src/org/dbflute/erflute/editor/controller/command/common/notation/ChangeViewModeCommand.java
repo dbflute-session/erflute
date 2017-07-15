@@ -7,11 +7,8 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 public class ChangeViewModeCommand extends AbstractCommand {
 
     private final ERDiagram diagram;
-
     private final int oldViewMode;
-
     private final int newViewMode;
-
     private final DiagramSettings settings;
 
     public ChangeViewModeCommand(ERDiagram diagram, int viewMode) {
@@ -24,12 +21,12 @@ public class ChangeViewModeCommand extends AbstractCommand {
     @Override
     protected void doExecute() {
         settings.setViewMode(newViewMode);
-        diagram.changeAll();
+        diagram.refresh();
     }
 
     @Override
     protected void doUndo() {
         settings.setViewMode(oldViewMode);
-        diagram.changeAll();
+        diagram.refresh();
     }
 }

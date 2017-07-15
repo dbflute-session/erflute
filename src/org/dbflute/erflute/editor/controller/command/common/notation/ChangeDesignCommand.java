@@ -22,11 +22,13 @@ public class ChangeDesignCommand extends AbstractCommand {
     protected void doExecute() {
         settings.setTableStyle(newDesign);
         diagram.change();
+        diagram.refreshVirtualDiagram();
     }
 
     @Override
     protected void doUndo() {
         settings.setTableStyle(oldDesign);
         diagram.change();
+        diagram.refreshVirtualDiagram();
     }
 }
