@@ -1,7 +1,5 @@
 package org.dbflute.erflute.editor.view;
 
-import java.math.BigDecimal;
-
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -19,7 +17,6 @@ import org.dbflute.erflute.editor.view.action.option.OptionSettingAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeCapitalAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeNotationExpandGroupAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeStampAction;
-import org.dbflute.erflute.editor.view.action.option.notation.ChangeTitleFontSizeAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFrameAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFunnyAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToSimpleAction;
@@ -81,7 +78,6 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         final IAction changeDesignToSimpleAction = getAction(ChangeDesignToSimpleAction.ID);
 
         final IAction changeCapitalAction = getAction(ChangeCapitalAction.ID);
-        final IAction changeTitleFontSizeAction = getAction(ChangeTitleFontSizeAction.ID);
         final IAction changeStampAction = getAction(ChangeStampAction.ID);
 
         // #deleted category
@@ -156,7 +152,6 @@ public class ERDiagramPopupMenuManager extends MenuManager {
         designMenu.add(changeDesignToSimpleAction);
         displayMenu.add(designMenu);
         displayMenu.add(changeCapitalAction);
-        displayMenu.add(changeTitleFontSizeAction);
         displayMenu.add(changeStampAction);
 
         add(displayMenu);
@@ -227,9 +222,11 @@ public class ERDiagramPopupMenuManager extends MenuManager {
                 } else {
                     changeNotationLevelToDetailAction.setChecked(true);
                 }
+
                 if (settings.isNotationExpandGroup()) {
                     changeNotationExpandGroupAction.setChecked(true);
                 }
+
                 changeDesignToFunnyAction.setChecked(false);
                 changeDesignToFrameAction.setChecked(false);
                 changeDesignToSimpleAction.setChecked(false);
@@ -241,12 +238,11 @@ public class ERDiagramPopupMenuManager extends MenuManager {
                 } else {
                     changeDesignToFunnyAction.setChecked(true);
                 }
+
                 if (settings.isCapital()) {
                     changeCapitalAction.setChecked(true);
                 }
-                if (new BigDecimal("1.5").equals(settings.getTitleFontEm())) {
-                    changeTitleFontSizeAction.setChecked(true);
-                }
+
                 if (settings.getModelProperties().isDisplay()) {
                     changeStampAction.setChecked(true);
                 }

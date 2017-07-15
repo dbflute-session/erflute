@@ -80,7 +80,7 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
         this.suspendValidator = false;
         this.useViewObject = false; // as default
         this.masterDataBasePath = "";
-        this.titleFontEm = new BigDecimal("1.5");
+        this.titleFontEm = new BigDecimal(1);
     }
 
     // ===================================================================================

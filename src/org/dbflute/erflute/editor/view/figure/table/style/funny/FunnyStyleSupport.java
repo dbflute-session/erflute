@@ -1,7 +1,5 @@
 package org.dbflute.erflute.editor.view.figure.table.style.funny;
 
-import java.math.BigDecimal;
-
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -50,11 +48,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         top.add(title, BorderLayout.TOP);
         title.setLayoutManager(layout);
 
-        if (new BigDecimal("1.5").equals(getSettings().getTitleFontEm())) {
-            title.setBorder(new MarginBorder(new Insets(2, 2, 2, 2)));
-        } else {
-            title.setBorder(new MarginBorder(new Insets(4, 4, 4, 4)));
-        }
+        title.setBorder(new MarginBorder(new Insets(2, 2, 2, 2)));
 
         final ImageFigure image = new ImageFigure();
         image.setBorder(new MarginBorder(new Insets(0, 0, 0, 0)));

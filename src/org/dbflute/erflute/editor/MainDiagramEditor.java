@@ -46,7 +46,6 @@ import org.dbflute.erflute.editor.view.action.option.OptionSettingAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeCapitalAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeNotationExpandGroupAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeStampAction;
-import org.dbflute.erflute.editor.view.action.option.notation.ChangeTitleFontSizeAction;
 import org.dbflute.erflute.editor.view.action.option.notation.LockEditAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ToggleMainColumnAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFrameAction;
@@ -293,17 +292,16 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 new ChangeNotationLevelToOnlyTitleAction(this), new ChangeNotationLevelToOnlyKeyAction(this),
                 new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
                 new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
-                new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
-                new ColumnGroupManageAction(this), /* #deleted new ChangeTrackingAction(this) , */
-                new OptionSettingAction(this), /* #deleted new CategoryManageAction(this) , */new ChangeFreeLayoutAction(this),
-                new ChangeShowReferredTablesAction(this),
-                /* #deleted new TranslationManageAction(this), */
+                new ChangeCapitalAction(this), new ChangeStampAction(this), new ColumnGroupManageAction(this),
+                /* #deleted new ChangeTrackingAction(this), */ new OptionSettingAction(this),
+                /* #deleted new CategoryManageAction(this), */new ChangeFreeLayoutAction(this),
+                new ChangeShowReferredTablesAction(this), /* #deleted new TranslationManageAction(this), */
                 /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
                 new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
                 /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
                 /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
-                /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(
-                        this), /* #deleted new EditAllAttributesAction(this), */
+                /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this),
+                /* #deleted new EditAllAttributesAction(this), */
                 new DirectEditAction((IWorkbenchPart) this), new ERDiagramAlignmentAction(this, PositionConstants.LEFT),
                 new ERDiagramAlignmentAction(this, PositionConstants.CENTER), new ERDiagramAlignmentAction(this, PositionConstants.RIGHT),
                 new ERDiagramAlignmentAction(this, PositionConstants.TOP), new ERDiagramAlignmentAction(this, PositionConstants.MIDDLE),

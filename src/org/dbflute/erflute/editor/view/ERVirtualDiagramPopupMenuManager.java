@@ -1,7 +1,5 @@
 package org.dbflute.erflute.editor.view;
 
-import java.math.BigDecimal;
-
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
@@ -21,7 +19,6 @@ import org.dbflute.erflute.editor.view.action.option.OptionSettingAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeCapitalAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeNotationExpandGroupAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeStampAction;
-import org.dbflute.erflute.editor.view.action.option.notation.ChangeTitleFontSizeAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFrameAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFunnyAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToSimpleAction;
@@ -88,7 +85,6 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         final IAction changeDesignToSimpleAction = getAction(ChangeDesignToSimpleAction.ID);
 
         final IAction changeCapitalAction = getAction(ChangeCapitalAction.ID);
-        final IAction changeTitleFontSizeAction = getAction(ChangeTitleFontSizeAction.ID);
         final IAction changeStampAction = getAction(ChangeStampAction.ID);
 
         final IAction changeFreeLayoutAction = getAction(ChangeFreeLayoutAction.ID);
@@ -159,7 +155,6 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         designMenu.add(changeDesignToSimpleAction);
         displayMenu.add(designMenu);
         displayMenu.add(changeCapitalAction);
-        displayMenu.add(changeTitleFontSizeAction);
         displayMenu.add(changeStampAction);
         add(displayMenu);
 
@@ -226,19 +221,14 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_TITLE) {
                     changeNotationLevelToOnlyTitleAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_COLUMN) {
                     changeNotationLevelToColumnAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_KEY) {
                     changeNotationLevelToOnlyKeyAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_NAME_AND_KEY) {
                     changeNotationLevelToNameAndKeyAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_EXCLUDE_TYPE) {
                     changeNotationLevelToExcludeTypeAction.setChecked(true);
-
                 } else {
                     changeNotationLevelToDetailAction.setChecked(true);
                 }
@@ -253,19 +243,14 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getTableStyle().equals(ChangeDesignToFrameAction.TYPE)) {
                     changeDesignToFrameAction.setChecked(true);
-
                 } else if (settings.getTableStyle().equals(ChangeDesignToSimpleAction.TYPE)) {
                     changeDesignToSimpleAction.setChecked(true);
-
                 } else {
                     changeDesignToFunnyAction.setChecked(true);
                 }
 
                 if (settings.isCapital()) {
                     changeCapitalAction.setChecked(true);
-                }
-                if (new BigDecimal("1.5").equals(settings.getTitleFontEm())) {
-                    changeTitleFontSizeAction.setChecked(true);
                 }
 
                 if (settings.getModelProperties().isDisplay()) {
