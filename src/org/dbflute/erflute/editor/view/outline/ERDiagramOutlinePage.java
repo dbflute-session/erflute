@@ -246,11 +246,12 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
             final Object model = ((TableOutlineEditPart) firstElement).getModel();
             final ERTable table = (ERTable) model;
 
-            if (diagram.getCurrentVirtualDiagram() == null) {
-                final MainDiagramEditor editor = ((MainDiagramEditor) diagram.getEditor().getActiveEditor());
+            final MainDiagramEditor editor = ((MainDiagramEditor) diagram.getEditor().getActiveEditor());
+            if (!diagram.isVirtual()) {
                 editor.reveal(table);
                 return;
             }
+
             final ERVirtualDiagram erModel = table.getDiagram().findModelByTable(table);
             if (erModel != null) {
                 final OpenERModelCommand command = new OpenERModelCommand(diagram, erModel);
@@ -274,7 +275,9 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 //                    }
                 //                }
             } else {
-                Activator.showMessageDialog(table.getPhysicalName());
+                // ここでrevealしないと、メインダイアグラムでtableが選択不可状態になる。理由は分からない。
+                editor.reveal(table);
+                Activator.showMessageDialog("\"" + table.getPhysicalName() + "\"does not exist on the virtual diagram.");
             }
         }
     }

@@ -4,7 +4,7 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.ChangeSettingsCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -47,12 +47,8 @@ public abstract class AbstractBaseAction extends Action {
 
     protected ERDiagram getDiagram() {
         final EditPart editPart = editor.getGraphicalViewer().getContents();
-        final Object model = editPart.getModel();
-        if (model instanceof ERDiagram) {
-            return (ERDiagram) model;
-        } else { // should be virtual diagram
-            return ((ERVirtualDiagram) model).getDiagram();
-        }
+        final IERDiagram erd = (IERDiagram) editPart.getModel();
+        return erd.toMaterializedDiagram();
     }
 
     protected GraphicalViewer getGraphicalViewer() {

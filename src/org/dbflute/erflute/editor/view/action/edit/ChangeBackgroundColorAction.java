@@ -13,9 +13,8 @@ import org.dbflute.erflute.editor.controller.command.common.ChangeBackgroundColo
 import org.dbflute.erflute.editor.controller.editpart.element.node.TableViewEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.column.NormalColumnEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.ViewableModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
@@ -87,13 +86,8 @@ public class ChangeBackgroundColorAction extends SelectionAction {
     private void setRGB(RGB rgb) {
         this.rgb = rgb;
         final EditPart editPart = ((MainDiagramEditor) getWorkbenchPart()).getGraphicalViewer().getContents();
-        if (editPart.getModel() instanceof ERVirtualDiagram) {
-            final ERVirtualDiagram model = (ERVirtualDiagram) editPart.getModel();
-            model.setDefaultColor(DesignResources.getColor(rgb));
-        } else {
-            final ERDiagram diagram = ERModelUtil.getDiagram(editPart);
-            diagram.setDefaultColor(DesignResources.getColor(rgb));
-        }
+        final IERDiagram erd = (IERDiagram) editPart.getModel();
+        erd.toMaterializedDiagram().setDefaultColor(DesignResources.getColor(rgb));
         setColorToImage();
     }
 

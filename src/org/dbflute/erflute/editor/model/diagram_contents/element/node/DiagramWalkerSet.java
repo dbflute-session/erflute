@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
@@ -164,6 +165,10 @@ public class DiagramWalkerSet extends AbstractModel implements Iterable<DiagramW
     @Override
     public Iterator<DiagramWalker> iterator() { // not sorted so cannot use for persistent
         return getDiagramWalkerList().iterator();
+    }
+
+    public Stream<DiagramWalker> stream() {
+        return getDiagramWalkerList().stream();
     }
 
     public DiagramWalker last() {

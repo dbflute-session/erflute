@@ -1,9 +1,8 @@
 package org.dbflute.erflute.editor.controller.command.common;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.ViewableModel;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 
 public class ChangeBackgroundColorCommand extends AbstractCommand {
 
@@ -24,8 +23,8 @@ public class ChangeBackgroundColorCommand extends AbstractCommand {
     protected void doExecute() {
         this.oldColor = model.getColor();
         model.setColor(red, green, blue);
-        if (model instanceof ERVirtualTable) {
-            ERModelUtil.refreshDiagram(((ERVirtualTable) model).getDiagram(), ((ERVirtualTable) model).getRawTable());
+        if (model instanceof DiagramWalker) {
+            ((DiagramWalker) model).toMaterialize().refreshInVirtualDiagram();
         }
     }
 
@@ -37,7 +36,9 @@ public class ChangeBackgroundColorCommand extends AbstractCommand {
             oldColor[1] = 255;
             oldColor[2] = 255;
         }
-
         model.setColor(oldColor[0], oldColor[1], oldColor[2]);
+        if (model instanceof DiagramWalker) {
+            ((DiagramWalker) model).toMaterialize().refreshInVirtualDiagram();
+        }
     }
 }

@@ -57,7 +57,7 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
             ERVirtualTable virtualTable = null;
             if (walker instanceof ERVirtualTable) {
                 virtualTable = (ERVirtualTable) walker;
-                walker = ((ERVirtualTable) walker).getRawTable();
+                walker = virtualTable.toMaterialize();
             }
 
             if (!diagram.getDiagramContents().getDiagramWalkers().contains(walker) && !(walker instanceof Category)

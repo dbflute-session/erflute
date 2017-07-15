@@ -11,7 +11,6 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
@@ -131,18 +130,12 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     }
 
     private ERTable prepareSourceTable() {
-        ERTable sourceTable = (ERTable) source.getModel();
-        if (sourceTable instanceof ERVirtualTable) {
-            sourceTable = ((ERVirtualTable) sourceTable).getRawTable();
-        }
+        final ERTable sourceTable = ((ERTable) source.getModel()).toMaterialize();
         return sourceTable;
     }
 
     private TableView prepareTargetTable() {
-        TableView targetTable = (TableView) target.getModel();
-        if (targetTable instanceof ERVirtualTable) {
-            targetTable = ((ERVirtualTable) targetTable).getRawTable();
-        }
+        final TableView targetTable = (TableView) ((TableView) target.getModel()).toMaterialize();
         return targetTable;
     }
 

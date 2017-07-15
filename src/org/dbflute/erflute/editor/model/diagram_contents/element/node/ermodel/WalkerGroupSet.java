@@ -30,8 +30,10 @@ public class WalkerGroupSet extends AbstractModel implements ObjectListModel, It
 
     public int remove(WalkerGroup table) {
         final int index = groupList.indexOf(table);
-        groupList.remove(index);
-        firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
+        if (0 <= index) {
+            groupList.remove(index);
+            firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
+        }
 
         return index;
     }

@@ -1,5 +1,6 @@
 package org.dbflute.erflute.editor.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.Activator;
@@ -10,6 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -104,14 +106,14 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     }
 
     public void addWalkerPlainly(final DiagramWalker walker) {
-        if (getCurrentVirtualDiagram() != null) {
+        if (isVirtual()) {
             getCurrentVirtualDiagram().addWalkerPlainly(walker);
         }
 
         walker.setDiagram(this);
 
-        // 仮想ダイアグラムへのノート追加でない場合
-        if (!(getCurrentVirtualDiagram() != null && walker instanceof WalkerNote)) {
+        // 仮想ダイアグラムへのノートやテーブルグループの追加でない場合
+        if (!(isVirtual() && (walker instanceof WalkerNote || walker instanceof WalkerGroup))) {
             diagramContents.getDiagramWalkers().add(walker);
         }
 
@@ -132,7 +134,7 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     }
 
     public void removeWalker(DiagramWalker walker) {
-        if (getCurrentVirtualDiagram() != null) {
+        if (isVirtual()) {
             getCurrentVirtualDiagram().removeWalker(walker);
         }
 
@@ -161,12 +163,13 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
-    public boolean virtualDiagramContains(DiagramWalker walker) {
-        if (getCurrentVirtualDiagram() == null) {
-            return false;
+    @Override
+    public boolean contains(DiagramWalker... models) {
+        if (isVirtual()) {
+            return getCurrentVirtualDiagram().contains(models);
+        } else {
+            return Arrays.stream(models).allMatch(m -> diagramContents.getDiagramWalkers().contains(m));
         }
-
-        return getCurrentCategory().contains(walker);
     }
 
     // ===================================================================================

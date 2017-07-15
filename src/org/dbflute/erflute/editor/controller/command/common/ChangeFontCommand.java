@@ -25,17 +25,6 @@ public class ChangeFontCommand extends AbstractCommand {
     protected void doExecute() {
         viewableModel.setFontName(newFontName);
         viewableModel.setFontSize(newFontSize);
-
-        //		if (viewableModel instanceof ERVirtualTable) {
-        //			ERTable table = ((ERVirtualTable)viewableModel).getRawTable();
-        //			for (ERModel model : ((ERVirtualTable) viewableModel).getDiagram().getDiagramContents().getModelSet()) {
-        //				ERVirtualTable vtable = model.findVirtualTable(table);
-        //				if (!vtable.equals(viewableModel)) {
-        //					vtable.setFontName(fontName)
-        ////					vtable.firePropertyChange(vtable.PROPERTY_CHANGE_FONT, null, null);
-        //				}
-        //			}
-        //		}
     }
 
     @Override

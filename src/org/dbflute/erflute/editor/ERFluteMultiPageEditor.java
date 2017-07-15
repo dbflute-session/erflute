@@ -88,7 +88,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         initStartPage();
         addMouseListenerToTabFolder();
         validate();
-        if (diagram.getCurrentVirtualDiagram() == null) {
+        if (!diagram.isVirtual()) {
             final MainDiagramEditor editor = (MainDiagramEditor) getActiveEditor();
             editor.getGraphicalViewer().setContents(diagram);
             editor.addSelection();

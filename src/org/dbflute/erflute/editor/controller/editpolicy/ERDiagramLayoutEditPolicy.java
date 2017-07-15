@@ -220,8 +220,8 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 otherCategories = getOtherSelectedCategories(category);
             }
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-            return new MoveCategoryCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, category, otherCategories,
-                    move);
+            return new MoveCategoryCommand(diagram, rectangle.x, rectangle.y,
+                    rectangle.width, rectangle.height, category, otherCategories, move);
         } else if (walker instanceof WalkerGroup) {
             final WalkerGroup walkerGroup = (WalkerGroup) walker;
             List<WalkerGroup> otherGroups = null;
@@ -229,8 +229,8 @@ public class ERDiagramLayoutEditPolicy extends XYLayoutEditPolicy {
                 otherGroups = getOtherSelectedGroups(walkerGroup);
             }
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
-            return new MoveWalkerGroupCommand(diagram, rectangle.x, rectangle.y, rectangle.width, rectangle.height, walkerGroup,
-                    otherGroups, move);
+            return new MoveWalkerGroupCommand(diagram, rectangle.x, rectangle.y,
+                    rectangle.width, rectangle.height, walkerGroup, otherGroups, move);
         } else {
             final ERDiagram diagram = ERModelUtil.getDiagram(getHost());
             return new MoveElementCommand(diagram, currentRectangle, rectangle.x, rectangle.y, rectangle.width, rectangle.height, walker);

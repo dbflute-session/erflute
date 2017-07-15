@@ -8,7 +8,6 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IEditorPart;
@@ -29,10 +28,7 @@ public class ERModelUtil {
 
     public static ERDiagram getDiagram(EditPart editPart) {
         final Object model = editPart.getModel();
-        if (model instanceof ERVirtualDiagram) {
-            return ((ERVirtualDiagram) model).getDiagram();
-        }
-        return (ERDiagram) model;
+        return ((IERDiagram) model).toMaterializedDiagram();
     }
 
     public static boolean refreshDiagram(ERDiagram diagram, DiagramWalker... elements) {

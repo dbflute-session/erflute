@@ -39,7 +39,7 @@ public class WrittenWalkerGroupBuilder {
         for (final DiagramWalker walker : group.getDiagramWalkerList()) {
             final String nodeId;
             if (walker instanceof ERVirtualTable) {
-                nodeId = context.walkerMap.get(((ERVirtualTable) walker).getRawTable());
+                nodeId = context.walkerMap.get(((ERVirtualTable) walker).toMaterialize());
             } else {
                 nodeId = context.walkerMap.get(walker);
             }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.Materializable;
 import org.dbflute.erflute.editor.model.ObjectModel;
 import org.dbflute.erflute.editor.model.ViewableModel;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.CommentConnection;
@@ -13,7 +14,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public abstract class DiagramWalker extends ViewableModel implements ObjectModel, Materializable<DiagramWalker> {
+public abstract class DiagramWalker extends ViewableModel implements ObjectModel, Materializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -100,6 +101,10 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
         location.height = height;
     }
 
+    public Location getLocation(int offsetX, int offsetY) {
+        return new Location(getX() + offsetX, getY() + offsetY, getWidth(), getHeight());
+    }
+
     public void setLocation(Location location) {
         this.location = location;
         firePropertyChange(PROPERTY_CHANGE_RECTANGLE, null, null);
@@ -180,5 +185,10 @@ public abstract class DiagramWalker extends ViewableModel implements ObjectModel
         final List<DiagramWalker> walkers = new ArrayList<>(Arrays.asList(others));
         walkers.add(this);
         getDiagram().refresh(walkers.toArray(new DiagramWalker[walkers.size()]));
+    }
+
+    @Override
+    public DiagramWalker toMaterialize() {
+        return (DiagramWalker) this;
     }
 }

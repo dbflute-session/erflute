@@ -49,11 +49,12 @@ public class ERVirtualDiagram extends DiagramWalker implements IERDiagram {
         return "virtual_diagram";
     }
 
-    public boolean contains(Object... models) {
+    @Override
+    public boolean contains(DiagramWalker... models) {
         return Arrays.stream(models).allMatch(m -> contains(m));
     }
 
-    public boolean contains(Object model) {
+    private boolean contains(DiagramWalker model) {
         final List<DiagramWalker> walkers = new ArrayList<>(tables);
         walkers.addAll(notes);
         walkers.addAll(groups);
@@ -262,5 +263,10 @@ public class ERVirtualDiagram extends DiagramWalker implements IERDiagram {
     @Override
     public ERFluteMultiPageEditor getEditor() {
         return getDiagram().getEditor();
+    }
+
+    @Override
+    public ERDiagram toMaterializedDiagram() {
+        return getDiagram();
     }
 }
