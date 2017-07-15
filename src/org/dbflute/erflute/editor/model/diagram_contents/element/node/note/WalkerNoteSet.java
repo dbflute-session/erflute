@@ -26,7 +26,7 @@ public class WalkerNoteSet extends AbstractModel implements ObjectListModel, Ite
 
     public int remove(WalkerNote note) {
         final int index = noteList.indexOf(note);
-        if (0 < index) {
+        if (0 <= index) {
             noteList.remove(note);
         }
 
