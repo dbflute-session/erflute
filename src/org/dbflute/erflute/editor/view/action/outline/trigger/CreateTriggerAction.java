@@ -20,13 +20,11 @@ public class CreateTriggerAction extends AbstractOutlineBaseAction {
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        TriggerDialog dialog = new TriggerDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null);
-
+        final ERDiagram diagram = getDiagram();
+        final TriggerDialog dialog = new TriggerDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), null);
         if (dialog.open() == IDialogConstants.OK_ID) {
-            CreateTriggerCommand command = new CreateTriggerCommand(diagram, dialog.getResult());
-            this.execute(command);
+            final CreateTriggerCommand command = new CreateTriggerCommand(diagram, dialog.getResult());
+            execute(command);
         }
     }
 }

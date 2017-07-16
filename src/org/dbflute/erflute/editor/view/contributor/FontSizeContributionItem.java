@@ -16,20 +16,19 @@ public class FontSizeContributionItem extends ComboContributionItem {
 
     @Override
     protected Command createCommand(ViewableModel viewableModel) {
-        String text = this.getText();
+        final String text = getText();
 
         try {
-            int fontSize = Integer.parseInt(text);
+            final int fontSize = Integer.parseInt(text);
             return new ChangeFontCommand(viewableModel, viewableModel.getFontName(), fontSize);
-
-        } catch (NumberFormatException e) {}
+        } catch (final NumberFormatException e) {}
 
         return null;
     }
 
     @Override
     protected void setData(Combo combo) {
-        int minimumSize = 5;
+        final int minimumSize = 5;
         for (int i = minimumSize; i < 17; i++) {
             combo.add(String.valueOf(i));
         }

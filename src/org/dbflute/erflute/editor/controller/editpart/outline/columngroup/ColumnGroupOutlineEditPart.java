@@ -35,9 +35,9 @@ public class ColumnGroupOutlineEditPart extends AbstractOutlineEditPart implemen
 
     @Override
     protected void refreshOutlineVisuals() {
-        final ColumnGroup columnGroup = (ColumnGroup) this.getModel();
-        this.setWidgetText(this.getDiagram().filter(columnGroup.getName()));
-        this.setWidgetImage(Activator.getImage(ImageKey.GROUP));
+        final ColumnGroup columnGroup = (ColumnGroup) getModel();
+        setWidgetText(getDiagram().filter(columnGroup.getName()));
+        setWidgetImage(Activator.getImage(ImageKey.GROUP));
     }
 
     @Override
@@ -69,6 +69,6 @@ public class ColumnGroupOutlineEditPart extends AbstractOutlineEditPart implemen
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new GroupComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new GroupComponentEditPolicy());
     }
 }

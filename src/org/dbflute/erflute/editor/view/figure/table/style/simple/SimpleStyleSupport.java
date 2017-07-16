@@ -39,12 +39,12 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
         top.setLayoutManager(topLayout);
 
         this.nameLabel = new Label();
-        this.nameLabel.setBorder(new MarginBorder(new Insets(5, 20, 5, 20)));
+        nameLabel.setBorder(new MarginBorder(new Insets(5, 20, 5, 20)));
         top.add(nameLabel);
 
         final Figure separater = new Figure();
         separater.setSize(-1, 1);
-        separater.setBackgroundColor(this.getTextColor());
+        separater.setBackgroundColor(getTextColor());
         separater.setOpaque(true);
 
         top.add(separater);
@@ -52,13 +52,13 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
 
     @Override
     public void setName(String name) {
-        this.nameLabel.setForegroundColor(this.getTextColor());
-        this.nameLabel.setText(name);
+        nameLabel.setForegroundColor(getTextColor());
+        nameLabel.setText(name);
     }
 
     @Override
     public void setFont(Font font, Font titleFont) {
-        this.nameLabel.setFont(titleFont);
+        nameLabel.setFont(titleFont);
     }
 
     @Override
@@ -66,12 +66,12 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
             String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
             boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
-        final Label label = this.createColumnLabel();
-        label.setForegroundColor(this.getTextColor());
+        final Label label = createColumnLabel();
+        label.setForegroundColor(getTextColor());
 
         final StringBuilder text = new StringBuilder();
-        text.append(this.getColumnText(table, normalColumn, viewMode, physicalName, logicalName, type, isNotNull, uniqueKey, displayDetail,
-                displayType));
+        text.append(getColumnText(table, normalColumn, viewMode, physicalName, logicalName,
+                type, isNotNull, uniqueKey, displayDetail, displayType));
 
         if (displayKey) {
             if (primaryKey && foreignKey) {
@@ -79,13 +79,11 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
 
                 text.append(" ");
                 text.append("(PFK)");
-
             } else if (primaryKey) {
                 label.setForegroundColor(ColorConstants.red);
 
                 text.append(" ");
                 text.append("(PK)");
-
             } else if (foreignKey) {
                 label.setForegroundColor(ColorConstants.darkGreen);
 
@@ -96,14 +94,12 @@ public class SimpleStyleSupport extends AbstractStyleSupport {
 
         label.setText(text.toString());
 
-        this.setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
+        setColumnFigureColor(columnFigure, isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, isRemoved);
 
         columnFigure.add(label);
     }
 
     @Override
     public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
-        // TODO Auto-generated method stub
-
     }
 }

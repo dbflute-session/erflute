@@ -133,18 +133,18 @@ public class ExportToDDLDialog extends AbstractDialog {
         this.environmentCombo = CompositeFactory.createReadOnlyCombo(this, parent, "label.tablespace.environment", 2, -1);
         CompositeFactory.createLabel(parent, "label.output.file");
         this.outputFileText = new FileText(parent, SWT.BORDER, ".sql");
-        this.outputFileText.setLayoutData(gridData);
+        outputFileText.setLayoutData(gridData);
         final String selectedCharset = "UTF-8";
         initFileEncodingCombo(parent, selectedCharset);
         this.categoryCombo = CompositeFactory.createReadOnlyCombo(this, parent, "label.category", 2, -1);
-        this.initCategoryCombo();
-        this.createCheckboxComposite(parent);
-        this.createCommentComposite(parent);
+        initCategoryCombo();
+        createCheckboxComposite(parent);
+        createCommentComposite(parent);
         final GridData optionCheckGridData = new GridData();
         optionCheckGridData.horizontalSpan = 3;
         this.openAfterSavedButton = new Button(parent, SWT.CHECK);
-        this.openAfterSavedButton.setText(DisplayMessages.getMessage("label.open.after.saved"));
-        this.openAfterSavedButton.setLayoutData(optionCheckGridData);
+        openAfterSavedButton.setText(DisplayMessages.getMessage("label.open.after.saved"));
+        openAfterSavedButton.setLayoutData(optionCheckGridData);
     }
 
     private void initFileEncodingCombo(Composite parent, String selectedCharset) {
@@ -172,8 +172,8 @@ public class ExportToDDLDialog extends AbstractDialog {
         layout.numColumns = 2;
         composite.setLayout(layout);
 
-        this.createDropCheckboxGroup(composite);
-        this.createCreateCheckboxGroup(composite);
+        createDropCheckboxGroup(composite);
+        createCreateCheckboxGroup(composite);
     }
 
     private void createDropCheckboxGroup(Composite parent) {
@@ -275,19 +275,19 @@ public class ExportToDDLDialog extends AbstractDialog {
     @Override
     protected void addListener() {
         super.addListener();
-        this.environmentCombo.addSelectionListener(new SelectionAdapter() {
+        environmentCombo.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 validate();
             }
         });
-        this.outputFileText.addModifyListener(new ModifyListener() {
+        outputFileText.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
                 validate();
             }
         });
-        this.fileEncodingCombo.addKeyListener(new KeyAdapter() {
+        fileEncodingCombo.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 validate();
@@ -300,50 +300,50 @@ public class ExportToDDLDialog extends AbstractDialog {
     //                                                                         ===========
     @Override
     protected void setupData() {
-        final DiagramSettings settings = this.diagram.getDiagramContents().getSettings();
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         for (final Environment environment : settings.getEnvironmentSettings().getEnvironments()) {
-            this.environmentCombo.add(environment.getName());
+            environmentCombo.add(environment.getName());
         }
-        this.environmentCombo.select(0);
+        environmentCombo.select(0);
         final ExportSettings exportSetting = settings.getExportSettings();
-        this.outputFileText.setText(buildDefaultOutputFilePath(exportSetting));
-        this.categoryCombo.select(0);
+        outputFileText.setText(buildDefaultOutputFilePath(exportSetting));
+        categoryCombo.select(0);
 
         // set previous selected category
         if (exportSetting.getCategoryNameToExport() != null) {
-            for (int i = 1; i < this.categoryCombo.getItemCount(); i++) {
-                if (exportSetting.getCategoryNameToExport().equals(this.categoryCombo.getItem(i))) {
-                    this.categoryCombo.select(i);
+            for (int i = 1; i < categoryCombo.getItemCount(); i++) {
+                if (exportSetting.getCategoryNameToExport().equals(categoryCombo.getItem(i))) {
+                    categoryCombo.select(i);
                     break;
                 }
             }
         }
         final DDLTarget ddlTarget = exportSetting.getDdlTarget();
-        this.dropIndex.setSelection(ddlTarget.dropIndex);
-        this.dropSequence.setSelection(ddlTarget.dropSequence);
-        this.dropTable.setSelection(ddlTarget.dropTable);
-        this.dropTablespace.setSelection(ddlTarget.dropTablespace);
-        this.dropTrigger.setSelection(ddlTarget.dropTrigger);
-        this.dropView.setSelection(ddlTarget.dropView);
-        this.createComment.setSelection(ddlTarget.createComment);
-        this.createForeignKey.setSelection(ddlTarget.createForeignKey);
-        this.createIndex.setSelection(ddlTarget.createIndex);
-        this.createSequence.setSelection(ddlTarget.createSequence);
-        this.createTable.setSelection(ddlTarget.createTable);
-        this.createTablespace.setSelection(ddlTarget.createTablespace);
-        this.createTrigger.setSelection(ddlTarget.createTrigger);
-        this.createView.setSelection(ddlTarget.createView);
-        this.inlineColumnComment.setSelection(ddlTarget.inlineColumnComment);
-        this.inlineTableComment.setSelection(ddlTarget.inlineTableComment);
-        this.commentReplaceLineFeed.setSelection(ddlTarget.commentReplaceLineFeed);
-        this.commentReplaceString.setText(Format.null2blank(ddlTarget.commentReplaceString));
-        this.commentValueDescription.setSelection(ddlTarget.commentValueDescription);
-        this.commentValueLogicalName.setSelection(ddlTarget.commentValueLogicalName);
-        this.commentValueLogicalNameDescription.setSelection(ddlTarget.commentValueLogicalNameDescription);
+        dropIndex.setSelection(ddlTarget.dropIndex);
+        dropSequence.setSelection(ddlTarget.dropSequence);
+        dropTable.setSelection(ddlTarget.dropTable);
+        dropTablespace.setSelection(ddlTarget.dropTablespace);
+        dropTrigger.setSelection(ddlTarget.dropTrigger);
+        dropView.setSelection(ddlTarget.dropView);
+        createComment.setSelection(ddlTarget.createComment);
+        createForeignKey.setSelection(ddlTarget.createForeignKey);
+        createIndex.setSelection(ddlTarget.createIndex);
+        createSequence.setSelection(ddlTarget.createSequence);
+        createTable.setSelection(ddlTarget.createTable);
+        createTablespace.setSelection(ddlTarget.createTablespace);
+        createTrigger.setSelection(ddlTarget.createTrigger);
+        createView.setSelection(ddlTarget.createView);
+        inlineColumnComment.setSelection(ddlTarget.inlineColumnComment);
+        inlineTableComment.setSelection(ddlTarget.inlineTableComment);
+        commentReplaceLineFeed.setSelection(ddlTarget.commentReplaceLineFeed);
+        commentReplaceString.setText(Format.null2blank(ddlTarget.commentReplaceString));
+        commentValueDescription.setSelection(ddlTarget.commentValueDescription);
+        commentValueLogicalName.setSelection(ddlTarget.commentValueLogicalName);
+        commentValueLogicalNameDescription.setSelection(ddlTarget.commentValueLogicalNameDescription);
         if (!ddlTarget.commentValueDescription && !ddlTarget.commentValueLogicalName && !ddlTarget.commentValueLogicalNameDescription) {
-            this.commentValueDescription.setSelection(true);
+            commentValueDescription.setSelection(true);
         }
-        this.openAfterSavedButton.setSelection(exportSetting.isOpenAfterSaved());
+        openAfterSavedButton.setSelection(exportSetting.isOpenAfterSaved());
     }
 
     private String buildDefaultOutputFilePath(final ExportSettings exportSetting) {
@@ -361,13 +361,13 @@ public class ExportToDDLDialog extends AbstractDialog {
     //                                                                          ==========
     @Override
     protected String doValidate() {
-        if (isBlank(this.environmentCombo)) {
+        if (isBlank(environmentCombo)) {
             return "error.tablespace.environment.empty";
         }
-        if (this.outputFileText.isBlank()) {
+        if (outputFileText.isBlank()) {
             return "Select your output file for DDL";
         }
-        if (!Charset.isSupported(this.fileEncodingCombo.getText())) {
+        if (!Charset.isSupported(fileEncodingCombo.getText())) {
             return "error.file.encoding.is.not.supported";
         }
         return null;
@@ -378,37 +378,37 @@ public class ExportToDDLDialog extends AbstractDialog {
     //                                                                          ==========
     @Override
     protected void performOK() throws InputException {
-        final String saveFilePath = this.outputFileText.getFilePath();
+        final String saveFilePath = outputFileText.getFilePath();
         final DDLTarget ddlTarget = new DDLTarget();
-        ddlTarget.dropTablespace = this.dropTablespace.getSelection();
-        ddlTarget.dropSequence = this.dropSequence.getSelection();
-        ddlTarget.dropTrigger = this.dropTrigger.getSelection();
-        ddlTarget.dropView = this.dropView.getSelection();
-        ddlTarget.dropIndex = this.dropIndex.getSelection();
-        ddlTarget.dropTable = this.dropTable.getSelection();
-        ddlTarget.createTablespace = this.createTablespace.getSelection();
-        ddlTarget.createSequence = this.createSequence.getSelection();
-        ddlTarget.createTrigger = this.createTrigger.getSelection();
-        ddlTarget.createView = this.createView.getSelection();
-        ddlTarget.createIndex = this.createIndex.getSelection();
-        ddlTarget.createTable = this.createTable.getSelection();
-        ddlTarget.createForeignKey = this.createForeignKey.getSelection();
-        ddlTarget.createComment = this.createComment.getSelection();
-        ddlTarget.inlineTableComment = this.inlineTableComment.getSelection();
-        ddlTarget.inlineColumnComment = this.inlineColumnComment.getSelection();
-        ddlTarget.commentReplaceLineFeed = this.commentReplaceLineFeed.getSelection();
-        ddlTarget.commentReplaceString = this.commentReplaceString.getText();
-        ddlTarget.commentValueDescription = this.commentValueDescription.getSelection();
-        ddlTarget.commentValueLogicalName = this.commentValueLogicalName.getSelection();
-        ddlTarget.commentValueLogicalNameDescription = this.commentValueLogicalNameDescription.getSelection();
-        final boolean openAfterSaved = this.openAfterSavedButton.getSelection();
-        this.exportSetting = this.diagram.getDiagramContents().getSettings().getExportSettings().clone();
-        this.exportSetting.setDdlOutput(saveFilePath);
-        this.exportSetting.setDdlTarget(ddlTarget);
-        this.exportSetting.setCategoryNameToExport(this.categoryCombo.getText());
-        this.exportSetting.setOpenAfterSaved(openAfterSaved);
+        ddlTarget.dropTablespace = dropTablespace.getSelection();
+        ddlTarget.dropSequence = dropSequence.getSelection();
+        ddlTarget.dropTrigger = dropTrigger.getSelection();
+        ddlTarget.dropView = dropView.getSelection();
+        ddlTarget.dropIndex = dropIndex.getSelection();
+        ddlTarget.dropTable = dropTable.getSelection();
+        ddlTarget.createTablespace = createTablespace.getSelection();
+        ddlTarget.createSequence = createSequence.getSelection();
+        ddlTarget.createTrigger = createTrigger.getSelection();
+        ddlTarget.createView = createView.getSelection();
+        ddlTarget.createIndex = createIndex.getSelection();
+        ddlTarget.createTable = createTable.getSelection();
+        ddlTarget.createForeignKey = createForeignKey.getSelection();
+        ddlTarget.createComment = createComment.getSelection();
+        ddlTarget.inlineTableComment = inlineTableComment.getSelection();
+        ddlTarget.inlineColumnComment = inlineColumnComment.getSelection();
+        ddlTarget.commentReplaceLineFeed = commentReplaceLineFeed.getSelection();
+        ddlTarget.commentReplaceString = commentReplaceString.getText();
+        ddlTarget.commentValueDescription = commentValueDescription.getSelection();
+        ddlTarget.commentValueLogicalName = commentValueLogicalName.getSelection();
+        ddlTarget.commentValueLogicalNameDescription = commentValueLogicalNameDescription.getSelection();
+        final boolean openAfterSaved = openAfterSavedButton.getSelection();
+        this.exportSetting = diagram.getDiagramContents().getSettings().getExportSettings().clone();
+        exportSetting.setDdlOutput(saveFilePath);
+        exportSetting.setDdlTarget(ddlTarget);
+        exportSetting.setCategoryNameToExport(categoryCombo.getText());
+        exportSetting.setOpenAfterSaved(openAfterSaved);
         final Validator validator = new Validator();
-        final List<ValidateResult> errorList = validator.validate(this.diagram);
+        final List<ValidateResult> errorList = validator.validate(diagram);
         if (!errorList.isEmpty()) {
             final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
             final ExportWarningDialog dialog = new ExportWarningDialog(shell, errorList);
@@ -422,7 +422,7 @@ public class ExportToDDLDialog extends AbstractDialog {
         PrintWriter out = null;
         IFile file = null;
         try {
-            final DDLCreator ddlCreator = DBManagerFactory.getDBManager(diagram).getDDLCreator(this.diagram, true);
+            final DDLCreator ddlCreator = DBManagerFactory.getDBManager(diagram).getDDLCreator(diagram, true);
             final int index = environmentCombo.getSelectionIndex();
             final Environment environment =
                     diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments().get(index);
@@ -438,7 +438,7 @@ public class ExportToDDLDialog extends AbstractDialog {
         } catch (final Exception e) {
             Activator.showExceptionDialog("Failed to create DDL: saveFilePath=" + saveFilePath, e);
         } finally {
-            this.diagram.setCurrentCategory(currentCategory, currentCategoryIndex);
+            diagram.setCurrentCategory(currentCategory, currentCategoryIndex);
             if (out != null) {
                 out.close();
             }
@@ -454,17 +454,17 @@ public class ExportToDDLDialog extends AbstractDialog {
     }
 
     private void setCurrentCategory() {
-        if (this.categoryCombo.getSelectionIndex() == 0) {
-            this.diagram.setCurrentCategory(null, 0);
+        if (categoryCombo.getSelectionIndex() == 0) {
+            diagram.setCurrentCategory(null, 0);
             return;
         }
-        final Category currentCategory = this.diagram.getDiagramContents()
+        final Category currentCategory = diagram.getDiagramContents()
                 .getSettings()
                 .getCategorySetting()
                 .getAllCategories()
-                .get(this.categoryCombo.getSelectionIndex() - 1);
+                .get(categoryCombo.getSelectionIndex() - 1);
 
-        this.diagram.setCurrentCategory(currentCategory, this.categoryCombo.getSelectionIndex());
+        diagram.setCurrentCategory(currentCategory, categoryCombo.getSelectionIndex());
     }
 
     private PrintWriter writeDDLFile(IFile file, DDLCreator ddlCreator, IPath location)

@@ -6,11 +6,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 
 public class AddColumnGroupCommand extends AbstractCommand {
 
-    private TableView tableView;
-
-    private ColumnGroup columnGroup;
-
-    private int index;
+    private final TableView tableView;
+    private final ColumnGroup columnGroup;
+    private final int index;
 
     public AddColumnGroupCommand(TableView tableView, ColumnGroup columnGroup, int index) {
         this.tableView = tableView;
@@ -20,16 +18,16 @@ public class AddColumnGroupCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        if (this.index != -1) {
-            this.tableView.addColumn(index, columnGroup);
+        if (index != -1) {
+            tableView.addColumn(index, columnGroup);
         }
 
-        this.tableView.getDiagram().changeAll();
+        tableView.getDiagram().changeAll();
     }
 
     @Override
     protected void doUndo() {
-        this.tableView.removeColumn(columnGroup);
-        this.tableView.getDiagram().changeAll();
+        tableView.removeColumn(columnGroup);
+        tableView.getDiagram().changeAll();
     }
 }

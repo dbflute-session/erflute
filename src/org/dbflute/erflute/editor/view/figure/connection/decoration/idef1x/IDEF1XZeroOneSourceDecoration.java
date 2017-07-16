@@ -9,7 +9,7 @@ public class IDEF1XZeroOneSourceDecoration extends ERDecoration {
     public IDEF1XZeroOneSourceDecoration() {
         super();
 
-        PointList pointList = new PointList();
+        final PointList pointList = new PointList();
 
         pointList.addPoint(-1, 0);
         pointList.addPoint(-8, -7);
@@ -17,12 +17,12 @@ public class IDEF1XZeroOneSourceDecoration extends ERDecoration {
         pointList.addPoint(-8, 7);
         pointList.addPoint(-1, 0);
 
-        this.setTemplate(pointList);
-        this.setScale(1, 1);
+        setTemplate(pointList);
+        setScale(1, 1);
 
-        Label label = new Label();
+        final Label label = new Label();
         label.setText("Z");
 
-        this.add(label);
+        add(label);
     }
 }

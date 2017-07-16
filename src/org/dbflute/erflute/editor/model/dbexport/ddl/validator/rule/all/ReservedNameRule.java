@@ -15,66 +15,66 @@ import org.eclipse.core.resources.IMarker;
 
 public class ReservedNameRule extends BaseRule {
 
+    @Override
     public boolean validate(ERDiagram diagram) {
-        DBManager dbManager = DBManagerFactory.getDBManager(diagram);
+        final DBManager dbManager = DBManagerFactory.getDBManager(diagram);
 
-        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
-
-            for (ERIndex index : table.getIndexes()) {
-                String indexName = index.getName().toLowerCase();
+        for (final ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
+            for (final ERIndex index : table.getIndexes()) {
+                final String indexName = index.getName().toLowerCase();
 
                 if (dbManager.isReservedWord(indexName)) {
-                    ValidateResult validateResult = new ValidateResult();
+                    final ValidateResult validateResult = new ValidateResult();
                     validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.name") + " [INDEX] " + indexName
                             + " (" + table.getLogicalName() + ")");
                     validateResult.setLocation(indexName);
                     validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                     validateResult.setObject(index);
 
-                    this.addError(validateResult);
+                    addError(validateResult);
                 }
             }
         }
 
-        for (Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
-            String name = sequence.getName().toLowerCase();
+        for (final Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
+            final String name = sequence.getName().toLowerCase();
 
             if (dbManager.isReservedWord(name)) {
-                ValidateResult validateResult = new ValidateResult();
+                final ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.name") + " [SEQUENCE] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(sequence);
 
-                this.addError(validateResult);
+                addError(validateResult);
             }
         }
 
-        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
-            String name = view.getName().toLowerCase();
+        for (final ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
+            final String name = view.getName().toLowerCase();
 
             if (dbManager.isReservedWord(name)) {
-                ValidateResult validateResult = new ValidateResult();
+                final ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.name") + " [VIEW] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(view);
 
-                this.addError(validateResult);
+                addError(validateResult);
             }
         }
 
-        for (Trigger trigger : diagram.getDiagramContents().getTriggerSet()) {
-            String name = trigger.getName().toLowerCase();
+        for (final Trigger trigger : diagram.getDiagramContents().getTriggerSet()) {
+            final String name = trigger.getName().toLowerCase();
 
             if (dbManager.isReservedWord(name)) {
-                ValidateResult validateResult = new ValidateResult();
+                final ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.name") + " [TRIGGER] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(trigger);
 
-                this.addError(validateResult);
+                addError(validateResult);
             }
         }
 

@@ -12,8 +12,8 @@ public class CopyWord extends Word {
     }
 
     public Word restructure(Dictionary dictionary) {
-        dictionary.copyTo(this, this.original);
-        return this.original;
+        dictionary.copyTo(this, original);
+        return original;
     }
 
     public Word getOriginal() {
@@ -24,7 +24,7 @@ public class CopyWord extends Word {
     public void copyTo(Word to) {
         super.copyTo(to);
         if (to instanceof CopyWord) {
-            ((CopyWord) to).original = this.original;
+            ((CopyWord) to).original = original;
         }
     }
 

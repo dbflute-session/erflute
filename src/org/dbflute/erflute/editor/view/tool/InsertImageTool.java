@@ -33,7 +33,7 @@ public class InsertImageTool extends CreationToolEntry {
             final String path = getLoadFilePath();
 
             if (path != null) {
-                final InsertedImage insertedImage = (InsertedImage) this.getCreateRequest().getNewObject();
+                final InsertedImage insertedImage = (InsertedImage) getCreateRequest().getNewObject();
                 insertedImage.setImageFilePath(path);
 
                 super.performCreation(button);
@@ -41,11 +41,8 @@ public class InsertImageTool extends CreationToolEntry {
         }
 
         private String getLoadFilePath() {
-
             final FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
-
             final String[] filterExtensions = { "*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.tif;*.tiff" };
-
             fileDialog.setFilterExtensions(filterExtensions);
 
             return fileDialog.open();

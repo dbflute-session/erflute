@@ -26,19 +26,17 @@ public class ImportDBSettingDialog extends AbstractDBSettingDialog {
 
     @Override
     protected void performOK() throws InputException {
-        this.setCurrentSetting();
+        setCurrentSetting();
 
         Connection con = null;
-
         try {
-            con = this.dbSettings.connect();
-
-        } catch (InputException e) {
+            con = dbSettings.connect();
+        } catch (final InputException e) {
             throw e;
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.error(e);
-            Throwable cause = e.getCause();
+            final Throwable cause = e.getCause();
 
             if (cause instanceof UnknownHostException) {
                 throw new InputException("error.server.not.found");
@@ -46,12 +44,11 @@ public class ImportDBSettingDialog extends AbstractDBSettingDialog {
 
             Activator.showMessageDialog(e.getMessage());
             throw new InputException("error.database.not.found");
-
         } finally {
             if (con != null) {
                 try {
                     con.close();
-                } catch (SQLException e) {
+                } catch (final SQLException e) {
                     Activator.showExceptionDialog(e);
                 }
             }

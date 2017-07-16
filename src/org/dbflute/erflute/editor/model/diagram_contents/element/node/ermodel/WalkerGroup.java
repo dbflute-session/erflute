@@ -25,7 +25,7 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     private ERVirtualDiagram vdiagram;
 
     public WalkerGroup() {
-        this.walkerList = new ArrayList<DiagramWalker>();
+        this.walkerList = new ArrayList<>();
     }
 
     public void setWalkers(List<DiagramWalker> walkerList) {
@@ -61,7 +61,7 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
                     }
                 }
             }
-            this.setLocation(new Location(categoryX, categoryY, categoryWidth, categoryHeight));
+            setLocation(new Location(categoryX, categoryY, categoryWidth, categoryHeight));
         }
     }
 
@@ -74,8 +74,8 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     }
 
     public List<ERTable> getTableContents() {
-        final List<ERTable> tableList = new ArrayList<ERTable>();
-        for (final DiagramWalker walker : this.walkerList) {
+        final List<ERTable> tableList = new ArrayList<>();
+        for (final DiagramWalker walker : walkerList) {
             if (walker instanceof ERTable) {
                 tableList.add((ERTable) walker);
             }
@@ -84,9 +84,9 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     }
 
     public List<ERView> getViewContents() {
-        final List<ERView> viewList = new ArrayList<ERView>();
+        final List<ERView> viewList = new ArrayList<>();
 
-        for (final DiagramWalker walker : this.walkerList) {
+        for (final DiagramWalker walker : walkerList) {
             if (walker instanceof ERView) {
                 viewList.add((ERView) walker);
             }
@@ -96,8 +96,8 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     }
 
     public List<TableView> getTableViewContents() {
-        final List<TableView> tableList = new ArrayList<TableView>();
-        for (final DiagramWalker walker : this.walkerList) {
+        final List<TableView> tableList = new ArrayList<>();
+        for (final DiagramWalker walker : walkerList) {
             if (walker instanceof TableView) {
                 tableList.add((TableView) walker);
             }
@@ -155,7 +155,7 @@ public class WalkerGroup extends DiagramWalker implements IResizable, Comparable
     //                                                                      ==============
     @Override
     public int compareTo(WalkerGroup other) {
-        return Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
+        return Format.null2blank(name).compareTo(Format.null2blank(other.name));
     }
 
     @Override

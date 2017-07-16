@@ -30,14 +30,14 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
     //                                                                         Constructor
     //                                                                         ===========
     public ColumnGroup() {
-        this.columns = new ArrayList<NormalColumn>();
+        this.columns = new ArrayList<>();
     }
 
     // ===================================================================================
     //                                                                          Used Table
     //                                                                          ==========
     public List<TableView> getUsedTalbeList(ERDiagram diagram) {
-        final List<TableView> usedTableList = new ArrayList<TableView>();
+        final List<TableView> usedTableList = new ArrayList<>();
         for (final TableView table : diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
             for (final ERColumn tableColumn : table.getColumns()) {
                 if (tableColumn == this) {
@@ -59,7 +59,7 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
 
     @Override
     public String getName() {
-        return this.getGroupName();
+        return getGroupName();
     }
 
     @Override
@@ -75,20 +75,20 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
         if (other == null) {
             return -1;
         }
-        if (this.groupName == null) {
+        if (groupName == null) {
             return 1;
         }
         if (other.getGroupName() == null) {
             return -1;
         }
-        return this.groupName.toUpperCase().compareTo(other.getGroupName().toUpperCase());
+        return groupName.toUpperCase().compareTo(other.getGroupName().toUpperCase());
     }
 
     @Override
     public ColumnGroup clone() {
         final ColumnGroup clone = (ColumnGroup) super.clone();
-        final List<NormalColumn> cloneColumns = new ArrayList<NormalColumn>();
-        for (final NormalColumn column : this.columns) {
+        final List<NormalColumn> cloneColumns = new ArrayList<>();
+        for (final NormalColumn column : columns) {
             final NormalColumn cloneColumn = column.clone();
             cloneColumns.add(cloneColumn);
         }
@@ -117,15 +117,15 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
     }
 
     public List<NormalColumn> getColumns() {
-        return this.columns;
+        return columns;
     }
 
     public NormalColumn getColumn(int index) {
-        return this.columns.get(index);
+        return columns.get(index);
     }
 
     public void addColumn(NormalColumn column) {
-        this.columns.add(column);
+        columns.add(column);
         column.setColumnHolder(this);
     }
 
@@ -137,6 +137,6 @@ public class ColumnGroup extends ERColumn implements ObjectModel, Comparable<Col
     }
 
     public void removeColumn(NormalColumn column) {
-        this.columns.remove(column);
+        columns.remove(column);
     }
 }

@@ -48,7 +48,7 @@ public class TableDialog extends AbstractDialog {
         super(parentShell);
         this.viewer = viewer;
         this.copyData = copyData;
-        this.tabWrapperList = new ArrayList<ValidatableTabWrapper>();
+        this.tabWrapperList = new ArrayList<>();
     }
 
     // ===================================================================================
@@ -62,18 +62,18 @@ public class TableDialog extends AbstractDialog {
         gridData.verticalAlignment = GridData.FILL;
         gridData.horizontalAlignment = GridData.FILL;
         this.tabFolder = new TabFolder(composite, SWT.NONE);
-        this.tabFolder.setLayoutData(gridData);
-        final TableAttributeTabWrapper attributeTabWrapper = new TableAttributeTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
-        this.tabWrapperList.add(attributeTabWrapper);
-        this.tabWrapperList.add(new DescriptionTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
-        this.tabWrapperList.add(new ConstraintTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
+        tabFolder.setLayoutData(gridData);
+        final TableAttributeTabWrapper attributeTabWrapper = new TableAttributeTabWrapper(this, tabFolder, SWT.NONE, copyData);
+        tabWrapperList.add(attributeTabWrapper);
+        tabWrapperList.add(new DescriptionTabWrapper(this, tabFolder, SWT.NONE, copyData));
+        tabWrapperList.add(new ConstraintTabWrapper(this, tabFolder, SWT.NONE, copyData));
         final CompoundUniqueKeyTabWrapper complexUniqueKeyTabWrapper =
-                new CompoundUniqueKeyTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
-        this.tabWrapperList.add(complexUniqueKeyTabWrapper);
-        final IndexTabWrapper indexTabWrapper = new IndexTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
-        this.tabWrapperList.add(indexTabWrapper);
-        this.tabWrapperList.add(new AdvancedTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
-        this.tabFolder.addSelectionListener(new SelectionListener() {
+                new CompoundUniqueKeyTabWrapper(this, tabFolder, SWT.NONE, copyData);
+        tabWrapperList.add(complexUniqueKeyTabWrapper);
+        final IndexTabWrapper indexTabWrapper = new IndexTabWrapper(this, tabFolder, SWT.NONE, copyData);
+        tabWrapperList.add(indexTabWrapper);
+        tabWrapperList.add(new AdvancedTabWrapper(this, tabFolder, SWT.NONE, copyData));
+        tabFolder.addSelectionListener(new SelectionListener() {
             @Override
             public void widgetDefaultSelected(SelectionEvent e) {
             }
@@ -101,7 +101,7 @@ public class TableDialog extends AbstractDialog {
     @Override
     protected String doValidate() {
         try {
-            for (final ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
+            for (final ValidatableTabWrapper tabWrapper : tabWrapperList) {
                 tabWrapper.validatePage();
             }
         } catch (final InputException e) {
@@ -122,7 +122,7 @@ public class TableDialog extends AbstractDialog {
         }
         final String prefix = physicalName.substring(0, prefixPos + 1);
         final DiagramWalkerSet nodeSet = copyData.getDiagram().getDiagramContents().getDiagramWalkers();
-        final Map<MyColor, Integer> colors = new HashMap<MyColor, Integer>();
+        final Map<MyColor, Integer> colors = new HashMap<>();
         int sum = 0;
         for (final ERTable table : nodeSet.getTableSet()) {
             if (table.getPhysicalName().startsWith(prefix)) {
@@ -156,6 +156,6 @@ public class TableDialog extends AbstractDialog {
     }
 
     public ERDiagram getDiagram() {
-        return (ERDiagram) this.viewer.getContents().getModel();
+        return (ERDiagram) viewer.getContents().getModel();
     }
 }

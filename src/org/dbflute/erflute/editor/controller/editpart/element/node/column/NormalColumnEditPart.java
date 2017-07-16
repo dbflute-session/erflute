@@ -33,12 +33,9 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
     @Override
     public void refreshTableColumns() {
-        final ERDiagram diagram = this.getDiagram();
-
-        final NormalColumnFigure columnFigure = (NormalColumnFigure) this.getFigure();
-
-        final NormalColumn normalColumn = (NormalColumn) this.getModel();
-
+        final ERDiagram diagram = getDiagram();
+        final NormalColumnFigure columnFigure = (NormalColumnFigure) getFigure();
+        final NormalColumn normalColumn = (NormalColumn) getModel();
         if (diagram.isShowMainColumn()) {
             if (normalColumn.isAutoIncrement() || normalColumn.getWord() == null) {
                 // 表示する
@@ -47,7 +44,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
             }
         }
 
-        final TableViewEditPart parent = (TableViewEditPart) this.getParent();
+        final TableViewEditPart parent = (TableViewEditPart) getParent();
         parent.getContentPane().add(figure);
 
         final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
@@ -55,8 +52,8 @@ public class NormalColumnEditPart extends ColumnEditPart {
         if (notationLevel != DiagramSettings.NOTATION_LEVLE_TITLE) {
             final TableFigure tableFigure = (TableFigure) parent.getFigure();
 
-            final List<NormalColumn> selectedReferencedColulmnList = this.getSelectedReferencedColulmnList();
-            final List<NormalColumn> selectedForeignKeyColulmnList = this.getSelectedForeignKeyColulmnList();
+            final List<NormalColumn> selectedReferencedColulmnList = getSelectedReferencedColulmnList();
+            final List<NormalColumn> selectedForeignKeyColulmnList = getSelectedForeignKeyColulmnList();
 
             final boolean isSelectedReferenced = selectedReferencedColulmnList.contains(normalColumn);
             final boolean isSelectedForeignKey = selectedForeignKeyColulmnList.contains(normalColumn);
@@ -64,16 +61,16 @@ public class NormalColumnEditPart extends ColumnEditPart {
             final boolean isAdded = false;
             final boolean isUpdated = false;
 
-            if ((notationLevel == DiagramSettings.NOTATION_LEVLE_KEY) && !normalColumn.isPrimaryKey() && !normalColumn.isForeignKey()
-                    && !normalColumn.isReferedStrictly()) {
+            if ((notationLevel == DiagramSettings.NOTATION_LEVLE_KEY) && !normalColumn.isPrimaryKey()
+                    && !normalColumn.isForeignKey() && !normalColumn.isReferedStrictly()) {
                 columnFigure.clearLabel();
                 return;
             }
 
-            final ERTable table = (ERTable) parent.getModel(); // TODO
+            final ERTable table = (ERTable) parent.getModel();
 
-            addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn, isSelectedReferenced, isSelectedForeignKey, isAdded,
-                    isUpdated, false);
+            addColumnFigure(diagram, table, tableFigure, columnFigure, normalColumn,
+                    isSelectedReferenced, isSelectedForeignKey, isAdded, isUpdated, false);
 
             if (selected) {
                 columnFigure.setBackgroundColor(ColorConstants.titleBackground);
@@ -85,9 +82,9 @@ public class NormalColumnEditPart extends ColumnEditPart {
         }
     }
 
-    public static void addColumnFigure(ERDiagram diagram, ERTable table, TableFigure tableFigure, NormalColumnFigure columnFigure,
-            NormalColumn normalColumn, boolean isSelectedReferenced, boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated,
-            boolean isRemoved) {
+    public static void addColumnFigure(ERDiagram diagram, ERTable table, TableFigure tableFigure,
+            NormalColumnFigure columnFigure, NormalColumn normalColumn, boolean isSelectedReferenced,
+            boolean isSelectedForeignKey, boolean isAdded, boolean isUpdated, boolean isRemoved) {
         final int notationLevel = diagram.getDiagramContents().getSettings().getNotationLevel();
 
         final String type = diagram.filter(Format.formatType(normalColumn.getType(), normalColumn.getTypeData(), diagram.getDatabase()));
@@ -126,7 +123,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
     private List<NormalColumn> getSelectedReferencedColulmnList() {
         final List<NormalColumn> referencedColulmnList = new ArrayList<>();
 
-        final TableViewEditPart parent = (TableViewEditPart) this.getParent();
+        final TableViewEditPart parent = (TableViewEditPart) getParent();
         final TableView tableView = (TableView) parent.getModel();
 
         for (final Object object : parent.getSourceConnections()) {
@@ -157,7 +154,7 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
     private List<NormalColumn> getSelectedForeignKeyColulmnList() {
         final List<NormalColumn> foreignKeyColulmnList = new ArrayList<>();
-        final TableViewEditPart parent = (TableViewEditPart) this.getParent();
+        final TableViewEditPart parent = (TableViewEditPart) getParent();
         for (final Object object : parent.getTargetConnections()) {
             final ConnectionEditPart connectionEditPart = (ConnectionEditPart) object;
             final int selected = connectionEditPart.getSelected();
@@ -174,17 +171,17 @@ public class NormalColumnEditPart extends ColumnEditPart {
 
     @Override
     public void setSelected(int value) {
-        final NormalColumnFigure figure = (NormalColumnFigure) this.getFigure();
-        if (value != 0 && this.getParent() != null && this.getParent().getParent() != null) {
-            final List<?> selectedEditParts = this.getViewer().getSelectedEditParts();
+        final NormalColumnFigure figure = (NormalColumnFigure) getFigure();
+        if (value != 0 && getParent() != null && getParent().getParent() != null) {
+            final List<?> selectedEditParts = getViewer().getSelectedEditParts();
             if (selectedEditParts != null && selectedEditParts.size() == 1) {
-                final NormalColumn normalColumn = (NormalColumn) this.getModel();
+                final NormalColumn normalColumn = (NormalColumn) getModel();
                 if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
-                    for (final Object child : this.getParent().getChildren()) {
+                    for (final Object child : getParent().getChildren()) {
                         final AbstractGraphicalEditPart childEditPart = (AbstractGraphicalEditPart) child;
                         final NormalColumn column = (NormalColumn) childEditPart.getModel();
                         if (column.getColumnHolder() == normalColumn.getColumnHolder()) {
-                            this.setGroupColumnFigureColor((TableViewEditPart) this.getParent(),
+                            setGroupColumnFigureColor((TableViewEditPart) getParent(),
                                     (ColumnGroup) normalColumn.getColumnHolder(), true);
                         }
                     }
@@ -196,14 +193,14 @@ public class NormalColumnEditPart extends ColumnEditPart {
                 super.setSelected(value);
             }
         } else {
-            final NormalColumn normalColumn = (NormalColumn) this.getModel();
+            final NormalColumn normalColumn = (NormalColumn) getModel();
             if (normalColumn.getColumnHolder() instanceof ColumnGroup) {
-                for (final Object child : this.getParent().getChildren()) {
+                for (final Object child : getParent().getChildren()) {
                     final AbstractGraphicalEditPart childEditPart = (AbstractGraphicalEditPart) child;
                     final NormalColumn column = (NormalColumn) childEditPart.getModel();
                     if (column.getColumnHolder() == normalColumn.getColumnHolder()) {
-                        this.setGroupColumnFigureColor((TableViewEditPart) this.getParent(), (ColumnGroup) normalColumn.getColumnHolder(),
-                                false);
+                        setGroupColumnFigureColor((TableViewEditPart) getParent(),
+                                (ColumnGroup) normalColumn.getColumnHolder(), false);
                     }
                 }
             } else {
@@ -224,7 +221,6 @@ public class NormalColumnEditPart extends ColumnEditPart {
                     if (selected) {
                         columnFigure.setBackgroundColor(ColorConstants.titleBackground);
                         columnFigure.setForegroundColor(ColorConstants.titleForeground);
-
                     } else {
                         columnFigure.setBackgroundColor(null);
                         columnFigure.setForegroundColor(null);

@@ -8,7 +8,6 @@ public class Trigger extends WithSchemaModel implements ObjectModel {
     private static final long serialVersionUID = 1L;
 
     private String sql;
-
     private String description;
 
     public String getSql() {

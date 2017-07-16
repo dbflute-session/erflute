@@ -6,11 +6,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
 
 public class DeleteBendpointCommand extends AbstractCommand {
 
-    private WalkerConnection connection;
-
+    private final WalkerConnection connection;
     private Bendpoint oldBendpoint;
-
-    private int index;
+    private final int index;
 
     public DeleteBendpointCommand(WalkerConnection connection, int index) {
         this.connection = connection;
@@ -19,12 +17,12 @@ public class DeleteBendpointCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        this.oldBendpoint = this.connection.getBendpoints().get(index);
-        this.connection.removeBendpoint(index);
+        this.oldBendpoint = connection.getBendpoints().get(index);
+        connection.removeBendpoint(index);
     }
 
     @Override
     protected void doUndo() {
-        this.connection.addBendpoint(index, oldBendpoint);
+        connection.addBendpoint(index, oldBendpoint);
     }
 }

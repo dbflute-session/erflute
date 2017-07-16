@@ -38,7 +38,7 @@ public class WalkerGroupNameChangeDialog extends AbstractDialog {
 
     @Override
     protected void setupData() {
-        this.categoryNameText.setText(this.walkerGroup.getName());
+        categoryNameText.setText(walkerGroup.getName());
     }
 
     @Override
@@ -52,6 +52,6 @@ public class WalkerGroupNameChangeDialog extends AbstractDialog {
     }
 
     public String getCategoryName() {
-        return this.categoryName;
+        return categoryName;
     }
 }

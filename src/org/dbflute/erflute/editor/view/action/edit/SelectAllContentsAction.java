@@ -12,26 +12,25 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class SelectAllContentsAction extends SelectAllAction {
 
-    private IWorkbenchPart part;
+    private final IWorkbenchPart part;
 
     public SelectAllContentsAction(IWorkbenchPart part) {
         super(part);
         this.part = part;
-        this.setText(DisplayMessages.getMessage("action.title.select.all"));
+        setText(DisplayMessages.getMessage("action.title.select.all"));
 
-        this.setActionDefinitionId("org.eclipse.ui.edit.selectAll");
+        setActionDefinitionId("org.eclipse.ui.edit.selectAll");
     }
 
     @Override
     public void run() {
-        GraphicalViewer viewer = (GraphicalViewer) part.getAdapter(GraphicalViewer.class);
-
+        final GraphicalViewer viewer = (GraphicalViewer) part.getAdapter(GraphicalViewer.class);
         if (viewer != null) {
-            List<DiagramWalkerEditPart> children = new ArrayList<DiagramWalkerEditPart>();
+            final List<DiagramWalkerEditPart> children = new ArrayList<>();
 
-            for (Object child : viewer.getContents().getChildren()) {
+            for (final Object child : viewer.getContents().getChildren()) {
                 if (child instanceof DiagramWalkerEditPart) {
-                    DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
+                    final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
                     if (editPart.getFigure().isVisible()) {
                         children.add(editPart);
                     }

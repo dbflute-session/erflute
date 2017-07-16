@@ -5,19 +5,12 @@ import org.dbflute.erflute.editor.model.AbstractModel;
 public class DBObject {
 
     public static final String TYPE_TABLE = "table";
-
     public static final String TYPE_SEQUENCE = "sequence";
-
     public static final String TYPE_VIEW = "view";
-
     public static final String TYPE_TRIGGER = "trigger";
-
     public static final String TYPE_TABLESPACE = "tablespace";
-
     public static final String TYPE_NOTE = "note";
-
     public static final String TYPE_GROUP = "group";
-
     public static final String[] ALL_TYPES = { TYPE_TABLE, TYPE_VIEW, TYPE_SEQUENCE, TYPE_TRIGGER };
 
     private String schema;

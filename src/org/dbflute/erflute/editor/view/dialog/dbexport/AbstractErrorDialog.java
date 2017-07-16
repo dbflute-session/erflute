@@ -21,15 +21,15 @@ public abstract class AbstractErrorDialog extends Dialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        this.getShell().setText(DisplayMessages.getMessage(this.getTitle()));
+        getShell().setText(DisplayMessages.getMessage(getTitle()));
 
-        Composite composite = (Composite) super.createDialogArea(parent);
+        final Composite composite = (Composite) super.createDialogArea(parent);
 
-        this.textArea = CompositeFactory.createTextArea(null, composite, this.getMessage(), 400, 200, 1, false, false);
+        this.textArea = CompositeFactory.createTextArea(null, composite, getMessage(), 400, 200, 1, false, false);
 
         composite.setLayout(new GridLayout());
 
-        this.textArea.setText(Format.null2blank(this.getData()));
+        textArea.setText(Format.null2blank(getData()));
 
         return composite;
     }
@@ -42,7 +42,7 @@ public abstract class AbstractErrorDialog extends Dialog {
 
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        this.createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
     }
 
     @Override

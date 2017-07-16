@@ -36,14 +36,14 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
                 final AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) obj;
 
                 if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
-                    commandList.add(new DefaultLineCommand(this.getDiagram(), (WalkerConnection) connectionEditPart.getModel()));
+                    commandList.add(new DefaultLineCommand(getDiagram(), (WalkerConnection) connectionEditPart.getModel()));
                 }
             }
         } else if (editPart instanceof AbstractConnectionEditPart) {
             final AbstractConnectionEditPart connectionEditPart = (AbstractConnectionEditPart) editPart;
 
             if (connectionEditPart.getSource() != connectionEditPart.getTarget()) {
-                commandList.add(new DefaultLineCommand(this.getDiagram(), (WalkerConnection) connectionEditPart.getModel()));
+                commandList.add(new DefaultLineCommand(getDiagram(), (WalkerConnection) connectionEditPart.getModel()));
             }
         }
 
@@ -52,7 +52,7 @@ public class DefaultLineAction extends AbstractBaseSelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        final GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = getGraphicalViewer();
 
         for (final Object object : viewer.getSelectedEditParts()) {
             if (object instanceof ConnectionEditPart) {

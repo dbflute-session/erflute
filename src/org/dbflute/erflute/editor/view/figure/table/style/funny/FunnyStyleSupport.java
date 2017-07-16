@@ -1,7 +1,5 @@
 package org.dbflute.erflute.editor.view.figure.table.style.funny;
 
-import java.math.BigDecimal;
-
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.ImageKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -50,11 +48,7 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         top.add(title, BorderLayout.TOP);
         title.setLayoutManager(layout);
 
-        if (new BigDecimal("1.5").equals(getSettings().getTitleFontEm())) {
-            title.setBorder(new MarginBorder(new Insets(2, 2, 2, 2)));
-        } else {
-            title.setBorder(new MarginBorder(new Insets(4, 4, 4, 4)));
-        }
+        title.setBorder(new MarginBorder(new Insets(2, 2, 2, 2)));
 
         final ImageFigure image = new ImageFigure();
         image.setBorder(new MarginBorder(new Insets(0, 0, 0, 0)));
@@ -134,7 +128,6 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
             String logicalName, String type, boolean primaryKey, boolean foreignKey, boolean isNotNull, boolean uniqueKey,
             boolean displayKey, boolean displayDetail, boolean displayType, boolean isSelectedReferenced, boolean isSelectedForeignKey,
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
-
         columnFigure.setBorder(new MarginBorder(new Insets(1, 0, 1, 0)));
 
         final Label label = createColumnLabel();
@@ -203,9 +196,8 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
     }
 
     @Override
-    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded, boolean isUpdated,
-            boolean isRemoved) {
-
+    public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode,
+            String name, boolean isAdded, boolean isUpdated, boolean isRemoved) {
         columnFigure.setBorder(new MarginBorder(new Insets(1, 0, 1, 0)));
 
         final ImageFigure image = new ImageFigure();
@@ -241,7 +233,6 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
 
     @Override
     public void addIndex(IndexFigure indexFigure, String name, boolean isFirst) {
-
         final ImageFigure image = new ImageFigure();
         image.setBorder(new MarginBorder(new Insets(0, 0, 0, 19)));
         image.setImage(Activator.getImage(ImageKey.BLANK_WHITE));

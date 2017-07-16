@@ -20,15 +20,10 @@ import org.eclipse.ui.PlatformUI;
 public abstract class TablespaceDialog extends AbstractDialog {
 
     private Combo environmentCombo;
-
     private Text nameText;
-
     private Tablespace result;
-
     protected ERDiagram diagram;
-
     private Environment currentEnvironment;
-
     protected static final int NUM_TEXT_WIDTH = 60;
 
     public TablespaceDialog() {
@@ -42,7 +37,6 @@ public abstract class TablespaceDialog extends AbstractDialog {
     public void init(Tablespace tablespace, ERDiagram diagram) {
         if (tablespace == null) {
             this.result = new Tablespace();
-
         } else {
             this.result = tablespace.clone();
         }
@@ -53,15 +47,15 @@ public abstract class TablespaceDialog extends AbstractDialog {
     @Override
     protected void initComponent(Composite composite) {
         this.environmentCombo =
-                CompositeFactory.createReadOnlyCombo(this, composite, "label.tablespace.environment", this.getNumColumns() - 1, -1);
+                CompositeFactory.createReadOnlyCombo(this, composite, "label.tablespace.environment", getNumColumns() - 1, -1);
         this.nameText =
-                CompositeFactory.createText(this, composite, "label.tablespace.name", this.getNumColumns() - 1,
+                CompositeFactory.createText(this, composite, "label.tablespace.name", getNumColumns() - 1,
                         DesignResources.DESCRIPTION_WIDTH, false);
     }
 
     @Override
     protected String doValidate() {
-        String text = this.nameText.getText().trim();
+        final String text = nameText.getText().trim();
         if (text.equals("")) {
             return "error.tablespace.name.empty";
         }
@@ -80,39 +74,35 @@ public abstract class TablespaceDialog extends AbstractDialog {
 
     @Override
     protected void performOK() {
-        this.result.setName(this.nameText.getText().trim());
-
-        TablespaceProperties tablespaceProperties = this.setTablespaceProperties();
-
-        this.result.putProperties(this.currentEnvironment, tablespaceProperties);
+        result.setName(nameText.getText().trim());
+        final TablespaceProperties tablespaceProperties = setTablespaceProperties();
+        result.putProperties(currentEnvironment, tablespaceProperties);
     }
 
     protected abstract TablespaceProperties setTablespaceProperties();
 
     @Override
     protected void setupData() {
-        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments();
+        final List<Environment> environmentList = diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments();
 
-        for (Environment environment : environmentList) {
-            this.environmentCombo.add(environment.getName());
+        for (final Environment environment : environmentList) {
+            environmentCombo.add(environment.getName());
         }
 
-        this.environmentCombo.select(0);
-        this.currentEnvironment = environmentList.get(0);
+        environmentCombo.select(0);
+        currentEnvironment = environmentList.get(0);
 
-        if (this.result.getName() != null) {
-            this.nameText.setText(this.result.getName());
+        if (result.getName() != null) {
+            nameText.setText(result.getName());
         }
 
-        this.setPropertiesData();
+        setPropertiesData();
     }
 
     private void setPropertiesData() {
-        this.currentEnvironment = this.getSelectedEnvironment();
-
-        TablespaceProperties tablespaceProperties = this.result.getProperties(this.currentEnvironment, this.diagram);
-
-        this.setData(tablespaceProperties);
+        currentEnvironment = getSelectedEnvironment();
+        final TablespaceProperties tablespaceProperties = result.getProperties(currentEnvironment, diagram);
+        setData(tablespaceProperties);
     }
 
     protected abstract void setData(TablespaceProperties tablespaceProperties);
@@ -122,16 +112,14 @@ public abstract class TablespaceDialog extends AbstractDialog {
     }
 
     protected Environment getSelectedEnvironment() {
-        int index = this.environmentCombo.getSelectionIndex();
-
-        List<Environment> environmentList = this.diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments();
-
+        final int index = environmentCombo.getSelectionIndex();
+        final List<Environment> environmentList = diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments();
         return environmentList.get(index);
     }
 
     @Override
     protected void addListener() {
-        this.environmentCombo.addSelectionListener(new SelectionAdapter() {
+        environmentCombo.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {

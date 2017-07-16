@@ -15,13 +15,9 @@ import org.dbflute.erflute.editor.view.action.AbstractBaseAction;
 public abstract class AbstractImportAction extends AbstractBaseAction {
 
     protected List<DiagramWalker> importedNodeElements;
-
     protected List<Sequence> importedSequences;
-
     protected List<Trigger> importedTriggers;
-
     protected List<Tablespace> importedTablespaces;
-
     protected List<ColumnGroup> importedColumnGroups;
 
     public AbstractImportAction(String id, String text, MainDiagramEditor editor) {
@@ -29,14 +25,12 @@ public abstract class AbstractImportAction extends AbstractBaseAction {
     }
 
     protected void showData() {
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
 
-        if (this.importedNodeElements != null) {
-            ImportTableCommand command =
-                    new ImportTableCommand(diagram, this.importedNodeElements, this.importedSequences, this.importedTriggers,
-                            this.importedTablespaces, this.importedColumnGroups);
-
-            this.execute(command);
+        if (importedNodeElements != null) {
+            final ImportTableCommand command = new ImportTableCommand(diagram, importedNodeElements,
+                    importedSequences, importedTriggers, importedTablespaces, importedColumnGroups);
+            execute(command);
         }
     }
 }

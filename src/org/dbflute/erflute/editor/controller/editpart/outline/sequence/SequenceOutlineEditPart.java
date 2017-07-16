@@ -25,50 +25,51 @@ import org.eclipse.ui.PlatformUI;
 
 public class SequenceOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
     @Override
     protected void refreshOutlineVisuals() {
-        Sequence sequence = (Sequence) this.getModel();
+        final Sequence sequence = (Sequence) getModel();
 
-        if (!DBManagerFactory.getDBManager(this.getDiagram()).isSupported(DBManager.SUPPORT_SEQUENCE)) {
+        if (!DBManagerFactory.getDBManager(getDiagram()).isSupported(DBManager.SUPPORT_SEQUENCE)) {
             ((TreeItem) getWidget()).setForeground(ColorConstants.lightGray);
 
         } else {
             ((TreeItem) getWidget()).setForeground(ColorConstants.black);
         }
 
-        this.setWidgetText(this.getDiagram().filter(sequence.getName()));
-        this.setWidgetImage(Activator.getImage(ImageKey.SEQUENCE));
+        setWidgetText(getDiagram().filter(sequence.getName()));
+        setWidgetImage(Activator.getImage(ImageKey.SEQUENCE));
     }
 
     @Override
     public void performRequest(Request request) {
         try {
-            Sequence sequence = (Sequence) this.getModel();
-            ERDiagram diagram = this.getDiagram();
+            final Sequence sequence = (Sequence) getModel();
+            final ERDiagram diagram = getDiagram();
 
             if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-                SequenceDialog dialog =
+                final SequenceDialog dialog =
                         new SequenceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), sequence, diagram);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
-                    EditSequenceCommand command = new EditSequenceCommand(diagram, sequence, dialog.getResult());
-                    this.execute(command);
+                    final EditSequenceCommand command = new EditSequenceCommand(diagram, sequence, dialog.getResult());
+                    execute(command);
                 }
             }
 
             super.performRequest(request);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }
     }
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new SequenceComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new SequenceComponentEditPolicy());
     }
 
     @Override
@@ -76,6 +77,7 @@ public class SequenceOutlineEditPart extends AbstractOutlineEditPart implements 
         return new SelectEditPartTracker(this);
     }
 
+    @Override
     public boolean isDeleteable() {
         return true;
     }

@@ -16,20 +16,20 @@ public class ChangeStampCommand extends AbstractCommand {
 
     public ChangeStampCommand(ERDiagram diagram, boolean isDisplay) {
         this.diagram = diagram;
-        this.modelProperties = this.diagram.getDiagramContents().getSettings().getModelProperties();
+        this.modelProperties = diagram.getDiagramContents().getSettings().getModelProperties();
         this.newStamp = isDisplay;
-        this.oldStamp = this.modelProperties.isDisplay();
+        this.oldStamp = modelProperties.isDisplay();
     }
 
     @Override
     protected void doExecute() {
-        this.modelProperties.setDisplay(this.newStamp);
-        this.diagram.changeAll();
+        modelProperties.setDisplay(newStamp);
+        diagram.changeAll();
     }
 
     @Override
     protected void doUndo() {
-        this.modelProperties.setDisplay(this.oldStamp);
-        this.diagram.changeAll();
+        modelProperties.setDisplay(oldStamp);
+        diagram.changeAll();
     }
 }

@@ -48,11 +48,9 @@ public class GroupColumnEditPart extends ColumnEditPart {
         }
     }
 
-    public static void addGroupColumnFigure(ERDiagram diagram, TableFigure tableFigure, GroupColumnFigure columnFigure, ERColumn column,
-            boolean isAdded, boolean isUpdated, boolean isRemoved) {
-
+    public static void addGroupColumnFigure(ERDiagram diagram, TableFigure tableFigure,
+            GroupColumnFigure columnFigure, ERColumn column, boolean isAdded, boolean isUpdated, boolean isRemoved) {
         final ColumnGroup groupColumn = (ColumnGroup) column;
-
         tableFigure.addColumnGroup(columnFigure, diagram.getDiagramContents().getSettings().getViewMode(),
                 diagram.filter(groupColumn.getName()), isAdded, isUpdated, isRemoved);
     }

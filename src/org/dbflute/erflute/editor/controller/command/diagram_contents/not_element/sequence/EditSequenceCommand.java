@@ -7,11 +7,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Se
 
 public class EditSequenceCommand extends AbstractCommand {
 
-    private SequenceSet sequenceSet;
-
-    private Sequence oldSequence;
-
-    private Sequence newSequence;
+    private final SequenceSet sequenceSet;
+    private final Sequence oldSequence;
+    private final Sequence newSequence;
 
     public EditSequenceCommand(ERDiagram diagram, Sequence oldSequence, Sequence newSequence) {
         this.sequenceSet = diagram.getDiagramContents().getSequenceSet();
@@ -21,13 +19,13 @@ public class EditSequenceCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        this.sequenceSet.remove(this.oldSequence);
-        this.sequenceSet.addSequence(this.newSequence);
+        sequenceSet.remove(oldSequence);
+        sequenceSet.addSequence(newSequence);
     }
 
     @Override
     protected void doUndo() {
-        this.sequenceSet.remove(this.newSequence);
-        this.sequenceSet.addSequence(this.oldSequence);
+        sequenceSet.remove(newSequence);
+        sequenceSet.addSequence(oldSequence);
     }
 }

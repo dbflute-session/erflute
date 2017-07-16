@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class ExportErrorDialog extends AbstractErrorDialog {
 
-    private List<ValidateResult> errorList;
+    private final List<ValidateResult> errorList;
 
     public ExportErrorDialog(Shell parentShell, List<ValidateResult> errorList) {
         super(parentShell);
@@ -22,9 +22,9 @@ public class ExportErrorDialog extends AbstractErrorDialog {
 
     @Override
     protected String getData() {
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
 
-        for (ValidateResult errorMessage : this.errorList) {
+        for (final ValidateResult errorMessage : errorList) {
             text.append(errorMessage.getMessage());
             text.append("\r\n");
         }

@@ -5,11 +5,8 @@ import java.io.Serializable;
 public class ExportTestDataSetting implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
-
     private int exportFormat;
-
     private String exportFilePath;
-
     private String exportFileEncoding;
 
     public int getExportFormat() {
@@ -44,7 +41,7 @@ public class ExportTestDataSetting implements Serializable, Cloneable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ExportTestDataSetting other = (ExportTestDataSetting) obj;
+        final ExportTestDataSetting other = (ExportTestDataSetting) obj;
         if (exportFileEncoding == null) {
             if (other.exportFileEncoding != null)
                 return false;
@@ -63,11 +60,9 @@ public class ExportTestDataSetting implements Serializable, Cloneable {
     @Override
     public ExportTestDataSetting clone() {
         try {
-            ExportTestDataSetting clone = (ExportTestDataSetting) super.clone();
-
+            final ExportTestDataSetting clone = (ExportTestDataSetting) super.clone();
             return clone;
-
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             return null;
         }
     }

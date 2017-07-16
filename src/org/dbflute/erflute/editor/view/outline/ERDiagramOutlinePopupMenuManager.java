@@ -44,7 +44,7 @@ import org.eclipse.ui.actions.ActionFactory;
  */
 public class ERDiagramOutlinePopupMenuManager extends MenuManager {
 
-    private static final Map<Class<?>, String> ACTION_MAP = new HashMap<Class<?>, String>();
+    private static final Map<Class<?>, String> ACTION_MAP = new HashMap<>();
 
     static {
         ACTION_MAP.put(SequenceSetOutlineEditPart.class, CreateSequenceAction.ID);
@@ -65,31 +65,31 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
             this.actionRegistry = actionRegistry;
             this.outlineActionRegistry = outlineActionRegistry;
 
-            this.add(this.getAction(ChangeNameAction.ID));
-            this.add(this.getAction(ColumnGroupManageAction.ID));
-            this.add(this.getAction(CreateSequenceAction.ID));
-            this.add(this.getAction(CreateTriggerAction.ID));
-            this.add(this.getAction(CreateIndexAction.ID));
-            this.add(this.getAction(CreateTablespaceAction.ID));
-            this.add(this.getAction(DeleteVirtualDiagramAction.ID));
+            add(getAction(ChangeNameAction.ID));
+            add(getAction(ColumnGroupManageAction.ID));
+            add(getAction(CreateSequenceAction.ID));
+            add(getAction(CreateTriggerAction.ID));
+            add(getAction(CreateIndexAction.ID));
+            add(getAction(CreateTablespaceAction.ID));
+            add(getAction(DeleteVirtualDiagramAction.ID));
 
-            this.add(new Separator());
+            add(new Separator());
 
             final MenuManager viewModeMenu = new MenuManager(DisplayMessages.getMessage("label.outline.view.mode"));
-            viewModeMenu.add(this.getAction(ChangeOutlineViewToPhysicalAction.ID));
-            viewModeMenu.add(this.getAction(ChangeOutlineViewToLogicalAction.ID));
-            viewModeMenu.add(this.getAction(ChangeOutlineViewToBothAction.ID));
-            this.add(viewModeMenu);
+            viewModeMenu.add(getAction(ChangeOutlineViewToPhysicalAction.ID));
+            viewModeMenu.add(getAction(ChangeOutlineViewToLogicalAction.ID));
+            viewModeMenu.add(getAction(ChangeOutlineViewToBothAction.ID));
+            add(viewModeMenu);
 
             final MenuManager orderByMenu = new MenuManager(DisplayMessages.getMessage("label.order.by"));
-            orderByMenu.add(this.getAction(ChangeOutlineViewOrderByPhysicalNameAction.ID));
-            orderByMenu.add(this.getAction(ChangeOutlineViewOrderByLogicalNameAction.ID));
-            this.add(orderByMenu);
+            orderByMenu.add(getAction(ChangeOutlineViewOrderByPhysicalNameAction.ID));
+            orderByMenu.add(getAction(ChangeOutlineViewOrderByLogicalNameAction.ID));
+            add(orderByMenu);
 
-            this.add(new Separator());
-            this.add(this.getAction(ActionFactory.DELETE));
+            add(new Separator());
+            add(getAction(ActionFactory.DELETE));
 
-            this.addMenuListener(new IMenuListener() {
+            addMenuListener(new IMenuListener() {
                 @Override
                 public void menuAboutToShow(IMenuManager manager) {
                     try {
@@ -162,14 +162,14 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
     }
 
     private IAction getAction(ActionFactory actionFactory) {
-        return this.actionRegistry.getAction(actionFactory.getId());
+        return actionRegistry.getAction(actionFactory.getId());
     }
 
     private IAction getAction(String id) {
-        IAction action = this.actionRegistry.getAction(id);
+        IAction action = actionRegistry.getAction(id);
 
         if (action == null) {
-            action = this.outlineActionRegistry.getAction(id);
+            action = outlineActionRegistry.getAction(id);
         }
 
         return action;

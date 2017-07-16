@@ -44,7 +44,7 @@ public class TableSet extends AbstractModel implements ObjectListModel, Iterable
 
     public int remove(ERTable table) {
         final int index = tableList.indexOf(table);
-        if (0 < index) {
+        if (0 <= index) {
             tableList.remove(index);
         }
 

@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
@@ -34,27 +34,24 @@ public abstract class AbstractModelEditPart extends AbstractGraphicalEditPart im
 
     protected ERDiagram getDiagram() {
         final Object model = getRoot().getContents().getModel();
-        if (model instanceof ERVirtualDiagram) {
-            return ((ERVirtualDiagram) model).getDiagram();
-        }
-        return (ERDiagram) model;
+        return ((IERDiagram) model).toMaterializedDiagram();
     }
 
     protected Category getCurrentCategory() {
-        return this.getDiagram().getCurrentCategory();
+        return getDiagram().getCurrentCategory();
     }
 
     protected void executeCommand(Command command) {
-        this.getViewer().getEditDomain().getCommandStack().execute(command);
+        getViewer().getEditDomain().getCommandStack().execute(command);
     }
 
     @Override
     public final void propertyChange(PropertyChangeEvent event) {
         try {
             if (DEBUG) {
-                logger.log(Level.INFO, this.getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
+                logger.log(Level.INFO, getClass().getName() + ":" + event.getPropertyName() + ":" + event.toString());
             }
-            this.doPropertyChange(event);
+            doPropertyChange(event);
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
         }

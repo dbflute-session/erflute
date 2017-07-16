@@ -33,8 +33,7 @@ public abstract class AbstractStyleSupport implements StyleSupport {
 
     @Override
     public void init() {
-        this.init(this.tableFigure);
-
+        init(tableFigure);
     }
 
     abstract protected void init(TableFigure tableFigure);
@@ -42,21 +41,21 @@ public abstract class AbstractStyleSupport implements StyleSupport {
     @Override
     public void createTitleBar() {
         final Figure top = new Figure();
-        this.tableFigure.add(top, BorderLayout.TOP);
+        tableFigure.add(top, BorderLayout.TOP);
 
-        this.initTitleBar(top);
+        initTitleBar(top);
     }
 
     abstract protected void initTitleBar(Figure top);
 
     protected Color getTextColor() {
-        return this.tableFigure.getTextColor();
+        return tableFigure.getTextColor();
     }
 
     @Override
     public void createColumnArea(IFigure columns) {
-        this.initColumnArea(columns);
-        this.tableFigure.add(columns, BorderLayout.CENTER);
+        initColumnArea(columns);
+        tableFigure.add(columns, BorderLayout.CENTER);
     }
 
     protected void initColumnArea(IFigure columns) {
@@ -168,15 +167,15 @@ public abstract class AbstractStyleSupport implements StyleSupport {
     public void addColumnGroup(GroupColumnFigure columnFigure, int viewMode, String name, boolean isAdded, boolean isUpdated,
             boolean isRemoved) {
 
-        final Label label = this.createColumnLabel();
+        final Label label = createColumnLabel();
 
-        label.setForegroundColor(this.getTextColor());
+        label.setForegroundColor(getTextColor());
 
         final StringBuilder text = new StringBuilder();
         text.append(name);
         text.append(" (GROUP)");
 
-        this.setColumnFigureColor(columnFigure, false, false, isAdded, isUpdated, isRemoved);
+        setColumnFigureColor(columnFigure, false, false, isAdded, isUpdated, isRemoved);
 
         label.setText(text.toString());
 

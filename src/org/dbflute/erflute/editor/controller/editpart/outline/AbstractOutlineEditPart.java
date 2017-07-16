@@ -2,9 +2,11 @@ package org.dbflute.erflute.editor.controller.editpart.outline;
 
 import java.beans.PropertyChangeListener;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
@@ -44,9 +46,9 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart imple
     @Override
     final public void refreshVisuals() {
         if (ERDiagramEditPart.isUpdateable()) {
-            this.refreshOutlineVisuals();
+            refreshOutlineVisuals();
 
-            for (final Object child : this.getChildren()) {
+            for (final Object child : getChildren()) {
                 final AbstractOutlineEditPart part = (AbstractOutlineEditPart) child;
                 part.refreshVisuals();
             }
@@ -54,17 +56,22 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart imple
     }
 
     protected ERDiagram getDiagram() {
-        return (ERDiagram) this.getRoot().getContents().getModel();
+        if (getModel() instanceof DiagramWalker) {
+            return ((DiagramWalker) getModel()).getDiagram();
+        }
+
+        Activator.debug(this, "getDiagram", "Not DiagramWalker");
+        return (ERDiagram) getRoot().getContents().getModel();
     }
 
     protected Category getCurrentCategory() {
-        return this.getDiagram().getCurrentCategory();
+        return getDiagram().getCurrentCategory();
     }
 
     abstract protected void refreshOutlineVisuals();
 
     protected void execute(Command command) {
-        this.getViewer().getEditDomain().getCommandStack().execute(command);
+        getViewer().getEditDomain().getCommandStack().execute(command);
     }
 
     public String getFilterText() {

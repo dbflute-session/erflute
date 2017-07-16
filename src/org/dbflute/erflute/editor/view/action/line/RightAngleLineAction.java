@@ -88,7 +88,7 @@ public class RightAngleLineAction extends AbstractBaseSelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        final GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = getGraphicalViewer();
         for (final Object object : viewer.getSelectedEditParts()) {
             if (object instanceof ConnectionEditPart) {
                 return true;

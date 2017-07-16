@@ -16,11 +16,8 @@ public class ExportToDBManager implements IRunnableWithProgress {
     private static Logger logger = Logger.getLogger(ExportToDBManager.class.getName());
 
     protected Connection con;
-
     private String ddl;
-
     private Exception exception;
-
     private String errorSql;
 
     public ExportToDBManager() {
@@ -28,27 +25,27 @@ public class ExportToDBManager implements IRunnableWithProgress {
 
     public void init(Connection con, String ddl) throws SQLException {
         this.con = con;
-        this.con.setAutoCommit(false);
+        con.setAutoCommit(false);
         this.ddl = ddl;
     }
 
+    @Override
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-
         try {
-            String[] ddls = ddl.split(";[\r\n]+");
+            final String[] ddls = ddl.split(";[\r\n]+");
 
             monitor.beginTask(DisplayMessages.getMessage("dialog.message.drop.table"), ddls.length);
 
             for (int i = 0; i < ddls.length; i++) {
                 String message = ddls[i];
-                int index = message.indexOf("\r\n");
+                final int index = message.indexOf("\r\n");
                 if (index != -1) {
                     message = message.substring(0, index);
                 }
 
                 monitor.subTask("(" + (i + 1) + "/" + ddls.length + ") " + message);
 
-                this.executeDDL(ddls[i]);
+                executeDDL(ddls[i]);
                 monitor.worked(1);
 
                 if (monitor.isCanceled()) {
@@ -56,12 +53,10 @@ public class ExportToDBManager implements IRunnableWithProgress {
                 }
             }
 
-            this.con.commit();
-
-        } catch (InterruptedException e) {
+            con.commit();
+        } catch (final InterruptedException e) {
             throw e;
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             this.exception = e;
         }
 
@@ -70,17 +65,14 @@ public class ExportToDBManager implements IRunnableWithProgress {
 
     private void executeDDL(String ddl) throws SQLException {
         Statement stmt = null;
-
         try {
             logger.info(ddl);
-            stmt = this.con.createStatement();
+            stmt = con.createStatement();
             stmt.execute(ddl);
-
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             Activator.error(e);
             this.errorSql = ddl;
             throw e;
-
         } finally {
             if (stmt != null) {
                 stmt.close();

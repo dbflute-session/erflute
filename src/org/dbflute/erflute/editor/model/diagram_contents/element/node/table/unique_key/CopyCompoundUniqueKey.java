@@ -18,13 +18,13 @@ public class CopyCompoundUniqueKey extends CompoundUniqueKey {
 
         this.originalComplexUniqueKey = original;
 
-        for (NormalColumn originalColumn : original.getColumnList()) {
-            for (ERColumn column : copyColumns) {
+        for (final NormalColumn originalColumn : original.getColumnList()) {
+            for (final ERColumn column : copyColumns) {
                 if (column instanceof CopyColumn) {
-                    CopyColumn copyColumn = (CopyColumn) column;
+                    final CopyColumn copyColumn = (CopyColumn) column;
 
                     if (copyColumn.getOriginalColumn().equals(originalColumn)) {
-                        this.addColumn(copyColumn);
+                        addColumn(copyColumn);
                         break;
                     }
                 }
@@ -33,25 +33,25 @@ public class CopyCompoundUniqueKey extends CompoundUniqueKey {
     }
 
     public CompoundUniqueKey restructure() {
-        if (this.originalComplexUniqueKey == null) {
-            this.originalComplexUniqueKey = new CompoundUniqueKey(this.getUniqueKeyName());
+        if (originalComplexUniqueKey == null) {
+            originalComplexUniqueKey = new CompoundUniqueKey(getUniqueKeyName());
         }
 
-        List<NormalColumn> normalColumns = new ArrayList<NormalColumn>();
+        final List<NormalColumn> normalColumns = new ArrayList<>();
 
-        for (NormalColumn column : this.getColumnList()) {
-            CopyColumn copyColumn = (CopyColumn) column;
+        for (NormalColumn column : getColumnList()) {
+            final CopyColumn copyColumn = (CopyColumn) column;
             column = copyColumn.getOriginalColumn();
             normalColumns.add(column);
         }
 
-        this.originalComplexUniqueKey.setColumnList(normalColumns);
-        this.originalComplexUniqueKey.setUniqueKeyName(this.getUniqueKeyName());
+        originalComplexUniqueKey.setColumnList(normalColumns);
+        originalComplexUniqueKey.setUniqueKeyName(getUniqueKeyName());
 
-        return this.originalComplexUniqueKey;
+        return originalComplexUniqueKey;
     }
 
     public CompoundUniqueKey getOriginal() {
-        return this.originalComplexUniqueKey;
+        return originalComplexUniqueKey;
     }
 }

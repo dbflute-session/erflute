@@ -13,23 +13,23 @@ public class UninputTablespaceRule extends TablespaceRule {
 
     @Override
     public boolean validate(ERDiagram diagram, Tablespace tablespace, Environment environment) {
-        TablespaceProperties tablespaceProperties = tablespace.getProperties(environment, diagram);
+        final TablespaceProperties tablespaceProperties = tablespace.getProperties(environment, diagram);
 
-        for (String errorMessage : tablespaceProperties.validate()) {
-            ValidateResult validateResult = new ValidateResult();
-            validateResult.setMessage(DisplayMessages.getMessage(errorMessage) + this.getMessageSuffix(tablespace, environment));
+        for (final String errorMessage : tablespaceProperties.validate()) {
+            final ValidateResult validateResult = new ValidateResult();
+            validateResult.setMessage(DisplayMessages.getMessage(errorMessage) + getMessageSuffix(tablespace, environment));
             validateResult.setLocation(tablespace.getName());
             validateResult.setSeverity(IMarker.SEVERITY_WARNING);
             validateResult.setObject(tablespace);
 
-            this.addError(validateResult);
+            addError(validateResult);
         }
 
         return true;
     }
 
     protected String getMessageSuffix(Tablespace tablespace, Environment environment) {
-        StringBuilder suffix = new StringBuilder();
+        final StringBuilder suffix = new StringBuilder();
         suffix.append(" ");
         suffix.append(DisplayMessages.getMessage("error.tablespace.suffix.1"));
         suffix.append(tablespace.getName());

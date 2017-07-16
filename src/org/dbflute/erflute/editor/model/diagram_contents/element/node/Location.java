@@ -7,11 +7,8 @@ public class Location implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
     public int x;
-
     public int y;
-
     public int width;
-
     public int height;
 
     public Location(int x, int y, int width, int height) {
@@ -25,8 +22,7 @@ public class Location implements Serializable, Cloneable {
     protected Location clone() {
         try {
             return (Location) super.clone();
-
-        } catch (CloneNotSupportedException ignore) {}
+        } catch (final CloneNotSupportedException ignore) {}
 
         return null;
     }

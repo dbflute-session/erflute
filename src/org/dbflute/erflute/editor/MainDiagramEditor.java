@@ -9,13 +9,14 @@ import java.util.Map;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DesignResources;
+import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.dbflute.erflute.editor.controller.editpart.element.PagableFreeformRootEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERTableEditPart;
+import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.extension.ExtensionLoader;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
 import org.dbflute.erflute.editor.view.ERDiagramPopupMenuManager;
 import org.dbflute.erflute.editor.view.action.category.ChangeFreeLayoutAction;
@@ -45,7 +46,6 @@ import org.dbflute.erflute.editor.view.action.option.OptionSettingAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeCapitalAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeNotationExpandGroupAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeStampAction;
-import org.dbflute.erflute.editor.view.action.option.notation.ChangeTitleFontSizeAction;
 import org.dbflute.erflute.editor.view.action.option.notation.LockEditAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ToggleMainColumnAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFrameAction;
@@ -138,6 +138,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     protected static void unselectEditPart() {
         if (selectionEditPart != null) {
             selectionEditPart.setSelected(EditPart.SELECTED_NONE);
+            selectionEditPart = null;
         }
     }
 
@@ -152,7 +153,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     protected final ERDiagram diagram;
     protected final ERDiagramEditPartFactory editPartFactory;
     protected final ZoomComboContributionItem zoomComboContributionItem;
-    protected final ERDiagramOutlinePage outlinePage;
+    protected ERDiagramOutlinePage outlinePage;
     protected final PropertySheetPage propertySheetPage;
 
     protected ERDiagramActionBarContributor actionBarContributor;
@@ -278,6 +279,10 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         getSelectionSynchronizer().addViewer(outlinePage.getViewer());
     }
 
+    public void removeSelection() {
+        getSelectionSynchronizer().removeViewer(outlinePage.getViewer());
+    }
+
     // TODO jflute ermaster: 何度も呼ばれている疑惑、増えていく増えていく
     @Override
     @SuppressWarnings("unchecked")
@@ -292,17 +297,16 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 new ChangeNotationLevelToOnlyTitleAction(this), new ChangeNotationLevelToOnlyKeyAction(this),
                 new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
                 new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
-                new ChangeCapitalAction(this), new ChangeTitleFontSizeAction(this), new ChangeStampAction(this),
-                new ColumnGroupManageAction(this), /* #deleted new ChangeTrackingAction(this) , */
-                new OptionSettingAction(this), /* #deleted new CategoryManageAction(this) , */new ChangeFreeLayoutAction(this),
-                new ChangeShowReferredTablesAction(this),
-                /* #deleted new TranslationManageAction(this), */
+                new ChangeCapitalAction(this), new ChangeStampAction(this), new ColumnGroupManageAction(this),
+                /* #deleted new ChangeTrackingAction(this), */ new OptionSettingAction(this),
+                /* #deleted new CategoryManageAction(this), */new ChangeFreeLayoutAction(this),
+                new ChangeShowReferredTablesAction(this), /* #deleted new TranslationManageAction(this), */
                 /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
                 new ExportToImageAction(this), /* #deleted new ExportToExcelAction(this), */
                 /* #deleted new ExportToHtmlAction(this), new ExportToJavaAction(this), */new ExportToDDLAction(this),
                 /* #deleted new ExportToDictionaryAction(this), new ExportToTranslationDictionaryAction(this), */
-                /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(
-                        this), /* #deleted new EditAllAttributesAction(this), */
+                /* #deleted new ExportToTestDataAction(this), */new PageSettingAction(this),
+                /* #deleted new EditAllAttributesAction(this), */
                 new DirectEditAction((IWorkbenchPart) this), new ERDiagramAlignmentAction(this, PositionConstants.LEFT),
                 new ERDiagramAlignmentAction(this, PositionConstants.CENTER), new ERDiagramAlignmentAction(this, PositionConstants.RIGHT),
                 new ERDiagramAlignmentAction(this, PositionConstants.TOP), new ERDiagramAlignmentAction(this, PositionConstants.MIDDLE),
@@ -441,15 +445,18 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         return getActionRegistry();
     }
 
-    public void reveal(ERTable table) {
-        final ERDiagramEditPart editPart = (ERDiagramEditPart) getGraphicalViewer().getContents();
-        final List<?> tableParts = editPart.getChildren();
-        for (final Object tableEditPart : tableParts) {
-            if (tableEditPart instanceof ERTableEditPart) {
-                final ERTableEditPart vtableEditPart = (ERTableEditPart) tableEditPart;
-                if (((ERTable) vtableEditPart.getModel()).equals(table)) {
-                    getGraphicalViewer().reveal(vtableEditPart);
-                    selectEditPart(vtableEditPart);
+    // ===================================================================================
+    //                                                                              Reveal
+    //                                                                              ======
+    public void reveal(DiagramWalker walker) {
+        final AbstractModelEditPart modelEditPart = (AbstractModelEditPart) getGraphicalViewer().getContents();
+        final List<?> editParts = modelEditPart.getChildren();
+        for (final Object editPart : editParts) {
+            if (editPart instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart walkerEditPart = (DiagramWalkerEditPart) editPart;
+                if (((DiagramWalker) walkerEditPart.getModel()).sameMaterial(walker)) {
+                    getGraphicalViewer().reveal(walkerEditPart);
+                    selectEditPart(walkerEditPart);
                     return;
                 }
             }

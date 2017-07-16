@@ -63,7 +63,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     @Override
     public void setLocation(Location location) {
         super.setLocation(location);
-        if (this.getDiagram() != null) {
+        if (getDiagram() != null) {
             for (final Relationship relationship : getOutgoingRelationshipList()) {
                 relationship.setParentMove();
             }
@@ -88,7 +88,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
 
     public List<NormalColumn> getExpandedColumns() {
         final List<NormalColumn> expandedColumns = new ArrayList<>();
-        for (final ERColumn column : this.getColumns()) {
+        for (final ERColumn column : getColumns()) {
             if (column instanceof NormalColumn) {
                 final NormalColumn normalColumn = (NormalColumn) column;
                 expandedColumns.add(normalColumn);
@@ -101,24 +101,24 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public void setDirty() {
-        this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
+        firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
     public void addColumn(ERColumn column) {
-        this.getColumns().add(column);
+        getColumns().add(column);
         column.setColumnHolder(this);
-        this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
+        firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
     public void addColumn(int index, ERColumn column) {
-        this.getColumns().add(index, column);
+        getColumns().add(index, column);
         column.setColumnHolder(this);
-        this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
+        firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
     public void removeColumn(ERColumn column) {
-        this.getColumns().remove(column);
-        this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
+        getColumns().remove(column);
+        firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
     public NormalColumn findColumnByPhysicalName(String physicalName) {
@@ -164,12 +164,12 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     //                                                                         Restructure
     //                                                                         ===========
     public void restructureData(TableView to) {
-        final Dictionary dictionary = this.getDiagram().getDiagramContents().getDictionary();
-        to.setPhysicalName(this.getPhysicalName());
-        to.setLogicalName(this.getLogicalName());
-        to.setDescription(this.getDescription());
+        final Dictionary dictionary = getDiagram().getDiagramContents().getDictionary();
+        to.setPhysicalName(getPhysicalName());
+        to.setLogicalName(getLogicalName());
+        to.setDescription(getDescription());
         if (getColor() != null) {
-            to.setColor(this.getColor()[0], this.getColor()[1], this.getColor()[2]);
+            to.setColor(getColor()[0], getColor()[1], getColor()[2]);
         }
         for (final NormalColumn toColumn : to.getNormalColumns()) {
             dictionary.remove(toColumn);
@@ -205,7 +205,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
                 columns.add(fromColumn);
             }
         }
-        this.setTargetTableRelation(to, newPrimaryKeyColumns);
+        setTargetTableRelation(to, newPrimaryKeyColumns);
         to.setColumns(columns);
     }
 
@@ -253,7 +253,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
                 }
                 if (isPrimaryChanged) {
                     final List<NormalColumn> nextNewPrimaryKeyColumns = ((ERTable) targetTable).getPrimaryKeys();
-                    this.setTargetTableRelation(targetTable, nextNewPrimaryKeyColumns);
+                    setTargetTableRelation(targetTable, nextNewPrimaryKeyColumns);
                 }
                 targetTable.setDirty();
             }
@@ -285,10 +285,10 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     //                                                                        Column Group
     //                                                                        ============
     public void replaceColumnGroup(ColumnGroup oldColumnGroup, ColumnGroup newColumnGroup) {
-        final int index = this.columns.indexOf(oldColumnGroup);
+        final int index = columns.indexOf(oldColumnGroup);
         if (index != -1) {
-            this.columns.remove(index);
-            this.columns.add(index, newColumnGroup);
+            columns.remove(index);
+            columns.add(index, newColumnGroup);
         }
     }
 
@@ -299,10 +299,10 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
         final StringBuilder sb = new StringBuilder();
         final DBManager dbManager = DBManagerFactory.getDBManager(database);
         if (!dbManager.isSupported(DBManager.SUPPORT_SCHEMA)) {
-            return Format.null2blank(this.getPhysicalName());
+            return Format.null2blank(getPhysicalName());
         }
-        final TableViewProperties tableViewProperties = this.getDiagram().getDiagramContents().getSettings().getTableViewProperties();
-        String schema = this.tableViewProperties.getSchema();
+        final TableViewProperties tableViewProperties = getDiagram().getDiagramContents().getSettings().getTableViewProperties();
+        String schema = tableViewProperties.getSchema();
         if (schema == null || schema.equals("")) {
             schema = tableViewProperties.getSchema();
         }
@@ -310,7 +310,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
             sb.append(schema);
             sb.append(".");
         }
-        sb.append(this.getPhysicalName());
+        sb.append(getPhysicalName());
         return sb.toString();
     }
 
@@ -411,9 +411,9 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public void setPhysicalName(String physicalName) {
-        final String old = this.physicalName;
+        final String old = physicalName;
         this.physicalName = physicalName;
-        this.firePropertyChange(PROPERTY_CHANGE_PHYSICAL_NAME, old, physicalName);
+        firePropertyChange(PROPERTY_CHANGE_PHYSICAL_NAME, old, physicalName);
     }
 
     public String getLogicalName() {
@@ -421,14 +421,14 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public void setLogicalName(String logicalName) {
-        final String old = this.logicalName;
+        final String old = logicalName;
         this.logicalName = logicalName;
-        this.firePropertyChange(PROPERTY_CHANGE_LOGICAL_NAME, old, logicalName);
+        firePropertyChange(PROPERTY_CHANGE_LOGICAL_NAME, old, logicalName);
     }
 
     @Override
     public String getName() {
-        return this.getPhysicalName(); // #for_erflute change logical to physical for fixed sort
+        return getPhysicalName(); // #for_erflute change logical to physical for fixed sort
     }
 
     @Override
@@ -445,7 +445,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public ERColumn getColumn(int index) {
-        return this.columns.get(index);
+        return columns.get(index);
     }
 
     public void setColumns(List<ERColumn> columns) {
@@ -463,9 +463,9 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     public void changeTableViewProperty(final TableView sourceTableView) {
         // メインビューを更新
         sourceTableView.restructureData(this);
-        this.getDiagram().changeTable(sourceTableView);
+        getDiagram().changeTable(sourceTableView);
 
         // サブビューも更新
-        this.getDiagram().doChangeTable(sourceTableView);
+        getDiagram().doChangeTable(sourceTableView);
     }
 }

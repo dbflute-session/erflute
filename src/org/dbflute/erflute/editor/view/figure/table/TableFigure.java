@@ -30,8 +30,8 @@ public class TableFigure extends RoundedRectangle {
 
     public TableFigure(DiagramSettings settings) {
         this.columns = new Figure();
-        this.setLayoutManager(new BorderLayout());
-        this.setSettings(settings);
+        setLayoutManager(new BorderLayout());
+        setSettings(settings);
     }
 
     public void setSettings(DiagramSettings settings) {
@@ -43,17 +43,17 @@ public class TableFigure extends RoundedRectangle {
         } else {
             this.styleSupport = new FunnyStyleSupport(this, settings);
         }
-        this.styleSupport.init();
-        this.create(null);
+        styleSupport.init();
+        create(null);
     }
 
     public void create(int[] color) {
-        this.decideColor(color);
-        this.removeAll();
-        this.styleSupport.createTitleBar();
-        this.columns.removeAll();
-        this.styleSupport.createColumnArea(this.columns);
-        this.styleSupport.createFooter();
+        decideColor(color);
+        removeAll();
+        styleSupport.createTitleBar();
+        columns.removeAll();
+        styleSupport.createColumnArea(columns);
+        styleSupport.createFooter();
     }
 
     private void decideColor(int[] color) {
@@ -68,16 +68,16 @@ public class TableFigure extends RoundedRectangle {
     }
 
     public void setName(String name) {
-        this.styleSupport.setName(name);
+        styleSupport.setName(name);
     }
 
     public void setFont(Font font, Font titleFont) {
-        this.setFont(font);
-        this.styleSupport.setFont(font, titleFont);
+        setFont(font);
+        styleSupport.setFont(font, titleFont);
     }
 
     public void clearColumns() {
-        this.columns.removeAll();
+        columns.removeAll();
     }
 
     public void addColumn(ERTable table, NormalColumn normalColumn, NormalColumnFigure columnFigure, int viewMode, String physicalName,
@@ -86,7 +86,7 @@ public class TableFigure extends RoundedRectangle {
             boolean isAdded, boolean isUpdated, boolean isRemoved) {
         columnFigure.removeAll();
         columnFigure.setBackgroundColor(null);
-        this.styleSupport.addColumn(table, normalColumn, columnFigure, viewMode, physicalName, logicalName, type, primaryKey, foreignKey,
+        styleSupport.addColumn(table, normalColumn, columnFigure, viewMode, physicalName, logicalName, type, primaryKey, foreignKey,
                 isNotNull, uniqueKey, displayKey, displayDetail, displayType, isSelectedReferenced, isSelectedForeignKey, isAdded,
                 isUpdated, isRemoved);
     }
@@ -95,19 +95,19 @@ public class TableFigure extends RoundedRectangle {
             boolean isRemoved) {
         columnFigure.removeAll();
         columnFigure.setBackgroundColor(null);
-        this.styleSupport.addColumnGroup(columnFigure, viewMode, name, isAdded, isUpdated, isRemoved);
+        styleSupport.addColumnGroup(columnFigure, viewMode, name, isAdded, isUpdated, isRemoved);
     }
 
     public void addIndex(IndexFigure indexFigure, int viewMode, String physicalName, String logicalName, boolean isFirst) {
         indexFigure.removeAll();
         indexFigure.setBackgroundColor(null);
-        this.styleSupport.addIndex(indexFigure, physicalName, isFirst);
+        styleSupport.addIndex(indexFigure, physicalName, isFirst);
     }
 
     @Override
     public Rectangle getBounds() {
         final Rectangle bounds = super.getBounds();
-        this.styleSupport.adjustBounds(bounds);
+        styleSupport.adjustBounds(bounds);
         return bounds;
     }
 

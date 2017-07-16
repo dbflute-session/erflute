@@ -1,7 +1,5 @@
 package org.dbflute.erflute.editor.view;
 
-import java.math.BigDecimal;
-
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
@@ -21,7 +19,6 @@ import org.dbflute.erflute.editor.view.action.option.OptionSettingAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeCapitalAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeNotationExpandGroupAction;
 import org.dbflute.erflute.editor.view.action.option.notation.ChangeStampAction;
-import org.dbflute.erflute.editor.view.action.option.notation.ChangeTitleFontSizeAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFrameAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToFunnyAction;
 import org.dbflute.erflute.editor.view.action.option.notation.design.ChangeDesignToSimpleAction;
@@ -88,7 +85,6 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         final IAction changeDesignToSimpleAction = getAction(ChangeDesignToSimpleAction.ID);
 
         final IAction changeCapitalAction = getAction(ChangeCapitalAction.ID);
-        final IAction changeTitleFontSizeAction = getAction(ChangeTitleFontSizeAction.ID);
         final IAction changeStampAction = getAction(ChangeStampAction.ID);
 
         final IAction changeFreeLayoutAction = getAction(ChangeFreeLayoutAction.ID);
@@ -100,32 +96,32 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         final IAction redoAction = getAction(ActionFactory.REDO);
         redoAction.setActionDefinitionId("org.eclipse.ui.edit.redo");
 
-        this.add(undoAction);
-        this.add(redoAction);
+        add(undoAction);
+        add(redoAction);
 
         final IAction copyAction = getAction(ActionFactory.COPY);
         copyAction.setActionDefinitionId("org.eclipse.ui.edit.copy");
-        this.add(copyAction);
+        add(copyAction);
 
         final IAction pasteAction = getAction(ActionFactory.PASTE);
         pasteAction.setActionDefinitionId("org.eclipse.ui.edit.paste");
-        this.add(pasteAction);
+        add(pasteAction);
 
-        this.add(getAction(ActionFactory.DELETE));
-        this.add(getAction(ActionFactory.SELECT_ALL));
+        add(getAction(ActionFactory.DELETE));
+        add(getAction(ActionFactory.SELECT_ALL));
 
-        this.add(new Separator());
+        add(new Separator());
 
-        this.add(getAction(ResizeModelAction.ID));
-        this.add(getAction(RightAngleLineAction.ID));
-        this.add(getAction(DefaultLineAction.ID));
+        add(getAction(ResizeModelAction.ID));
+        add(getAction(RightAngleLineAction.ID));
+        add(getAction(DefaultLineAction.ID));
 
-        this.add(new Separator());
+        add(new Separator());
 
-        this.add(getAction(SearchAction.ID));
-        this.add(getAction(ERDiagramQuickOutlineAction.ID));
+        add(getAction(SearchAction.ID));
+        add(getAction(ERDiagramQuickOutlineAction.ID));
 
-        this.add(new Separator());
+        add(new Separator());
 
         final MenuManager displayMenu = new MenuManager(DisplayMessages.getMessage("label.display"));
 
@@ -159,17 +155,16 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         designMenu.add(changeDesignToSimpleAction);
         displayMenu.add(designMenu);
         displayMenu.add(changeCapitalAction);
-        displayMenu.add(changeTitleFontSizeAction);
         displayMenu.add(changeStampAction);
-        this.add(displayMenu);
+        add(displayMenu);
 
-        this.add(new Separator());
+        add(new Separator());
 
         add(prepareImportMenu(sharedImages));
         add(prepareExportMenu(sharedImages));
 
         add(getAction(VirtualDiagramAddAction.ID));
-        this.add(new Separator());
+        add(new Separator());
 
         // #deleted category
         //final MenuManager categoryMenu = new MenuManager(DisplayMessages.getMessage("label.category"));
@@ -185,10 +180,10 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
         // #thinking unused for now, needed? by jflute
         //this.add(this.getAction(PlaceTableAction.ID));
 
-        this.add(getAction(PageSettingAction.ID));
+        add(getAction(PageSettingAction.ID));
         add(getAction(OptionSettingAction.ID));
 
-        this.addMenuListener(new IMenuListener() {
+        addMenuListener(new IMenuListener() {
             @Override
             public void menuAboutToShow(IMenuManager manager) {
                 undoAction.setText(DisplayMessages.getMessage("action.title.undo"));
@@ -226,19 +221,14 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_TITLE) {
                     changeNotationLevelToOnlyTitleAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_COLUMN) {
                     changeNotationLevelToColumnAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_KEY) {
                     changeNotationLevelToOnlyKeyAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_NAME_AND_KEY) {
                     changeNotationLevelToNameAndKeyAction.setChecked(true);
-
                 } else if (settings.getNotationLevel() == DiagramSettings.NOTATION_LEVLE_EXCLUDE_TYPE) {
                     changeNotationLevelToExcludeTypeAction.setChecked(true);
-
                 } else {
                     changeNotationLevelToDetailAction.setChecked(true);
                 }
@@ -253,19 +243,14 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
                 if (settings.getTableStyle().equals(ChangeDesignToFrameAction.TYPE)) {
                     changeDesignToFrameAction.setChecked(true);
-
                 } else if (settings.getTableStyle().equals(ChangeDesignToSimpleAction.TYPE)) {
                     changeDesignToSimpleAction.setChecked(true);
-
                 } else {
                     changeDesignToFunnyAction.setChecked(true);
                 }
 
                 if (settings.isCapital()) {
                     changeCapitalAction.setChecked(true);
-                }
-                if (new BigDecimal("1.5").equals(settings.getTitleFontEm())) {
-                    changeTitleFontSizeAction.setChecked(true);
                 }
 
                 if (settings.getModelProperties().isDisplay()) {
@@ -288,7 +273,7 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
     //                                                                              ======
     private MenuManager prepareImportMenu(final ISharedImages sharedImages) {
         final MenuManager importMenu = new MenuManager("Import", sharedImages.getImageDescriptor("IMG_ETOOL_IMPORT_WIZ"), "Import");
-        importMenu.add(this.getAction(ImportFromDBAction.ID));
+        importMenu.add(getAction(ImportFromDBAction.ID));
 
         // #deleted only from DB
         //importMenu.add(getAction(ImportFromFileAction.ID));
@@ -303,8 +288,8 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
                 new MenuManager(DisplayMessages.getMessage("action.title.export"), sharedImages.getImageDescriptor("IMG_ETOOL_EXPORT_WIZ"),
                         "Export");
 
-        exportMenu.add(this.getAction(ExportToDDLAction.ID));
-        exportMenu.add(this.getAction(ExportToImageAction.ID));
+        exportMenu.add(getAction(ExportToDDLAction.ID));
+        exportMenu.add(getAction(ExportToImageAction.ID));
 
         // #deleted
         //exportMenu.add(this.getAction(ExportToExcelAction.ID));
@@ -323,10 +308,10 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
     //                                                                              Action
     //                                                                              ======
     private IAction getAction(ActionFactory actionFactory) {
-        return this.actionRegistry.getAction(actionFactory.getId());
+        return actionRegistry.getAction(actionFactory.getId());
     }
 
     private IAction getAction(String id) {
-        return this.actionRegistry.getAction(id);
+        return actionRegistry.getAction(id);
     }
 }

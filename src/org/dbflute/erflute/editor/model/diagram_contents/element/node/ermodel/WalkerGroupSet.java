@@ -20,35 +20,37 @@ public class WalkerGroupSet extends AbstractModel implements ObjectListModel, It
     private List<WalkerGroup> groupList;
 
     public WalkerGroupSet() {
-        this.groupList = new ArrayList<WalkerGroup>();
+        this.groupList = new ArrayList<>();
     }
 
     public void add(WalkerGroup table) {
-        this.groupList.add(table);
-        this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
+        groupList.add(table);
+        firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
     }
 
     public int remove(WalkerGroup table) {
-        final int index = this.groupList.indexOf(table);
-        this.groupList.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
+        final int index = groupList.indexOf(table);
+        if (0 <= index) {
+            groupList.remove(index);
+            firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
+        }
 
         return index;
     }
 
     public void setDirty() {
-        this.firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
+        firePropertyChange(PROPERTY_CHANGE_WALKER_GROUP_SET, null, null);
     }
 
     public List<WalkerGroup> getList() {
-        Collections.sort(this.groupList);
-        return this.groupList;
+        Collections.sort(groupList);
+        return groupList;
     }
 
     @Override
     public Iterator<WalkerGroup> iterator() {
         Collections.sort(groupList);
-        return this.groupList.iterator();
+        return groupList.iterator();
     }
 
     public void overrideAll(List<WalkerGroup> newList) {
@@ -62,8 +64,8 @@ public class WalkerGroupSet extends AbstractModel implements ObjectListModel, It
     @Override
     public WalkerGroupSet clone() {
         final WalkerGroupSet groupSet = (WalkerGroupSet) super.clone();
-        final List<WalkerGroup> newTableList = new ArrayList<WalkerGroup>();
-        for (final WalkerGroup table : this.groupList) {
+        final List<WalkerGroup> newTableList = new ArrayList<>();
+        for (final WalkerGroup table : groupList) {
             final WalkerGroup newTable = table.clone();
             newTableList.add(newTable);
         }

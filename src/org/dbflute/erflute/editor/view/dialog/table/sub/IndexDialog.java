@@ -63,8 +63,8 @@ public class IndexDialog extends AbstractDialog {
     private Button uniqueCheckBox;
     private Button fullTextCheckBox;
     private ERIndex resultIndex;
-    private final Map<ERColumn, Button> descCheckBoxMap = new HashMap<ERColumn, Button>();
-    private final Map<ERColumn, TableEditor> columnCheckMap = new HashMap<ERColumn, TableEditor>();
+    private final Map<ERColumn, Button> descCheckBoxMap = new HashMap<>();
+    private final Map<ERColumn, TableEditor> columnCheckMap = new HashMap<>();
 
     // ===================================================================================
     //                                                                         Constructor
@@ -74,7 +74,7 @@ public class IndexDialog extends AbstractDialog {
         this.targetIndex = targetIndex;
         this.table = table;
         this.allColumns = table.getExpandedColumns();
-        this.selectedColumns = new ArrayList<NormalColumn>();
+        this.selectedColumns = new ArrayList<>();
     }
 
     // ===================================================================================
@@ -135,11 +135,11 @@ public class IndexDialog extends AbstractDialog {
         gridLayout.numColumns = 4;
         checkComposite.setLayout(gridLayout);
         this.uniqueCheckBox = new Button(checkComposite, SWT.CHECK);
-        this.uniqueCheckBox.setText(DisplayMessages.getMessage("label.index.unique"));
-        final DBManager dbManager = DBManagerFactory.getDBManager(this.table.getDiagram());
+        uniqueCheckBox.setText(DisplayMessages.getMessage("label.index.unique"));
+        final DBManager dbManager = DBManagerFactory.getDBManager(table.getDiagram());
         if (dbManager.isSupported(DBManager.SUPPORT_FULLTEXT_INDEX)) {
             this.fullTextCheckBox = new Button(checkComposite, SWT.CHECK);
-            this.fullTextCheckBox.setText(DisplayMessages.getMessage("label.index.fulltext"));
+            fullTextCheckBox.setText(DisplayMessages.getMessage("label.index.fulltext"));
         }
     }
 
@@ -155,7 +155,7 @@ public class IndexDialog extends AbstractDialog {
         composite.setLayout(gridLayout2);
         composite.setLayoutData(gridData);
         this.addButton = CompositeFactory.createAddButton(composite);
-        this.createGroup1(composite);
+        createGroup1(composite);
         this.removeButton = CompositeFactory.createRemoveButton(composite);
     }
 
@@ -201,16 +201,16 @@ public class IndexDialog extends AbstractDialog {
         // indexColumnList = new List(group, SWT.BORDER | SWT.V_SCROLL);
         // indexColumnList.setLayoutData(gridData5);
         this.upButton = new Button(group, SWT.NONE);
-        this.upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
-        this.upButton.setLayoutData(upButtonGridData);
+        upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
+        upButton.setLayoutData(upButtonGridData);
         this.downButton = new Button(group, SWT.NONE);
-        this.downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
-        this.downButton.setLayoutData(downButtonGridData);
+        downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
+        downButton.setLayoutData(downButtonGridData);
     }
 
     private void initializeAllList() {
-        for (final NormalColumn column : this.allColumns) {
-            this.allColumnList.add(column.getPhysicalName());
+        for (final NormalColumn column : allColumns) {
+            allColumnList.add(column.getPhysicalName());
         }
     }
 
@@ -254,9 +254,9 @@ public class IndexDialog extends AbstractDialog {
                     typeCombo.setText(targetIndex.getType());
                 }
             }
-            final java.util.List<Boolean> descs = this.targetIndex.getDescs();
+            final java.util.List<Boolean> descs = targetIndex.getDescs();
             int i = 0;
-            for (final NormalColumn column : this.targetIndex.getColumns()) {
+            for (final NormalColumn column : targetIndex.getColumns()) {
                 Boolean desc = Boolean.FALSE;
                 if (descs.size() > i && descs.get(i) != null) {
                     desc = descs.get(i);
@@ -285,7 +285,7 @@ public class IndexDialog extends AbstractDialog {
     //                                                                            Listener
     //                                                                            ========
     private void setListener() {
-        this.upButton.addSelectionListener(new SelectionAdapter() {
+        upButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = indexColumnList.getSelectionIndex();
@@ -296,7 +296,7 @@ public class IndexDialog extends AbstractDialog {
                 indexColumnList.setSelection(index - 1);
             }
         });
-        this.downButton.addSelectionListener(new SelectionAdapter() {
+        downButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = indexColumnList.getSelectionIndex();
@@ -307,7 +307,7 @@ public class IndexDialog extends AbstractDialog {
                 indexColumnList.setSelection(index + 1);
             }
         });
-        this.addButton.addSelectionListener(new SelectionAdapter() {
+        addButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = allColumnList.getSelectionIndex();
@@ -322,7 +322,7 @@ public class IndexDialog extends AbstractDialog {
                 validate();
             }
         });
-        this.removeButton.addSelectionListener(new SelectionAdapter() {
+        removeButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = indexColumnList.getSelectionIndex();
@@ -344,7 +344,7 @@ public class IndexDialog extends AbstractDialog {
                 validate();
             }
         });
-        this.indexNameText.addModifyListener(new ModifyListener() {
+        indexNameText.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
                 validate();
@@ -364,28 +364,28 @@ public class IndexDialog extends AbstractDialog {
             selectedColumns.add(index1 - 1, column2);
             selectedColumns.add(index2, column1);
         }
-        final boolean desc1 = this.descCheckBoxMap.get(column1).getSelection();
-        final boolean desc2 = this.descCheckBoxMap.get(column2).getSelection();
+        final boolean desc1 = descCheckBoxMap.get(column1).getSelection();
+        final boolean desc2 = descCheckBoxMap.get(column2).getSelection();
         final TableItem[] tableItems = indexColumnList.getItems();
-        this.column2TableItem(column1, desc1, tableItems[index2]);
-        this.column2TableItem(column2, desc2, tableItems[index1]);
+        column2TableItem(column1, desc1, tableItems[index2]);
+        column2TableItem(column2, desc2, tableItems[index1]);
     }
 
     private void column2TableItem(NormalColumn column, boolean desc, TableItem tableItem) {
-        this.disposeCheckBox(column);
+        disposeCheckBox(column);
         tableItem.setText(0, column.getPhysicalName());
-        this.setTableEditor(column, tableItem, new Boolean(desc));
+        setTableEditor(column, tableItem, new Boolean(desc));
     }
 
     private void disposeCheckBox(ERColumn column) {
-        final TableEditor oldEditor = this.columnCheckMap.get(column);
+        final TableEditor oldEditor = columnCheckMap.get(column);
         if (oldEditor != null) {
             if (oldEditor.getEditor() != null) {
                 oldEditor.getEditor().dispose();
             }
             oldEditor.dispose();
         }
-        this.columnCheckMap.remove(column);
+        columnCheckMap.remove(column);
     }
 
     @Override
@@ -395,7 +395,7 @@ public class IndexDialog extends AbstractDialog {
     }
 
     public ERIndex getResultIndex() {
-        return this.resultIndex;
+        return resultIndex;
     }
 
     // ===================================================================================
@@ -430,7 +430,7 @@ public class IndexDialog extends AbstractDialog {
         if (indexColumnList.getItemCount() == 0) {
             return "error.index.column.empty";
         }
-        final DBManager dbManager = DBManagerFactory.getDBManager(this.table.getDiagram());
+        final DBManager dbManager = DBManagerFactory.getDBManager(table.getDiagram());
         if (dbManager.isSupported(DBManager.SUPPORT_FULLTEXT_INDEX)) {
             if (fullTextCheckBox.getSelection()) {
                 for (final NormalColumn indexColumn : selectedColumns) {
@@ -472,10 +472,10 @@ public class IndexDialog extends AbstractDialog {
     }
 
     private void setTableEditor(final NormalColumn normalColumn, TableItem tableItem, Boolean desc) {
-        final Button descCheckButton = new Button(this.indexColumnList, SWT.CHECK);
+        final Button descCheckButton = new Button(indexColumnList, SWT.CHECK);
         descCheckButton.pack();
-        if (DBManagerFactory.getDBManager(this.table.getDiagram()).isSupported(DBManager.SUPPORT_DESC_INDEX)) {
-            final TableEditor editor = new TableEditor(this.indexColumnList);
+        if (DBManagerFactory.getDBManager(table.getDiagram()).isSupported(DBManager.SUPPORT_DESC_INDEX)) {
+            final TableEditor editor = new TableEditor(indexColumnList);
             editor.minimumWidth = descCheckButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(descCheckButton, tableItem, 1);

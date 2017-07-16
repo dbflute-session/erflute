@@ -12,20 +12,18 @@ public abstract class AbstractChangeNotationLevelAction extends AbstractBaseActi
 
     public AbstractChangeNotationLevelAction(String id, MainDiagramEditor editor) {
         super(id, null, IAction.AS_RADIO_BUTTON, editor);
-        this.setText(DisplayMessages.getMessage("action.title.change.notation.level." + this.getLevel()));
+        setText(DisplayMessages.getMessage("action.title.change.notation.level." + getLevel()));
     }
 
     @Override
     public void execute(Event event) {
-        if (!this.isChecked()) {
+        if (!isChecked()) {
             return;
         }
 
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeNotationLevelCommand command = new ChangeNotationLevelCommand(diagram, this.getLevel());
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeNotationLevelCommand command = new ChangeNotationLevelCommand(diagram, getLevel());
+        execute(command);
     }
 
     protected abstract int getLevel();

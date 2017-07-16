@@ -11,16 +11,16 @@ import org.eclipse.jface.action.MenuManager;
 
 public class ExtensionLoader {
 
-    private List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<ExtendPopupMenu>();;
+    private List<ExtendPopupMenu> extendPopupMenuList = new ArrayList<>();;
 
     public ExtensionLoader(MainDiagramEditor editor) throws CoreException {
         this.extendPopupMenuList = ExtendPopupMenu.loadExtensions(editor);
     }
 
     public List<IAction> createExtendedActions() {
-        List<IAction> actionList = new ArrayList<IAction>();
+        final List<IAction> actionList = new ArrayList<>();
 
-        for (ExtendPopupMenu extendPopupMenu : this.extendPopupMenuList) {
+        for (final ExtendPopupMenu extendPopupMenu : extendPopupMenuList) {
             actionList.add(extendPopupMenu.getAction());
         }
 
@@ -28,7 +28,7 @@ public class ExtensionLoader {
     }
 
     public void addERDiagramPopupMenu(MenuManager menuMgr, ActionRegistry actionregistry) {
-        for (ExtendPopupMenu extendPopupMenu : this.extendPopupMenuList) {
+        for (final ExtendPopupMenu extendPopupMenu : extendPopupMenuList) {
             menuMgr.findMenuUsingPath(extendPopupMenu.getPath()).add(extendPopupMenu.getAction());
         }
     }

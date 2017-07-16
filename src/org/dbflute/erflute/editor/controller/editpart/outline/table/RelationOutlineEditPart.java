@@ -37,7 +37,7 @@ public class RelationOutlineEditPart extends AbstractOutlineEditPart {
     @Override
     protected void refreshOutlineVisuals() {
         final Relationship model = (Relationship) getModel();
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERDiagram diagram = (ERDiagram) getDiagram();
         final int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
 
         boolean first = true;

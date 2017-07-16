@@ -14,7 +14,6 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 public class Dictionary extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
-
     public static final String PROPERTY_CHANGE_DICTIONARY = "dictionary";
 
     private final Map<Word, List<NormalColumn>> wordMap;
@@ -25,42 +24,38 @@ public class Dictionary extends AbstractModel {
 
     public void add(NormalColumn column) {
         final Word word = column.getWord();
-
         if (word == null) {
             return;
         }
 
-        List<NormalColumn> useColumns = this.wordMap.get(word);
-
+        List<NormalColumn> useColumns = wordMap.get(word);
         if (useColumns == null) {
             useColumns = new ArrayList<>();
-            this.wordMap.put(word, useColumns);
+            wordMap.put(word, useColumns);
         }
 
         if (!useColumns.contains(column)) {
             useColumns.add(column);
         }
 
-        this.firePropertyChange(PROPERTY_CHANGE_DICTIONARY, null, null);
+        firePropertyChange(PROPERTY_CHANGE_DICTIONARY, null, null);
     }
 
     public void remove(NormalColumn column) {
         final Word word = column.getWord();
-
         if (word == null) {
             return;
         }
 
-        final List<NormalColumn> useColumns = this.wordMap.get(word);
-
+        final List<NormalColumn> useColumns = wordMap.get(word);
         if (useColumns != null) {
             useColumns.remove(column);
             if (useColumns.isEmpty()) {
-                this.wordMap.remove(word);
+                wordMap.remove(word);
             }
         }
 
-        this.firePropertyChange(PROPERTY_CHANGE_DICTIONARY, null, null);
+        firePropertyChange(PROPERTY_CHANGE_DICTIONARY, null, null);
     }
 
     public void remove(TableView tableView) {
@@ -68,24 +63,23 @@ public class Dictionary extends AbstractModel {
             return; // 仮想テーブルを消すときはワードは消さない
         }
         for (final NormalColumn normalColumn : tableView.getNormalColumns()) {
-            this.remove(normalColumn);
+            remove(normalColumn);
         }
     }
 
     public void clear() {
-        this.wordMap.clear();
+        wordMap.clear();
     }
 
     public List<Word> getWordList() {
-        final List<Word> list = new ArrayList<>(this.wordMap.keySet());
-
+        final List<Word> list = new ArrayList<>(wordMap.keySet());
         Collections.sort(list);
 
         return list;
     }
 
     public List<NormalColumn> getColumnList(Word word) {
-        return this.wordMap.get(word);
+        return wordMap.get(word);
     }
 
     public void copyTo(Word from, Word to) {

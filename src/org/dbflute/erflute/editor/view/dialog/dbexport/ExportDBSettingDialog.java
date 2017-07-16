@@ -48,9 +48,9 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
         this.environmentCombo = new Combo(group, SWT.BORDER | SWT.READ_ONLY);
         final GridData data = new GridData(GridData.FILL_HORIZONTAL);
         data.widthHint = 200;
-        this.environmentCombo.setLayoutData(data);
-        this.environmentCombo.setVisibleItemCount(20);
-        this.environmentCombo.setEnabled(true);
+        environmentCombo.setLayoutData(data);
+        environmentCombo.setVisibleItemCount(20);
+        environmentCombo.setEnabled(true);
 
         super.initializeBody(group);
     }
@@ -62,15 +62,15 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
     @Override
     protected String doValidate() {
-        if (this.settingAddButton != null) {
-            this.settingAddButton.setEnabled(false);
+        if (settingAddButton != null) {
+            settingAddButton.setEnabled(false);
         }
 
-        if (isBlank(this.environmentCombo)) {
+        if (isBlank(environmentCombo)) {
             return "error.tablespace.environment.empty";
         }
 
-        if (!this.diagram.getDatabase().equals(this.getDBSName())) {
+        if (!diagram.getDatabase().equals(getDBSName())) {
             return "error.database.not.correct";
         }
 
@@ -79,21 +79,21 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
     @Override
     protected void performOK() throws InputException {
-        this.setCurrentSetting();
+        setCurrentSetting();
 
-        final String db = this.getDBSName();
+        final String db = getDBSName();
         final DBManager manager = DBManagerFactory.getDBManager(db);
 
         Connection con = null;
 
         try {
-            this.diagram.setDbSettings(this.dbSettings);
+            diagram.setDbSettings(dbSettings);
 
-            con = this.dbSettings.connect();
+            con = dbSettings.connect();
 
-            final int index = this.environmentCombo.getSelectionIndex();
+            final int index = environmentCombo.getSelectionIndex();
             final Environment environment =
-                    this.diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments().get(index);
+                    diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments().get(index);
 
             final PreTableExportManager exportToDBManager = manager.getPreTableExportManager();
             exportToDBManager.init(con, dbSettings, diagram, environment);
@@ -109,17 +109,15 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
                 if (errorSql != null) {
                     message += "\r\n\r\n" + errorSql;
                 }
-                final ErrorDialog errorDialog = new ErrorDialog(this.getShell(), message);
+                final ErrorDialog errorDialog = new ErrorDialog(getShell(), message);
                 errorDialog.open();
 
                 throw new InputException("error.jdbc.version");
             }
 
             this.ddl = exportToDBManager.getDdl();
-
         } catch (final InputException e) {
             throw e;
-
         } catch (final Exception e) {
             Activator.error(e);
             final Throwable cause = e.getCause();
@@ -130,7 +128,6 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
 
             Activator.showExceptionDialog(e);
             throw new InputException("error.database.not.found");
-
         } finally {
             if (con != null) {
                 try {
@@ -151,12 +148,11 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
     protected void setupData() {
         super.setupData();
 
-        final DiagramSettings settings = this.diagram.getDiagramContents().getSettings();
-
+        final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         for (final Environment environment : settings.getEnvironmentSettings().getEnvironments()) {
-            this.environmentCombo.add(environment.getName());
+            environmentCombo.add(environment.getName());
         }
-        this.environmentCombo.select(0);
+        environmentCombo.select(0);
     }
 
     @Override
@@ -172,7 +168,7 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
     protected void addListener() {
         super.addListener();
 
-        this.environmentCombo.addSelectionListener(new SelectionAdapter() {
+        environmentCombo.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {

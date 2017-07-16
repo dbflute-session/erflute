@@ -50,7 +50,7 @@ public class CreateRelationshipByNewColumnCommand extends AbstractCreateRelation
         relationship.setSourceWalker(null);
         ERDiagramEditPart.setUpdateable(true);
         relationship.setTargetTableView(null);
-        final TableView targetTable = (TableView) this.target.getModel();
+        final TableView targetTable = (TableView) target.getModel();
         targetTable.setDirty();
     }
 }

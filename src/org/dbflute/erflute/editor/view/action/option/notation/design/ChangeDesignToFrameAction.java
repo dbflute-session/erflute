@@ -5,7 +5,6 @@ import org.dbflute.erflute.editor.MainDiagramEditor;
 public class ChangeDesignToFrameAction extends AbstractChangeDesignAction {
 
     public static final String ID = ChangeDesignToFrameAction.class.getName();
-
     public static final String TYPE = "frame";
 
     public ChangeDesignToFrameAction(MainDiagramEditor editor) {

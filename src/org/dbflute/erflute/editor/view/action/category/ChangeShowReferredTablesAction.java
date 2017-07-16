@@ -14,15 +14,14 @@ public class ChangeShowReferredTablesAction extends AbstractBaseAction {
 
     public ChangeShowReferredTablesAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("action.title.category.show.referred.tables"));
+        setText(DisplayMessages.getMessage("action.title.category.show.referred.tables"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
+        final ChangeShowReferredTablesCommand command = new ChangeShowReferredTablesCommand(diagram, isChecked());
 
-        ChangeShowReferredTablesCommand command = new ChangeShowReferredTablesCommand(diagram, this.isChecked());
-
-        this.execute(command);
+        execute(command);
     }
 }

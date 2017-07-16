@@ -13,65 +13,58 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 
 public class ChangeColumnGroupCommand extends AbstractCommand {
 
-    private ColumnGroupSet groupSet;
-
-    private List<CopyColumnGroup> oldCopyGroups;
-
-    private List<CopyColumnGroup> newGroups;
-
-    private Map<TableView, List<ERColumn>> oldColumnListMap;
-
-    private ERDiagram diagram;
+    private final ColumnGroupSet groupSet;
+    private final List<CopyColumnGroup> oldCopyGroups;
+    private final List<CopyColumnGroup> newGroups;
+    private final Map<TableView, List<ERColumn>> oldColumnListMap;
+    private final ERDiagram diagram;
 
     public ChangeColumnGroupCommand(ERDiagram diagram, ColumnGroupSet groupSet, List<CopyColumnGroup> newGroups) {
         this.diagram = diagram;
-
         this.groupSet = groupSet;
-
         this.newGroups = newGroups;
+        this.oldCopyGroups = new ArrayList<>();
+        this.oldColumnListMap = new HashMap<>();
 
-        this.oldCopyGroups = new ArrayList<CopyColumnGroup>();
-        this.oldColumnListMap = new HashMap<TableView, List<ERColumn>>();
-
-        for (ColumnGroup columnGroup : groupSet) {
-            CopyColumnGroup oldCopyGroup = new CopyColumnGroup(columnGroup);
-            this.oldCopyGroups.add(oldCopyGroup);
+        for (final ColumnGroup columnGroup : groupSet) {
+            final CopyColumnGroup oldCopyGroup = new CopyColumnGroup(columnGroup);
+            oldCopyGroups.add(oldCopyGroup);
         }
     }
 
     @Override
     protected void doExecute() {
-        ERDiagram diagram = this.diagram;
+        final ERDiagram diagram = this.diagram;
 
-        this.groupSet.clear();
-        this.oldColumnListMap.clear();
+        groupSet.clear();
+        oldColumnListMap.clear();
 
-        for (CopyColumnGroup oldCopyColumnGroup : oldCopyGroups) {
-            for (NormalColumn column : oldCopyColumnGroup.getColumns()) {
+        for (final CopyColumnGroup oldCopyColumnGroup : oldCopyGroups) {
+            for (final NormalColumn column : oldCopyColumnGroup.getColumns()) {
                 diagram.getDiagramContents().getDictionary().remove(((CopyColumn) column).getOriginalColumn());
             }
         }
 
-        for (CopyColumnGroup newCopyColumnGroup : newGroups) {
-            this.groupSet.add(newCopyColumnGroup.restructure(diagram));
+        for (final CopyColumnGroup newCopyColumnGroup : newGroups) {
+            groupSet.add(newCopyColumnGroup.restructure(diagram));
         }
 
-        for (TableView tableView : this.diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
-            List<ERColumn> columns = tableView.getColumns();
-            List<ERColumn> oldColumns = new ArrayList<ERColumn>(columns);
+        for (final TableView tableView : diagram.getDiagramContents().getDiagramWalkers().getTableViewList()) {
+            final List<ERColumn> columns = tableView.getColumns();
+            final List<ERColumn> oldColumns = new ArrayList<>(columns);
 
-            this.oldColumnListMap.put(tableView, oldColumns);
+            oldColumnListMap.put(tableView, oldColumns);
 
-            for (Iterator<ERColumn> iter = columns.iterator(); iter.hasNext();) {
-                ERColumn column = iter.next();
+            for (final Iterator<ERColumn> iter = columns.iterator(); iter.hasNext();) {
+                final ERColumn column = iter.next();
 
                 if (column instanceof ColumnGroup) {
-                    if (!this.groupSet.contains((ColumnGroup) column)) {
+                    if (!groupSet.contains((ColumnGroup) column)) {
                         iter.remove();
                     }
                 }
@@ -83,23 +76,23 @@ public class ChangeColumnGroupCommand extends AbstractCommand {
 
     @Override
     protected void doUndo() {
-        ERDiagram diagram = this.diagram;
+        final ERDiagram diagram = this.diagram;
 
-        this.groupSet.clear();
+        groupSet.clear();
 
-        for (CopyColumnGroup newCopyColumnGroup : newGroups) {
-            for (NormalColumn column : newCopyColumnGroup.getColumns()) {
+        for (final CopyColumnGroup newCopyColumnGroup : newGroups) {
+            for (final NormalColumn column : newCopyColumnGroup.getColumns()) {
                 diagram.getDiagramContents().getDictionary().remove(((CopyColumn) column).getOriginalColumn());
             }
         }
 
-        for (CopyColumnGroup copyGroup : oldCopyGroups) {
-            ColumnGroup group = copyGroup.restructure(diagram);
-            this.groupSet.add(group);
+        for (final CopyColumnGroup copyGroup : oldCopyGroups) {
+            final ColumnGroup group = copyGroup.restructure(diagram);
+            groupSet.add(group);
         }
 
-        for (TableView tableView : this.oldColumnListMap.keySet()) {
-            List<ERColumn> oldColumns = this.oldColumnListMap.get(tableView);
+        for (final TableView tableView : oldColumnListMap.keySet()) {
+            final List<ERColumn> oldColumns = oldColumnListMap.get(tableView);
             tableView.setColumns(oldColumns);
         }
     }

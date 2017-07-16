@@ -6,27 +6,21 @@ import java.util.List;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
-import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
+import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 
 public class DefaultLineCommand extends AbstractCommand {
 
     private int sourceXp;
-
     private int sourceYp;
-
     private int targetXp;
-
     private int targetYp;
-
-    private WalkerConnection connection;
-
-    private List<Bendpoint> oldBendpointList;
+    private final WalkerConnection connection;
+    private final List<Bendpoint> oldBendpointList;
 
     public DefaultLineCommand(ERDiagram diagram, WalkerConnection connection) {
         if (connection instanceof Relationship) {
-            Relationship relation = (Relationship) connection;
-
+            final Relationship relation = (Relationship) connection;
             this.sourceXp = relation.getSourceXp();
             this.sourceYp = relation.getSourceYp();
             this.targetXp = relation.getTargetXp();
@@ -34,15 +28,14 @@ public class DefaultLineCommand extends AbstractCommand {
         }
 
         this.connection = connection;
-        this.oldBendpointList = this.connection.getBendpoints();
+        this.oldBendpointList = connection.getBendpoints();
     }
 
     @Override
     protected void doExecute() {
-        this.connection.setBendpoints(new ArrayList<Bendpoint>());
+        connection.setBendpoints(new ArrayList<Bendpoint>());
         if (connection instanceof Relationship) {
-            Relationship relation = (Relationship) connection;
-
+            final Relationship relation = (Relationship) connection;
             relation.setSourceLocationp(-1, -1);
             relation.setTargetLocationp(-1, -1);
             relation.setParentMove();
@@ -51,12 +44,11 @@ public class DefaultLineCommand extends AbstractCommand {
 
     @Override
     protected void doUndo() {
-        this.connection.setBendpoints(this.oldBendpointList);
+        connection.setBendpoints(oldBendpointList);
         if (connection instanceof Relationship) {
-            Relationship relation = (Relationship) connection;
-
-            relation.setSourceLocationp(this.sourceXp, this.sourceYp);
-            relation.setTargetLocationp(this.targetXp, this.targetYp);
+            final Relationship relation = (Relationship) connection;
+            relation.setSourceLocationp(sourceXp, sourceYp);
+            relation.setTargetLocationp(targetXp, targetYp);
             relation.setParentMove();
         }
     }

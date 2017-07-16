@@ -14,13 +14,13 @@ public class ChangeStampAction extends AbstractBaseAction {
 
     public ChangeStampAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("action.title.display.stamp"));
+        setText(DisplayMessages.getMessage("action.title.display.stamp"));
     }
 
     @Override
     public void execute(Event event) {
-        final ERDiagram diagram = this.getDiagram();
-        final ChangeStampCommand command = new ChangeStampCommand(diagram, this.isChecked());
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeStampCommand command = new ChangeStampCommand(diagram, isChecked());
+        execute(command);
     }
 }

@@ -28,7 +28,6 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
     @Override
     protected List<Sequence> getModelChildren() {
         final SequenceSet sequenceSet = (SequenceSet) getModel();
-
         final List<Sequence> sequenceList = sequenceSet.getSequenceList();
 
         Collections.sort(sequenceList);
@@ -40,10 +39,8 @@ public class SequenceSetOutlineEditPart extends AbstractOutlineEditPart {
     protected void refreshOutlineVisuals() {
         if (!DBManagerFactory.getDBManager(getDiagram()).isSupported(DBManager.SUPPORT_SEQUENCE)) {
             ((TreeItem) getWidget()).setForeground(ColorConstants.lightGray);
-
         } else {
             ((TreeItem) getWidget()).setForeground(ColorConstants.black);
-
         }
 
         setWidgetText(DisplayMessages.getMessage("label.sequence") + " (" + getModelChildren().size() + ")");

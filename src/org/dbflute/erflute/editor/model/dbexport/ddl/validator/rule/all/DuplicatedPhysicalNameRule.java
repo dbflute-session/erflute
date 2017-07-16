@@ -17,85 +17,84 @@ import org.eclipse.core.resources.IMarker;
 
 public class DuplicatedPhysicalNameRule extends BaseRule {
 
+    @Override
     public boolean validate(ERDiagram diagram) {
-        Set<String> nameSet = new HashSet<String>();
+        final Set<String> nameSet = new HashSet<>();
 
-        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
-
-            String name = table.getNameWithSchema(diagram.getDatabase()).toLowerCase();
+        for (final ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
+            final String name = table.getNameWithSchema(diagram.getDatabase()).toLowerCase();
 
             if (nameSet.contains(name)) {
-                ValidateResult validateResult = new ValidateResult();
+                final ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(DisplayMessages.getMessage("error.validate.duplicated.name") + " [TABLE] " + name);
                 validateResult.setLocation(table.getLogicalName());
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(table);
 
-                this.addError(validateResult);
-
+                addError(validateResult);
             }
             nameSet.add(name);
 
             if (!MySQLDBManager.ID.equals(diagram.getDatabase())) {
-                for (ERIndex index : table.getIndexes()) {
-                    String indexName = index.getName().toLowerCase();
+                for (final ERIndex index : table.getIndexes()) {
+                    final String indexName = index.getName().toLowerCase();
 
                     if (nameSet.contains(indexName)) {
-                        ValidateResult validateResult = new ValidateResult();
+                        final ValidateResult validateResult = new ValidateResult();
                         validateResult.setMessage(DisplayMessages.getMessage("error.validate.duplicated.name") + " [INDEX] "
                                 + indexName + " on table [" + table.getLogicalName() + "]");
                         validateResult.setLocation(indexName);
                         validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                         validateResult.setObject(index.getTable());
 
-                        this.addError(validateResult);
+                        addError(validateResult);
                     }
                     nameSet.add(indexName);
                 }
             }
         }
 
-        for (Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
-            String name = sequence.getNameWithSchema(diagram.getDatabase()).toLowerCase();
+        for (final Sequence sequence : diagram.getDiagramContents().getSequenceSet()) {
+            final String name = sequence.getNameWithSchema(diagram.getDatabase()).toLowerCase();
 
             if (nameSet.contains(name)) {
-                ValidateResult validateResult = new ValidateResult();
+                final ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(DisplayMessages.getMessage("error.validate.duplicated.name") + " [SEQUENCE] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(sequence);
 
-                this.addError(validateResult);
+                addError(validateResult);
             }
             nameSet.add(name);
         }
 
-        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
-            String name = view.getNameWithSchema(diagram.getDatabase()).toLowerCase();
+        for (final ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
+            final String name = view.getNameWithSchema(diagram.getDatabase()).toLowerCase();
 
             if (nameSet.contains(name)) {
-                ValidateResult validateResult = new ValidateResult();
+                final ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(DisplayMessages.getMessage("error.validate.duplicated.name") + " [VIEW] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(view);
 
-                this.addError(validateResult);
+                addError(validateResult);
             }
             nameSet.add(name);
         }
 
-        for (Trigger trigger : diagram.getDiagramContents().getTriggerSet()) {
-            String name = trigger.getNameWithSchema(diagram.getDatabase()).toLowerCase();
+        for (final Trigger trigger : diagram.getDiagramContents().getTriggerSet()) {
+            final String name = trigger.getNameWithSchema(diagram.getDatabase()).toLowerCase();
 
             if (nameSet.contains(name)) {
-                ValidateResult validateResult = new ValidateResult();
+                final ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(DisplayMessages.getMessage("error.validate.duplicated.name") + " [TRIGGER] " + name);
                 validateResult.setLocation(name);
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(trigger);
 
-                this.addError(validateResult);
+                addError(validateResult);
             }
             nameSet.add(name);
         }

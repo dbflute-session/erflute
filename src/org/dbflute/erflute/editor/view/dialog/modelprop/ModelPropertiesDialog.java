@@ -30,22 +30,14 @@ import org.eclipse.swt.widgets.Text;
 public class ModelPropertiesDialog extends AbstractDialog {
 
     private static final int BUTTON_WIDTH = 60;
-
     private Table table;
-
     private Button addButton;
-
     private Button deleteButton;
-
     private Button upButton;
-
     private Button downButton;
-
-    private ModelProperties modelProperties;
-
+    private final ModelProperties modelProperties;
     private TableEditor tableEditor;
-
-    int targetColumn = -1;
+    private int targetColumn = -1;
 
     public ModelPropertiesDialog(Shell parentShell, ModelProperties modelProperties) {
         super(parentShell, 2);
@@ -55,25 +47,25 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
     @Override
     protected void initComponent(Composite composite) {
-        this.createTableComposite(composite);
-        this.createButtonComposite(composite);
+        createTableComposite(composite);
+        createButtonComposite(composite);
     }
 
     /**
      * This method initializes composite1
      */
     private void createTableComposite(Composite parent) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.heightHint = 320;
 
-        GridData tableGridData = new GridData();
+        final GridData tableGridData = new GridData();
         tableGridData.horizontalSpan = 3;
         tableGridData.heightHint = 185;
 
-        Composite composite = new Composite(parent, SWT.BORDER);
+        final Composite composite = new Composite(parent, SWT.BORDER);
         composite.setLayout(gridLayout);
         composite.setLayoutData(gridData);
 
@@ -82,32 +74,32 @@ public class ModelPropertiesDialog extends AbstractDialog {
         table.setLayoutData(tableGridData);
         table.setLinesVisible(true);
 
-        TableColumn tableColumn0 = new TableColumn(table, SWT.NONE);
+        final TableColumn tableColumn0 = new TableColumn(table, SWT.NONE);
         tableColumn0.setWidth(200);
         tableColumn0.setText(DisplayMessages.getMessage("label.property.name"));
-        TableColumn tableColumn1 = new TableColumn(table, SWT.NONE);
+        final TableColumn tableColumn1 = new TableColumn(table, SWT.NONE);
         tableColumn1.setWidth(200);
         tableColumn1.setText(DisplayMessages.getMessage("label.property.value"));
 
-        this.tableEditor = new TableEditor(table);
-        this.tableEditor.grabHorizontal = true;
+        tableEditor = new TableEditor(table);
+        tableEditor.grabHorizontal = true;
 
-        this.table.addMouseListener(new MouseAdapter() {
+        table.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseDown(MouseEvent event) {
-                int index = table.getSelectionIndex();
+                final int index = table.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
 
-                TableItem item = table.getItem(index);
-                Point selectedPoint = new Point(event.x, event.y);
+                final TableItem item = table.getItem(index);
+                final Point selectedPoint = new Point(event.x, event.y);
 
                 targetColumn = -1;
 
                 for (int i = 0; i < table.getColumnCount(); i++) {
-                    Rectangle rect = item.getBounds(i);
+                    final Rectangle rect = item.getBounds(i);
                     if (rect.contains(selectedPoint)) {
                         targetColumn = i;
                         break;
@@ -142,10 +134,10 @@ public class ModelPropertiesDialog extends AbstractDialog {
     }
 
     private void addRow() {
-        TableItem item = new TableItem(table, SWT.NULL);
+        final TableItem item = new TableItem(table, SWT.NULL);
         item.setText(0, "");
         item.setText(1, "");
-        this.targetColumn = 0;
+        targetColumn = 0;
 
         edit(item, tableEditor);
     }
@@ -154,24 +146,23 @@ public class ModelPropertiesDialog extends AbstractDialog {
      * This method initializes composite2
      */
     private void createButtonComposite(Composite parent) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 6;
 
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.horizontalSpan = 2;
 
-        Composite composite = new Composite(parent, SWT.NONE);
+        final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(gridData);
         composite.setLayout(gridLayout);
 
-        GridData buttonGridData = new GridData();
+        final GridData buttonGridData = new GridData();
         buttonGridData.widthHint = BUTTON_WIDTH;
 
         this.addButton = new Button(composite, SWT.NONE);
-        this.addButton.setText(DisplayMessages.getMessage("label.button.add"));
-        this.addButton.setLayoutData(buttonGridData);
-
-        this.addButton.addSelectionListener(new SelectionAdapter() {
+        addButton.setText(DisplayMessages.getMessage("label.button.add"));
+        addButton.setLayoutData(buttonGridData);
+        addButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -180,10 +171,9 @@ public class ModelPropertiesDialog extends AbstractDialog {
         });
 
         this.deleteButton = new Button(composite, SWT.NONE);
-        this.deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
-        this.deleteButton.setLayoutData(buttonGridData);
-
-        this.deleteButton.addSelectionListener(new SelectionAdapter() {
+        deleteButton.setText(DisplayMessages.getMessage("label.button.delete"));
+        deleteButton.setLayoutData(buttonGridData);
+        deleteButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -191,16 +181,15 @@ public class ModelPropertiesDialog extends AbstractDialog {
             }
         });
 
-        Label filler = new Label(composite, SWT.NONE);
-        GridData fillerGridData = new GridData();
+        final Label filler = new Label(composite, SWT.NONE);
+        final GridData fillerGridData = new GridData();
         fillerGridData.widthHint = 30;
         filler.setLayoutData(fillerGridData);
 
         this.upButton = new Button(composite, SWT.NONE);
-        this.upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
-        this.upButton.setLayoutData(buttonGridData);
-
-        this.upButton.addSelectionListener(new SelectionAdapter() {
+        upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
+        upButton.setLayoutData(buttonGridData);
+        upButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -209,10 +198,9 @@ public class ModelPropertiesDialog extends AbstractDialog {
         });
 
         this.downButton = new Button(composite, SWT.NONE);
-        this.downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
-        this.downButton.setLayoutData(buttonGridData);
-
-        this.downButton.addSelectionListener(new SelectionAdapter() {
+        downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
+        downButton.setLayoutData(buttonGridData);
+        downButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -222,39 +210,39 @@ public class ModelPropertiesDialog extends AbstractDialog {
     }
 
     private void removeColumn() {
-        int index = this.table.getSelectionIndex();
+        final int index = table.getSelectionIndex();
 
         if (index != -1) {
-            this.table.remove(index);
+            table.remove(index);
         }
 
-        this.validate();
+        validate();
     }
 
     private void upColumn() {
-        int index = this.table.getSelectionIndex();
+        final int index = table.getSelectionIndex();
 
         if (index != -1 && index != 0) {
-            this.changeColumn(index - 1, index);
-            this.table.setSelection(index - 1);
+            changeColumn(index - 1, index);
+            table.setSelection(index - 1);
         }
     }
 
     private void downColumn() {
-        int index = this.table.getSelectionIndex();
+        final int index = table.getSelectionIndex();
 
         if (index != -1 && index != table.getItemCount() - 1) {
-            this.changeColumn(index, index + 1);
+            changeColumn(index, index + 1);
             table.setSelection(index + 1);
         }
     }
 
     private void changeColumn(int index1, int index2) {
-        TableItem item1 = this.table.getItem(index1);
-        TableItem item2 = this.table.getItem(index2);
+        final TableItem item1 = table.getItem(index1);
+        final TableItem item2 = table.getItem(index2);
 
-        String name1 = item1.getText(0);
-        String value1 = item1.getText(1);
+        final String name1 = item1.getText(0);
+        final String value1 = item1.getText(1);
 
         item1.setText(0, item2.getText(0));
         item1.setText(1, item2.getText(1));
@@ -270,17 +258,17 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
     @Override
     protected void performOK() {
-        this.modelProperties.clear();
+        modelProperties.clear();
 
-        for (int i = 0; i < this.table.getItemCount(); i++) {
-            TableItem item = this.table.getItem(i);
+        for (int i = 0; i < table.getItemCount(); i++) {
+            final TableItem item = table.getItem(i);
 
             if (Check.isEmpty(item.getText(0)) && Check.isEmpty(item.getText(1))) {
                 continue;
             }
 
-            NameValue property = new NameValue(item.getText(0), item.getText(1));
-            this.modelProperties.addProperty(property);
+            final NameValue property = new NameValue(item.getText(0), item.getText(1));
+            modelProperties.addProperty(property);
         }
     }
 
@@ -291,8 +279,8 @@ public class ModelPropertiesDialog extends AbstractDialog {
 
     @Override
     protected void setupData() {
-        for (NameValue property : this.modelProperties.getProperties()) {
-            TableItem item = new TableItem(table, SWT.NULL);
+        for (final NameValue property : modelProperties.getProperties()) {
+            final TableItem item = new TableItem(table, SWT.NULL);
             item.setText(0, Format.null2blank(property.getName()));
             item.setText(1, Format.null2blank(property.getValue()));
         }

@@ -19,28 +19,28 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
     }
 
     protected ERDiagram getDiagram() {
-        EditPart editPart = this.getViewer().getContents();
-        ERDiagram diagram = (ERDiagram) editPart.getModel();
+        final EditPart editPart = getViewer().getContents();
+        final ERDiagram diagram = (ERDiagram) editPart.getModel();
 
         return diagram;
     }
 
     @Override
     public Rectangle getPrintRegion() {
-        ERDiagram diagram = this.getDiagram();
-        PageSettings pageSetting = diagram.getPageSetting();
+        final ERDiagram diagram = getDiagram();
+        final PageSettings pageSetting = diagram.getPageSetting();
 
-        org.eclipse.swt.graphics.Rectangle trim = this.getPrinter().computeTrim(0, 0, 0, 0);
-        org.eclipse.swt.graphics.Point printerDPI = this.getPrinter().getDPI();
+        final org.eclipse.swt.graphics.Rectangle trim = getPrinter().computeTrim(0, 0, 0, 0);
+        final org.eclipse.swt.graphics.Point printerDPI = getPrinter().getDPI();
 
-        Insets notAvailable = new Insets(-trim.y, -trim.x, trim.height + trim.y, trim.width + trim.x);
+        final Insets notAvailable = new Insets(-trim.y, -trim.x, trim.height + trim.y, trim.width + trim.x);
 
-        Insets userPreferred =
+        final Insets userPreferred =
                 new Insets((pageSetting.getTopMargin() * printerDPI.x) / 72, (pageSetting.getLeftMargin() * printerDPI.x) / 72,
                         (pageSetting.getBottomMargin() * printerDPI.x) / 72, (pageSetting.getRightMargin() * printerDPI.x) / 72);
 
-        Rectangle paperBounds = new Rectangle(this.getPrinter().getBounds());
-        Rectangle printRegion = shrink(paperBounds, notAvailable);
+        final Rectangle paperBounds = new Rectangle(getPrinter().getBounds());
+        final Rectangle printRegion = shrink(paperBounds, notAvailable);
         printRegion.intersect(shrink(paperBounds, userPreferred));
         printRegion.translate(trim.x, trim.y);
 
@@ -48,7 +48,7 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
     }
 
     private Rectangle shrink(Rectangle bounds, Insets insets) {
-        Rectangle shrinked = bounds.getCopy();
+        final Rectangle shrinked = bounds.getCopy();
 
         shrinked.x += insets.left;
         shrinked.y += insets.top;
@@ -60,19 +60,19 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
 
     @Override
     protected void setupPrinterGraphicsFor(Graphics graphics, IFigure figure) {
-        ERDiagram diagram = this.getDiagram();
-        PageSettings pageSetting = diagram.getPageSetting();
+        final ERDiagram diagram = getDiagram();
+        final PageSettings pageSetting = diagram.getPageSetting();
 
-        double dpiScale = (double) getPrinter().getDPI().x / Display.getCurrent().getDPI().x * pageSetting.getScale() / 100;
+        final double dpiScale = (double) getPrinter().getDPI().x / Display.getCurrent().getDPI().x * pageSetting.getScale() / 100;
 
-        Rectangle printRegion = getPrintRegion();
+        final Rectangle printRegion = getPrintRegion();
         // put the print region in display coordinates
         printRegion.width /= dpiScale;
         printRegion.height /= dpiScale;
 
-        Rectangle bounds = figure.getBounds();
-        double xScale = (double) printRegion.width / bounds.width;
-        double yScale = (double) printRegion.height / bounds.height;
+        final Rectangle bounds = figure.getBounds();
+        final double xScale = (double) printRegion.width / bounds.width;
+        final double yScale = (double) printRegion.height / bounds.height;
         switch (getPrintMode()) {
         case FIT_PAGE:
             graphics.scale(Math.min(xScale, yScale) * dpiScale);
@@ -93,12 +93,12 @@ public class PrintERDiagramOperation extends PrintGraphicalViewerOperation {
 
     @Override
     protected void printPages() {
-        Graphics graphics = getFreshPrinterGraphics();
-        IFigure figure = getPrintSource();
+        final Graphics graphics = getFreshPrinterGraphics();
+        final IFigure figure = getPrintSource();
         setupPrinterGraphicsFor(graphics, figure);
-        Rectangle bounds = figure.getBounds();
+        final Rectangle bounds = figure.getBounds();
         int x = bounds.x, y = bounds.y;
-        Rectangle clipRect = new Rectangle();
+        final Rectangle clipRect = new Rectangle();
         while (y < bounds.y + bounds.height) {
             while (x < bounds.x + bounds.width) {
                 graphics.pushState();

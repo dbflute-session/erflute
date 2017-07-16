@@ -21,7 +21,7 @@ public class ModelPropertiesFigure extends RectangleFigure {
     public ModelPropertiesFigure() {
         final TableLayout layout = new TableLayout(2);
 
-        this.setLayoutManager(layout);
+        setLayoutManager(layout);
     }
 
     private void addRow(String name, String value, String tableStyle) {
@@ -34,8 +34,8 @@ public class ModelPropertiesFigure extends RectangleFigure {
         nameLabel.setBorder(border);
         nameLabel.setText(name);
         nameLabel.setLabelAlignment(PositionConstants.LEFT);
-        nameLabel.setForegroundColor(this.foregroundColor);
-        this.add(nameLabel);
+        nameLabel.setForegroundColor(foregroundColor);
+        add(nameLabel);
         if (!DisplayMessages.getMessage("action.title.change.design.simple").equals(tableStyle)
                 && !DisplayMessages.getMessage("action.title.change.design.frame").equals(tableStyle)) {
             valueLabel.setBackgroundColor(ColorConstants.white);
@@ -43,19 +43,19 @@ public class ModelPropertiesFigure extends RectangleFigure {
             valueLabel.setForegroundColor(ColorConstants.black);
         } else {
             valueLabel.setOpaque(false);
-            valueLabel.setForegroundColor(this.foregroundColor);
+            valueLabel.setForegroundColor(foregroundColor);
         }
         valueLabel.setBorder(border);
         valueLabel.setText(value);
         valueLabel.setLabelAlignment(PositionConstants.LEFT);
-        this.add(valueLabel);
+        add(valueLabel);
     }
 
     public void setData(List<NameValue> properties, String tableStyle, int[] color) {
-        this.removeAll();
-        this.decideColor(color);
+        removeAll();
+        decideColor(color);
         for (final NameValue property : properties) {
-            this.addRow(property.getName(), property.getValue(), tableStyle);
+            addRow(property.getName(), property.getValue(), tableStyle);
         }
     }
 

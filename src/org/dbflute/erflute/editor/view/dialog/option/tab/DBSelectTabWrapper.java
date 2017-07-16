@@ -19,10 +19,8 @@ import org.eclipse.ui.PlatformUI;
 public class DBSelectTabWrapper extends ValidatableTabWrapper {
 
     private Combo databaseCombo;
-
-    private DiagramSettings settings;
-
-    private OptionSettingDialog dialog;
+    private final DiagramSettings settings;
+    private final OptionSettingDialog dialog;
 
     public DBSelectTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, DiagramSettings settings) {
         super(dialog, parent, style, "label.database");
@@ -30,23 +28,23 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
         this.settings = settings;
         this.dialog = dialog;
 
-        this.init();
+        init();
     }
 
     @Override
     public void initComposite() {
-        GridLayout layout = new GridLayout();
+        final GridLayout layout = new GridLayout();
         layout.numColumns = 2;
-        this.setLayout(layout);
+        setLayout(layout);
 
         this.databaseCombo = CompositeFactory.createReadOnlyCombo(null, this, "label.database");
-        this.databaseCombo.setVisibleItemCount(10);
+        databaseCombo.setVisibleItemCount(10);
 
-        for (String db : DBManagerFactory.getAllDBList()) {
-            this.databaseCombo.add(db);
+        for (final String db : DBManagerFactory.getAllDBList()) {
+            databaseCombo.add(db);
         }
 
-        this.databaseCombo.addSelectionListener(new SelectionAdapter() {
+        databaseCombo.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -54,15 +52,15 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
             }
         });
 
-        this.databaseCombo.setFocus();
+        databaseCombo.setFocus();
     }
 
     @Override
     public void setupData() {
-        for (int i = 0; i < this.databaseCombo.getItemCount(); i++) {
-            String database = this.databaseCombo.getItem(i);
-            if (database.equals(this.settings.getDatabase())) {
-                this.databaseCombo.select(i);
+        for (int i = 0; i < databaseCombo.getItemCount(); i++) {
+            final String database = databaseCombo.getItem(i);
+            if (database.equals(settings.getDatabase())) {
+                databaseCombo.select(i);
                 break;
             }
         }
@@ -70,28 +68,27 @@ public class DBSelectTabWrapper extends ValidatableTabWrapper {
 
     @Override
     public void validatePage() throws InputException {
-        this.settings.setDatabase(this.databaseCombo.getText());
+        settings.setDatabase(databaseCombo.getText());
     }
 
     private void changeDatabase() {
-        MessageBox messageBox =
+        final MessageBox messageBox =
                 new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
         messageBox.setText(DisplayMessages.getMessage("dialog.title.change.database"));
         messageBox.setMessage(DisplayMessages.getMessage("dialog.message.change.database"));
 
         if (messageBox.open() == SWT.OK) {
-            String database = this.databaseCombo.getText();
-            this.settings.setDatabase(database);
-            this.dialog.initTab();
-
+            final String database = databaseCombo.getText();
+            settings.setDatabase(database);
+            dialog.initTab();
         } else {
-            this.setupData();
+            setupData();
         }
     }
 
     @Override
     public void setInitFocus() {
-        this.databaseCombo.setFocus();
+        databaseCombo.setFocus();
     }
 
     @Override

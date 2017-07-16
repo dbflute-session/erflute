@@ -23,7 +23,7 @@ public class OpenERModelCommand extends AbstractCommand {
     protected void doExecute() {
         final ERFluteMultiPageEditor editor = diagram.getEditor();
 
-        editor.setCurrentErmodel(model);
+        editor.setCurrentERModel(model);
 
         ((VirtualDiagramEditor) editor.getActiveEditor()).reveal(table);
         //		IEditorInput editorInput = editor2.getEditorInput();

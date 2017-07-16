@@ -21,12 +21,12 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
     private String name;
 
     public Category() {
-        this.walkerList = new ArrayList<DiagramWalker>();
+        this.walkerList = new ArrayList<>();
     }
 
     public void setContents(List<DiagramWalker> contetns) {
         this.walkerList = contetns;
-        if (this.getWidth() == 0) {
+        if (getWidth() == 0) {
             int categoryX = 0;
             int categoryY = 0;
             int categoryWidth = 300;
@@ -62,23 +62,23 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
                 }
             }
 
-            this.setLocation(new Location(categoryX, categoryY, categoryWidth, categoryHeight));
+            setLocation(new Location(categoryX, categoryY, categoryWidth, categoryHeight));
         }
     }
 
     public boolean contains(DiagramWalker nodeElement) {
-        return this.walkerList.contains(nodeElement);
+        return walkerList.contains(nodeElement);
     }
 
     public boolean isVisible(DiagramWalker nodeElement, ERDiagram diagram) {
         boolean isVisible = false;
-        if (this.contains(nodeElement)) {
+        if (contains(nodeElement)) {
             isVisible = true;
         } else {
             final CategorySettings categorySettings = diagram.getDiagramContents().getSettings().getCategorySetting();
             if (categorySettings.isShowReferredTables()) {
                 for (final DiagramWalker referringElement : nodeElement.getReferringElementList()) {
-                    if (this.contains(referringElement)) {
+                    if (contains(referringElement)) {
                         isVisible = true;
                         break;
                     }
@@ -102,8 +102,8 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
     }
 
     public List<ERTable> getTableContents() {
-        final List<ERTable> tableList = new ArrayList<ERTable>();
-        for (final DiagramWalker walker : this.walkerList) {
+        final List<ERTable> tableList = new ArrayList<>();
+        for (final DiagramWalker walker : walkerList) {
             if (walker instanceof ERTable) {
                 tableList.add((ERTable) walker);
             }
@@ -112,8 +112,8 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
     }
 
     public List<ERView> getViewContents() {
-        final List<ERView> viewList = new ArrayList<ERView>();
-        for (final DiagramWalker walker : this.walkerList) {
+        final List<ERView> viewList = new ArrayList<>();
+        for (final DiagramWalker walker : walkerList) {
             if (walker instanceof ERView) {
                 viewList.add((ERView) walker);
             }
@@ -122,8 +122,8 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
     }
 
     public List<TableView> getTableViewContents() {
-        final List<TableView> tableList = new ArrayList<TableView>();
-        for (final DiagramWalker walker : this.walkerList) {
+        final List<TableView> tableList = new ArrayList<>();
+        for (final DiagramWalker walker : walkerList) {
             if (walker instanceof TableView) {
                 tableList.add((TableView) walker);
             }
@@ -133,7 +133,7 @@ public class Category extends DiagramWalker implements IResizable, Comparable<Ca
 
     @Override
     public int compareTo(Category other) {
-        return Format.null2blank(this.name).compareTo(Format.null2blank(other.name));
+        return Format.null2blank(name).compareTo(Format.null2blank(other.name));
     }
 
     @Override

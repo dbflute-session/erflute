@@ -49,5 +49,4 @@ public abstract class AbstractOutlineBaseAction extends Action {
     }
 
     abstract public void execute(Event event) throws Exception;
-
 }
