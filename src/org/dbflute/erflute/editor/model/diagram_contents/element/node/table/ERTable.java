@@ -338,15 +338,4 @@ public class ERTable extends TableView implements TablePropertiesHolder, ColumnH
     public Dictionary getDictionary() {
         return getDiagram().getDiagramContents().getDictionary();
     }
-
-    public ERTable toVirtualizeIfCan() {
-        if (getDiagram().isVirtual()) {
-            final ERVirtualTable ret = getDiagram().getCurrentVirtualDiagram().findVirtualTable(this);
-            if (ret != null) {
-                return ret;
-            }
-        }
-
-        return this;
-    }
 }

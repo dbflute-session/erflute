@@ -495,4 +495,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     public void runERDiagramQuickOutlineAction() {
         getActionRegistry().getAction(ERDiagramQuickOutlineAction.ID).runWithEvent(null);
     }
+
+    public void setOutlinePage(ERDiagramOutlinePage outlinePage) {
+        this.outlinePage = outlinePage;
+    }
 }

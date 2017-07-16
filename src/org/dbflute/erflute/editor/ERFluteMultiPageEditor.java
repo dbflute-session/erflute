@@ -395,12 +395,6 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         return super.getAdapter(type);
     }
 
-    public int addPage(IEditorPart editor, IEditorInput input, String name) throws PartInitException {
-        final int pageNo = super.addPage(editor, input);
-        setPageText(pageNo, Format.null2blank(name));
-        return pageNo;
-    }
-
     public void setCurrentERModel(ERVirtualDiagram viagram) {
         if (getPageCount() == 1) {
             addVdiagramPage(viagram);
@@ -413,7 +407,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
 
     private void addVdiagramPage(ERVirtualDiagram viagram) {
         final VirtualDiagramEditor vdiagramEditor =
-                new VirtualDiagramEditor(diagram, viagram, getEditPartFactory(), getZoomComboContributionItem(), getOutlinePage());
+                new VirtualDiagramEditor(diagram, viagram, getEditPartFactory(), getZoomComboContributionItem(), outlinePage);
         try {
             addPage(vdiagramEditor, getEditorInput(), viagram.getName());
         } catch (final PartInitException e) {
@@ -421,6 +415,12 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         }
         setActiveEditor(vdiagramEditor);
         vdiagramEditor.addSelection();
+    }
+
+    private int addPage(IEditorPart editor, IEditorInput input, String name) throws PartInitException {
+        final int pageNo = super.addPage(editor, input);
+        setPageText(pageNo, Format.null2blank(name));
+        return pageNo;
     }
 
     // ===================================================================================

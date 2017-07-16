@@ -55,12 +55,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
     @Override
     public ERTable getModel() {
-        final ERTable table = (ERTable) super.getModel();
-        if (table.getDiagram().isVirtual()) {
-            return table.toVirtualizeIfCan();
-        } else {
-            return table;
-        }
+        return ((ERTable) super.getModel());
     }
 
     @Override
