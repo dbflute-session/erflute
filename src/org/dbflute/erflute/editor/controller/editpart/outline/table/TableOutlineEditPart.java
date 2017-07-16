@@ -38,7 +38,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
     @Override
     protected List<AbstractModel> getModelChildren() {
-        final ERTable table = (ERTable) getModel();
+        final ERTable table = getModel();
         final Category category = getCurrentCategory();
         final List<AbstractModel> children = new ArrayList<>();
         if (!quickMode) {
@@ -51,6 +51,16 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         }
 
         return children;
+    }
+
+    @Override
+    public ERTable getModel() {
+        final ERTable table = (ERTable) super.getModel();
+        if (table.getDiagram().isVirtual()) {
+            return table.toVirtualizeIfCan();
+        } else {
+            return table;
+        }
     }
 
     @Override
@@ -67,9 +77,9 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
     }
 
     protected void refreshName() {
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERDiagram diagram = getDiagram();
         final int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
-        final ERTable model = (ERTable) getModel();
+        final ERTable model = getModel();
         String name = null;
         if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             if (model.getPhysicalName() != null) {
@@ -119,14 +129,14 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
     @Override
     public void performRequest(Request request) {
-        final ERTable table = (ERTable) getModel();
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERTable table = getModel();
+        final ERDiagram diagram = getDiagram();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             final ERTable copyTable = table.copyData();
 
             final TableDialog dialog =
-                    new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                            getViewer(), copyTable, diagram.getDiagramContents().getColumnGroupSet());
+                    new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), getViewer(), copyTable, diagram
+                            .getDiagramContents().getColumnGroupSet());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 final CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram, table, copyTable);

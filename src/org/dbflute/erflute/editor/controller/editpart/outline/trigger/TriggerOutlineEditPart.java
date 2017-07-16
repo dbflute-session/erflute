@@ -36,7 +36,7 @@ public class TriggerOutlineEditPart extends AbstractOutlineEditPart implements D
     @Override
     public void performRequest(Request request) {
         final Trigger trigger = (Trigger) getModel();
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERDiagram diagram = getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             final TriggerDialog dialog = new TriggerDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), trigger);

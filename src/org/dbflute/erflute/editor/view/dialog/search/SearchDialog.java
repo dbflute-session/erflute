@@ -175,7 +175,6 @@ public class SearchDialog extends Dialog {
         allCheckBoxGridData.grabExcessHorizontalSpace = true;
 
         allCheckBox.setLayoutData(allCheckBoxGridData);
-
         allCheckBox.addSelectionListener(new SelectionAdapter() {
 
             @Override
@@ -508,7 +507,6 @@ public class SearchDialog extends Dialog {
         resultTable.setHeaderVisible(true);
         resultTable.setLayoutData(gridData);
         resultTable.setLinesVisible(true);
-
         resultTable.addSelectionListener(new SelectionAdapter() {
 
             @Override
@@ -598,11 +596,8 @@ public class SearchDialog extends Dialog {
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
         createButton(parent, REPLACE_ID, DisplayMessages.getMessage("label.search.replace.button"), false);
-
         createButton(parent, SEARCH_ALL_ID, DisplayMessages.getMessage("label.search.all.button"), false);
-
         createButton(parent, SEARCH_NEXT_ID, DisplayMessages.getMessage("label.search.next.button"), true);
-
         createButton(parent, IDialogConstants.CLOSE_ID, IDialogConstants.CLOSE_LABEL, false);
     }
 
@@ -611,7 +606,6 @@ public class SearchDialog extends Dialog {
         if (buttonId == IDialogConstants.CLOSE_ID) {
             setReturnCode(buttonId);
             close();
-
         } else if (buttonId == SEARCH_NEXT_ID || buttonId == SEARCH_ALL_ID) {
             tabFolder.setSelection(1);
 
@@ -644,12 +638,10 @@ public class SearchDialog extends Dialog {
             keywordCombo.setText(keyword);
 
             return;
-
         } else if (buttonId == REPLACE_ID) {
             tabFolder.setSelection(1);
 
             final List<SearchResultRow> replaceRows = getReplaceRows();
-
             if (replaceRows.isEmpty()) {
                 return;
             }
@@ -751,6 +743,7 @@ public class SearchDialog extends Dialog {
     }
 
     private class SearchResultSortListener extends SelectionAdapter {
+
         private final int sortType;
 
         private SearchResultSortListener(int sortType) {

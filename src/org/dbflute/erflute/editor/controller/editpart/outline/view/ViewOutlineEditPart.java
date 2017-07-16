@@ -41,7 +41,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
     @Override
     public void performRequest(Request request) {
         final ERView view = (ERView) getModel();
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERDiagram diagram = getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             final ERView copyView = view.copyData();
@@ -78,7 +78,7 @@ public class ViewOutlineEditPart extends AbstractOutlineEditPart implements Dele
     protected void refreshName() {
         final ERView model = (ERView) getModel();
 
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERDiagram diagram = getDiagram();
 
         String name = null;
 

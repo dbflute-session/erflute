@@ -6,7 +6,6 @@ import java.util.List;
 import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ErrorDialog;
@@ -69,7 +68,7 @@ public class PlaceTableCommand extends AbstractCommand {
 
             // 既にビュー上に同一テーブルがあったら置けない
             for (final ERVirtualTable vtable : editor.getVirtualDiagram().getVirtualTables()) {
-                if (vtable.getRawTable().equals(orgTable)) {
+                if (vtable.sameMaterial(orgTable)) {
                     final ErrorDialog dialog = new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                             "既にこのテーブルはビューに配置されています。ビュー内に同一テーブルは一つしか置けません。");
                     dialog.open();
@@ -88,7 +87,7 @@ public class PlaceTableCommand extends AbstractCommand {
             orgTable.getDiagram().addWalkerPlainly(virtualTable);
         }
 
-        ERModelUtil.refreshDiagram(editor.getDiagram());
+        editor.getDiagram().refresh();
     }
 
     @Override

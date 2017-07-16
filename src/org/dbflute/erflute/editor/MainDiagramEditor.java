@@ -138,6 +138,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     protected static void unselectEditPart() {
         if (selectionEditPart != null) {
             selectionEditPart.setSelected(EditPart.SELECTED_NONE);
+            selectionEditPart = null;
         }
     }
 
@@ -152,7 +153,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     protected final ERDiagram diagram;
     protected final ERDiagramEditPartFactory editPartFactory;
     protected final ZoomComboContributionItem zoomComboContributionItem;
-    protected final ERDiagramOutlinePage outlinePage;
+    protected ERDiagramOutlinePage outlinePage;
     protected final PropertySheetPage propertySheetPage;
 
     protected ERDiagramActionBarContributor actionBarContributor;
@@ -276,6 +277,10 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     public void addSelection() {
         getSelectionSynchronizer().addViewer(outlinePage.getViewer());
+    }
+
+    public void removeSelection() {
+        getSelectionSynchronizer().removeViewer(outlinePage.getViewer());
     }
 
     // TODO jflute ermaster: 何度も呼ばれている疑惑、増えていく増えていく
@@ -443,15 +448,15 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     // ===================================================================================
     //                                                                              Reveal
     //                                                                              ======
-    public void reveal(DiagramWalker table) {
-        final AbstractModelEditPart editPart = (AbstractModelEditPart) getGraphicalViewer().getContents();
-        final List<?> tableParts = editPart.getChildren();
-        for (final Object tableEditPart : tableParts) {
-            if (tableEditPart instanceof DiagramWalkerEditPart) {
-                final DiagramWalkerEditPart vtableEditPart = (DiagramWalkerEditPart) tableEditPart;
-                if (((DiagramWalker) vtableEditPart.getModel()).toMaterialize().equals(table)) {
-                    getGraphicalViewer().reveal(vtableEditPart);
-                    selectEditPart(vtableEditPart);
+    public void reveal(DiagramWalker walker) {
+        final AbstractModelEditPart modelEditPart = (AbstractModelEditPart) getGraphicalViewer().getContents();
+        final List<?> editParts = modelEditPart.getChildren();
+        for (final Object editPart : editParts) {
+            if (editPart instanceof DiagramWalkerEditPart) {
+                final DiagramWalkerEditPart walkerEditPart = (DiagramWalkerEditPart) editPart;
+                if (((DiagramWalker) walkerEditPart.getModel()).sameMaterial(walker)) {
+                    getGraphicalViewer().reveal(walkerEditPart);
+                    selectEditPart(walkerEditPart);
                     return;
                 }
             }

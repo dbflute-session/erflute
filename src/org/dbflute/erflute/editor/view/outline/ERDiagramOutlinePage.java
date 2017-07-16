@@ -255,7 +255,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
             final ERVirtualDiagram erModel = table.getDiagram().findModelByTable(table);
             if (erModel != null) {
                 final OpenERModelCommand command = new OpenERModelCommand(diagram, erModel);
-                command.setTable(table);
+                command.setTable(table.toMaterialize());
                 command.execute(); // コマンドスタックには積まないで実行する。ファイル編集中にしないため。
 
                 // TODO ymd アウトラインツリー上の仮想ダイアグラムを選択するためにのみある。

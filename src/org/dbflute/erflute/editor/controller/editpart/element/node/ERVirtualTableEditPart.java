@@ -30,7 +30,7 @@ public class ERVirtualTableEditPart extends ERTableEditPart {
         //		}
         //		if (event.getPropertyName().equals(TableView.PROPERTY_CHANGE_COLUMNS)) {
         //			this.refreshChildren();
-        ////			refreshVisuals();
+        //			refreshVisuals();
         //		}
         super.doPropertyChange(event);
     }

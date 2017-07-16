@@ -2,9 +2,11 @@ package org.dbflute.erflute.editor.controller.editpart.outline;
 
 import java.beans.PropertyChangeListener;
 
+import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
@@ -54,6 +56,11 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart imple
     }
 
     protected ERDiagram getDiagram() {
+        if (getModel() instanceof DiagramWalker) {
+            return ((DiagramWalker) getModel()).getDiagram();
+        }
+
+        Activator.debug(this, "getDiagram", "Not DiagramWalker");
         return (ERDiagram) getRoot().getContents().getModel();
     }
 

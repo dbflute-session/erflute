@@ -206,7 +206,7 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     public ERVirtualDiagram findModelByTable(ERTable table) {
         for (final ERVirtualDiagram model : diagramContents.getVirtualDiagramSet()) {
             for (final ERVirtualTable vtable : model.getVirtualTables()) {
-                if (vtable.getRawTable().equals(table)) {
+                if (vtable.sameMaterial(table)) {
                     return model;
                 }
             }

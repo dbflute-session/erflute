@@ -14,4 +14,12 @@ public interface Materializable {
     default ViewableModel toMaterialize() {
         return (ViewableModel) this;
     }
+
+    default boolean sameMaterial(Materializable materialable) {
+        if (materialable == null) {
+            return false;
+        }
+
+        return toMaterialize().equals(materialable.toMaterialize());
+    }
 }

@@ -47,8 +47,12 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                 }
             }
 
-            final ERDiagram diagram = ERModelUtil.getDiagram(getHost().getRoot().getContents());
-            DiagramWalker walker = (DiagramWalker) getHost().getModel();
+            final DiagramWalker walker = ((DiagramWalker) getHost().getModel()).toMaterialize();
+            ERDiagram diagram = walker.getDiagram();
+            if (diagram == null) {
+                diagram = ERModelUtil.getDiagram(getHost().getRoot().getContents());
+                Activator.debug(this, "createDeleteCommand", "Diagram of " + walker.toString() + " is null.");
+            }
 
             if (walker instanceof Category) {
                 return new DeleteCategoryCommand(diagram, (Category) walker);
@@ -57,7 +61,6 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
             ERVirtualTable virtualTable = null;
             if (walker instanceof ERVirtualTable) {
                 virtualTable = (ERVirtualTable) walker;
-                walker = virtualTable.toMaterialize();
             }
 
             if (!diagram.getDiagramContents().getDiagramWalkers().contains(walker) && !(walker instanceof Category)
@@ -72,7 +75,6 @@ public class DiagramWalkerComponentEditPolicy extends ComponentEditPolicy {
                 for (final WalkerConnection connection : walker.getIncomings()) {
                     if (connection instanceof Relationship) {
                         command.add(new DeleteRelationshipCommand((Relationship) connection, true));
-
                     } else {
                         command.add(new DeleteConnectionCommand(connection));
                     }
