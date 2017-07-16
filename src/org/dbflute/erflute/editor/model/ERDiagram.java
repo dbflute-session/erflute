@@ -448,7 +448,9 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
         return getCurrentVirtualDiagram() != null;
     }
 
+    @SuppressWarnings("deprecation")
     public void refresh(DiagramWalker... others) {
+        // TODO ERModelUtil#refreshDiagram()は、ここだけで使用する。後で実装自体こちらに移す。
         ERModelUtil.refreshDiagram(this, others);
     }
 
