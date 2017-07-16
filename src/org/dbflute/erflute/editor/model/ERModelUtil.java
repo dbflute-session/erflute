@@ -31,10 +31,24 @@ public class ERModelUtil {
         return ((IERDiagram) model).toMaterializedDiagram();
     }
 
+    /**
+     * @deprecated {@link ERDiagram#refresh()}または{@link DiagramWalker#refresh()}を使って下さい。
+     * @param diagram ER図のモデル。
+     * @param elements 再描画対象のDiagramWalker。
+     * @return diagramをrefreshできた場合true、それ以外の場合false。
+     */
+    @Deprecated
     public static boolean refreshDiagram(ERDiagram diagram, DiagramWalker... elements) {
         return refreshDiagram(diagram, Arrays.asList(elements));
     }
 
+    /**
+     * @deprecated {@link ERDiagram#refresh()}または{@link DiagramWalker#refresh()}を使って下さい。
+     * @param diagram ER図のモデル。
+     * @param elements 再描画対象のDiagramWalker。
+     * @return diagramをrefreshできた場合true、それ以外の場合false。
+     */
+    @Deprecated
     public static boolean refreshDiagram(ERDiagram diagram, List<DiagramWalker> elements) {
         if (refreshDiagram(diagram)) {
             elements.stream().forEach(element -> {
@@ -49,6 +63,12 @@ public class ERModelUtil {
         return false;
     }
 
+    /**
+     * @deprecated {@link ERDiagram#refresh()}を使って下さい。
+     * @param diagram ER図のモデル。
+     * @return diagramをrefreshできた場合true、それ以外の場合false。
+     */
+    @Deprecated
     public static boolean refreshDiagram(ERDiagram diagram) {
         if (diagram == null) {
             return false;
