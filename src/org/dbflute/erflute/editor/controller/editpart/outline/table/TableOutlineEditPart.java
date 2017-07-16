@@ -94,7 +94,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
             if (model.getPhysicalName() != null) {
                 name += model.getPhysicalName();
-
             }
         }
 
@@ -126,12 +125,11 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
             final ERTable copyTable = table.copyData();
 
             final TableDialog dialog =
-                    new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), getViewer(), copyTable, diagram
-                            .getDiagramContents().getColumnGroupSet());
+                    new TableDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                            getViewer(), copyTable, diagram.getDiagramContents().getColumnGroupSet());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 final CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram, table, copyTable);
-
                 execute(command.unwrap());
             }
         }
