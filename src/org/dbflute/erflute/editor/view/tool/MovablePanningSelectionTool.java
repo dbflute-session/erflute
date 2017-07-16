@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
 import org.dbflute.erflute.editor.MainDiagramEditor;
+import org.dbflute.erflute.editor.controller.command.diagram_contents.element.node.MoveElementCommand;
 import org.dbflute.erflute.editor.controller.editpart.element.AbstractModelEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.connection.RelationEditPart;
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
@@ -13,10 +14,13 @@ import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEd
 import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerNoteEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.IERDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.PanningSelectionTool;
 import org.eclipse.swt.SWT;
@@ -40,28 +44,21 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
 
     @Override
     protected boolean handleKeyDown(KeyEvent event) {
-        //        int dx = 0;
-        //        int dy = 0;
-        //        if (event.keyCode == SWT.SHIFT) {
-        //            shift = true;
-        //            return false;
-        //        }
-        //        if (event.keyCode == SWT.ARROW_DOWN) {
-        //            dy = 1;
-        //        } else if (event.keyCode == SWT.ARROW_LEFT) {
-        //            dx = -1;
-        //        } else if (event.keyCode == SWT.ARROW_RIGHT) {
-        //            dx = 1;
-        //        } else if (event.keyCode == SWT.ARROW_UP) {
-        //            dy = -1;
-        //        } else if (event.keyCode == SWT.CTRL) {
-        //            return false;
-        //        }
+        int dx = 0;
+        int dy = 0;
         if (event.keyCode == SWT.SHIFT) {
             shift = true;
             return false;
         }
-        if (event.keyCode == SWT.CTRL) {
+        if (event.keyCode == SWT.ARROW_DOWN) {
+            dy = 1;
+        } else if (event.keyCode == SWT.ARROW_LEFT) {
+            dx = -1;
+        } else if (event.keyCode == SWT.ARROW_RIGHT) {
+            dx = 1;
+        } else if (event.keyCode == SWT.ARROW_UP) {
+            dy = -1;
+        } else if (event.keyCode == SWT.CTRL) {
             return false;
         }
 
@@ -71,14 +68,13 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
         if (diagram != null) {
             final List<?> selectedObject = getCurrentViewer().getSelectedEditParts();
             if (!selectedObject.isEmpty()) {
-                //final CompoundCommand command = new CompoundCommand();
+                final CompoundCommand command = new CompoundCommand();
                 for (final Object obj : selectedObject) {
                     if (isDiagramWalkerEditPart(obj)) {
                         final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) obj;
                         targetEditPart = editPart;
-                        // TODO ymd 不要なMoveElementCommandを止めるため。不要じゃないかもしれないのでコメントに。
-                        //final DiagramWalker walker = (DiagramWalker) editPart.getModel();
-                        //command.add(createMoveElementCommand(dx, dy, diagram, editPart, walker));
+                        final DiagramWalker walker = (DiagramWalker) editPart.getModel();
+                        command.add(createMoveElementCommand(dx, dy, diagram, editPart, walker));
                     } else if (obj instanceof RelationEditPart) {
                         final RelationEditPart editPart = (RelationEditPart) obj;
                         targetEditPart = editPart;
@@ -87,7 +83,7 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                         //command.add(createMoveElementCommand(dx, dy, diagram, editPart, nodeElement));
                     }
                 }
-                //getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
+                getCurrentViewer().getEditDomain().getCommandStack().execute(command.unwrap());
             }
         }
 
@@ -101,13 +97,13 @@ public class MovablePanningSelectionTool extends PanningSelectionTool {
                 || obj instanceof WalkerGroupEditPart || obj instanceof ModelPropertiesEditPart;
     }
 
-    //    private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram,
-    //            final DiagramWalkerEditPart editPart, final DiagramWalker nodeElement) {
-    //        final Rectangle bounds = editPart.getFigure().getBounds();
-    //        final int width = nodeElement.getWidth();
-    //        final int height = nodeElement.getHeight();
-    //        return new MoveElementCommand(diagram, bounds, nodeElement.getX() + dx, nodeElement.getY() + dy, width, height, nodeElement);
-    //    }
+    private MoveElementCommand createMoveElementCommand(int dx, int dy, ERDiagram diagram,
+            final DiagramWalkerEditPart editPart, final DiagramWalker nodeElement) {
+        final Rectangle bounds = editPart.getFigure().getBounds();
+        final int width = nodeElement.getWidth();
+        final int height = nodeElement.getHeight();
+        return new MoveElementCommand(diagram, bounds, nodeElement.getX() + dx, nodeElement.getY() + dy, width, height, nodeElement);
+    }
 
     private void openDetailByKeyCode(KeyEvent event, AbstractGraphicalEditPart targetEditPart) {
         if (targetEditPart != null && isOpenDetailKeyCode(event)) {
