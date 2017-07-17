@@ -181,6 +181,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             Activator.showExceptionDialog(e);
         }
         setEditDomain(new DefaultEditDomain(this));
+        getSelectionSynchronizer().addViewer(outlinePage.getViewer());
     }
 
     // ===================================================================================
@@ -273,14 +274,6 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             getGraphicalViewer().setContents(diagram);
         }
         super.setFocus();
-    }
-
-    public void addSelection() {
-        getSelectionSynchronizer().addViewer(outlinePage.getViewer());
-    }
-
-    public void removeSelection() {
-        getSelectionSynchronizer().removeViewer(outlinePage.getViewer());
     }
 
     // TODO jflute ermaster: 何度も呼ばれている疑惑、増えていく増えていく

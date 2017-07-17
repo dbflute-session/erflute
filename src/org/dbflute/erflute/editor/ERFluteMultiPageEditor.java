@@ -90,7 +90,6 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         if (!diagram.isVirtual()) {
             final MainDiagramEditor editor = (MainDiagramEditor) getActiveEditor();
             editor.getGraphicalViewer().setContents(diagram);
-            editor.addSelection();
         }
     }
 
@@ -399,7 +398,6 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         if (getPageCount() == 1) {
             addVdiagramPage(viagram);
         } else {
-            ((VirtualDiagramEditor) getEditor(1)).removeSelection();
             removePage(1);
             addVdiagramPage(viagram);
         }
@@ -414,7 +412,6 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             Activator.showExceptionDialog(e);
         }
         setActiveEditor(vdiagramEditor);
-        vdiagramEditor.addSelection();
     }
 
     private int addPage(IEditorPart editor, IEditorInput input, String name) throws PartInitException {
