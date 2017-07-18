@@ -6,36 +6,33 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 
 public class ChangeColumnOrderCommand extends AbstractCommand {
 
-    private TableView tableView;
-
-    private ERColumn column;
-
+    private final TableView tableView;
+    private final ERColumn column;
     private int newIndex;
-
-    private int oldIndex;
+    private final int oldIndex;
 
     public ChangeColumnOrderCommand(TableView tableView, ERColumn column, int index) {
         this.tableView = tableView;
         this.column = column;
         this.newIndex = index;
-        this.oldIndex = this.tableView.getColumns().indexOf(column);
+        this.oldIndex = tableView.getColumns().indexOf(column);
 
-        if (this.oldIndex < this.newIndex) {
-            this.newIndex--;
+        if (oldIndex < newIndex) {
+            newIndex--;
         }
     }
 
     @Override
     protected void doExecute() {
-        this.tableView.removeColumn(column);
-        this.tableView.addColumn(newIndex, column);
-        this.tableView.getDiagram().changeAll();
+        tableView.removeColumn(column);
+        tableView.addColumn(newIndex, column);
+        tableView.getDiagram().changeAll();
     }
 
     @Override
     protected void doUndo() {
-        this.tableView.removeColumn(column);
-        this.tableView.addColumn(oldIndex, column);
-        this.tableView.getDiagram().changeAll();
+        tableView.removeColumn(column);
+        tableView.addColumn(oldIndex, column);
+        tableView.getDiagram().changeAll();
     }
 }

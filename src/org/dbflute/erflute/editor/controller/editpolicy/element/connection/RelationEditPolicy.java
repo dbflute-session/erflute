@@ -10,7 +10,7 @@ public class RelationEditPolicy extends ConnectionEditPolicy {
 
     @Override
     protected Command getDeleteCommand(GroupRequest grouprequest) {
-        Relationship relation = (Relationship) this.getHost().getModel();
+        final Relationship relation = (Relationship) getHost().getModel();
         return new DeleteRelationshipCommand(relation, null);
     }
 }

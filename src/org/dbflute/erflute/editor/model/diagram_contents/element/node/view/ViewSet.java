@@ -27,26 +27,26 @@ public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<
     //                                                                         Constructor
     //                                                                         ===========
     public ViewSet() {
-        this.viewList = new ArrayList<ERView>();
+        this.viewList = new ArrayList<>();
     }
 
     // ===================================================================================
     //                                                                       List Handling
     //                                                                       =============
     public void add(ERView view) {
-        this.viewList.add(view);
-        this.firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
+        viewList.add(view);
+        firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
     }
 
     public void add(int index, ERView view) {
-        this.viewList.add(index, view);
-        this.firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
+        viewList.add(index, view);
+        firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
     }
 
     public int remove(ERView view) {
-        final int index = this.viewList.indexOf(view);
-        this.viewList.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
+        final int index = viewList.indexOf(view);
+        viewList.remove(index);
+        firePropertyChange(PROPERTY_CHANGE_VIEW_SET, null, null);
         return index;
     }
 
@@ -62,13 +62,13 @@ public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<
     }
 
     public List<ERView> getCreateDDLSortedList() {
-        final List<ERView> sortedList = new ArrayList<ERView>();
+        final List<ERView> sortedList = new ArrayList<>();
         gatherSortedViewList(sortedList, viewList);
         return sortedList;
     }
 
     public List<ERView> getDropDDLSortedList() {
-        final List<ERView> sortedList = new ArrayList<ERView>();
+        final List<ERView> sortedList = new ArrayList<>();
         gatherSortedViewList(sortedList, viewList);
         return sortedList;
     }
@@ -77,7 +77,7 @@ public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<
         if (targetViewList.isEmpty()) {
             return;
         }
-        final List<ERView> remainingViewList = new ArrayList<ERView>();
+        final List<ERView> remainingViewList = new ArrayList<>();
         for (final ERView view : targetViewList) {
             if (isDependingOnOther(targetViewList, view)) {
                 remainingViewList.add(view);
@@ -116,7 +116,7 @@ public class ViewSet extends AbstractModel implements ObjectListModel, Iterable<
     @Override
     public ViewSet clone() {
         final ViewSet viewSet = (ViewSet) super.clone();
-        final List<ERView> newViewList = new ArrayList<ERView>();
+        final List<ERView> newViewList = new ArrayList<>();
         for (final ERView view : viewList) {
             final ERView newView = view.clone();
             newViewList.add(newView);

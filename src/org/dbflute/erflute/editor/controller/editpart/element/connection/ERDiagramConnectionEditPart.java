@@ -8,8 +8,8 @@ import org.dbflute.erflute.editor.model.AbstractModel;
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
@@ -46,7 +46,7 @@ public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEdit
     }
 
     protected ERDiagram getDiagram() {
-        return ERModelUtil.getDiagram(getRoot().getContents());
+        return ERModelUtil.getDiagram(getRoot().getContents()).toMaterializedDiagram();
     }
 
     protected Category getCurrentCategory() {
@@ -66,21 +66,15 @@ public abstract class ERDiagramConnectionEditPart extends AbstractConnectionEdit
                 return;
             }
 
-            final ERVirtualDiagram vdiagram = getDiagram().getCurrentVirtualDiagram();
             final EditPart source = getSource();
             final EditPart target = getTarget();
-            if (vdiagram != null) {
-                // 仮想ダイアグラム上にソースとターゲットがない接続線は、非表示にする。
-                if (source != null && target != null
-                        && vdiagram.contains(source.getModel(), target.getModel())) {
-                    getFigure().setVisible(true);
-                } else {
-                    getFigure().setVisible(false);
-                }
-                return;
+            if (source != null && target != null
+                    && getDiagram().contains((DiagramWalker) source.getModel(), (DiagramWalker) target.getModel())) {
+                getFigure().setVisible(true);
+            } else {
+                // ソースとターゲットがない接続線は、非表示にする。
+                getFigure().setVisible(false);
             }
-
-            getFigure().setVisible(true);
         } else {
             getFigure().setVisible(false);
         }

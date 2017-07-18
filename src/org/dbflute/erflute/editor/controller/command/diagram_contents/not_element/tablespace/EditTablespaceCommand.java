@@ -7,30 +7,27 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public class EditTablespaceCommand extends AbstractCommand {
 
-    private TablespaceSet tablespaceSet;
-
-    private Tablespace tablespace;
-
-    private Tablespace oldTablespace;
-
-    private Tablespace newTablespace;
+    private final TablespaceSet tablespaceSet;
+    private final Tablespace tablespace;
+    private final Tablespace oldTablespace;
+    private final Tablespace newTablespace;
 
     public EditTablespaceCommand(ERDiagram diagram, Tablespace tablespace, Tablespace newTablespace) {
         this.tablespaceSet = diagram.getDiagramContents().getTablespaceSet();
         this.tablespace = tablespace;
-        this.oldTablespace = (Tablespace) this.tablespace.clone();
+        this.oldTablespace = (Tablespace) tablespace.clone();
         this.newTablespace = newTablespace;
     }
 
     @Override
     protected void doExecute() {
-        this.newTablespace.copyTo(this.tablespace);
-        this.tablespaceSet.addTablespace(this.tablespace);
+        newTablespace.copyTo(tablespace);
+        tablespaceSet.addTablespace(tablespace);
     }
 
     @Override
     protected void doUndo() {
-        this.oldTablespace.copyTo(this.tablespace);
-        this.tablespaceSet.addTablespace(this.tablespace);
+        oldTablespace.copyTo(tablespace);
+        tablespaceSet.addTablespace(tablespace);
     }
 }

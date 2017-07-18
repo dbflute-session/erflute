@@ -65,15 +65,11 @@ public class InsertedImage extends DiagramWalker {
 
         try {
             in = new BufferedInputStream(new FileInputStream(imageFilePath));
-
             final byte[] data = IOUtils.toByteArray(in);
-
             final String encodedData = Base64.getEncoder().encodeToString(data);
-            this.setBase64EncodedData(encodedData);
-
+            setBase64EncodedData(encodedData);
         } catch (final Exception e) {
             Activator.showExceptionDialog(e);
-
         } finally {
             if (in != null) {
                 try {
@@ -86,7 +82,7 @@ public class InsertedImage extends DiagramWalker {
     }
 
     public void setDirty() {
-        this.firePropertyChange(PROPERTY_CHANGE_IMAGE, null, null);
+        firePropertyChange(PROPERTY_CHANGE_IMAGE, null, null);
     }
 
     // ===================================================================================

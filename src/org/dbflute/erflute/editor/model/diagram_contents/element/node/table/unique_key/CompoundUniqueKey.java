@@ -20,11 +20,11 @@ public class CompoundUniqueKey extends AbstractModel {
 
     public CompoundUniqueKey(String uniqueKeyName) {
         this.uniqueKeyName = uniqueKeyName;
-        this.columnList = new ArrayList<NormalColumn>();
+        this.columnList = new ArrayList<>();
     }
 
     public boolean isRemoved(List<NormalColumn> tableColumnList) {
-        for (final NormalColumn normalColumn : this.columnList) {
+        for (final NormalColumn normalColumn : columnList) {
             if (!tableColumnList.contains(normalColumn)) {
                 return true;
             }
@@ -34,10 +34,10 @@ public class CompoundUniqueKey extends AbstractModel {
 
     public String getLabel() {
         final StringBuilder sb = new StringBuilder();
-        sb.append(Format.null2blank(this.uniqueKeyName));
+        sb.append(Format.null2blank(uniqueKeyName));
         sb.append(" (");
         boolean first = true;
-        for (final NormalColumn normalColumn : this.getColumnList()) {
+        for (final NormalColumn normalColumn : getColumnList()) {
             if (first) {
                 first = false;
             } else {
@@ -99,7 +99,7 @@ public class CompoundUniqueKey extends AbstractModel {
     }
 
     public void addColumn(NormalColumn column) {
-        this.columnList.add(column);
+        columnList.add(column);
     }
 
     public void setColumnList(List<NormalColumn> columnList) {

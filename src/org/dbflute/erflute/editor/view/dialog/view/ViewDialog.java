@@ -10,9 +10,9 @@ import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
 import org.dbflute.erflute.editor.view.dialog.view.tab.AdvancedTabWrapper;
-import org.dbflute.erflute.editor.view.dialog.view.tab.ViewAttributeTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.view.tab.DescriptionTabWrapper;
 import org.dbflute.erflute.editor.view.dialog.view.tab.SqlTabWrapper;
+import org.dbflute.erflute.editor.view.dialog.view.tab.ViewAttributeTabWrapper;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,13 +24,10 @@ import org.eclipse.swt.widgets.TabFolder;
 
 public class ViewDialog extends AbstractDialog {
 
-    private ERView copyData;
-
+    private final ERView copyData;
     private TabFolder tabFolder;
-
-    private EditPartViewer viewer;
-
-    private List<ValidatableTabWrapper> tabWrapperList;
+    private final EditPartViewer viewer;
+    private final List<ValidatableTabWrapper> tabWrapperList;
 
     public ViewDialog(Shell parentShell, EditPartViewer viewer, ERView copyData, ColumnGroupSet columnGroups) {
         super(parentShell);
@@ -38,36 +35,38 @@ public class ViewDialog extends AbstractDialog {
         this.viewer = viewer;
         this.copyData = copyData;
 
-        this.tabWrapperList = new ArrayList<ValidatableTabWrapper>();
+        this.tabWrapperList = new ArrayList<>();
     }
 
     @Override
     protected void initComponent(Composite composite) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.grabExcessHorizontalSpace = true;
         gridData.grabExcessVerticalSpace = true;
         gridData.verticalAlignment = GridData.FILL;
         gridData.horizontalAlignment = GridData.FILL;
 
         this.tabFolder = new TabFolder(composite, SWT.NONE);
-        this.tabFolder.setLayoutData(gridData);
+        tabFolder.setLayoutData(gridData);
 
-        final ViewAttributeTabWrapper attributeTabWrapper = new ViewAttributeTabWrapper(this, tabFolder, SWT.NONE, this.copyData);
-        this.tabWrapperList.add(attributeTabWrapper);
+        final ViewAttributeTabWrapper attributeTabWrapper = new ViewAttributeTabWrapper(this, tabFolder, SWT.NONE, copyData);
+        tabWrapperList.add(attributeTabWrapper);
 
-        this.tabWrapperList.add(new SqlTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
-        this.tabWrapperList.add(new DescriptionTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
-        this.tabWrapperList.add(new AdvancedTabWrapper(this, tabFolder, SWT.NONE, this.copyData));
+        tabWrapperList.add(new SqlTabWrapper(this, tabFolder, SWT.NONE, copyData));
+        tabWrapperList.add(new DescriptionTabWrapper(this, tabFolder, SWT.NONE, copyData));
+        tabWrapperList.add(new AdvancedTabWrapper(this, tabFolder, SWT.NONE, copyData));
 
-        this.tabFolder.addSelectionListener(new SelectionListener() {
+        tabFolder.addSelectionListener(new SelectionListener() {
 
+            @Override
             public void widgetDefaultSelected(SelectionEvent e) {
             }
 
+            @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = tabFolder.getSelectionIndex();
+                final int index = tabFolder.getSelectionIndex();
 
-                ValidatableTabWrapper selectedTabWrapper = tabWrapperList.get(index);
+                final ValidatableTabWrapper selectedTabWrapper = tabWrapperList.get(index);
                 selectedTabWrapper.setInitFocus();
             }
         });
@@ -78,10 +77,10 @@ public class ViewDialog extends AbstractDialog {
     @Override
     protected String doValidate() {
         try {
-            for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
+            for (final ValidatableTabWrapper tabWrapper : tabWrapperList) {
                 tabWrapper.validatePage();
             }
-        } catch (InputException e) {
+        } catch (final InputException e) {
             return e.getMessage();
         }
 
@@ -106,6 +105,6 @@ public class ViewDialog extends AbstractDialog {
     }
 
     public ERDiagram getDiagram() {
-        return (ERDiagram) this.viewer.getContents().getModel();
+        return (ERDiagram) viewer.getContents().getModel();
     }
 }

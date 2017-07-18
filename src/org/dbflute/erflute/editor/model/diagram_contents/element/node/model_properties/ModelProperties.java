@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dbflute.erflute.core.util.NameValue;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -19,8 +19,8 @@ public class ModelProperties extends DiagramWalker implements Cloneable {
     private List<NameValue> properties;
 
     public ModelProperties() {
-        this.setLocation(new Location(50, 50, -1, -1));
-        this.properties = new ArrayList<NameValue>();
+        setLocation(new Location(50, 50, -1, -1));
+        this.properties = new ArrayList<>();
     }
 
     public void init() { // when new diagram
@@ -35,7 +35,7 @@ public class ModelProperties extends DiagramWalker implements Cloneable {
     }
 
     public void clear() {
-        this.properties.clear();
+        properties.clear();
     }
 
     public List<NameValue> getProperties() {
@@ -43,7 +43,7 @@ public class ModelProperties extends DiagramWalker implements Cloneable {
     }
 
     public void addProperty(NameValue property) {
-        this.properties.add(property);
+        properties.add(property);
     }
 
     public boolean isDisplay() {
@@ -65,8 +65,8 @@ public class ModelProperties extends DiagramWalker implements Cloneable {
     @Override
     public ModelProperties clone() {
         final ModelProperties clone = (ModelProperties) super.clone();
-        final List<NameValue> list = new ArrayList<NameValue>();
-        for (final NameValue nameValue : this.properties) {
+        final List<NameValue> list = new ArrayList<>();
+        for (final NameValue nameValue : properties) {
             list.add(nameValue.clone());
         }
         clone.properties = list;
@@ -75,7 +75,7 @@ public class ModelProperties extends DiagramWalker implements Cloneable {
 
     public void setProperties(List<NameValue> properties) {
         this.properties = properties;
-        this.firePropertyChange(PROPERTY_CHANGE_MODEL_PROPERTIES, null, null);
+        firePropertyChange(PROPERTY_CHANGE_MODEL_PROPERTIES, null, null);
     }
 
     @Override

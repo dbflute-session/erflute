@@ -12,8 +12,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class DescriptionTabWrapper extends ValidatableTabWrapper {
 
-    private ERView copyData;
-
+    private final ERView copyData;
     private Text descriptionText;
 
     public DescriptionTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERView copyData) {
@@ -21,29 +20,28 @@ public class DescriptionTabWrapper extends ValidatableTabWrapper {
 
         this.copyData = copyData;
 
-        this.init();
+        init();
     }
 
     @Override
     public void initComposite() {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 1;
-        this.setLayout(gridLayout);
+        setLayout(gridLayout);
 
         this.descriptionText = CompositeFactory.createTextArea(null, this, "label.table.description", -1, 400, 1, true);
-
-        this.descriptionText.setText(Format.null2blank(copyData.getDescription()));
+        descriptionText.setText(Format.null2blank(copyData.getDescription()));
     }
 
     @Override
     public void validatePage() throws InputException {
-        String text = descriptionText.getText().trim();
-        this.copyData.setDescription(text);
+        final String text = descriptionText.getText().trim();
+        copyData.setDescription(text);
     }
 
     @Override
     public void setInitFocus() {
-        this.descriptionText.setFocus();
+        descriptionText.setFocus();
     }
 
     @Override

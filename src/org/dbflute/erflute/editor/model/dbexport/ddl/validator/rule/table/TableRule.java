@@ -12,12 +12,11 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 
 public abstract class TableRule extends BaseRule {
 
-    private List<ValidateResult> errorList;
-
+    private final List<ValidateResult> errorList;
     private String database;
 
     public TableRule() {
-        this.errorList = new ArrayList<ValidateResult>();
+        this.errorList = new ArrayList<>();
     }
 
     @Override
@@ -27,19 +26,20 @@ public abstract class TableRule extends BaseRule {
 
     @Override
     public List<ValidateResult> getErrorList() {
-        return this.errorList;
+        return errorList;
     }
 
     @Override
     public void clear() {
-        this.errorList.clear();
+        errorList.clear();
     }
 
+    @Override
     public boolean validate(ERDiagram diagram) {
         this.database = diagram.getDatabase();
 
-        for (ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
-            if (!this.validate(table)) {
+        for (final ERTable table : diagram.getDiagramContents().getDiagramWalkers().getTableSet()) {
+            if (!validate(table)) {
                 return false;
             }
         }
@@ -48,7 +48,7 @@ public abstract class TableRule extends BaseRule {
     }
 
     protected DBManager getDBManager() {
-        return DBManagerFactory.getDBManager(this.database);
+        return DBManagerFactory.getDBManager(database);
     }
 
     abstract public boolean validate(ERTable table);

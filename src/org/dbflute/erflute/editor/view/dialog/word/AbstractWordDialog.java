@@ -51,7 +51,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
 
     @Override
     protected void initComponent(Composite composite) {
-        final Composite rootComposite = this.createRootComposite(composite);
+        final Composite rootComposite = createRootComposite(composite);
         initializeComposite(rootComposite);
         physicalNameText.setFocus();
         validate();
@@ -59,37 +59,37 @@ public abstract class AbstractWordDialog extends AbstractDialog {
 
     protected Composite createRootComposite(Composite parent) {
         final GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = this.getCompositeNumColumns();
+        gridLayout.numColumns = getCompositeNumColumns();
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(gridLayout);
         return composite;
     }
 
     protected int getCompositeNumColumns() {
-        if (PostgresDBManager.ID.equals(this.diagram.getDatabase())) {
+        if (PostgresDBManager.ID.equals(diagram.getDatabase())) {
             return 10;
-        } else if (MySQLDBManager.ID.equals(this.diagram.getDatabase())) {
+        } else if (MySQLDBManager.ID.equals(diagram.getDatabase())) {
             return 8;
         }
         return 6;
     }
 
     protected void initializeComposite(Composite composite) {
-        final int numColumns = this.getCompositeNumColumns();
+        final int numColumns = getCompositeNumColumns();
         this.physicalNameText = CompositeFactory.createText(this, composite, "label.physical.name", numColumns - 1, false);
         this.logicalNameText = CompositeFactory.createText(this, composite, "label.logical.name", numColumns - 1, true);
         this.typeCombo = CompositeFactory.createReadOnlyCombo(this, composite, "label.column.type");
         this.lengthText = CompositeFactory.createNumText(this, composite, "label.column.length", 30);
-        this.lengthText.setEnabled(false);
+        lengthText.setEnabled(false);
         this.decimalText = CompositeFactory.createNumText(this, composite, "label.column.decimal", 30);
-        this.decimalText.setEnabled(false);
-        if (PostgresDBManager.ID.equals(this.diagram.getDatabase())) {
+        decimalText.setEnabled(false);
+        if (PostgresDBManager.ID.equals(diagram.getDatabase())) {
             CompositeFactory.filler(composite, 1, 10);
             this.arrayCheck = CompositeFactory.createCheckbox(this, composite, "label.column.array");
-            this.arrayCheck.setEnabled(true);
+            arrayCheck.setEnabled(true);
             this.arrayDimensionText = CompositeFactory.createNumText(this, composite, "label.column.array.dimension", 15);
-            this.arrayDimensionText.setEnabled(false);
-            this.arrayCheck.addSelectionListener(new SelectionAdapter() {
+            arrayDimensionText.setEnabled(false);
+            arrayCheck.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
                     arrayDimensionText.setEnabled(arrayCheck.getSelection());
@@ -97,22 +97,22 @@ public abstract class AbstractWordDialog extends AbstractDialog {
                 }
             });
         }
-        if (MySQLDBManager.ID.equals(this.diagram.getDatabase())) {
+        if (MySQLDBManager.ID.equals(diagram.getDatabase())) {
             CompositeFactory.filler(composite, 1, 10);
             this.unsignedCheck = CompositeFactory.createCheckbox(this, composite, "label.column.unsigned");
-            this.unsignedCheck.setEnabled(false);
+            unsignedCheck.setEnabled(false);
             CompositeFactory.filler(composite, 1);
             this.argsText = CompositeFactory.createText(this, composite, "label.column.type.enum.set", getCompositeNumColumns() - 2, false);
-            this.argsText.setEnabled(false);
+            argsText.setEnabled(false);
         }
-        if (OracleDBManager.ID.equals(this.diagram.getDatabase())) {
+        if (OracleDBManager.ID.equals(diagram.getDatabase())) {
             CompositeFactory.filler(composite, 1);
             final Composite childComposite = CompositeFactory.createChildComposite(composite, 5, 2);
             this.charSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "char");
-            this.charSemanticsRadio.setEnabled(false);
-            this.charSemanticsRadio.setSelection(true);
+            charSemanticsRadio.setEnabled(false);
+            charSemanticsRadio.setSelection(true);
             this.byteSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "byte", 1, true);
-            this.byteSemanticsRadio.setEnabled(false);
+            byteSemanticsRadio.setEnabled(false);
         }
         this.descriptionText = CompositeFactory.createTextArea(this, composite, "label.column.description", -1, 100, numColumns - 1, true);
     }
@@ -129,11 +129,11 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     }
 
     private void initializeTypeCombo() {
-        this.typeCombo.add("");
+        typeCombo.add("");
         prepareFrequentlyUsedType();
-        final String database = this.diagram.getDatabase();
+        final String database = diagram.getDatabase();
         for (final String alias : SqlType.getAliasList(database)) {
-            this.typeCombo.add(alias);
+            typeCombo.add(alias);
         }
     }
 
@@ -160,24 +160,24 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     abstract protected void setWordData();
 
     protected void setData(String physicalName, String logicalName, SqlType sqlType, TypeData typeData, String description) {
-        this.physicalNameText.setText(Format.toString(physicalName));
-        this.logicalNameText.setText(Format.toString(logicalName));
+        physicalNameText.setText(Format.toString(physicalName));
+        logicalNameText.setText(Format.toString(logicalName));
         if (sqlType != null) {
-            final String database = this.diagram.getDatabase();
+            final String database = diagram.getDatabase();
             final String sqlTypeAlias = sqlType.getAlias(database);
             if (sqlTypeAlias != null) {
-                this.typeCombo.setText(sqlTypeAlias);
+                typeCombo.setText(sqlTypeAlias);
             }
             if (!sqlType.isNeedLength(database)) {
-                this.lengthText.setEnabled(false);
+                lengthText.setEnabled(false);
             }
             if (!sqlType.isNeedDecimal(database)) {
-                this.decimalText.setEnabled(false);
+                decimalText.setEnabled(false);
             }
-            if (this.unsignedCheck != null && !sqlType.isNumber()) {
-                this.unsignedCheck.setEnabled(false);
+            if (unsignedCheck != null && !sqlType.isNumber()) {
+                unsignedCheck.setEnabled(false);
             }
-            if (this.argsText != null) {
+            if (argsText != null) {
                 if (sqlType.doesNeedArgs()) {
                     argsText.setEnabled(true);
                 } else {
@@ -185,34 +185,34 @@ public abstract class AbstractWordDialog extends AbstractDialog {
                 }
             }
         } else {
-            this.lengthText.setEnabled(false);
-            this.decimalText.setEnabled(false);
-            if (this.unsignedCheck != null) {
-                this.unsignedCheck.setEnabled(false);
+            lengthText.setEnabled(false);
+            decimalText.setEnabled(false);
+            if (unsignedCheck != null) {
+                unsignedCheck.setEnabled(false);
             }
-            if (this.argsText != null) {
-                this.argsText.setEnabled(false);
+            if (argsText != null) {
+                argsText.setEnabled(false);
             }
         }
-        this.lengthText.setText(Format.toString(typeData.getLength()));
-        this.decimalText.setText(Format.toString(typeData.getDecimal()));
-        if (this.arrayDimensionText != null) {
-            this.arrayCheck.setSelection(typeData.isArray());
-            this.arrayDimensionText.setText(Format.toString(typeData.getArrayDimension()));
-            this.arrayDimensionText.setEnabled(this.arrayCheck.getSelection());
+        lengthText.setText(Format.toString(typeData.getLength()));
+        decimalText.setText(Format.toString(typeData.getDecimal()));
+        if (arrayDimensionText != null) {
+            arrayCheck.setSelection(typeData.isArray());
+            arrayDimensionText.setText(Format.toString(typeData.getArrayDimension()));
+            arrayDimensionText.setEnabled(arrayCheck.getSelection());
         }
-        if (this.unsignedCheck != null) {
-            this.unsignedCheck.setSelection(typeData.isUnsigned());
+        if (unsignedCheck != null) {
+            unsignedCheck.setSelection(typeData.isUnsigned());
         }
-        if (this.argsText != null) {
-            this.argsText.setText(Format.null2blank(typeData.getArgs()));
+        if (argsText != null) {
+            argsText.setText(Format.null2blank(typeData.getArgs()));
         }
-        if (this.charSemanticsRadio != null) {
+        if (charSemanticsRadio != null) {
             final boolean charSemantics = typeData.isCharSemantics();
-            this.charSemanticsRadio.setSelection(charSemantics);
-            this.byteSemanticsRadio.setSelection(!charSemantics);
+            charSemanticsRadio.setSelection(charSemantics);
+            byteSemanticsRadio.setSelection(!charSemantics);
         }
-        this.descriptionText.setText(Format.toString(description));
+        descriptionText.setText(Format.toString(description));
     }
 
     // ===================================================================================
@@ -221,7 +221,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
     @Override
     protected void addListener() {
         super.addListener();
-        this.typeCombo.addSelectionListener(new SelectionAdapter() {
+        typeCombo.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 setEnabledBySqlType();
@@ -263,28 +263,28 @@ public abstract class AbstractWordDialog extends AbstractDialog {
             } else {
                 decimalText.setEnabled(true);
             }
-            if (this.unsignedCheck != null) {
+            if (unsignedCheck != null) {
                 if (!selectedType.isNumber()) {
                     unsignedCheck.setEnabled(false);
                 } else {
                     unsignedCheck.setEnabled(true);
                 }
             }
-            if (this.argsText != null) {
+            if (argsText != null) {
                 if (selectedType.doesNeedArgs()) {
                     argsText.setEnabled(true);
                 } else {
                     argsText.setEnabled(false);
                 }
             }
-            if (this.charSemanticsRadio != null) {
+            if (charSemanticsRadio != null) {
                 if (selectedType.isNeedCharSemantics(database)) {
-                    this.charSemanticsRadio.setEnabled(true);
-                    this.byteSemanticsRadio.setEnabled(true);
+                    charSemanticsRadio.setEnabled(true);
+                    byteSemanticsRadio.setEnabled(true);
 
                 } else {
-                    this.charSemanticsRadio.setEnabled(false);
-                    this.byteSemanticsRadio.setEnabled(false);
+                    charSemanticsRadio.setEnabled(false);
+                    byteSemanticsRadio.setEnabled(false);
                 }
             }
         }
@@ -338,13 +338,13 @@ public abstract class AbstractWordDialog extends AbstractDialog {
                     return "error.column.array.dimension.degit";
                 }
             } else {
-                if (this.arrayCheck.getSelection()) {
+                if (arrayCheck.getSelection()) {
                     return "error.column.array.dimension.one";
                 }
             }
         }
         final SqlType selectedType = SqlType.valueOf(diagram.getDatabase(), typeCombo.getText());
-        if (selectedType != null && this.argsText != null) {
+        if (selectedType != null && argsText != null) {
             final String args = argsText.getText();
             if (selectedType.doesNeedArgs()) {
                 if (args.equals("")) {

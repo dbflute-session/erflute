@@ -7,11 +7,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Walk
 public class CreateBendpointCommand extends AbstractCommand {
 
     private final WalkerConnection connection;
-
-    int x;
-
-    int y;
-
+    private final int x;
+    private final int y;
     private final int index;
 
     public CreateBendpointCommand(WalkerConnection connection, int x, int y, int index) {
@@ -23,7 +20,7 @@ public class CreateBendpointCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        final Bendpoint bendpoint = new Bendpoint(this.x, this.y);
+        final Bendpoint bendpoint = new Bendpoint(x, y);
         connection.addBendpoint(index, bendpoint);
     }
 

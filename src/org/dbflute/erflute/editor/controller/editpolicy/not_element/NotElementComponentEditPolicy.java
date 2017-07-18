@@ -10,9 +10,8 @@ public abstract class NotElementComponentEditPolicy extends ComponentEditPolicy 
 
     @Override
     protected Command createDeleteCommand(GroupRequest request) {
-        if (this.getHost() instanceof DeleteableEditPart) {
-            DeleteableEditPart editPart = (DeleteableEditPart) this.getHost();
-
+        if (getHost() instanceof DeleteableEditPart) {
+            final DeleteableEditPart editPart = (DeleteableEditPart) getHost();
             if (!editPart.isDeleteable()) {
                 return null;
             }
@@ -20,9 +19,9 @@ public abstract class NotElementComponentEditPolicy extends ComponentEditPolicy 
             return null;
         }
 
-        ERDiagram diagram = (ERDiagram) this.getHost().getRoot().getContents().getModel();
+        final ERDiagram diagram = (ERDiagram) getHost().getRoot().getContents().getModel();
 
-        return this.createDeleteCommand(diagram, this.getHost().getModel());
+        return createDeleteCommand(diagram, getHost().getModel());
     }
 
     protected abstract Command createDeleteCommand(ERDiagram diagram, Object model);

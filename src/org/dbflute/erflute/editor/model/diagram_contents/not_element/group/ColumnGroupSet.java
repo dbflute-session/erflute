@@ -20,39 +20,39 @@ public class ColumnGroupSet extends AbstractModel implements Iterable<ColumnGrou
     }
 
     public void add(ColumnGroup group) {
-        this.columnGroupList.add(group);
-        Collections.sort(this.columnGroupList);
+        columnGroupList.add(group);
+        Collections.sort(columnGroupList);
         firePropertyChange(PROPERTY_CHANGE_GROUP_SET, null, null);
     }
 
     public void remove(ColumnGroup group) {
-        this.columnGroupList.remove(group);
+        columnGroupList.remove(group);
         firePropertyChange(PROPERTY_CHANGE_GROUP_SET, null, null);
     }
 
     @Override
     public Iterator<ColumnGroup> iterator() {
-        return this.columnGroupList.iterator();
+        return columnGroupList.iterator();
     }
 
     public List<ColumnGroup> getGroupList() {
-        return this.columnGroupList;
+        return columnGroupList;
     }
 
     public void clear() {
-        this.columnGroupList.clear();
+        columnGroupList.clear();
     }
 
     public boolean contains(ColumnGroup group) {
-        return this.columnGroupList.contains(group);
+        return columnGroupList.contains(group);
     }
 
     public ColumnGroup get(int index) {
-        return this.columnGroupList.get(index);
+        return columnGroupList.get(index);
     }
 
     public int indexOf(ColumnGroup group) {
-        return this.columnGroupList.indexOf(group);
+        return columnGroupList.indexOf(group);
     }
 
     public String getDatabase() {

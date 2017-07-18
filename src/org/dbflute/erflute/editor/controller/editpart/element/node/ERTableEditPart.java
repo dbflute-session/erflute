@@ -39,10 +39,10 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
 
     @Override
     protected IFigure createFigure() {
-        final ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
         final DiagramSettings settings = diagram.getDiagramContents().getSettings();
         final TableFigure figure = new TableFigure(settings);
-        this.changeFont(figure);
+        changeFont(figure);
         return figure;
     }
 
@@ -53,8 +53,8 @@ public class ERTableEditPart extends TableViewEditPart implements IResizable {
 
     @Override
     public void performRequestOpen() {
-        final ERTable table = (ERTable) this.getModel();
-        final ERDiagram diagram = this.getDiagram();
+        final ERTable table = (ERTable) getModel();
+        final ERDiagram diagram = getDiagram();
         final ERTable copyTable = table.copyData();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final EditPartViewer viewer = getViewer();

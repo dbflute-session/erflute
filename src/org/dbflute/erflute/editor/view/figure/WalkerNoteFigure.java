@@ -34,8 +34,8 @@ public class WalkerNoteFigure extends Shape {
     //                                                                         Constructor
     //                                                                         ===========
     public WalkerNoteFigure() {
-        this.create();
-        this.setMinimumSize(new Dimension(RETURN_WIDTH * 2, RETURN_WIDTH * 2));
+        create();
+        setMinimumSize(new Dimension(RETURN_WIDTH * 2, RETURN_WIDTH * 2));
     }
 
     // ===================================================================================
@@ -57,9 +57,9 @@ public class WalkerNoteFigure extends Shape {
     //                                                                           Note Text
     //                                                                           =========
     public void setText(String text, int[] color) {
-        this.decideColor(color);
-        this.setForegroundColor(this.foregroundColor);
-        this.label.setText(text);
+        decideColor(color);
+        setForegroundColor(foregroundColor);
+        label.setText(text);
     }
 
     // ===================================================================================
@@ -68,7 +68,7 @@ public class WalkerNoteFigure extends Shape {
     @Override
     protected void fillShape(Graphics graphics) {
         graphics.setAlpha(200);
-        final Rectangle bounds = this.getBounds();
+        final Rectangle bounds = getBounds();
         final Point topRight1 = bounds.getTopRight().translate(0, RETURN_WIDTH);
         final Point topRight2 = bounds.getTopRight().translate(-RETURN_WIDTH, 0);
         final PointList pointList = new PointList();

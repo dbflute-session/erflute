@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.c
 
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.WalkerConnection;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 
 public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
 
@@ -15,17 +14,8 @@ public class CreateConnectionCommand extends AbstractCreateConnectionCommand {
 
     @Override
     protected void doExecute() {
-
-        DiagramWalker sourceTable = (DiagramWalker) this.source.getModel();
-        DiagramWalker targetTable = (DiagramWalker) this.target.getModel();
-
-        // Table同士のリレーションは、Table <=> Table で繋ぐ
-        if (sourceTable instanceof ERVirtualTable) {
-            sourceTable = ((ERVirtualTable) sourceTable).getRawTable();
-        }
-        if (targetTable instanceof ERVirtualTable) {
-            targetTable = ((ERVirtualTable) targetTable).getRawTable();
-        }
+        final DiagramWalker sourceTable = ((DiagramWalker) source.getModel()).toMaterialize();
+        final DiagramWalker targetTable = ((DiagramWalker) target.getModel()).toMaterialize();
 
         connection.setSourceWalker(sourceTable);
         connection.setTargetWalker(targetTable);

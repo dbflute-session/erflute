@@ -18,8 +18,8 @@ public class ERDiagramMatchHeightAction extends MatchHeightAction {
 
     public ERDiagramMatchHeightAction(IWorkbenchPart part) {
         super(part);
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.MATCH_HEIGHT));
-        this.setDisabledImageDescriptor(null);
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.MATCH_HEIGHT));
+        setDisabledImageDescriptor(null);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

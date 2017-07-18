@@ -222,7 +222,6 @@ public class ExportToImageAction extends AbstractExportAction {
 
                     if (figureRectangle.x < minX) {
                         minX = figureRectangle.x;
-
                     }
                     if (figureRectangle.x + figureRectangle.width > maxX) {
                         maxX = figureRectangle.x + figureRectangle.width;
@@ -253,14 +252,12 @@ public class ExportToImageAction extends AbstractExportAction {
 
                             if (x < minX) {
                                 minX = x;
-
                             } else if (x > maxX) {
                                 maxX = x;
                             }
 
                             if (y < minY) {
                                 minY = y;
-
                             } else if (y > maxY) {
                                 maxY = y;
                             }

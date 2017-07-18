@@ -8,17 +8,16 @@ public class IndexFigure extends Figure {
 
     public IndexFigure() {
         final FlowLayout layout = new FlowLayout();
-        this.setLayoutManager(layout);
-
+        setLayoutManager(layout);
     }
 
     public void clearLabel() {
-        this.removeAll();
+        removeAll();
     }
 
     @Override
     protected void paintFigure(Graphics graphics) {
-        if (graphics.getBackgroundColor().equals(this.getParent().getBackgroundColor())) {
+        if (graphics.getBackgroundColor().equals(getParent().getBackgroundColor())) {
             graphics.setAlpha(0);
         }
 

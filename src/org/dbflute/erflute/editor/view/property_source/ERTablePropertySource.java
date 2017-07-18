@@ -8,32 +8,36 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 public class ERTablePropertySource implements IPropertySource {
 
-    private ERTable table;
+    private final ERTable table;
 
     public ERTablePropertySource(ERTable table) {
         this.table = table;
     }
 
+    @Override
     public Object getEditableValue() {
-        return this.table;
+        return table;
     }
 
+    @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
         return new IPropertyDescriptor[] {
                 new TextPropertyDescriptor("physicalName", DisplayMessages.getMessage("label.physical.name")),
                 new TextPropertyDescriptor("logicalName", DisplayMessages.getMessage("label.logical.name")) };
     }
 
+    @Override
     public Object getPropertyValue(Object id) {
         if (id.equals("physicalName")) {
-            return this.table.getPhysicalName() != null ? this.table.getPhysicalName() : "";
+            return table.getPhysicalName() != null ? table.getPhysicalName() : "";
         }
         if (id.equals("logicalName")) {
-            return this.table.getLogicalName() != null ? this.table.getLogicalName() : "";
+            return table.getLogicalName() != null ? table.getLogicalName() : "";
         }
         return null;
     }
 
+    @Override
     public boolean isPropertySet(Object id) {
         if (id.equals("physicalName")) {
             return true;
@@ -44,15 +48,16 @@ public class ERTablePropertySource implements IPropertySource {
         return false;
     }
 
+    @Override
     public void resetPropertyValue(Object id) {
     }
 
+    @Override
     public void setPropertyValue(Object id, Object value) {
         if (id.equals("physicalName")) {
-            this.table.setPhysicalName(String.valueOf(value));
-
+            table.setPhysicalName(String.valueOf(value));
         } else if (id.equals("logicalName")) {
-            this.table.setLogicalName(String.valueOf(value));
+            table.setLogicalName(String.valueOf(value));
         }
     }
 }

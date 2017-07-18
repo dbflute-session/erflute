@@ -7,29 +7,26 @@ import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 public class ChangeOutlineViewModeCommand extends AbstractCommand {
 
     private final ERDiagram diagram;
-
     private final int oldViewMode;
-
     private final int newViewMode;
-
     private final DiagramSettings settings;
 
     public ChangeOutlineViewModeCommand(ERDiagram diagram, int viewMode) {
         this.diagram = diagram;
-        this.settings = this.diagram.getDiagramContents().getSettings();
+        this.settings = diagram.getDiagramContents().getSettings();
         this.newViewMode = viewMode;
-        this.oldViewMode = this.settings.getViewMode();
+        this.oldViewMode = settings.getViewMode();
     }
 
     @Override
     protected void doExecute() {
-        this.settings.setOutlineViewMode(this.newViewMode);
-        this.diagram.changeAll();
+        settings.setOutlineViewMode(newViewMode);
+        diagram.changeAll();
     }
 
     @Override
     protected void doUndo() {
-        this.settings.setOutlineViewMode(this.oldViewMode);
-        this.diagram.changeAll();
+        settings.setOutlineViewMode(oldViewMode);
+        diagram.changeAll();
     }
 }

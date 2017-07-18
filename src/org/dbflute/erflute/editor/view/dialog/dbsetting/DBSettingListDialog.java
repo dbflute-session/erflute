@@ -31,46 +31,46 @@ public class DBSettingListDialog extends AbstractDialog {
 
     private DBSettings result;
 
-    private String database;
+    private final String database;
 
     public DBSettingListDialog(Shell parentShell, String database) {
         super(parentShell);
 
         this.database = database;
-        this.dbSettingList = new ArrayList<DBSettings>();
+        this.dbSettingList = new ArrayList<>();
     }
 
     @Override
     protected void initComponent(Composite composite) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.heightHint = 150;
 
         this.settingTable = new Table(composite, SWT.FULL_SELECTION | SWT.BORDER);
-        this.settingTable.setHeaderVisible(true);
-        this.settingTable.setLayoutData(gridData);
-        this.settingTable.setLinesVisible(false);
+        settingTable.setHeaderVisible(true);
+        settingTable.setLayoutData(gridData);
+        settingTable.setLinesVisible(false);
 
-        TableColumn dbsystemColumn = new TableColumn(this.settingTable, SWT.LEFT);
+        final TableColumn dbsystemColumn = new TableColumn(settingTable, SWT.LEFT);
         dbsystemColumn.setWidth(100);
         dbsystemColumn.setText(DisplayMessages.getMessage("label.database"));
 
-        TableColumn serverColumn = new TableColumn(this.settingTable, SWT.LEFT);
+        final TableColumn serverColumn = new TableColumn(settingTable, SWT.LEFT);
         serverColumn.setWidth(100);
         serverColumn.setText(DisplayMessages.getMessage("label.server.name"));
 
-        TableColumn portColumn = new TableColumn(this.settingTable, SWT.RIGHT);
+        final TableColumn portColumn = new TableColumn(settingTable, SWT.RIGHT);
         portColumn.setWidth(80);
         portColumn.setText(DisplayMessages.getMessage("label.port"));
 
-        TableColumn databaseColumn = new TableColumn(this.settingTable, SWT.LEFT);
+        final TableColumn databaseColumn = new TableColumn(settingTable, SWT.LEFT);
         databaseColumn.setWidth(100);
         databaseColumn.setText(DisplayMessages.getMessage("label.database.name"));
 
-        TableColumn userNameColumn = new TableColumn(this.settingTable, SWT.LEFT);
+        final TableColumn userNameColumn = new TableColumn(settingTable, SWT.LEFT);
         userNameColumn.setWidth(100);
         userNameColumn.setText(DisplayMessages.getMessage("label.user.name"));
 
-        TableColumn urlTableColumn = new TableColumn(this.settingTable, SWT.LEFT);
+        final TableColumn urlTableColumn = new TableColumn(settingTable, SWT.LEFT);
         urlTableColumn.setWidth(130);
         urlTableColumn.setText(DisplayMessages.getMessage("label.url"));
     }
@@ -79,7 +79,7 @@ public class DBSettingListDialog extends AbstractDialog {
     protected void addListener() {
         super.addListener();
 
-        this.settingTable.addMouseListener(new MouseAdapter() {
+        settingTable.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseDoubleClick(MouseEvent e) {
@@ -87,13 +87,13 @@ public class DBSettingListDialog extends AbstractDialog {
             }
         });
 
-        this.settingTable.addSelectionListener(new SelectionAdapter() {
+        settingTable.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
                 validate();
 
-                int index = settingTable.getSelectionIndex();
+                final int index = settingTable.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
@@ -106,24 +106,24 @@ public class DBSettingListDialog extends AbstractDialog {
 
     @Override
     protected void performOK() throws InputException {
-        int index = settingTable.getSelectionIndex();
-        this.result = this.dbSettingList.get(index);
+        final int index = settingTable.getSelectionIndex();
+        this.result = dbSettingList.get(index);
     }
 
     public DBSettings getResult() {
-        return this.result;
+        return result;
     }
 
     public int getResultIndex() {
-        return this.dbSettingList.indexOf(this.result);
+        return dbSettingList.indexOf(result);
     }
 
     @Override
     protected void setupData() {
-        this.dbSettingList = PreferenceInitializer.getDBSettingList(this.database);
+        this.dbSettingList = PreferenceInitializer.getDBSettingList(database);
 
-        for (DBSettings dbSetting : this.dbSettingList) {
-            TableItem item = new TableItem(this.settingTable, SWT.NONE);
+        for (final DBSettings dbSetting : dbSettingList) {
+            final TableItem item = new TableItem(settingTable, SWT.NONE);
             item.setText(0, dbSetting.getDbsystem());
             item.setText(1, dbSetting.getServer());
             if (dbSetting.getPort() != 0) {
@@ -134,7 +134,7 @@ public class DBSettingListDialog extends AbstractDialog {
             item.setText(5, Format.null2blank(dbSetting.getUrl()));
         }
 
-        this.setButtonEnabled(false);
+        setButtonEnabled(false);
     }
 
     @Override
@@ -147,30 +147,29 @@ public class DBSettingListDialog extends AbstractDialog {
     }
 
     private void setButtonEnabled(boolean enabled) {
-        Button okButton = this.getButton(IDialogConstants.OK_ID);
+        final Button okButton = getButton(IDialogConstants.OK_ID);
         if (okButton != null) {
             okButton.setEnabled(enabled);
         }
 
-        Button deleteButton = this.getButton(IDialogConstants.STOP_ID);
+        final Button deleteButton = getButton(IDialogConstants.STOP_ID);
         if (deleteButton != null) {
             deleteButton.setEnabled(enabled);
         }
     }
 
     private void selectTable(int index) {
-        this.settingTable.select(index);
-
+        settingTable.select(index);
         if (index >= 0) {
-            this.setButtonEnabled(true);
+            setButtonEnabled(true);
         } else {
-            this.setButtonEnabled(false);
+            setButtonEnabled(false);
         }
     }
 
     @Override
     protected String doValidate() {
-        int index = settingTable.getSelectionIndex();
+        final int index = settingTable.getSelectionIndex();
         if (index == -1) {
             return "dialog.message.load.db.setting";
         }
@@ -186,19 +185,19 @@ public class DBSettingListDialog extends AbstractDialog {
     @Override
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.STOP_ID) {
-            int index = this.settingTable.getSelectionIndex();
+            int index = settingTable.getSelectionIndex();
 
             if (index != -1) {
-                this.settingTable.remove(index);
-                this.dbSettingList.remove(index);
+                settingTable.remove(index);
+                dbSettingList.remove(index);
 
-                PreferenceInitializer.saveSetting(this.dbSettingList);
+                PreferenceInitializer.saveSetting(dbSettingList);
 
-                if (index >= this.settingTable.getItemCount()) {
-                    index = this.settingTable.getItemCount() - 1;
+                if (index >= settingTable.getItemCount()) {
+                    index = settingTable.getItemCount() - 1;
                 }
 
-                this.selectTable(index);
+                selectTable(index);
             }
         }
 

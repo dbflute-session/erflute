@@ -12,20 +12,18 @@ public abstract class AbstractChangeViewAction extends AbstractBaseAction {
 
     public AbstractChangeViewAction(String id, String type, MainDiagramEditor editor) {
         super(id, null, IAction.AS_RADIO_BUTTON, editor);
-        this.setText(DisplayMessages.getMessage("action.title.change.mode.to." + type));
+        setText(DisplayMessages.getMessage("action.title.change.mode.to." + type));
     }
 
     @Override
     public void execute(Event event) {
-        if (!this.isChecked()) {
+        if (!isChecked()) {
             return;
         }
 
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeViewModeCommand command = new ChangeViewModeCommand(diagram, this.getViewMode());
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeViewModeCommand command = new ChangeViewModeCommand(diagram, getViewMode());
+        execute(command);
     }
 
     protected abstract int getViewMode();

@@ -8,18 +8,18 @@ import org.eclipse.draw2d.ToolbarLayout;
 
 public class ERModelFigure extends RectangleFigure {
 
-    private Label label;
+    private final Label label;
 
     public ERModelFigure(String name) {
-        this.setOpaque(true);
+        setOpaque(true);
 
-        ToolbarLayout layout = new ToolbarLayout();
-        this.setLayoutManager(layout);
+        final ToolbarLayout layout = new ToolbarLayout();
+        setLayoutManager(layout);
 
         this.label = new Label();
-        this.label.setText(name);
-        this.label.setBorder(new MarginBorder(7));
-        this.add(this.label);
+        label.setText(name);
+        label.setBorder(new MarginBorder(7));
+        add(label);
     }
 
     @Override

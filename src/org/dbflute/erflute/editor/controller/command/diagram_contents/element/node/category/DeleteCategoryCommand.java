@@ -10,14 +10,10 @@ import org.dbflute.erflute.editor.model.settings.CategorySettings;
 
 public class DeleteCategoryCommand extends AbstractCommand {
 
-    private ERDiagram diagram;
-
-    private CategorySettings categorySettings;
-
-    private Category category;
-
+    private final ERDiagram diagram;
+    private final CategorySettings categorySettings;
+    private final Category category;
     private List<Category> oldAllCategories;
-
     private List<Category> oldSelectedCategories;
 
     public DeleteCategoryCommand(ERDiagram diagram, Category category) {
@@ -28,16 +24,16 @@ public class DeleteCategoryCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        this.oldAllCategories = new ArrayList<Category>(this.categorySettings.getAllCategories());
-        this.oldSelectedCategories = new ArrayList<Category>(this.categorySettings.getSelectedCategories());
+        this.oldAllCategories = new ArrayList<>(categorySettings.getAllCategories());
+        this.oldSelectedCategories = new ArrayList<>(categorySettings.getSelectedCategories());
 
-        this.diagram.removeCategory(category);
+        diagram.removeCategory(category);
     }
 
     @Override
     protected void doUndo() {
-        this.categorySettings.setAllCategories(oldAllCategories);
-        this.categorySettings.setSelectedCategories(oldSelectedCategories);
-        this.diagram.restoreCategories();
+        categorySettings.setAllCategories(oldAllCategories);
+        categorySettings.setSelectedCategories(oldSelectedCategories);
+        diagram.restoreCategories();
     }
 }

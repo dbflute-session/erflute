@@ -44,7 +44,7 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
         final List<ERView> wordHolderList2 = new ArrayList<>();
         final List<ColumnGroup> wordHolderList3 = new ArrayList<>();
 
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERDiagram diagram = getDiagram();
         final Word word = (Word) getModel();
 
         final List<NormalColumn> normalColumns = diagram.getDiagramContents().getDictionary().getColumnList(word);
@@ -97,7 +97,7 @@ public class WordOutlineEditPart extends AbstractOutlineEditPart {
     @Override
     protected void refreshOutlineVisuals() {
         final Word word = (Word) getModel();
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERDiagram diagram = getDiagram();
         final int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
 
         String name = null;

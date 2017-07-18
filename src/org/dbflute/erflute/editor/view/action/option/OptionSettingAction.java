@@ -19,22 +19,19 @@ public class OptionSettingAction extends AbstractBaseAction {
 
     public OptionSettingAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.option"), editor);
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.OPTION));
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.OPTION));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
+        final DiagramSettings settings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
 
-        DiagramSettings settings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
-
-        OptionSettingDialog dialog =
+        final OptionSettingDialog dialog =
                 new OptionSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings, diagram);
-
         if (dialog.open() == IDialogConstants.OK_ID) {
-            ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);
-
-            this.execute(command);
+            final ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);
+            execute(command);
         }
     }
 }

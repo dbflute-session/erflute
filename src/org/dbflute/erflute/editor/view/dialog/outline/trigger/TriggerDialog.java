@@ -15,20 +15,15 @@ import org.eclipse.swt.widgets.Text;
 public class TriggerDialog extends AbstractDialog {
 
     private Text nameText;
-
     private Text schemaText;
-
     private Text sqlText;
-
     private Text descriptionText;
-
-    private Trigger trigger;
-
+    private final Trigger trigger;
     private Trigger result;
 
     public TriggerDialog(Shell parentShell, Trigger trigger) {
         super(parentShell, 2);
-        this.setShellStyle(this.getShellStyle() | SWT.RESIZE);
+        setShellStyle(getShellStyle() | SWT.RESIZE);
 
         this.trigger = trigger;
     }
@@ -73,20 +68,19 @@ public class TriggerDialog extends AbstractDialog {
     @Override
     protected void performOK() throws InputException {
         this.result = new Trigger();
-
-        this.result.setName(this.nameText.getText().trim());
-        this.result.setSchema(this.schemaText.getText().trim());
-        this.result.setSql(this.sqlText.getText().trim());
-        this.result.setDescription(this.descriptionText.getText().trim());
+        result.setName(nameText.getText().trim());
+        result.setSchema(schemaText.getText().trim());
+        result.setSql(sqlText.getText().trim());
+        result.setDescription(descriptionText.getText().trim());
     }
 
     @Override
     protected void setupData() {
-        if (this.trigger != null) {
-            this.nameText.setText(Format.toString(this.trigger.getName()));
-            this.schemaText.setText(Format.toString(this.trigger.getSchema()));
-            this.sqlText.setText(Format.toString(this.trigger.getSql()));
-            this.descriptionText.setText(Format.toString(this.trigger.getDescription()));
+        if (trigger != null) {
+            nameText.setText(Format.toString(trigger.getName()));
+            schemaText.setText(Format.toString(trigger.getSchema()));
+            sqlText.setText(Format.toString(trigger.getSql()));
+            descriptionText.setText(Format.toString(trigger.getDescription()));
         }
     }
 

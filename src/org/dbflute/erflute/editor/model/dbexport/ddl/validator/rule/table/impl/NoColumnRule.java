@@ -11,13 +11,13 @@ public class NoColumnRule extends TableRule {
     @Override
     public boolean validate(ERTable table) {
         if (table.getColumns().isEmpty()) {
-            ValidateResult validateResult = new ValidateResult();
+            final ValidateResult validateResult = new ValidateResult();
             validateResult.setMessage(DisplayMessages.getMessage("error.validate.no.column") + table.getPhysicalName());
             validateResult.setLocation(table.getLogicalName());
             validateResult.setSeverity(IMarker.SEVERITY_WARNING);
             validateResult.setObject(table);
 
-            this.addError(validateResult);
+            addError(validateResult);
         }
 
         return true;

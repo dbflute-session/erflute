@@ -18,18 +18,18 @@ public class ChangeModelPropertiesCommand extends AbstractCommand {
 
     public ChangeModelPropertiesCommand(ERDiagram diagram, ModelProperties properties) {
         this.modelProperties = diagram.getDiagramContents().getSettings().getModelProperties();
-        this.oldProperties = this.modelProperties.getProperties();
+        this.oldProperties = modelProperties.getProperties();
         this.newProperties = properties.getProperties();
     }
 
     @Override
     protected void doExecute() {
-        this.modelProperties.setProperties(newProperties);
+        modelProperties.setProperties(newProperties);
 
     }
 
     @Override
     protected void doUndo() {
-        this.modelProperties.setProperties(oldProperties);
+        modelProperties.setProperties(oldProperties);
     }
 }

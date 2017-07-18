@@ -54,6 +54,8 @@ import org.eclipse.ui.actions.ActionFactory;
  */
 public class ERDiagramOutlinePage extends ContentOutlinePage {
 
+    private final int VIRTUAL_DIAGRAM_NODE_INDEX = 0;
+
     private SashForm sash;
     private final TreeViewer viewer;
     private final ERDiagram diagram;
@@ -76,19 +78,21 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
     @Override
     public void createControl(Composite parent) {
         this.sash = new SashForm(parent, SWT.VERTICAL);
-        this.viewer.createControl(sash);
+        viewer.createControl(sash);
         editPartFactory = new ERDiagramOutlineEditPartFactory();
         editPartFactory.setQuickMode(quickMode);
         viewer.setEditPartFactory(editPartFactory);
         viewer.setContents(diagram);
         if (!quickMode) {
             final Canvas canvas = new Canvas(sash, SWT.BORDER);
-            this.lws = new LightweightSystem(canvas);
+            lws = new LightweightSystem(canvas);
         }
         resetView(registry);
         final AbstractTransferDragSourceListener dragSourceListener =
                 new ERDiagramTransferDragSourceListener(viewer, TemplateTransfer.getInstance());
         viewer.addDragSourceListener(dragSourceListener);
+
+        expandVirturalDiagramTree();
     }
 
     @Override
@@ -242,15 +246,16 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
             final Object model = ((TableOutlineEditPart) firstElement).getModel();
             final ERTable table = (ERTable) model;
 
-            if (diagram.getCurrentVirtualDiagram() == null) {
-                final MainDiagramEditor editor = ((MainDiagramEditor) diagram.getEditor().getActiveEditor());
+            final MainDiagramEditor editor = ((MainDiagramEditor) diagram.getEditor().getActiveEditor());
+            if (!diagram.isVirtual()) {
                 editor.reveal(table);
                 return;
             }
+
             final ERVirtualDiagram erModel = table.getDiagram().findModelByTable(table);
             if (erModel != null) {
                 final OpenERModelCommand command = new OpenERModelCommand(diagram, erModel);
-                command.setTable(table);
+                command.setTable(table.toMaterialize());
                 command.execute(); // コマンドスタックには積まないで実行する。ファイル編集中にしないため。
 
                 // TODO ymd アウトラインツリー上の仮想ダイアグラムを選択するためにのみある。
@@ -270,8 +275,22 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
                 //                    }
                 //                }
             } else {
-                Activator.showMessageDialog(table.getPhysicalName());
+                // ここでrevealしないと、メインダイアグラムでtableが選択不可状態になる。理由は分からない。
+                editor.reveal(table);
+                Activator.showMessageDialog("\"" + table.getPhysicalName() + "\"does not exist on the virtual diagram.");
             }
         }
+    }
+
+    private void expandVirturalDiagramTree() {
+        if (getTree() == null) {
+            return;
+        }
+
+        getTree().getItems()[VIRTUAL_DIAGRAM_NODE_INDEX].setExpanded(true);
+    }
+
+    private Tree getTree() {
+        return (Tree) viewer.getControl();
     }
 }

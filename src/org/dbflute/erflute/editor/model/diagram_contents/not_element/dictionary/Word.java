@@ -36,7 +36,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
     public Word(String physicalName, String logicalName, SqlType type, TypeData typeData, String description, String database) {
         this.physicalName = physicalName;
         this.logicalName = logicalName;
-        this.setType(type, typeData, database);
+        setType(type, typeData, database);
         this.description = description;
     }
 
@@ -52,11 +52,11 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
     //                                                                               Copy
     //                                                                              ======
     public void copyTo(Word to) {
-        to.physicalName = this.physicalName;
-        to.logicalName = this.logicalName;
-        to.description = this.description;
-        to.type = this.type;
-        to.typeData = this.typeData.clone();
+        to.physicalName = physicalName;
+        to.logicalName = logicalName;
+        to.description = description;
+        to.type = type;
+        to.typeData = typeData.clone();
     }
 
     // ===================================================================================
@@ -238,7 +238,7 @@ public class Word extends AbstractModel implements ObjectModel, Comparable<Word>
 
     @Override
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {

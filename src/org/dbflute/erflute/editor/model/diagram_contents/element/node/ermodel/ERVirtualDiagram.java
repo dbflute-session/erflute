@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.dbflute.erflute.editor.ERFluteMultiPageEditor;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
@@ -21,7 +23,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * @author modified by jflute (originated in ermaster)
  */
-public class ERVirtualDiagram extends DiagramWalker {
+public class ERVirtualDiagram extends DiagramWalker implements IERDiagram {
 
     private static final long serialVersionUID = 1L;
     public static final String PROPERTY_CHANGE_VTABLES = "vtables";
@@ -47,11 +49,12 @@ public class ERVirtualDiagram extends DiagramWalker {
         return "virtual_diagram";
     }
 
-    public boolean contains(Object... models) {
+    @Override
+    public boolean contains(DiagramWalker... models) {
         return Arrays.stream(models).allMatch(m -> contains(m));
     }
 
-    public boolean contains(Object model) {
+    private boolean contains(DiagramWalker model) {
         final List<DiagramWalker> walkers = new ArrayList<>(tables);
         walkers.addAll(notes);
         walkers.addAll(groups);
@@ -247,11 +250,23 @@ public class ERVirtualDiagram extends DiagramWalker {
         return set;
     }
 
+    @Override
     public Point getMousePoint() {
         return mousePoint;
     }
 
+    @Override
     public void setMousePoint(Point mousePoint) {
         this.mousePoint = mousePoint;
+    }
+
+    @Override
+    public ERFluteMultiPageEditor getEditor() {
+        return getDiagram().getEditor();
+    }
+
+    @Override
+    public ERDiagram toMaterializedDiagram() {
+        return getDiagram();
     }
 }

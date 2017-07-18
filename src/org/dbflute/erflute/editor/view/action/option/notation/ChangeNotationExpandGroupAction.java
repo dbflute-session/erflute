@@ -14,15 +14,13 @@ public class ChangeNotationExpandGroupAction extends AbstractBaseAction {
 
     public ChangeNotationExpandGroupAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("action.title.notation.expand.group"));
+        setText(DisplayMessages.getMessage("action.title.notation.expand.group"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeNotationExpandGroupCommand command = new ChangeNotationExpandGroupCommand(diagram, this.isChecked());
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeNotationExpandGroupCommand command = new ChangeNotationExpandGroupCommand(diagram, isChecked());
+        execute(command);
     }
 }

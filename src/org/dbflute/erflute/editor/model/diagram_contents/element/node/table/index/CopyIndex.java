@@ -18,12 +18,9 @@ public class CopyIndex extends ERIndex {
         super(copyTable, originalIndex.getName(), originalIndex.isNonUnique(), originalIndex.getType(), originalIndex.getDescription());
 
         this.originalIndex = originalIndex;
-
-        List<Boolean> descs = originalIndex.getDescs();
-
+        final List<Boolean> descs = originalIndex.getDescs();
         int i = 0;
-
-        for (NormalColumn originalIndexColumn : originalIndex.getColumns()) {
+        for (final NormalColumn originalIndexColumn : originalIndex.getColumns()) {
             Boolean desc = Boolean.FALSE;
 
             if (descs.size() > i) {
@@ -31,13 +28,10 @@ public class CopyIndex extends ERIndex {
             }
 
             if (copyColumns != null) {
-
                 boolean isGroupColumn = true;
-
-                for (ERColumn column : copyColumns) {
+                for (final ERColumn column : copyColumns) {
                     if (column instanceof CopyColumn) {
-                        CopyColumn copyColumn = (CopyColumn) column;
-
+                        final CopyColumn copyColumn = (CopyColumn) column;
                         if (copyColumn.getOriginalColumn().equals(originalIndexColumn)) {
                             this.addColumn(copyColumn, desc);
                             isGroupColumn = false;
@@ -64,11 +58,10 @@ public class CopyIndex extends ERIndex {
 
         copyData(this, this.originalIndex);
 
-        List<NormalColumn> indexColumns = new ArrayList<NormalColumn>();
-
+        final List<NormalColumn> indexColumns = new ArrayList<>();
         for (NormalColumn column : this.originalIndex.getColumns()) {
             if (column instanceof CopyColumn) {
-                CopyColumn copyColumn = (CopyColumn) column;
+                final CopyColumn copyColumn = (CopyColumn) column;
                 column = copyColumn.getOriginalColumn();
             }
             indexColumns.add(column);
@@ -90,10 +83,10 @@ public class CopyIndex extends ERIndex {
         to.getColumns().clear();
         to.getDescs().clear();
 
-        List<Boolean> descs = from.getDescs();
+        final List<Boolean> descs = from.getDescs();
         int i = 0;
 
-        for (NormalColumn column : from.getColumns()) {
+        for (final NormalColumn column : from.getColumns()) {
             Boolean desc = Boolean.FALSE;
 
             if (descs.size() > i) {

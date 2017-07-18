@@ -38,7 +38,7 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
     @Override
     protected List<AbstractModel> getModelChildren() {
-        final ERTable table = (ERTable) getModel();
+        final ERTable table = getModel();
         final Category category = getCurrentCategory();
         final List<AbstractModel> children = new ArrayList<>();
         if (!quickMode) {
@@ -51,6 +51,11 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
         }
 
         return children;
+    }
+
+    @Override
+    public ERTable getModel() {
+        return ((ERTable) super.getModel());
     }
 
     @Override
@@ -67,9 +72,9 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
     }
 
     protected void refreshName() {
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERDiagram diagram = getDiagram();
         final int viewMode = diagram.getDiagramContents().getSettings().getOutlineViewMode();
-        final ERTable model = (ERTable) getModel();
+        final ERTable model = getModel();
         String name = null;
         if (viewMode == DiagramSettings.VIEW_MODE_PHYSICAL) {
             if (model.getPhysicalName() != null) {
@@ -94,7 +99,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
             if (model.getPhysicalName() != null) {
                 name += model.getPhysicalName();
-
             }
         }
 
@@ -120,8 +124,8 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
     @Override
     public void performRequest(Request request) {
-        final ERTable table = (ERTable) getModel();
-        final ERDiagram diagram = (ERDiagram) getRoot().getContents().getModel();
+        final ERTable table = getModel();
+        final ERDiagram diagram = getDiagram();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             final ERTable copyTable = table.copyData();
 
@@ -131,7 +135,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
 
             if (dialog.open() == IDialogConstants.OK_ID) {
                 final CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram, table, copyTable);
-
                 execute(command.unwrap());
             }
         }

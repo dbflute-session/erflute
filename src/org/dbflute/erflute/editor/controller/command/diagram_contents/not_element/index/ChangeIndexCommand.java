@@ -10,31 +10,28 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.inde
 
 public class ChangeIndexCommand extends AbstractCommand {
 
-    private ERTable table;
-
-    private List<ERIndex> oldIndexList;
-
-    private List<ERIndex> newIndexList;
+    private final ERTable table;
+    private final List<ERIndex> oldIndexList;
+    private final List<ERIndex> newIndexList;
 
     public ChangeIndexCommand(ERDiagram diagram, ERIndex oldIndex, ERIndex newIndex) {
         this.table = oldIndex.getTable();
 
         this.oldIndexList = oldIndex.getTable().getIndexes();
-        this.newIndexList = new ArrayList<ERIndex>(oldIndexList);
+        this.newIndexList = new ArrayList<>(oldIndexList);
 
-        int i = this.newIndexList.indexOf(oldIndex);
-
-        this.newIndexList.remove(i);
-        this.newIndexList.add(i, newIndex);
+        final int i = newIndexList.indexOf(oldIndex);
+        newIndexList.remove(i);
+        newIndexList.add(i, newIndex);
     }
 
     @Override
     protected void doExecute() {
-        this.table.setIndexes(this.newIndexList);
+        table.setIndexes(newIndexList);
     }
 
     @Override
     protected void doUndo() {
-        this.table.setIndexes(this.oldIndexList);
+        table.setIndexes(oldIndexList);
     }
 }

@@ -15,8 +15,8 @@ public abstract class ColumnEditPart extends AbstractModelEditPart {
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ColumnSelectionHandlesEditPolicy());
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new NormalColumnComponentEditPolicy());
+        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ColumnSelectionHandlesEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new NormalColumnComponentEditPolicy());
     }
 
     @Override
@@ -26,7 +26,7 @@ public abstract class ColumnEditPart extends AbstractModelEditPart {
     @Override
     public EditPart getTargetEditPart(Request request) {
         final EditPart editPart = super.getTargetEditPart(request);
-        if (!this.getDiagram().isDisableSelectColumn()) {
+        if (!getDiagram().isDisableSelectColumn()) {
             return editPart;
         }
         if (editPart != null) {

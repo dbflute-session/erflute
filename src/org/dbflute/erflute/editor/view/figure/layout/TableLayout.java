@@ -35,7 +35,6 @@ public class TableLayout extends AbstractHintLayout {
 
     @Override
     public void layout(IFigure parent) {
-
         final List<IFigure> children = clearSeparator(parent);
 
         final List<List<IFigure>> table = getTable(children);

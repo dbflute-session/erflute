@@ -13,12 +13,12 @@ public class ToggleMainColumnAction extends AbstractBaseAction {
 
     public ToggleMainColumnAction(MainDiagramEditor editor) {
         super(ID, null, IAction.AS_CHECK_BOX, editor);
-        this.setText(DisplayMessages.getMessage("action.title.display.mainColumn"));
+        setText(DisplayMessages.getMessage("action.title.display.mainColumn"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-        diagram.setShowMainColumn(this.isChecked());
+        final ERDiagram diagram = getDiagram();
+        diagram.setShowMainColumn(isChecked());
     }
 }

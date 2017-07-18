@@ -23,7 +23,7 @@ public class ExportToDBAction extends AbstractBaseAction {
 
     public static final String ID = ExportToDBAction.class.getName();
 
-    private Validator validator;
+    private final Validator validator;
 
     public ExportToDBAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.export.db"), editor);
@@ -33,26 +33,23 @@ public class ExportToDBAction extends AbstractBaseAction {
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
 
-        List<ValidateResult> errorList = validator.validate(diagram);
-
+        final List<ValidateResult> errorList = validator.validate(diagram);
         if (!errorList.isEmpty()) {
-            ExportErrorDialog dialog = new ExportErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), errorList);
+            final ExportErrorDialog dialog =
+                    new ExportErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), errorList);
             dialog.open();
             return;
         }
 
-        ExportDBSettingDialog dialog = new ExportDBSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
-
+        final ExportDBSettingDialog dialog =
+                new ExportDBSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
         if (dialog.open() == IDialogConstants.OK_ID) {
-            String ddl = dialog.getDdl();
-
-            DBSettings dbSetting = dialog.getDbSetting();
-
-            ExportToDBDialog exportToDBDialog =
+            final String ddl = dialog.getDdl();
+            final DBSettings dbSetting = dialog.getDbSetting();
+            final ExportToDBDialog exportToDBDialog =
                     new ExportToDBDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, dbSetting, ddl);
-
             exportToDBDialog.open();
         }
     }
@@ -62,8 +59,8 @@ public class ExportToDBAction extends AbstractBaseAction {
         public ExportToDBRetargetAction() {
             super(ID, DisplayMessages.getMessage("action.title.export.db"));
 
-            this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_DB));
-            this.setToolTipText(this.getText());
+            setImageDescriptor(Activator.getImageDescriptor(ImageKey.EXPORT_TO_DB));
+            setToolTipText(getText());
         }
     }
 }

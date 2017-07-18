@@ -7,21 +7,23 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
 public class IndexSet extends AbstractModel implements ObjectListModel {
 
     private static final long serialVersionUID = 1L;
-
     public static final String PROPERTY_CHANGE_INDEXES = "indexes";
 
     public void update() {
-        this.firePropertyChange(PROPERTY_CHANGE_INDEXES, null, null);
+        firePropertyChange(PROPERTY_CHANGE_INDEXES, null, null);
     }
 
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getName() {
         return DisplayMessages.getMessage("label.object.type.index_list");
     }
 
+    @Override
     public String getObjectType() {
         return "list";
     }

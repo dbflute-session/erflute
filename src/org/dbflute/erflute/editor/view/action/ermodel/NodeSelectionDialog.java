@@ -47,7 +47,7 @@ public class NodeSelectionDialog extends FilteredItemsSelectionDialog {
             public boolean matchItem(Object item) {
                 if (item instanceof ERTable) {
                     final ERTable table = (ERTable) item;
-                    return this.patternMatcher.matches(table.getPhysicalName());
+                    return patternMatcher.matches(table.getPhysicalName());
                 }
                 return false;
             }

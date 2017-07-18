@@ -26,7 +26,7 @@ public class VirtualDiagramAddAction extends AbstractBaseAction {
 
     @Override
     public void execute(Event event) throws Exception {
-        final ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final String dialogTitle = "New Virtual Diagram";
         final String dialogMessage = "Input name for new Virtual Diagram";

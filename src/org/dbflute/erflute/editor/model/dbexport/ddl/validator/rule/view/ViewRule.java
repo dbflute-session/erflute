@@ -12,34 +12,35 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERVie
 
 public abstract class ViewRule extends BaseRule {
 
-    private List<ValidateResult> errorList;
+    private final List<ValidateResult> errorList;
 
     private String database;
 
     public ViewRule() {
-        this.errorList = new ArrayList<ValidateResult>();
+        this.errorList = new ArrayList<>();
     }
 
     @Override
     protected void addError(ValidateResult errorMessage) {
-        this.errorList.add(errorMessage);
+        errorList.add(errorMessage);
     }
 
     @Override
     public List<ValidateResult> getErrorList() {
-        return this.errorList;
+        return errorList;
     }
 
     @Override
     public void clear() {
-        this.errorList.clear();
+        errorList.clear();
     }
 
+    @Override
     public boolean validate(ERDiagram diagram) {
         this.database = diagram.getDatabase();
 
-        for (ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
-            if (!this.validate(view)) {
+        for (final ERView view : diagram.getDiagramContents().getDiagramWalkers().getViewSet()) {
+            if (!validate(view)) {
                 return false;
             }
         }
@@ -48,7 +49,7 @@ public abstract class ViewRule extends BaseRule {
     }
 
     protected DBManager getDBManager() {
-        return DBManagerFactory.getDBManager(this.database);
+        return DBManagerFactory.getDBManager(database);
     }
 
     abstract public boolean validate(ERView view);

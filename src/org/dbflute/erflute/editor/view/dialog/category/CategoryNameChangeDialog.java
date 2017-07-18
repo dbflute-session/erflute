@@ -12,7 +12,7 @@ public class CategoryNameChangeDialog extends AbstractDialog {
 
     private Text categoryNameText = null;
 
-    private Category targetCategory;
+    private final Category targetCategory;
 
     private String categoryName;
 
@@ -37,13 +37,12 @@ public class CategoryNameChangeDialog extends AbstractDialog {
 
     @Override
     protected void setupData() {
-        this.categoryNameText.setText(this.targetCategory.getName());
+        categoryNameText.setText(targetCategory.getName());
     }
 
     @Override
     protected String doValidate() {
-        String text = categoryNameText.getText().trim();
-
+        final String text = categoryNameText.getText().trim();
         if ("".equals(text)) {
             return "error.category.name.empty";
         }
@@ -54,6 +53,6 @@ public class CategoryNameChangeDialog extends AbstractDialog {
     }
 
     public String getCategoryName() {
-        return this.categoryName;
+        return categoryName;
     }
 }

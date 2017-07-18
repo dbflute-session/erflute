@@ -6,9 +6,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 public class ChangeTableViewPropertyCommand extends AbstractCommand {
 
     private final TableView oldCopyTableView;
-
     private final TableView tableView;
-
     private final TableView newCopyTableView;
 
     public ChangeTableViewPropertyCommand(TableView tableView, TableView newCopyTableView) {

@@ -18,8 +18,8 @@ public class ERDiagramMatchWidthAction extends MatchWidthAction {
 
     public ERDiagramMatchWidthAction(IWorkbenchPart part) {
         super(part);
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.MATCH_WIDTH));
-        this.setDisabledImageDescriptor(null);
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.MATCH_WIDTH));
+        setDisabledImageDescriptor(null);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

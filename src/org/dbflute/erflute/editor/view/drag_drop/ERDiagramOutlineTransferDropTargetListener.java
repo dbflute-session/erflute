@@ -23,24 +23,24 @@ public class ERDiagramOutlineTransferDropTargetListener extends AbstractTransfer
 
     @Override
     protected Request createTargetRequest() {
-        Object object = this.getTargetModel();
+        final Object object = getTargetModel();
 
         if (object instanceof Map) {
-            DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP);
+            final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP);
             request.setDirectEditFeature(object);
-            request.setLocation(this.getDropLocation());
+            request.setLocation(getDropLocation());
             return request;
 
         } else if (object instanceof Word) {
-            DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD);
+            final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD);
             request.setDirectEditFeature(object);
-            request.setLocation(this.getDropLocation());
+            request.setLocation(getDropLocation());
             return request;
 
         } else if (object instanceof NormalColumn) {
-            DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN);
+            final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN);
             request.setDirectEditFeature(object);
-            request.setLocation(this.getDropLocation());
+            request.setLocation(getDropLocation());
             return request;
         }
 
@@ -48,7 +48,7 @@ public class ERDiagramOutlineTransferDropTargetListener extends AbstractTransfer
     }
 
     private Object getTargetModel() {
-        TemplateTransfer transfer = (TemplateTransfer) this.getTransfer();
+        final TemplateTransfer transfer = (TemplateTransfer) getTransfer();
         return transfer.getObject();
     }
 }

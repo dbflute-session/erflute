@@ -22,49 +22,46 @@ import org.eclipse.swt.widgets.TabFolder;
 public class OptionSettingDialog extends AbstractDialog {
 
     private TabFolder tabFolder;
-
-    private List<ValidatableTabWrapper> tabWrapperList;
-
-    private DiagramSettings settings;
-
-    private ERDiagram diagram;
+    private final List<ValidatableTabWrapper> tabWrapperList;
+    private final DiagramSettings settings;
+    private final ERDiagram diagram;
 
     public OptionSettingDialog(Shell parentShell, DiagramSettings settings, ERDiagram diagram) {
         super(parentShell);
 
         this.diagram = diagram;
         this.settings = settings;
-        this.tabWrapperList = new ArrayList<ValidatableTabWrapper>();
+        this.tabWrapperList = new ArrayList<>();
     }
 
     @Override
     protected void initComponent(Composite composite) {
-        GridData gridData = new GridData();
+        final GridData gridData = new GridData();
         gridData.grabExcessHorizontalSpace = true;
         gridData.grabExcessVerticalSpace = true;
         gridData.verticalAlignment = GridData.FILL;
         gridData.horizontalAlignment = GridData.FILL;
 
         this.tabFolder = new TabFolder(composite, SWT.NONE);
-        this.tabFolder.setLayoutData(gridData);
+        tabFolder.setLayoutData(gridData);
 
-        this.tabWrapperList.add(new DBSelectTabWrapper(this, tabFolder, SWT.NONE, this.settings));
-        this.tabWrapperList.add(new EnvironmentTabWrapper(this, tabFolder, SWT.NONE, this.settings));
-        this.tabWrapperList.add(new AdvancedTabWrapper(this, tabFolder, SWT.NONE, this.settings, this.diagram));
-        this.tabWrapperList.add(new OptionTabWrapper(this, tabFolder, SWT.NONE, this.settings));
+        tabWrapperList.add(new DBSelectTabWrapper(this, tabFolder, SWT.NONE, settings));
+        tabWrapperList.add(new EnvironmentTabWrapper(this, tabFolder, SWT.NONE, settings));
+        tabWrapperList.add(new AdvancedTabWrapper(this, tabFolder, SWT.NONE, settings, diagram));
+        tabWrapperList.add(new OptionTabWrapper(this, tabFolder, SWT.NONE, settings));
 
         ListenerAppender.addTabListener(tabFolder, tabWrapperList);
 
-        this.tabWrapperList.get(0).setInitFocus();
+        tabWrapperList.get(0).setInitFocus();
     }
 
     @Override
     protected String doValidate() {
         try {
-            for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
+            for (final ValidatableTabWrapper tabWrapper : tabWrapperList) {
                 tabWrapper.validatePage();
             }
-        } catch (InputException e) {
+        } catch (final InputException e) {
             return e.getMessage();
         }
 
@@ -85,7 +82,7 @@ public class OptionSettingDialog extends AbstractDialog {
     }
 
     public void initTab() {
-        for (ValidatableTabWrapper tabWrapper : this.tabWrapperList) {
+        for (final ValidatableTabWrapper tabWrapper : tabWrapperList) {
             tabWrapper.reset();
         }
     }

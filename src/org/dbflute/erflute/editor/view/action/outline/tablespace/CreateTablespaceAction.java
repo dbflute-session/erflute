@@ -21,18 +21,15 @@ public class CreateTablespaceAction extends AbstractOutlineBaseAction {
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        TablespaceDialog dialog = EclipseDBManagerFactory.getEclipseDBManager(diagram).createTablespaceDialog();
+        final ERDiagram diagram = getDiagram();
+        final TablespaceDialog dialog = EclipseDBManagerFactory.getEclipseDBManager(diagram).createTablespaceDialog();
         if (dialog == null) {
             Activator.showMessageDialog("dialog.message.tablespace.not.supported");
-
         } else {
             dialog.init(null, diagram);
-
             if (dialog.open() == IDialogConstants.OK_ID) {
-                CreateTablespaceCommand command = new CreateTablespaceCommand(diagram, dialog.getResult());
-                this.execute(command);
+                final CreateTablespaceCommand command = new CreateTablespaceCommand(diagram, dialog.getResult());
+                execute(command);
             }
         }
     }

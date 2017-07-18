@@ -15,15 +15,13 @@ public class ChangeOutlineViewToLogicalAction extends AbstractOutlineBaseAction 
 
     public ChangeOutlineViewToLogicalAction(TreeViewer treeViewer) {
         super(ID, null, IAction.AS_RADIO_BUTTON, treeViewer);
-        this.setText(DisplayMessages.getMessage("action.title.change.mode.to.logical"));
+        setText(DisplayMessages.getMessage("action.title.change.mode.to.logical"));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        ChangeOutlineViewModeCommand command = new ChangeOutlineViewModeCommand(diagram, DiagramSettings.VIEW_MODE_LOGICAL);
-
-        this.execute(command);
+        final ERDiagram diagram = getDiagram();
+        final ChangeOutlineViewModeCommand command = new ChangeOutlineViewModeCommand(diagram, DiagramSettings.VIEW_MODE_LOGICAL);
+        execute(command);
     }
 }

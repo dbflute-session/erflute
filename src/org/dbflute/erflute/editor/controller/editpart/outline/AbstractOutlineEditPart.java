@@ -44,9 +44,9 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart imple
     @Override
     final public void refreshVisuals() {
         if (ERDiagramEditPart.isUpdateable()) {
-            this.refreshOutlineVisuals();
+            refreshOutlineVisuals();
 
-            for (final Object child : this.getChildren()) {
+            for (final Object child : getChildren()) {
                 final AbstractOutlineEditPart part = (AbstractOutlineEditPart) child;
                 part.refreshVisuals();
             }
@@ -54,17 +54,17 @@ public abstract class AbstractOutlineEditPart extends AbstractTreeEditPart imple
     }
 
     protected ERDiagram getDiagram() {
-        return (ERDiagram) this.getRoot().getContents().getModel();
+        return (ERDiagram) getRoot().getContents().getModel();
     }
 
     protected Category getCurrentCategory() {
-        return this.getDiagram().getCurrentCategory();
+        return getDiagram().getCurrentCategory();
     }
 
     abstract protected void refreshOutlineVisuals();
 
     protected void execute(Command command) {
-        this.getViewer().getEditDomain().getCommandStack().execute(command);
+        getViewer().getEditDomain().getCommandStack().execute(command);
     }
 
     public String getFilterText() {

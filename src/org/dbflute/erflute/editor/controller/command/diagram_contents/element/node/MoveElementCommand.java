@@ -33,7 +33,7 @@ public class MoveElementCommand extends AbstractCommand {
 
     public MoveElementCommand(ERDiagram diagram, Rectangle bounds, int x, int y, int width, int height, DiagramWalker element) {
         this.element = element;
-        this.setNewRectangle(x, y, width, height);
+        setNewRectangle(x, y, width, height);
 
         this.oldX = element.getX();
         this.oldY = element.getY();
@@ -73,7 +73,7 @@ public class MoveElementCommand extends AbstractCommand {
                     if (bounds.x + bounds.width < category.getX() || bounds.x > category.getX() + category.getWidth()
                             || bounds.y + bounds.height < category.getY() || bounds.y > category.getY() + category.getHeight()) {
 
-                        this.removedCategories.add(category);
+                        removedCategories.add(category);
 
                         continue;
                     }
@@ -97,14 +97,14 @@ public class MoveElementCommand extends AbstractCommand {
                 }
 
                 if (isDirty) {
-                    this.newCategoryRectangleMap.put(category, new Rectangle(categoryX, categoryY, categoryWidth, categoryHeight));
-                    this.oldCategoryRectangleMap.put(category, oldRectangle);
+                    newCategoryRectangleMap.put(category, new Rectangle(categoryX, categoryY, categoryWidth, categoryHeight));
+                    oldCategoryRectangleMap.put(category, oldRectangle);
                 }
             } else {
                 if (diagram.getCurrentCategory() == null) {
                     if (bounds.x >= category.getX() && bounds.x + bounds.width <= category.getX() + category.getWidth()
                             && bounds.y >= category.getY() && bounds.y + bounds.height <= category.getY() + category.getHeight()) {
-                        this.addCategories.add(category);
+                        addCategories.add(category);
                     }
                 }
             }
@@ -113,7 +113,7 @@ public class MoveElementCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        if (this.bounds != null) {
+        if (bounds != null) {
             final Rectangle rectangle = new Rectangle(bounds);
 
             if (rectangle.x != x) {
@@ -129,40 +129,40 @@ public class MoveElementCommand extends AbstractCommand {
                 rectangle.height = height;
             }
 
-            this.initCategory(diagram, rectangle);
+            initCategory(diagram, rectangle);
         }
 
-        for (final Category category : this.newCategoryRectangleMap.keySet()) {
-            final Rectangle rectangle = this.newCategoryRectangleMap.get(category);
+        for (final Category category : newCategoryRectangleMap.keySet()) {
+            final Rectangle rectangle = newCategoryRectangleMap.get(category);
             category.setLocation(new Location(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
         }
 
         for (final Category category : removedCategories) {
-            category.getContents().remove(this.element);
+            category.getContents().remove(element);
         }
 
         for (final Category category : addCategories) {
-            category.getContents().add(this.element);
+            category.getContents().add(element);
         }
 
-        this.element.setLocation(new Location(x, y, width, height));
+        element.setLocation(new Location(x, y, width, height));
     }
 
     @Override
     protected void doUndo() {
-        this.element.setLocation(new Location(oldX, oldY, oldWidth, oldHeight));
+        element.setLocation(new Location(oldX, oldY, oldWidth, oldHeight));
 
-        for (final Category category : this.oldCategoryRectangleMap.keySet()) {
-            final Rectangle rectangle = this.oldCategoryRectangleMap.get(category);
+        for (final Category category : oldCategoryRectangleMap.keySet()) {
+            final Rectangle rectangle = oldCategoryRectangleMap.get(category);
             category.setLocation(new Location(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
         }
 
         for (final Category category : removedCategories) {
-            category.getContents().add(this.element);
+            category.getContents().add(element);
         }
 
         for (final Category category : addCategories) {
-            category.getContents().remove(this.element);
+            category.getContents().remove(element);
         }
     }
 }

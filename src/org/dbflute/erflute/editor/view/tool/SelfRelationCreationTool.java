@@ -19,14 +19,14 @@ public class SelfRelationCreationTool extends ConnectionCreationTool {
 
     @Override
     protected boolean handleCreateConnection() {
-        final CreateSelfRelationshipCommand command = (CreateSelfRelationshipCommand) this.getCommand();
+        final CreateSelfRelationshipCommand command = (CreateSelfRelationshipCommand) getCommand();
 
         final ERTable target = (ERTable) command.getSourceModel();
 
         if (!target.isReferable()) {
             Activator.showErrorDialog("error.no.referenceable.column");
 
-            this.eraseSourceFeedback();
+            eraseSourceFeedback();
 
             return false;
         }

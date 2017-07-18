@@ -7,9 +7,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.sequence.Se
 
 public class DeleteSequenceCommand extends AbstractCommand {
 
-    private SequenceSet sequenceSet;
-
-    private Sequence sequence;
+    private final SequenceSet sequenceSet;
+    private final Sequence sequence;
 
     public DeleteSequenceCommand(ERDiagram diagram, Sequence sequence) {
         this.sequenceSet = diagram.getDiagramContents().getSequenceSet();
@@ -18,11 +17,11 @@ public class DeleteSequenceCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        this.sequenceSet.remove(this.sequence);
+        sequenceSet.remove(sequence);
     }
 
     @Override
     protected void doUndo() {
-        this.sequenceSet.addSequence(this.sequence);
+        sequenceSet.addSequence(sequence);
     }
 }

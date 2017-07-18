@@ -12,41 +12,41 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.Colum
 
 public abstract class ColumnRule extends TableRule {
 
-    private List<ValidateResult> errorList;
+    private final List<ValidateResult> errorList;
 
     public ColumnRule() {
-        this.errorList = new ArrayList<ValidateResult>();
+        this.errorList = new ArrayList<>();
     }
 
     @Override
     protected void addError(ValidateResult errorMessage) {
-        this.errorList.add(errorMessage);
+        errorList.add(errorMessage);
     }
 
     @Override
     public List<ValidateResult> getErrorList() {
-        return this.errorList;
+        return errorList;
     }
 
     @Override
     public void clear() {
-        this.errorList.clear();
+        errorList.clear();
     }
 
     @Override
     public boolean validate(ERTable table) {
-        for (ERColumn column : table.getColumns()) {
+        for (final ERColumn column : table.getColumns()) {
             if (column instanceof NormalColumn) {
-                NormalColumn normalColumn = (NormalColumn) column;
+                final NormalColumn normalColumn = (NormalColumn) column;
 
-                if (!this.validate(table, normalColumn)) {
+                if (!validate(table, normalColumn)) {
                     return false;
                 }
             } else {
-                ColumnGroup columnGroup = (ColumnGroup) column;
+                final ColumnGroup columnGroup = (ColumnGroup) column;
 
-                for (NormalColumn normalColumn : columnGroup.getColumns()) {
-                    if (!this.validate(table, normalColumn)) {
+                for (final NormalColumn normalColumn : columnGroup.getColumns()) {
+                    if (!validate(table, normalColumn)) {
                         return false;
                     }
                 }

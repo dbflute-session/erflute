@@ -42,16 +42,15 @@ public class EnvironmentSettings implements Serializable, Cloneable {
 
             final Map<Environment, Environment> oldNewMap = new HashMap<>();
 
-            for (final Environment environment : this.environments) {
+            for (final Environment environment : environments) {
                 final Environment newEnvironment = environment.clone();
                 setting.environments.add(newEnvironment);
                 oldNewMap.put(environment, newEnvironment);
             }
 
-            setting.currentEnvironment = oldNewMap.get(this.currentEnvironment);
+            setting.currentEnvironment = oldNewMap.get(currentEnvironment);
 
             return setting;
-
         } catch (final CloneNotSupportedException e) {
             return null;
         }

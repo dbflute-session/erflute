@@ -13,21 +13,13 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
     private static final long serialVersionUID = 1L;
 
     private String name;
-
     private boolean nonUnique;
-
     private boolean fullText;
-
     private String type;
-
     private String description;
-
     private List<Boolean> descs;
-
     private List<NormalColumn> columns;
-
     private List<String> columnNames;
-
     private ERTable table;
 
     public ERIndex(ERTable table, String name, boolean nonUnique, String type, String description) {
@@ -62,16 +54,16 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
     }
 
     public void addColumn(NormalColumn column) {
-        this.columns.add(column);
+        columns.add(column);
     }
 
     public void addColumn(NormalColumn column, Boolean desc) {
-        this.columns.add(column);
-        this.descs.add(desc);
+        columns.add(column);
+        descs.add(desc);
     }
 
     public List<NormalColumn> getColumns() {
-        return this.columns;
+        return columns;
     }
 
     public boolean isNonUnique() {
@@ -83,8 +75,8 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
     }
 
     public void addColumnName(String columnName, Boolean desc) {
-        this.columnNames.add(columnName);
-        this.descs.add(desc);
+        columnNames.add(columnName);
+        descs.add(desc);
     }
 
     public List<Boolean> getDescs() {
@@ -117,14 +109,14 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
         final ERIndex clone = (ERIndex) super.clone();
 
         final List<Boolean> cloneDescs = new ArrayList<>();
-        for (final Boolean desc : this.descs) {
+        for (final Boolean desc : descs) {
             cloneDescs.add(desc);
         }
 
         clone.descs = cloneDescs;
 
         final List<String> cloneColumnNames = new ArrayList<>();
-        for (final String columnName : this.columnNames) {
+        for (final String columnName : columnNames) {
             cloneColumnNames.add(columnName);
         }
 
@@ -135,7 +127,7 @@ public class ERIndex extends AbstractModel implements ObjectModel, Comparable<ER
 
     @Override
     public int compareTo(ERIndex other) {
-        return this.name.toUpperCase().compareTo(other.name.toUpperCase());
+        return name.toUpperCase().compareTo(other.name.toUpperCase());
     }
 
     public ERTable getTable() {

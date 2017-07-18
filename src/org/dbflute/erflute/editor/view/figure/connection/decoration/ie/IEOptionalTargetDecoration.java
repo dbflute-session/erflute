@@ -8,7 +8,7 @@ public class IEOptionalTargetDecoration extends ERDecoration {
     public IEOptionalTargetDecoration() {
         super();
 
-        PointList pointList = new PointList();
+        final PointList pointList = new PointList();
 
         pointList.addPoint(-30, 2);
         pointList.addPoint(-30, -2);
@@ -46,8 +46,8 @@ public class IEOptionalTargetDecoration extends ERDecoration {
         pointList.addPoint(-30, 2);
         pointList.addPoint(-30, -2);
 
-        this.setTemplate(pointList);
-        this.setScale(0.66, 0.66);
+        setTemplate(pointList);
+        setScale(0.66, 0.66);
         //		this.setScale(1, 1);
     }
 }

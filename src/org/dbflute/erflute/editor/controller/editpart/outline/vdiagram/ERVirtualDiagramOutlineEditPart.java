@@ -47,26 +47,26 @@ public class ERVirtualDiagramOutlineEditPart extends AbstractOutlineEditPart imp
 
     @Override
     protected void refreshOutlineVisuals() {
-        this.refreshName();
-        for (final Object child : this.getChildren()) {
+        refreshName();
+        for (final Object child : getChildren()) {
             final EditPart part = (EditPart) child;
             part.refresh();
         }
     }
 
     private void refreshName() {
-        final ERVirtualDiagram vdiagram = (ERVirtualDiagram) this.getModel();
+        final ERVirtualDiagram vdiagram = (ERVirtualDiagram) getModel();
         setWidgetText(vdiagram.getName());
         setWidgetImage(Activator.getImage(ImageKey.DIAGRAM));
     }
 
     @Override
     public void performRequest(Request request) {
-        final ERVirtualDiagram model = (ERVirtualDiagram) this.getModel();
-        final ERDiagram diagram = this.getDiagram();
+        final ERVirtualDiagram model = (ERVirtualDiagram) getModel();
+        final ERDiagram diagram = getDiagram();
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
             final OpenERModelCommand command = new OpenERModelCommand(diagram, model);
-            // TODO ymd 仮想ダイアグラムを開くだけで、編集中になる問題を修正するために"this.execute(command);"から下記コードに書き換えた。
+            // TODO ymd 仮想ダイアグラムを開くだけで、編集中になる問題を修正するために"execute(command);"から下記コードに書き換えた。
             // コマンドスタックに積んで実行すると、doExecuteで何もしなくてもファイル変更とみなされるらしい。
             // そもそも、オブジェクトの状態を変更しない(undoを実装できない)手続きは、コマンドで実装しない方が良いかもしれない。
             command.execute();
@@ -76,6 +76,6 @@ public class ERVirtualDiagramOutlineEditPart extends AbstractOutlineEditPart imp
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
     }
 }
