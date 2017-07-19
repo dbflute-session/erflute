@@ -37,6 +37,11 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
         this.vdiagram = vdiagram;
     }
 
+    @Override
+    protected void initializeOutlinePage(ERDiagramOutlinePage outlinePage) {
+        this.outlinePage = outlinePage;
+    }
+
     // ===================================================================================
     //                                                                    Default Override
     //                                                                    ================

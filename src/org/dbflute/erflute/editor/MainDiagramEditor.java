@@ -172,7 +172,6 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         this.diagram = diagram;
         this.editPartFactory = editPartFactory;
         this.zoomComboContributionItem = zoomComboContributionItem;
-        this.outlinePage = outlinePage;
         this.propertySheetPage = new PropertySheetPage();
         this.propertySheetPage.setPropertySourceProvider(new ERDiagramPropertySourceProvider());
         try {
@@ -181,12 +180,22 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             Activator.showExceptionDialog(e);
         }
         setEditDomain(new DefaultEditDomain(this));
+        initializeOutlinePage(outlinePage);
+    }
+
+    /**
+     * アウトラインを初期化する。
+     * コンストラクタで呼ぶこと想定しているため、他で使う場合setOutlinePageにリファクタリングすること。
+     * @param outlinePage アウトライン。
+     */
+    protected void initializeOutlinePage(ERDiagramOutlinePage outlinePage) {
+        this.outlinePage = outlinePage;
         getSelectionSynchronizer().addViewer(outlinePage.getViewer());
     }
 
     // ===================================================================================
-    //                                                                               ???
-    //                                                                            ========
+    //                                                                    Various Override
+    //                                                                    ================
     @Override
     public void dispose() {
         getSelectionSynchronizer().removeViewer(outlinePage.getViewer());
@@ -258,6 +267,9 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         return super.getAdapter(type);
     }
 
+    // ===================================================================================
+    //                                                                        Manipulation
+    //                                                                        ============
     public void changeCategory() {
         outlinePage.setCategory(getEditDomain(), getGraphicalViewer(), getActionRegistry());
     }

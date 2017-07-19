@@ -338,6 +338,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             diagram.refreshVirtualDiagram();
         } else { // main editor
             selectedEditor.clearSelection();
+            // 以下がないと、アウトラインコンテキストメニューのDeleteが無効になる。
             selectedEditor.prepareERDiagramOutlinePopupMenu();
             diagram.setCurrentVirtualDiagram(null);
             diagram.changeAll();
