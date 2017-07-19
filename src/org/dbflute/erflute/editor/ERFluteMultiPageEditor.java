@@ -338,6 +338,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             diagram.refreshVirtualDiagram();
         } else { // main editor
             selectedEditor.clearSelection();
+            selectedEditor.prepareERDiagramOutlinePopupMenu();
             diagram.setCurrentVirtualDiagram(null);
             diagram.changeAll();
         }
@@ -396,14 +397,14 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
 
     public void setCurrentERModel(ERVirtualDiagram viagram) {
         if (getPageCount() == 1) {
-            addVdiagramPage(viagram);
+            addVirtualDiagramPage(viagram);
         } else {
             removePage(1);
-            addVdiagramPage(viagram);
+            addVirtualDiagramPage(viagram);
         }
     }
 
-    private void addVdiagramPage(ERVirtualDiagram viagram) {
+    private void addVirtualDiagramPage(ERVirtualDiagram viagram) {
         final VirtualDiagramEditor vdiagramEditor =
                 new VirtualDiagramEditor(diagram, viagram, getEditPartFactory(), getZoomComboContributionItem(), outlinePage);
         try {

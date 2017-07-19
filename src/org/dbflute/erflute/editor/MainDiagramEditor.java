@@ -218,9 +218,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
         prepareERDiagramPopupMenu(viewer);
 
-        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(
-                diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(), outlinePage.getViewer());
-        outlinePage.setContextMenu(outlineMenuMgr);
+        prepareERDiagramOutlinePopupMenu();
+
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
@@ -228,6 +227,12 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         final MenuManager menuMgr = new ERDiagramPopupMenuManager(getActionRegistry(), diagram);
         extensionLoader.addERDiagramPopupMenu(menuMgr, getActionRegistry());
         viewer.setContextMenu(menuMgr);
+    }
+
+    protected void prepareERDiagramOutlinePopupMenu() {
+        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(
+                diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(), outlinePage.getViewer());
+        outlinePage.setContextMenu(outlineMenuMgr);
     }
 
     @Override
@@ -291,7 +296,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
                 new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
                 new ChangeCapitalAction(this), new ChangeStampAction(this), new ColumnGroupManageAction(this),
-                /* #deleted new ChangeTrackingAction(this), */ new OptionSettingAction(this),
+                /* #deleted new ChangeTrackingAction(this), */new OptionSettingAction(this),
                 /* #deleted new CategoryManageAction(this), */new ChangeFreeLayoutAction(this),
                 new ChangeShowReferredTablesAction(this), /* #deleted new TranslationManageAction(this), */
                 /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
