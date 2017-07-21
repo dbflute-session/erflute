@@ -82,7 +82,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.MouseWheelHandler;
@@ -122,25 +121,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
  */
 public class MainDiagramEditor extends GraphicalEditorWithPalette { // created by ERFluteMultiPageEditor
 
-    /*
-     * TODO ymd 技術的負債
-     * revealメソッドで選択したテーブルのEditPartを格納する。
-     * インスタンス(this)から、最後にQuick Outlineで検索したテーブルを取得する方法が分からなかったため、このような実装になった。
-     */
-    private static EditPart selectionEditPart;
-
-    protected static void selectEditPart(EditPart editPart) {
-        unselectEditPart();
-        selectionEditPart = editPart;
-        selectionEditPart.setSelected(EditPart.SELECTED_PRIMARY);
-    }
-
-    protected static void unselectEditPart() {
-        if (selectionEditPart != null) {
-            selectionEditPart.setSelected(EditPart.SELECTED_NONE);
-            selectionEditPart = null;
-        }
-    }
+    private static SelectionEditPartWrapper lastRevealedEditPart = new SelectionEditPartWrapper();
 
     // ===================================================================================
     //                                                                          Definition
@@ -406,7 +387,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-        unselectEditPart();
+        lastRevealedEditPart.clearSelection();
 
         final IEditorPart editorPart = getSite().getPage().getActiveEditor();
         if (editorPart instanceof ERFluteMultiPageEditor) {
@@ -466,7 +447,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 final DiagramWalkerEditPart walkerEditPart = (DiagramWalkerEditPart) editPart;
                 if (((DiagramWalker) walkerEditPart.getModel()).sameMaterial(walker)) {
                     getGraphicalViewer().reveal(walkerEditPart);
-                    selectEditPart(walkerEditPart);
+                    lastRevealedEditPart.changeSelection(walkerEditPart);
                     return;
                 }
             }
