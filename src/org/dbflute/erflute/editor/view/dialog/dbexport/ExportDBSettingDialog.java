@@ -37,7 +37,6 @@ public class ExportDBSettingDialog extends AbstractDBSettingDialog {
     @Override
     protected void initializeBody(Composite group) {
         final GridData labelLayoutData = new GridData();
-        // labelLayoutData.widthHint = 130;
 
         // DB
         final Label label = new Label(group, SWT.NONE);

@@ -54,21 +54,6 @@ public class CustomCellEditor extends DefaultCellEditor implements TableCellEdit
         component.setComponentPopupMenu(new TextFieldPopupMenu());
     }
 
-    // public Component getTableCellEditorComponent(JTable table, Object value,
-    // boolean isSelected, int rowIndex, int vColIndex) {
-    // if (value == null) {
-    // value = "";
-    // }
-    //
-    // this.component.setText(String.valueOf(value));
-    //
-    // return this.component;
-    // }
-    //
-    // public Object getCellEditorValue() {
-    // return this.component.getText();
-    // }
-
     private static class TextFieldPopupMenu extends JPopupMenu {
 
         private static final long serialVersionUID = 1L;

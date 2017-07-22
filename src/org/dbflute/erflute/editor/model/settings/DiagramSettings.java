@@ -39,7 +39,6 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
     private String tableStyle;
     private ModelProperties modelProperties;
     private CategorySettings categorySetting;
-    //	private VGroupSetting groupSetting;
     private EnvironmentSettings environmentSettings;
     private TableProperties tableProperties;
     private ExportSettings exportSettings;

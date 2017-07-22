@@ -435,10 +435,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                         type = "BTREE";
                     }
 
-                    // DatabaseMetaData.tableIndexClustered
-                    // DatabaseMetaData.tableIndexOther
-                    // DatabaseMetaData.tableIndexStatistic
-
                     index = new ERIndex(table, name, nonUnique, type, null);
 
                     indexMap.put(name, index);
@@ -613,7 +609,6 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
             }
 
             final String args = columnData.enumData;
-            // TODO jflute xxxxxxxxxxxxxx (2016/10/28)
             final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, false);
 
             Word word = new Word(columnName, logicalName, sqlType, typeData, description, this.diagram.getDatabase());

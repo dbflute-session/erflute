@@ -119,7 +119,6 @@ public class TableOutlineEditPart extends AbstractOutlineEditPart implements Del
     @Override
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
-        // this.installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
     }
 
     @Override

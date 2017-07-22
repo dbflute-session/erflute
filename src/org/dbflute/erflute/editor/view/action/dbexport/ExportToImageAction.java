@@ -47,19 +47,6 @@ public class ExportToImageAction extends AbstractExportAction {
 
     @Override
     public void execute(Event event) throws Exception {
-        // EditPart editPart = this.getGraphicalViewer().getContents();
-        // ERDiagram diagram = (ERDiagram) editPart.getModel();
-
-        // if (!diagram.getDiagramContents().getSettings().getCategorySettings()
-        // .getAllCategories().isEmpty()) {
-        // if (Activator
-        // .showConfirmDialog(Activator
-        // .getResourceString("dialog.message.confirm.export.all.category"))) {
-        // this.saveAllCategories(this.getEditorPart(), this
-        // .getGraphicalViewer());
-        // return;
-        // }
-        // }
         save(getEditorPart(), getGraphicalViewer());
     }
 
@@ -282,43 +269,4 @@ public class ExportToImageAction extends AbstractExportAction {
             return rectangle;
         }
     }
-
-    // protected void saveAllCategories(IEditorPart editorPart,
-    // GraphicalViewer viewer) throws Exception {
-    //
-    // String saveDirPath = this.getSaveDirPath(editorPart, viewer);
-    // if (saveDirPath == null) {
-    // return;
-    // }
-    //
-    // File dir = new File(saveDirPath);
-    // dir.mkdirs();
-    //
-    // ProgressMonitorDialog monitor = new ProgressMonitorDialog(PlatformUI
-    // .getWorkbench().getActiveWorkbenchWindow().getShell());
-    //
-    // // try {
-    // EditPart editPart = this.getGraphicalViewer().getContents();
-    // ERDiagram diagram = (ERDiagram) editPart.getModel();
-    //
-    // for (Category category : diagram.getDiagramContents().getSettings()
-    // .getCategorySettings().getAllCategories()) {
-    //
-    // // if (outputImage(monitor, viewer, saveFilePath) != -1) {
-    // //
-    // // }
-    // }
-    //
-    // Activator.showMessageDialog(Activator
-    // .getResourceString("dialog.message.export.image.finish"));
-    //
-    // // } catch (InterruptedException e) {
-    // // }
-    //
-    // IFile iFile = ((IFileEditorInput) editorPart.getEditorInput())
-    // .getFile();
-    // IProject project = iFile.getProject();
-    //
-    // project.refreshLocal(IResource.DEPTH_INFINITE, null);
-    // }
 }

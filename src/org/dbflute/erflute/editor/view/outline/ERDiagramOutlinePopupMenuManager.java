@@ -103,7 +103,6 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
                                         && !menuItem.getId().equals(ChangeOutlineViewOrderByPhysicalNameAction.ID)
                                         && !menuItem.getId().equals(ChangeOutlineViewOrderByLogicalNameAction.ID)) {
                                     enabled(menuItem.getId(), false);
-                                    // menuItem.setVisible(false);
                                 }
                             }
                         } else {
@@ -178,12 +177,5 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
     private void enabled(String id, boolean enabled) {
         final IAction action = getAction(id);
         action.setEnabled(enabled);
-
-        // for (IContributionItem menuItem : getItems()) {
-        // if (menuItem.getId().equals(id)) {
-        // menuItem.setVisible(enabled);
-        // break;
-        // }
-        // }
     }
 }

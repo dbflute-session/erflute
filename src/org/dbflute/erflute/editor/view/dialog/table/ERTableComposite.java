@@ -116,8 +116,6 @@ public class ERTableComposite extends Composite {
         }
     }
 
-    //	private TableItem[] currentItems = null;
-
     private void createTable() {
         this.table = CompositeFactory.createTable(this, height, 3);
         CompositeFactory.createTableColumn(table, "PK", KEY_WIDTH, SWT.CENTER);

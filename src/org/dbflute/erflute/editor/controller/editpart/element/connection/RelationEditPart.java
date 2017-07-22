@@ -75,8 +75,6 @@ public class RelationEditPart extends ERDiagramConnectionEditPart {
                         int width = bounds.width;
                         int height = bounds.height;
                         if (width == 0) {
-                            // tableEditPart.getFigure().getUpdateManager()
-                            // .performUpdate();
                             bounds = tableEditPart.getFigure().getBounds();
                             width = bounds.width;
                             height = bounds.height;

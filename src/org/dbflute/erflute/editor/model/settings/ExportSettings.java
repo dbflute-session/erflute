@@ -165,20 +165,4 @@ public class ExportSettings implements Serializable, Cloneable {
     public void setDdlOutput(String ddlOutput) {
         this.ddlOutput = ddlOutput;
     }
-
-    // #deleted
-    //public ExportJavaSetting getExportJavaSetting() {
-    //    return exportJavaSetting;
-    //}
-    //
-    //public void setExportJavaSetting(ExportJavaSetting exportJavaSetting) {
-    //    this.exportJavaSetting = exportJavaSetting;
-    //}
-    //public ExportTestDataSetting getExportTestDataSetting() {
-    //    return exportTestDataSetting;
-    //}
-    //
-    //public void setExportTestDataSetting(ExportTestDataSetting exportTestDataSetting) {
-    //    this.exportTestDataSetting = exportTestDataSetting;
-    //}
 }

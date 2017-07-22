@@ -27,6 +27,6 @@ public class DeleteVirtualDiagramCommand extends AbstractCommand {
 
     @Override
     protected void doUndo() {
-        // ??? by jflute
+        // not support
     }
 }

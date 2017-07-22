@@ -30,14 +30,6 @@ public class ERVirtualDiagramSetOutlineEditPart extends AbstractOutlineEditPart 
                 return o1.getName().compareTo(o2.getName());
             }
         });
-        //		if (getDiagram().getDiagramContents().getSettings()
-        //				.getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
-        //			Collections.sort(list, TableView.LOGICAL_NAME_COMPARATOR);
-        //
-        //		} else {
-        //			Collections.sort(list, TableView.PHYSICAL_NAME_COMPARATOR);
-        //
-        //		}
         return list;
     }
 

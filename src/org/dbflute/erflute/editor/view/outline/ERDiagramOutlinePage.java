@@ -181,15 +181,6 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 
     public void update() {
         viewer.flush();
-        //		gettr
-        //		if (model != null) {
-        //			try {
-        //				model.update(editor.getDocumentProvider()
-        //						.getDocument(editor.getEditorInput()).get());
-        //			} catch (Throwable t) {
-        //				t.printStackTrace();
-        //			}
-        //		}
     }
 
     public void setFilterText(String filterText) {
@@ -202,20 +193,6 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
         if (tableItems.length >= 1) {
             tree.setSelection(tableItems[0]);
         }
-        //		viewer.getContents().getChildren();
-
-        //		viewer.flush();
-        //		viewer.getEditPartFactory()
-        //		if (filterText == null) {
-        //			filterText = "";
-        //		}
-        //		this.filterText = filterText;
-        //		getTreeViewer().refresh();
-        //		getTreeViewer().expandAll();
-        //		JavaScriptElement element = getFirstElement(model, filterText);
-        //		if(element != null){
-        //			getViewer().setSelection(new StructuredSelection(element), true);
-        //		}
     }
 
     private void expand(TreeItem[] items) {

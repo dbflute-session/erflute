@@ -178,19 +178,6 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         gridData.heightHint = -1;
         gridData.horizontalSpan = 4;
 
-        // FormToolkit toolkit = new FormToolkit(this.getDisplay());
-        // Form root = toolkit.createForm(parent);
-        // root.getBody().setLayout(new GridLayout());
-        //
-        // ExpandableComposite expandableComposite = toolkit
-        // .createExpandableComposite(root.getBody(),
-        // ExpandableComposite.TWISTIE);
-        //
-        // Composite inner = toolkit.createComposite(expandableComposite);
-        // inner.setLayout(new GridLayout());
-        // expandableComposite.setClient(inner);
-        // toolkit.createLabel(inner, "aaa");
-
         final Group group = new Group(parent, SWT.NONE);
         group.setLayout(new GridLayout());
         group.setLayoutData(gridData);

@@ -66,7 +66,6 @@ public class OptionTabWrapper extends ValidatableTabWrapper {
         final GridData gridData = new GridData();
         gridData.widthHint = 200;
         outputFileText.setLayoutData(gridData);
-        //		outputFileText.setText("");
     }
 
     @Override

@@ -41,22 +41,12 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
 
         final Object target = getTargetModel(dragsourceevent);
         if (target != null) {
-            // && target == dragSourceViewer.findObjectAt(
-            // new Point(dragsourceevent.x, dragsourceevent.y))
-            // .getModel()) {
             final TemplateTransfer transfer = (TemplateTransfer) getTransfer();
             transfer.setObject(target);
         } else {
             dragsourceevent.doit = false;
         }
     }
-
-    //	@Override
-    //	public void dragFinished(DragSourceEvent event) {
-    //		super.dragFinished(event);
-    //
-    //		ERTable table = (ERTable) ((TemplateTransfer)getTransfer()).getObject();
-    //	}
 
     @Override
     public void dragSetData(DragSourceEvent event) {
@@ -109,8 +99,6 @@ public class ERDiagramTransferDragSourceListener extends AbstractTransferDragSou
             return model;
         } else if (model instanceof ERTable && editPart instanceof TableOutlineEditPart) {
             return model;
-            //		} else if (model instanceof TableOutlineEditPart) {
-            //			return model;
         }
 
         return null;

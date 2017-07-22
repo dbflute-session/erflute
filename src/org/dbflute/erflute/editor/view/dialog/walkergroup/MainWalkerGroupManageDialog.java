@@ -188,9 +188,6 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(selectCheckButton, tableItem, 0);
             tableItem.setText(1, group.getName());
-            //			if (categorySettings.isSelected(group)) {
-            //				selectCheckButton.setSelection(true);
-            //			}
             categoryCheckMap.put(group, editor);
             if (walkerGroup == group) {
                 categoryTable.setSelection(tableItem);

@@ -24,19 +24,6 @@ public class DictionaryOutlineEditPart extends AbstractOutlineEditPart {
     @Override
     protected List<Word> getModelChildren() {
         return new ArrayList<>();
-        //		Dictionary dictionary = (Dictionary) this.getModel();
-        //		List<Word> list = dictionary.getWordList();
-        //
-        //		if (this.getDiagram().getDiagramContents().getSettings()
-        //				.getViewOrderBy() == Settings.VIEW_MODE_LOGICAL) {
-        //			Collections.sort(list, Word.LOGICAL_NAME_COMPARATOR);
-        //
-        //		} else {
-        //			Collections.sort(list, Word.PHYSICAL_NAME_COMPARATOR);
-        //
-        //		}
-        //
-        //		return list;
     }
 
     @Override

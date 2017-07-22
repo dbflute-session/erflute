@@ -155,16 +155,6 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
                 image.setOpaque(true);
                 columnFigure.add(image);
             }
-            //			if (foreignKey){
-            //				ImageFigure image = new ImageFigure();
-            //				image.setBorder(new MarginBorder(new Insets(0, 0, 0, 0)));
-            //				image.setImage(Activator.getImage(ImageKey.FOREIGN_KEY));
-            //				columnFigure.add(image);
-            //			} else {
-            //				Label filler = new Label();
-            //				filler.setBorder(new MarginBorder(new Insets(0, 0, 0, 16)));
-            //				columnFigure.add(filler);
-            //			}
             if (isNotNull) {
                 final ImageFigure image = new ImageFigure();
                 image.setBorder(new MarginBorder(new Insets(0, 1, 0, 0)));
@@ -205,15 +195,6 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         image.setImage(Activator.getImage(ImageKey.GROUP));
         columnFigure.add(image);
 
-        //		Label filler = new Label();
-        //		filler.setBorder(new MarginBorder(new Insets(0, 0, 0, 16)));
-        //		filler.setBorder(new MarginBorder(new Insets(0, 0, 0, 6)));
-        //		columnFigure.add(filler);
-
-        //		filler = new Label();
-        //		filler.setBorder(new MarginBorder(new Insets(0, 0, 0, 16)));
-        //		columnFigure.add(filler);
-
         final StringBuilder text = new StringBuilder();
         text.append(name);
         text.append(" (GROUP)");
@@ -238,10 +219,6 @@ public class FunnyStyleSupport extends AbstractStyleSupport {
         image.setImage(Activator.getImage(ImageKey.BLANK_WHITE));
         image.setOpaque(true);
         indexFigure.add(image);
-        //		Label filler = new Label();
-        //		filler.setBorder(new MarginBorder(new Insets(0, 0, 0, 16)));
-        //		filler.setBorder(new MarginBorder(new Insets(1, 4, 0, 16)));
-        //		indexFigure.add(filler);
 
         final StringBuilder text = new StringBuilder();
         text.append(name);

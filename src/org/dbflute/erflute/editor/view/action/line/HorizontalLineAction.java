@@ -32,8 +32,6 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
         super(ID, DisplayMessages.getMessage("action.title.horizontal.line"), editor);
 
         setImageDescriptor(Activator.getImageDescriptor(ImageKey.HORIZONTAL_LINE));
-        //		this.setDisabledImageDescriptor(Activator
-        //				.getImageDescriptor(ImageKey.HORIZONTAL_LINE_DISABLED));
         setToolTipText(DisplayMessages.getMessage("action.title.horizontal.line"));
     }
 
@@ -184,8 +182,6 @@ public class HorizontalLineAction extends AbstractBaseSelectionAction {
             super(ID, DisplayMessages.getMessage("action.title.horizontal.line"));
 
             setImageDescriptor(Activator.getImageDescriptor(ImageKey.HORIZONTAL_LINE));
-            //			this.setDisabledImageDescriptor(Activator
-            //					.getImageDescriptor(ImageKey.HORIZONTAL_LINE_DISABLED));
             setToolTipText(DisplayMessages.getMessage("action.title.horizontal.line"));
         }
     }
