@@ -16,6 +16,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.PagableFreeformRoo
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.extension.ExtensionLoader;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
 import org.dbflute.erflute.editor.view.ERDiagramPopupMenuManager;
@@ -436,6 +437,10 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         return getActionRegistry();
     }
 
+    public void runERDiagramQuickOutlineAction() {
+        getActionRegistry().getAction(ERDiagramQuickOutlineAction.ID).runWithEvent(null);
+    }
+
     // ===================================================================================
     //                                                                              Reveal
     //                                                                              ======
@@ -461,6 +466,10 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         return diagram;
     }
 
+    public String getName() {
+        return diagram.getName();
+    }
+
     @Override
     public GraphicalViewer getGraphicalViewer() {
         return super.getGraphicalViewer();
@@ -483,7 +492,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         this.isDirty = isDirty;
     }
 
-    public void runERDiagramQuickOutlineAction() {
-        getActionRegistry().getAction(ERDiagramQuickOutlineAction.ID).runWithEvent(null);
+    public boolean have(IERDiagram diagram) {
+        return this.diagram.equals(diagram);
     }
 }

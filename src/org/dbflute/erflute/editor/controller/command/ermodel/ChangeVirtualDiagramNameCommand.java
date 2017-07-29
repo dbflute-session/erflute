@@ -25,9 +25,11 @@ public class ChangeVirtualDiagramNameCommand extends AbstractCommand {
         virtualDiagram.setName(newName);
         getDiagram().getDiagramContents().getVirtualDiagramSet().changeVdiagram(virtualDiagram);
 
-        if (virtualDiagram.getDiagram().getCurrentVirtualDiagram() == virtualDiagram) {
-            virtualDiagram.getDiagram().getEditor().setPageText(newName);
-        }
+        // virtualDiagram.setName内に下記呼び出しを書くことは可能だったがやめた。
+        // modelがviewであるERFluteMultiPageEditorを直接変更するのおかしい。
+        // そもそもvirtualDiagramがERFluteMultiPageEditorの参照を直接持つのは良いのか？
+        // オブザーバーパターンとか使ったほうが良いのでは？
+        virtualDiagram.getEditor().setPageText(virtualDiagram, newName);
     }
 
     @Override
@@ -35,8 +37,6 @@ public class ChangeVirtualDiagramNameCommand extends AbstractCommand {
         virtualDiagram.setName(oldName);
         getDiagram().getDiagramContents().getVirtualDiagramSet().changeVdiagram(virtualDiagram);
 
-        if (virtualDiagram.getDiagram().getCurrentVirtualDiagram() == virtualDiagram) {
-            virtualDiagram.getDiagram().getEditor().setPageText(oldName);
-        }
+        virtualDiagram.getEditor().setPageText(virtualDiagram, oldName);
     }
 }

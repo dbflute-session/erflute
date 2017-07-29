@@ -427,6 +427,11 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     }
 
     @Override
+    public String getName() {
+        return "Main Diagram";
+    }
+
+    @Override
     public Point getMousePoint() {
         if (isVirtual()) {
             return currentVirtualDiagram.getMousePoint();

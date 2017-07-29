@@ -10,6 +10,8 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public interface IERDiagram extends Materializable {
 
+    String getName();
+
     Point getMousePoint();
 
     void setMousePoint(Point mousePoint);

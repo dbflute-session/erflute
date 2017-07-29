@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.function.Predicate;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.Format;
@@ -79,7 +80,7 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             zoomComboContributionItem = new ZoomComboContributionItem(getSite().getPage());
             final MainDiagramEditor editor = new MainDiagramEditor(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
             final int index = addPage(editor, getEditorInput()); // as main
-            setPageText(index, "Main Diagram");
+            setPageText(index, diagram.getName());
         } catch (final PartInitException e) {
             Activator.showExceptionDialog(e);
         }
@@ -396,30 +397,64 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         return super.getAdapter(type);
     }
 
-    public void setCurrentERModel(ERVirtualDiagram viagram) {
-        if (getPageCount() == 1) {
-            addVirtualDiagramPage(viagram);
+    public void setCurrentERModel(ERVirtualDiagram vdiagram) {
+        final int pageIndex = getPageIndex(vdiagram);
+        if (0 <= pageIndex) {
+            removePage(pageIndex);
+        }
+
+        final int MAX_PAGE_COUNT = 10;
+        if (getPageCount() < MAX_PAGE_COUNT) {
+            addVirtualDiagramPage(vdiagram);
         } else {
-            removePage(1);
-            addVirtualDiagramPage(viagram);
+            removePage(MAX_PAGE_COUNT - 1);
+            addVirtualDiagramPage(vdiagram);
         }
     }
 
-    private void addVirtualDiagramPage(ERVirtualDiagram viagram) {
+    private void addVirtualDiagramPage(ERVirtualDiagram vdiagram) {
         final VirtualDiagramEditor vdiagramEditor =
-                new VirtualDiagramEditor(diagram, viagram, getEditPartFactory(), getZoomComboContributionItem(), outlinePage);
+                new VirtualDiagramEditor(diagram, vdiagram, getEditPartFactory(), getZoomComboContributionItem(), outlinePage);
         try {
-            addPage(vdiagramEditor, getEditorInput(), viagram.getName());
+            addPage(vdiagramEditor, getEditorInput(), vdiagram.getName());
         } catch (final PartInitException e) {
             Activator.showExceptionDialog(e);
         }
         setActiveEditor(vdiagramEditor);
     }
 
-    private int addPage(IEditorPart editor, IEditorInput input, String name) throws PartInitException {
-        final int pageNo = super.addPage(editor, input);
-        setPageText(pageNo, Format.null2blank(name));
-        return pageNo;
+    private void addPage(IEditorPart editor, IEditorInput input, String name) throws PartInitException {
+        final int NEW_PAGE_INDEX = 1;
+        super.addPage(NEW_PAGE_INDEX, editor, input);
+        setPageText(NEW_PAGE_INDEX, Format.null2blank(name));
+    }
+
+    public void removePage(String diagramName) {
+        final int pangeIndex = getPageIndex(diagramName);
+        if (pangeIndex < 0) {
+            return;
+        }
+
+        removePage(getPageIndex(diagramName));
+    }
+
+    private int getPageIndex(ERVirtualDiagram vdiagram) {
+        return getPageIndex(e -> e.have(vdiagram));
+    }
+
+    private int getPageIndex(String diagramName) {
+        return getPageIndex(editor -> editor.getName().equals(diagramName));
+    }
+
+    private int getPageIndex(Predicate<MainDiagramEditor> test) {
+        for (int i = 0; i < getPageCount(); i++) {
+            final MainDiagramEditor editor = (MainDiagramEditor) getEditor(i);
+            if (test.test(editor)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     // ===================================================================================
@@ -444,5 +479,14 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
 
     public void setPageText(String text) {
         setPageText(1, text);
+    }
+
+    public void setPageText(ERVirtualDiagram vdiagram, String text) {
+        final int pangeIndex = getPageIndex(vdiagram);
+        if (pangeIndex < 0) {
+            return;
+        }
+
+        setPageText(pangeIndex, text);
     }
 }

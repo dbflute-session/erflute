@@ -17,11 +17,11 @@ import org.eclipse.ui.PlatformUI;
  * @author who?
  * @author kajiku
  */
-public class ChangeNameAction extends AbstractOutlineBaseAction {
+public class ChangeVirtualDiagramNameAction extends AbstractOutlineBaseAction {
 
-    public static final String ID = ChangeNameAction.class.getName();
+    public static final String ID = ChangeVirtualDiagramNameAction.class.getName();
 
-    public ChangeNameAction(TreeViewer treeViewer) {
+    public ChangeVirtualDiagramNameAction(TreeViewer treeViewer) {
         super(ID, "Rename", treeViewer);
     }
 

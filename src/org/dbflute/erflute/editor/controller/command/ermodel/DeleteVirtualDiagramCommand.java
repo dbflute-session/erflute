@@ -22,6 +22,9 @@ public class DeleteVirtualDiagramCommand extends AbstractCommand {
         final ERVirtualDiagram vdiagram = new ERVirtualDiagram(diagram);
         vdiagram.setName(name);
         diagram.removeVirtualDiagram(vdiagram);
+
+        diagram.getEditor().removePage(name);
+
         diagram.refresh();
     }
 
