@@ -1,5 +1,6 @@
 package org.dbflute.erflute.editor.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.Activator;
@@ -10,6 +11,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWal
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.WalkerGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.note.WalkerNote;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
@@ -31,7 +33,7 @@ import org.eclipse.swt.graphics.Color;
  *
  * この2つの債務を分離したい。ERDiagramにはコントローラの債務だけ残す。
  */
-public class ERDiagram extends ViewableModel {
+public class ERDiagram extends ViewableModel implements IERDiagram {
 
     // ===================================================================================
     //                                                                          Definition
@@ -104,14 +106,14 @@ public class ERDiagram extends ViewableModel {
     }
 
     public void addWalkerPlainly(final DiagramWalker walker) {
-        if (getCurrentVirtualDiagram() != null) {
+        if (isVirtual()) {
             getCurrentVirtualDiagram().addWalkerPlainly(walker);
         }
 
         walker.setDiagram(this);
 
-        // 仮想ダイアグラムへのノート追加でない場合
-        if (!(getCurrentVirtualDiagram() != null && walker instanceof WalkerNote)) {
+        // 仮想ダイアグラムへのノートやテーブルグループの追加でない場合
+        if (!(isVirtual() && (walker instanceof WalkerNote || walker instanceof WalkerGroup))) {
             diagramContents.getDiagramWalkers().add(walker);
         }
 
@@ -132,7 +134,7 @@ public class ERDiagram extends ViewableModel {
     }
 
     public void removeWalker(DiagramWalker walker) {
-        if (getCurrentVirtualDiagram() != null) {
+        if (isVirtual()) {
             getCurrentVirtualDiagram().removeWalker(walker);
         }
 
@@ -161,12 +163,13 @@ public class ERDiagram extends ViewableModel {
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
-    public boolean virtualDiagramContains(DiagramWalker walker) {
-        if (getCurrentVirtualDiagram() == null) {
-            return false;
+    @Override
+    public boolean contains(DiagramWalker... models) {
+        if (isVirtual()) {
+            return getCurrentVirtualDiagram().contains(models);
+        } else {
+            return Arrays.stream(models).allMatch(m -> diagramContents.getDiagramWalkers().contains(m));
         }
-
-        return getCurrentCategory().contains(walker);
     }
 
     // ===================================================================================
@@ -203,7 +206,7 @@ public class ERDiagram extends ViewableModel {
     public ERVirtualDiagram findModelByTable(ERTable table) {
         for (final ERVirtualDiagram model : diagramContents.getVirtualDiagramSet()) {
             for (final ERVirtualTable vtable : model.getVirtualTables()) {
-                if (vtable.getRawTable().equals(table)) {
+                if (vtable.sameMaterial(table)) {
                     return model;
                 }
             }
@@ -387,6 +390,7 @@ public class ERDiagram extends ViewableModel {
         this.pageSetting = pageSetting;
     }
 
+    @Override
     public ERFluteMultiPageEditor getEditor() {
         return editor;
     }
@@ -422,15 +426,42 @@ public class ERDiagram extends ViewableModel {
         return defaultModelName;
     }
 
-    public Point getMousePoint() {
-        return mousePoint;
+    @Override
+    public String getName() {
+        return "Main Diagram";
     }
 
+    @Override
+    public Point getMousePoint() {
+        if (isVirtual()) {
+            return currentVirtualDiagram.getMousePoint();
+        } else {
+            return mousePoint;
+        }
+    }
+
+    @Override
     public void setMousePoint(Point mousePoint) {
-        this.mousePoint = mousePoint;
+        if (isVirtual()) {
+            currentVirtualDiagram.setMousePoint(mousePoint);
+        } else {
+            this.mousePoint = mousePoint;
+        }
     }
 
     public boolean isVirtual() {
         return getCurrentVirtualDiagram() != null;
+    }
+
+    @SuppressWarnings("deprecation")
+    public void refresh(DiagramWalker... others) {
+        // TODO ERModelUtil#refreshDiagram()は、ここだけで使用する。後で実装自体こちらに移す。
+        ERModelUtil.refreshDiagram(this, others);
+    }
+
+    public void refreshVirtualDiagram(DiagramWalker... others) {
+        if (isVirtual()) {
+            refresh(others);
+        }
     }
 }

@@ -30,8 +30,8 @@ public class ERDiagramLineBorder extends LineBorder {
         int b = 9 * DELTA;
 
         for (int i = 0; i <= 5; i++) {
-            Color color = DesignResources.getColor(new int[] { b, g, 255 });
-            this.paint1(i, color, tempRect, graphics);
+            final Color color = DesignResources.getColor(new int[] { b, g, 255 });
+            paint1(i, color, tempRect, graphics);
 
             g -= DELTA;
             b -= DELTA;

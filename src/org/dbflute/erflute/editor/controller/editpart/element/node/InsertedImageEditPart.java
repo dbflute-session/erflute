@@ -24,20 +24,19 @@ import org.eclipse.ui.PlatformUI;
 public class InsertedImageEditPart extends DiagramWalkerEditPart implements IResizable {
 
     private Image image;
-
     private ImageData imageData;
 
     @Override
     protected IFigure createFigure() {
-        final InsertedImage model = (InsertedImage) this.getModel();
+        final InsertedImage model = (InsertedImage) getModel();
 
         final byte[] data = Base64.getDecoder().decode(model.getBase64EncodedData().getBytes());
         final ByteArrayInputStream in = new ByteArrayInputStream(data);
 
         this.imageData = new ImageData(in);
-        this.changeImage();
+        changeImage();
 
-        final InsertedImageFigure figure = new InsertedImageFigure(this.image, model.isFixAspectRatio(), model.getAlpha());
+        final InsertedImageFigure figure = new InsertedImageFigure(image, model.isFixAspectRatio(), model.getAlpha());
         figure.setMinimumSize(new Dimension(1, 1));
 
         return figure;
@@ -45,15 +44,15 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
 
     @Override
     protected void disposeFont() {
-        if (this.image != null && !this.image.isDisposed()) {
-            this.image.dispose();
+        if (image != null && !image.isDisposed()) {
+            image.dispose();
         }
         super.disposeFont();
     }
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
 
         super.createEditPolicies();
     }
@@ -63,15 +62,15 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
         if (event.getPropertyName().equals(InsertedImage.PROPERTY_CHANGE_IMAGE)) {
             changeImage();
 
-            final InsertedImageFigure figure = (InsertedImageFigure) this.getFigure();
-            final InsertedImage model = (InsertedImage) this.getModel();
+            final InsertedImageFigure figure = (InsertedImageFigure) getFigure();
+            final InsertedImage model = (InsertedImage) getModel();
 
-            figure.setImg(this.image, model.isFixAspectRatio(), model.getAlpha());
+            figure.setImg(image, model.isFixAspectRatio(), model.getAlpha());
 
-            this.refreshVisuals();
+            refreshVisuals();
 
             if (ERDiagramEditPart.isUpdateable()) {
-                this.getFigure().repaint();
+                getFigure().repaint();
             }
         }
 
@@ -79,14 +78,14 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
     }
 
     private void changeImage() {
-        final InsertedImage model = (InsertedImage) this.getModel();
+        final InsertedImage model = (InsertedImage) getModel();
 
         final ImageData newImageData =
-                new ImageData(this.imageData.width, this.imageData.height, this.imageData.depth, this.imageData.palette);
+                new ImageData(imageData.width, imageData.height, imageData.depth, imageData.palette);
 
-        for (int x = 0; x < this.imageData.width; x++) {
-            for (int y = 0; y < this.imageData.height; y++) {
-                final RGB rgb = this.imageData.palette.getRGB(this.imageData.getPixel(x, y));
+        for (int x = 0; x < imageData.width; x++) {
+            for (int y = 0; y < imageData.height; y++) {
+                final RGB rgb = imageData.palette.getRGB(imageData.getPixel(x, y));
                 final float[] hsb = rgb.getHSB();
 
                 if (model.getHue() != 0) {
@@ -116,8 +115,8 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
             }
         }
 
-        if (this.image != null && !this.image.isDisposed()) {
-            this.image.dispose();
+        if (image != null && !image.isDisposed()) {
+            image.dispose();
         }
 
         this.image = new Image(Display.getDefault(), newImageData);
@@ -125,26 +124,20 @@ public class InsertedImageEditPart extends DiagramWalkerEditPart implements IRes
 
     @Override
     public void performRequestOpen() {
-        final InsertedImage insertedImage = (InsertedImage) this.getModel();
-
+        final InsertedImage insertedImage = (InsertedImage) getModel();
         final InsertedImage oldInsertedImage = (InsertedImage) insertedImage.clone();
-
-        final ERDiagram diagram = this.getDiagram();
-
+        final ERDiagram diagram = getDiagram();
         final InsertedImageDialog dialog =
                 new InsertedImageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), insertedImage);
 
         if (dialog.open() == IDialogConstants.OK_ID) {
             final ChangeInsertedImagePropertyCommand command =
                     new ChangeInsertedImagePropertyCommand(diagram, insertedImage, dialog.getNewInsertedImage(), oldInsertedImage);
-
-            this.executeCommand(command);
-
+            executeCommand(command);
         } else {
             final ChangeInsertedImagePropertyCommand command =
                     new ChangeInsertedImagePropertyCommand(diagram, insertedImage, oldInsertedImage, oldInsertedImage);
             command.execute();
-
         }
     }
 }

@@ -9,13 +9,11 @@ import org.dbflute.erflute.Activator;
 
 public class ReservedWord {
 
-    private static Set<String> reservedWords = new HashSet<String>();
+    private static Set<String> reservedWords = new HashSet<>();
 
     static {
-        ResourceBundle bundle = ResourceBundle.getBundle(Activator.PLUGIN_ID + ".reserved_word");
-
-        Enumeration<String> keys = bundle.getKeys();
-
+        final ResourceBundle bundle = ResourceBundle.getBundle(Activator.PLUGIN_ID + ".reserved_word");
+        final Enumeration<String> keys = bundle.getKeys();
         while (keys.hasMoreElements()) {
             reservedWords.add(keys.nextElement());
         }

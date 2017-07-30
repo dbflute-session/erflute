@@ -25,7 +25,7 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
 
     public ResizeModelAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.auto.resize"), editor);
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.RESIZE));
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.RESIZE));
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
             final DiagramWalker nodeElement = (DiagramWalker) editPart.getModel();
 
             final MoveElementCommand command =
-                    new MoveElementCommand(this.getDiagram(), ((DiagramWalkerEditPart) editPart).getFigure().getBounds(),
+                    new MoveElementCommand(getDiagram(), ((DiagramWalkerEditPart) editPart).getFigure().getBounds(),
                             nodeElement.getX(), nodeElement.getY(), -1, -1, nodeElement);
 
             commandList.add(command);
@@ -47,7 +47,7 @@ public class ResizeModelAction extends AbstractBaseSelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        final GraphicalViewer viewer = this.getGraphicalViewer();
+        final GraphicalViewer viewer = getGraphicalViewer();
 
         for (final Object object : viewer.getSelectedEditParts()) {
             if (object instanceof DiagramWalkerEditPart) {

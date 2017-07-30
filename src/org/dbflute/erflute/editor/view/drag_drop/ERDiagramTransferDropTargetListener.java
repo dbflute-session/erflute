@@ -35,40 +35,40 @@ public class ERDiagramTransferDropTargetListener extends AbstractTransferDropTar
 
     @Override
     protected Request createTargetRequest() {
-        final Object object = this.getTargetModel();
+        final Object object = getTargetModel();
 
         if (object instanceof Map) {
             if (((Map<?, ?>) object).get(ERDiagramTransferDragSourceListener.MOVE_COLUMN_GROUP_PARAM_PARENT) instanceof TableView) {
                 final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN_GROUP);
                 request.setDirectEditFeature(object);
-                request.setLocation(this.getDropLocation());
+                request.setLocation(getDropLocation());
                 return request;
             } else {
                 final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_COLUMN_GROUP);
                 request.setDirectEditFeature(object);
-                request.setLocation(this.getDropLocation());
+                request.setLocation(getDropLocation());
                 return request;
             }
         } else if (object instanceof Word) {
             final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_ADD_WORD);
             request.setDirectEditFeature(object);
-            request.setLocation(this.getDropLocation());
+            request.setLocation(getDropLocation());
             return request;
 
         } else if (object instanceof NormalColumn) {
             final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_MOVE_COLUMN);
             request.setDirectEditFeature(object);
-            request.setLocation(this.getDropLocation());
+            request.setLocation(getDropLocation());
             return request;
         } else if (object instanceof ERTable) {
             final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_PLACE_TABLE);
             request.setDirectEditFeature(object);
-            request.setLocation(this.getDropLocation());
+            request.setLocation(getDropLocation());
             return request;
         } else if (object instanceof List) {
             final DirectEditRequest request = new DirectEditRequest(ERDiagramTransferDragSourceListener.REQUEST_TYPE_PLACE_TABLE);
             request.setDirectEditFeature(object);
-            request.setLocation(this.getDropLocation());
+            request.setLocation(getDropLocation());
             return request;
         }
 
@@ -76,7 +76,7 @@ public class ERDiagramTransferDropTargetListener extends AbstractTransferDropTar
     }
 
     private Object getTargetModel() {
-        final TemplateTransfer transfer = (TemplateTransfer) this.getTransfer();
+        final TemplateTransfer transfer = (TemplateTransfer) getTransfer();
         return transfer.getObject();
     }
 }

@@ -9,21 +9,14 @@ import org.eclipse.swt.widgets.Display;
 public class PageSettings implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private static final int DEFAULT_MARGIN = 30;
 
     private final boolean directionHorizontal;
-
     private final int scale;
-
     private final String paperSize;
-
     private final int topMargin;
-
     private final int leftMargin;
-
     private final int bottomMargin;
-
     private final int rightMargin;
 
     public PageSettings() {
@@ -36,8 +29,8 @@ public class PageSettings implements Serializable {
         this.leftMargin = DEFAULT_MARGIN;
     }
 
-    public PageSettings(boolean directionHorizontal, int scale, String paperSize, int topMargin, int rightMargin, int bottomMargin,
-            int leftMargin) {
+    public PageSettings(boolean directionHorizontal, int scale, String paperSize,
+            int topMargin, int rightMargin, int bottomMargin, int leftMargin) {
         this.directionHorizontal = directionHorizontal;
         this.scale = scale;
         this.paperSize = paperSize;
@@ -94,65 +87,65 @@ public class PageSettings implements Serializable {
     }
 
     public int getWidth() {
-        return (int) ((this.getLength(this.directionHorizontal) - (this.leftMargin / 10) - (this.rightMargin / 10))
-                * Display.getCurrent().getDPI().x / 25.4 * 100 / this.scale);
+        return (int) ((getLength(directionHorizontal) - (leftMargin / 10) - (rightMargin / 10))
+                * Display.getCurrent().getDPI().x / 25.4 * 100 / scale);
     }
 
     public int getHeight() {
-        return (int) ((this.getLength(!this.directionHorizontal) - (this.topMargin / 10) - (this.bottomMargin / 10))
-                * Display.getCurrent().getDPI().y / 25.4 * 100 / this.scale);
+        return (int) ((getLength(!directionHorizontal) - (topMargin / 10) - (bottomMargin / 10))
+                * Display.getCurrent().getDPI().y / 25.4 * 100 / scale);
     }
 
     private int getLength(boolean horizontal) {
         if (horizontal) {
-            if (this.paperSize.startsWith("A0")) {
+            if (paperSize.startsWith("A0")) {
                 return 1189;
-            } else if (this.paperSize.startsWith("A1")) {
+            } else if (paperSize.startsWith("A1")) {
                 return 841;
-            } else if (this.paperSize.startsWith("A2")) {
+            } else if (paperSize.startsWith("A2")) {
                 return 594;
-            } else if (this.paperSize.startsWith("A3")) {
+            } else if (paperSize.startsWith("A3")) {
                 return 420;
-            } else if (this.paperSize.startsWith("A4")) {
+            } else if (paperSize.startsWith("A4")) {
                 return 297;
-            } else if (this.paperSize.startsWith("B0")) {
+            } else if (paperSize.startsWith("B0")) {
                 return 1414;
-            } else if (this.paperSize.startsWith("B1")) {
+            } else if (paperSize.startsWith("B1")) {
                 return 1000;
-            } else if (this.paperSize.startsWith("B2")) {
+            } else if (paperSize.startsWith("B2")) {
                 return 707;
-            } else if (this.paperSize.startsWith("B3")) {
+            } else if (paperSize.startsWith("B3")) {
                 return 500;
-            } else if (this.paperSize.startsWith("B4")) {
+            } else if (paperSize.startsWith("B4")) {
                 return 353;
-            } else if (this.paperSize.startsWith("B5")) {
+            } else if (paperSize.startsWith("B5")) {
                 return 250;
             } else {
                 // A4
                 return 297;
             }
         } else {
-            if (this.paperSize.startsWith("A0")) {
+            if (paperSize.startsWith("A0")) {
                 return 841;
-            } else if (this.paperSize.startsWith("A1")) {
+            } else if (paperSize.startsWith("A1")) {
                 return 594;
-            } else if (this.paperSize.startsWith("A2")) {
+            } else if (paperSize.startsWith("A2")) {
                 return 420;
-            } else if (this.paperSize.startsWith("A3")) {
+            } else if (paperSize.startsWith("A3")) {
                 return 297;
-            } else if (this.paperSize.startsWith("A4")) {
+            } else if (paperSize.startsWith("A4")) {
                 return 210;
-            } else if (this.paperSize.startsWith("B0")) {
+            } else if (paperSize.startsWith("B0")) {
                 return 1000;
-            } else if (this.paperSize.startsWith("B1")) {
+            } else if (paperSize.startsWith("B1")) {
                 return 707;
-            } else if (this.paperSize.startsWith("B2")) {
+            } else if (paperSize.startsWith("B2")) {
                 return 500;
-            } else if (this.paperSize.startsWith("B3")) {
+            } else if (paperSize.startsWith("B3")) {
                 return 353;
-            } else if (this.paperSize.startsWith("B4")) {
+            } else if (paperSize.startsWith("B4")) {
                 return 250;
-            } else if (this.paperSize.startsWith("B5")) {
+            } else if (paperSize.startsWith("B5")) {
                 return 176;
             } else {
                 // A4

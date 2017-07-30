@@ -36,30 +36,30 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
     @Override
     protected Composite createRootComposite(Composite parent) {
         this.tabFolder = new TabFolder(parent, SWT.NONE);
-        this.tabItem = new TabItem(this.tabFolder, SWT.NONE);
-        this.tabItem.setText(DisplayMessages.getMessage("label.basic"));
-        final Composite composite = super.createRootComposite(this.tabFolder);
-        this.tabItem.setControl(composite);
-        this.tabItem = new TabItem(this.tabFolder, SWT.NONE);
-        this.tabItem.setText(DisplayMessages.getMessage("label.detail"));
-        final Composite detailComposite = this.createDetailTab(this.tabFolder);
-        this.initializeDetailTab(detailComposite);
-        this.tabItem.setControl(detailComposite);
+        this.tabItem = new TabItem(tabFolder, SWT.NONE);
+        tabItem.setText(DisplayMessages.getMessage("label.basic"));
+        final Composite composite = super.createRootComposite(tabFolder);
+        tabItem.setControl(composite);
+        this.tabItem = new TabItem(tabFolder, SWT.NONE);
+        tabItem.setText(DisplayMessages.getMessage("label.detail"));
+        final Composite detailComposite = createDetailTab(tabFolder);
+        initializeDetailTab(detailComposite);
+        tabItem.setControl(detailComposite);
         return composite;
     }
 
     @Override
     protected void initializeComposite(Composite composite) {
-        final int numColumns = this.getCompositeNumColumns();
+        final int numColumns = getCompositeNumColumns();
         final Composite checkBoxComposite = new Composite(composite, SWT.NONE);
         final GridData gridData = new GridData();
         gridData.horizontalSpan = numColumns;
         gridData.heightHint = 40;
         checkBoxComposite.setLayoutData(gridData);
         final GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = this.getCheckBoxCompositeNumColumns();
+        gridLayout.numColumns = getCheckBoxCompositeNumColumns();
         checkBoxComposite.setLayout(gridLayout);
-        this.initializeCheckBoxComposite(checkBoxComposite);
+        initializeCheckBoxComposite(checkBoxComposite);
         super.initializeComposite(composite);
         this.defaultText = CompositeFactory.createCombo(this, composite, "label.column.default.value", numColumns - 1);
     }
@@ -88,12 +88,12 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
     @Override
     protected void setWordData() {
         notNullCheck.setSelection(targetColumn.isNotNull());
-        uniqueKeyCheck.setSelection(this.targetColumn.isUniqueKey());
+        uniqueKeyCheck.setSelection(targetColumn.isUniqueKey());
         if (targetColumn.getConstraint() != null) {
-            constraintText.setText(this.targetColumn.getConstraint());
+            constraintText.setText(targetColumn.getConstraint());
         }
         if (targetColumn.getDefaultValue() != null) {
-            defaultText.setText(this.targetColumn.getDefaultValue());
+            defaultText.setText(targetColumn.getDefaultValue());
         }
         super.setWordData();
     }
@@ -103,14 +103,14 @@ public abstract class AbstractRealColumnDialog extends AbstractColumnDialog {
         super.setEnabledBySqlType();
         final SqlType selectedType = SqlType.valueOf(diagram.getDatabase(), typeCombo.getText());
         if (selectedType != null) {
-            final String defaultValue = this.defaultText.getText();
-            this.defaultText.removeAll();
+            final String defaultValue = defaultText.getText();
+            defaultText.removeAll();
             if (selectedType.isTimestamp()) {
-                this.defaultText.add(DisplayMessages.getMessage("label.current.date.time"));
-                this.defaultText.setText(defaultValue);
+                defaultText.add(DisplayMessages.getMessage("label.current.date.time"));
+                defaultText.setText(defaultValue);
             } else {
                 if (!DisplayMessages.getMessage("label.current.date.time").equals(defaultValue)) {
-                    this.defaultText.setText(defaultValue);
+                    defaultText.setText(defaultValue);
                 }
             }
         }

@@ -24,9 +24,7 @@ public class Environment implements Serializable, Cloneable {
     public Environment clone() {
         try {
             final Environment environment = (Environment) super.clone();
-
             return environment;
-
         } catch (final CloneNotSupportedException e) {
             return null;
         }

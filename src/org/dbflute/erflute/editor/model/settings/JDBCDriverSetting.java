@@ -8,11 +8,9 @@ public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSet
 
     private static final long serialVersionUID = 1L;
 
-    private String db;
-
-    private String className;
-
-    private String path;
+    private final String db;
+    private final String className;
+    private final String path;
 
     public JDBCDriverSetting(String db, String className, String path) {
         this.db = db;
@@ -49,7 +47,7 @@ public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSet
             return false;
         if (getClass() != obj.getClass())
             return false;
-        JDBCDriverSetting other = (JDBCDriverSetting) obj;
+        final JDBCDriverSetting other = (JDBCDriverSetting) obj;
         if (className == null) {
             if (other.className != null)
                 return false;
@@ -63,10 +61,11 @@ public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSet
         return true;
     }
 
+    @Override
     public int compareTo(JDBCDriverSetting another) {
         int compareTo = 0;
 
-        String s1 = Format.null2blank(this.db);
+        String s1 = Format.null2blank(db);
         String s2 = Format.null2blank(another.db);
 
         compareTo = s1.compareTo(s2);
@@ -74,7 +73,7 @@ public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSet
             return compareTo;
         }
 
-        s1 = Format.null2blank(this.className);
+        s1 = Format.null2blank(className);
         s2 = Format.null2blank(another.className);
 
         compareTo = s1.compareTo(s2);
@@ -82,7 +81,7 @@ public class JDBCDriverSetting implements Serializable, Comparable<JDBCDriverSet
             return compareTo;
         }
 
-        s1 = Format.null2blank(this.path);
+        s1 = Format.null2blank(path);
         s2 = Format.null2blank(another.path);
 
         compareTo = s1.compareTo(s2);

@@ -45,7 +45,7 @@ public class WalkerGroupEditPart extends DiagramWalkerEditPart implements IResiz
     @Override
     protected Rectangle getRectangle() {
         final Rectangle rectangle = super.getRectangle();
-        final WalkerGroup group = (WalkerGroup) this.getModel();
+        final WalkerGroup group = (WalkerGroup) getModel();
         final EditPart contents = getRoot().getContents();
         for (final Object child : contents.getChildren()) {
             if (child instanceof DiagramWalkerEditPart) {
@@ -75,7 +75,7 @@ public class WalkerGroupEditPart extends DiagramWalkerEditPart implements IResiz
 
     @Override
     public void performRequestOpen() {
-        final WalkerGroup group = (WalkerGroup) this.getModel();
+        final WalkerGroup group = (WalkerGroup) getModel();
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final InputDialog dialog = new InputDialog(shell, "Group Name Setting", "Input group name", group.getName(), null);
         if (dialog.open() == IDialogConstants.OK_ID) {

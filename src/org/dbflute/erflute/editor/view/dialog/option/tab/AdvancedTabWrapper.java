@@ -13,10 +13,8 @@ import org.eclipse.swt.widgets.TabFolder;
 
 public class AdvancedTabWrapper extends ValidatableTabWrapper {
 
-    private DiagramSettings settings;
-
-    private ERDiagram diagram;
-
+    private final DiagramSettings settings;
+    private final ERDiagram diagram;
     private AdvancedComposite composite;
 
     public AdvancedTabWrapper(OptionSettingDialog dialog, TabFolder parent, int style, DiagramSettings settings, ERDiagram diagram) {
@@ -25,36 +23,36 @@ public class AdvancedTabWrapper extends ValidatableTabWrapper {
         this.diagram = diagram;
         this.settings = settings;
 
-        this.init();
+        init();
     }
 
     @Override
     public void validatePage() throws InputException {
-        this.composite.validate();
+        composite.validate();
     }
 
     @Override
     public void initComposite() {
-        this.setLayout(new GridLayout());
+        setLayout(new GridLayout());
 
-        if (this.composite != null) {
-            this.composite.dispose();
+        if (composite != null) {
+            composite.dispose();
         }
 
-        this.composite = EclipseDBManagerFactory.getEclipseDBManager(this.settings.getDatabase()).createAdvancedComposite(this);
-        this.composite.initialize(this.dialog, (TableProperties) this.settings.getTableViewProperties(), this.diagram, null);
+        this.composite = EclipseDBManagerFactory.getEclipseDBManager(settings.getDatabase()).createAdvancedComposite(this);
+        composite.initialize(dialog, (TableProperties) settings.getTableViewProperties(), diagram, null);
 
-        this.pack();
+        pack();
     }
 
     @Override
     public void setInitFocus() {
-        this.composite.setInitFocus();
+        composite.setInitFocus();
     }
 
     @Override
     public void reset() {
-        this.init();
+        init();
     }
 
     @Override

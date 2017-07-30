@@ -2,8 +2,8 @@ package org.dbflute.erflute.editor.controller.editpart.element.node;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
 import org.dbflute.erflute.editor.controller.editpolicy.element.node.DiagramWalkerComponentEditPolicy;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
+import org.dbflute.erflute.editor.model.diagram_contents.element.node.Location;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.category.Category;
 import org.dbflute.erflute.editor.view.figure.CategoryFigure;
 import org.eclipse.draw2d.IFigure;
@@ -18,25 +18,25 @@ public class CategoryEditPart extends DiagramWalkerEditPart implements IResizabl
 
     @Override
     protected IFigure createFigure() {
-        Category category = (Category) this.getModel();
-        CategoryFigure figure = new CategoryFigure(category.getName());
+        final Category category = (Category) getModel();
+        final CategoryFigure figure = new CategoryFigure(category.getName());
 
         return figure;
     }
 
     @Override
     protected Rectangle getRectangle() {
-        Rectangle rectangle = super.getRectangle();
+        final Rectangle rectangle = super.getRectangle();
 
-        Category category = (Category) this.getModel();
-        ERDiagramEditPart rootEditPart = (ERDiagramEditPart) this.getRoot().getContents();
+        final Category category = (Category) getModel();
+        final ERDiagramEditPart rootEditPart = (ERDiagramEditPart) getRoot().getContents();
 
-        for (Object child : rootEditPart.getChildren()) {
+        for (final Object child : rootEditPart.getChildren()) {
             if (child instanceof DiagramWalkerEditPart) {
-                DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
+                final DiagramWalkerEditPart editPart = (DiagramWalkerEditPart) child;
 
                 if (category.contains((DiagramWalker) editPart.getModel())) {
-                    Rectangle bounds = editPart.getFigure().getBounds();
+                    final Rectangle bounds = editPart.getFigure().getBounds();
 
                     if (bounds.x + bounds.width > rectangle.x + rectangle.width) {
                         rectangle.width = bounds.x + bounds.width - rectangle.x;
@@ -57,7 +57,7 @@ public class CategoryEditPart extends DiagramWalkerEditPart implements IResizabl
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new DiagramWalkerComponentEditPolicy());
 
         super.createEditPolicies();
     }

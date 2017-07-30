@@ -46,6 +46,7 @@ public class ERDiagramElementStateListener implements IElementStateListener {
     public void elementDeleted(Object deletedElement) {
         if (deletedElement != null && deletedElement.equals(editorPart.getEditorInput())) {
             final Runnable r = new Runnable() {
+
                 @Override
                 public void run() {
                     close(false);
@@ -60,6 +61,7 @@ public class ERDiagramElementStateListener implements IElementStateListener {
         if (originalElement != null && originalElement.equals(editorPart.getEditorInput())) {
             final boolean doValidationAsync = Display.getCurrent() != null;
             final Runnable r = new Runnable() {
+
                 @Override
                 public void run() {
                     if (movedElement == null || movedElement instanceof IEditorInput) {
@@ -95,6 +97,7 @@ public class ERDiagramElementStateListener implements IElementStateListener {
 
                         if (wasDirty && changed != null) {
                             final Runnable r2 = new Runnable() {
+
                                 @Override
                                 public void run() {
                                     documentProvider.getDocument(editorPart.getEditorInput()).set(previousContent);
@@ -111,15 +114,16 @@ public class ERDiagramElementStateListener implements IElementStateListener {
 
     private void execute(Runnable runnable, boolean postAsync) {
         if (postAsync || Display.getCurrent() == null) {
-            this.editorPart.getSite().getShell().getDisplay().asyncExec(runnable);
+            editorPart.getSite().getShell().getDisplay().asyncExec(runnable);
         } else {
             runnable.run();
         }
     }
 
     public void close(final boolean save) {
-        final Display display = this.editorPart.getSite().getShell().getDisplay();
+        final Display display = editorPart.getSite().getShell().getDisplay();
         display.asyncExec(new Runnable() {
+
             @Override
             public void run() {
                 editorPart.getSite().getPage().closeEditor(editorPart, save);
@@ -128,13 +132,13 @@ public class ERDiagramElementStateListener implements IElementStateListener {
     }
 
     protected void disposeDocumentProvider() {
-        if (this.documentProvider != null) {
+        if (documentProvider != null) {
             final IEditorInput input = editorPart.getEditorInput();
             if (input != null) {
-                this.documentProvider.disconnect(input);
+                documentProvider.disconnect(input);
             }
-            this.documentProvider.removeElementStateListener(this);
+            documentProvider.removeElementStateListener(this);
         }
-        this.documentProvider = null;
+        documentProvider = null;
     }
 }

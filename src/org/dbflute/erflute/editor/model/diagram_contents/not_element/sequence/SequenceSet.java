@@ -12,32 +12,31 @@ import org.dbflute.erflute.editor.model.ObjectListModel;
 public class SequenceSet extends AbstractModel implements ObjectListModel, Iterable<Sequence> {
 
     private static final long serialVersionUID = 1L;
-
     public static final String PROPERTY_CHANGE_SEQUENCE_SET = "SequenceSet";
 
     private List<Sequence> sequenceList;
 
     public SequenceSet() {
-        this.sequenceList = new ArrayList<Sequence>();
+        this.sequenceList = new ArrayList<>();
     }
 
     public void addSequence(Sequence sequence) {
-        this.sequenceList.add(sequence);
-        Collections.sort(this.sequenceList);
+        sequenceList.add(sequence);
+        Collections.sort(sequenceList);
 
-        this.firePropertyChange(PROPERTY_CHANGE_SEQUENCE_SET, null, null);
+        firePropertyChange(PROPERTY_CHANGE_SEQUENCE_SET, null, null);
     }
 
     public int remove(Sequence sequence) {
-        int index = this.sequenceList.indexOf(sequence);
-        this.sequenceList.remove(index);
-        this.firePropertyChange(PROPERTY_CHANGE_SEQUENCE_SET, null, null);
+        final int index = sequenceList.indexOf(sequence);
+        sequenceList.remove(index);
+        firePropertyChange(PROPERTY_CHANGE_SEQUENCE_SET, null, null);
 
         return index;
     }
 
     public boolean contains(String name) {
-        for (Sequence sequence : sequenceList) {
+        for (final Sequence sequence : sequenceList) {
             if (name.equalsIgnoreCase(sequence.getName())) {
                 return true;
             }
@@ -47,7 +46,7 @@ public class SequenceSet extends AbstractModel implements ObjectListModel, Itera
     }
 
     public Sequence get(String name) {
-        for (Sequence sequence : sequenceList) {
+        for (final Sequence sequence : sequenceList) {
             if (name.equalsIgnoreCase(sequence.getName())) {
                 return sequence;
             }
@@ -57,20 +56,21 @@ public class SequenceSet extends AbstractModel implements ObjectListModel, Itera
     }
 
     public List<Sequence> getSequenceList() {
-        return this.sequenceList;
+        return sequenceList;
     }
 
+    @Override
     public Iterator<Sequence> iterator() {
-        return this.sequenceList.iterator();
+        return sequenceList.iterator();
     }
 
     @Override
     public SequenceSet clone() {
-        SequenceSet sequenceSet = (SequenceSet) super.clone();
-        List<Sequence> newSequenceList = new ArrayList<Sequence>();
+        final SequenceSet sequenceSet = (SequenceSet) super.clone();
+        final List<Sequence> newSequenceList = new ArrayList<>();
 
-        for (Sequence sequence : sequenceList) {
-            Sequence newSequence = (Sequence) sequence.clone();
+        for (final Sequence sequence : sequenceList) {
+            final Sequence newSequence = (Sequence) sequence.clone();
             newSequenceList.add(newSequence);
         }
 
@@ -79,14 +79,17 @@ public class SequenceSet extends AbstractModel implements ObjectListModel, Itera
         return sequenceSet;
     }
 
+    @Override
     public String getDescription() {
         return "";
     }
 
+    @Override
     public String getName() {
         return DisplayMessages.getMessage("label.object.type.sequence_list");
     }
 
+    @Override
     public String getObjectType() {
         return "list";
     }

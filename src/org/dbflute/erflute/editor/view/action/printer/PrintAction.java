@@ -13,12 +13,12 @@ public class PrintAction extends AbstractBaseAction {
 
     public PrintAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.find"), editor);
-        this.setActionDefinitionId("org.eclipse.ui.edit.findReplace");
+        setActionDefinitionId("org.eclipse.ui.edit.findReplace");
     }
 
     @Override
     public void execute(Event event) throws Exception {
-        PrintDialog dialog = new PrintDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 0);
+        final PrintDialog dialog = new PrintDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 0);
         dialog.open();
     }
 }

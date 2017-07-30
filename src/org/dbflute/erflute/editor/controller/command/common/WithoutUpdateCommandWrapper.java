@@ -7,7 +7,6 @@ import org.eclipse.gef.commands.Command;
 public class WithoutUpdateCommandWrapper extends Command {
 
     private final Command command;
-
     private final ERDiagram diagram;
 
     public WithoutUpdateCommandWrapper(Command command, ERDiagram diagram) {
@@ -23,7 +22,7 @@ public class WithoutUpdateCommandWrapper extends Command {
 
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.changeAll();
+        diagram.changeAll();
     }
 
     @Override
@@ -34,7 +33,7 @@ public class WithoutUpdateCommandWrapper extends Command {
 
         ERDiagramEditPart.setUpdateable(true);
 
-        this.diagram.changeAll();
+        diagram.changeAll();
     }
 
     @Override

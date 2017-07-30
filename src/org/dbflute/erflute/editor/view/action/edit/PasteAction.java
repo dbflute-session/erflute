@@ -4,10 +4,9 @@ import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.editor.MainDiagramEditor;
 import org.dbflute.erflute.editor.controller.command.common.PasteCommand;
-import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalkerSet;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.model.edit.CopyManager;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -69,7 +68,6 @@ public class PasteAction extends SelectionAction {
         boolean first = true;
         int x = 0;
         int y = 0;
-
         for (final DiagramWalker nodeElement : pasteList) {
             if (first || x > nodeElement.getX()) {
                 x = nodeElement.getX();
@@ -77,32 +75,19 @@ public class PasteAction extends SelectionAction {
             if (first || y > nodeElement.getY()) {
                 y = nodeElement.getY();
             }
-
             first = false;
         }
 
-        final EditPart editPart = this.editor.getGraphicalViewer().getContents();
+        final EditPart editPart = editor.getGraphicalViewer().getContents();
         final Object model = editPart.getModel();
 
-        if (model instanceof ERDiagram) {
-            final ERDiagram diagram = (ERDiagram) model;
+        if (model instanceof IERDiagram) {
+            final IERDiagram diagram = (IERDiagram) model;
 
             final Command command =
                     new PasteCommand(editor, pasteList,
                             diagram.getMousePoint().x - x + (numberOfCopy - 1) * 20,
                             diagram.getMousePoint().y - y + (numberOfCopy - 1) * 20);
-
-            return command;
-        }
-
-        if (model instanceof ERVirtualDiagram) {
-            final ERVirtualDiagram virtualDiagram = (ERVirtualDiagram) model;
-
-            // diagram.mousePointはメインダイアグラムのマウス座標を参照するため、使えない。
-            final Command command =
-                    new PasteCommand(editor, pasteList,
-                            virtualDiagram.getMousePoint().x - x + (numberOfCopy - 1) * 20,
-                            virtualDiagram.getMousePoint().y - y + (numberOfCopy - 1) * 20);
 
             return command;
         }

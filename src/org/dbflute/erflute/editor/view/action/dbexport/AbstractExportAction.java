@@ -43,13 +43,13 @@ public abstract class AbstractExportAction extends AbstractBaseAction {
             final MessageBox messageBox =
                     new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
             messageBox.setText(DisplayMessages.getMessage("dialog.title.warning"));
-            messageBox.setMessage(DisplayMessages.getMessage(this.getConfirmOverrideMessage()));
+            messageBox.setMessage(DisplayMessages.getMessage(getConfirmOverrideMessage()));
             if (messageBox.open() == SWT.CANCEL) {
                 return;
             }
         }
-        this.save(editorPart, viewer, saveFilePath);
-        this.refreshProject();
+        save(editorPart, viewer, saveFilePath);
+        refreshProject();
     }
 
     protected String getConfirmOverrideMessage() {
@@ -61,7 +61,7 @@ public abstract class AbstractExportAction extends AbstractBaseAction {
         final FileDialog fileDialog = new FileDialog(editorPart.getEditorSite().getShell(), SWT.SAVE);
         final IProject project = file.getProject();
         fileDialog.setFilterPath(project.getLocation().toString());
-        final String[] filterExtensions = this.getFilterExtensions();
+        final String[] filterExtensions = getFilterExtensions();
         fileDialog.setFilterExtensions(filterExtensions);
         final String fileName = getDiagramFileName(editorPart, viewer);
         fileDialog.setFileName(fileName);
@@ -80,7 +80,7 @@ public abstract class AbstractExportAction extends AbstractBaseAction {
         } else {
             suffix = "";
         }
-        return pureName + suffix + this.getDefaultExtension();
+        return pureName + suffix + getDefaultExtension();
     }
 
     protected boolean isUseVirtualDiagramSuffix() {

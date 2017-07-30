@@ -7,18 +7,13 @@ import java.util.List;
 public class SearchResult {
 
     public static final int SORT_TYPE_PATH = 1;
-
     public static final int SORT_TYPE_TYPE = 2;
-
     public static final int SORT_TYPE_NAME = 3;
-
     public static final int SORT_TYPE_VALUE = 4;
 
     private int sortType;
-
-    private Object resultObject;
-
-    private List<SearchResultRow> rows;
+    private final Object resultObject;
+    private final List<SearchResultRow> rows;
 
     public SearchResult(Object resultObject, List<SearchResultRow> rows) {
         this.resultObject = resultObject;
@@ -34,7 +29,7 @@ public class SearchResult {
     }
 
     public void addRow(SearchResultRow row) {
-        this.rows.add(row);
+        rows.add(row);
     }
 
     public void sort(int sortType) {
@@ -44,6 +39,7 @@ public class SearchResult {
     }
 
     private class SearchResultRowComparator implements Comparator<SearchResultRow> {
+        @Override
         public int compare(SearchResultRow o1, SearchResultRow o2) {
             if (o1 == null) {
                 return 1;
@@ -60,8 +56,8 @@ public class SearchResult {
                 value2 = o2.getPath();
 
             } else if (sortType == SORT_TYPE_TYPE || sortType == SORT_TYPE_NAME) {
-                int type1 = o1.getType();
-                int type2 = o2.getType();
+                final int type1 = o1.getType();
+                final int type2 = o2.getType();
 
                 return type1 - type2;
 

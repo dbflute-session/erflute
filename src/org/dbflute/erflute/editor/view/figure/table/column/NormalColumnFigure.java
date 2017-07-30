@@ -11,16 +11,16 @@ public class NormalColumnFigure extends Figure {
         layout.setStretchMinorAxis(true);
         layout.setMajorSpacing(0);
         layout.setMinorSpacing(0);
-        this.setLayoutManager(layout);
+        setLayoutManager(layout);
     }
 
     public void clearLabel() {
-        this.removeAll();
+        removeAll();
     }
 
     @Override
     protected void paintFigure(Graphics graphics) {
-        if (graphics.getBackgroundColor().equals(this.getParent().getBackgroundColor())) {
+        if (graphics.getBackgroundColor().equals(getParent().getBackgroundColor())) {
             graphics.setAlpha(0);
         }
 

@@ -12,11 +12,11 @@ public class UniqueWord extends Word {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((this.getTypeData() == null) ? 0 : this.getTypeData().hashCode());
-        result = PRIME * result + ((this.getDescription() == null) ? 0 : this.getDescription().hashCode());
-        result = PRIME * result + ((this.getLogicalName() == null) ? 0 : this.getLogicalName().hashCode());
-        result = PRIME * result + ((this.getPhysicalName() == null) ? 0 : this.getPhysicalName().hashCode());
-        result = PRIME * result + ((this.getType() == null) ? 0 : this.getType().hashCode());
+        result = PRIME * result + ((getTypeData() == null) ? 0 : getTypeData().hashCode());
+        result = PRIME * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
+        result = PRIME * result + ((getLogicalName() == null) ? 0 : getLogicalName().hashCode());
+        result = PRIME * result + ((getPhysicalName() == null) ? 0 : getPhysicalName().hashCode());
+        result = PRIME * result + ((getType() == null) ? 0 : getType().hashCode());
         return result;
     }
 
@@ -49,10 +49,10 @@ public class UniqueWord extends Word {
                 return false;
         } else if (!getPhysicalName().equals(other.getPhysicalName()))
             return false;
-        if (this.getType() == null) {
+        if (getType() == null) {
             if (other.getType() != null)
                 return false;
-        } else if (!this.getType().equals(other.getType()))
+        } else if (!getType().equals(other.getType()))
             return false;
         return true;
     }

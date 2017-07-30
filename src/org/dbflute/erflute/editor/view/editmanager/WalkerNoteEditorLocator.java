@@ -18,9 +18,9 @@ public class WalkerNoteEditorLocator implements CellEditorLocator {
     @Override
     public void relocate(CellEditor cellEditor) {
         final Text text = (Text) cellEditor.getControl();
-        final Rectangle rect = this.figure.getBounds().getCopy();
-        this.figure.translateToAbsolute(rect);
-        text.setBounds(rect.x + WalkerNoteFigure.RETURN_WIDTH, rect.y + WalkerNoteFigure.RETURN_WIDTH, rect.width
-                - WalkerNoteFigure.RETURN_WIDTH * 2, rect.height - WalkerNoteFigure.RETURN_WIDTH * 2);
+        final Rectangle rect = figure.getBounds().getCopy();
+        figure.translateToAbsolute(rect);
+        text.setBounds(rect.x + WalkerNoteFigure.RETURN_WIDTH, rect.y + WalkerNoteFigure.RETURN_WIDTH,
+                rect.width - WalkerNoteFigure.RETURN_WIDTH * 2, rect.height - WalkerNoteFigure.RETURN_WIDTH * 2);
     }
 }

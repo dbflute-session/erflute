@@ -15,17 +15,17 @@ public class ChangeSettingsCommand extends AbstractCommand {
 
     public ChangeSettingsCommand(ERDiagram diagram, DiagramSettings settings) {
         this.diagram = diagram;
-        this.oldSettings = this.diagram.getDiagramContents().getSettings();
+        this.oldSettings = diagram.getDiagramContents().getSettings();
         this.settings = settings;
     }
 
     @Override
     protected void doExecute() {
-        this.diagram.setSettings(settings);
+        diagram.setSettings(settings);
     }
 
     @Override
     protected void doUndo() {
-        this.diagram.setSettings(oldSettings);
+        diagram.setSettings(oldSettings);
     }
 }

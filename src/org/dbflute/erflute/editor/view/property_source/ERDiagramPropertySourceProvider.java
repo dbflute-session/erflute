@@ -9,15 +9,14 @@ import org.eclipse.ui.views.properties.IPropertySourceProvider;
 
 public class ERDiagramPropertySourceProvider implements IPropertySourceProvider {
 
+    @Override
     public IPropertySource getPropertySource(Object object) {
         if (object instanceof ERDiagramEditPart) {
-            ERDiagram diagram = (ERDiagram) ((ERDiagramEditPart) object).getModel();
+            final ERDiagram diagram = (ERDiagram) ((ERDiagramEditPart) object).getModel();
             return new ERDiagramPropertySource(diagram);
-
         } else if (object instanceof ERTableEditPart) {
-            ERTable table = (ERTable) ((ERTableEditPart) object).getModel();
+            final ERTable table = (ERTable) ((ERTableEditPart) object).getModel();
             return new ERTablePropertySource(table);
-
         }
 
         return null;

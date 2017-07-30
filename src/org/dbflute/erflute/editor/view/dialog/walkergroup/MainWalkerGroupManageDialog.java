@@ -51,8 +51,8 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
 
     @Override
     protected void initComponent(Composite composite) {
-        this.createCategoryGroup(composite);
-        this.createNodeGroup(composite);
+        createCategoryGroup(composite);
+        createNodeGroup(composite);
     }
 
     private void createCategoryGroup(Composite composite) {
@@ -71,9 +71,9 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
         tableGridData.verticalSpan = 2;
 
         this.categoryTable = new Table(group, SWT.BORDER | SWT.FULL_SELECTION);
-        this.categoryTable.setHeaderVisible(true);
-        this.categoryTable.setLayoutData(tableGridData);
-        this.categoryTable.setLinesVisible(true);
+        categoryTable.setHeaderVisible(true);
+        categoryTable.setLayoutData(tableGridData);
+        categoryTable.setLinesVisible(true);
 
         final GridData upButtonGridData = new GridData();
         upButtonGridData.grabExcessHorizontalSpace = false;
@@ -87,33 +87,33 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
         downButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.upButton = new Button(group, SWT.NONE);
-        this.upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
-        this.upButton.setLayoutData(upButtonGridData);
+        upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
+        upButton.setLayoutData(upButtonGridData);
 
         this.downButton = new Button(group, SWT.NONE);
-        this.downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
-        this.downButton.setLayoutData(downButtonGridData);
+        downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
+        downButton.setLayoutData(downButtonGridData);
 
         final GridData textGridData = new GridData();
         textGridData.widthHint = 150;
 
         this.categoryNameText = new Text(group, SWT.BORDER);
-        this.categoryNameText.setLayoutData(textGridData);
+        categoryNameText.setLayoutData(textGridData);
 
         final GridData buttonGridData = new GridData();
         buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.addCategoryButton = new Button(group, SWT.NONE);
-        this.addCategoryButton.setLayoutData(buttonGridData);
-        this.addCategoryButton.setText(DisplayMessages.getMessage("label.button.add"));
+        addCategoryButton.setLayoutData(buttonGridData);
+        addCategoryButton.setText(DisplayMessages.getMessage("label.button.add"));
 
         this.updateCategoryButton = new Button(group, SWT.NONE);
-        this.updateCategoryButton.setLayoutData(buttonGridData);
-        this.updateCategoryButton.setText(DisplayMessages.getMessage("label.button.update"));
+        updateCategoryButton.setLayoutData(buttonGridData);
+        updateCategoryButton.setText(DisplayMessages.getMessage("label.button.update"));
 
         this.deleteCategoryButton = new Button(group, SWT.NONE);
-        this.deleteCategoryButton.setLayoutData(buttonGridData);
-        this.deleteCategoryButton.setText(DisplayMessages.getMessage("label.button.delete"));
+        deleteCategoryButton.setLayoutData(buttonGridData);
+        deleteCategoryButton.setText(DisplayMessages.getMessage("label.button.delete"));
 
         final TableColumn tableColumn = new TableColumn(categoryTable, SWT.NONE);
         tableColumn.setWidth(30);
@@ -140,9 +140,9 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
         tableGridData.heightHint = 200;
 
         this.nodeTable = new Table(group, SWT.BORDER | SWT.HIDE_SELECTION);
-        this.nodeTable.setHeaderVisible(true);
-        this.nodeTable.setLayoutData(tableGridData);
-        this.nodeTable.setLinesVisible(true);
+        nodeTable.setHeaderVisible(true);
+        nodeTable.setLayoutData(tableGridData);
+        nodeTable.setLinesVisible(true);
 
         final GridData gridData2 = new GridData();
         gridData2.heightHint = 22;
@@ -151,52 +151,49 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
         label.setText("");
         label.setLayoutData(gridData2);
 
-        final TableColumn tableColumn2 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn2 = new TableColumn(nodeTable, SWT.NONE);
         tableColumn2.setWidth(30);
         tableColumn2.setResizable(false);
         tableColumn2.setText("");
-        final TableColumn tableColumn3 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn3 = new TableColumn(nodeTable, SWT.NONE);
         tableColumn3.setWidth(80);
         tableColumn3.setResizable(false);
         tableColumn3.setText(DisplayMessages.getMessage("label.object.type"));
-        final TableColumn tableColumn4 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn4 = new TableColumn(nodeTable, SWT.NONE);
         tableColumn4.setWidth(200);
         tableColumn4.setResizable(false);
         tableColumn4.setText(DisplayMessages.getMessage("label.object.name"));
     }
 
     private void initCategoryTable() {
-        this.categoryTable.removeAll();
+        categoryTable.removeAll();
 
-        if (this.categoryCheckMap != null) {
-            for (final TableEditor editor : this.categoryCheckMap.values()) {
+        if (categoryCheckMap != null) {
+            for (final TableEditor editor : categoryCheckMap.values()) {
                 editor.getEditor().dispose();
                 editor.dispose();
             }
 
-            this.categoryCheckMap.clear();
+            categoryCheckMap.clear();
         } else {
-            this.categoryCheckMap = new HashMap<WalkerGroup, TableEditor>();
+            categoryCheckMap = new HashMap<>();
         }
 
         for (final WalkerGroup group : getWalkerGroups()) {
-            final TableItem tableItem = new TableItem(this.categoryTable, SWT.NONE);
-            final Button selectCheckButton = new Button(this.categoryTable, SWT.CHECK);
+            final TableItem tableItem = new TableItem(categoryTable, SWT.NONE);
+            final Button selectCheckButton = new Button(categoryTable, SWT.CHECK);
             selectCheckButton.pack();
-            final TableEditor editor = new TableEditor(this.categoryTable);
+            final TableEditor editor = new TableEditor(categoryTable);
             editor.minimumWidth = selectCheckButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(selectCheckButton, tableItem, 0);
             tableItem.setText(1, group.getName());
-            //			if (categorySettings.isSelected(group)) {
-            //				selectCheckButton.setSelection(true);
-            //			}
-            this.categoryCheckMap.put(group, editor);
-            if (this.walkerGroup == group) {
+            categoryCheckMap.put(group, editor);
+            if (walkerGroup == group) {
                 categoryTable.setSelection(tableItem);
             }
         }
-        if (this.walkerGroup != null) {
+        if (walkerGroup != null) {
             initNodeList(walkerGroup);
         } else {
             deleteNodeList();
@@ -204,26 +201,26 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
     }
 
     private void initNodeTable() {
-        this.nodeTable.removeAll();
-        this.nodeCheckMap = new HashMap<DiagramWalker, TableEditor>();
+        nodeTable.removeAll();
+        nodeCheckMap = new HashMap<>();
         for (final DiagramWalker walker : getTableWalkers()) {
-            final TableItem tableItem = new TableItem(this.nodeTable, SWT.NONE);
-            final Button selectCheckButton = new Button(this.nodeTable, SWT.CHECK);
+            final TableItem tableItem = new TableItem(nodeTable, SWT.NONE);
+            final Button selectCheckButton = new Button(nodeTable, SWT.CHECK);
             selectCheckButton.pack();
-            final TableEditor editor = new TableEditor(this.nodeTable);
+            final TableEditor editor = new TableEditor(nodeTable);
             editor.minimumWidth = selectCheckButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
             editor.setEditor(selectCheckButton, tableItem, 0);
             tableItem.setText(1, DisplayMessages.getMessage("label.object.type." + walker.getObjectType()));
             tableItem.setText(2, walker.getName());
-            this.nodeCheckMap.put(walker, editor);
+            nodeCheckMap.put(walker, editor);
         }
     }
 
     private void initNodeList(WalkerGroup category) {
-        this.categoryNameText.setText(category.getName());
-        for (final DiagramWalker walker : this.nodeCheckMap.keySet()) {
-            final Button selectCheckButton = (Button) this.nodeCheckMap.get(walker).getEditor();
+        categoryNameText.setText(category.getName());
+        for (final DiagramWalker walker : nodeCheckMap.keySet()) {
+            final Button selectCheckButton = (Button) nodeCheckMap.get(walker).getEditor();
             if (category.contains(walker)) {
                 selectCheckButton.setSelection(true);
             } else {
@@ -233,21 +230,21 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
     }
 
     private void deleteNodeList() {
-        this.categoryNameText.setText("");
-        this.nodeTable.removeAll();
-        if (this.nodeCheckMap != null) {
-            for (final TableEditor editor : this.nodeCheckMap.values()) {
+        categoryNameText.setText("");
+        nodeTable.removeAll();
+        if (nodeCheckMap != null) {
+            for (final TableEditor editor : nodeCheckMap.values()) {
                 editor.getEditor().dispose();
                 editor.dispose();
             }
-            this.nodeCheckMap.clear();
+            nodeCheckMap.clear();
         }
     }
 
     @Override
     protected void addListener() {
         super.addListener();
-        this.categoryTable.addSelectionListener(new SelectionAdapter() {
+        categoryTable.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = categoryTable.getSelectionIndex();
@@ -262,7 +259,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
                 initNodeList(walkerGroup);
             }
         });
-        this.addCategoryButton.addSelectionListener(new SelectionAdapter() {
+        addCategoryButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final String name = categoryNameText.getText().trim();
@@ -280,7 +277,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
                 initCategoryTable();
             }
         });
-        this.updateCategoryButton.addSelectionListener(new SelectionAdapter() {
+        updateCategoryButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final String name = categoryNameText.getText().trim();
@@ -327,7 +324,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
         //				}
         //			}
         //		});
-        this.upButton.addSelectionListener(new SelectionAdapter() {
+        upButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = categoryTable.getSelectionIndex();
@@ -339,7 +336,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
                 initCategoryTable();
             }
         });
-        this.downButton.addSelectionListener(new SelectionAdapter() {
+        downButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = categoryTable.getSelectionIndex();
@@ -380,7 +377,7 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
 
     @Override
     protected void setupData() {
-        this.initCategoryTable();
+        initCategoryTable();
     }
 
     @Override
@@ -390,18 +387,18 @@ public class MainWalkerGroupManageDialog extends AbstractDialog {
 
     public void validatePage() {
         if (walkerGroup != null) {
-            final List<DiagramWalker> selectedNodeElementList = new ArrayList<DiagramWalker>();
-            for (final DiagramWalker table : this.nodeCheckMap.keySet()) {
-                final Button selectCheckButton = (Button) this.nodeCheckMap.get(table).getEditor();
+            final List<DiagramWalker> selectedNodeElementList = new ArrayList<>();
+            for (final DiagramWalker table : nodeCheckMap.keySet()) {
+                final Button selectCheckButton = (Button) nodeCheckMap.get(table).getEditor();
                 if (selectCheckButton.getSelection()) {
                     selectedNodeElementList.add(table);
                 }
             }
             walkerGroup.setWalkers(selectedNodeElementList);
         }
-        final List<WalkerGroup> selectedCategories = new ArrayList<WalkerGroup>();
+        final List<WalkerGroup> selectedCategories = new ArrayList<>();
         for (final WalkerGroup category : getWalkerGroups()) {
-            final Button button = (Button) this.categoryCheckMap.get(category).getEditor();
+            final Button button = (Button) categoryCheckMap.get(category).getEditor();
 
             if (button.getSelection()) {
                 selectedCategories.add(category);

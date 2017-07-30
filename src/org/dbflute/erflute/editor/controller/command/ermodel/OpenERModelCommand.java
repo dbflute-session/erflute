@@ -11,7 +11,6 @@ public class OpenERModelCommand extends AbstractCommand {
 
     private final ERVirtualDiagram model;
     private final ERDiagram diagram;
-    //	private EditPart editPart;
     private ERTable table;
 
     public OpenERModelCommand(ERDiagram diagram, ERVirtualDiagram model) {
@@ -23,29 +22,9 @@ public class OpenERModelCommand extends AbstractCommand {
     protected void doExecute() {
         final ERFluteMultiPageEditor editor = diagram.getEditor();
 
-        editor.setCurrentErmodel(model);
+        editor.setCurrentERModel(model);
 
         ((VirtualDiagramEditor) editor.getActiveEditor()).reveal(table);
-        //		IEditorInput editorInput = editor2.getEditorInput();
-        //
-        //
-        //		if (editPart != null) {
-        //			editor2.getGraphicalViewer().reveal(editPart);
-        //		}
-
-        //		editor.setActiveEditor(editorPart);
-        //
-        //		EROneDiagramEditor diagramEditor = new EROneDiagramEditor(
-        //				this.diagram, model, editor.getEditPartFactory(),
-        //				editor.getZoomComboContributionItem(), editor.getOutlinePage());
-        //
-        //		try {
-        //			editor.addPage(diagramEditor, editor.getEditorInput(), model.getName());
-        //			editor.setActiveEditor(diagramEditor);
-        //
-        //		} catch (PartInitException e) {
-        //			Activator.showExceptionDialog(e);
-        //		}
     }
 
     @Override

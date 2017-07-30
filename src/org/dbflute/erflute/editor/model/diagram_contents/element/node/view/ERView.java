@@ -43,20 +43,20 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
             normalColumn.setNotNull(false);
         }
 
-        this.columns.add(column);
+        columns.add(column);
         column.setColumnHolder(this);
 
-        this.firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
+        firePropertyChange(PROPERTY_CHANGE_COLUMNS, null, null);
     }
 
     @Override
     public ERView copyData() {
         final ERView to = new ERView();
-        to.setSql(this.getSql());
+        to.setSql(getSql());
 
         super.copyTableViewData(to);
 
-        to.tableViewProperties = this.getTableViewProperties().clone();
+        to.tableViewProperties = getTableViewProperties().clone();
 
         return to;
     }
@@ -64,9 +64,9 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
     @Override
     public void restructureData(TableView to) {
         final ERView view = (ERView) to;
-        view.setSql(this.getSql());
+        view.setSql(getSql());
         super.restructureData(to);
-        view.tableViewProperties = this.tableViewProperties.clone();
+        view.tableViewProperties = tableViewProperties.clone();
     }
 
     // ===================================================================================
@@ -83,7 +83,7 @@ public class ERView extends TableView implements ObjectModel, ColumnHolder {
     @Override
     public ERView clone() {
         final ERView clone = (ERView) super.clone();
-        final TableViewProperties cloneViewProperties = this.tableViewProperties.clone();
+        final TableViewProperties cloneViewProperties = tableViewProperties.clone();
         clone.tableViewProperties = cloneViewProperties;
         return clone;
     }

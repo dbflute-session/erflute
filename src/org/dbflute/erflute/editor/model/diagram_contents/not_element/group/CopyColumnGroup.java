@@ -22,22 +22,22 @@ public class CopyColumnGroup extends ColumnGroup {
     public CopyColumnGroup(ColumnGroup original) {
         super();
         this.original = original;
-        this.setGroupName(this.original.getGroupName());
-        for (final NormalColumn fromColumn : this.original.getColumns()) {
+        this.setGroupName(original.getGroupName());
+        for (final NormalColumn fromColumn : original.getColumns()) {
             final CopyColumn copyColumn = new CopyColumn(fromColumn);
             if (fromColumn.getWord() != null) {
                 copyColumn.setWord(new CopyWord(fromColumn.getWord()));
             }
-            this.addColumn(copyColumn);
+            addColumn(copyColumn);
         }
     }
 
     public ColumnGroup restructure(ERDiagram diagram) {
-        if (this.original == null) {
-            this.original = new ColumnGroup();
+        if (original == null) {
+            original = new ColumnGroup();
         }
-        this.restructure(diagram, this.original);
-        return this.original;
+        restructure(diagram, original);
+        return original;
     }
 
     private void restructure(ERDiagram diagram, ColumnGroup to) {
@@ -48,9 +48,9 @@ public class CopyColumnGroup extends ColumnGroup {
                 dictionary.remove(toColumn);
             }
         }
-        to.setGroupName(this.getGroupName());
-        final List<NormalColumn> columns = new ArrayList<NormalColumn>();
-        for (final NormalColumn fromColumn : this.getColumns()) {
+        to.setGroupName(getGroupName());
+        final List<NormalColumn> columns = new ArrayList<>();
+        for (final NormalColumn fromColumn : getColumns()) {
             final CopyColumn copyColumn = (CopyColumn) fromColumn;
             final CopyWord copyWord = copyColumn.getWord();
             if (copyWord != null) {

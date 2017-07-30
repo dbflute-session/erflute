@@ -23,6 +23,6 @@ public class SelectImportedObjectFromDBDialog extends AbstractSelectImportedObje
     protected void performOK() throws InputException {
         super.performOK();
 
-        this.resultUseCommentAsLogicalName = this.useCommentAsLogicalNameButton.getSelection();
+        this.resultUseCommentAsLogicalName = useCommentAsLogicalNameButton.getSelection();
     }
 }

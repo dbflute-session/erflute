@@ -5,13 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualDiagramEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.ERVirtualTableEditPart;
-import org.dbflute.erflute.editor.controller.editpart.element.node.WalkerGroupEditPart;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.view.ERVirtualDiagramPopupMenuManager;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
 import org.dbflute.erflute.editor.view.action.ermodel.WalkerGroupManageAction;
@@ -40,6 +36,11 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         super(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
         this.vdiagram = vdiagram;
+    }
+
+    @Override
+    protected void initializeOutlinePage(ERDiagramOutlinePage outlinePage) {
+        this.outlinePage = outlinePage;
     }
 
     // ===================================================================================
@@ -94,33 +95,19 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     }
 
     // ===================================================================================
-    //                                                                              Reveal
-    //                                                                              ======
-    @Override
-    public void reveal(ERTable table) {
-        final ERVirtualDiagramEditPart editPart = (ERVirtualDiagramEditPart) getGraphicalViewer().getContents();
-        final List<?> tableParts = editPart.getChildren();
-        for (final Object tableEditPart : tableParts) {
-            if (tableEditPart instanceof ERVirtualTableEditPart) {
-                final ERVirtualTableEditPart vtableEditPart = (ERVirtualTableEditPart) tableEditPart;
-                if (((ERVirtualTable) vtableEditPart.getModel()).getRawTable().equals(table)) {
-                    getGraphicalViewer().reveal(vtableEditPart);
-                    selectEditPart(vtableEditPart);
-                    return;
-                }
-            }
-            if (tableEditPart instanceof WalkerGroupEditPart) {
-                // do nothing
-                //VGroupEditPart groupEditPart = (VGroupEditPart) tableEditPart;
-                //List children = groupEditPart.getChildren();
-            }
-        }
-    }
-
-    // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     public ERVirtualDiagram getVirtualDiagram() {
         return vdiagram;
+    }
+
+    @Override
+    public String getName() {
+        return getVirtualDiagram().getName();
+    }
+
+    @Override
+    public boolean have(IERDiagram diagram) {
+        return vdiagram.equals(diagram);
     }
 }

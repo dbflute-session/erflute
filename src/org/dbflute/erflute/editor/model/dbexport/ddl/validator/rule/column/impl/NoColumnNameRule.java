@@ -12,13 +12,13 @@ public class NoColumnNameRule extends ColumnRule {
     @Override
     public boolean validate(ERTable table, NormalColumn column) {
         if (column.getPhysicalName() == null || column.getPhysicalName().trim().equals("")) {
-            ValidateResult validateResult = new ValidateResult();
+            final ValidateResult validateResult = new ValidateResult();
             validateResult.setMessage(DisplayMessages.getMessage("error.validate.no.column.name") + table.getPhysicalName());
             validateResult.setLocation(table.getLogicalName());
             validateResult.setSeverity(IMarker.SEVERITY_WARNING);
             validateResult.setObject(table);
 
-            this.addError(validateResult);
+            addError(validateResult);
         }
 
         return true;

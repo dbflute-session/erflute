@@ -8,11 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.dbflute.erflute.Activator;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagramSet;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERVirtualTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.Word;
@@ -128,22 +126,16 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
         }
         tellChangeToVirtualDiagram();
         targetTable.setDirty();
-        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
+        sourceTable.refreshInVirtualDiagram();
     }
 
     private ERTable prepareSourceTable() {
-        ERTable sourceTable = (ERTable) source.getModel();
-        if (sourceTable instanceof ERVirtualTable) {
-            sourceTable = ((ERVirtualTable) sourceTable).getRawTable();
-        }
+        final ERTable sourceTable = ((ERTable) source.getModel()).toMaterialize();
         return sourceTable;
     }
 
     private TableView prepareTargetTable() {
-        TableView targetTable = (TableView) target.getModel();
-        if (targetTable instanceof ERVirtualTable) {
-            targetTable = ((ERVirtualTable) targetTable).getRawTable();
-        }
+        final TableView targetTable = (TableView) ((TableView) target.getModel()).toMaterialize();
         return targetTable;
     }
 
@@ -172,15 +164,7 @@ public class CreateRelationshipByExistingColumnsCommand extends AbstractCreateRe
     protected void doUndo() {
         final ERTable sourceTable = (ERTable) source.getModel();
         final ERTable targetTable = (ERTable) target.getModel();
-        relationship.setSourceWalker(null);
-        relationship.setTargetWithoutForeignKey(null);
-        for (int i = 0; i < selectedForeignKeyColumnList.size(); i++) {
-            final NormalColumn foreignKeyColumn = selectedForeignKeyColumnList.get(i);
-            foreignKeyColumn.removeReference(relationship);
-            foreignKeyColumn.setWord(wordList.get(i));
-            sourceTable.getDiagram().getDiagramContents().getDictionary().add(foreignKeyColumn);
-        }
-        targetTable.setDirty();
-        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
+        relationship.delete(false, sourceTable.getDictionary());
+        targetTable.refresh();
     }
 }

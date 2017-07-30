@@ -12,11 +12,8 @@ public class CategorySettings implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
     private List<Category> allCategories;
-
     private List<Category> selectedCategories;
-
     private boolean freeLayout;
-
     private boolean showReferredTables;
 
     public boolean isFreeLayout() {
@@ -45,7 +42,7 @@ public class CategorySettings implements Serializable, Cloneable {
     }
 
     public boolean contains(String categoryName) {
-        for (final Category category : this.selectedCategories) {
+        for (final Category category : selectedCategories) {
             if (category.getName().equals(categoryName)) {
                 return true;
             }
@@ -55,30 +52,30 @@ public class CategorySettings implements Serializable, Cloneable {
     }
 
     public List<Category> getAllCategories() {
-        return this.allCategories;
+        return allCategories;
     }
 
     public void addCategory(Category category) {
-        this.allCategories.add(category);
-        Collections.sort(this.allCategories);
+        allCategories.add(category);
+        Collections.sort(allCategories);
     }
 
     public void addCategoryAsSelected(Category category) {
-        this.addCategory(category);
-        this.selectedCategories.add(category);
+        addCategory(category);
+        selectedCategories.add(category);
     }
 
     public void removeCategory(Category category) {
-        this.allCategories.remove(category);
-        this.selectedCategories.remove(category);
+        allCategories.remove(category);
+        selectedCategories.remove(category);
     }
 
     public void removeCategory(int index) {
-        this.allCategories.remove(index);
+        allCategories.remove(index);
     }
 
     public boolean isSelected(Category tableCategory) {
-        if (this.selectedCategories.contains(tableCategory)) {
+        if (selectedCategories.contains(tableCategory)) {
             return true;
         }
 
@@ -96,17 +93,16 @@ public class CategorySettings implements Serializable, Cloneable {
             settings.allCategories = new ArrayList<>();
             settings.selectedCategories = new ArrayList<>();
 
-            for (final Category category : this.allCategories) {
+            for (final Category category : allCategories) {
                 final Category clone = category.clone();
                 settings.allCategories.add(clone);
 
-                if (this.contains(category.getName())) {
+                if (contains(category.getName())) {
                     settings.selectedCategories.add(clone);
                 }
             }
 
             return settings;
-
         } catch (final CloneNotSupportedException e) {
             return null;
         }

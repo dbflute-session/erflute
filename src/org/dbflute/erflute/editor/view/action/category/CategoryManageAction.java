@@ -21,16 +21,14 @@ public class CategoryManageAction extends AbstractBaseAction {
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
+        final DiagramSettings settings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
 
-        DiagramSettings settings = (DiagramSettings) diagram.getDiagramContents().getSettings().clone();
-
-        CategoryManageDialog dialog =
+        final CategoryManageDialog dialog =
                 new CategoryManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), settings, diagram);
-
         if (dialog.open() == IDialogConstants.OK_ID) {
-            ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);
-            this.execute(command);
+            final ChangeSettingsCommand command = new ChangeSettingsCommand(diagram, settings);
+            execute(command);
         }
     }
 }

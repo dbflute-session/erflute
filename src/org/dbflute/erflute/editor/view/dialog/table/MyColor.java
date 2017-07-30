@@ -19,7 +19,7 @@ public class MyColor {
     public boolean equals(Object obj) {
         if (obj instanceof MyColor) {
             final MyColor other = (MyColor) obj;
-            return Arrays.equals(other.colors, this.colors);
+            return Arrays.equals(other.colors, colors);
         } else {
             return false;
         }

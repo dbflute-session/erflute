@@ -58,7 +58,7 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         super(tableDialog, parent, style, "label.table.attribute");
         this.table = table;
         this.tableDialog = tableDialog;
-        this.init();
+        init();
     }
 
     @Override
@@ -88,14 +88,13 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         contentGridData.grabExcessHorizontalSpace = true;
         content.setLayoutData(contentGridData);
         content.setLayout(new GridLayout(6, false));
-        this.initTable(content);
+        initTable(content);
     }
 
     private void initTable(Composite parent) {
-        final ColumnDialog columnDialog = new ColumnDialog(getShell(), this.table);
-        this.tableComposite =
-                new ERTableComposite(this, parent, this.table.getDiagram(), this.table, this.table.getColumns(), columnDialog,
-                        this.tableDialog, 2, true, true);
+        final ColumnDialog columnDialog = new ColumnDialog(getShell(), table);
+        tableComposite = new ERTableComposite(this, parent, table.getDiagram(),
+                table, table.getColumns(), columnDialog, tableDialog, 2, true, true);
     }
 
     private void createFooter(Composite parent) {
@@ -103,10 +102,10 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
         footer.setLayout(gridLayout);
-        this.createGroupCombo(footer);
+        createGroupCombo(footer);
         this.groupAddButton = new Button(footer, SWT.NONE);
-        this.groupAddButton.setText(DisplayMessages.getMessage("label.button.add.group.to.table"));
-        this.groupAddButton.addSelectionListener(new SelectionAdapter() {
+        groupAddButton.setText(DisplayMessages.getMessage("label.button.add.group.to.table"));
+        groupAddButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int targetIndex = groupCombo.getSelectionIndex();
@@ -118,9 +117,9 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
                 groupAddButton.setEnabled(false);
             }
         });
-        this.groupAddButton.setEnabled(false);
-        this.createGroup(footer);
-        this.initGroupCombo();
+        groupAddButton.setEnabled(false);
+        createGroup(footer);
+        initGroupCombo();
     }
 
     /**
@@ -130,8 +129,8 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         final GridData gridData = new GridData();
         gridData.widthHint = 200;
         this.groupCombo = new Combo(parent, SWT.READ_ONLY);
-        this.groupCombo.setLayoutData(gridData);
-        this.groupCombo.addSelectionListener(new SelectionAdapter() {
+        groupCombo.setLayoutData(gridData);
+        groupCombo.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int targetIndex = groupCombo.getSelectionIndex();
@@ -144,27 +143,27 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
     }
 
     private void initGroupCombo() {
-        this.groupCombo.removeAll();
-        for (final ColumnGroup columnGroup : this.getColumnGroups()) {
-            this.groupCombo.add(columnGroup.getGroupName());
+        groupCombo.removeAll();
+        for (final ColumnGroup columnGroup : getColumnGroups()) {
+            groupCombo.add(columnGroup.getGroupName());
         }
-        this.groupTableComposite.setColumnList(null);
+        groupTableComposite.setColumnList(null);
     }
 
     private void restructGroup() {
-        this.initGroupCombo();
+        initGroupCombo();
         int index = 0;
-        for (final ERColumn column : this.table.getColumns()) {
+        for (final ERColumn column : table.getColumns()) {
             if (column instanceof ColumnGroup) {
-                if (!this.getColumnGroups().contains((ColumnGroup) column)) {
-                    this.tableComposite.removeColumn(index);
+                if (!getColumnGroups().contains((ColumnGroup) column)) {
+                    tableComposite.removeColumn(index);
                     continue;
                 }
             }
             index++;
         }
 
-        this.tableDialog.validate();
+        tableDialog.validate();
     }
 
     /**
@@ -179,38 +178,24 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
         gridData.heightHint = -1;
         gridData.horizontalSpan = 4;
 
-        // FormToolkit toolkit = new FormToolkit(this.getDisplay());
-        // Form root = toolkit.createForm(parent);
-        // root.getBody().setLayout(new GridLayout());
-        //
-        // ExpandableComposite expandableComposite = toolkit
-        // .createExpandableComposite(root.getBody(),
-        // ExpandableComposite.TWISTIE);
-        //
-        // Composite inner = toolkit.createComposite(expandableComposite);
-        // inner.setLayout(new GridLayout());
-        // expandableComposite.setClient(inner);
-        // toolkit.createLabel(inner, "aaa");
-
         final Group group = new Group(parent, SWT.NONE);
         group.setLayout(new GridLayout());
         group.setLayoutData(gridData);
 
         this.groupTableComposite =
-                new ERTableComposite(this, group, this.table.getDiagram(), null, null, null, null, 2, false, false, GROUP_TABLE_HEIGHT);
+                new ERTableComposite(this, group, table.getDiagram(), null, null, null, null, 2, false, false, GROUP_TABLE_HEIGHT);
 
         this.groupManageButton = new Button(group, SWT.NONE);
-        this.groupManageButton.setText(DisplayMessages.getMessage("label.button.group.manage"));
+        groupManageButton.setText(DisplayMessages.getMessage("label.button.group.manage"));
 
-        this.groupManageButton.addSelectionListener(new SelectionAdapter() {
+        groupManageButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final ColumnGroupSet groupSet = getColumnGroups();
 
-                final ColumnGroupManageDialog dialog =
-                        new ColumnGroupManageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet,
-                                table.getDiagram(), false, -1);
+                final ColumnGroupManageDialog dialog = new ColumnGroupManageDialog(
+                        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), groupSet, table.getDiagram(), false, -1);
 
                 if (dialog.open() == IDialogConstants.OK_ID) {
                     final List<CopyColumnGroup> newColumnGroups = dialog.getCopyColumnGroups();
@@ -228,35 +213,35 @@ public class TableAttributeTabWrapper extends ValidatableTabWrapper implements E
     }
 
     private ColumnGroupSet getColumnGroups() {
-        return this.table.getDiagram().getDiagramContents().getColumnGroupSet();
+        return table.getDiagram().getDiagramContents().getColumnGroupSet();
     }
 
     @Override
     public void setInitFocus() {
-        this.physicalNameText.setFocus();
+        physicalNameText.setFocus();
     }
 
     @Override
     public void selectGroup(ColumnGroup selectedColumn) {
-        final int targetIndex = this.getColumnGroups().indexOf(selectedColumn);
+        final int targetIndex = getColumnGroups().indexOf(selectedColumn);
 
-        this.groupCombo.select(targetIndex);
-        this.selectGroup(targetIndex);
+        groupCombo.select(targetIndex);
+        selectGroup(targetIndex);
 
-        this.groupAddButton.setEnabled(false);
+        groupAddButton.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
     private void selectGroup(int targetIndex) {
         final ColumnGroup columnGroup = getColumnGroups().get(targetIndex);
-        if (this.table.getColumns().contains(columnGroup)) {
-            this.groupAddButton.setEnabled(false);
+        if (table.getColumns().contains(columnGroup)) {
+            groupAddButton.setEnabled(false);
         } else {
-            this.groupAddButton.setEnabled(true);
+            groupAddButton.setEnabled(true);
         }
         @SuppressWarnings("rawtypes")
         final List columns = columnGroup.getColumns(); // to avoid generic headache
-        this.groupTableComposite.setColumnList(columns);
+        groupTableComposite.setColumnList(columns);
     }
 
     @Override

@@ -35,29 +35,17 @@ import org.eclipse.swt.widgets.Text;
 public class CategoryManageDialog extends AbstractDialog {
 
     private Table categoryTable = null;
-
     private Table nodeTable = null;
-
     private Button addCategoryButton;
-
     private Button updateCategoryButton;
-
     private Button deleteCategoryButton;
-
     private Text categoryNameText = null;
-
-    private ERDiagram diagram;
-
-    private CategorySettings categorySettings;
-
+    private final ERDiagram diagram;
+    private final CategorySettings categorySettings;
     private Map<Category, TableEditor> categoryCheckMap;
-
     private Map<DiagramWalker, TableEditor> nodeCheckMap;
-
     private Category targetCategory;
-
     private Button upButton;
-
     private Button downButton;
 
     public CategoryManageDialog(Shell parentShell, DiagramSettings settings, ERDiagram diagram) {
@@ -69,141 +57,141 @@ public class CategoryManageDialog extends AbstractDialog {
 
     @Override
     protected void initComponent(Composite composite) {
-        this.createCategoryGroup(composite);
-        this.createNodeGroup(composite);
+        createCategoryGroup(composite);
+        createNodeGroup(composite);
     }
 
     private void createCategoryGroup(Composite composite) {
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 4;
 
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setText(DisplayMessages.getMessage("label.category.message"));
         group.setLayout(gridLayout);
 
         CompositeFactory.filler(group, 4);
 
-        GridData tableGridData = new GridData();
+        final GridData tableGridData = new GridData();
         tableGridData.heightHint = 200;
         tableGridData.horizontalSpan = 3;
         tableGridData.verticalSpan = 2;
 
         this.categoryTable = new Table(group, SWT.BORDER | SWT.FULL_SELECTION);
-        this.categoryTable.setHeaderVisible(true);
-        this.categoryTable.setLayoutData(tableGridData);
-        this.categoryTable.setLinesVisible(true);
+        categoryTable.setHeaderVisible(true);
+        categoryTable.setLayoutData(tableGridData);
+        categoryTable.setLinesVisible(true);
 
-        GridData upButtonGridData = new GridData();
+        final GridData upButtonGridData = new GridData();
         upButtonGridData.grabExcessHorizontalSpace = false;
         upButtonGridData.verticalAlignment = GridData.END;
         upButtonGridData.grabExcessVerticalSpace = true;
         upButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
-        GridData downButtonGridData = new GridData();
+        final GridData downButtonGridData = new GridData();
         downButtonGridData.grabExcessVerticalSpace = true;
         downButtonGridData.verticalAlignment = GridData.BEGINNING;
         downButtonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
         this.upButton = new Button(group, SWT.NONE);
-        this.upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
-        this.upButton.setLayoutData(upButtonGridData);
+        upButton.setText(DisplayMessages.getMessage("label.up.arrow"));
+        upButton.setLayoutData(upButtonGridData);
 
         this.downButton = new Button(group, SWT.NONE);
-        this.downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
-        this.downButton.setLayoutData(downButtonGridData);
+        downButton.setText(DisplayMessages.getMessage("label.down.arrow"));
+        downButton.setLayoutData(downButtonGridData);
 
-        GridData textGridData = new GridData();
+        final GridData textGridData = new GridData();
         textGridData.widthHint = 150;
 
         this.categoryNameText = new Text(group, SWT.BORDER);
-        this.categoryNameText.setLayoutData(textGridData);
+        categoryNameText.setLayoutData(textGridData);
 
-        GridData buttonGridData = new GridData();
+        final GridData buttonGridData = new GridData();
         buttonGridData.widthHint = DesignResources.BUTTON_WIDTH;
 
-        this.addCategoryButton = new Button(group, SWT.NONE);
-        this.addCategoryButton.setLayoutData(buttonGridData);
-        this.addCategoryButton.setText(DisplayMessages.getMessage("label.button.add"));
+        addCategoryButton = new Button(group, SWT.NONE);
+        addCategoryButton.setLayoutData(buttonGridData);
+        addCategoryButton.setText(DisplayMessages.getMessage("label.button.add"));
 
-        this.updateCategoryButton = new Button(group, SWT.NONE);
-        this.updateCategoryButton.setLayoutData(buttonGridData);
-        this.updateCategoryButton.setText(DisplayMessages.getMessage("label.button.update"));
+        updateCategoryButton = new Button(group, SWT.NONE);
+        updateCategoryButton.setLayoutData(buttonGridData);
+        updateCategoryButton.setText(DisplayMessages.getMessage("label.button.update"));
 
-        this.deleteCategoryButton = new Button(group, SWT.NONE);
-        this.deleteCategoryButton.setLayoutData(buttonGridData);
-        this.deleteCategoryButton.setText(DisplayMessages.getMessage("label.button.delete"));
+        deleteCategoryButton = new Button(group, SWT.NONE);
+        deleteCategoryButton.setLayoutData(buttonGridData);
+        deleteCategoryButton.setText(DisplayMessages.getMessage("label.button.delete"));
 
-        TableColumn tableColumn = new TableColumn(categoryTable, SWT.NONE);
+        final TableColumn tableColumn = new TableColumn(categoryTable, SWT.NONE);
         tableColumn.setWidth(30);
         tableColumn.setResizable(false);
-        TableColumn tableColumn1 = new TableColumn(categoryTable, SWT.NONE);
+        final TableColumn tableColumn1 = new TableColumn(categoryTable, SWT.NONE);
         tableColumn1.setWidth(230);
         tableColumn1.setResizable(false);
         tableColumn1.setText(DisplayMessages.getMessage("label.category.name"));
     }
 
     private void createNodeGroup(Composite composite) {
-        Group group = new Group(composite, SWT.NONE);
+        final Group group = new Group(composite, SWT.NONE);
         group.setLayout(new GridLayout());
         group.setText(DisplayMessages.getMessage("label.category.object.message"));
 
-        GridData gridData1 = new GridData();
+        final GridData gridData1 = new GridData();
         gridData1.heightHint = 15;
 
         Label label = new Label(group, SWT.NONE);
         label.setText("");
         label.setLayoutData(gridData1);
 
-        GridData tableGridData = new GridData();
+        final GridData tableGridData = new GridData();
         tableGridData.heightHint = 200;
 
         this.nodeTable = new Table(group, SWT.BORDER | SWT.HIDE_SELECTION);
-        this.nodeTable.setHeaderVisible(true);
-        this.nodeTable.setLayoutData(tableGridData);
-        this.nodeTable.setLinesVisible(true);
+        nodeTable.setHeaderVisible(true);
+        nodeTable.setLayoutData(tableGridData);
+        nodeTable.setLinesVisible(true);
 
-        GridData gridData2 = new GridData();
+        final GridData gridData2 = new GridData();
         gridData2.heightHint = 22;
 
         label = new Label(group, SWT.NONE);
         label.setText("");
         label.setLayoutData(gridData2);
 
-        TableColumn tableColumn2 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn2 = new TableColumn(nodeTable, SWT.NONE);
         tableColumn2.setWidth(30);
         tableColumn2.setResizable(false);
         tableColumn2.setText("");
-        TableColumn tableColumn3 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn3 = new TableColumn(nodeTable, SWT.NONE);
         tableColumn3.setWidth(80);
         tableColumn3.setResizable(false);
         tableColumn3.setText(DisplayMessages.getMessage("label.object.type"));
-        TableColumn tableColumn4 = new TableColumn(this.nodeTable, SWT.NONE);
+        final TableColumn tableColumn4 = new TableColumn(nodeTable, SWT.NONE);
         tableColumn4.setWidth(200);
         tableColumn4.setResizable(false);
         tableColumn4.setText(DisplayMessages.getMessage("label.object.name"));
     }
 
     private void initCategoryTable() {
-        this.categoryTable.removeAll();
+        categoryTable.removeAll();
 
-        if (this.categoryCheckMap != null) {
-            for (TableEditor editor : this.categoryCheckMap.values()) {
+        if (categoryCheckMap != null) {
+            for (final TableEditor editor : categoryCheckMap.values()) {
                 editor.getEditor().dispose();
                 editor.dispose();
             }
 
-            this.categoryCheckMap.clear();
+            categoryCheckMap.clear();
         } else {
-            this.categoryCheckMap = new HashMap<Category, TableEditor>();
+            categoryCheckMap = new HashMap<>();
         }
 
-        for (Category category : categorySettings.getAllCategories()) {
-            TableItem tableItem = new TableItem(this.categoryTable, SWT.NONE);
+        for (final Category category : categorySettings.getAllCategories()) {
+            final TableItem tableItem = new TableItem(categoryTable, SWT.NONE);
 
-            Button selectCheckButton = new Button(this.categoryTable, SWT.CHECK);
+            final Button selectCheckButton = new Button(categoryTable, SWT.CHECK);
             selectCheckButton.pack();
 
-            TableEditor editor = new TableEditor(this.categoryTable);
+            final TableEditor editor = new TableEditor(categoryTable);
 
             editor.minimumWidth = selectCheckButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
@@ -215,33 +203,30 @@ public class CategoryManageDialog extends AbstractDialog {
                 selectCheckButton.setSelection(true);
             }
 
-            this.categoryCheckMap.put(category, editor);
+            categoryCheckMap.put(category, editor);
 
-            if (this.targetCategory == category) {
+            if (targetCategory == category) {
                 categoryTable.setSelection(tableItem);
             }
         }
 
-        if (this.targetCategory != null) {
+        if (targetCategory != null) {
             initNodeList(targetCategory);
-
         } else {
             deleteNodeList();
         }
     }
 
     private void initNodeTable() {
-        this.nodeTable.removeAll();
+        nodeTable.removeAll();
+        nodeCheckMap = new HashMap<>();
+        for (final DiagramWalker nodeElement : diagram.getDiagramContents().getDiagramWalkers()) {
+            final TableItem tableItem = new TableItem(nodeTable, SWT.NONE);
 
-        this.nodeCheckMap = new HashMap<DiagramWalker, TableEditor>();
-
-        for (DiagramWalker nodeElement : this.diagram.getDiagramContents().getDiagramWalkers()) {
-            TableItem tableItem = new TableItem(this.nodeTable, SWT.NONE);
-
-            Button selectCheckButton = new Button(this.nodeTable, SWT.CHECK);
+            final Button selectCheckButton = new Button(nodeTable, SWT.CHECK);
             selectCheckButton.pack();
 
-            TableEditor editor = new TableEditor(this.nodeTable);
+            final TableEditor editor = new TableEditor(nodeTable);
 
             editor.minimumWidth = selectCheckButton.getSize().x;
             editor.horizontalAlignment = SWT.CENTER;
@@ -250,19 +235,18 @@ public class CategoryManageDialog extends AbstractDialog {
             tableItem.setText(1, DisplayMessages.getMessage("label.object.type." + nodeElement.getObjectType()));
             tableItem.setText(2, nodeElement.getName());
 
-            this.nodeCheckMap.put(nodeElement, editor);
+            nodeCheckMap.put(nodeElement, editor);
         }
     }
 
     private void initNodeList(Category category) {
-        this.categoryNameText.setText(category.getName());
+        categoryNameText.setText(category.getName());
 
-        for (DiagramWalker nodeElement : this.nodeCheckMap.keySet()) {
-            Button selectCheckButton = (Button) this.nodeCheckMap.get(nodeElement).getEditor();
+        for (final DiagramWalker nodeElement : nodeCheckMap.keySet()) {
+            final Button selectCheckButton = (Button) nodeCheckMap.get(nodeElement).getEditor();
 
             if (category.contains(nodeElement)) {
                 selectCheckButton.setSelection(true);
-
             } else {
                 selectCheckButton.setSelection(false);
             }
@@ -270,17 +254,16 @@ public class CategoryManageDialog extends AbstractDialog {
     }
 
     private void deleteNodeList() {
-        this.categoryNameText.setText("");
+        categoryNameText.setText("");
 
-        this.nodeTable.removeAll();
-
-        if (this.nodeCheckMap != null) {
-            for (TableEditor editor : this.nodeCheckMap.values()) {
+        nodeTable.removeAll();
+        if (nodeCheckMap != null) {
+            for (final TableEditor editor : nodeCheckMap.values()) {
                 editor.getEditor().dispose();
                 editor.dispose();
             }
 
-            this.nodeCheckMap.clear();
+            nodeCheckMap.clear();
         }
     }
 
@@ -288,11 +271,11 @@ public class CategoryManageDialog extends AbstractDialog {
     protected void addListener() {
         super.addListener();
 
-        this.categoryTable.addSelectionListener(new SelectionAdapter() {
+        categoryTable.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = categoryTable.getSelectionIndex();
+                final int index = categoryTable.getSelectionIndex();
                 if (index == -1) {
                     return;
                 }
@@ -308,11 +291,11 @@ public class CategoryManageDialog extends AbstractDialog {
             }
         });
 
-        this.addCategoryButton.addSelectionListener(new SelectionAdapter() {
+        addCategoryButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String name = categoryNameText.getText().trim();
+                final String name = categoryNameText.getText().trim();
 
                 if (name.equals("")) {
                     return;
@@ -324,8 +307,8 @@ public class CategoryManageDialog extends AbstractDialog {
                     initNodeTable();
                 }
 
-                Category addCategory = new Category();
-                int[] color = diagram.getDefaultColor();
+                final Category addCategory = new Category();
+                final int[] color = diagram.getDefaultColor();
                 addCategory.setColor(color[0], color[1], color[2]);
                 addCategory.setName(name);
                 categorySettings.addCategoryAsSelected(addCategory);
@@ -335,11 +318,11 @@ public class CategoryManageDialog extends AbstractDialog {
             }
         });
 
-        this.updateCategoryButton.addSelectionListener(new SelectionAdapter() {
+        updateCategoryButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String name = categoryNameText.getText().trim();
+                final String name = categoryNameText.getText().trim();
 
                 if (name.equals("")) {
                     return;
@@ -353,7 +336,7 @@ public class CategoryManageDialog extends AbstractDialog {
             }
         });
 
-        this.deleteCategoryButton.addSelectionListener(new SelectionAdapter() {
+        deleteCategoryButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -368,7 +351,6 @@ public class CategoryManageDialog extends AbstractDialog {
 
                     } else if (categoryTable.getItemCount() != 0) {
                         index = categoryTable.getItemCount() - 2;
-
                     } else {
                         index = -1;
                     }
@@ -380,18 +362,17 @@ public class CategoryManageDialog extends AbstractDialog {
                     }
 
                     initCategoryTable();
-
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     Activator.error(e);
                 }
             }
         });
 
-        this.upButton.addSelectionListener(new SelectionAdapter() {
+        upButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = categoryTable.getSelectionIndex();
+                final int index = categoryTable.getSelectionIndex();
 
                 if (index == -1 || index == 0) {
                     return;
@@ -403,11 +384,11 @@ public class CategoryManageDialog extends AbstractDialog {
             }
         });
 
-        this.downButton.addSelectionListener(new SelectionAdapter() {
+        downButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                int index = categoryTable.getSelectionIndex();
+                final int index = categoryTable.getSelectionIndex();
 
                 if (index == -1 || index == categoryTable.getItemCount() - 1) {
                     return;
@@ -421,9 +402,9 @@ public class CategoryManageDialog extends AbstractDialog {
     }
 
     public void changeColumn(int index1, int index2) {
-        List<Category> allCategories = this.categorySettings.getAllCategories();
+        final List<Category> allCategories = categorySettings.getAllCategories();
 
-        Category category1 = allCategories.remove(index1);
+        final Category category1 = allCategories.remove(index1);
         Category category2 = null;
 
         if (index1 < index2) {
@@ -450,7 +431,7 @@ public class CategoryManageDialog extends AbstractDialog {
 
     @Override
     protected void setupData() {
-        this.initCategoryTable();
+        initCategoryTable();
     }
 
     @Override
@@ -460,10 +441,10 @@ public class CategoryManageDialog extends AbstractDialog {
 
     public void validatePage() {
         if (targetCategory != null) {
-            List<DiagramWalker> selectedNodeElementList = new ArrayList<DiagramWalker>();
+            final List<DiagramWalker> selectedNodeElementList = new ArrayList<>();
 
-            for (DiagramWalker table : this.nodeCheckMap.keySet()) {
-                Button selectCheckButton = (Button) this.nodeCheckMap.get(table).getEditor();
+            for (final DiagramWalker table : nodeCheckMap.keySet()) {
+                final Button selectCheckButton = (Button) nodeCheckMap.get(table).getEditor();
 
                 if (selectCheckButton.getSelection()) {
                     selectedNodeElementList.add(table);
@@ -473,10 +454,10 @@ public class CategoryManageDialog extends AbstractDialog {
             targetCategory.setContents(selectedNodeElementList);
         }
 
-        List<Category> selectedCategories = new ArrayList<Category>();
+        final List<Category> selectedCategories = new ArrayList<>();
 
-        for (Category category : categorySettings.getAllCategories()) {
-            Button button = (Button) this.categoryCheckMap.get(category).getEditor();
+        for (final Category category : categorySettings.getAllCategories()) {
+            final Button button = (Button) categoryCheckMap.get(category).getEditor();
 
             if (button.getSelection()) {
                 selectedCategories.add(category);

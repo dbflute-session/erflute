@@ -13,8 +13,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.Tabl
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.ERColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.view.ERView;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroup;
-import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.ColumnGroupSet;
+import org.dbflute.erflute.editor.model.diagram_contents.not_element.group.CopyColumnGroup;
 import org.dbflute.erflute.editor.view.dialog.column.ViewColumnDialog;
 import org.dbflute.erflute.editor.view.dialog.columngroup.ColumnGroupManageDialog;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
@@ -58,7 +58,7 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
         super(viewDialog, parent, style, "label.table.attribute");
         this.view = copyData;
         this.viewDialog = viewDialog;
-        this.init();
+        init();
     }
 
     @Override
@@ -91,16 +91,15 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
 
         content.setLayout(new GridLayout(6, false));
 
-        this.initTable(content);
+        initTable(content);
     }
 
     private void initTable(Composite parent) {
         final ViewColumnDialog columnDialog =
-                new ViewColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.view);
+                new ViewColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), view);
 
-        this.tableComposite =
-                new ERTableComposite(this, parent, this.view.getDiagram(), null, this.view.getColumns(), columnDialog, this.viewDialog, 2,
-                        true, false);
+        tableComposite = new ERTableComposite(this, parent, view.getDiagram(), null,
+                view.getColumns(), columnDialog, viewDialog, 2, true, false);
     }
 
     private void createFooter(Composite parent) {
@@ -110,12 +109,11 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
         gridLayout.numColumns = 2;
         footer.setLayout(gridLayout);
 
-        this.createGroupCombo(footer);
+        createGroupCombo(footer);
 
         this.groupAddButton = new Button(footer, SWT.NONE);
-        this.groupAddButton.setText(DisplayMessages.getMessage("label.button.add.group.to.view"));
-
-        this.groupAddButton.addSelectionListener(new SelectionAdapter() {
+        groupAddButton.setText(DisplayMessages.getMessage("label.button.add.group.to.view"));
+        groupAddButton.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -130,12 +128,11 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
                 groupAddButton.setEnabled(false);
             }
         });
-
-        this.groupAddButton.setEnabled(false);
+        groupAddButton.setEnabled(false);
 
         createGroup(footer);
 
-        this.initGroupCombo();
+        initGroupCombo();
     }
 
     /**
@@ -146,9 +143,8 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
         gridData.widthHint = 200;
 
         this.groupCombo = new Combo(parent, SWT.READ_ONLY);
-        this.groupCombo.setLayoutData(gridData);
-
-        this.groupCombo.addSelectionListener(new SelectionAdapter() {
+        groupCombo.setLayoutData(gridData);
+        groupCombo.addSelectionListener(new SelectionAdapter() {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -163,28 +159,27 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
     }
 
     private void initGroupCombo() {
-        this.groupCombo.removeAll();
-
-        for (final ColumnGroup columnGroup : this.getColumnGroups()) {
-            this.groupCombo.add(columnGroup.getGroupName());
+        groupCombo.removeAll();
+        for (final ColumnGroup columnGroup : getColumnGroups()) {
+            groupCombo.add(columnGroup.getGroupName());
         }
 
-        this.groupTableComposite.setColumnList(null);
+        groupTableComposite.setColumnList(null);
     }
 
     private void restructGroup() {
-        this.initGroupCombo();
+        initGroupCombo();
         int index = 0;
-        for (final ERColumn column : this.view.getColumns()) {
+        for (final ERColumn column : view.getColumns()) {
             if (column instanceof ColumnGroup) {
-                if (!this.getColumnGroups().contains((ColumnGroup) column)) {
-                    this.tableComposite.removeColumn(index);
+                if (!getColumnGroups().contains((ColumnGroup) column)) {
+                    tableComposite.removeColumn(index);
                     continue;
                 }
             }
             index++;
         }
-        this.viewDialog.validate();
+        viewDialog.validate();
     }
 
     /**
@@ -198,27 +193,14 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
         gridData.heightHint = -1;
         gridData.horizontalSpan = 2;
 
-        // FormToolkit toolkit = new FormToolkit(this.getDisplay());
-        // Form root = toolkit.createForm(parent);
-        // root.getBody().setLayout(new GridLayout());
-        //	
-        // ExpandableComposite expandableComposite = toolkit
-        // .createExpandableComposite(root.getBody(),
-        // ExpandableComposite.TWISTIE);
-        //
-        // Composite inner = toolkit.createComposite(expandableComposite);
-        // inner.setLayout(new GridLayout());
-        // expandableComposite.setClient(inner);
-        // toolkit.createLabel(inner, "aaa");
-
         final Group group = new Group(parent, SWT.NONE);
         group.setLayout(new GridLayout());
         group.setLayoutData(gridData);
-        this.groupTableComposite =
-                new ERTableComposite(this, group, this.view.getDiagram(), null, null, null, null, 2, false, false, GROUP_TABLE_HEIGHT);
-        this.groupManageButton = new Button(group, SWT.NONE);
-        this.groupManageButton.setText(DisplayMessages.getMessage("label.button.group.manage"));
-        this.groupManageButton.addSelectionListener(new SelectionAdapter() {
+        groupTableComposite = new ERTableComposite(this, group, view.getDiagram(),
+                null, null, null, null, 2, false, false, GROUP_TABLE_HEIGHT);
+        groupManageButton = new Button(group, SWT.NONE);
+        groupManageButton.setText(DisplayMessages.getMessage("label.button.group.manage"));
+        groupManageButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final ColumnGroupSet groupSet = getColumnGroups();
@@ -236,33 +218,33 @@ public class ViewAttributeTabWrapper extends ValidatableTabWrapper implements ER
     }
 
     private ColumnGroupSet getColumnGroups() {
-        return this.view.getDiagram().getDiagramContents().getColumnGroupSet();
+        return view.getDiagram().getDiagramContents().getColumnGroupSet();
     }
 
     @Override
     public void setInitFocus() {
-        this.physicalNameText.setFocus();
+        physicalNameText.setFocus();
     }
 
     @Override
     public void selectGroup(ColumnGroup selectedColumn) {
-        final int targetIndex = this.getColumnGroups().indexOf(selectedColumn);
-        this.groupCombo.select(targetIndex);
-        this.selectGroup(targetIndex);
-        this.groupAddButton.setEnabled(false);
+        final int targetIndex = getColumnGroups().indexOf(selectedColumn);
+        groupCombo.select(targetIndex);
+        selectGroup(targetIndex);
+        groupAddButton.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
     private void selectGroup(int targetIndex) {
         final ColumnGroup columnGroup = getColumnGroups().get(targetIndex);
-        if (this.view.getColumns().contains(columnGroup)) {
-            this.groupAddButton.setEnabled(false);
+        if (view.getColumns().contains(columnGroup)) {
+            groupAddButton.setEnabled(false);
         } else {
-            this.groupAddButton.setEnabled(true);
+            groupAddButton.setEnabled(true);
         }
         @SuppressWarnings("rawtypes")
         final List columns = columnGroup.getColumns(); // to avoid generic headache
-        this.groupTableComposite.setColumnList(columns);
+        groupTableComposite.setColumnList(columns);
     }
 
     // ===================================================================================

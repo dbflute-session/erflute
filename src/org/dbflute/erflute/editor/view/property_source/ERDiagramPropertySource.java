@@ -13,29 +13,32 @@ public class ERDiagramPropertySource implements IPropertySource {
 
     public static final String PROPERTY_INIT_DATABASE = "initDatabase";
 
-    private ERDiagram diagram;
+    private final ERDiagram diagram;
 
     public ERDiagramPropertySource(ERDiagram diagram) {
         this.diagram = diagram;
     }
 
+    @Override
     public Object getEditableValue() {
-        return this.diagram;
+        return diagram;
     }
 
+    @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
-        List<String> dbList = DBManagerFactory.getAllDBList();
+        final List<String> dbList = DBManagerFactory.getAllDBList();
 
         return new IPropertyDescriptor[] { new ComboBoxPropertyDescriptor("database", DisplayMessages.getMessage("label.database"),
                 dbList.toArray(new String[dbList.size()])) };
     }
 
+    @Override
     public Object getPropertyValue(Object id) {
         if (id.equals("database")) {
-            List<String> dbList = DBManagerFactory.getAllDBList();
+            final List<String> dbList = DBManagerFactory.getAllDBList();
 
             for (int i = 0; i < dbList.size(); i++) {
-                if (dbList.get(i).equals(this.diagram.getDatabase())) {
+                if (dbList.get(i).equals(diagram.getDatabase())) {
                     return new Integer(i);
                 }
             }
@@ -46,6 +49,7 @@ public class ERDiagramPropertySource implements IPropertySource {
         return null;
     }
 
+    @Override
     public boolean isPropertySet(Object id) {
         if (id.equals("database")) {
             return true;
@@ -53,16 +57,18 @@ public class ERDiagramPropertySource implements IPropertySource {
         return false;
     }
 
+    @Override
     public void resetPropertyValue(Object id) {
     }
 
+    @Override
     public void setPropertyValue(Object id, Object value) {
         if (id.equals("database")) {
-            List<String> dbList = DBManagerFactory.getAllDBList();
+            final List<String> dbList = DBManagerFactory.getAllDBList();
 
-            int index = Integer.parseInt(String.valueOf(value));
+            final int index = Integer.parseInt(String.valueOf(value));
 
-            this.diagram.setDatabase(dbList.get(index));
+            diagram.setDatabase(dbList.get(index));
         }
     }
 }

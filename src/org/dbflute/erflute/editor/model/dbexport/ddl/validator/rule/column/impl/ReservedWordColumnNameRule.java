@@ -12,8 +12,8 @@ public class ReservedWordColumnNameRule extends ColumnRule {
     @Override
     public boolean validate(ERTable table, NormalColumn column) {
         if (column.getPhysicalName() != null) {
-            if (this.getDBManager().isReservedWord(column.getPhysicalName())) {
-                ValidateResult validateResult = new ValidateResult();
+            if (getDBManager().isReservedWord(column.getPhysicalName())) {
+                final ValidateResult validateResult = new ValidateResult();
                 validateResult.setMessage(DisplayMessages.getMessage("error.validate.reserved.column.name1")
                         + table.getPhysicalName() + DisplayMessages.getMessage("error.validate.reserved.column.name2")
                         + column.getPhysicalName());
@@ -21,7 +21,7 @@ public class ReservedWordColumnNameRule extends ColumnRule {
                 validateResult.setSeverity(IMarker.SEVERITY_WARNING);
                 validateResult.setObject(table);
 
-                this.addError(validateResult);
+                addError(validateResult);
             }
         }
 

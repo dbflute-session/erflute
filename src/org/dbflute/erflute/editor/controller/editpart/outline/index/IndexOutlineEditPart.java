@@ -21,20 +21,21 @@ import org.eclipse.ui.PlatformUI;
 
 public class IndexOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
     @Override
     protected void refreshOutlineVisuals() {
-        ERIndex index = (ERIndex) this.getModel();
+        final ERIndex index = (ERIndex) getModel();
 
-        this.setWidgetText(this.getDiagram().filter(index.getName()));
-        this.setWidgetImage(Activator.getImage(ImageKey.INDEX));
+        setWidgetText(getDiagram().filter(index.getName()));
+        setWidgetImage(Activator.getImage(ImageKey.INDEX));
     }
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new IndexComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new IndexComponentEditPolicy());
     }
 
     @Override
@@ -42,22 +43,23 @@ public class IndexOutlineEditPart extends AbstractOutlineEditPart implements Del
         return new SelectEditPartTracker(this);
     }
 
+    @Override
     public boolean isDeleteable() {
         return true;
     }
 
     @Override
     public void performRequest(Request request) {
-        ERIndex index = (ERIndex) this.getModel();
-        ERDiagram diagram = this.getDiagram();
+        final ERIndex index = (ERIndex) getModel();
+        final ERDiagram diagram = getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            IndexDialog dialog = new IndexDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), index, index.getTable());
+            final IndexDialog dialog = new IndexDialog(
+                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), index, index.getTable());
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                ChangeIndexCommand command = new ChangeIndexCommand(diagram, index, dialog.getResultIndex());
-
-                this.execute(command);
+                final ChangeIndexCommand command = new ChangeIndexCommand(diagram, index, dialog.getResultIndex());
+                execute(command);
             }
         }
 

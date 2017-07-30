@@ -7,9 +7,8 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
 
 public class CreateTablespaceCommand extends AbstractCommand {
 
-    private TablespaceSet tablespaceSet;
-
-    private Tablespace tablespace;
+    private final TablespaceSet tablespaceSet;
+    private final Tablespace tablespace;
 
     public CreateTablespaceCommand(ERDiagram diagram, Tablespace tablespace) {
         this.tablespaceSet = diagram.getDiagramContents().getTablespaceSet();
@@ -18,11 +17,11 @@ public class CreateTablespaceCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        this.tablespaceSet.addTablespace(this.tablespace);
+        tablespaceSet.addTablespace(tablespace);
     }
 
     @Override
     protected void doUndo() {
-        this.tablespaceSet.remove(this.tablespace);
+        tablespaceSet.remove(tablespace);
     }
 }

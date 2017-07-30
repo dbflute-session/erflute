@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.controller.command.ermodel;
 
 import org.dbflute.erflute.editor.controller.command.AbstractCommand;
 import org.dbflute.erflute.editor.model.ERDiagram;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 
 /**
@@ -23,11 +22,14 @@ public class DeleteVirtualDiagramCommand extends AbstractCommand {
         final ERVirtualDiagram vdiagram = new ERVirtualDiagram(diagram);
         vdiagram.setName(name);
         diagram.removeVirtualDiagram(vdiagram);
-        ERModelUtil.refreshDiagram(diagram);
+
+        diagram.getEditor().removePage(name);
+
+        diagram.refresh();
     }
 
     @Override
     protected void doUndo() {
-        // ??? by jflute
+        // not support
     }
 }

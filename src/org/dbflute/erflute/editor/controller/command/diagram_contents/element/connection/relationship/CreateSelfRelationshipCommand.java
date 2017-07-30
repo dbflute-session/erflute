@@ -2,7 +2,6 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.c
 
 import org.dbflute.erflute.editor.controller.command.diagram_contents.element.connection.relationship.fkname.DefaultForeignKeyNameProvider;
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPart;
-import org.dbflute.erflute.editor.model.ERModelUtil;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Bendpoint;
 import org.dbflute.erflute.editor.model.diagram_contents.element.connection.Relationship;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
@@ -68,7 +67,7 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
         relation.setForeignKeyName(provideDefaultForeignKeyName(sourceTable, targetTable));
 
         sourceTable.setDirty();
-        ERModelUtil.refreshDiagram(sourceTable.getDiagram(), sourceTable);
+        sourceTable.refresh();
     }
 
     private String provideDefaultForeignKeyName(ERTable sourceTable, TableView targetTable) {
@@ -85,7 +84,7 @@ public class CreateSelfRelationshipCommand extends AbstractCreateRelationshipCom
 
         final ERTable targetTable = ((ERTable) target.getModel()).toMaterialize();
         targetTable.setDirty();
-        ERModelUtil.refreshDiagram(targetTable.getDiagram(), targetTable);
+        targetTable.refresh();
     }
 
     @Override

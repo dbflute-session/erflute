@@ -8,8 +8,6 @@ import java.util.List;
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.editor.VirtualDiagramEditor;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
-import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IEditorPart;
@@ -30,25 +28,34 @@ public class ERModelUtil {
 
     public static ERDiagram getDiagram(EditPart editPart) {
         final Object model = editPart.getModel();
-        if (model instanceof ERVirtualDiagram) {
-            return ((ERVirtualDiagram) model).getDiagram();
-        }
-        return (ERDiagram) model;
+        return ((IERDiagram) model).toMaterializedDiagram();
     }
 
+    /**
+     * @deprecated {@link ERDiagram#refresh()}または{@link DiagramWalker#refresh()}を使って下さい。
+     * @param diagram ER図のモデル。
+     * @param elements 再描画対象のDiagramWalker。
+     * @return diagramをrefreshできた場合true、それ以外の場合false。
+     */
+    @Deprecated
     public static boolean refreshDiagram(ERDiagram diagram, DiagramWalker... elements) {
         return refreshDiagram(diagram, Arrays.asList(elements));
     }
 
+    /**
+     * @deprecated {@link ERDiagram#refresh()}または{@link DiagramWalker#refresh()}を使って下さい。
+     * @param diagram ER図のモデル。
+     * @param elements 再描画対象のDiagramWalker。
+     * @return diagramをrefreshできた場合true、それ以外の場合false。
+     */
+    @Deprecated
     public static boolean refreshDiagram(ERDiagram diagram, List<DiagramWalker> elements) {
         if (refreshDiagram(diagram)) {
             elements.stream().forEach(element -> {
-                if (element instanceof ERTable) {
-                    final IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
-                    if (activeEditor instanceof VirtualDiagramEditor) {
-                        final VirtualDiagramEditor editor = (VirtualDiagramEditor) activeEditor;
-                        editor.reveal((ERTable) element);
-                    }
+                final IEditorPart activeEditor = diagram.getEditor().getActiveEditor();
+                if (activeEditor instanceof VirtualDiagramEditor) {
+                    final VirtualDiagramEditor editor = (VirtualDiagramEditor) activeEditor;
+                    editor.reveal(element);
                 }
             });
             return true;
@@ -56,6 +63,12 @@ public class ERModelUtil {
         return false;
     }
 
+    /**
+     * @deprecated {@link ERDiagram#refresh()}を使って下さい。
+     * @param diagram ER図のモデル。
+     * @return diagramをrefreshできた場合true、それ以外の場合false。
+     */
+    @Deprecated
     public static boolean refreshDiagram(ERDiagram diagram) {
         if (diagram == null) {
             return false;

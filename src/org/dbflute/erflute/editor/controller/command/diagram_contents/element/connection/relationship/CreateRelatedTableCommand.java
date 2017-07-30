@@ -93,7 +93,7 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
         this.relation1 = sourceTable.createRelation();
 
-        final ERTable targetTable = (ERTable) this.getTargetModel();
+        final ERTable targetTable = (ERTable) getTargetModel();
         this.relation2 = targetTable.createRelation();
 
         relatedTable.setLocation(new Location((sourceX + targetX - ERTable.DEFAULT_WIDTH) / 2,
@@ -101,7 +101,6 @@ public class CreateRelatedTableCommand extends AbstractCreateRelationshipCommand
 
         relatedTable.setLogicalName(ERTable.NEW_LOGICAL_NAME);
         relatedTable.setPhysicalName(ERTable.NEW_PHYSICAL_NAME);
-
     }
 
     @Override

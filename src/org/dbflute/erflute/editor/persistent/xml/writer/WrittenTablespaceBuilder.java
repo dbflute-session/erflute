@@ -77,18 +77,6 @@ public class WrittenTablespaceBuilder {
 
         xml.append("<buffer_pool_name>").append(escape(tablespace.getBufferPoolName())).append("</buffer_pool_name>\n");
         xml.append("<container>").append(escape(tablespace.getContainer())).append("</container>\n");
-        // xml.append("<container_device_path>").append(
-        // escape(tablespace.getContainerDevicePath())).append(
-        // "</container_device_path>\n");
-        // xml.append("<container_directory_path>").append(
-        // escape(tablespace.getContainerDirectoryPath())).append(
-        // "</container_directory_path>\n");
-        // xml.append("<container_file_path>").append(
-        // escape(tablespace.getContainerFilePath())).append(
-        // "</container_file_path>\n");
-        // xml.append("<container_page_num>").append(
-        // escape(tablespace.getContainerPageNum())).append(
-        // "</container_page_num>\n");
         xml.append("<extent_size>").append(escape(tablespace.getExtentSize())).append("</extent_size>\n");
         xml.append("<managed_by>").append(escape(tablespace.getManagedBy())).append("</managed_by>\n");
         xml.append("<page_size>").append(escape(tablespace.getPageSize())).append("</page_size>\n");

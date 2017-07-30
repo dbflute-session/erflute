@@ -13,12 +13,12 @@ import org.dbflute.erflute.editor.model.settings.Environment;
 
 public abstract class TablespaceRule extends BaseRule {
 
-    private List<ValidateResult> errorList;
+    private final List<ValidateResult> errorList;
 
     private String database;
 
     public TablespaceRule() {
-        this.errorList = new ArrayList<ValidateResult>();
+        this.errorList = new ArrayList<>();
     }
 
     @Override
@@ -28,20 +28,21 @@ public abstract class TablespaceRule extends BaseRule {
 
     @Override
     public List<ValidateResult> getErrorList() {
-        return this.errorList;
+        return errorList;
     }
 
     @Override
     public void clear() {
-        this.errorList.clear();
+        errorList.clear();
     }
 
+    @Override
     public boolean validate(ERDiagram diagram) {
         this.database = diagram.getDatabase();
 
-        for (Tablespace tablespace : diagram.getDiagramContents().getTablespaceSet().getTablespaceList()) {
-            for (Environment environment : diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments()) {
-                if (!this.validate(diagram, tablespace, environment)) {
+        for (final Tablespace tablespace : diagram.getDiagramContents().getTablespaceSet().getTablespaceList()) {
+            for (final Environment environment : diagram.getDiagramContents().getSettings().getEnvironmentSettings().getEnvironments()) {
+                if (!validate(diagram, tablespace, environment)) {
                     return false;
                 }
             }
@@ -51,7 +52,7 @@ public abstract class TablespaceRule extends BaseRule {
     }
 
     protected DBManager getDBManager() {
-        return DBManagerFactory.getDBManager(this.database);
+        return DBManagerFactory.getDBManager(database);
     }
 
     abstract public boolean validate(ERDiagram diagram, Tablespace tablespace, Environment environment);

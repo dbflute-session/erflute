@@ -10,7 +10,6 @@ import org.eclipse.swt.graphics.Image;
 public class ExportToImageWithProgressManager extends ExportToImageManager implements IRunnableWithProgress {
 
     private Exception exception;
-
     private IProgressMonitor monitor;
 
     public ExportToImageWithProgressManager(Image img, int format, String saveFilePath) {
@@ -46,9 +45,8 @@ public class ExportToImageWithProgressManager extends ExportToImageManager imple
 
     @Override
     protected void doPostTask() throws InterruptedException {
-        this.monitor.worked(1);
-
-        if (this.monitor.isCanceled()) {
+        monitor.worked(1);
+        if (monitor.isCanceled()) {
             throw new InterruptedException("Cancel has been requested.");
         }
     }

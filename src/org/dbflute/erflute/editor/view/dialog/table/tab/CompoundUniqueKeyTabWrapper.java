@@ -57,8 +57,8 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
     public CompoundUniqueKeyTabWrapper(AbstractDialog dialog, TabFolder parent, int style, ERTable table) {
         super(dialog, parent, style, "Compound Unique Key");
         this.table = table;
-        this.tableEditorList = new ArrayList<TableEditor>();
-        this.editorColumnMap = new HashMap<TableEditor, NormalColumn>();
+        this.tableEditorList = new ArrayList<>();
+        this.editorColumnMap = new HashMap<>();
         init();
     }
 
@@ -74,8 +74,8 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
         previousUniqueKeyName = uniqueKeyNameText.getText().trim();
         CompositeFactory.filler(this, 1);
         columnTable = CompositeFactory.createTable(this, 200, 1);
-        CompositeFactory.createTableColumn(this.columnTable, "label.logical.name", ERTableComposite.NAME_WIDTH, SWT.NONE);
-        CompositeFactory.createTableColumn(this.columnTable, "label.unique.key", ERTableComposite.UNIQUE_KEY_WIDTH, SWT.NONE);
+        CompositeFactory.createTableColumn(columnTable, "label.logical.name", ERTableComposite.NAME_WIDTH, SWT.NONE);
+        CompositeFactory.createTableColumn(columnTable, "label.unique.key", ERTableComposite.UNIQUE_KEY_WIDTH, SWT.NONE);
         final GridLayout buttonGridLayout = new GridLayout();
         buttonGridLayout.numColumns = 3;
         final Composite buttonComposite = new Composite(this, SWT.NONE);
@@ -91,20 +91,20 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
     @Override
     protected void addListener() {
         super.addListener();
-        this.compoundUniqueKeyCombo.addSelectionListener(new SelectionAdapter() {
+        compoundUniqueKeyCombo.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 checkSelectedKey();
             }
         });
-        this.addButton.addSelectionListener(new SelectionAdapter() {
+        addButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final String uniqueKeyName = uniqueKeyNameText.getText().trim();
                 if (!validateUniqueKeyName(uniqueKeyName)) {
                     return;
                 }
-                final List<NormalColumn> columnList = new ArrayList<NormalColumn>();
+                final List<NormalColumn> columnList = new ArrayList<>();
                 for (final TableEditor tableEditor : tableEditorList) {
                     final Button checkBox = (Button) tableEditor.getEditor();
                     if (checkBox.getSelection()) {
@@ -127,7 +127,7 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
                 setUpdateDeleteButtonStatus(true);
             }
         });
-        this.updateButton.addSelectionListener(new SelectionAdapter() {
+        updateButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = compoundUniqueKeyCombo.getSelectionIndex();
@@ -139,7 +139,7 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
                     return;
                 }
                 final CompoundUniqueKey complexUniqueKey = table.getCompoundUniqueKeyList().get(index);
-                final List<NormalColumn> columnList = new ArrayList<NormalColumn>();
+                final List<NormalColumn> columnList = new ArrayList<>();
                 for (final TableEditor tableEditor : tableEditorList) {
                     final Button checkBox = (Button) tableEditor.getEditor();
                     if (checkBox.getSelection()) {
@@ -162,7 +162,7 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
                 compoundUniqueKeyCombo.select(index);
             }
         });
-        this.deleteButton.addSelectionListener(new SelectionAdapter() {
+        deleteButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 final int index = compoundUniqueKeyCombo.getSelectionIndex();
@@ -313,34 +313,34 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
     //                                                                               =====
     @Override
     public void setInitFocus() {
-        this.compoundUniqueKeyCombo.setFocus();
+        compoundUniqueKeyCombo.setFocus();
     }
 
     // ===================================================================================
     //                                                                      Various Public
     //                                                                      ==============
     public void restruct() {
-        this.columnTable.removeAll();
-        this.disposeTableEditor();
-        for (final NormalColumn normalColumn : this.table.getNormalColumns()) {
-            final TableItem tableItem = new TableItem(this.columnTable, SWT.NONE);
+        columnTable.removeAll();
+        disposeTableEditor();
+        for (final NormalColumn normalColumn : table.getNormalColumns()) {
+            final TableItem tableItem = new TableItem(columnTable, SWT.NONE);
             tableItem.setText(0, Format.null2blank(normalColumn.getName()));
             final TableEditor tableEditor = CompositeFactory.createCheckBoxTableEditor(tableItem, false, 1);
-            this.tableEditorList.add(tableEditor);
-            this.editorColumnMap.put(tableEditor, normalColumn);
+            tableEditorList.add(tableEditor);
+            editorColumnMap.put(tableEditor, normalColumn);
         }
         setComboData();
         setUpdateDeleteButtonStatus(false);
     }
 
     private void setComboData() {
-        this.compoundUniqueKeyCombo.removeAll();
-        for (final Iterator<CompoundUniqueKey> iter = this.table.getCompoundUniqueKeyList().iterator(); iter.hasNext();) {
+        compoundUniqueKeyCombo.removeAll();
+        for (final Iterator<CompoundUniqueKey> iter = table.getCompoundUniqueKeyList().iterator(); iter.hasNext();) {
             final CompoundUniqueKey complexUniqueKey = iter.next();
-            if (complexUniqueKey.isRemoved(this.table.getNormalColumns())) {
+            if (complexUniqueKey.isRemoved(table.getNormalColumns())) {
                 iter.remove();
             } else {
-                this.addComboData(complexUniqueKey);
+                addComboData(complexUniqueKey);
             }
         }
     }
@@ -363,15 +363,15 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
     }
 
     private void addComboData(CompoundUniqueKey complexUniqueKey) {
-        this.compoundUniqueKeyCombo.add(complexUniqueKey.getLabel());
+        compoundUniqueKeyCombo.add(complexUniqueKey.getLabel());
     }
 
     private void disposeTableEditor() {
-        for (final TableEditor tableEditor : this.tableEditorList) {
+        for (final TableEditor tableEditor : tableEditorList) {
             tableEditor.getEditor().dispose();
             tableEditor.dispose();
         }
-        this.tableEditorList.clear();
-        this.editorColumnMap.clear();
+        tableEditorList.clear();
+        editorColumnMap.clear();
     }
 }

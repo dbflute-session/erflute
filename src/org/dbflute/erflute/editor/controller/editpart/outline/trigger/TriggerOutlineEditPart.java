@@ -21,28 +21,29 @@ import org.eclipse.ui.PlatformUI;
 
 public class TriggerOutlineEditPart extends AbstractOutlineEditPart implements DeleteableEditPart {
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
     }
 
     @Override
     protected void refreshOutlineVisuals() {
-        Trigger trigger = (Trigger) this.getModel();
+        final Trigger trigger = (Trigger) getModel();
 
-        this.setWidgetText(this.getDiagram().filter(trigger.getName()));
-        this.setWidgetImage(Activator.getImage(ImageKey.TRIGGER));
+        setWidgetText(getDiagram().filter(trigger.getName()));
+        setWidgetImage(Activator.getImage(ImageKey.TRIGGER));
     }
 
     @Override
     public void performRequest(Request request) {
-        Trigger trigger = (Trigger) this.getModel();
-        ERDiagram diagram = (ERDiagram) this.getRoot().getContents().getModel();
+        final Trigger trigger = (Trigger) getModel();
+        final ERDiagram diagram = getDiagram();
 
         if (request.getType().equals(RequestConstants.REQ_OPEN)) {
-            TriggerDialog dialog = new TriggerDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), trigger);
+            final TriggerDialog dialog = new TriggerDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), trigger);
 
             if (dialog.open() == IDialogConstants.OK_ID) {
-                EditTriggerCommand command = new EditTriggerCommand(diagram, trigger, dialog.getResult());
-                this.getViewer().getEditDomain().getCommandStack().execute(command);
+                final EditTriggerCommand command = new EditTriggerCommand(diagram, trigger, dialog.getResult());
+                getViewer().getEditDomain().getCommandStack().execute(command);
             }
         }
 
@@ -51,7 +52,7 @@ public class TriggerOutlineEditPart extends AbstractOutlineEditPart implements D
 
     @Override
     protected void createEditPolicies() {
-        this.installEditPolicy(EditPolicy.COMPONENT_ROLE, new TriggerComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new TriggerComponentEditPolicy());
     }
 
     @Override
@@ -59,6 +60,7 @@ public class TriggerOutlineEditPart extends AbstractOutlineEditPart implements D
         return new SelectEditPartTracker(this);
     }
 
+    @Override
     public boolean isDeleteable() {
         return true;
     }

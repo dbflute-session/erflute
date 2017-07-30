@@ -189,8 +189,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
             setText(ALIGNMENT_ACTION_LEFT.getText());
             setToolTipText(ALIGNMENT_ACTION_LEFT.getToolTipText());
             setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_LEFT));
-            // setDisabledImageDescriptor(ALIGNMENT_ACTION_LEFT
-            // .getDisabledImageDescriptor());
             break;
 
         case PositionConstants.RIGHT:
@@ -198,8 +196,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
             setText(ALIGNMENT_ACTION_RIGHT.getText());
             setToolTipText(ALIGNMENT_ACTION_RIGHT.getToolTipText());
             setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_RIGHT));
-            //			setDisabledImageDescriptor(ALIGNMENT_ACTION_RIGHT
-            //					.getDisabledImageDescriptor());
             break;
 
         case PositionConstants.TOP:
@@ -207,8 +203,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
             setText(ALIGNMENT_ACTION_TOP.getText());
             setToolTipText(ALIGNMENT_ACTION_TOP.getToolTipText());
             setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_TOP));
-            //			setDisabledImageDescriptor(ALIGNMENT_ACTION_TOP
-            //					.getDisabledImageDescriptor());
             break;
 
         case PositionConstants.BOTTOM:
@@ -216,8 +210,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
             setText(ALIGNMENT_ACTION_BOTTOM.getText());
             setToolTipText(ALIGNMENT_ACTION_BOTTOM.getToolTipText());
             setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_BOTTOM));
-            //			setDisabledImageDescriptor(ALIGNMENT_ACTION_BOTTOM
-            //					.getDisabledImageDescriptor());
             break;
 
         case PositionConstants.CENTER:
@@ -225,8 +217,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
             setText(ALIGNMENT_ACTION_CENTER.getText());
             setToolTipText(ALIGNMENT_ACTION_CENTER.getToolTipText());
             setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_CENTER));
-            //			setDisabledImageDescriptor(ALIGNMENT_ACTION_CENTER
-            //					.getDisabledImageDescriptor());
             break;
 
         case PositionConstants.MIDDLE:
@@ -234,8 +224,6 @@ public class ERDiagramAlignmentAction extends SelectionAction {
             setText(ALIGNMENT_ACTION_MIDDLE.getText());
             setToolTipText(ALIGNMENT_ACTION_MIDDLE.getToolTipText());
             setImageDescriptor(Activator.getImageDescriptor(ImageKey.ALIGN_MIDDLE));
-            //			setDisabledImageDescriptor(ALIGNMENT_ACTION_MIDDLE
-            //					.getDisabledImageDescriptor());
             break;
         }
     }

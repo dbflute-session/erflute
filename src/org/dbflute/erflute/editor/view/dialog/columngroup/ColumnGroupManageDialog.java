@@ -57,9 +57,9 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
     public ColumnGroupManageDialog(Shell parentShell, ColumnGroupSet columnGroups, ERDiagram diagram, boolean globalGroup,
             int editTargetIndex) {
         super(parentShell, 2);
-        this.copyGroups = new ArrayList<CopyColumnGroup>();
+        this.copyGroups = new ArrayList<>();
         for (final ColumnGroup columnGroup : columnGroups) {
-            this.copyGroups.add(new CopyColumnGroup(columnGroup));
+            copyGroups.add(new CopyColumnGroup(columnGroup));
         }
         this.diagram = diagram;
         this.globalGroup = globalGroup;
@@ -93,17 +93,17 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
         groupEditButton.setText(DisplayMessages.getMessage("label.button.group.edit"));
 
         this.groupDeleteButton = new Button(composite, SWT.NONE);
-        this.groupDeleteButton.setText(DisplayMessages.getMessage("label.button.group.delete"));
+        groupDeleteButton.setText(DisplayMessages.getMessage("label.button.group.delete"));
 
         this.addToGlobalGroupButton = new Button(composite, SWT.NONE);
-        this.addToGlobalGroupButton.setText(DisplayMessages.getMessage("label.button.add.to.global.group"));
+        addToGlobalGroupButton.setText(DisplayMessages.getMessage("label.button.add.to.global.group"));
 
         final GridData gridData3 = new GridData();
         gridData3.horizontalSpan = 3;
-        this.addToGlobalGroupButton.setLayoutData(gridData3);
+        addToGlobalGroupButton.setLayoutData(gridData3);
 
-        if (this.globalGroup) {
-            this.addToGlobalGroupButton.setVisible(false);
+        if (globalGroup) {
+            addToGlobalGroupButton.setVisible(false);
         }
 
         setButtonEnabled(false);
@@ -120,7 +120,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
         this.groupNameText = CompositeFactory.createText(this, composite, "label.group.name", 1, 200, true);
         final GroupColumnDialog columnDialog =
                 new GroupColumnDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
-        this.tableComposite = new ERTableComposite(this, composite, this.diagram, null, null, columnDialog, this, 2, true, true);
+        this.tableComposite = new ERTableComposite(this, composite, diagram, null, null, columnDialog, this, 2, true, true);
         createComposite3(composite);
     }
 
@@ -149,7 +149,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
         Collections.sort(copyGroups);
         groupList.removeAll();
         for (final ColumnGroup columnGroup : copyGroups) {
-            this.groupList.add(columnGroup.getGroupName());
+            groupList.add(columnGroup.getGroupName());
         }
     }
 
@@ -159,30 +159,30 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
         if (text == null) {
             text = "";
         }
-        this.groupNameText.setText(text);
+        groupNameText.setText(text);
         @SuppressWarnings("rawtypes")
         final List columns = copyData.getColumns(); // to avoid generic headache
-        this.tableComposite.setColumnList(columns);
+        tableComposite.setColumnList(columns);
     }
 
     private void setGroupEditEnabled(boolean enabled) {
-        this.tableComposite.setEnabled(enabled);
-        this.groupUpdateButton.setEnabled(enabled);
-        this.groupCancelButton.setEnabled(enabled);
-        this.groupNameText.setEnabled(enabled);
-        this.groupList.setEnabled(!enabled);
-        this.groupAddButton.setEnabled(!enabled);
-        if (this.groupList.getSelectionIndex() != -1 && !enabled) {
-            this.setButtonEnabled(true);
+        tableComposite.setEnabled(enabled);
+        groupUpdateButton.setEnabled(enabled);
+        groupCancelButton.setEnabled(enabled);
+        groupNameText.setEnabled(enabled);
+        groupList.setEnabled(!enabled);
+        groupAddButton.setEnabled(!enabled);
+        if (groupList.getSelectionIndex() != -1 && !enabled) {
+            setButtonEnabled(true);
         } else {
-            this.setButtonEnabled(false);
+            setButtonEnabled(false);
         }
         if (enabled) {
-            this.groupNameText.setFocus();
+            groupNameText.setFocus();
         } else {
-            this.groupList.setFocus();
+            groupList.setFocus();
         }
-        this.enabledButton(!enabled);
+        enabledButton(!enabled);
     }
 
     private void createComposite3(Composite parent) {
@@ -196,16 +196,16 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
         final GridData gridData1 = new GridData();
         gridData1.widthHint = 80;
         this.groupUpdateButton = new Button(composite, SWT.NONE);
-        this.groupUpdateButton.setText(DisplayMessages.getMessage("label.button.update"));
-        this.groupUpdateButton.setLayoutData(gridData1);
+        groupUpdateButton.setText(DisplayMessages.getMessage("label.button.update"));
+        groupUpdateButton.setLayoutData(gridData1);
         this.groupCancelButton = new Button(composite, SWT.NONE);
-        this.groupCancelButton.setText(DisplayMessages.getMessage("label.button.cancel"));
-        this.groupCancelButton.setLayoutData(gridData1);
+        groupCancelButton.setText(DisplayMessages.getMessage("label.button.cancel"));
+        groupCancelButton.setLayoutData(gridData1);
     }
 
     @Override
     protected String getTitle() {
-        if (this.globalGroup) {
+        if (globalGroup) {
             return "dialog.title.manage.global.group";
         }
         return "dialog.title.manage.group";
@@ -214,10 +214,10 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
     @Override
     protected void setupData() {
         if (isEdit()) {
-            this.groupList.setSelection(editTargetIndex);
+            groupList.setSelection(editTargetIndex);
             this.copyData = new CopyColumnGroup(copyGroups.get(editTargetIndex));
-            this.initColumnGroup();
-            this.setGroupEditEnabled(true);
+            initColumnGroup();
+            setGroupEditEnabled(true);
         }
     }
 
@@ -230,9 +230,9 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
     }
 
     private void setButtonEnabled(boolean enabled) {
-        this.groupEditButton.setEnabled(enabled);
-        this.groupDeleteButton.setEnabled(enabled);
-        this.addToGlobalGroupButton.setEnabled(enabled);
+        groupEditButton.setEnabled(enabled);
+        groupDeleteButton.setEnabled(enabled);
+        addToGlobalGroupButton.setEnabled(enabled);
     }
 
     @Override
@@ -243,7 +243,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
     @Override
     protected void addListener() {
         super.addListener();
-        this.groupAddButton.addSelectionListener(new SelectionAdapter() {
+        groupAddButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 editTargetIndex = -1;
@@ -252,7 +252,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
                 setGroupEditEnabled(true);
             }
         });
-        this.groupEditButton.addSelectionListener(new SelectionAdapter() {
+        groupEditButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 editTargetIndex = groupList.getSelectionIndex();
@@ -262,7 +262,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
                 setGroupEditEnabled(true);
             }
         });
-        this.groupDeleteButton.addSelectionListener(new SelectionAdapter() {
+        groupDeleteButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 editTargetIndex = groupList.getSelectionIndex();
@@ -287,7 +287,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
                 }
             }
         });
-        this.addToGlobalGroupButton.addSelectionListener(new SelectionAdapter() {
+        addToGlobalGroupButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 editTargetIndex = groupList.getSelectionIndex();
@@ -306,7 +306,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
                 }
             }
         });
-        this.groupList.addMouseListener(new MouseAdapter() {
+        groupList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseDoubleClick(MouseEvent e) {
                 editTargetIndex = groupList.getSelectionIndex();
@@ -316,7 +316,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
                 setGroupEditEnabled(true);
             }
         });
-        this.groupList.addSelectionListener(new SelectionAdapter() {
+        groupList.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
@@ -332,7 +332,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
                 }
             }
         });
-        this.groupUpdateButton.addSelectionListener(new SelectionAdapter() {
+        groupUpdateButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 try {
@@ -364,7 +364,7 @@ public class ColumnGroupManageDialog extends AbstractDialog implements ERTableCo
                 }
             }
         });
-        this.groupCancelButton.addSelectionListener(new SelectionAdapter() {
+        groupCancelButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 setGroupEditEnabled(false);

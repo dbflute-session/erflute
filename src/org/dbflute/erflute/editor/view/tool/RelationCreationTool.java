@@ -10,7 +10,7 @@ public class RelationCreationTool extends ConnectionCreationTool {
 
     @Override
     protected boolean handleCreateConnection() {
-        final CreateRelationshipByNewColumnCommand command = (CreateRelationshipByNewColumnCommand) this.getCommand();
+        final CreateRelationshipByNewColumnCommand command = (CreateRelationshipByNewColumnCommand) getCommand();
 
         if (command == null) {
             return false;
@@ -22,7 +22,7 @@ public class RelationCreationTool extends ConnectionCreationTool {
         if (ERTable.isRecursive(source, target)) {
             Activator.showErrorDialog("error.recursive.relation");
 
-            this.eraseSourceFeedback();
+            eraseSourceFeedback();
 
             return false;
         }

@@ -23,8 +23,8 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TypeData(Integer length, Integer decimal, boolean array, Integer arrayDimension, boolean unsigned, String args,
-            boolean charSemantics) {
+    public TypeData(Integer length, Integer decimal, boolean array, Integer arrayDimension,
+            boolean unsigned, String args, boolean charSemantics) {
         super();
         this.length = length;
         this.decimal = decimal;
@@ -43,7 +43,7 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
         if (o == null) {
             return -1;
         }
-        if (this.length == null) {
+        if (length == null) {
             if (o.length != null) {
                 return 1;
             }
@@ -51,12 +51,12 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
             if (o.length == null) {
                 return -1;
             }
-            final int value = this.length.compareTo(o.length);
+            final int value = length.compareTo(o.length);
             if (value != 0) {
                 return value;
             }
         }
-        if (this.decimal == null) {
+        if (decimal == null) {
             if (o.decimal != null) {
                 return 1;
             }
@@ -64,19 +64,19 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
             if (o.decimal == null) {
                 return -1;
             }
-            final int value = this.decimal.compareTo(o.decimal);
+            final int value = decimal.compareTo(o.decimal);
             if (value != 0) {
                 return value;
             }
         }
-        if (this.array != o.array) {
-            if (this.array) {
+        if (array != o.array) {
+            if (array) {
                 return -1;
             }
 
             return 1;
         }
-        if (this.arrayDimension == null) {
+        if (arrayDimension == null) {
             if (o.arrayDimension != null) {
                 return 1;
             }
@@ -84,19 +84,19 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
             if (o.arrayDimension == null) {
                 return -1;
             }
-            final int value = this.arrayDimension.compareTo(o.arrayDimension);
+            final int value = arrayDimension.compareTo(o.arrayDimension);
             if (value != 0) {
                 return value;
             }
         }
-        if (this.unsigned != o.unsigned) {
-            if (this.unsigned) {
+        if (unsigned != o.unsigned) {
+            if (unsigned) {
                 return 1;
             } else {
                 return -1;
             }
         }
-        if (this.args == null) {
+        if (args == null) {
             if (o.args != null) {
                 return 1;
             }
@@ -104,13 +104,13 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
             if (o.args == null) {
                 return -1;
             }
-            final int value = this.args.compareTo(o.args);
+            final int value = args.compareTo(o.args);
             if (value != 0) {
                 return value;
             }
         }
-        if (this.charSemantics != o.charSemantics) {
-            if (this.charSemantics) {
+        if (charSemantics != o.charSemantics) {
+            if (charSemantics) {
                 return 1;
             } else {
                 return -1;
@@ -123,7 +123,6 @@ public class TypeData implements Serializable, Cloneable, Comparable<TypeData> {
     public TypeData clone() {
         try {
             return (TypeData) super.clone();
-
         } catch (final CloneNotSupportedException e) {}
 
         return null;

@@ -19,8 +19,8 @@ public class XYChopboxAnchor extends ChopboxAnchor {
 
     @Override
     public Point getLocation(Point reference) {
-        if (this.location != null) {
-            Point point = new Point(this.location);
+        if (location != null) {
+            final Point point = new Point(location);
             getOwner().translateToAbsolute(point);
             return point;
         }
@@ -30,8 +30,8 @@ public class XYChopboxAnchor extends ChopboxAnchor {
 
     @Override
     public Point getReferencePoint() {
-        if (this.location != null) {
-            Point point = new Point(this.location);
+        if (location != null) {
+            final Point point = new Point(location);
             getOwner().translateToAbsolute(point);
             return point;
         }

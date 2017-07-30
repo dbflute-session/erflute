@@ -31,10 +31,9 @@ public class ReplaceManager {
     private static final int[] EXCLUDE_TYPES = new int[] { SearchResultRow.TYPE_INDEX_COLUMN_NAME, SearchResultRow.TYPE_WORD_TYPE,
             SearchResultRow.TYPE_COLUMN_TYPE, SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_TYPE };
 
-    private static final List<String> replaceWordList = new ArrayList<String>();
+    private static final List<String> replaceWordList = new ArrayList<>();
 
     public static ReplaceResult replace(int type, Object object, String keyword, String replaceWord, String database) {
-
         addReplaceWord(replaceWord);
 
         for (final int excludeType : EXCLUDE_TYPES) {
@@ -51,7 +50,6 @@ public class ReplaceManager {
             final String original = relation.getForeignKeyName();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -59,13 +57,11 @@ public class ReplaceManager {
             relation.setForeignKeyName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_INDEX_NAME) {
             final ERIndex index = (ERIndex) object;
             final String original = index.getName();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -73,7 +69,6 @@ public class ReplaceManager {
             index.setName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_INDEX_COLUMN_NAME) {
 
             return null;
@@ -83,7 +78,6 @@ public class ReplaceManager {
             final String original = note.getNoteText();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -91,13 +85,11 @@ public class ReplaceManager {
             note.setNoteText(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_MODEL_PROPERTY_NAME) {
             final NameValue property = (NameValue) object;
             final String original = property.getName();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -105,13 +97,11 @@ public class ReplaceManager {
             property.setName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_MODEL_PROPERTY_VALUE) {
             final NameValue property = (NameValue) object;
             final String original = property.getValue();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -119,13 +109,11 @@ public class ReplaceManager {
             property.setValue(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_TABLE_PHYSICAL_NAME) {
             final ERTable table = (ERTable) object;
             final String original = table.getPhysicalName();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -133,13 +121,11 @@ public class ReplaceManager {
             table.setPhysicalName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_TABLE_LOGICAL_NAME) {
             final ERTable table = (ERTable) object;
             final String original = table.getLogicalName();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -147,13 +133,11 @@ public class ReplaceManager {
             table.setLogicalName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_PHYSICAL_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME) {
             final NormalColumn column = (NormalColumn) object;
             final String original = column.getForeignKeyPhysicalName();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -161,26 +145,21 @@ public class ReplaceManager {
             column.setForeignKeyPhysicalName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_LOGICAL_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME) {
             final NormalColumn column = (NormalColumn) object;
             final String original = column.getForeignKeyLogicalName();
 
             final String str = replace(original, keyword, replaceWord);
-
             checkRequired(type, str);
 
             column.setForeignKeyLogicalName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_DEFAULT_VALUE || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_DEFAULT_VALUE) {
-
             final NormalColumn column = (NormalColumn) object;
             final String original = column.getDefaultValue();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -188,13 +167,11 @@ public class ReplaceManager {
             column.setDefaultValue(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_COMMENT) {
             final NormalColumn column = (NormalColumn) object;
             final String original = column.getForeignKeyDescription();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -202,13 +179,11 @@ public class ReplaceManager {
             column.setForeignKeyDescription(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_GROUP_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_COMMENT) {
             final ColumnGroup group = (ColumnGroup) object;
             final String original = group.getGroupName();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -221,7 +196,6 @@ public class ReplaceManager {
             final String original = word.getPhysicalName();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -229,25 +203,21 @@ public class ReplaceManager {
             word.setPhysicalName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_WORD_LOGICAL_NAME) {
             final Word word = (Word) object;
             final String original = word.getLogicalName();
 
             final String str = replace(original, keyword, replaceWord);
-
             checkRequired(type, str);
 
             word.setLogicalName(str);
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_WORD_LENGTH) {
             final Word word = (Word) object;
             final String original = String.valueOf(word.getTypeData().getLength());
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -263,7 +233,6 @@ public class ReplaceManager {
             }
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_WORD_DECIMAL) {
             final Word word = (Word) object;
             final String original = String.valueOf(word.getTypeData().getDecimal());
@@ -285,13 +254,11 @@ public class ReplaceManager {
             }
 
             return new ReplaceResult(original);
-
         } else if (type == SearchResultRow.TYPE_WORD_COMMENT) {
             final Word word = (Word) object;
             final String original = word.getDescription();
 
             final String str = replace(original, keyword, replaceWord);
-
             if (!checkRequired(type, str)) {
                 return null;
             }
@@ -372,69 +339,42 @@ public class ReplaceManager {
     }
 
     public static void undo(int type, Object object, String str) {
-
         if (type == SearchResultRow.TYPE_RELATION_NAME) {
             final Relationship relation = (Relationship) object;
-
             relation.setForeignKeyName(str);
-
         } else if (type == SearchResultRow.TYPE_INDEX_NAME) {
             final ERIndex index = (ERIndex) object;
-
             index.setName(str);
-
-        } else if (type == SearchResultRow.TYPE_INDEX_COLUMN_NAME) {
-
-        } else if (type == SearchResultRow.TYPE_NOTE) {
+        } else if (type == SearchResultRow.TYPE_INDEX_COLUMN_NAME) {} else if (type == SearchResultRow.TYPE_NOTE) {
             final WalkerNote note = (WalkerNote) object;
-
             note.setNoteText(str);
-
         } else if (type == SearchResultRow.TYPE_MODEL_PROPERTY_NAME) {
             final NameValue property = (NameValue) object;
-
             property.setName(str);
-
         } else if (type == SearchResultRow.TYPE_MODEL_PROPERTY_VALUE) {
             final NameValue property = (NameValue) object;
-
             property.setValue(str);
-
         } else if (type == SearchResultRow.TYPE_TABLE_PHYSICAL_NAME) {
             final ERTable table = (ERTable) object;
-
             table.setPhysicalName(str);
-
         } else if (type == SearchResultRow.TYPE_TABLE_LOGICAL_NAME) {
             final ERTable table = (ERTable) object;
-
             table.setLogicalName(str);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_PHYSICAL_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_PHYSICAL_NAME) {
             final NormalColumn column = (NormalColumn) object;
-
             column.setForeignKeyPhysicalName(str);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_LOGICAL_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_LOGICAL_NAME) {
             final NormalColumn column = (NormalColumn) object;
-
             column.setForeignKeyLogicalName(str);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_DEFAULT_VALUE || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_DEFAULT_VALUE) {
             final NormalColumn column = (NormalColumn) object;
-
             column.setDefaultValue(str);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_COMMENT) {
             final NormalColumn column = (NormalColumn) object;
-
             column.setForeignKeyDescription(str);
-
         } else if (type == SearchResultRow.TYPE_COLUMN_GROUP_NAME || type == SearchResultRow.TYPE_COLUMN_GROUP_COLUMN_COMMENT) {
             final ColumnGroup group = (ColumnGroup) object;
-
             group.setGroupName(str);
-
         }
     }
 }

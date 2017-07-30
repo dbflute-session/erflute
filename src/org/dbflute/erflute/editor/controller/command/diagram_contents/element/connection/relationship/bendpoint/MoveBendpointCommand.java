@@ -7,13 +7,10 @@ import org.eclipse.gef.ConnectionEditPart;
 
 public class MoveBendpointCommand extends AbstractCommand {
 
-    private ConnectionEditPart editPart;
-
-    private Bendpoint bendPoint;
-
+    private final ConnectionEditPart editPart;
+    private final Bendpoint bendPoint;
     private Bendpoint oldBendpoint;
-
-    private int index;
+    private final int index;
 
     public MoveBendpointCommand(ConnectionEditPart editPart, int x, int y, int index) {
         this.editPart = editPart;
@@ -23,15 +20,14 @@ public class MoveBendpointCommand extends AbstractCommand {
 
     @Override
     protected void doExecute() {
-        WalkerConnection connection = (WalkerConnection) editPart.getModel();
-
+        final WalkerConnection connection = (WalkerConnection) editPart.getModel();
         this.oldBendpoint = connection.getBendpoints().get(index);
-        connection.replaceBendpoint(index, this.bendPoint);
+        connection.replaceBendpoint(index, bendPoint);
     }
 
     @Override
     protected void doUndo() {
-        WalkerConnection connection = (WalkerConnection) editPart.getModel();
-        connection.replaceBendpoint(index, this.oldBendpoint);
+        final WalkerConnection connection = (WalkerConnection) editPart.getModel();
+        connection.replaceBendpoint(index, oldBendpoint);
     }
 }

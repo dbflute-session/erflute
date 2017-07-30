@@ -34,18 +34,17 @@ public class ImportFromDBAction extends AbstractImportAction {
 
     public ImportFromDBAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.import.db"), editor);
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.DATABASE));
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.DATABASE));
     }
 
     protected AbstractSelectImportedObjectDialog createSelectImportedObjectDialog(DBObjectSet dbObjectSet) {
-        final ERDiagram diagram = this.getDiagram();
-
+        final ERDiagram diagram = getDiagram();
         return new SelectImportedObjectFromDBDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram, dbObjectSet);
     }
 
     @Override
     public void execute(Event event) throws Exception {
-        final ERDiagram diagram = this.getDiagram();
+        final ERDiagram diagram = getDiagram();
 
         int step = 0;
         int dialogResult = -1;
@@ -56,19 +55,16 @@ public class ImportFromDBAction extends AbstractImportAction {
         while (true) {
             if (step == -1) {
                 break;
-
             } else if (step == 0) {
                 final ImportDBSettingDialog settingDialog =
                         new ImportDBSettingDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram);
                 dialogResult = settingDialog.open();
 
-                this.dbSetting = settingDialog.getDbSetting();
-
+                dbSetting = settingDialog.getDbSetting();
             } else {
-                final DBManager manager = DBManagerFactory.getDBManager(this.dbSetting.getDbsystem());
+                final DBManager manager = DBManagerFactory.getDBManager(dbSetting.getDbsystem());
 
                 Connection con = null;
-
                 try {
                     con = dbSetting.connect();
 
@@ -77,8 +73,8 @@ public class ImportFromDBAction extends AbstractImportAction {
 
                         if (!schemaList.isEmpty()) {
                             final SelectImportedSchemaDialog selectDialog =
-                                    new SelectImportedSchemaDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), diagram,
-                                            this.dbSetting.getDbsystem(), schemaList, selectedSchemaList);
+                                    new SelectImportedSchemaDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                            diagram, dbSetting.getDbsystem(), schemaList, selectedSchemaList);
 
                             dialogResult = selectDialog.open();
 
@@ -86,27 +82,25 @@ public class ImportFromDBAction extends AbstractImportAction {
                         }
                     } else if (step == 2) {
                         final PreImportFromDBManager preTableImportManager = manager.getPreTableImportManager();
-                        preTableImportManager.init(con, this.dbSetting, diagram, selectedSchemaList);
+                        preTableImportManager.init(con, dbSetting, diagram, selectedSchemaList);
                         preTableImportManager.run();
 
                         final Exception e = preTableImportManager.getException();
                         if (e != null) {
                             Activator.showMessageDialog(e.getMessage());
                             throw new InputException("error.jdbc.version");
-
                         }
 
                         final DBObjectSet dbObjectSet = preTableImportManager.getImportObjects();
 
-                        importDialog = this.createSelectImportedObjectDialog(dbObjectSet);
+                        importDialog = createSelectImportedObjectDialog(dbObjectSet);
 
                         dialogResult = importDialog.open();
-
                     } else if (step == 3) {
                         final ProgressMonitorDialog dialog =
                                 new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
                         final ImportFromDBManagerBase tableImportManager = (ImportFromDBManagerBase) manager.getTableImportManager();
-                        tableImportManager.init(con, this.dbSetting, diagram, importDialog.getSelectedDbObjects(),
+                        tableImportManager.init(con, dbSetting, diagram, importDialog.getSelectedDbObjects(),
                                 importDialog.isUseCommentAsLogicalName(), importDialog.isMergeWord());
 
                         try {
@@ -115,10 +109,8 @@ public class ImportFromDBAction extends AbstractImportAction {
                             final Exception e1 = tableImportManager.getException();
                             if (e1 != null) {
                                 throw e1;
-
                             } else {
                                 this.importedNodeElements = new ArrayList<>();
-
                                 this.importedNodeElements.addAll(tableImportManager.getImportedTables());
                                 this.importedNodeElements.addAll(tableImportManager.getImportedViews());
                                 this.importedSequences = tableImportManager.getImportedSequences();
@@ -131,7 +123,7 @@ public class ImportFromDBAction extends AbstractImportAction {
                             Activator.showExceptionDialog(e1);
                         }
 
-                        this.showData();
+                        showData();
 
                         break;
                     }
@@ -144,10 +136,8 @@ public class ImportFromDBAction extends AbstractImportAction {
 
             if (dialogResult == IDialogConstants.OK_ID) {
                 step++;
-
             } else if (dialogResult == IDialogConstants.BACK_ID) {
                 step--;
-
             } else {
                 step = -1;
             }

@@ -9,7 +9,7 @@ public abstract class AbstractCreateRelationshipCommand extends AbstractCreateCo
 
     @Override
     public String validate() {
-        ERTable sourceTable = (ERTable) this.getSourceModel();
+        final ERTable sourceTable = (ERTable) getSourceModel();
 
         if (!sourceTable.isReferable()) {
             return DisplayMessages.getMessage("error.no.referenceable.column");
@@ -24,7 +24,7 @@ public abstract class AbstractCreateRelationshipCommand extends AbstractCreateCo
             return false;
         }
 
-        if (!(this.getSourceModel() instanceof ERTable) || !(this.getTargetModel() instanceof TableView)) {
+        if (!(getSourceModel() instanceof ERTable) || !(getTargetModel() instanceof TableView)) {
             return false;
         }
 

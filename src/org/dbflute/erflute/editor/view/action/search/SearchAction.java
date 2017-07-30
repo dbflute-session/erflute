@@ -16,18 +16,16 @@ public class SearchAction extends AbstractBaseAction {
 
     public SearchAction(MainDiagramEditor editor) {
         super(ID, DisplayMessages.getMessage("action.title.find"), editor);
-        this.setActionDefinitionId("org.eclipse.ui.edit.findReplace");
-        this.setImageDescriptor(Activator.getImageDescriptor(ImageKey.FIND));
+        setActionDefinitionId("org.eclipse.ui.edit.findReplace");
+        setImageDescriptor(Activator.getImageDescriptor(ImageKey.FIND));
     }
 
     @Override
     public void execute(Event event) {
-        ERDiagram diagram = this.getDiagram();
-
-        SearchDialog dialog =
-                new SearchDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), this.getGraphicalViewer(),
-                        getEditorPart(), diagram);
-
+        final ERDiagram diagram = getDiagram();
+        final SearchDialog dialog =
+                new SearchDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        getGraphicalViewer(), getEditorPart(), diagram);
         dialog.open();
     }
 }

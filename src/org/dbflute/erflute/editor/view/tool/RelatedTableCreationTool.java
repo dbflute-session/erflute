@@ -9,7 +9,7 @@ public class RelatedTableCreationTool extends ConnectionCreationTool {
 
     @Override
     protected boolean handleCreateConnection() {
-        final CreateRelatedTableCommand command = (CreateRelatedTableCommand) this.getCommand();
+        final CreateRelatedTableCommand command = (CreateRelatedTableCommand) getCommand();
 
         if (command != null) {
             final ERTable target = (ERTable) command.getTargetModel();
@@ -17,7 +17,7 @@ public class RelatedTableCreationTool extends ConnectionCreationTool {
             if (!target.isReferable()) {
                 Activator.showErrorDialog("error.no.referenceable.column");
 
-                this.eraseSourceFeedback();
+                eraseSourceFeedback();
 
                 return false;
             }

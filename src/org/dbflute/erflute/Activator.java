@@ -432,7 +432,6 @@ public class Activator extends AbstractUIPlugin {
                 imageGC.setLineStyle(figureCanvasGC.getLineStyle());
                 imageGC.setLineWidth(figureCanvasGC.getLineWidth());
                 imageGC.setAntialias(SWT.OFF);
-                // imageGC.setInterpolation(SWT.HIGH);
 
                 final Graphics imgGraphics = new SWTGraphics(imageGC);
                 imgGraphics.setBackgroundColor(figureCanvas.getBackground());

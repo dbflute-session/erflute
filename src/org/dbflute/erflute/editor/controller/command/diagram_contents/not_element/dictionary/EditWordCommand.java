@@ -7,36 +7,30 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.dictionary.
 
 public class EditWordCommand extends AbstractCommand {
 
-    private Word oldWord;
-
-    private Word word;
-
-    private Word newWord;
-
-    private ERDiagram diagram;
-
-    private Dictionary dictionary;
+    private final Word oldWord;
+    private final Word word;
+    private final Word newWord;
+    private final ERDiagram diagram;
+    private final Dictionary dictionary;
 
     public EditWordCommand(Word word, Word newWord, ERDiagram diagram) {
-        this.oldWord =
-                new Word(word.getPhysicalName(), word.getLogicalName(), word.getType(), word.getTypeData().clone(), word.getDescription(),
-                        diagram.getDatabase());
+        this.oldWord = new Word(word.getPhysicalName(), word.getLogicalName(), word.getType(),
+                word.getTypeData().clone(), word.getDescription(), diagram.getDatabase());
         this.diagram = diagram;
         this.word = word;
         this.newWord = newWord;
-
-        this.dictionary = this.diagram.getDiagramContents().getDictionary();
+        this.dictionary = diagram.getDiagramContents().getDictionary();
     }
 
     @Override
     protected void doExecute() {
-        this.dictionary.copyTo(newWord, word);
-        this.diagram.changeAll();
+        dictionary.copyTo(newWord, word);
+        diagram.changeAll();
     }
 
     @Override
     protected void doUndo() {
-        this.dictionary.copyTo(oldWord, word);
-        this.diagram.changeAll();
+        dictionary.copyTo(oldWord, word);
+        diagram.changeAll();
     }
 }
