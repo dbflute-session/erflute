@@ -68,7 +68,7 @@ public class WrittenColumnBuilder {
         //if (wordId != null) {
         //    xml.append("\t<word_id>").append(wordId).append("</word_id>\n");
         //}
-        final Word word = normalColumn.getWord();
+        final Word word = getColumnWord(normalColumn);
         setupName(normalColumn, xml, word); // name first to be read-able XML e.g. physical_name
         setupType(normalColumn, xml, word); // e.g. type, length
         if (context != null) { // needed? by jflute
@@ -85,6 +85,17 @@ public class WrittenColumnBuilder {
         setupAutoIncrementSetting(normalColumn, xml);
         xml.append("</normal_column>\n");
         return xml.toString();
+    }
+
+    // TODO ymd 技術的負債。場当たり的な実装。
+    // getColumn自体を変更すると、他に問題が出るため(例：外部キー作成のundoでエラーが発生する等)以下のような実装にした。
+    // 代替案があれば、それに変更すること。
+    private Word getColumnWord(NormalColumn column) {
+        if (column.isForeignKey()) {
+            return null;
+        } else {
+            return column.getWord();
+        }
     }
 
     private void setupName(NormalColumn normalColumn, StringBuilder xml, Word word) {
