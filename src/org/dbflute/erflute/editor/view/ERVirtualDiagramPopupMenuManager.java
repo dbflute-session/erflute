@@ -162,6 +162,7 @@ public class ERVirtualDiagramPopupMenuManager extends MenuManager {
 
         add(prepareImportMenu(sharedImages));
         add(prepareExportMenu(sharedImages));
+        add(new Separator());
 
         add(getAction(VirtualDiagramAddAction.ID));
         add(new Separator());
