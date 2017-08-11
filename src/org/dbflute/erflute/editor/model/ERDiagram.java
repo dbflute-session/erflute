@@ -139,7 +139,7 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
         }
 
         diagramContents.getDiagramWalkers().remove(walker);
-        if (walker instanceof ERTable) {
+        if (walker instanceof ERTable && !(walker instanceof ERVirtualTable)) {
             // メインビューのテーブルを削除したときは、仮想ビューのノードも削除（線が消えずに残ってしまう）
             for (final ERVirtualDiagram vdiagram : getDiagramContents().getVirtualDiagramSet()) {
                 final ERVirtualTable vtable = vdiagram.findVirtualTable((TableView) walker);
