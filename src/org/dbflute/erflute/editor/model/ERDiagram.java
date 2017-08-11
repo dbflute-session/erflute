@@ -65,7 +65,7 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     private DBSettings dbSettings;
     private PageSettings pageSetting;
     private Point mousePoint = new Point();
-    private String defaultModelName;
+    private String defaultDiagramName;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -139,7 +139,7 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
         }
 
         diagramContents.getDiagramWalkers().remove(walker);
-        if (walker instanceof ERTable) {
+        if (walker instanceof ERTable && !(walker instanceof ERVirtualTable)) {
             // メインビューのテーブルを削除したときは、仮想ビューのノードも削除（線が消えずに残ってしまう）
             for (final ERVirtualDiagram vdiagram : getDiagramContents().getVirtualDiagramSet()) {
                 final ERVirtualTable vtable = vdiagram.findVirtualTable((TableView) walker);
@@ -244,18 +244,18 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     public void addCategory(Category category) {
         category.setColor(defaultColor[0], defaultColor[1], defaultColor[2]);
         getDiagramContents().getSettings().getCategorySetting().addCategoryAsSelected(category);
-        editor.initVirtualPages();
+        editor.initVirtualPage();
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void removeCategory(Category category) {
         getDiagramContents().getSettings().getCategorySetting().removeCategory(category);
-        editor.initVirtualPages();
+        editor.initVirtualPage();
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
     public void restoreCategories() {
-        editor.initVirtualPages();
+        editor.initVirtualPage();
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
     }
 
@@ -276,7 +276,7 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
 
     public void setSettings(DiagramSettings settings) {
         getDiagramContents().setSettings(settings);
-        editor.initVirtualPages();
+        editor.activatePage();
 
         firePropertyChange(PROPERTY_CHANGE_SETTINGS, null, null);
         firePropertyChange(DiagramWalkerSet.PROPERTY_CHANGE_DIAGRAM_WALKER, null, null);
@@ -346,10 +346,10 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     public void setCurrentVirtualDiagram(ERVirtualDiagram vdiagram) {
         this.currentVirtualDiagram = vdiagram;
         if (vdiagram != null) {
-            this.defaultModelName = vdiagram.getName();
+            this.defaultDiagramName = vdiagram.getName();
             vdiagram.changeAll();
         } else {
-            this.defaultModelName = null;
+            this.defaultDiagramName = null;
         }
     }
 
@@ -422,8 +422,8 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
         this.disableSelectColumn = disableSelectColumn;
     }
 
-    public String getDefaultModelName() {
-        return defaultModelName;
+    public String getDefaultDiagramName() {
+        return defaultDiagramName;
     }
 
     @Override

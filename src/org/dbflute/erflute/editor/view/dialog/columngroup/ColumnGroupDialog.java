@@ -85,6 +85,11 @@ public class ColumnGroupDialog extends AbstractDialog implements ERTableComposit
 
     @Override
     protected void performOK() {
+        if (copyColumnGroups.isEmpty()) {
+            return;
+        }
+
+        copyColumnGroups.get(0).setGroupName(groupNameText.getText());
     }
 
     public List<CopyColumnGroup> getCopyColumnGroups() {
