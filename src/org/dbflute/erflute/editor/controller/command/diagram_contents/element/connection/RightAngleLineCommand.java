@@ -108,9 +108,6 @@ public class RightAngleLineCommand extends AbstractCommand {
 
                     final Bendpoint newBendpoint2 = new Bendpoint(x, targetY);
                     this.newBendpointList.add(newBendpoint2);
-
-                    //				} else if (targetRectangle.x - SPACE < sourceX
-                    //						&& targetRectangle.x + targetRectangle.width + SPACE > sourceX) {
                 } else {
                     int y = 0;
 
@@ -125,10 +122,6 @@ public class RightAngleLineCommand extends AbstractCommand {
 
                     final Bendpoint newBendpoint2 = new Bendpoint(this.targetX, y);
                     this.newBendpointList.add(newBendpoint2);
-
-                    //				} else {
-                    //					Bendpoint newBendpoint = new Bendpoint(sourceX, targetY);
-                    //					this.newBendpointList.add(newBendpoint);
                 }
             }
         }

@@ -47,11 +47,6 @@ public abstract class ComboContributionItem extends ContributionItem {
 
     protected Control createControl(Composite parent) {
         this.combo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
-        // FontData fontData =
-        // Display.getCurrent().getSystemFont().getFontData()[0];
-        // Font font = new Font(Display.getCurrent(), fontData.getName(), 7,
-        // SWT.NORMAL);
-        // this.combo.setFont(font);
         setData(combo);
 
         combo.addSelectionListener(new SelectionListener() {

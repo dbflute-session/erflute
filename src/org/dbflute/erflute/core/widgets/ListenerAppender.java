@@ -86,7 +86,6 @@ public class ListenerAppender {
 
             @Override
             public void focusLost(FocusEvent e) {
-                // text.clearSelection();
                 super.focusLost(e);
             }
         });

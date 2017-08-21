@@ -81,7 +81,6 @@ public class WordDialog extends AbstractWordDialog {
         if (argsText != null) {
             args = argsText.getText();
         }
-        // TODO jflute xxxxxxxxxxx (2016/10/28)
         final TypeData typeData = new TypeData(length, decimal, array, arrayDimension, unsigned, args, false);
         returnWord = new Word(physicalNameText.getText(), logicalNameText.getText(),
                 selectedType, typeData, descriptionText.getText(), database);

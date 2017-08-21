@@ -105,15 +105,6 @@ public class NormalColumnEditPart extends ColumnEditPart {
             displayType = true;
         }
 
-        //		List<ERVirtualTable> tables = diagram.getCurrentErmodel().getTables();
-        //		for (ERVirtualTable vtable : tables) {
-        //			tableFigure.getName();
-        //			//vtable.getName()
-        //
-        //		}
-
-        //diagram.getDiagramContents().get
-
         tableFigure.addColumn(table, normalColumn, columnFigure, diagram.getDiagramContents().getSettings().getViewMode(),
                 diagram.filter(normalColumn.getPhysicalName()), diagram.filter(normalColumn.getLogicalName()), type,
                 normalColumn.isPrimaryKey(), normalColumn.isForeignKey(), normalColumn.isNotNull(), normalColumn.isUniqueKey(), displayKey,

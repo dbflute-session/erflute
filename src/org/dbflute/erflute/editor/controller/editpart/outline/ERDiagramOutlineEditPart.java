@@ -70,17 +70,6 @@ public class ERDiagramOutlineEditPart extends AbstractOutlineEditPart {
         //		}
     }
 
-    //private Map<DiagramWalker, EditPart> getModelToEditPart() {
-    //    final Map<DiagramWalker, EditPart> modelToEditPart = new HashMap<DiagramWalker, EditPart>();
-    //    @SuppressWarnings("unchecked")
-    //    final List<EditPart> children = getChildren();
-    //    for (int i = 0; i < children.size(); i++) {
-    //        final EditPart editPart = children.get(i);
-    //        modelToEditPart.put((DiagramWalker) editPart.getModel(), editPart);
-    //    }
-    //    return modelToEditPart;
-    //}
-
     @Override
     protected void refreshOutlineVisuals() {
         for (final Object child : getChildren()) {

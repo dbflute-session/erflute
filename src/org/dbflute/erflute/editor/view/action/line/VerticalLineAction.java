@@ -30,8 +30,6 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
         super(ID, DisplayMessages.getMessage("action.title.vertical.line"), editor);
 
         setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));
-        //		this.setDisabledImageDescriptor(Activator
-        //				.getImageDescriptor(ImageKey.VERTICAL_LINE_DISABLED));
         setToolTipText(DisplayMessages.getMessage("action.title.vertical.line"));
     }
 
@@ -180,8 +178,6 @@ public class VerticalLineAction extends AbstractBaseSelectionAction {
             super(ID, DisplayMessages.getMessage("action.title.vertical.line"));
 
             setImageDescriptor(Activator.getImageDescriptor(ImageKey.VERTICAL_LINE));
-            //			this.setDisabledImageDescriptor(Activator
-            //					.getImageDescriptor(ImageKey.VERTICAL_LINE_DISABLED));
             setToolTipText(DisplayMessages.getMessage("action.title.vertical.line"));
         }
     }

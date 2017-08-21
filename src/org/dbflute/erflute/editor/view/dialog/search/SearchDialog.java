@@ -550,21 +550,6 @@ public class SearchDialog extends Dialog {
                         } catch (final PartInitException e1) {
                             e1.printStackTrace();
                         }
-
-                        //					for (ERTable table : diagram.getDiagramContents().getContents().getTableSet()) {
-
-                        //						ERTable copyTable = table.copyData();
-                        //
-                        //						TableDialog dialog = new TableDialog(PlatformUI.getWorkbench()
-                        //								.getActiveWorkbenchWindow().getShell(), viewer,
-                        //								copyTable, diagram.getDiagramContents().getGroups());
-                        //
-                        //						if (dialog.open() == IDialogConstants.OK_ID) {
-                        //							CompoundCommand command = ERTableEditPart.createChangeTablePropertyCommand(diagram,
-                        //									table, copyTable);
-                        //
-                        //							viewer.getEditDomain().getCommandStack().execute(command.unwrap());
-                        //						}
                     }
                 }
             }

@@ -17,7 +17,7 @@ import org.dbflute.erflute.editor.controller.editpart.outline.vdiagram.ERVirtual
 import org.dbflute.erflute.editor.model.ERDiagram;
 import org.dbflute.erflute.editor.model.settings.DiagramSettings;
 import org.dbflute.erflute.editor.view.action.group.ColumnGroupManageAction;
-import org.dbflute.erflute.editor.view.action.outline.ChangeNameAction;
+import org.dbflute.erflute.editor.view.action.outline.ChangeVirtualDiagramNameAction;
 import org.dbflute.erflute.editor.view.action.outline.DeleteVirtualDiagramAction;
 import org.dbflute.erflute.editor.view.action.outline.index.CreateIndexAction;
 import org.dbflute.erflute.editor.view.action.outline.notation.type.ChangeOutlineViewToBothAction;
@@ -52,7 +52,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
         ACTION_MAP.put(GroupSetOutlineEditPart.class, ColumnGroupManageAction.ID);
         ACTION_MAP.put(TableOutlineEditPart.class, CreateIndexAction.ID);
         ACTION_MAP.put(TablespaceSetOutlineEditPart.class, CreateTablespaceAction.ID);
-        ACTION_MAP.put(ERVirtualDiagramOutlineEditPart.class, ChangeNameAction.ID);
+        ACTION_MAP.put(ERVirtualDiagramOutlineEditPart.class, ChangeVirtualDiagramNameAction.ID);
         ACTION_MAP.put(ERVirtualDiagramOutlineEditPart.class, DeleteVirtualDiagramAction.ID);
     }
 
@@ -65,7 +65,7 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
             this.actionRegistry = actionRegistry;
             this.outlineActionRegistry = outlineActionRegistry;
 
-            add(getAction(ChangeNameAction.ID));
+            add(getAction(ChangeVirtualDiagramNameAction.ID));
             add(getAction(ColumnGroupManageAction.ID));
             add(getAction(CreateSequenceAction.ID));
             add(getAction(CreateTriggerAction.ID));
@@ -103,7 +103,6 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
                                         && !menuItem.getId().equals(ChangeOutlineViewOrderByPhysicalNameAction.ID)
                                         && !menuItem.getId().equals(ChangeOutlineViewOrderByLogicalNameAction.ID)) {
                                     enabled(menuItem.getId(), false);
-                                    // menuItem.setVisible(false);
                                 }
                             }
                         } else {
@@ -178,12 +177,5 @@ public class ERDiagramOutlinePopupMenuManager extends MenuManager {
     private void enabled(String id, boolean enabled) {
         final IAction action = getAction(id);
         action.setEnabled(enabled);
-
-        // for (IContributionItem menuItem : getItems()) {
-        // if (menuItem.getId().equals(id)) {
-        // menuItem.setVisible(enabled);
-        // break;
-        // }
-        // }
     }
 }

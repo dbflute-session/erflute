@@ -94,13 +94,12 @@ public class ERVirtualDiagram extends DiagramWalker implements IERDiagram {
     }
 
     public ERVirtualTable findVirtualTable(TableView table) {
-        ERVirtualTable ret = null;
         for (final ERVirtualTable vtable : tables) {
-            if (vtable.getRawTable().equals(table)) {
-                ret = vtable;
+            if (vtable.getRawTable().getName().equals(table.getName())) {
+                return vtable;
             }
         }
-        return ret;
+        return null;
     }
 
     public void deleteRelationship(Relationship relation) {

@@ -45,8 +45,6 @@ public class ColumnSelectionHandlesEditPolicy extends NonResizableEditPolicy {
     protected List<Object> createSelectionHandles() {
         final List<Object> list = new ArrayList<>();
         getHost().getRoot().getContents().refresh();
-        // NonResizableHandleKit.addHandles((GraphicalEditPart) getHost(), list,
-        // new SelectEditPartTracker(getHost()), SharedCursors.ARROW);
         return list;
     }
 

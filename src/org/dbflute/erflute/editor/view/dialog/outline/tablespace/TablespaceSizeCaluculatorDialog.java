@@ -301,17 +301,6 @@ public class TablespaceSizeCaluculatorDialog extends AbstractDialog implements E
                 getValue(kcbhText) + getValue(ub4Text) + getValue(ktbbhText)
                         + ((initrans - 1) * getValue(ktbitText)) + getValue(kdbhText);
 
-        // 20 + 4 + 48 + (1-1) * 24 + 14;
-
-        // this.kcbh = 20;
-        // this.ub4 = 4;
-        // this.ktbbh = 48;
-        // this.ktbit = 24;
-        // this.kdbh = 14;
-        // this.kdbt = 4;
-        // this.ub1 = 1;
-        // this.sb2 = 2;
-
         final double bytesOfDataPerBlock =
                 Math.ceil((getValue(dbBlockSizeText) - bytesOfBlockHeader) * (1 - (pctfree / 100))) + getValue(kdbtText);
 

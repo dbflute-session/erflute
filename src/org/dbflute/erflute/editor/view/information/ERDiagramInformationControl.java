@@ -127,10 +127,6 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
         outline.createControl(treeArea);
         outline.update();
 
-        //		treeViewer.getControl()
-
-        //		outline.getViewer().expandAll();
-        //		outline.setSelect(false);
         outline.getViewer().getControl().setForeground(foreground);
         outline.getViewer().getControl().setBackground(background);
         outline.getViewer().getControl().addKeyListener(new KeyAdapter() {
@@ -154,12 +150,6 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
         final TreeViewer treeViewer = (TreeViewer) outline.getViewer();
         final Tree tree = (Tree) treeViewer.getControl();
         expand(tree.getItems());
-
-        //		outline.getViewer().addDoubleClickListener(new IDoubleClickListener() {
-        //			public void doubleClick(DoubleClickEvent event) {
-        //				selectAndDispose();
-        //			}
-        //		});
     }
 
     private void selectAndDispose() {

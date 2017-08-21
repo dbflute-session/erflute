@@ -142,14 +142,6 @@ public class ImportFromFileAction extends AbstractImportAction {
             dbObjects.add(dbObject);
         }
 
-        //		for (Note note : loadedDiagram.getDiagramContents().getContents()
-        //				.getNoteSet()) {
-        //			DBObject dbObject = new DBObject(null, note.getName(),
-        //					DBObject.TYPE_NOTE);
-        //			dbObject.setModel(note);
-        //			dbObjects.add(dbObject);
-        //		}
-
         for (final Sequence sequence : loadedDiagram.getDiagramContents().getSequenceSet()) {
             final DBObject dbObject = new DBObject(sequence.getSchema(), sequence.getName(), DBObject.TYPE_SEQUENCE);
             dbObject.setModel(sequence);

@@ -83,14 +83,6 @@ public class ReadTablespaceLoader {
         final DB2TablespaceProperties properties = new DB2TablespaceProperties();
         properties.setBufferPoolName(getStringValue(element, "buffer_pool_name"));
         properties.setContainer(getStringValue(element, "container"));
-        // properties.setContainerDevicePath(getStringValue(element,
-        // "container_device_path"));
-        // properties.setContainerDirectoryPath(getStringValue(element,
-        // "container_directory_path"));
-        // properties.setContainerFilePath(getStringValue(element,
-        // "container_file_path"));
-        // properties.setContainerPageNum(getStringValue(element,
-        // "container_page_num"));
         properties.setExtentSize(getStringValue(element, "extent_size"));
         properties.setManagedBy(getStringValue(element, "managed_by"));
         properties.setPageSize(getStringValue(element, "page_size"));

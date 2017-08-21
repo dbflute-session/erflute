@@ -16,6 +16,7 @@ import org.dbflute.erflute.editor.controller.editpart.element.PagableFreeformRoo
 import org.dbflute.erflute.editor.controller.editpart.element.node.DiagramWalkerEditPart;
 import org.dbflute.erflute.editor.extension.ExtensionLoader;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.DiagramWalker;
 import org.dbflute.erflute.editor.view.ERDiagramGotoMarker;
 import org.dbflute.erflute.editor.view.ERDiagramPopupMenuManager;
@@ -82,7 +83,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.MouseWheelHandler;
@@ -122,25 +122,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
  */
 public class MainDiagramEditor extends GraphicalEditorWithPalette { // created by ERFluteMultiPageEditor
 
-    /*
-     * TODO ymd 技術的負債
-     * revealメソッドで選択したテーブルのEditPartを格納する。
-     * インスタンス(this)から、最後にQuick Outlineで検索したテーブルを取得する方法が分からなかったため、このような実装になった。
-     */
-    private static EditPart selectionEditPart;
-
-    protected static void selectEditPart(EditPart editPart) {
-        unselectEditPart();
-        selectionEditPart = editPart;
-        selectionEditPart.setSelected(EditPart.SELECTED_PRIMARY);
-    }
-
-    protected static void unselectEditPart() {
-        if (selectionEditPart != null) {
-            selectionEditPart.setSelected(EditPart.SELECTED_NONE);
-            selectionEditPart = null;
-        }
-    }
+    private static SelectionEditPartWrapper lastRevealedEditPart = new SelectionEditPartWrapper();
 
     // ===================================================================================
     //                                                                          Definition
@@ -172,7 +154,6 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         this.diagram = diagram;
         this.editPartFactory = editPartFactory;
         this.zoomComboContributionItem = zoomComboContributionItem;
-        this.outlinePage = outlinePage;
         this.propertySheetPage = new PropertySheetPage();
         this.propertySheetPage.setPropertySourceProvider(new ERDiagramPropertySourceProvider());
         try {
@@ -181,12 +162,22 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             Activator.showExceptionDialog(e);
         }
         setEditDomain(new DefaultEditDomain(this));
+        initializeOutlinePage(outlinePage);
+    }
+
+    /**
+     * アウトラインを初期化する。
+     * コンストラクタで呼ぶこと想定しているため、他で使う場合setOutlinePageにリファクタリングすること。
+     * @param outlinePage アウトライン。
+     */
+    protected void initializeOutlinePage(ERDiagramOutlinePage outlinePage) {
+        this.outlinePage = outlinePage;
         getSelectionSynchronizer().addViewer(outlinePage.getViewer());
     }
 
     // ===================================================================================
-    //                                                                               ???
-    //                                                                            ========
+    //                                                                    Various Override
+    //                                                                    ================
     @Override
     public void dispose() {
         getSelectionSynchronizer().removeViewer(outlinePage.getViewer());
@@ -218,9 +209,8 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
         prepareERDiagramPopupMenu(viewer);
 
-        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(
-                diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(), outlinePage.getViewer());
-        outlinePage.setContextMenu(outlineMenuMgr);
+        prepareERDiagramOutlinePopupMenu();
+
         this.gotoMaker = new ERDiagramGotoMarker(this);
     }
 
@@ -228,6 +218,12 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         final MenuManager menuMgr = new ERDiagramPopupMenuManager(getActionRegistry(), diagram);
         extensionLoader.addERDiagramPopupMenu(menuMgr, getActionRegistry());
         viewer.setContextMenu(menuMgr);
+    }
+
+    protected void prepareERDiagramOutlinePopupMenu() {
+        this.outlineMenuMgr = new ERDiagramOutlinePopupMenuManager(
+                diagram, getActionRegistry(), outlinePage.getOutlineActionRegistory(), outlinePage.getViewer());
+        outlinePage.setContextMenu(outlineMenuMgr);
     }
 
     @Override
@@ -253,6 +249,9 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         return super.getAdapter(type);
     }
 
+    // ===================================================================================
+    //                                                                        Manipulation
+    //                                                                        ============
     public void changeCategory() {
         outlinePage.setCategory(getEditDomain(), getGraphicalViewer(), getActionRegistry());
     }
@@ -291,7 +290,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 new ChangeNotationLevelToNameAndKeyAction(this), new ChangeNotationExpandGroupAction(this),
                 new ChangeDesignToFunnyAction(this), new ChangeDesignToFrameAction(this), new ChangeDesignToSimpleAction(this),
                 new ChangeCapitalAction(this), new ChangeStampAction(this), new ColumnGroupManageAction(this),
-                /* #deleted new ChangeTrackingAction(this), */ new OptionSettingAction(this),
+                /* #deleted new ChangeTrackingAction(this), */new OptionSettingAction(this),
                 /* #deleted new CategoryManageAction(this), */new ChangeFreeLayoutAction(this),
                 new ChangeShowReferredTablesAction(this), /* #deleted new TranslationManageAction(this), */
                 /* #deleted new TestDataCreateAction(this), */new ImportFromDBAction(this), new ImportFromFileAction(this),
@@ -389,7 +388,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
 
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-        unselectEditPart();
+        lastRevealedEditPart.clearSelection();
 
         final IEditorPart editorPart = getSite().getPage().getActiveEditor();
         if (editorPart instanceof ERFluteMultiPageEditor) {
@@ -438,6 +437,10 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         return getActionRegistry();
     }
 
+    public void runERDiagramQuickOutlineAction() {
+        getActionRegistry().getAction(ERDiagramQuickOutlineAction.ID).runWithEvent(null);
+    }
+
     // ===================================================================================
     //                                                                              Reveal
     //                                                                              ======
@@ -449,7 +452,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
                 final DiagramWalkerEditPart walkerEditPart = (DiagramWalkerEditPart) editPart;
                 if (((DiagramWalker) walkerEditPart.getModel()).sameMaterial(walker)) {
                     getGraphicalViewer().reveal(walkerEditPart);
-                    selectEditPart(walkerEditPart);
+                    lastRevealedEditPart.changeSelection(walkerEditPart);
                     return;
                 }
             }
@@ -461,6 +464,10 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     //                                                                            ========
     public ERDiagram getDiagram() {
         return diagram;
+    }
+
+    public String getName() {
+        return diagram.getName();
     }
 
     @Override
@@ -485,11 +492,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
         this.isDirty = isDirty;
     }
 
-    public void runERDiagramQuickOutlineAction() {
-        getActionRegistry().getAction(ERDiagramQuickOutlineAction.ID).runWithEvent(null);
-    }
-
-    public void setOutlinePage(ERDiagramOutlinePage outlinePage) {
-        this.outlinePage = outlinePage;
+    public boolean have(IERDiagram diagram) {
+        return this.diagram.equals(diagram);
     }
 }

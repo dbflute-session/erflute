@@ -210,42 +210,6 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
     @Override
     protected List<ERTable> importSynonyms() throws SQLException, InterruptedException {
         final List<ERTable> list = new ArrayList<>();
-
-        // if (this.isOnlyUserTable()) {
-        // PreparedStatement stmt = null;
-        // ResultSet rs = null;
-        //
-        // try {
-        // String sql =
-        // "SELECT SYNONYM_NAME, TABLE_OWNER, TABLE_NAME FROM USER_SYNONYMS";
-        //
-        // stmt = this.con.prepareStatement(sql);
-        // rs = stmt.executeQuery();
-        //
-        // while (rs.next()) {
-        // String tableName = rs.getString("TABLE_NAME");
-        // String schema = rs.getString("TABLE_OWNER");
-        // String tableNameWithSchema = DBSetting
-        // .getTableNameWithSchema(tableName, schema);
-        //
-        // if (!this.dbSetting.getUser().equalsIgnoreCase(schema)) {
-        // this.cashColumnData(schema, null, null);
-        //
-        // ERTable table = this.importTable(tableNameWithSchema
-        // , tableName, schema);
-        //
-        // if (table != null) {
-        // list.add(table);
-        // }
-        // }
-        // }
-        //
-        // } finally {
-        // this.close(rs);
-        // this.close(stmt);
-        // }
-        // }
-
         return list;
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.dbflute.erflute.editor.controller.editpart.element.ERDiagramEditPartFactory;
 import org.dbflute.erflute.editor.model.ERDiagram;
+import org.dbflute.erflute.editor.model.IERDiagram;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.ermodel.ERVirtualDiagram;
 import org.dbflute.erflute.editor.view.ERVirtualDiagramPopupMenuManager;
 import org.dbflute.erflute.editor.view.action.ermodel.PlaceTableAction;
@@ -35,6 +36,11 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
             ZoomComboContributionItem zoomComboContributionItem, ERDiagramOutlinePage outlinePage) {
         super(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
         this.vdiagram = vdiagram;
+    }
+
+    @Override
+    protected void initializeOutlinePage(ERDiagramOutlinePage outlinePage) {
+        this.outlinePage = outlinePage;
     }
 
     // ===================================================================================
@@ -93,5 +99,15 @@ public class VirtualDiagramEditor extends MainDiagramEditor { // created by ERFl
     //                                                                            ========
     public ERVirtualDiagram getVirtualDiagram() {
         return vdiagram;
+    }
+
+    @Override
+    public String getName() {
+        return getVirtualDiagram().getName();
+    }
+
+    @Override
+    public boolean have(IERDiagram diagram) {
+        return vdiagram.equals(diagram);
     }
 }

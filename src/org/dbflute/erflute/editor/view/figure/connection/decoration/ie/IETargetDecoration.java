@@ -20,6 +20,5 @@ public class IETargetDecoration extends ERDecoration {
 
         setTemplate(pointList);
         setScale(0.66, 0.66);
-        //		this.setScale(1, 1);
     }
 }

@@ -81,10 +81,6 @@ public class DB2TablespaceProperties implements TablespaceProperties {
 
         properties.bufferPoolName = bufferPoolName;
         properties.container = container;
-        // properties.containerDevicePath = this.containerDevicePath;
-        // properties.containerDirectoryPath = this.containerDirectoryPath;
-        // properties.containerFilePath = this.containerFilePath;
-        // properties.containerPageNum = this.containerPageNum;
         properties.extentSize = extentSize;
         properties.managedBy = managedBy;
         properties.pageSize = pageSize;

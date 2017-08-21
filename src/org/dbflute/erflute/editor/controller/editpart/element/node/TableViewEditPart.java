@@ -139,10 +139,6 @@ public abstract class TableViewEditPart extends DiagramWalkerEditPart implements
                     final IndexEditPart part = (IndexEditPart) child;
                     part.refreshTableColumns();
                 }
-                //              if (diagram.isShowMainColumn()) {
-                //              } else {
-                //                  part.refreshTableColumns(updated);
-                //              }
             }
             super.refreshVisuals();
             if (ERDiagramEditPart.isUpdateable()) {

@@ -26,14 +26,6 @@ public class DB2TablespaceDialog extends TablespaceDialog {
         this.pageSize = CompositeFactory.createText(this, composite, "label.tablespace.page.size", false);
         this.managedBy = CompositeFactory.createText(this, composite, "label.tablespace.managed.by", false);
         this.container = CompositeFactory.createText(this, composite, "label.tablespace.container", false);
-        // this.containerDirectoryPath = this.createText(composite,
-        // "label.tablespace.container.directory.path");
-        // this.containerFilePath = this.createText(composite,
-        // "label.tablespace.container.file.path");
-        // this.containerPageNum = this.createText(composite,
-        // "label.tablespace.container.page.num");
-        // this.containerDevicePath = this.createText(composite,
-        // "label.tablespace.container.device.path");
         this.extentSize = CompositeFactory.createText(this, composite, "label.tablespace.extent.size", false);
         this.prefetchSize = CompositeFactory.createText(this, composite, "label.tablespace.prefetch.size", false);
         this.bufferPoolName = CompositeFactory.createText(this, composite, "label.tablespace.buffer.pool.name", false);
@@ -47,13 +39,6 @@ public class DB2TablespaceDialog extends TablespaceDialog {
         tablespaceProperties.setPageSize(pageSize.getText().trim());
         tablespaceProperties.setManagedBy(managedBy.getText().trim());
         tablespaceProperties.setContainer(container.getText().trim());
-        // tablespaceProperties.setContainerDirectoryPath(this.containerDirectoryPath.getText()
-        // .trim());
-        // tablespaceProperties.setContainerFilePath(this.containerFilePath.getText().trim());
-        // tablespaceProperties.setContainerPageNum(this.containerPageNum.getText().trim());
-        // tablespaceProperties
-        // .setContainerDevicePath(this.containerDevicePath.getText()
-        // .trim());
         tablespaceProperties.setExtentSize(extentSize.getText().trim());
         tablespaceProperties.setPrefetchSize(prefetchSize.getText().trim());
         tablespaceProperties.setBufferPoolName(bufferPoolName.getText().trim());
@@ -70,14 +55,6 @@ public class DB2TablespaceDialog extends TablespaceDialog {
             pageSize.setText(Format.toString(properties.getPageSize()));
             managedBy.setText(Format.toString(properties.getManagedBy()));
             container.setText(Format.toString(properties.getContainer()));
-            // this.containerDirectoryPath.setText(Format.toString(properties
-            // .getContainerDirectoryPath()));
-            // this.containerFilePath.setText(Format.toString(properties
-            // .getContainerFilePath()));
-            // this.containerPageNum.setText(Format.toString(properties
-            // .getContainerPageNum()));
-            // this.containerDevicePath.setText(Format.toString(properties
-            // .getContainerDevicePath()));
             extentSize.setText(Format.toString(properties.getExtentSize()));
             prefetchSize.setText(Format.toString(properties.getPrefetchSize()));
             bufferPoolName.setText(Format.toString(properties.getBufferPoolName()));

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.function.Predicate;
 
 import org.dbflute.erflute.Activator;
 import org.dbflute.erflute.core.util.Format;
@@ -57,6 +58,8 @@ import org.eclipse.ui.part.MultiPageEditorPart;
  */
 public class ERFluteMultiPageEditor extends MultiPageEditorPart {
 
+    private static final int NEW_PAGE_INDEX = 1;
+
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
@@ -75,16 +78,8 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         prepareDiagram();
         editPartFactory = new ERDiagramEditPartFactory();
         outlinePage = new ERDiagramOutlinePage(diagram);
-        try {
-            zoomComboContributionItem = new ZoomComboContributionItem(getSite().getPage());
-            final MainDiagramEditor editor = new MainDiagramEditor(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
-            final int index = addPage(editor, getEditorInput()); // as main
-            setPageText(index, "Main Diagram");
-        } catch (final PartInitException e) {
-            Activator.showExceptionDialog(e);
-        }
-        initVirtualPages();
-        initStartPage();
+        initMainPage();
+        activatePage();
         addMouseListenerToTabFolder();
         validate();
         if (!diagram.isVirtual()) {
@@ -113,26 +108,49 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         diagram.setEditor(this);
     }
 
-    public void initVirtualPages() { // called by ERDiagram
-        final String modelName = diagram.getDefaultModelName();
-        if (modelName != null) {
+    private void initMainPage() {
+        try {
+            zoomComboContributionItem = new ZoomComboContributionItem(getSite().getPage());
+            final MainDiagramEditor editor = new MainDiagramEditor(diagram, editPartFactory, zoomComboContributionItem, outlinePage);
+            final int index = addPage(editor, getEditorInput()); // as main
+            setPageText(index, diagram.getName());
+        } catch (final PartInitException e) {
+            Activator.showExceptionDialog(e);
+        }
+    }
+
+    public void activatePage() {
+        initVirtualPage();
+        initStartPage();
+    }
+
+    public void initVirtualPage() { // called by ERDiagram
+        final String diagramName = diagram.getDefaultDiagramName();
+        if (diagramName != null) {
             try {
-                final ERVirtualDiagram vdiagram = diagram.getDiagramContents().getVirtualDiagramSet().getVdiagramByName(modelName);
+                final int pageIndex = removePage(diagramName);
+
+                final ERVirtualDiagram vdiagram = diagram.getDiagramContents().getVirtualDiagramSet().getVdiagramByName(diagramName);
                 diagram.setCurrentVirtualDiagram(vdiagram);
-                final VirtualDiagramEditor modelEditor =
+
+                final VirtualDiagramEditor vdiagramEditor =
                         new VirtualDiagramEditor(diagram, vdiagram, editPartFactory, zoomComboContributionItem, outlinePage);
-                final int pageNo = addPage(modelEditor, getEditorInput()); // as view
-                setPageText(pageNo, Format.null2blank(vdiagram.getName()));
+                addPage(getNewPageIndexIfLessThanZero(pageIndex), vdiagramEditor, getEditorInput());
+                setPageText(getNewPageIndexIfLessThanZero(pageIndex), Format.null2blank(vdiagram.getName()));
             } catch (final PartInitException e) {
                 Activator.showExceptionDialog(e);
             }
         }
     }
 
+    private int getNewPageIndexIfLessThanZero(int pageIndex) {
+        return pageIndex < 0 ? NEW_PAGE_INDEX : pageIndex;
+    }
+
     private void initStartPage() {
         final ERVirtualDiagram vdiagram = diagram.getCurrentVirtualDiagram();
         if (vdiagram != null) {
-            setActivePage(1);
+            setActivePage(getPageIndex(vdiagram));
         } else {
             setActivePage(0);
         }
@@ -338,6 +356,8 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
             diagram.refreshVirtualDiagram();
         } else { // main editor
             selectedEditor.clearSelection();
+            // 以下がないと、アウトラインコンテキストメニューのDeleteが無効になる。
+            selectedEditor.prepareERDiagramOutlinePopupMenu();
             diagram.setCurrentVirtualDiagram(null);
             diagram.changeAll();
         }
@@ -394,30 +414,64 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
         return super.getAdapter(type);
     }
 
-    public void setCurrentERModel(ERVirtualDiagram viagram) {
-        if (getPageCount() == 1) {
-            addVdiagramPage(viagram);
+    public void setCurrentERModel(ERVirtualDiagram vdiagram) {
+        final int pageIndex = getPageIndex(vdiagram);
+        if (0 <= pageIndex) {
+            removePage(pageIndex);
+        }
+
+        final int MAX_PAGE_COUNT = 10;
+        if (getPageCount() < MAX_PAGE_COUNT) {
+            addVirtualDiagramPage(vdiagram);
         } else {
-            removePage(1);
-            addVdiagramPage(viagram);
+            removePage(MAX_PAGE_COUNT - 1);
+            addVirtualDiagramPage(vdiagram);
         }
     }
 
-    private void addVdiagramPage(ERVirtualDiagram viagram) {
+    private void addVirtualDiagramPage(ERVirtualDiagram vdiagram) {
         final VirtualDiagramEditor vdiagramEditor =
-                new VirtualDiagramEditor(diagram, viagram, getEditPartFactory(), getZoomComboContributionItem(), outlinePage);
+                new VirtualDiagramEditor(diagram, vdiagram, getEditPartFactory(), getZoomComboContributionItem(), outlinePage);
         try {
-            addPage(vdiagramEditor, getEditorInput(), viagram.getName());
+            addPage(vdiagramEditor, getEditorInput(), vdiagram.getName());
         } catch (final PartInitException e) {
             Activator.showExceptionDialog(e);
         }
         setActiveEditor(vdiagramEditor);
     }
 
-    private int addPage(IEditorPart editor, IEditorInput input, String name) throws PartInitException {
-        final int pageNo = super.addPage(editor, input);
-        setPageText(pageNo, Format.null2blank(name));
-        return pageNo;
+    private void addPage(IEditorPart editor, IEditorInput input, String name) throws PartInitException {
+        super.addPage(NEW_PAGE_INDEX, editor, input);
+        setPageText(NEW_PAGE_INDEX, Format.null2blank(name));
+    }
+
+    public int removePage(String diagramName) {
+        final int pangeIndex = getPageIndex(diagramName);
+        if (pangeIndex < 0) {
+            return -1;
+        }
+
+        removePage(pangeIndex);
+        return pangeIndex;
+    }
+
+    private int getPageIndex(ERVirtualDiagram vdiagram) {
+        return getPageIndex(e -> e.have(vdiagram));
+    }
+
+    private int getPageIndex(String diagramName) {
+        return getPageIndex(editor -> editor.getName().equals(diagramName));
+    }
+
+    private int getPageIndex(Predicate<MainDiagramEditor> test) {
+        for (int i = 0; i < getPageCount(); i++) {
+            final MainDiagramEditor editor = (MainDiagramEditor) getEditor(i);
+            if (test.test(editor)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     // ===================================================================================
@@ -442,5 +496,14 @@ public class ERFluteMultiPageEditor extends MultiPageEditorPart {
 
     public void setPageText(String text) {
         setPageText(1, text);
+    }
+
+    public void setPageText(ERVirtualDiagram vdiagram, String text) {
+        final int pangeIndex = getPageIndex(vdiagram);
+        if (pangeIndex < 0) {
+            return;
+        }
+
+        setPageText(pangeIndex, text);
     }
 }
