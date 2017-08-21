@@ -330,4 +330,9 @@ public class MySQLDDLCreator extends DDLCreator {
         }
         return comment;
     }
+
+    @Override
+    public String getIfExistsOption() {
+        return "IF EXISTS ";
+    }
 }
