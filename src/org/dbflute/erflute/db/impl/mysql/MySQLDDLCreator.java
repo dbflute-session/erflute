@@ -50,7 +50,9 @@ public class MySQLDDLCreator extends DDLCreator {
     public String doBuildDropIndex(ERIndex index, ERTable table) {
         final StringBuilder ddl = new StringBuilder();
         ddl.append("DROP INDEX ");
-        ddl.append(getIfExistsOption());
+        // MySQL supports "IF EXISTS" for only table so comment out here for now
+        // https://github.com/dbflute-session/erflute/pull/34
+        //ddl.append(getIfExistsOption());
         ddl.append(filter(index.getName()));
         ddl.append(" ON ");
         ddl.append(filter(table.getNameWithSchema(getDiagram().getDatabase())));
@@ -333,6 +335,6 @@ public class MySQLDDLCreator extends DDLCreator {
 
     @Override
     public String getIfExistsOption() {
-        return "IF EXISTS ";
+        return "IF EXISTS "; // MySQL supports "IF EXISTS" for "drop table"
     }
 }
