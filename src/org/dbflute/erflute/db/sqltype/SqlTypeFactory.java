@@ -21,9 +21,9 @@ import org.dbflute.erflute.db.sqltype.SqlType.TypeKey;
 public class SqlTypeFactory {
 
     public static void load() throws IOException, ClassNotFoundException {
-        try (InputStream inputStream = SqlTypeFactory.class.getResourceAsStream("/SqlType.tsv");
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+        try (final InputStream inputStream = SqlTypeFactory.class.getResourceAsStream("/SqlType.tsv");
+                final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                final BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
             final List<List<String>> data =
                     bufferedReader.lines().map(line -> Arrays.asList(line.split("\\t"))).collect(Collectors.toList());
 
@@ -61,6 +61,15 @@ public class SqlTypeFactory {
                     Arrays.stream(value.split("\\|")).forEach(v -> {
                         final String alias = v.replaceAll("\\=.+", "").replace("${sqlTypeId}", sqlTypeId);
                         final boolean reverseLookup = Boolean.parseBoolean(v.replaceAll(".+\\=", ""));
+
+                        // TODO ymd 場当たり的な対応。SqlType.tsvの仕様が分からないため、以下のように実装した。
+                        if (alias.toLowerCase().contains("varchar(max)")) {
+                            final SqlType varcharMaxSqlType = new SqlType(alias, String.class, false, true);
+                            dbAliasMap.get(dbId).put(varcharMaxSqlType, alias);
+                            dbSqlTypeMap.get(dbId).put(new TypeKey(alias, 1), varcharMaxSqlType);
+                            return;
+                        }
+
                         // sqlTypeIdに対応するRDBの別名(先頭1つのみ)を登録
                         if (!dbAliasMap.get(dbId).containsKey(sqlType)) {
                             dbAliasMap.get(dbId).put(sqlType, alias);
