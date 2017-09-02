@@ -33,7 +33,6 @@ public class SqlServerTableImportManager extends ImportFromDBManagerBase {
             }
         } else if (type.startsWith("datetime2")) {
             columnData.size = columnData.size - 20;
-
         }
 
         return columnData;
