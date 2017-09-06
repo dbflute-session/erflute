@@ -302,7 +302,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
             return Format.null2blank(getPhysicalName());
         }
         final TableViewProperties tableViewProperties = getDiagram().getDiagramContents().getSettings().getTableViewProperties();
-        String schema = tableViewProperties.getSchema();
+        String schema = this.tableViewProperties.getSchema();
         if (schema == null || schema.equals("")) {
             schema = tableViewProperties.getSchema();
         }
@@ -411,7 +411,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public void setPhysicalName(String physicalName) {
-        final String old = physicalName;
+        final String old = this.physicalName;
         this.physicalName = physicalName;
         firePropertyChange(PROPERTY_CHANGE_PHYSICAL_NAME, old, physicalName);
     }
@@ -421,7 +421,7 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
     }
 
     public void setLogicalName(String logicalName) {
-        final String old = logicalName;
+        final String old = this.logicalName;
         this.logicalName = logicalName;
         firePropertyChange(PROPERTY_CHANGE_LOGICAL_NAME, old, logicalName);
     }
