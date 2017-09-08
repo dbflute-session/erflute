@@ -117,7 +117,7 @@ public class SqlServerDDLCreator extends DDLCreator {
             ddl.append("EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'");
             ddl.append(tableComment.replaceAll("'", "''"));
             ddl.append("', @level0type=N'schema', @level0name=N'");
-            ddl.append("dbo");
+            ddl.append(table.getSchema());
             ddl.append("', @level1type=N'table', @level1name=N'");
             ddl.append(filter(table.getPhysicalName()));
             ddl.append("'");
@@ -140,7 +140,7 @@ public class SqlServerDDLCreator extends DDLCreator {
                     ddl.append("EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'");
                     ddl.append(comment.replaceAll("'", "''"));
                     ddl.append("', @level0type=N'schema', @level0name=N'");
-                    ddl.append("dbo");
+                    ddl.append(table.getSchema());
                     ddl.append("', @level1type=N'table', @level1name=N'");
                     ddl.append(filter(table.getPhysicalName()));
                     ddl.append("', @level2type=N'column' , @level2name=N'");
@@ -164,7 +164,7 @@ public class SqlServerDDLCreator extends DDLCreator {
                         ddl.append("EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'");
                         ddl.append(comment.replaceAll("'", "''"));
                         ddl.append("', @level0type=N'schema', @level0name=N'");
-                        ddl.append("dbo");
+                        ddl.append(table.getSchema());
                         ddl.append("', @level1type=N'table', @level1name=N'");
                         ddl.append(filter(table.getPhysicalName()));
                         ddl.append("', @level2type=N'column' , @level2name=N'");

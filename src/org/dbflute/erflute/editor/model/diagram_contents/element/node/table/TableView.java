@@ -468,4 +468,15 @@ public abstract class TableView extends DiagramWalker implements ObjectModel, Co
         // サブビューも更新
         getDiagram().doChangeTable(sourceTableView);
     }
+
+    public String getSchema() {
+        String schema = this.tableViewProperties.getSchema();
+        if (schema == null || schema.equals("")) {
+            final TableViewProperties tableViewProperties =
+                    getDiagram().getDiagramContents().getSettings().getTableViewProperties();
+            schema = tableViewProperties.getSchema();
+        }
+
+        return schema;
+    }
 }
