@@ -68,6 +68,11 @@ public class SqlTypeFactory {
                             dbAliasMap.get(dbId).put(varcharMaxSqlType, alias);
                             dbSqlTypeMap.get(dbId).put(new TypeKey(alias, 1), varcharMaxSqlType);
                             return;
+                        } else if (alias.toLowerCase().contains("varbinary(max)")) {
+                            final SqlType varbinaryMaxSqlType = new SqlType(alias, String.class, false, true);
+                            dbAliasMap.get(dbId).put(varbinaryMaxSqlType, alias);
+                            dbSqlTypeMap.get(dbId).put(new TypeKey(alias, 1), varbinaryMaxSqlType);
+                            return;
                         }
 
                         // sqlTypeIdに対応するRDBの別名(先頭1つのみ)を登録
