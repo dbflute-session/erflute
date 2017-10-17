@@ -40,8 +40,10 @@ public class OracleTableImportManager extends ImportFromDBManagerBase {
         for (final String schema : schemaList) {
             cashColumnDataX(schema, null, dbObjectList, monitor);
         }
-        final String sql = "SELECT OWNER, TABLE_NAME, COLUMN_NAME, COMMENTS FROM SYS.ALL_COL_COMMENTS WHERE COMMENTS IS NOT NULL"
-                + schemaList.stream().map(schema -> "?").collect(Collectors.joining(", ", " AND OWNER IN (", ")"));
+        String sql = "SELECT OWNER, TABLE_NAME, COLUMN_NAME, COMMENTS FROM SYS.ALL_COL_COMMENTS WHERE COMMENTS IS NOT NULL";
+        if (!schemaList.isEmpty()) {
+            sql += schemaList.stream().map(schema -> "?").collect(Collectors.joining(", ", " AND OWNER IN (", ")"));
+        }
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             IntStream.range(0, schemaList.size()).forEach(index -> {
                 try {
