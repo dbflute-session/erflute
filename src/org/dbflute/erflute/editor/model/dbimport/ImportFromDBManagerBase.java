@@ -448,15 +448,9 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
                     columnName = columnName.substring(1, columnName.length() - 1);
                 }
 
-                Boolean desc = null;
-
-                if ("A".equals(ascDesc)) {
-                    desc = Boolean.FALSE;
-                } else if ("D".equals(ascDesc)) {
-                    desc = Boolean.TRUE;
-                }
-
-                index.addColumnName(columnName, desc);
+                // p1us2er0 May be null. (2017/09/12)
+                // https://docs.oracle.com/javase/jp/8/docs/api/java/sql/DatabaseMetaData.html#getIndexInfo-java.lang.String-java.lang.String-java.lang.String-boolean-boolean-
+                index.addColumnName(columnName, "D".equals(ascDesc));
             }
         } catch (final SQLException e) {
             throw e;
@@ -965,7 +959,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     private List<ERColumn> getViewColumnList(String sql) {
         final List<ERColumn> columnList = new ArrayList<>();
 
-        final String upperSql = sql.toUpperCase();
+        final String upperSql = sql.toUpperCase().replaceAll("\r?\n", " ").replaceAll("  +", " ");
         final int selectIndex = upperSql.indexOf("SELECT ");
         final int fromIndex = upperSql.indexOf(" FROM ");
 

@@ -76,6 +76,8 @@ public class NormalColumn extends ERColumn {
     public NormalColumn(NormalColumn referredColumn, Relationship relationship, boolean referenceForPK) {
         this(referredColumn, referredColumn, relationship, referenceForPK);
         this.word = (Word) referredColumn.getWord().clone();
+        this.primaryKey = false;
+        this.uniqueKey = false;
     }
 
     protected void init(boolean notNull, boolean primaryKey, boolean uniqueKey, boolean autoIncrement,
