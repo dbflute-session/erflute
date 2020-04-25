@@ -17,7 +17,7 @@ public abstract class PreImportFromDBManager {
 
     private static Logger logger = Logger.getLogger(PreImportFromDBManager.class.getName());
     protected Connection con;
-    private DatabaseMetaData metaData;
+    protected DatabaseMetaData metaData;
     protected DBSettings dbSetting;
     private DBObjectSet importObjects;
     protected List<String> schemaList;
@@ -59,7 +59,7 @@ public abstract class PreImportFromDBManager {
         return importObjects(new String[] { "TRIGGER" }, DBObject.TYPE_TRIGGER);
     }
 
-    private List<DBObject> importObjects(String[] types, String dbObjectType) throws SQLException {
+    protected List<DBObject> importObjects(String[] types, String dbObjectType) throws SQLException {
         final List<DBObject> list = new ArrayList<>();
 
         ResultSet resultSet = null;
@@ -101,7 +101,7 @@ public abstract class PreImportFromDBManager {
         return list;
     }
 
-    private String getAutoIncrementColumnName(Connection con, String schema, String tableName) throws SQLException {
+    protected String getAutoIncrementColumnName(Connection con, String schema, String tableName) throws SQLException {
         final String autoIncrementColumnName = null;
 
         Statement stmt = null;
