@@ -21,6 +21,8 @@ import org.dbflute.erflute.editor.model.settings.Environment;
 import org.dbflute.erflute.editor.model.settings.EnvironmentSettings;
 import org.dbflute.erflute.editor.model.settings.ExportSettings;
 import org.dbflute.erflute.editor.model.settings.PageSettings;
+import org.dbflute.erflute.editor.model.settings.design.ConstraintSettings;
+import org.dbflute.erflute.editor.model.settings.design.DesignSettings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.view.dialog.dbexport.ExportToDDLDialog;
 import org.w3c.dom.Element;
@@ -273,7 +275,7 @@ public class ReadSettingsLoader {
     // ===================================================================================
     //                                                                Environment Settings
     //                                                                ====================
-    public void loadEnvironmentSettings(EnvironmentSettings environmentSetting, Element parent, LoadContext context) {
+    public void loadEnvironmentSettings(EnvironmentSettings settings, Element parent, LoadContext context) {
         final Element settingsElement = extractDiagramSettingsElement(parent);
         Element element = getElement(settingsElement, "environment_setting"); // migration from ERMaster
         if (element == null) {
@@ -303,7 +305,39 @@ public class ReadSettingsLoader {
             environmentList.add(environment);
             context.environmentMap.put("", environment);
         }
-        environmentSetting.setEnvironments(environmentList);
+        settings.setEnvironments(environmentList);
+    }
+
+    // ===================================================================================
+    //                                                                     Design Settings
+    //                                                                     ===============
+    public void loadDesignSettings(DesignSettings settings, Element parent, LoadContext context) {
+        final Element diagramElement = extractDiagramSettingsElement(parent);
+        final Element designElement = getElement(diagramElement, "design_settings"); // migration from ERMaster
+        if (designElement != null) {
+            final ConstraintSettings constraintSettings = settings.getConstraintSettings();
+            {
+                final Element currentElement = getElement(designElement, "foreign_key");
+                if (currentElement != null) {
+                    final String prefix = getStringValue(currentElement, "default_prefix"); // null allowed
+                    constraintSettings.setDefaultPrefixOfForeignKey(prefix);
+                }
+            }
+            {
+                final Element currentElement = getElement(designElement, "unique");
+                if (currentElement != null) {
+                    final String prefix = getStringValue(currentElement, "default_prefix"); // null allowed
+                    constraintSettings.setDefaultPrefixOfUnique(prefix);
+                }
+            }
+            {
+                final Element currentElement = getElement(designElement, "index");
+                if (currentElement != null) {
+                    final String prefix = getStringValue(currentElement, "default_prefix"); // null allowed
+                    constraintSettings.setDefaultPrefixOfIndex(prefix);
+                }
+            }
+        }
     }
 
     // ===================================================================================
