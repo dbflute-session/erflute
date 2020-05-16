@@ -30,7 +30,7 @@ public class NormalColumn extends ERColumn {
     private String foreignKeyDescription;
     private boolean notNull;
     private boolean primaryKey;
-    private boolean uniqueKey;
+    private boolean uniqueKey; // means only-one column unique
     private boolean autoIncrement;
     private String defaultValue;
     private String constraint;
