@@ -1,5 +1,7 @@
 package org.dbflute.erflute.db.impl.mysql;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
@@ -149,11 +151,17 @@ public class MySQLDDLCreator extends DDLCreator {
             ddl.append(constraint);
         }
         if (normalColumn.isUniqueKey()) {
-            if (!Check.isEmpty(normalColumn.getUniqueKeyName())) {
-                ddl.append(" CONSTRAINT ");
-                ddl.append(normalColumn.getUniqueKeyName());
+            // this implementation does not match with unique setting in column definition 
+            // see https://dev.mysql.com/doc/refman/5.6/ja/create-table.html
+            //if (!Check.isEmpty(normalColumn.getUniqueKeyName())) {
+            //    ddl.append(" CONSTRAINT ");
+            //    ddl.append(normalColumn.getUniqueKeyName());
+            //}
+            //ddl.append(" UNIQUE");
+            //
+            if (Check.isEmpty(normalColumn.getUniqueKeyName())) { // no named
+                ddl.append(" UNIQUE"); // no-named unique constraint
             }
-            ddl.append(" UNIQUE");
         }
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" AUTO_INCREMENT");
@@ -194,6 +202,34 @@ public class MySQLDDLCreator extends DDLCreator {
             return "(" + length + ")";
         }
         return "";
+    }
+
+    @Override
+    protected List<ConstraintUniqueResource> prepareConstraintUniqueResourceList(ERTable table) {
+        // only-one column named unique constraint needs to be defined at constraint area in MySQL
+        final List<ConstraintUniqueResource> resourceList = new ArrayList<>();
+        final List<NormalColumn> normalColumns = table.getNormalColumns();
+        for (final NormalColumn normalColumn : normalColumns) {
+            if (isOnlyOneColumnNamedUniqueConstraint(normalColumn)) {
+                resourceList.add(new ConstraintUniqueResource() {
+                    @Override
+                    public String getUniqueKeyName() {
+                        return normalColumn.getUniqueKeyName();
+                    }
+
+                    @Override
+                    public List<NormalColumn> getColumnList() {
+                        return Arrays.asList(normalColumn);
+                    }
+                });
+            }
+        }
+        resourceList.addAll(super.prepareConstraintUniqueResourceList(table));
+        return resourceList;
+    }
+
+    protected boolean isOnlyOneColumnNamedUniqueConstraint(final NormalColumn normalColumn) {
+        return normalColumn.isUniqueKey() && !Check.isEmpty(normalColumn.getUniqueKeyName());
     }
 
     @Override

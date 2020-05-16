@@ -18,6 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CopyCompoundUniqueKey;
+import org.dbflute.erflute.editor.model.settings.design.ConstraintSettings;
 import org.dbflute.erflute.editor.view.dialog.table.ERTableComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -50,6 +51,7 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
     private Button deleteButton;
     private final List<TableEditor> tableEditorList;
     private final Map<TableEditor, NormalColumn> editorColumnMap;
+    private final ConstraintSettings constraintSettings; // not null
 
     // ===================================================================================
     //                                                                         Constructor
@@ -59,6 +61,7 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
         this.table = table;
         this.tableEditorList = new ArrayList<>();
         this.editorColumnMap = new HashMap<>();
+        constraintSettings = table.getDiagramSettings().getDesignSettings().getConstraintSettings();
         init();
     }
 
@@ -349,7 +352,12 @@ public class CompoundUniqueKeyTabWrapper extends ValidatableTabWrapper {
     //                                                                        Assist Logic
     //                                                                        ============
     private String buildDefaultUniqueKeyNameTemplate() {
-        return "UQ_" + table.getPhysicalName() + "_XXX";
+        return getResolvedPrefixOfUnique() + table.getPhysicalName() + "_XXX";
+    }
+
+    private String getResolvedPrefixOfUnique() {
+        final String specifiedPrefix = constraintSettings.getDefaultPrefixOfUnique();
+        return specifiedPrefix != null ? specifiedPrefix : "UQ_";
     }
 
     private void setUpdateDeleteButtonStatus(boolean enabled) {

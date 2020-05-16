@@ -52,7 +52,7 @@ public abstract class ImportFromDBManagerBase implements ImportFromDBManager, IR
     private static final Pattern AS_PATTERN = Pattern.compile("(.+) [aA][sS] (.+)");
 
     protected Connection con;
-    private DatabaseMetaData metaData;
+    protected DatabaseMetaData metaData;
     protected DBSettings dbSetting;
     private ERDiagram diagram;
     private List<DBObject> dbObjectList;

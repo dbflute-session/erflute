@@ -35,7 +35,7 @@ public class SQLiteDDLCreator extends DDLCreator {
     }
 
     @Override
-    protected String buildPrimaryKeyPart(ERTable table) {
+    protected String buildConstraintPrimaryKeyPart(ERTable table) {
         final StringBuilder ddl = new StringBuilder();
 
         for (final Relationship relation : table.getIncomingRelationshipList()) {

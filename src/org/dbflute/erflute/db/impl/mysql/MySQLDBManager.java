@@ -25,9 +25,15 @@ import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.
  */
 public class MySQLDBManager extends DBManagerBase {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
     public static final String ID = "MySQL";
     private static final ResourceBundle CHARACTER_SET_RESOURCE = ResourceBundle.getBundle("mysql_characterset");
 
+    // ===================================================================================
+    //                                                                       Main Override
+    //                                                                       =============
     @Override
     public String getId() {
         return ID;
@@ -117,7 +123,11 @@ public class MySQLDBManager extends DBManagerBase {
         return null;
     }
 
+    // ===================================================================================
+    //                                                                       List Provider
+    //                                                                       =============
     public static List<String> getCharacterSetList() {
+        // #hope priority order for utf8mb4 by jflute (2018/07/12)
         final List<String> list = new ArrayList<String>();
         final Enumeration<String> keys = CHARACTER_SET_RESOURCE.getKeys();
         while (keys.hasMoreElements()) {

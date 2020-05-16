@@ -276,8 +276,9 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
     }
 
     // TODO jflute ermaster: 何度も呼ばれている疑惑、増えていく増えていく
+    // #for_now jflute cannot test so suppress warning only (for unlikely-arg-type) (2020/05/16)
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unlikely-arg-type" })
     protected void createActions() {
         super.createActions();
         final ActionRegistry registry = getActionRegistry();
@@ -313,7 +314,7 @@ public class MainDiagramEditor extends GraphicalEditorWithPalette { // created b
             if (action instanceof SelectionAction) {
                 final IAction originalAction = registry.getAction(action.getId());
                 if (originalAction != null) {
-                    selectionActionList.remove(originalAction);
+                    selectionActionList.remove(originalAction); // unlikely-arg-type
                 }
                 selectionActionList.add(action.getId());
             }
