@@ -54,7 +54,6 @@ enum	java.lang.Object	TRUE						${sqlTypeId}=true						text=false
 decfloat16	java.lang.Float			float=false	decfloat(16)=true	float=false	float=false	float=false	float=false	float=false	real=false	float=false	float=false	double=false
 float(p)	java.lang.Float			${sqlTypeId}=true|float=true	decfloat(p)=true|decfloat=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true	real=false	${sqlTypeId}=true	${sqlTypeId}=true	double=false
 float(m,d)	java.lang.Float				decimal(p,s)=false	decimal(p,s)=false	decimal(p,s)=false	${sqlTypeId}=true|float=true	number(p,s)=false	decimal(p,s)=false	real=false	decimal(p,s)=false	decimal(p,s)=false	double=false
-geometry	java.lang.Object
 hierarchyid	java.lang.String										none=false	${sqlTypeId}=true|hierarchyid=true	${sqlTypeId}=true|hierarchyid=true
 image	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	blob=false	blob=false	bytea=false	none=false	${sqlTypeId}=true	${sqlTypeId}=true	longbinary=false
 inet	java.lang.String									${sqlTypeId}=true	none=false
@@ -130,6 +129,7 @@ urowid	java.lang.String								${sqlTypeId}=true		none=false
 urowid(n)	java.lang.String								${sqlTypeId}=true|urowid=true		none=false
 uuid	java.lang.String								rowid=true	${sqlTypeId}=true	none=false	uniqueidentifier =true|uniqueidentifier=true	uniqueidentifier =true|uniqueidentifier=true	guid=true
 xml	java.lang.Object			${sqlTypeId}=true	${sqlTypeId}=true				xmltype=true	${sqlTypeId}=true		${sqlTypeId}=true	${sqlTypeId}=true
+json	java.lang.Object							${sqlTypeId}=true
 year(2)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true|year=true	number(2,0)=true	int=false	integer=false	int=false	int=false	smallint=false
 year(4)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true|year=true	number(4,0)=true	int=false	integer=false	int=false	int=false	smallint=false
 alert_type	java.lang.Object								${sqlTypeId}=true		none=false
