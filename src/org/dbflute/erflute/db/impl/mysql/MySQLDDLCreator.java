@@ -245,9 +245,12 @@ public class MySQLDDLCreator extends DDLCreator {
         if (Check.isEmpty(characterSet)) {
             characterSet = commonTableProperties.getCharacterSet();
         }
-        final String collation = tableProperties.getCollation();
+        String collation = tableProperties.getCollation();
         if (Check.isEmpty(collation)) {
-            characterSet = commonTableProperties.getCharacterSet();
+            // [dbflute users 2617] https://groups.google.com/g/dbflute/c/kzNmfDeTEc0
+            // may be traditional mistake so fixed it by jflute (2021/08/11)
+            //characterSet = commonTableProperties.getCharacterSet();
+            collation = commonTableProperties.getCollation();
         }
         final StringBuilder postDDL = new StringBuilder();
         if (!Check.isEmpty(engine)) {
