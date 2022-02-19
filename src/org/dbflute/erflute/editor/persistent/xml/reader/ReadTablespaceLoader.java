@@ -6,6 +6,7 @@ import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
 import org.dbflute.erflute.db.impl.mysql.tablespace.MySQLTablespaceProperties;
 import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
 import org.dbflute.erflute.db.impl.oracle.tablespace.OracleTablespaceProperties;
+import org.dbflute.erflute.db.impl.oracle12c.Oracle12cDBManager;
 import org.dbflute.erflute.db.impl.postgres.PostgresDBManager;
 import org.dbflute.erflute.db.impl.postgres.tablespace.PostgresTablespaceProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.not_element.tablespace.Tablespace;
@@ -67,6 +68,8 @@ public class ReadTablespaceLoader {
             } else if (MySQLDBManager.ID.equals(database)) {
                 tablespaceProperties = loadTablespacePropertiesMySQL(propertiesElemnt);
             } else if (OracleDBManager.ID.equals(database)) {
+                tablespaceProperties = loadTablespacePropertiesOracle(propertiesElemnt);
+            } else if (Oracle12cDBManager.ID.equals(database)) {
                 tablespaceProperties = loadTablespacePropertiesOracle(propertiesElemnt);
             } else if (PostgresDBManager.ID.equals(database)) {
                 tablespaceProperties = loadTablespacePropertiesPostgres(propertiesElemnt);
