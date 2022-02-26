@@ -10,7 +10,7 @@ import org.dbflute.erflute.db.impl.h2.H2DBManager;
 import org.dbflute.erflute.db.impl.hsqldb.HSQLDBDBManager;
 import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
 import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
-import org.dbflute.erflute.db.impl.oracle12c.Oracle12cDBManager;
+import org.dbflute.erflute.db.impl.oracleidentity.OracleIdentityDBManager;
 import org.dbflute.erflute.db.impl.postgres.PostgresDBManager;
 import org.dbflute.erflute.db.impl.sqlite.SQLiteDBManager;
 import org.dbflute.erflute.db.impl.sqlserver.SqlServerDBManager;
@@ -33,7 +33,7 @@ public class DBManagerFactory {
         new AccessDBManager();
         new MySQLDBManager();
         new OracleDBManager();
-        new Oracle12cDBManager();
+        new OracleIdentityDBManager();
         new PostgresDBManager();
         new SQLiteDBManager();
         new SqlServerDBManager();

@@ -1,4 +1,4 @@
-ID                                   StandardSQL                          DB2                                  H2                                   HSQLDB                               MSAccess                             MySQL                                Oracle                               Oracle12c                            PostgreSQL                           SQLite                               SQLServer                            SQLServer 2008
+ID                                   StandardSQL                          DB2                                  H2                                   HSQLDB                               MSAccess                             MySQL                                Oracle                               Oracle(Identity)                     PostgreSQL                           SQLite                               SQLServer                            SQLServer 2008
 
 character(n)                         char(n)                              char(n)                              char(n)                              char(n)                              text                                 char(n)                              char(n)                              char(n)                              char(n)                              text                                 char(n)                              char(n)
 varchar(n)                           varchar(n)                           varchar(n)                           varchar(n)                           varchar(n)                           text                                 varchar(n)                           varchar2(n)                          varchar2(n)                          varchar(n)                           text                                 varchar(n)                           varchar(n)
@@ -783,7 +783,7 @@ CREATE TABLE TYPE_TEST (
     COL_Xanydata
 );
 
--- for Oracle12c
+-- for Oracle(Identity)
 CREATE TABLE TYPE_TEST (
     COL_Xchar(1),
     COL_Xvarchar2(1),

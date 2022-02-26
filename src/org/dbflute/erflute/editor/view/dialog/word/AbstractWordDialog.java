@@ -6,7 +6,7 @@ import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.core.widgets.CompositeFactory;
 import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
 import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
-import org.dbflute.erflute.db.impl.oracle12c.Oracle12cDBManager;
+import org.dbflute.erflute.db.impl.oracleidentity.OracleIdentityDBManager;
 import org.dbflute.erflute.db.impl.postgres.PostgresDBManager;
 import org.dbflute.erflute.db.sqltype.SqlType;
 import org.dbflute.erflute.editor.model.ERDiagram;
@@ -115,7 +115,7 @@ public abstract class AbstractWordDialog extends AbstractDialog {
             this.byteSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "byte", 1, true);
             byteSemanticsRadio.setEnabled(false);
         }
-        if (Oracle12cDBManager.ID.equals(diagram.getDatabase())) {
+        if (OracleIdentityDBManager.ID.equals(diagram.getDatabase())) {
             CompositeFactory.filler(composite, 1);
             final Composite childComposite = CompositeFactory.createChildComposite(composite, 5, 2);
             this.charSemanticsRadio = CompositeFactory.createRadio(this, childComposite, "char");
