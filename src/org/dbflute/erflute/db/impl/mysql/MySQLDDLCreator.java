@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.exception.ExceptionMessageBuilder;
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.DBManager;
@@ -309,6 +310,16 @@ public class MySQLDDLCreator extends DDLCreator {
             if (!first) {
                 ddl.append(", ");
             }
+            if (column == null) { // broken index
+                // e.g.
+                // <column>
+                //   <column_id>null</column_id>
+                // </column>
+                //
+                // see the issue:
+                // https://github.com/dbflute-session/erflute/issues/53
+                throwBrokenIndexColumnsException(index, table);
+            }
             ddl.append(filter(column.getPhysicalName()));
             if (getDBManager().isSupported(DBManager.SUPPORT_DESC_INDEX)) {
                 if (descs.size() > i) {
@@ -328,6 +339,21 @@ public class MySQLDDLCreator extends DDLCreator {
             ddl.append(";");
         }
         return ddl.toString();
+    }
+
+    private void throwBrokenIndexColumnsException(ERIndex index, ERTable table) {
+        final ExceptionMessageBuilder br = new ExceptionMessageBuilder();
+        br.addNotice("The index columns may be broken. (when creating DDL)");
+        br.addItem("Advice");
+        br.addElement("Fatal situation so fix your erm file as XML.");
+        br.addElement("See for the detail:");
+        br.addElement("https://github.com/dbflute-session/erflute/issues/53");
+        br.addItem("Table");
+        br.addElement(table);
+        br.addItem("Index");
+        br.addElement(index);
+        final String msg = br.buildExceptionMessage();
+        throw new IllegalStateException(msg);
     }
 
     // ===================================================================================
