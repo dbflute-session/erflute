@@ -42,14 +42,14 @@ public class SqlType implements Serializable {
      * map:{ database = map:{ alias-name (e.g. int) = SqlType (本来many) } } <br>
      * e.g. map:{MySQL = map:{ int = int(n) or Integer }
      */
-    private static Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap = new HashMap<>();
+    private static Map<String, Map<TypeKey, SqlType>> dbTypeSqlTypeMap = new HashMap<>();
 
     /**
      * #analyzed こっちが大事な人。
      * map:{ database = map:{ SqlType = alias-name (e.g. int) } } <br>
      * e.g. map:{MySQL = map:{ int(n) or Integer = int }
      */
-    private static Map<String, Map<SqlType, String>> dbAliasMap = new HashMap<>();
+    private static Map<String, Map<SqlType, String>> sqlTypeDbTypeMap = new HashMap<>();
 
     // ===================================================================================
     //                                                                  Static Load Holder
@@ -64,7 +64,7 @@ public class SqlType implements Serializable {
     }
 
     public static class TypeKey {
-        private final String alias;
+        private final String alias; // DB name
         private int size;
 
         public TypeKey(String alias, int size) {
@@ -141,8 +141,8 @@ public class SqlType implements Serializable {
     //                                                                             Static
     //                                                                            ========
     public static void setDBAliasMap(Map<String, Map<SqlType, String>> dbAliasMap, Map<String, Map<TypeKey, SqlType>> dbSqlTypeMap) {
-        SqlType.dbAliasMap = dbAliasMap;
-        SqlType.dbSqlTypeMap = dbSqlTypeMap;
+        SqlType.sqlTypeDbTypeMap = dbAliasMap;
+        SqlType.dbTypeSqlTypeMap = dbSqlTypeMap;
     }
 
     protected static List<SqlType> getAllSqlType() {
@@ -161,7 +161,7 @@ public class SqlType implements Serializable {
         if (alias == null) {
             return null;
         }
-        final Map<TypeKey, SqlType> sqlTypeMap = dbSqlTypeMap.get(database);
+        final Map<TypeKey, SqlType> sqlTypeMap = dbTypeSqlTypeMap.get(database);
 
         // decimal(19,4) = money 等に対応
         TypeKey typeKey = new TypeKey(alias, size);
@@ -198,7 +198,7 @@ public class SqlType implements Serializable {
     }
 
     public static List<String> getAliasList(String database) {
-        final Map<SqlType, String> aliasMap = dbAliasMap.get(database);
+        final Map<SqlType, String> aliasMap = sqlTypeDbTypeMap.get(database);
         final Set<String> aliases = new LinkedHashSet<>();
         for (final Entry<SqlType, String> entry : aliasMap.entrySet()) {
             final String alias = entry.getValue();
@@ -219,7 +219,7 @@ public class SqlType implements Serializable {
                 size = 1;
             }
             final TypeKey typeKey = new TypeKey(typeKeyId, size);
-            final Map<TypeKey, SqlType> sqlTypeMap = dbSqlTypeMap.get(database);
+            final Map<TypeKey, SqlType> sqlTypeMap = dbTypeSqlTypeMap.get(database);
             sqlTypeMap.put(typeKey, this);
         }
     }
@@ -263,7 +263,7 @@ public class SqlType implements Serializable {
     }
 
     public String getAlias(String database) { // e.g. database=MySQL, return=int
-        final Map<SqlType, String> aliasMap = dbAliasMap.get(database);
+        final Map<SqlType, String> aliasMap = sqlTypeDbTypeMap.get(database);
         return aliasMap.get(this);
     }
 
