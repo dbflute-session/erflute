@@ -1,136 +1,136 @@
-sqlTypeId	javaclass	need args	full text indexable	StandardSQL	DB2	H2	HSQLDB	MySQL	Oracle	PostgreSQL	SQLite	SQLServer	SQLServer 2008	MSAccess
-character(n)	java.lang.String		TRUE	char(n)=true|char=true	char(n)=true|char=true	char(n)=true|character=true	char(n)=true|character=true	char(n)=true|char=true	char(n)=true|char=true	char(n)=true|bpchar=true	text=false	char(n)=true|char=true	char(n)=true|char=true	text=false
-varchar(n)	java.lang.String		TRUE	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	varchar2(n)=true|varchar2=true	${sqlTypeId}=true|varchar=true	text=false	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	text=false
-nchar(n)	java.lang.String		TRUE	${sqlTypeId}=true|nchar=true	graphic(n)=true|graphic=true	char(n)=false	char(n)=false	char(n)=false	${sqlTypeId}=true|nchar=true	char(n)=false	text=false	${sqlTypeId}=true|nchar=true	${sqlTypeId}=true|nchar=true	text=false
-nvarchar(n)	java.lang.String		TRUE	${sqlTypeId}=true|nvarchar=true	vargraphic(n)=true|vargraphic=true	varchar(n)=false	varchar(n)=false	varchar(n)=false	nvarchar2(n)=true|nvarchar2=true	varchar(n)=false	text=false	${sqlTypeId}=true|nvarchar=true	${sqlTypeId}=true|nvarchar=true	text=false
-decimal	java.lang.Integer			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number=true	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true
-decimal(p)	java.lang.Integer			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(p)=true	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	decimal=false
-decimal(p,s)	java.lang.Double			${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	number(p,s)=true|number=true	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	decimal=false
-numeric	java.lang.Integer			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	decimal=false
-numeric(p)	java.lang.Integer			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(p)=false	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	decimal=false
-numeric(p,s)	java.lang.Double			${sqlTypeId}=true|numeric=true	${sqlTypeId}=true	${sqlTypeId}=true|numeric=true	${sqlTypeId}=true|numeric=true	${sqlTypeId}=true	number(p,s)=false	${sqlTypeId}=true|numeric=true	numeric=false	${sqlTypeId}=true|numeric=true	${sqlTypeId}=true|numeric=true	decimal=false
-integer	java.lang.Integer			${sqlTypeId}=true|int=true	int=true|${sqlTypeId}=true	int=true|${sqlTypeId}=true	int=true|${sqlTypeId}=true	int=true	number(10,0)=true	int=true|int4=true	${sqlTypeId}=true	int=true	int=true	long=false
-smallint	java.lang.Short			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(5,0)=true	${sqlTypeId}=true|int2=true	integer=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true
-float	java.lang.Float			${sqlTypeId}=true	decfloat=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true|float8=true	real=false	${sqlTypeId}=true	${sqlTypeId}=true	double=false
-double precision	java.lang.Double			double=true	double=true	double=true	double=true	double=true	float(24)=true	${sqlTypeId}=true	real=false	float(53)=false|float(53)=true	float(53)=false|float(53)=true	double=true
-real	java.lang.Double			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	float(24)=true	${sqlTypeId}=true|float4=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true
-text	java.lang.String		TRUE	${sqlTypeId}=true	clob=false	clob=false	clob=false	${sqlTypeId}=true	clob=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true|varchar=true
-clob	java.lang.String		TRUE	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	text=false	${sqlTypeId}=true	text=false	text=false	text=false	text=false	memo=true|longchar=true
-clob(n)	java.lang.String		TRUE	${sqlTypeId}=true|clob=true	${sqlTypeId}=true|clob=true	${sqlTypeId}=true|clob=true	${sqlTypeId}=true|clob=true	text=false	clob=false	text=false	text=false	text=false	text=false	memo=false
-nclob	java.lang.String		TRUE	${sqlTypeId}=true	clob=false	clob=false	clob=false	text=false	${sqlTypeId}=true	text=false	text=false	ntext=false	ntext=false	memo=false
-ntext	java.lang.String		TRUE	${sqlTypeId}=true	clob=false	clob=false	clob=false	text=false	nclob=false	text=false	text=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false
-varchar	java.lang.String		TRUE	${sqlTypeId}=true	varchar(n)=false	${sqlTypeId}=true	${sqlTypeId}=true	varchar(n)=false	varchar2(n)=false	${sqlTypeId}=true	text=false	varchar(max)=true	varchar(max)=true	text=false
-varchar_ignorecase	java.lang.String		TRUE	varchar=false	varchar(n)=false	${sqlTypeId}=true	${sqlTypeId}=true	varchar(n)=false	varchar2(n)=false	varchar=false	text=false	varchar(max)=false	varchar(max)=false	text=false
-varchar_ignorecase(n)	java.lang.String		TRUE	varchar(n)=false	varchar(n)=false	${sqlTypeId}=true|varchar_ignorecase=true	${sqlTypeId}=true|varchar_ignorecase=true	varchar(n)=false	varchar2(n)=false	varchar(n)=false	text=false	varchar(n)=false	varchar(n)=false	text=false
-nvarchar	java.lang.String		TRUE	${sqlTypeId}=true	vargraphic(n)=false	varchar=false	varchar=false	varchar(n)=false	nvarchar2(n)=false	varchar=false	text=false	nvarchar(max)=true	nvarchar(max)=true	text=false
-blob	java.sql.Blob			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	bytea=true	none=true	varbinary(max)=false	varbinary(max)=false	longbinary=true
-blob(n)	java.sql.Blob			${sqlTypeId}=true|blob=true	${sqlTypeId}=true|blob=true	${sqlTypeId}=true|blob=true	${sqlTypeId}=true|blob=true	blob=false	blob=false	bytea=false	none=false	varbinary(n)=false	varbinary(n)=false	longbinary=false
-bfile	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
-varbinary	java.sql.Blob			${sqlTypeId}=true	varchar(n) for bit data=false	${sqlTypeId}=true	${sqlTypeId}=true	varbinary(n)=false	blob=false	bytea=false	none=false	varbinary(max)=true	varbinary(max)=true	longbinary=false
-varbinary(n)	java.sql.Blob			${sqlTypeId}=true|varbinary=true	varchar(n) for bit data=true|varchar () for bit data=true	${sqlTypeId}=true|varbinary=true	${sqlTypeId}=true|varbinary=true	${sqlTypeId}=true|varbinary=true	blob=false	bytea=false	none=false	${sqlTypeId}=true|varbinary=true	${sqlTypeId}=true|varbinary=true	longbinary=false
-array	java.lang.Object
-bigint	java.lang.Long			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(19,0)=false|number(19,0)=true	${sqlTypeId}=true|int8=true	integer=false	${sqlTypeId}=true	${sqlTypeId}=true	long=true|integer=true
-bigint(n)	java.lang.Long			bigint=false	bigint=false	bigint=false	bigint=false	${sqlTypeId}=true	number(19,0)=false	bigint=false	integer=false	bigint=false	bigint=false	long=false
-bigserial	java.lang.Long			bigint=false	bigint=false	bigint=false	bigint=false	bigint=false	number(19,0)=false	${sqlTypeId}=true	integer=false	bigint=false	bigint=false	counter=false
-binary_double	java.lang.Double			double=false	double=false	double=false	double=false	double=false	${sqlTypeId}=true	double precision=false	real=false	float(53)=false	float(53)=false	double=false
-binary_float	java.lang.Float			float=false	decfloat=false	float=false	float=false	float=false	${sqlTypeId}=true	float=false	real=false	float=false	float=false	double=false
-binary(n)	java.sql.Blob			${sqlTypeId}=true|binary=true	char(n) for bit data=true|char () for bit data=true	binary=true	binary=true	${sqlTypeId}=true|binary=true	raw(n)=false	bytea=false	none=false	${sqlTypeId}=true|binary=true	${sqlTypeId}=true|binary=true	longbinary=false
-binary1	java.sql.Blob			binary=true	char for bit data=true	binary=false	binary=false	binary=true	raw(1)=true	bytea=false	none=false	binary=true	binary=true	longbinary=false
-bit	java.lang.String			${sqlTypeId}=true	char(1)=false	${sqlTypeId}=true	${sqlTypeId}=true	bit(1)=false	char(1)=false	${sqlTypeId}=true	text=false	${sqlTypeId}=true	${sqlTypeId}=true	yesno=false
-bit(n)	java.lang.String			${sqlTypeId}=true|bit=true	char(n)=false	char(n)=false	char(n)=false	${sqlTypeId}=true|bit=true	char(n)=false	${sqlTypeId}=true|bit=true	text=false	char(n)=false	char(n)=false	text=false
-bit varying	java.lang.String		TRUE	${sqlTypeId}=true	varchar(n)=false	varchar=false	varchar=false	text=false	varchar2(n)=false	${sqlTypeId}=true|varbit=true	text=false	varchar(max)=false	varchar(max)=false	text=false
-bit varying(n)	java.lang.String		TRUE	${sqlTypeId}=true|bit varying=true	varchar(n)=false	varchar(n)=false	varchar(n)=false	varchar(n)=false	varchar2(n)=false	${sqlTypeId}=true|varbit=true	text=false	varchar(n)=false	varchar(n)=false	text=false
-boolean	java.lang.Boolean			${sqlTypeId}=true	char(1)=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true|bit=true	char(1)=false	${sqlTypeId}=true|bool=true	text=false	bit=false	bit=false	yesno=true|bit=true
-box	java.lang.Object									${sqlTypeId}=true	none=false
-char	java.lang.String		TRUE	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	text=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false
-nchar	java.lang.String		TRUE	${sqlTypeId}=true	graphic=true	char=false	char=false	char=false	${sqlTypeId}=true	char=false	text=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false
-cidr	java.lang.String									${sqlTypeId}=true	none=false
-circle	java.lang.Object									${sqlTypeId}=true	none=false
-date	java.util.Date			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	none=false	${sqlTypeId}=true	${sqlTypeId}=true	datetime=false
-dbclob	java.lang.String		TRUE	clob=false	${sqlTypeId}=true	clob=false	clob=false	text=false	clob=false	text=false	text=false	text=false	text=false	memo=false
-dbclob(n)	java.lang.String		TRUE	clob=false	${sqlTypeId}=true|dbclob=true	clob(n)=false	clob(n)=false	text=false	clob=false	text=false	text=false	text=false	text=false	memo=false
-double precision(m,d)	java.lang.Double				decimal(p,s)=false	decimal(p,s)=false	decimal(p,s)=false	double(m,d)=true|double=true	number(p,s)=false	decimal(p,s)=false	real=false	decimal(p,s)=false	decimal(p,s)=false	double=false
-enum	java.lang.Object	TRUE						${sqlTypeId}=true						text=false
-decfloat16	java.lang.Float			float=false	decfloat(16)=true	float=false	float=false	float=false	float=false	float=false	real=false	float=false	float=false	double=false
-float(p)	java.lang.Float			${sqlTypeId}=true|float=true	decfloat(p)=true|decfloat=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true	real=false	${sqlTypeId}=true	${sqlTypeId}=true	double=false
-float(m,d)	java.lang.Float				decimal(p,s)=false	decimal(p,s)=false	decimal(p,s)=false	${sqlTypeId}=true|float=true	number(p,s)=false	decimal(p,s)=false	real=false	decimal(p,s)=false	decimal(p,s)=false	double=false
-hierarchyid	java.lang.String										none=false	${sqlTypeId}=true|hierarchyid=true	${sqlTypeId}=true|hierarchyid=true
-image	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	blob=false	blob=false	bytea=false	none=false	${sqlTypeId}=true	${sqlTypeId}=true	longbinary=false
-inet	java.lang.String									${sqlTypeId}=true	none=false
-int(n)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true	number(10,0)=false	int=false	integer=false	int=false	int=false	long=false
-interval	java.lang.Integer									${sqlTypeId}=true
-interval(p)	java.lang.Integer									${sqlTypeId}=true|interval=true
-interval year	java.lang.Integer									${sqlTypeId}=true
-interval month	java.lang.Integer									${sqlTypeId}=true
-interval day	java.lang.Integer									${sqlTypeId}=true
-interval hour	java.lang.Integer									${sqlTypeId}=true
-interval minute	java.lang.Integer									${sqlTypeId}=true
-interval second	java.lang.Integer									${sqlTypeId}=true
-interval second(p)	java.lang.Integer									${sqlTypeId}=true
-interval year to month	java.lang.Integer								${sqlTypeId}=true	${sqlTypeId}=true
-interval year(p) to month	java.lang.Integer								${sqlTypeId}=true|interval year to month=true	interval year to month=false
-interval day to hour	java.lang.Integer									${sqlTypeId}=true
-interval day to minute	java.lang.Integer									${sqlTypeId}=true
-interval day to second	java.lang.Integer								${sqlTypeId}=true	${sqlTypeId}=true
-interval day to second(p)	java.lang.Integer								${sqlTypeId}=true	${sqlTypeId}=true
-interval day(p) to second	java.lang.Integer								${sqlTypeId}=true	interval day to second(p)=false
-interval day(p) to second(p)	java.lang.Integer								${sqlTypeId}=true|interval day to second=true	interval day to second(p)=false
-interval hour to minute	java.lang.Integer									${sqlTypeId}=true
-interval hour to second	java.lang.Integer									${sqlTypeId}=true
-interval hour to second(p)	java.lang.Integer									${sqlTypeId}=true
-interval minute to second	java.lang.Integer									${sqlTypeId}=true
-interval minute to second(p)	java.lang.Integer									${sqlTypeId}=true
-line	java.lang.Object									${sqlTypeId}=true	none=false
-long	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
-longblob	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	blob=false	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
-long raw	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	longblob=false	${sqlTypeId}=true	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
-longtext	java.lang.String		TRUE	clob=false	clob=false	clob=false	clob=false	${sqlTypeId}=true	clob=false	text=false	text=false	text=false	text=false	memo=false
-longvarchar	java.lang.String		TRUE	clob=false	clob=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false	clob=false	text=false	text=false	text=false	text=false	memo=false
-longvarbinary	java.sql.Blob			blob=false	blob=false	${sqlTypeId}=true	${sqlTypeId}=true	blob=false	blob=false	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
-lseg	java.lang.Object									${sqlTypeId}=true	none=false
-macaddr	java.lang.String									${sqlTypeId}=true	none=false
-mediumblob	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	blob=false	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
-mediumint	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true	number(7,0)=false|number(7,0)=true	int=false	integer=false	int=false	int=false	long=false
-mediumint(n)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true	number(7,0)=false	int=false	integer=false	int=false	int=false	long=false
-mediumtext	java.lang.String		TRUE	text=false	clob=false	clob=false	clob=false	${sqlTypeId}=true	clob=false	text=false	text=false	text=false	text=false	text=false
-money	java.lang.Double			${sqlTypeId}=true	decimal(19,4)=false|decimal(19,4)=true	decimal(19,4)=false|decimal(19,4)=true	decimal(19,4)=false|decimal(19,4)=true	decimal(19,4)=false|decimal(19,4)=true	number(19,4)=false|number(19,4)=true	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	currency=true
-smallmoney	java.lang.Double			${sqlTypeId}=true	decimal(10,4)=false|decimal(10,4)=true	decimal(10,4)=false|decimal(10,4)=true	decimal(10,4)=false|decimal(10,4)=true	decimal(10,4)=false|decimal(10,4)=true	number(10,4)=false|number(10,4)=true	money=false	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	currency=false
-oid	java.lang.String									${sqlTypeId}=true
-other	java.lang.Object					${sqlTypeId}=true	${sqlTypeId}=true				none=false
-path	java.lang.Object									${sqlTypeId}=true	none=false
-point	java.lang.Object									${sqlTypeId}=true	none=false
-polygon	java.lang.Object									${sqlTypeId}=true	none=false
-geometry	java.lang.Object							${sqlTypeId}=true
-raw(n)	java.sql.Blob			varbinary(n)=false	varchar(n) for bit data=false	varbinary=false	varbinary=false	varbinary(n)=false	${sqlTypeId}=true|raw=true	bytea=false	none=false	varbinary(n)=false	varbinary(n)=false	longbinary=false
-real(m,d)	java.lang.Double			${sqlTypeId}=true|real=true	decimal(p,s)=false	decimal(p,s)=false	decimal(p,s)=false	${sqlTypeId}=true	number(p,s)=false	decimal(p,s)=false	real=false	decimal(p,s)=false	decimal(p,s)=false	float=false
-rowguidcol	java.lang.String
-rowversion	java.lang.String										none=false	${sqlTypeId}=true|timestamp=true	${sqlTypeId}=true|timestamp=true
-serial	java.lang.Integer			int=false	int=false	int=false	int=false	int=false	number(10,0)=false	${sqlTypeId}=true	integer=false	int=false	int=false	counter=true
-set	java.lang.Object	TRUE						${sqlTypeId}=true
-smallint(n)	java.lang.Short			smallint=false	smallint=false	smallint=false	smallint=false	${sqlTypeId}=true	number(5,0)=false	smallint=false	integer=false	smallint=false	smallint=false	smallint=true
-time	java.sql.Time			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	date=false	${sqlTypeId}=true	none=false	${sqlTypeId}=true	${sqlTypeId}=true	datetime=false
-time(p)	java.sql.Time			${sqlTypeId}=true|time=true	time=false	time=false	time=false	time=false	date=false	${sqlTypeId}=true|time=true	none=false	${sqlTypeId}=true|time=true	${sqlTypeId}=true|time=true	datetime=false
-time with time zone	java.sql.Time			${sqlTypeId}=true	time=false	time=false	time=false	time=false	timestamp with time zone=false	${sqlTypeId}=true|timetz=true	none=false	time=false	time=false	datetime=false
-time(p) with time zone	java.sql.Time			${sqlTypeId}=true|time with time zone=true	time=false	time=false	time=false	time=false	timestamp(p) with time zone=false	${sqlTypeId}=true|timetz=true	none=false	time(p)=false	time(p)=false	datetime=false
-timestamp	java.util.Date			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	none=false	datetime=true	datetime=true	datetime=true
-datetime2	java.util.Date
-timestamp(p)	java.util.Date			${sqlTypeId}=true|timestamp=true	timestamp=false	${sqlTypeId}=true|timestamp=true	${sqlTypeId}=true|timestamp=true	timestamp=false	${sqlTypeId}=true|timestamp=true	${sqlTypeId}=true|timestamp=true	none=false	datetime2(p)=true|datetime2=true	datetime2(p)=true|datetime2=true	datetime=false
-timestamp with time zone	java.util.Date			${sqlTypeId}=true	timestamp=false	timestamp=false	timestamp=false	timestamp=false	${sqlTypeId}=true	${sqlTypeId}=true|timestamptz=true	none=false	datetimeoffset=true	datetimeoffset=true	datetime=false
-timestamp(p) with time zone	java.util.Date			${sqlTypeId}=true|timestamp with time zone=true	timestamp=false	timestamp(p)=false	timestamp(p)=false	timestamp=false	${sqlTypeId}=true|timestamp with time zone=true	${sqlTypeId}=true|timestamptz=true	none=false	datetimeoffset=false	datetimeoffset=false	datetime=false
-timestamp with local time zone	java.util.Date			${sqlTypeId}=true	timestamp=false	timestamp=false	timestamp=false	timestamp=false	${sqlTypeId}=true	timestamp with time zone=false	none=false	datetimeoffset=false	datetimeoffset=false	datetime=false
-timestamp(p) with local time zone	java.util.Date			${sqlTypeId}=true|timestamp with local time zone=true	timestamp=false	timestamp(p)=false	timestamp(p)=false	timestamp=false	${sqlTypeId}=true|timestamp with local time zone=true	timestamp(p) with time zone=false	none=false	datetimeoffset=false	datetimeoffset=false	datetime=false
-datetime	java.util.Date			${sqlTypeId}=true	timestamp=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	timestamp=false	timestamp=false	none=false	${sqlTypeId}=false	${sqlTypeId}=false	${sqlTypeId}=false
-smalldatetime	java.util.Date			${sqlTypeId}=true	timestamp=false	timestamp=false	timestamp=false	timestamp=false	timestamp=false	timestamp=false	none=false	${sqlTypeId}=true|smalldaatetime=true	${sqlTypeId}=true|smalldaatetime=true	datetime=false
-tinyblob	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	blob=false	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
-tinyint	java.lang.Byte			${sqlTypeId}=true	smallint=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(3,0)=false|number(3,0)=true	smallint=false	integer=false	${sqlTypeId}=true	${sqlTypeId}=true	byte=true
-tinyint(n)	java.lang.Byte			tinyint=false	smallint=false	tinyint=false	tinyint=false	${sqlTypeId}=true	number(3,0)=false	smallint=false	integer=false	tinyint=false	tinyint=false	byte=false
-tinytext	java.lang.String		TRUE	text=false	clob=false	varchar=false	varchar=false	${sqlTypeId}=true	clob=false	text=false	text=false	text=false	text=false	text=false
-urowid	java.lang.String								${sqlTypeId}=true		none=false
-urowid(n)	java.lang.String								${sqlTypeId}=true|urowid=true		none=false
-uuid	java.lang.String								rowid=true	${sqlTypeId}=true	none=false	uniqueidentifier =true|uniqueidentifier=true	uniqueidentifier =true|uniqueidentifier=true	guid=true
-xml	java.lang.Object			${sqlTypeId}=true	${sqlTypeId}=true				xmltype=true	${sqlTypeId}=true		${sqlTypeId}=true	${sqlTypeId}=true
-json	java.lang.Object							${sqlTypeId}=true
-year(2)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true|year=true	number(2,0)=true	int=false	integer=false	int=false	int=false	smallint=false
-year(4)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true|year=true	number(4,0)=true	int=false	integer=false	int=false	int=false	smallint=false
-alert_type	java.lang.Object								${sqlTypeId}=true		none=false
-anydata	java.lang.Object								${sqlTypeId}=true		none=false
+sqlTypeId	javaclass	need args	full text indexable	StandardSQL	DB2	H2	HSQLDB	MySQL	Oracle	Oracle(Identity)	PostgreSQL	SQLite	SQLServer	SQLServer 2008	MSAccess
+character(n)	java.lang.String		TRUE	char(n)=true|char=true	char(n)=true|char=true	char(n)=true|character=true	char(n)=true|character=true	char(n)=true|char=true	char(n)=true|char=true	char(n)=true|char=true	char(n)=true|bpchar=true	text=false	char(n)=true|char=true	char(n)=true|char=true	text=false
+varchar(n)	java.lang.String		TRUE	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	varchar2(n)=true|varchar2=true	varchar2(n)=true|varchar2=true	${sqlTypeId}=true|varchar=true	text=false	${sqlTypeId}=true|varchar=true	${sqlTypeId}=true|varchar=true	text=false
+nchar(n)	java.lang.String		TRUE	${sqlTypeId}=true|nchar=true	graphic(n)=true|graphic=true	char(n)=false	char(n)=false	char(n)=false	${sqlTypeId}=true|nchar=true	${sqlTypeId}=true|nchar=true	char(n)=false	text=false	${sqlTypeId}=true|nchar=true	${sqlTypeId}=true|nchar=true	text=false
+nvarchar(n)	java.lang.String		TRUE	${sqlTypeId}=true|nvarchar=true	vargraphic(n)=true|vargraphic=true	varchar(n)=false	varchar(n)=false	varchar(n)=false	nvarchar2(n)=true|nvarchar2=true	nvarchar2(n)=true|nvarchar2=true	varchar(n)=false	text=false	${sqlTypeId}=true|nvarchar=true	${sqlTypeId}=true|nvarchar=true	text=false
+decimal	java.lang.Integer			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number=true	number=true	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true
+decimal(p)	java.lang.Integer			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(p)=true	number(p)=true	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	decimal=false
+decimal(p,s)	java.lang.Double			${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	number(p,s)=true|number=true	number(p,s)=true|number=true	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true|decimal=true	${sqlTypeId}=true|decimal=true	decimal=false
+numeric	java.lang.Integer			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number=false	number=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	decimal=false
+numeric(p)	java.lang.Integer			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(p)=false	number(p)=false	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	decimal=false
+numeric(p,s)	java.lang.Double			${sqlTypeId}=true|numeric=true	${sqlTypeId}=true	${sqlTypeId}=true|numeric=true	${sqlTypeId}=true|numeric=true	${sqlTypeId}=true	number(p,s)=false	number(p,s)=false	${sqlTypeId}=true|numeric=true	numeric=false	${sqlTypeId}=true|numeric=true	${sqlTypeId}=true|numeric=true	decimal=false
+integer	java.lang.Integer			${sqlTypeId}=true|int=true	int=true|${sqlTypeId}=true	int=true|${sqlTypeId}=true	int=true|${sqlTypeId}=true	int=true	number(10,0)=true	number(10,0)=true	int=true|int4=true	${sqlTypeId}=true	int=true	int=true	long=false
+smallint	java.lang.Short			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(5,0)=true	number(5,0)=true	${sqlTypeId}=true|int2=true	integer=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true
+float	java.lang.Float			${sqlTypeId}=true	decfloat=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true|float8=true	real=false	${sqlTypeId}=true	${sqlTypeId}=true	double=false
+double precision	java.lang.Double			double=true	double=true	double=true	double=true	double=true	float(24)=true	float(24)=true	${sqlTypeId}=true	real=false	float(53)=false|float(53)=true	float(53)=false|float(53)=true	double=true
+real	java.lang.Double			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	float(24)=true	float(24)=true	${sqlTypeId}=true|float4=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true
+text	java.lang.String		TRUE	${sqlTypeId}=true	clob=false	clob=false	clob=false	${sqlTypeId}=true	clob=false	clob=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true|varchar=true
+clob	java.lang.String		TRUE	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	text=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false	text=false	text=false	text=false	memo=true|longchar=true
+clob(n)	java.lang.String		TRUE	${sqlTypeId}=true|clob=true	${sqlTypeId}=true|clob=true	${sqlTypeId}=true|clob=true	${sqlTypeId}=true|clob=true	text=false	clob=false	clob=false	text=false	text=false	text=false	text=false	memo=false
+nclob	java.lang.String		TRUE	${sqlTypeId}=true	clob=false	clob=false	clob=false	text=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false	text=false	ntext=false	ntext=false	memo=false
+ntext	java.lang.String		TRUE	${sqlTypeId}=true	clob=false	clob=false	clob=false	text=false	nclob=false	nclob=false	text=false	text=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false
+varchar	java.lang.String		TRUE	${sqlTypeId}=true	varchar(n)=false	${sqlTypeId}=true	${sqlTypeId}=true	varchar(n)=false	varchar2(n)=false	varchar2(n)=false	${sqlTypeId}=true	text=false	varchar(max)=true	varchar(max)=true	text=false
+varchar_ignorecase	java.lang.String		TRUE	varchar=false	varchar(n)=false	${sqlTypeId}=true	${sqlTypeId}=true	varchar(n)=false	varchar2(n)=false	varchar2(n)=false	varchar=false	text=false	varchar(max)=false	varchar(max)=false	text=false
+varchar_ignorecase(n)	java.lang.String		TRUE	varchar(n)=false	varchar(n)=false	${sqlTypeId}=true|varchar_ignorecase=true	${sqlTypeId}=true|varchar_ignorecase=true	varchar(n)=false	varchar2(n)=false	varchar2(n)=false	varchar(n)=false	text=false	varchar(n)=false	varchar(n)=false	text=false
+nvarchar	java.lang.String		TRUE	${sqlTypeId}=true	vargraphic(n)=false	varchar=false	varchar=false	varchar(n)=false	nvarchar2(n)=false	nvarchar2(n)=false	varchar=false	text=false	nvarchar(max)=true	nvarchar(max)=true	text=false
+blob	java.sql.Blob			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	bytea=true	none=true	varbinary(max)=false	varbinary(max)=false	longbinary=true
+blob(n)	java.sql.Blob			${sqlTypeId}=true|blob=true	${sqlTypeId}=true|blob=true	${sqlTypeId}=true|blob=true	${sqlTypeId}=true|blob=true	blob=false	blob=false	blob=false	bytea=false	none=false	varbinary(n)=false	varbinary(n)=false	longbinary=false
+bfile	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	${sqlTypeId}=true	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
+varbinary	java.sql.Blob			${sqlTypeId}=true	varchar(n) for bit data=false	${sqlTypeId}=true	${sqlTypeId}=true	varbinary(n)=false	blob=false	blob=false	bytea=false	none=false	varbinary(max)=true	varbinary(max)=true	longbinary=false
+varbinary(n)	java.sql.Blob			${sqlTypeId}=true|varbinary=true	varchar(n) for bit data=true|varchar () for bit data=true	${sqlTypeId}=true|varbinary=true	${sqlTypeId}=true|varbinary=true	${sqlTypeId}=true|varbinary=true	blob=false	blob=false	bytea=false	none=false	${sqlTypeId}=true|varbinary=true	${sqlTypeId}=true|varbinary=true	longbinary=false
+array	java.lang.Object														
+bigint	java.lang.Long			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(19,0)=false|number(19,0)=true	number(19,0)=false|number(19,0)=true	${sqlTypeId}=true|int8=true	integer=false	${sqlTypeId}=true	${sqlTypeId}=true	long=true|integer=true
+bigint(n)	java.lang.Long			bigint=false	bigint=false	bigint=false	bigint=false	${sqlTypeId}=true	number(19,0)=false	number(19,0)=false	bigint=false	integer=false	bigint=false	bigint=false	long=false
+bigserial	java.lang.Long			bigint=false	bigint=false	bigint=false	bigint=false	bigint=false	number(19,0)=false	number(19,0)=false	${sqlTypeId}=true	integer=false	bigint=false	bigint=false	counter=false
+binary_double	java.lang.Double			double=false	double=false	double=false	double=false	double=false	${sqlTypeId}=true	${sqlTypeId}=true	double precision=false	real=false	float(53)=false	float(53)=false	double=false
+binary_float	java.lang.Float			float=false	decfloat=false	float=false	float=false	float=false	${sqlTypeId}=true	${sqlTypeId}=true	float=false	real=false	float=false	float=false	double=false
+binary(n)	java.sql.Blob			${sqlTypeId}=true|binary=true	char(n) for bit data=true|char () for bit data=true	binary=true	binary=true	${sqlTypeId}=true|binary=true	raw(n)=false	raw(n)=false	bytea=false	none=false	${sqlTypeId}=true|binary=true	${sqlTypeId}=true|binary=true	longbinary=false
+binary1	java.sql.Blob			binary=true	char for bit data=true	binary=false	binary=false	binary=true	raw(1)=true	raw(1)=true	bytea=false	none=false	binary=true	binary=true	longbinary=false
+bit	java.lang.String			${sqlTypeId}=true	char(1)=false	${sqlTypeId}=true	${sqlTypeId}=true	bit(1)=false	char(1)=false	char(1)=false	${sqlTypeId}=true	text=false	${sqlTypeId}=true	${sqlTypeId}=true	yesno=false
+bit(n)	java.lang.String			${sqlTypeId}=true|bit=true	char(n)=false	char(n)=false	char(n)=false	${sqlTypeId}=true|bit=true	char(n)=false	char(n)=false	${sqlTypeId}=true|bit=true	text=false	char(n)=false	char(n)=false	text=false
+bit varying	java.lang.String		TRUE	${sqlTypeId}=true	varchar(n)=false	varchar=false	varchar=false	text=false	varchar2(n)=false	varchar2(n)=false	${sqlTypeId}=true|varbit=true	text=false	varchar(max)=false	varchar(max)=false	text=false
+bit varying(n)	java.lang.String		TRUE	${sqlTypeId}=true|bit varying=true	varchar(n)=false	varchar(n)=false	varchar(n)=false	varchar(n)=false	varchar2(n)=false	varchar2(n)=false	${sqlTypeId}=true|varbit=true	text=false	varchar(n)=false	varchar(n)=false	text=false
+boolean	java.lang.Boolean			${sqlTypeId}=true	char(1)=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true|bit=true	char(1)=false	char(1)=false	${sqlTypeId}=true|bool=true	text=false	bit=false	bit=false	yesno=true|bit=true
+box	java.lang.Object										${sqlTypeId}=true	none=false			
+char	java.lang.String		TRUE	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	text=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false
+nchar	java.lang.String		TRUE	${sqlTypeId}=true	graphic=true	char=false	char=false	char=false	${sqlTypeId}=true	${sqlTypeId}=true	char=false	text=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false
+cidr	java.lang.String										${sqlTypeId}=true	none=false			
+circle	java.lang.Object										${sqlTypeId}=true	none=false			
+date	java.util.Date			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	none=false	${sqlTypeId}=true	${sqlTypeId}=true	datetime=false
+dbclob	java.lang.String		TRUE	clob=false	${sqlTypeId}=true	clob=false	clob=false	text=false	clob=false	clob=false	text=false	text=false	text=false	text=false	memo=false
+dbclob(n)	java.lang.String		TRUE	clob=false	${sqlTypeId}=true|dbclob=true	clob(n)=false	clob(n)=false	text=false	clob=false	clob=false	text=false	text=false	text=false	text=false	memo=false
+double precision(m,d)	java.lang.Double				decimal(p,s)=false	decimal(p,s)=false	decimal(p,s)=false	double(m,d)=true|double=true	number(p,s)=false	number(p,s)=false	decimal(p,s)=false	real=false	decimal(p,s)=false	decimal(p,s)=false	double=false
+enum	java.lang.Object	TRUE						${sqlTypeId}=true							text=false
+decfloat16	java.lang.Float			float=false	decfloat(16)=true	float=false	float=false	float=false	float=false	float=false	float=false	real=false	float=false	float=false	double=false
+float(p)	java.lang.Float			${sqlTypeId}=true|float=true	decfloat(p)=true|decfloat=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true|float=true	${sqlTypeId}=true	real=false	${sqlTypeId}=true	${sqlTypeId}=true	double=false
+float(m,d)	java.lang.Float				decimal(p,s)=false	decimal(p,s)=false	decimal(p,s)=false	${sqlTypeId}=true|float=true	number(p,s)=false	number(p,s)=false	decimal(p,s)=false	real=false	decimal(p,s)=false	decimal(p,s)=false	double=false
+hierarchyid	java.lang.String											none=false	${sqlTypeId}=true|hierarchyid=true	${sqlTypeId}=true|hierarchyid=true	
+image	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	blob=false	blob=false	blob=false	bytea=false	none=false	${sqlTypeId}=true	${sqlTypeId}=true	longbinary=false
+inet	java.lang.String										${sqlTypeId}=true	none=false			
+int(n)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true	number(10,0)=false	number(10,0)=false	int=false	integer=false	int=false	int=false	long=false
+interval	java.lang.Integer										${sqlTypeId}=true				
+interval(p)	java.lang.Integer										${sqlTypeId}=true|interval=true				
+interval year	java.lang.Integer										${sqlTypeId}=true				
+interval month	java.lang.Integer										${sqlTypeId}=true				
+interval day	java.lang.Integer										${sqlTypeId}=true				
+interval hour	java.lang.Integer										${sqlTypeId}=true				
+interval minute	java.lang.Integer										${sqlTypeId}=true				
+interval second	java.lang.Integer										${sqlTypeId}=true				
+interval second(p)	java.lang.Integer										${sqlTypeId}=true				
+interval year to month	java.lang.Integer								${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true				
+interval year(p) to month	java.lang.Integer								${sqlTypeId}=true|interval year to month=true	${sqlTypeId}=true|interval year to month=true	interval year to month=false				
+interval day to hour	java.lang.Integer										${sqlTypeId}=true				
+interval day to minute	java.lang.Integer										${sqlTypeId}=true				
+interval day to second	java.lang.Integer								${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true				
+interval day to second(p)	java.lang.Integer								${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true				
+interval day(p) to second	java.lang.Integer								${sqlTypeId}=true	${sqlTypeId}=true	interval day to second(p)=false				
+interval day(p) to second(p)	java.lang.Integer								${sqlTypeId}=true|interval day to second=true	${sqlTypeId}=true|interval day to second=true	interval day to second(p)=false				
+interval hour to minute	java.lang.Integer										${sqlTypeId}=true				
+interval hour to second	java.lang.Integer										${sqlTypeId}=true				
+interval hour to second(p)	java.lang.Integer										${sqlTypeId}=true				
+interval minute to second	java.lang.Integer										${sqlTypeId}=true				
+interval minute to second(p)	java.lang.Integer										${sqlTypeId}=true				
+line	java.lang.Object										${sqlTypeId}=true	none=false			
+long	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	${sqlTypeId}=true	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
+longblob	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	blob=false	blob=false	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
+long raw	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	longblob=false	${sqlTypeId}=true	${sqlTypeId}=true	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
+longtext	java.lang.String		TRUE	clob=false	clob=false	clob=false	clob=false	${sqlTypeId}=true	clob=false	clob=false	text=false	text=false	text=false	text=false	memo=false
+longvarchar	java.lang.String		TRUE	clob=false	clob=false	${sqlTypeId}=true	${sqlTypeId}=true	text=false	clob=false	clob=false	text=false	text=false	text=false	text=false	memo=false
+longvarbinary	java.sql.Blob			blob=false	blob=false	${sqlTypeId}=true	${sqlTypeId}=true	blob=false	blob=false	blob=false	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
+lseg	java.lang.Object										${sqlTypeId}=true	none=false			
+macaddr	java.lang.String										${sqlTypeId}=true	none=false			
+mediumblob	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	blob=false	blob=false	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
+mediumint	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true	number(7,0)=false|number(7,0)=true	number(7,0)=false|number(7,0)=true	int=false	integer=false	int=false	int=false	long=false
+mediumint(n)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true	number(7,0)=false	number(7,0)=false	int=false	integer=false	int=false	int=false	long=false
+mediumtext	java.lang.String		TRUE	text=false	clob=false	clob=false	clob=false	${sqlTypeId}=true	clob=false	clob=false	text=false	text=false	text=false	text=false	text=false
+money	java.lang.Double			${sqlTypeId}=true	decimal(19,4)=false|decimal(19,4)=true	decimal(19,4)=false|decimal(19,4)=true	decimal(19,4)=false|decimal(19,4)=true	decimal(19,4)=false|decimal(19,4)=true	number(19,4)=false|number(19,4)=true	number(19,4)=false|number(19,4)=true	${sqlTypeId}=true	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	currency=true
+smallmoney	java.lang.Double			${sqlTypeId}=true	decimal(10,4)=false|decimal(10,4)=true	decimal(10,4)=false|decimal(10,4)=true	decimal(10,4)=false|decimal(10,4)=true	decimal(10,4)=false|decimal(10,4)=true	number(10,4)=false|number(10,4)=true	number(10,4)=false|number(10,4)=true	money=false	numeric=false	${sqlTypeId}=true	${sqlTypeId}=true	currency=false
+oid	java.lang.String										${sqlTypeId}=true				
+other	java.lang.Object					${sqlTypeId}=true	${sqlTypeId}=true					none=false			
+path	java.lang.Object										${sqlTypeId}=true	none=false			
+point	java.lang.Object										${sqlTypeId}=true	none=false			
+polygon	java.lang.Object										${sqlTypeId}=true	none=false			
+geometry	java.lang.Object							${sqlTypeId}=true							
+raw(n)	java.sql.Blob			varbinary(n)=false	varchar(n) for bit data=false	varbinary=false	varbinary=false	varbinary(n)=false	${sqlTypeId}=true|raw=true	${sqlTypeId}=true|raw=true	bytea=false	none=false	varbinary(n)=false	varbinary(n)=false	longbinary=false
+real(m,d)	java.lang.Double			${sqlTypeId}=true|real=true	decimal(p,s)=false	decimal(p,s)=false	decimal(p,s)=false	${sqlTypeId}=true	number(p,s)=false	number(p,s)=false	decimal(p,s)=false	real=false	decimal(p,s)=false	decimal(p,s)=false	float=false
+rowguidcol	java.lang.String														
+rowversion	java.lang.String											none=false	${sqlTypeId}=true|timestamp=true	${sqlTypeId}=true|timestamp=true	
+serial	java.lang.Integer			int=false	int=false	int=false	int=false	int=false	number(10,0)=false	number(10,0)=false	${sqlTypeId}=true	integer=false	int=false	int=false	counter=true
+set	java.lang.Object	TRUE						${sqlTypeId}=true							
+smallint(n)	java.lang.Short			smallint=false	smallint=false	smallint=false	smallint=false	${sqlTypeId}=true	number(5,0)=false	number(5,0)=false	smallint=false	integer=false	smallint=false	smallint=false	smallint=true
+time	java.sql.Time			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	date=false	date=false	${sqlTypeId}=true	none=false	${sqlTypeId}=true	${sqlTypeId}=true	datetime=false
+time(p)	java.sql.Time			${sqlTypeId}=true|time=true	time=false	time=false	time=false	time=false	date=false	date=false	${sqlTypeId}=true|time=true	none=false	${sqlTypeId}=true|time=true	${sqlTypeId}=true|time=true	datetime=false
+time with time zone	java.sql.Time			${sqlTypeId}=true	time=false	time=false	time=false	time=false	timestamp with time zone=false	timestamp with time zone=false	${sqlTypeId}=true|timetz=true	none=false	time=false	time=false	datetime=false
+time(p) with time zone	java.sql.Time			${sqlTypeId}=true|time with time zone=true	time=false	time=false	time=false	time=false	timestamp(p) with time zone=false	timestamp(p) with time zone=false	${sqlTypeId}=true|timetz=true	none=false	time(p)=false	time(p)=false	datetime=false
+timestamp	java.util.Date			${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	none=false	datetime=true	datetime=true	datetime=true
+datetime2	java.util.Date														
+timestamp(p)	java.util.Date			${sqlTypeId}=true|timestamp=true	timestamp=false	${sqlTypeId}=true|timestamp=true	${sqlTypeId}=true|timestamp=true	timestamp=false	${sqlTypeId}=true|timestamp=true	${sqlTypeId}=true|timestamp=true	${sqlTypeId}=true|timestamp=true	none=false	datetime2(p)=true|datetime2=true	datetime2(p)=true|datetime2=true	datetime=false
+timestamp with time zone	java.util.Date			${sqlTypeId}=true	timestamp=false	timestamp=false	timestamp=false	timestamp=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true|timestamptz=true	none=false	datetimeoffset=true	datetimeoffset=true	datetime=false
+timestamp(p) with time zone	java.util.Date			${sqlTypeId}=true|timestamp with time zone=true	timestamp=false	timestamp(p)=false	timestamp(p)=false	timestamp=false	${sqlTypeId}=true|timestamp with time zone=true	${sqlTypeId}=true|timestamp with time zone=true	${sqlTypeId}=true|timestamptz=true	none=false	datetimeoffset=false	datetimeoffset=false	datetime=false
+timestamp with local time zone	java.util.Date			${sqlTypeId}=true	timestamp=false	timestamp=false	timestamp=false	timestamp=false	${sqlTypeId}=true	${sqlTypeId}=true	timestamp with time zone=false	none=false	datetimeoffset=false	datetimeoffset=false	datetime=false
+timestamp(p) with local time zone	java.util.Date			${sqlTypeId}=true|timestamp with local time zone=true	timestamp=false	timestamp(p)=false	timestamp(p)=false	timestamp=false	${sqlTypeId}=true|timestamp with local time zone=true	${sqlTypeId}=true|timestamp with local time zone=true	timestamp(p) with time zone=false	none=false	datetimeoffset=false	datetimeoffset=false	datetime=false
+datetime	java.util.Date			${sqlTypeId}=true	timestamp=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	timestamp=false	timestamp=false	timestamp=false	none=false	${sqlTypeId}=false	${sqlTypeId}=false	${sqlTypeId}=false
+smalldatetime	java.util.Date			${sqlTypeId}=true	timestamp=false	timestamp=false	timestamp=false	timestamp=false	timestamp=false	timestamp=false	timestamp=false	none=false	${sqlTypeId}=true|smalldaatetime=true	${sqlTypeId}=true|smalldaatetime=true	datetime=false
+tinyblob	java.sql.Blob			blob=false	blob=false	blob=false	blob=false	${sqlTypeId}=true	blob=false	blob=false	bytea=false	none=false	varbinary(max)=false	varbinary(max)=false	longbinary=false
+tinyint	java.lang.Byte			${sqlTypeId}=true	smallint=false	${sqlTypeId}=true	${sqlTypeId}=true	${sqlTypeId}=true	number(3,0)=false|number(3,0)=true	number(3,0)=false|number(3,0)=true	smallint=false	integer=false	${sqlTypeId}=true	${sqlTypeId}=true	byte=true
+tinyint(n)	java.lang.Byte			tinyint=false	smallint=false	tinyint=false	tinyint=false	${sqlTypeId}=true	number(3,0)=false	number(3,0)=false	smallint=false	integer=false	tinyint=false	tinyint=false	byte=false
+tinytext	java.lang.String		TRUE	text=false	clob=false	varchar=false	varchar=false	${sqlTypeId}=true	clob=false	clob=false	text=false	text=false	text=false	text=false	text=false
+urowid	java.lang.String								${sqlTypeId}=true	${sqlTypeId}=true		none=false			
+urowid(n)	java.lang.String								${sqlTypeId}=true|urowid=true	${sqlTypeId}=true|urowid=true		none=false			
+uuid	java.lang.String								rowid=true	rowid=true	${sqlTypeId}=true	none=false	uniqueidentifier =true|uniqueidentifier=true	uniqueidentifier =true|uniqueidentifier=true	guid=true
+xml	java.lang.Object			${sqlTypeId}=true	${sqlTypeId}=true				xmltype=true	xmltype=true	${sqlTypeId}=true		${sqlTypeId}=true	${sqlTypeId}=true	
+json	java.lang.Object							${sqlTypeId}=true							
+year(2)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true|year=true	number(2,0)=true	number(2,0)=true	int=false	integer=false	int=false	int=false	smallint=false
+year(4)	java.lang.Integer			int=false	int=false	int=false	int=false	${sqlTypeId}=true|year=true	number(4,0)=true	number(4,0)=true	int=false	integer=false	int=false	int=false	smallint=false
+alert_type	java.lang.Object								${sqlTypeId}=true	${sqlTypeId}=true		none=false			
+anydata	java.lang.Object								${sqlTypeId}=true	${sqlTypeId}=true		none=false			
