@@ -1,8 +1,11 @@
 package org.dbflute.erflute.db.impl.mysql;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.erflute.core.DisplayMessages;
+import org.dbflute.erflute.core.exception.ExceptionMessageBuilder;
 import org.dbflute.erflute.core.util.Check;
 import org.dbflute.erflute.core.util.Format;
 import org.dbflute.erflute.db.DBManager;
@@ -149,11 +152,17 @@ public class MySQLDDLCreator extends DDLCreator {
             ddl.append(constraint);
         }
         if (normalColumn.isUniqueKey()) {
-            if (!Check.isEmpty(normalColumn.getUniqueKeyName())) {
-                ddl.append(" CONSTRAINT ");
-                ddl.append(normalColumn.getUniqueKeyName());
+            // this implementation does not match with unique setting in column definition 
+            // see https://dev.mysql.com/doc/refman/5.6/ja/create-table.html
+            //if (!Check.isEmpty(normalColumn.getUniqueKeyName())) {
+            //    ddl.append(" CONSTRAINT ");
+            //    ddl.append(normalColumn.getUniqueKeyName());
+            //}
+            //ddl.append(" UNIQUE");
+            //
+            if (Check.isEmpty(normalColumn.getUniqueKeyName())) { // no named
+                ddl.append(" UNIQUE"); // no-named unique constraint
             }
-            ddl.append(" UNIQUE");
         }
         if (normalColumn.isAutoIncrement()) {
             ddl.append(" AUTO_INCREMENT");
@@ -197,6 +206,34 @@ public class MySQLDDLCreator extends DDLCreator {
     }
 
     @Override
+    protected List<ConstraintUniqueResource> prepareConstraintUniqueResourceList(ERTable table) {
+        // only-one column named unique constraint needs to be defined at constraint area in MySQL
+        final List<ConstraintUniqueResource> resourceList = new ArrayList<>();
+        final List<NormalColumn> normalColumns = table.getNormalColumns();
+        for (final NormalColumn normalColumn : normalColumns) {
+            if (isOnlyOneColumnNamedUniqueConstraint(normalColumn)) {
+                resourceList.add(new ConstraintUniqueResource() {
+                    @Override
+                    public String getUniqueKeyName() {
+                        return normalColumn.getUniqueKeyName();
+                    }
+
+                    @Override
+                    public List<NormalColumn> getColumnList() {
+                        return Arrays.asList(normalColumn);
+                    }
+                });
+            }
+        }
+        resourceList.addAll(super.prepareConstraintUniqueResourceList(table));
+        return resourceList;
+    }
+
+    protected boolean isOnlyOneColumnNamedUniqueConstraint(final NormalColumn normalColumn) {
+        return normalColumn.isUniqueKey() && !Check.isEmpty(normalColumn.getUniqueKeyName());
+    }
+
+    @Override
     public String buildTableOptionPart(ERTable table) {
         final MySQLTableProperties commonTableProperties =
                 (MySQLTableProperties) getDiagram().getDiagramContents().getSettings().getTableViewProperties();
@@ -209,9 +246,12 @@ public class MySQLDDLCreator extends DDLCreator {
         if (Check.isEmpty(characterSet)) {
             characterSet = commonTableProperties.getCharacterSet();
         }
-        final String collation = tableProperties.getCollation();
+        String collation = tableProperties.getCollation();
         if (Check.isEmpty(collation)) {
-            characterSet = commonTableProperties.getCharacterSet();
+            // [dbflute users 2617] https://groups.google.com/g/dbflute/c/kzNmfDeTEc0
+            // may be traditional mistake so fixed it by jflute (2021/08/11)
+            //characterSet = commonTableProperties.getCharacterSet();
+            collation = commonTableProperties.getCollation();
         }
         final StringBuilder postDDL = new StringBuilder();
         if (!Check.isEmpty(engine)) {
@@ -270,6 +310,16 @@ public class MySQLDDLCreator extends DDLCreator {
             if (!first) {
                 ddl.append(", ");
             }
+            if (column == null) { // broken index
+                // e.g.
+                // <column>
+                //   <column_id>null</column_id>
+                // </column>
+                //
+                // see the issue:
+                // https://github.com/dbflute-session/erflute/issues/53
+                throwBrokenIndexColumnsException(index, table);
+            }
             ddl.append(filter(column.getPhysicalName()));
             if (getDBManager().isSupported(DBManager.SUPPORT_DESC_INDEX)) {
                 if (descs.size() > i) {
@@ -289,6 +339,21 @@ public class MySQLDDLCreator extends DDLCreator {
             ddl.append(";");
         }
         return ddl.toString();
+    }
+
+    private void throwBrokenIndexColumnsException(ERIndex index, ERTable table) {
+        final ExceptionMessageBuilder br = new ExceptionMessageBuilder();
+        br.addNotice("The index columns may be broken. (when creating DDL)");
+        br.addItem("Advice");
+        br.addElement("Fatal situation so fix your erm file as XML.");
+        br.addElement("See for the detail:");
+        br.addElement("https://github.com/dbflute-session/erflute/issues/53");
+        br.addItem("Table");
+        br.addElement(table);
+        br.addItem("Index");
+        br.addElement(index);
+        final String msg = br.buildExceptionMessage();
+        throw new IllegalStateException(msg);
     }
 
     // ===================================================================================

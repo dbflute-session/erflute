@@ -5,16 +5,53 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.dbflute.erflute.db.sqltype.SqlType;
+import org.dbflute.erflute.editor.model.dbimport.DBObject;
 import org.dbflute.erflute.editor.model.dbimport.ImportFromDBManagerBase;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTable;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 public class MySQLTableImportManager extends ImportFromDBManagerBase {
+
+    @Override
+    protected void cashColumnDataX(String schemaPattern, String tableName, List<DBObject> dbObjectList,
+            IProgressMonitor monitor)
+            throws SQLException, InterruptedException {
+
+        final String catalog = (8 <= metaData.getDriverMajorVersion()) ? dbSetting.getDatabase() : null;
+        try (ResultSet columnSet = metaData.getColumns(catalog, schemaPattern, tableName, null)) {
+            while (columnSet.next()) {
+                tableName = columnSet.getString("TABLE_NAME");
+                final String schema = columnSet.getString("TABLE_SCHEM");
+
+                final String tableNameWithSchema = dbSetting.getTableNameWithSchema(tableName, schema);
+                monitor.subTask("reading : " + tableNameWithSchema);
+
+                Map<String, ColumnData> cash = columnDataCash.get(tableNameWithSchema);
+                if (cash == null) {
+                    cash = new LinkedHashMap<>();
+                    columnDataCash.put(tableNameWithSchema, cash);
+                }
+
+                final ColumnData columnData = createColumnData(columnSet);
+
+                cashOtherColumnData(tableName, schema, columnData);
+
+                cash.put(columnData.columnName, columnData);
+
+                if (monitor.isCanceled()) {
+                    throw new InterruptedException("Cancel has been requested.");
+                }
+            }
+        }
+    }
 
     @Override
     protected String getViewDefinitionSQL(String schema) {

@@ -14,6 +14,8 @@ import org.dbflute.erflute.editor.model.settings.Environment;
 import org.dbflute.erflute.editor.model.settings.EnvironmentSettings;
 import org.dbflute.erflute.editor.model.settings.ExportSettings;
 import org.dbflute.erflute.editor.model.settings.PageSettings;
+import org.dbflute.erflute.editor.model.settings.design.ConstraintSettings;
+import org.dbflute.erflute.editor.model.settings.design.DesignSettings;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml;
 import org.dbflute.erflute.editor.persistent.xml.PersistentXml.PersistentContext;
 
@@ -98,8 +100,9 @@ public class WrittenSettingsBuilder {
         xml.append(tab(buildExportSetting(settings.getExportSettings(), context)));
         xml.append(tab(buildCategorySettings(settings.getCategorySetting(), context)));
         xml.append(tab(buildModelProperties(settings.getModelProperties(), context)));
-        xml.append(tab(tablePropertiesBuilder.buildTableProperties((TableProperties) settings.getTableViewProperties(), context)));
+        xml.append(tab(buildTableProperties((TableProperties) settings.getTableViewProperties(), context))); // #thnking why downcast
         xml.append(tab(buildEnvironmentSetting(settings.getEnvironmentSettings(), context)));
+        xml.append(tab(buildDesignSetting(settings.getDesignSettings(), context)));
         xml.append("</diagram_settings>\n");
         return xml.toString();
     }
@@ -203,6 +206,13 @@ public class WrittenSettingsBuilder {
     }
 
     // ===================================================================================
+    //                                                                    Table Properties
+    //                                                                    ================
+    private String buildTableProperties(TableProperties properties, PersistentContext context) {
+        return tablePropertiesBuilder.buildTableProperties(properties, context);
+    }
+
+    // ===================================================================================
     //                                                                Environment Settings
     //                                                                ====================
     private String buildEnvironmentSetting(EnvironmentSettings environmentSetting, PersistentContext context) {
@@ -216,6 +226,46 @@ public class WrittenSettingsBuilder {
             xml.append("\t</environment>\n");
         }
         xml.append("</environment_settings>\n");
+        return xml.toString();
+    }
+
+    // ===================================================================================
+    //                                                                     Design Settings
+    //                                                                     ===============
+    private String buildDesignSetting(DesignSettings designSettings, PersistentContext context) {
+        if (designSettings.isEmpty()) {
+            return "";
+        }
+        final StringBuilder xml = new StringBuilder();
+        xml.append("<design_settings>\n");
+        final ConstraintSettings constraintSettings = designSettings.getConstraintSettings();
+        if (!constraintSettings.isEmpty()) {
+            {
+                xml.append("\t<foreign_key>\n");
+                final String prefix = constraintSettings.getDefaultPrefixOfForeignKey();
+                if (prefix != null) {
+                    xml.append("\t\t<default_prefix>").append(prefix).append("</default_prefix>\n");
+                }
+                xml.append("\t</foreign_key>\n");
+            }
+            {
+                xml.append("\t<unique>\n");
+                final String prefix = constraintSettings.getDefaultPrefixOfUnique();
+                if (prefix != null) {
+                    xml.append("\t\t<default_prefix>").append(prefix).append("</default_prefix>\n");
+                }
+                xml.append("\t</unique>\n");
+            }
+            {
+                xml.append("\t<index>\n");
+                final String prefix = constraintSettings.getDefaultPrefixOfIndex();
+                if (prefix != null) {
+                    xml.append("\t\t<default_prefix>").append(prefix).append("</default_prefix>\n");
+                }
+                xml.append("\t</index>\n");
+            }
+        }
+        xml.append("</design_settings>\n");
         return xml.toString();
     }
 

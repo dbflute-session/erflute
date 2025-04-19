@@ -3,6 +3,8 @@ package org.dbflute.erflute.editor.controller.command.diagram_contents.element.c
 import org.dbflute.erflute.db.impl.mysql.MySQLDBManager;
 import org.dbflute.erflute.db.impl.oracle.OracleDBManager;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
+import org.dbflute.erflute.editor.model.settings.design.ConstraintSettings;
+import org.dbflute.erflute.editor.model.settings.design.DesignSettings;
 
 /**
  * @author jflute
@@ -49,7 +51,15 @@ public class DefaultForeignKeyNameProvider {
 
     private String buildDefaultForeingKeyName(TableView sourceTable, TableView targetTable) {
         // cannot get FK column yet here so table name only
-        return "FK_" + targetTable.getPhysicalName() + "_" + sourceTable.getPhysicalName();
+        final String resolvedPrefix = getResolvedPrefixOfForeignKey(sourceTable);
+        return resolvedPrefix + targetTable.getPhysicalName() + "_" + sourceTable.getPhysicalName();
+    }
+
+    private String getResolvedPrefixOfForeignKey(TableView sourceTable) { // null allowed
+        final DesignSettings designSettings = sourceTable.getDiagram().getDiagramContents().getSettings().getDesignSettings();
+        final ConstraintSettings constraintSettings = designSettings.getConstraintSettings();
+        final String specifiedPrefix = constraintSettings.getDefaultPrefixOfForeignKey();
+        return specifiedPrefix != null ? specifiedPrefix : "FK_";
     }
 
     private String cutName(final String name, int limitLength) {

@@ -20,6 +20,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.internal.ui.rulers.GuideEditPart;
 
+//#for_now jflute cannot test so suppress warning only (2020/05/16)
+@SuppressWarnings("restriction")
 public class IndexEditPart extends AbstractModelEditPart {
 
     private boolean selected;

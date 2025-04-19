@@ -544,10 +544,13 @@ public class RowHeaderTable extends JScrollPane implements ClipboardOwner {
         }
         try {
             final String data = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+            // #for_now jflute cannot test so suppress warning only (2020/05/16)
+            @SuppressWarnings("resource")
             final Scanner scanner = new Scanner(data);
             int row = getSelection()[0];
             while (scanner.hasNextLine()) {
                 final String line = scanner.nextLine();
+                @SuppressWarnings("resource")
                 final Scanner lineScanner = new Scanner(line);
                 lineScanner.useDelimiter("\t");
 

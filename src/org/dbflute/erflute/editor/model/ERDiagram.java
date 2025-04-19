@@ -62,8 +62,8 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     private double zoom = 1.0d;
     private int x;
     private int y;
-    private DBSettings dbSettings;
-    private PageSettings pageSetting;
+    private DBSettings dbSettings; // #thinking can I change one via diagramContents?
+    private PageSettings pageSetting; // #thinking me too
     private Point mousePoint = new Point();
     private String defaultDiagramName;
 
@@ -73,7 +73,7 @@ public class ERDiagram extends ViewableModel implements IERDiagram {
     public ERDiagram(String database) {
         this.diagramContents = new DiagramContents();
         this.diagramContents.getSettings().setDatabase(database);
-        this.pageSetting = new PageSettings();
+        this.pageSetting = new PageSettings(); // #thinking why? (dbSettings is not initialized)
         setDefaultColor(DesignResources.ERDIAGRAM_DEFAULT_COLOR);
         setColor(DesignResources.WHITE);
     }

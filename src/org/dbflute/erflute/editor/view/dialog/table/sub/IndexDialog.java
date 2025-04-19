@@ -18,6 +18,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.colu
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.index.ERIndex;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.unique_key.CompoundUniqueKey;
+import org.dbflute.erflute.editor.model.settings.design.ConstraintSettings;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -65,6 +66,7 @@ public class IndexDialog extends AbstractDialog {
     private ERIndex resultIndex;
     private final Map<ERColumn, Button> descCheckBoxMap = new HashMap<>();
     private final Map<ERColumn, TableEditor> columnCheckMap = new HashMap<>();
+    private final ConstraintSettings constraintSettings; // not null
 
     // ===================================================================================
     //                                                                         Constructor
@@ -75,6 +77,7 @@ public class IndexDialog extends AbstractDialog {
         this.table = table;
         this.allColumns = table.getExpandedColumns();
         this.selectedColumns = new ArrayList<>();
+        constraintSettings = table.getDiagramSettings().getDesignSettings().getConstraintSettings();
     }
 
     // ===================================================================================
@@ -486,6 +489,11 @@ public class IndexDialog extends AbstractDialog {
     }
 
     private String buildDefaultIndexNameTemplate() {
-        return "IX_" + table.getPhysicalName() + "_XXX";
+        return getResolvedPrefixOfIndex() + table.getPhysicalName() + "_XXX";
+    }
+
+    private String getResolvedPrefixOfIndex() {
+        final String specifiedPrefix = constraintSettings.getDefaultPrefixOfIndex();
+        return specifiedPrefix != null ? specifiedPrefix : "IX_";
     }
 }

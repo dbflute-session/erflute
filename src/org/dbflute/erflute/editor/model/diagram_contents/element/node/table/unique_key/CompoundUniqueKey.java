@@ -11,6 +11,9 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.ERTa
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.TableView;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.column.NormalColumn;
 
+/**
+ * @author modified by jflute (originated in ermaster)
+ */
 public class CompoundUniqueKey extends AbstractModel {
 
     private static final long serialVersionUID = 1L;

@@ -6,7 +6,7 @@ import java.util.List;
 import org.dbflute.erflute.core.DisplayMessages;
 import org.dbflute.erflute.db.impl.access.AccessEclipseDBManager;
 import org.dbflute.erflute.db.impl.db2.DB2EclipseDBManager;
-import org.dbflute.erflute.db.impl.h2.H2DBManager;
+import org.dbflute.erflute.db.impl.h2.H2EclipseDBManager;
 import org.dbflute.erflute.db.impl.hsqldb.HSQLDBEclipseDBManager;
 import org.dbflute.erflute.db.impl.mysql.MySQLEclipseDBManager;
 import org.dbflute.erflute.db.impl.oracle.OracleEclipseDBManager;
@@ -24,7 +24,7 @@ public class EclipseDBManagerFactory {
     static {
         new StandardSQLEclipseDBManager();
         new DB2EclipseDBManager();
-        new H2DBManager();
+        new H2EclipseDBManager();
         new HSQLDBEclipseDBManager();
         new AccessEclipseDBManager();
         new MySQLEclipseDBManager();

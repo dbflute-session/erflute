@@ -61,6 +61,8 @@ public class ChangeBackgroundColorAction extends SelectionAction {
     }
 
     private void setColorToImage() {
+        // #for_now jflute cannot test so suppress warning only (2020/05/16)
+        @SuppressWarnings("deprecation")
         final ImageData imageData = Activator.getImageDescriptor(ImageKey.CHANGE_BACKGROUND_COLOR).getImageData();
         final int blackPixel = imageData.palette.getPixel(new RGB(0, 0, 0));
         imageData.transparentPixel = imageData.palette.getPixel(new RGB(255, 255, 255));

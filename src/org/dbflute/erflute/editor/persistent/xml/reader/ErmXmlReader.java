@@ -155,6 +155,7 @@ public class ErmXmlReader {
         final DiagramSettings settings = diagramContents.getSettings();
         settingsLoader.loadDiagramSettings(settings, parent, context, database);
         settingsLoader.loadEnvironmentSettings(settings.getEnvironmentSettings(), parent, context);
+        settingsLoader.loadDesignSettings(settings.getDesignSettings(), parent, context);
         tablespaceLoader.loadTablespaceSet(diagramContents.getTablespaceSet(), parent, context, database);
         final ColumnGroupSet columnGroups = diagramContents.getColumnGroupSet();
         columnGroups.clear();

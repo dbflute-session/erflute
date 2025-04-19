@@ -478,27 +478,10 @@ public abstract class DDLCreator {
                 }
             }
         }
-        ddl.append(buildPrimaryKeyPart(table));
-        final List<CompoundUniqueKey> compoundUniqueKeyList = table.getCompoundUniqueKeyList();
-        for (final CompoundUniqueKey compoundUniqueKey : compoundUniqueKeyList) {
-            ddl.append(",\r\n");
-            ddl.append("\t");
-            if (!Check.isEmpty(compoundUniqueKey.getUniqueKeyName())) {
-                ddl.append("CONSTRAINT ");
-                ddl.append(compoundUniqueKey.getUniqueKeyName());
-                ddl.append(" ");
-            }
-            ddl.append("UNIQUE (");
-            first = true;
-            for (final NormalColumn column : compoundUniqueKey.getColumnList()) {
-                if (!first) {
-                    ddl.append(", ");
-                }
-                ddl.append(filter(column.getPhysicalName()));
-                first = false;
-            }
-            ddl.append(")");
-        }
+
+        // constraint part
+        ddl.append(buildConstraintPrimaryKeyPart(table));
+        ddl.append(buildConstraintUniqueKeyPart(table));
         String constraint = Format.null2blank(table.getConstraint()).trim();
         if (!"".equals(constraint)) {
             constraint = constraint.replaceAll(LN, "\r\n\t");
@@ -508,12 +491,15 @@ public abstract class DDLCreator {
         }
         ddl.append(LN);
         ddl.append(")");
+
+        // table option part
         ddl.append(buildTableOptionPart(table));
         final String option = Format.null2blank(table.getOption()).trim();
         if (!"".equals(option)) {
             ddl.append(LN);
             ddl.append(option);
         }
+
         if (semicolon) {
             ddl.append(";");
         }
@@ -554,7 +540,7 @@ public abstract class DDLCreator {
         }
         if (normalColumn.isUniqueKey()) {
             if (!Check.isEmpty(normalColumn.getUniqueKeyName())) {
-                ddl.append(" CONSTRAINT ");
+                ddl.append(" CONSTRAINT "); // #thinking jflute all right? (e.g. bad in MySQL) (2020/05/16)
                 ddl.append(normalColumn.getUniqueKeyName());
             }
             ddl.append(" UNIQUE");
@@ -580,9 +566,9 @@ public abstract class DDLCreator {
     }
 
     // -----------------------------------------------------
-    //                                           Primary Key
-    //                                           -----------
-    protected String buildPrimaryKeyPart(ERTable table) {
+    //                                (Compound) Primary Key
+    //                                ----------------------
+    protected String buildConstraintPrimaryKeyPart(ERTable table) {
         final StringBuilder ddl = new StringBuilder();
         final List<NormalColumn> primaryKeys = table.getPrimaryKeys();
         if (primaryKeys.size() != 0) {
@@ -610,6 +596,64 @@ public abstract class DDLCreator {
 
     protected String getPrimaryKeyLength(ERTable table, NormalColumn primaryKey) {
         return "";
+    }
+
+    // -----------------------------------------------------
+    //                                     (Compound) Unique
+    //                                     -----------------
+    protected String buildConstraintUniqueKeyPart(ERTable table) {
+        final StringBuilder ddl = new StringBuilder();
+        final List<ConstraintUniqueResource> resourceList = prepareConstraintUniqueResourceList(table);
+        doBuildConstraintUniqueKeyPart(ddl, resourceList);
+        return ddl.toString();
+    }
+
+    protected List<ConstraintUniqueResource> prepareConstraintUniqueResourceList(ERTable table) {
+        final List<ConstraintUniqueResource> resourceList = new ArrayList<>();
+        for (final CompoundUniqueKey compoundUniqueKey : table.getCompoundUniqueKeyList()) {
+            resourceList.add(new ConstraintUniqueResource() {
+                @Override
+                public String getUniqueKeyName() {
+                    return compoundUniqueKey.getUniqueKeyName();
+                }
+
+                @Override
+                public List<NormalColumn> getColumnList() {
+                    return compoundUniqueKey.getColumnList();
+                }
+            });
+        }
+        return resourceList;
+    }
+
+    protected void doBuildConstraintUniqueKeyPart(StringBuilder ddl, List<ConstraintUniqueResource> resourceList) {
+        for (final ConstraintUniqueResource resource : resourceList) {
+            ddl.append(",\r\n");
+            ddl.append("\t");
+            final String uniqueKeyName = resource.getUniqueKeyName();
+            if (!Check.isEmpty(uniqueKeyName)) {
+                ddl.append("CONSTRAINT ");
+                ddl.append(uniqueKeyName);
+                ddl.append(" ");
+            }
+            ddl.append("UNIQUE (");
+            boolean first = true;
+            for (final NormalColumn column : resource.getColumnList()) {
+                if (!first) {
+                    ddl.append(", ");
+                }
+                ddl.append(filter(column.getPhysicalName()));
+                first = false;
+            }
+            ddl.append(")");
+        }
+    }
+
+    protected static interface ConstraintUniqueResource {
+
+        String getUniqueKeyName();
+
+        List<NormalColumn> getColumnList();
     }
 
     // -----------------------------------------------------

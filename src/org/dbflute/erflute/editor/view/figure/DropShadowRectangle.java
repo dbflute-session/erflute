@@ -11,6 +11,8 @@ public class DropShadowRectangle extends RoundedRectangle {
 
     public static int SHADOW_INSET = 5;
 
+    // #for_now jflute cannot test so suppress warning only (2020/05/16)
+    @SuppressWarnings("deprecation")
     @Override
     protected void fillShape(Graphics graphics) {
         Rectangle f = Rectangle.SINGLETON.setBounds(getBounds());
@@ -35,6 +37,8 @@ public class DropShadowRectangle extends RoundedRectangle {
         return new Insets(1, 1, SHADOW_INSET + 1, SHADOW_INSET + 1);
     }
 
+    // #for_now jflute cannot test so suppress warning only (2020/05/16)
+    @SuppressWarnings("deprecation")
     @Override
     protected void outlineShape(Graphics graphics) {
         final Rectangle f = Rectangle.SINGLETON.setBounds(getBounds());
@@ -55,6 +59,8 @@ public class DropShadowRectangle extends RoundedRectangle {
         }
     }
 
+    // #for_now jflute cannot test so suppress warning only (2020/05/16)
+    @SuppressWarnings("deprecation")
     private void drawShadowLayer(Rectangle rectangle, Graphics graphics, int offset, Color color) {
         // Save the state of the graphics object
         graphics.pushState();

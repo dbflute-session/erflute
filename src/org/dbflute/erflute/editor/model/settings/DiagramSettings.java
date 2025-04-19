@@ -8,6 +8,7 @@ import org.dbflute.erflute.editor.model.diagram_contents.element.node.model_prop
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableProperties;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TablePropertiesHolder;
 import org.dbflute.erflute.editor.model.diagram_contents.element.node.table.properties.TableViewProperties;
+import org.dbflute.erflute.editor.model.settings.design.DesignSettings;
 
 /**
  * @author modified by jflute (originated in ermaster)
@@ -37,11 +38,14 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
     private boolean capital;
     private boolean notationExpandGroup;
     private String tableStyle;
-    private ModelProperties modelProperties;
-    private CategorySettings categorySetting;
-    private EnvironmentSettings environmentSettings;
-    private TableProperties tableProperties;
+
     private ExportSettings exportSettings;
+    private CategorySettings categorySetting;
+    private ModelProperties modelProperties;
+    private TableProperties tableProperties;
+    private EnvironmentSettings environmentSettings;
+    private DesignSettings designSettings; // #for_erflute for e.g. prefix of constraint name
+
     private String database;
     private String notation;
     private int notationLevel;
@@ -68,10 +72,11 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
         this.outlineViewMode = VIEW_MODE_PHYSICAL;
         this.viewOrderBy = VIEW_MODE_PHYSICAL;
 
+        this.exportSettings = new ExportSettings();
         this.modelProperties = new ModelProperties();
         this.categorySetting = new CategorySettings();
         this.environmentSettings = new EnvironmentSettings();
-        this.exportSettings = new ExportSettings();
+        this.designSettings = new DesignSettings();
 
         this.autoImeChange = false;
         this.validatePhysicalName = true;
@@ -90,13 +95,14 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
         DiagramSettings clone = null;
         try {
             clone = (DiagramSettings) super.clone();
+            clone.exportSettings = exportSettings.clone();
             clone.modelProperties = modelProperties.clone();
             clone.categorySetting = (CategorySettings) categorySetting.clone();
-            clone.environmentSettings = (EnvironmentSettings) environmentSettings.clone();
-            clone.exportSettings = exportSettings.clone();
             if (database != null) {
                 clone.tableProperties = (TableProperties) getTableViewProperties().clone();
             }
+            clone.environmentSettings = (EnvironmentSettings) environmentSettings.clone();
+            clone.designSettings = designSettings.clone();
         } catch (final CloneNotSupportedException e) {}
         return clone;
     }
@@ -141,12 +147,42 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
         this.tableStyle = tableStyle;
     }
 
-    public ModelProperties getModelProperties() {
-        return modelProperties;
+    public ExportSettings getExportSettings() {
+        return exportSettings;
+    }
+
+    public void setExportSettings(ExportSettings exportSettings) {
+        this.exportSettings = exportSettings;
     }
 
     public CategorySettings getCategorySetting() {
         return categorySetting;
+    }
+
+    public ModelProperties getModelProperties() {
+        return modelProperties;
+    }
+
+    public void setModelProperties(ModelProperties modelProperties) {
+        this.modelProperties = modelProperties;
+    }
+
+    @Override
+    public TableViewProperties getTableViewProperties() { // lazy loaded
+        this.tableProperties = DBManagerFactory.getDBManager(database).createTableProperties(tableProperties);
+        return tableProperties;
+    }
+
+    public EnvironmentSettings getEnvironmentSettings() {
+        return environmentSettings;
+    }
+
+    public DesignSettings getDesignSettings() {
+        return designSettings;
+    }
+
+    public void setDesignSettings(DesignSettings designSettings) {
+        this.designSettings = designSettings;
     }
 
     public String getDatabase() {
@@ -155,12 +191,6 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
 
     public void setDatabase(String database) {
         this.database = database;
-    }
-
-    @Override
-    public TableViewProperties getTableViewProperties() {
-        this.tableProperties = DBManagerFactory.getDBManager(database).createTableProperties(tableProperties);
-        return tableProperties;
     }
 
     public String getNotation() {
@@ -249,21 +279,5 @@ public class DiagramSettings implements Serializable, Cloneable, TableProperties
 
     public void setMasterDataBasePath(String masterDataBasePath) {
         this.masterDataBasePath = masterDataBasePath;
-    }
-
-    public void setModelProperties(ModelProperties modelProperties) {
-        this.modelProperties = modelProperties;
-    }
-
-    public EnvironmentSettings getEnvironmentSettings() {
-        return environmentSettings;
-    }
-
-    public ExportSettings getExportSettings() {
-        return exportSettings;
-    }
-
-    public void setExportSettings(ExportSettings exportSettings) {
-        this.exportSettings = exportSettings;
     }
 }
