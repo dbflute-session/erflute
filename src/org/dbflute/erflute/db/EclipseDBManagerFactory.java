@@ -10,6 +10,7 @@ import org.dbflute.erflute.db.impl.h2.H2EclipseDBManager;
 import org.dbflute.erflute.db.impl.hsqldb.HSQLDBEclipseDBManager;
 import org.dbflute.erflute.db.impl.mysql.MySQLEclipseDBManager;
 import org.dbflute.erflute.db.impl.oracle.OracleEclipseDBManager;
+import org.dbflute.erflute.db.impl.oracleidentity.OracleIdentityEclipseDBManager;
 import org.dbflute.erflute.db.impl.postgres.PostgresEclipseDBManager;
 import org.dbflute.erflute.db.impl.sqlite.SQLiteEclipseDBManager;
 import org.dbflute.erflute.db.impl.sqlserver.SqlServerEclipseDBManager;
@@ -29,6 +30,7 @@ public class EclipseDBManagerFactory {
         new AccessEclipseDBManager();
         new MySQLEclipseDBManager();
         new OracleEclipseDBManager();
+        new OracleIdentityEclipseDBManager();
         new PostgresEclipseDBManager();
         new SQLiteEclipseDBManager();
         new SqlServerEclipseDBManager();
